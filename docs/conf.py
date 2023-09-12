@@ -83,7 +83,7 @@ html_theme_options = {
 
     # Specify a base_url used to generate sitemap.xml. If not
     # specified, then no sitemap will be built.
-    # 'base_url': 'https://github.com/USGS-Astrogeology/SpiceQL',
+    # 'base_url': 'https://github.com/DOI-USGS/SpiceQL',
 
     # Set the color and the accent color
     'color_primary': '#000000',
@@ -92,7 +92,7 @@ html_theme_options = {
     'logo_icon': '&#xe87a',
 
     # Set the repo location to get a badge with stats
-    'repo_url': 'https://github.com/USGS-Astrogeology/SpiceQL',
+    'repo_url': 'https://github.com/DOI-USGS/SpiceQL',
     'repo_name': 'Project',
 
     # Visible levels of the global TOC; -1 means unlimited

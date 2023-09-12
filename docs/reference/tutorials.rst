@@ -19,7 +19,7 @@ Here are some resources:
 * Useful glossary of terms: https://isis.astrogeology.usgs.gov/documents/Glossary/Glossary.html
 * Kerneldbgen, used to create ISIS DB files, docs has useful descriptions of Kernel qualities: https://isis.astrogeology.usgs.gov/Application/presentation/Tabbed/kerneldbgen/kerneldbgen.html
 * NAIF required reading on SPICE: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/req/index.html
-* ISIS repo, for more general information, many wikis: https://github.com/USGS-Astrogeology/ISIS3/pulls?q=is%3Apr+is%3Aclosed
+* ISIS repo, for more general information, many wikis: https://github.com/DOI-USGS/ISIS3/pulls?q=is%3Apr+is%3Aclosed
 
 Creating New Mission Config Files
 =================================
