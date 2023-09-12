@@ -1,0 +1,19 @@
+[submodule "submodules/gularkfilesystem"]
+	path = submodules/gularkfilesystem
+	url = https://github.com/gulrak/filesystem.git
+[submodule "submodules/googletest"]
+	path = submodules/googletest
+	url = https://github.com/google/googletest.git
+[submodule "submodules/json"]
+	path = submodules/json
+	url = https://github.com/nlohmann/json.git
+[submodule "submodules/hippomocks"]
+	path = submodules/hippomocks
+	url = https://github.com/dascandy/hippomocks.git
+[submodule "extern/pybind11"]
+	path = extern/pybind11
+	url = ../../pybind/pybind11
+	branch = stable
+[submodule "submodules/redis-plus-plus"]
+	path = submodules/redis-plus-plus
+	url = https://github.com/sewenew/redis-plus-plus.git

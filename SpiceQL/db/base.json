@@ -1,0 +1,13 @@
+{
+  "base" : {
+    "lsk" : {
+      "kernels" : ["naif[0-9]{4}.tls"]
+    },
+    "spk" : {
+      "kernels" : ["^de[0-9]{3}.bsp$", "^mar[0-9]{3}.bsp$", "^nep[0-9]{3}.bsp$", "^sat[0-9]{3}.bsp$", "^ura[0-9]{3}.bsp$"]
+    },
+    "pck" : {
+      "kernels" : ["pck0000[0-9].tpc"]
+    }
+  }
+}

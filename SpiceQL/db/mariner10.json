@@ -1,0 +1,54 @@
+{
+    "mariner10": {
+        "fk": {
+            "kernels": "mariner10.[0-9]{4}.tf$"
+        },
+        "sclk": {
+            "kernels": "mariner10.[0-9]{4}.tsc$"
+        },
+        "iak" : { 
+            "kernels" : ["mariner10Addendum[0-9]{3}.ti$"]
+        }
+    },
+    "m10_vidicon_a": {
+        "spk" : { 
+            "smithed" : { 
+                "kernels" : ["MERCURY_MARINER_10_A.bsp$"]
+            },
+            "reconstructed" : { 
+                "kernels" : ["MARINER_10_A_gem.bsp$"]
+            }
+        },
+        "ck" : { 
+            "smithed" : { 
+                "kernels" : ["MERCURY_MARINER_10_A.bc$"]
+            },
+            "reconstructed" : { 
+                "kernels" : ["MARINER_10_A_gem.bc$"]
+            }
+        },
+        "iak" : { 
+            "kernels" : ["mariner10Addendum[0-9]{3}.ti$"]
+        },
+        "deps" : ["/mariner10"] 
+    },
+    "m10_vidicon_b": {
+        "spk" : { 
+            "smithed" : { 
+                "kernels" : ["MERCURY_MARINER_10_B.bsp$"]
+            },
+            "reconstructed" : { 
+                "kernels" : ["MARINER_10_B_gem.bsp$"]
+            }
+        },
+        "ck" : { 
+            "smithed" : { 
+                "kernels" : ["MERCURY_MARINER_10_B.bc$"]
+            },
+            "reconstructed" : { 
+                "kernels" : ["MARINER_10_B_gem.bc$"]
+            }
+        },
+        "deps" : ["/mariner10"]
+    }
+}

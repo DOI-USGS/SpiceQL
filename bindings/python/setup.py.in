@@ -1,0 +1,14 @@
+import setuptools
+
+if __name__ == '__main__':
+    setuptools.setup(
+        name='pyspiceql',
+        version='${CMAKE_PROJECT_VERSION}',
+        packages=['pyspiceql'],
+        package_data={'':['_pyspiceql.so']},
+        zip_safe=False,  # Some OSes can not dynamically load an so from an egg (zipfile)
+        license='UnLicense',
+        author='Kelvin Rodriguez',
+        author_email='krodriguez@usgs.gov'
+)
+ 

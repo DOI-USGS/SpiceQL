@@ -1,0 +1,43 @@
+{
+    "chandrayaan1" : {
+        "ck" : { 
+            "reconstructed" : {
+                "kernels" : ["M3.*_V03_L1B_nadir-jig_2016-04-29.bc$"]
+            }
+        },
+        "fk" : { 
+            "kernels" : ["chand1_v001.tf$"]
+        },
+        "pck" : { 
+            "kernels" : ["moon_080317.tf$", "moon_assoc_me.tf$"]
+        },
+        "sclk" : { 
+            "kernels" : ["aig_ch1_sclk_complete_biased_m1p816.tsc$"]
+        },
+        "tspk" : { 
+            "kernels" : ["moon_pa_de421_1900-2050.bpc", "de421.bsp"]
+        }
+    },
+    "mrffr" : { 
+        "iak" : { 
+            "kernels" : ["mrffrAddendum[0-9]{3}.ti$"]
+        },
+        "spk" : { 
+            "reconstructed" : {
+                "kernels" : ["chan1_short_20081022_00.bsp$"]
+            }
+        },
+        "deps" : ["/chandrayaan1"]
+    },
+    "m3" : { 
+        "iak" : { 
+            "kernels" : ["m3Addendum[0-9]{3}.ti$"]
+        },
+        "spk" : { 
+            "reconstructed" : {
+                "kernels" : ["M3.*_V03_L1B_nadir-jig_2016-04-29.bsp$"]
+            }
+        },
+        "deps" : ["/chandrayaan1"]
+    }
+}

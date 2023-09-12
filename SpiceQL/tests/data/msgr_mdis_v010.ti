@@ -1,0 +1,417 @@
+KPL/IK
+
+MDIS Instrument Kernel
+===========================================================================
+
+   This instrument kernel (I-kernel) contains references to mounting
+   alignment, operating modes, and timing as well as internal and FOV
+   geometry for the MESSENGER Mercury Dual Imaging System.
+
+
+Version and Date
+---------------------------------------------------------------
+
+   The TEXT_KERNEL_ID stores version information of loaded project text
+   kernels.  Each entry associated with the keyword is a string that 
+   consists of four parts: the kernel name, version, entry date, and type.
+   For example, the frame kernel might have an entry as follows:
+
+      TEXT_KERNEL_ID += 'MESSENGER_FRAMES V1.0.0 15-OCT-2004 FK'
+
+   MDIS I-kernel Version:
+
+      \begindata
+      TEXT_KERNEL_ID += 'MESSENGER_MDIS V0.1.0 23-NOV-2004 IK'
+      \begintext
+
+   Version 0.1 -- August 1, 2005 -- Scott Turner
+
+      Diagrams updated in preparation for the Earth fly-by release.
+      An error in the field of view specifications for both the NAC
+      and WAC were corrected.  Prior releases of this kernel had the
+      full field of view angles encoded in the values where half angles
+      should have been supplied.
+
+   Version 0.0 -- November 23, 2004 -- Scott Turner
+
+      Initial prototype release.
+
+
+References
+---------------------------------------------------------------
+
+      1.   "Kernel Pool Required Reading"
+
+      2.   MESSENGER Spacecraft Frames Definition Kernel
+
+      3.   MESSENGER Project Web Page describing the instruments.
+
+      4.   Excel spreadsheet from Scott Murchie regarding MDIS 
+           field of view extent and geometry.
+
+      5.   Excerpt from Howard Taylor's MDIS calibration notebook
+           pages 12-13.
+
+      6.   Notes from a discussion with Ed Hawkins regarding MDIS
+           FOV geometry and alignment.
+
+
+Contact Information
+---------------------------------------------------------------
+
+   Direct questions, comments, or concerns about the contents of this kernel
+   to:
+
+      Scott Turner, JHUAPL/SIS, (443)778-1693, Scott.Turner@jhuapl.edu
+
+
+Implementation Notes
+---------------------------------------------------------------
+
+   This file is used by the SPICE system as follows: programs that make use
+   of this frame kernel must "load" the kernel normally during program
+   initialization.  Loading the kernel associates the data items with 
+   their names in a data structure called the "kernel pool".  The SPICELIB
+   routine FURNSH loads a kernel into the pool as shown below:
+
+      FORTRAN: (SPICELIB)
+
+         CALL FURNSH ( frame_kernel_name )
+
+      C: (CSPICE)
+
+         furnsh_c ( frame_kernel_name );
+
+      IDL: (ICY)
+
+         cspice_furnsh, frame_kernel_name
+
+   In order for a program or routine to extract data from the pool, the
+   SPICELIB routines GDPOOL, GIPOOL, and GCPOOL are used.  See [2] for 
+   more details.
+
+   This file was created and may be updated with a text editor or word 
+   processor.
+
+
+Naming Conventions
+---------------------------------------------------------------
+
+   All names referencing values in this I-kernel start with the characters
+   'INS' followed by the NAIF MESSENGER spacecraft ID number (-236) and then
+   followed by a NAIF three digit code for an MDIS camera (WAC = 800,
+   NAC = 810 ).
+
+   The remainder of the name is an underscore character followed by the
+   unique name of the data item.  For example, the WAC boresight direction
+   in the MSGR_MDIS_WAC frame (see [2]) is specified by:
+
+      INS-236800_BORESIGHT 
+
+   The upper bound on the length of the name of any data item identifier
+   is 32 characters.
+
+   If the same item is included in more than one file, or if the same item
+   appears more than once within a single file, the latest value supersedes
+   any earlier values.
+
+
+MDIS Description
+---------------------------------------------------------------
+
+   From [3]:
+
+   This instrument consists of wide-angle and narrow-angle imagers that
+   will map landforms, track variations in surface spectra and gather
+   topographic information. A pivot platform will help point it in whatever
+   direction the scientists choose. The two instruments will enable MESSENGER
+   to "see" much like our two eyes do.
+
+
+MDIS First Order Optical Parameters
+---------------------------------------------------------------
+
+   The first order optical parameters for the two cameras that constitute
+   the MDIS imagers: (from [5])
+
+           ------------------------------  -----------  -----------
+                     parameter                 WAC          NAC
+           ------------------------------  -----------  -----------
+            Effective Focal Length, mm        77.96        550.3
+               Estimated Uncertainty, mm       0.15          0.5
+            Spectral Band, nm                395-1040     700-800
+            F/number                          10            22
+           ------------------------------  -----------  -----------
+ 
+   These values are given in the keywords below in the same units as
+   the table above:
+
+   Wide Angle Camera (WAC):
+ 
+           \begindata
+           INS-236800_FOCAL_LENGTH     = ( 77.96     )
+           INS-236800_FL_UNCERTAINTY   = (  0.15     )
+           INS-236800_WAVELENGTH_RANGE = ( 395, 1040 )
+           INS-236800_F/NUMBER         = ( 10        )
+           \begintext
+ 
+   Narrow Angle Camera (NAC):
+ 
+           \begindata
+           INS-236810_FOCAL_LENGTH     = ( 550.3    )
+           INS-236810_FL_UNCERTAINTY   = (   0.5    )
+           INS-236810_WAVELENGTH_RANGE = ( 700, 800 )
+           INS-236810_F/NUMBER         = ( 22       )
+           \begintext
+
+
+MDIS Field of View Parameters
+---------------------------------------------------------------
+
+   FOV Sizes (in degrees)
+
+                                  ^
+                                  | Gimbal Articulation 
+        Samples                   |        Axis
+  (0,0) + + + + >                 |       
+    +  \_____________________________________________________  ___
+ L  +  |                                                     |  |
+ i  +  |                                                     |  |
+ n  +  |                                                     |  |
+ e  V  |                                                     |  |
+ s     |                          ^ Y                        |  |
+       |                          |  nac                     |  |
+       |                          |                          |  |
+       |                          |                          |  |
+       |                     |--1.493--|                     |  |
+       |                 _ _  _________                      |  |
+       |                  |  |         |                     |  | 
+       |                  |  |         | ^                   |  |
+       |          <--- 1.493 |    X    | +                   | 10.54 --->
+       |                  |  |         | + Lines             |  |     X
+       |         X       _|_ |_________| +                   |  |      wac
+       |          nac         NAC      \                     |  |
+       |                       < + + + (0,0)                 |  |
+       |                         Samples                     |  |
+       |                                                     |  |
+       |                                                     |  |
+       |                                                     |  |
+       |                                                     |  |
+       |                                                     |  |
+       |                                                     |  |
+       |_____________________________________________________| _|_
+        WAC
+       |------------------------10.54------------------------|
+
+                                  |
+                                  |
+                                  |  Y
+                                  V   wac
+
+
+   Note that although the above diagram suggests the NAC and WAC boresights
+   are co-aligned, this is not the case.  As [2] points out, there are two
+   separate frame definitions which are calibrated independently of one 
+   another.  [6] provides the location of the image origins, as well as 
+   the direction of the lines and samples.
+
+   The FOVs of the MDIS detectors have the following angular sizes (from
+   [4]):
+
+           ------------  ----------------  ----------------
+             Detector       Horizontal         Vertical
+           ------------  ----------------  ----------------
+               WAC         10.54 degrees     10.54 degrees
+ 
+               NAC          1.493 degrees     1.493 degrees
+           ------------  ----------------  ----------------
+
+   The CCD geometry parameters as presented in [4] and [5] are provided 
+   below:
+
+           ------------------------------  -----------  -----------
+                     parameter                 WAC          NC
+           ------------------------------  -----------  -----------
+            Detector Array Size             1024x1024    1024x1024
+            Detector Size, mm               14.4x14.4    14.4x14.4
+            Pixel Size, microns (est)          14           14
+            FOV Angular Size, degrees       0.35x0.35    3.48x3.48
+            IFOV, microradian/pixel           179.6        25.44
+           ------------------------------  -----------  -----------
+
+   which translates to the following keyword and value pairs:
+
+   Wide Angle Camera (WAC):
+ 
+           \begindata
+ 
+           INS-236800_PIXEL_SAMPLES     =  (  1024  )
+           INS-236800_PIXEL_LINES       =  (  1024  )
+           INS-236800_PIXEL_SIZE        =  (  14    )
+           INS-236800_CCD_CENTER        =  (  511.5, 511.5 )
+           INS-236800_IFOV              =  (  179.6  )
+ 
+           \begintext
+
+   Narrow Angle Camera (NAC):
+ 
+           \begindata
+ 
+           INS-236810_PIXEL_SAMPLES     =  (  1024  )
+           INS-236810_PIXEL_LINES       =  (  1024  )
+           INS-236810_PIXEL_SIZE        =  (  14    )
+           INS-236810_CCD_CENTER        =  (  511.5, 511.5 )
+           INS-236810_IFOV              =  (  25.44 )
+ 
+           \begintext
+ 
+
+WAC Field of View Definition
+---------------------------------------------------------------
+
+   The MDIS wide angle camera field of view is a square boresighted
+   on the Z-axis of the MSGR_MDIS_WAC frame.  The angular dimension 
+   of the field of view is 10.54 x 10.54 (degrees).
+
+   The following diagrams illustrate the field of view extents in 
+   the MSGR_MDIS_WAC frame:
+
+
+                                   X
+                                    ins
+                                  ^     /
+                                  |    / 
+                                  |   /
+                                  |  / 
+                             Y    | /    o
+                              ins |/ 5.27
+                                  o-------->
+                                  |\         Z
+                                  | \         ins
+                                  |  \
+                                  |   \
+                                  |    \
+                                  |     \
+                                                Plane Y = 0
+
+
+                                   Y
+                                    ins
+                                  ^     /
+                                  |    / 
+                                  |   /
+                                  |  / 
+                             X    | /    o
+                              ins |/ 5.27
+                                  x-------->
+                                  |\         Z
+                                  | \         ins
+                                  |  \
+                                  |   \
+                                  |    \
+                                  |     \
+                                                Plane X = 0
+
+
+   which leads to the following FOV definition:
+
+      \begindata
+      
+      INS-236800_FOV_FRAME       = 'MSGR_MDIS_WAC'
+      INS-236800_FOV_SHAPE       = 'RECTANGLE'
+      INS-236800_BORESIGHT       = ( 0.0, 0.0, 1.0 )
+      INS-236800_FOV_CLASS_SPEC  = 'ANGLES'
+      INS-236800_FOV_REF_VECTOR  = ( 1.0, 0.0, 0.0 )
+      INS-236800_FOV_REF_ANGLE   = ( 5.27 )
+      INS-236800_FOV_CROSS_ANGLE = ( 5.27 )
+      INS-236800_FOV_ANGLE_UNITS = 'DEGREES'
+
+      \begintext
+
+
+NAC Field of View Definition
+---------------------------------------------------------------
+
+   The MDIS narrow angle camera field of view is a square boresighted
+   on the Z-axis of the MSGR_MDIS_NAC frame.  The angular dimension 
+   of the field of view is 1.493 x 1.493 (degrees).
+
+   The following diagrams illustrate the field of view extents in 
+   the MSGR_MDIS_NAC frame:
+
+
+                                   X
+                                    ins
+                                  ^     /
+                                  |    / 
+                                  |   /
+                                  |  / 
+                             Y    | /      o
+                              ins |/ 0.7465
+                                  o-------->
+                                  |\         Z
+                                  | \         ins
+                                  |  \
+                                  |   \
+                                  |    \
+                                  |     \
+                                                Plane Y = 0
+
+
+                                   Y
+                                    ins
+                                  ^     /
+                                  |    / 
+                                  |   /
+                                  |  / 
+                             X    | /      o
+                              ins |/ 0.7465
+                                  x-------->
+                                  |\         Z
+                                  | \         ins
+                                  |  \
+                                  |   \
+                                  |    \
+                                  |     \
+                                                Plane X = 0
+
+
+   which leads to the following FOV definition:
+
+      \begindata
+      
+      INS-236810_FOV_FRAME       = 'MSGR_MDIS_NAC'
+      INS-236810_FOV_SHAPE       = 'RECTANGLE'
+      INS-236810_BORESIGHT       = ( 0.0, 0.0, 1.0 )
+      INS-236810_FOV_CLASS_SPEC  = 'ANGLES'
+      INS-236810_FOV_REF_VECTOR  = ( 1.0, 0.0, 0.0 )
+      INS-236810_FOV_REF_ANGLE   = ( 0.7465 )
+      INS-236810_FOV_CROSS_ANGLE = ( 0.7465 )
+      INS-236810_FOV_ANGLE_UNITS = 'DEGREES'
+
+      \begintext
+
+
+Platform ID
+---------------------------------------------------------------
+
+   \begindata
+
+   INS-236800_PLATFORM_ID = ( -236000 )
+   INS-236810_PLATFORM_ID = ( -236000 )
+
+   \begintext
+
+
+NAIF ID Code to Name Mapping
+---------------------------------------------------------------
+
+   \begindata
+
+   NAIF_BODY_NAME   += ( 'MSGR_MDIS_WAC' )
+   NAIF_BODY_CODE   += ( -236800         )
+
+   NAIF_BODY_NAME   += ( 'MSGR_MDIS_NAC' )
+   NAIF_BODY_CODE   += ( -236810         )
+
+   \begintext

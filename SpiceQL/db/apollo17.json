@@ -1,0 +1,54 @@
+{
+    "apollo17": {
+      "ck": {
+        "reconstructed": {
+          "kernels": [
+            "AS17_M_rev[0-9]{1,2}.bc",
+            "AS17_M_REV[0-9]{2}.[0-9]{2}_v2.bc",
+            "AS17_M_REV[0-9]{2}_v2.bc"
+          ]
+        }
+      },
+      "sclk": {
+        "kernels": "apollo17.[0-9]{4}.tsc"
+      },
+      "fk": {
+        "kernels": [
+          "apollo17.0001.tf",
+          "apollo17_v2.[0-9]{4}.tf"
+        ]
+      },
+      "spk": {
+        "reconstructed": {
+          "kernels": [
+            "AS17_M_REV[0-9]{1,2}(_v2){1,}.bsp",
+            "AS17_M_rev[0-9]{1,2}(_v2)*.bsp",
+            "AS17_M_REV[0-9]{2}-[0-9]{2}_v2.bsp"
+          ]
+        }
+      }
+    },
+    
+    "metric": {
+      "iak": {
+        "kernels": "apollo17MetricAddendum[0-9]{3}.ti"
+      },
+      "deps" : ["/apollo17"]
+    },
+    "panoramic": {
+      "ik": {
+        "kernels": [
+          "apollo17_metric.[0-9]{4}.ti",
+          "apollo17_metric_v2.[0-9]{4}.ti",
+          "apollo17_panoramic.[0-9]{4}.ti"
+        ]
+      },
+      "deps" : ["/apollo17"]
+    },
+    "apollo_pan": {
+      "iak": {
+        "kernels": "apolloPanAddendum[0-9]{3}.ti"
+      },
+      "deps" : ["/apollo17"]
+    }
+}

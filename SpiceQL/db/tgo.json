@@ -1,0 +1,59 @@
+{
+    "tgo": {
+      "ck": {
+        "predicted": {
+          "kernels": [
+            "em16_tgo_sc_[0-9a-z]{2}p_.*.bc"
+          ]
+        },
+        "reconstructed": {
+          "kernels": [
+            "em16_tgo_sc_[0-9a-z]{2}m_.*.bc"
+          ]
+        }
+      },
+      "fk": {
+        "kernels": [
+          "em16_tgo_v[0-9]{2}.tf",
+          "em16_tgo_ops_v02.tf",
+          "rssd[0-9]{4}.tf"
+        ]
+      },
+      "iak": {
+        "kernels": "tgoAddendum[0-9]{3}.ti"
+      },
+      "ik": {
+        "kernels": "em16_tgo_cassis_v[0-9]{2}.ti"
+      },
+      "pck": {
+        "kernels": [
+          "pck[0-9]{5}.tpc",
+          "de-403-masses.tpc"
+        ]
+      },
+      "sclk": {
+        "kernels": "em16_tgo_step_[0-9]{8}.tsc"
+      },
+      "spk": {
+        "predicted": {
+          "kernels": "em16_tgo_f[0-9a-z]p_.*.bsp"
+        }
+      }
+    },
+    "cassis" : {
+      "ck": {
+        "predicted": {
+          "kernels": [
+            "em16_tgo_cassis_[0-9a-z]{2}p_.*.bc"
+          ]
+        },
+        "reconstructed": {
+          "kernels": ["cassis_ck_p_[0-9]{6}_[0-9]{6}_[0-9]{6}.bc", "em16_tgo_cassis_tel_[0-9]{8}_[0-9]{8}_s[0-9]{8}_v[0-9]{2}.bc"]
+        }
+      },
+      "iak": {
+        "kernels": "tgoCassisAddendum[0-9]{3}.ti"
+      },
+      "deps" : ["/tgo"]     
+    }
+  }

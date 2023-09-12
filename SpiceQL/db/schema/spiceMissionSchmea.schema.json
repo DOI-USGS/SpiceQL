@@ -1,0 +1,88 @@
+{
+  "type": "object",
+  "definitions": {
+    "quality_kernels": {
+    "type": "object",
+    "patternProperties": {
+      "^(reconstructed|na|smithed|predicted)$": {
+        "required": [
+          "kernels"
+        ],
+        "kernels": {
+          "type": ["array", "string"],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "properties": {
+      "kernels": {
+        "type": ["array", "string"],
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "additionalProperties": false
+    },
+    "kernels": {
+      "type": "object",
+      "required": [
+        "kernels"
+      ],
+      "properties": {
+        "kernels": {
+          "type": ["array", "string"],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "patternProperties": {
+    "^([a-z]*)+([A-Z]*)([0-9]*)": {
+      "type": "object",
+      "properties": {
+        "ck": {
+          "$ref": "#/definitions/quality_kernels"
+        },
+        "spk": {
+          "$ref": "#/definitions/quality_kernels"
+        },
+        "tspk": {
+          "$ref": "#/definitions/kernels"
+        },
+        "fk": {
+          "$ref": "#/definitions/kernels"
+        },
+        "sclk": {
+          "$ref": "#/definitions/kernels"
+        },
+        "lsk": {
+          "$ref": "#/definitions/kernels"
+        },
+        "ik": {
+          "$ref": "#/definitions/kernels"
+        },
+        "iak": {
+          "$ref": "#/definitions/kernels"
+        },
+        "dsk": {
+          "$ref": "#/definitions/kernels"
+        },
+        "pck": {
+          "$ref": "#/definitions/quality_kernels"
+        },
+        "deps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

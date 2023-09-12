@@ -1,0 +1,52 @@
+{
+  "kaguya": {
+    "ck": {
+      "reconstructed": {
+        "kernels": "SEL_M_ALL_D_V02.BC"
+      }
+    },
+    "fk": {
+      "kernels": [
+        "SEL_V01.TF"
+      ]
+    },
+    "iak": {
+      "kernels": [
+        "mi_vis_adendum_v[0-9]{2}.ti",
+        "kaguyaTcAddendum[0-9]{3}.ti"
+      ]
+    },
+    "ik": {
+      "kernels": [
+        "SEL_MI_V[0-9]{2}.TI",
+        "SEL_TC_V[0-9]{2}.TI"
+      ]
+    },
+    "pck": {
+      "kernels": [
+        "pck[0-9]{5}.tpc",
+        "moon_080317.tf",
+        "moon_assoc_me.tf"
+      ]
+    },
+    "sclk": {
+      "kernels": [
+        "SEL_M_V01.TSC",
+        "SEL_M_V[0-9]{2}.TSC"
+      ]
+    },
+    "spk": {
+      "smithed": {
+        "kernels": ["SEL_M_[0-9]{6}_[0-9]{6}_SGMI_05.BSP",
+                    "SEL_M_071020_090610_SGMH_02.BSP",
+                    "SELMAINGRGM900CL660DIRALT2008103020090610.bsp"]
+      }
+    },
+    "tspk": {
+      "kernels": [
+        "moon_pa_de421_1900-2050.bpc",
+        "de421.bsp"
+      ]
+    }
+  }
+}

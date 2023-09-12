@@ -1,0 +1,60 @@
+{
+    "odyssey":{
+        "ck":{
+            "smithed":{
+                "kernels": [
+                    "themis_nightir_merged_2018Mar02_ck.bc",
+                    "themis_dayir_merged_2018Jul13_ck.bc"
+                ]
+            },
+            "reconstructed":{
+                "kernels":[
+                    "m01_sc_ab[0-9]{4}.bc",
+                    "m01_sc_map[0-9]{1}_rec_nadir.bc",
+                    "m01_sc_map[0-9]{2}_rec_nadir.bc",
+                    "m01_sc_map[0-9]{1}_v[0-9]{1}.bc",
+                    "m01_sc_map[0-9]{1}.bc",
+                    "m01_sc_map[0-9]{2}.bc",
+                    "m01_sc_ext[0-9]{1}_rec_nadir.bc",
+                    "m01_sc_ext[0-9]{2}_rec_nadir.bc",
+                    "m01_sc_ext22_rec_roto_v2.bc",
+                    "m01_sc_ext[0-9]{1}.bc",
+                    "m01_sc_ext[0-9]{2}.bc"
+                ]
+            }
+        },
+        "fk":{
+            "kernels":"m01_v[0-9]{2}.tf"
+        },
+        "iak":{
+            "kernels":"themisAddendum[0-9]{3}.ti"
+        },
+        "sclk":{
+            "kernels":"ORB1_SCLKSCET.[0-9]{5}.tsc"
+
+        },
+        "spk":{
+            "predicted":{
+                "kernels":"m01_map.bsp"
+            },
+            "smithed":{
+                "kernels":[
+                    "themis_dayir_merged_2018Jul13_spk.bsp",
+                    "themis_nightir_merged_2018Mar02_spk.bsp"
+                ]
+            },
+            "reconstructed":{
+                "kernels":[
+                    "m01_ab_v2.bsp",
+                    "m01_map[0-9]{1}_v[0-9]{1}.bsp",
+                    "m01_map[0-9]{1}.bsp",
+                    "m01_map[0-9]{2}.bsp",
+                    "m01_ext[0-9]{1}.bsp",
+                    "m01_ext[0-9]{2}.bsp",
+                    "m01_map_rec.bsp"
+                ]
+            }
+
+        }
+    }
+}

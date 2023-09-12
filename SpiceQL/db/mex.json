@@ -1,0 +1,44 @@
+{
+    "mex":{
+        "ck":{
+            "predicted":{
+                "kernels":"ATNM_P[0-9]{12}_[0-9]{5}.BC"
+            },
+            "reconstructed":{
+                "kernels":[
+                    "ATNM_MEASURED_.*.BC",
+                    "ATNM_RECONSTITUTED_[0-9]{5}.BC"
+                ]
+            }
+        },
+        "fk":{
+            "kernels":"MEX_V[0-9]{2}.TF"
+        },
+        "ik":{
+            "kernels":"MEX_HRSC_V[0-9]{2}.TI"
+        },
+        "sclk":{
+            "kernels":"MEX_[0-9]{6}_STEP.TSC$"
+        },
+        "spk":{
+            "predicted" : {
+                "kernels": "ORMF__.*_[0-9]{5}.BSP"
+            },
+            "reconstructed":{
+                "kernels":"OR.*M__.*_[0-9]{5}.BSP"
+            }
+        }
+    },
+    "hrsc" : {
+        "iak" : {
+            "kernels" : "hrscAddendum[0-9]{3}.ti"
+        },
+        "deps" : ["/mex"]
+    },
+    "src" : {
+        "iak" : {
+            "kernels" : "hrscsrcAddendum[0-9]{3}.ti"
+        },
+        "deps" : ["/mex"]
+    }
+}

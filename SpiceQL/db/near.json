@@ -1,0 +1,31 @@
+{
+    "near": {
+        "ck": {
+            "reconstructed" : { 
+                "kernels" : ["near_[0-9]{7}_v[0-9]{2}.bc$"]
+            }
+        },
+        "spk" : {
+            "reconstructed" : {
+                "kernels" : ["near_cruise_nav_v[0-9].bsp$", "near_erosorbit_nav_v[0-9].bsp$", "near_eroslanded_nav_v[0-9].bsp$"]
+            } 
+        },
+        "sclk": {
+            "kernels": ["near_[0-9]{3}.tsc$"]
+        },
+        "fk" : { 
+            "kernels" : ["eros_fixed.tf$"]
+        },
+        "pck" : { 
+            "kernels" : ["pck[0-9]{5}.tpc$"]
+        }
+    },
+    "msi": {
+        "ik": {
+            "kernels": "msi15.ti$"
+        },
+        "iak" : { 
+            "kernels" : ["msiAddendum[0-9]{3}.ti$"]
+        }
+    }
+}

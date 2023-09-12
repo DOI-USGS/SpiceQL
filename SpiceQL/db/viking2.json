@@ -1,0 +1,27 @@
+{
+    "viking2": {
+        "ck":{
+            "reconstructed":{
+                "kernels": "vo2_sedr_ck2.bc"
+            },
+            "smithed":{
+                "kernels": "vo2[a-b]Type3Csmithed.bc"
+            }
+        },
+        "fk":{
+            "kernels" : "vo2_v[0-9]{2}.tf"
+        },
+        "iak":{
+            "kernels":"vikingAddendum[0-9]{3}.ti"
+        },
+        "sclk":{
+            "kernels":["vo2_fict.tsc", "vo2_fsc.tsc"]
+        },
+        "spk":{
+            "reconstructed" : {
+                "kernels" : ["viking2[a-b].bsp", "vo2_rcon.bsp", "vo2_sedr.bsp"]
+            }
+        }
+    }
+
+}

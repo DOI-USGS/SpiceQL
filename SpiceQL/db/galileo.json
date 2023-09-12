@@ -1,0 +1,31 @@
+{
+  "galileo" : {
+    "sclk" : {
+      "kernels" : "mk00062b.tsc"
+    },
+    "ck" : {
+      "reconstructed" : {
+        "kernels" : ["ck[0-9]{5}.*\\.bc", "CKmerge_type3.plt.bck"]
+      },
+      "smithed" : {
+        "kernels" : ["galssi_.*med.bck","galssi_io.*[0-9]{6}.*\\.bck","galssi_eur_.*\\.bc"]
+      }
+    },
+    "spk" : {
+        "reconstructed" : {
+          "kernels" : "s[0-9]{6}.*\\.bsp"
+        }
+    },
+    "iak" : {
+      "kernels" : "ssiAddendum[0-9]{3}.ti"
+    },
+    "pck" : {
+      "smithed" : {
+        "kernels" : "pck00010_msgr_v[0-9]{2}.tpc"
+      },
+      "na" : {
+        "kernels" : "pck0000[0-9].tpc"
+      }
+    }
+  }
+}

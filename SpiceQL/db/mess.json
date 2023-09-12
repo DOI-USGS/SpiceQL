@@ -1,0 +1,52 @@
+{
+    "mdis" : {
+        "ck" : {
+            "reconstructed" : {
+              "kernels" : "msgr_[0-9]{4}_v[0-9]{2}.bc"
+            },
+            "smithed" : {
+              "kernels" : "msgr_mdis_sc[0-9]{4}_usgs_v[0-9]{1}.bc"
+            }
+        },
+        "spk" : {
+            "reconstructed" : {
+              "kernels" : "msgr_20040803.*\\.bsp"
+            }
+        },
+        "tspk" : {
+          "kernels" : ["de423s.bsp", "des405.bsp"]
+        },
+        "fk" : {
+          "kernels" : "msgr_v[0-9]{3}.tf"
+        },
+        "ik" : {
+          "kernels" :"msgr_mdis_v[0-9]{3}.ti"
+        },
+        "iak" : {
+          "kernels" : "mdisAddendum[0-9]{3}.ti"
+        },
+        "pck" : {
+          "na" : {
+            "kernels" : "pck00010_msgr_v[0-9]{2}.tpc"
+          }
+        },
+        "deps" : ["/mdis_att", "/messenger"]
+    },
+    "mdis_att" : {
+        "ck" : {
+            "reconstructed" : {
+              "kernels" : "msgr_mdis_sc[0-9]{6}_[0-9]{6}_sub_v[0-9]{1}.bc"
+            }
+        }
+    },
+    "messenger" : {
+        "ck" : {
+            "reconstructed" : {
+              "kernels" : "msgr_mdis_gm[0-9]{6}_[0-9]{6}v[0-9]{1}.bc"
+            }
+        },
+        "sclk" : {
+          "kernels" : "messenger_[0-9]{4}.tsc"
+        }
+    }
+}

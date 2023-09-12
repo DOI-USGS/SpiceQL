@@ -1,0 +1,4 @@
+breathe
+sphinxcontrib.gist
+m2r2
+sphinx_material

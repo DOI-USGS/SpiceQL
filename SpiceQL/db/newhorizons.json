@@ -1,0 +1,71 @@
+{
+    "newhorizons": {
+        "tspk": {
+            "kernels": ["de413.bsp$", "de418.bsp$", "jup260.bsp$", "nh_nep_ura_000.bsp$", "nh_plu017.bsp$", "kbo_centaur_[0-9]{8}.bsp$", "nh_extras.bsp$", "sb_2014mu69_20150903_s6.bsp$"]
+        },
+        "pck": {
+            "kernels": ["pck[0-9]{5}.tpc$", "nh_stars_kbo_centaur_v[0-9]{3}.tpc$", "nh_pcnh_[0-9]{3}.tpc$"]
+        },
+        "fk": {
+            "kernels": ["nh_v[0-9]{3}.tf$", "nh_soc_misc_v[0-9]{3}.tf$"]
+        },
+        "sclk": {
+            "kernels": "new_horizons_[0-9]{4}.tsc$"
+        },
+        "ck" : { 
+            "reconstructed" : {
+                "kernels" : ["merged_nhpc_20[0-9]{2}_v[0-9]{3}.bc$"]
+            },
+            "smithed" : { 
+                "kernels" : ["nh_lorri_wcs_v[0-9]{3}.bc$"]
+            }
+        },
+        "spk" : { 
+            "reconstructed" : { 
+                "kernels" : ["nh_recon_.*.bsp$"]
+            }
+        }
+    },
+    "lorri" : { 
+        "ik" : { 
+            "kernels" : ["nh_lorri_v[0-9]{3}.ti$"]
+        },
+        "iak" : {
+            "kernels" : ["nh_lorriAddendum_v[0-9]{3}.ti"]
+        },
+        "deps" : ["/newhorizons"]
+    }, 
+    "ralph" : { 
+        "ik" : { 
+            "kernels" : ["nh_ralph_v[0-9]{3}u.ti"]
+        },
+        "deps" : ["/newhorizons"]
+    },
+    "mvic" : { 
+        "ik" : { 
+            "kernels" : ["nh_ralph_v[0-9]{3}u.ti"]
+        },
+        "deps" : ["/newhorizons"]
+    },
+    "mvic_tdi" : { 
+        "iak" : {
+            "kernels" : ["mvicAddendum[0-9]{3}.ti$"]
+        },
+        "deps" : ["/newhorizons"]
+    },
+    "mvic_framing" : { 
+        "iak" : {
+            "kernels" : ["mvicAddendum[0-9]{3}.ti$"]
+        },
+        "deps" : ["/newhorizons"]        
+    },
+    "leisa" : { 
+        "ik" : { 
+            "kernels" : ["nh_ralph_v[0-9]{3}u.ti$"]
+        },
+        "iak" : {
+            "kernels" : ["leisaAddendum[0-9]{3}.ti$"]
+        },
+        "deps" : ["/newhorizons"]
+    }
+}

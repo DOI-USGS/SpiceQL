@@ -1,0 +1,65 @@
+{
+    "dawn": {
+        "tspk": {
+            "kernels": ["de421.bsp$", "sb_vesta_[0-9]{6}.bsp$", "sb_ceres_[0-9]{6}.bsp$"]
+        },
+        "spk": {
+            "predicted" : {
+                "kernels" : ["dawn_ql_[0-9]{6}-.*.bsp$"]
+            },
+            "reconstructed" : { 
+                "kernels" : ["dawn_rec_[0-9]{6}-.*.bsp$"]
+            }
+        },
+        "pck": {
+            "kernels": ["pck[0-9]{5}$", "dawn_vesta_v[0-9]{2}.tpc$", "dawn_vesta_v[0-9]{2}.tf$", "dawn_ceres_v[0-9]{2}.tpc$", "dawn_ceres_v[0-9]{2}.tf$"]
+        },
+        "ck" : { 
+            "reconstructed" : {
+                "kernels" : ["dawn_sc_[0-9]{6}_[0-9]{6}.bc$"]
+            }
+        },
+        "fk": {
+            "kernels": ["dawn_v[0-9]{2}.tf$", "dawn_fc_v[0-9]{1}.bc$"]
+        },
+        "sclk": {
+            "kernels": ["DAWN_203_SCLKSCET.[0-9]{5}.tsc$"]
+        },
+        "dsk" : {
+            "kernels" : ["dawn_ceres.*.bds$"]
+        }
+    },
+    "fc1": {
+        "iak" : {
+            "kernels" : ["dawnfcAddendum[0-9]{3}.ti$"]
+        },
+        "ik": {
+            "kernels": ["dawn_fc_v[0-9]{2}.ti$"]
+        },
+        "deps" : ["/dawn"]
+    },
+    "fc2": {
+        "iak" : {
+            "kernels" : ["dawnfcAddendum[0-9]{3}.ti$"]
+        },
+        "ik": {
+            "kernels": ["dawn_fc_v[0-9]{2}.ti$"]
+        },
+        "deps" : ["/dawn"]
+    },
+    "vir": {
+        "iak" : {
+            "kernels" : ["dawnvirAddendum[0-9]{3}.ti$"]
+        },
+        "ik": {
+            "kernels": ["dawn_vir_v[0-9]{2}.ti$"]
+        },
+        "deps" : ["/dawn"]
+    },
+    "ir": {
+        "ik": {
+            "kernels": ["dawn_vir_v[0-9]{2}.ti$"]
+        },
+        "deps" : ["/dawn"]
+    }
+}

@@ -1,0 +1,38 @@
+{
+  "clementine1" : {
+    "sclk" : {
+      "kernels" : ["dspse[0-9]{3}.tsc"]
+    },
+    "ck" : {
+      "reconstructed" : {
+        "kernels" : "clem_[0-9]{3}.bck"
+      },
+      "smithed" : {
+        "kernels" : "clem_ulcn2005_6hr.bc"
+      }
+    },
+    "spk" : {
+      "reconstructed" : {
+        "kernels" :  "clem.*\\.bsp"
+      }
+    },
+    "fk" : {
+      "kernels" : "clem_v[0-9]{2}.tf"
+    }
+  },
+  "uvvis" : {
+    "ik" : {
+      "kernels" : "clem_uvvis_beta_ik_v04.ti"
+    },
+    "iak" : {
+      "kernels" : "uvvisAddendum[0-9]{3}.ti"
+    },
+    "deps" : ["/clementine1"]
+  },
+  "nir" : {
+    "iak" : {
+      "kernels" : "nirAddendum[0-9]{3}.ti"
+    },
+    "deps" : ["/clementine1"]
+  }
+}

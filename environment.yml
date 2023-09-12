@@ -1,0 +1,28 @@
+channels:
+  - defaults
+  - conda-forge
+  - usgs-astrogeology
+  - tudat-team
+
+dependencies:
+  - cmake
+  - cspice-cmake
+  - cpp-filesystem
+  - doxygen
+  - fmt
+  - libhiredis
+  - ninja
+  - pip
+  - pytest
+  - python>=3.9,<3.10
+  - swig
+  - jsonschema
+  - cereal
+  - spdlog
+  - pip:
+    - breathe
+    - sphinx-material
+    - m2r2
+    - sphinxcontrib.gist
+    - jsonschema
+

@@ -1,0 +1,49 @@
+{
+  "lro" : {
+    "ik" : {
+      "kernels" : ["lro_instruments_v[0-9]{2}.ti$"]
+    },
+    "iak" : {
+      "kernels" : ["lro_instrumentAddendum_v[0-9]{2}.ti$"]
+    },
+    "fk" : {
+      "kernels" : ["lro_frames_[0-9]{7}_v[0-9]{2}.tf$"]
+    },
+    "sclk" : {
+      "kernels" : ["lro_clkcor_[0-9]{7}_v[0-9]{2}.tsc$"]
+    }
+  },
+  "moc" : {
+      "ck" : {
+          "reconstructed" : {
+              "kernels": ["moc42r?_[0-9]{7}_[0-9]{7}_v[0-9]{2}.bc$"]
+          }
+      },
+      "spk" : {
+        "reconstructed" : {
+          "kernels" : ["fdf29r?_[0-9]{7}_[0-9]{7}_[nbv][0-9]{2}.bsp$"]
+        },
+        "smithed" : {
+          "kernels" : ["LRO_.*_GRGM660.*.bsp$", "LRO_.*_GRGM900C.*.BSP$"]
+        }
+      },
+      "pck" : {
+        "kernels" : ["moon_080317.tf$", "moon_assoc_me.tf$"]
+      },
+      "deps" : ["/lro"]
+  },
+  "lroc" : {
+    "ck" : {
+      "reconstructed" : {
+        "kernels" : ["lrolc_[0-9]{7}_[0-9]{7}_v[0-9]{2}.bc$", "soc31_[0-9]{7}_[0-9]{7}_v[0-9]{2}.bc$"]
+      }
+    },
+    "tspk" : {
+      "kernels" : ["de421.bsp$", "moon_pa_de421_1900-2050.bpc$"]
+    },
+    "ik" : {
+      "kernels" : ["lro_lroc_v[0-9]{2}.ti$"]
+    },
+    "deps" : ["/moc"]
+  }
+}

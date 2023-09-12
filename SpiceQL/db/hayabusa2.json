@@ -1,0 +1,50 @@
+{
+    "hayabusa2" : { 
+        "ck" : { 
+            "reconstructed" : { 
+                "kernels" : ["hayabusa_itokawarendezvous_v02n.bc$"]    
+            }
+        },
+        "dsk" : { 
+            "kernels" : ["hay_a_amica_5_itokawashape_v1_0_512q.bds$", "hay_a_amica_5_itokawashape_v1_0_64q.bds$"]
+        },
+        "fk" : { 
+            "kernels" : ["itokawa_fixed.tf$", "hayabusa_hp.tf$"]
+        },
+        "pck" : {
+            "reconstructed" : { 
+                "kernels" : ["itokawa_gaskell_n[0-9]{1}.tpc$"]
+            }
+        },
+        "sclk" : { 
+            "kernels" : ["hayabusa.tsc$"]
+        },
+        "tspk" : { 
+            "kernels" : ["sb_25143_140.bsp$", "de403s.bsp$"]
+        }
+    },
+    "amica" : {
+        "ik" : { 
+            "kernels" : ["amica[0-9]{2}.ti$"]
+        }, 
+        "iak" : {
+            "kernels" : ["amicaAddendum[0-9]{3}.ti$"]
+        },
+        "spk" : { 
+            "kernels" : ["hay_jaxa_050916_051119_v1n.bsp$", "hay_osbj_050911_051118_v1n.bsp$"]
+        },
+        "deps" : ["/hayabusa2"]
+    },
+    "nirs" : {
+        "ik" : { 
+            "kernels" : ["nirs[0-9]{2}.ti$"]
+        },  
+        "iak" : {
+            "kernels" : ["nirsAddendum[0-9]{3}.ti$"]
+        },
+        "spk" : { 
+            "kernels" : ["hay_jaxa_050916_051119_v1n.bsp$", "hayabusa_[0-9]{8}_[0-9]{8}_v[0-9]{2}.bsp$"]
+        },
+        "deps" : ["/hayabusa2"]
+    }
+}

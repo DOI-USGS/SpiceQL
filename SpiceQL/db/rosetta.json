@@ -1,0 +1,108 @@
+{
+    "rosetta": {
+        "ck": { 
+            "predicted" : { 
+                "kernels" : ["ATNR_P.*_[0-9]{5}.BC$",
+                             "RATT_DV_145_[0-9]{2}_[0-9]{2}_T6_[0-9]{5}.BC$",
+                             "RATT_DV_223_[0-9]{2}_[0-9]{2}_T6_[0-9]{5}.BC$",
+                             "RATT_DV_257_[0-9]{2}_[0-9]{2}_T6_[0-9]{5}.BC$"]
+            },
+            "smithed" : { 
+                "kernels" : ["ROS_SC_DLR_S4S_1408_1409_V[0-9].BC$"]
+            }
+        },
+        "fk": {
+            "kernels": ["ROS_V[0-9]{2}.TF$"]
+        },
+        "sclk": {
+            "kernels": "ROS_[a-zA-Z0-9]{6}_STEP.TSC$"
+        },
+        "spk" : { 
+            "predicted" : {
+                "kernels": ["ORFR_______________[0-9]{5}.BSP$", 
+                            "ORGR_______________{5}.BSP", 
+                            "RORL_D[a-zA-Z0-9]_[a-zA-Z0-9]{3}_[a-zA-Z0-9]{2}_[a-zA-Z0-9]{2}_[a-zA-Z0-9]_*[a-zA-Z0-9]{5}.BSP$"]
+            },
+            "reconstructed" : {
+                "kernels" : ["ORER_______________[0-9]{5}.BSP$",
+                             "ORHR_______________[0-9]{5}.BSP$",
+                             "ORMR_______________[0-9]{5}.BSP$", 
+                             "RORB_D[a-zA-Z0-9]_[a-zA-Z0-9]{3}_[a-zA-Z0-9]{2}_[a-zA-Z0-9]_*[a-zA-Z0-9]{5}.BSP$", 
+                             "RORB_D[a-zA-Z0-9]_[a-zA-Z0-9]{3}_[a-zA-Z0-9]{2}_[a-zA-Z0-9]_T19_[0-9]{5}.BSP$"]
+            }
+        },
+        "tspk" : {
+            "kernels" : [
+              "DE[0-9]{3}.BSP$",
+              "2867_STEINS_2004_2016.BSP$",
+              "ORHO_______________[a-zA-Z0-9]{5}.BSP$",
+              "21_LUTETIA_2004_2016.BSP$",
+              "67P_CHURY_GERAS_2004_2016.BSP$",
+              "CATT_DV_197_01_______[a-zA-Z0-9]{5}.BC$",
+              "CORB_DV_257_03___T19_[a-zA-Z0-9]{5}.BSP$"
+            ]
+        },
+        "pck" : { 
+            "reconstructed": {
+                "kernels" : ["CATT_DV_145_02_______[a-zA-Z0-9]{5}.BC$", 
+                             "CATT_DV_223_02_______[a-zA-Z0-9]{5}.BC$",
+                             "CATT_DV_257_03_______[a-zA-Z0-9]{5}.BC$", 
+                             "PCK[a-zA-Z0-9]{5}.TPC$",
+                             "ROS_STEINS_V[a-zA-Z0-9]{2}.TPC$",
+                             "ROS_LUTETIA_RSOC_V[a-zA-Z0-9]{2}.TPC$",
+                             "ROS_LUTETIA_RSOC_V[a-zA-Z0-9]{2}.TF$",
+                             "ROS_CG_RAD_V[a-zA-Z0-9]{2}.TPC$"
+                            ]
+            }
+        }
+    },
+    "osinac": {
+        "iak" : {
+            "kernels" : ["osi_nacAddendum_v[a-zA-Z0-9]{3}.ti$"]
+        },
+        "ik": {
+            "kernels": ["ROS_OSIRIS_V[0-9]{2}.TI$"]
+        },
+        "ck" : { 
+            "predicted" : {
+                "kernels" : [
+                    "ATNR_P[a-zA-Z0-9]{12}_[a-zA-Z0-9]{5}.BC$",
+                    "RATT_DV_145_[a-zA-Z0-9]{2}_[a-zA-Z0-9]{2}_T6_[a-zA-Z0-9]{5}.BC$",
+                    "RATT_DV_223_[a-zA-Z0-9]{2}_[a-zA-Z0-9]{2}_T6_[a-zA-Z0-9]{5}.BC$",
+                    "RATT_DV_257_[a-zA-Z0-9]{2}_[a-zA-Z0-9]{2}_T6_[a-zA-Z0-9]{5}.BC$"
+                ]
+            },
+            "reconstructed" : {
+                "kernels" : [
+                    "ROS_SC_REC_140801_141231_V[a-zA-Z0-9]{2}.BC$",
+                    "ROS_SC_REC_150101_151231_V[a-zA-Z0-9]{2}.BC$",
+                    "ROS_SC_REC_160101_160601_V[a-zA-Z0-9]{2}.BC$"
+                ]
+            },
+            "smithed" : { 
+                "kernels" : ["ROS_SC_DLR_S4S_1408_1409_V[0-9]{1}.BC$" ]
+            }
+        },
+        "deps" : ["/rosetta"]
+    },
+    "osiwac": {
+        "iak" : {
+            "kernels" : ["osi_wacAddendum_v[a-zA-Z0-9]{3}.ti$"]
+        },
+        "deps" : ["/rosetta"]
+    },
+    "virtis": {
+        "ck" : { 
+            "reconstructed" : {
+                "kernels" : ["ROS_VIRTIS_ZERO_V1.BC$"]
+            }
+        },
+        "ik": {
+            "kernels": ["ROS_VIRTIS_V[0-9]{2}.TI$"]
+        },
+        "iak" : {
+            "kernels" : ["virtisAddendum_v[a-zA-Z0-9]{3}.ti$"]
+        },
+        "deps" : ["/rosetta"]
+    }
+}

@@ -1,0 +1,37 @@
+{
+    "mgs":{
+        "ck":{
+            "reconstructed":{
+                "kernels":[
+                    "mgs_sc_ab[0-9].bc",
+                    "mgs_sc_map[0-9].bc",
+                    "mgs_sc_ext[0-9]{1,2}.bc",
+                    "mgs_sc_spo[0-9].bc"
+                ]
+            }
+        },
+        "iak":{
+            "kernels":"mocAddendum[0-9]{3}.ti"
+        },
+        "ik":{
+            "kernels":[
+                "moc[0-9]{2}.ti",
+                "tes[0-9]{2}.ti",
+                "mola[0-9]{2}.ti"
+            ]
+        },
+        "sclk":{
+            "kernels":"MGS_SCLKSCET.[0-9]{5}.tsc"
+        },
+        "spk":{
+            "reconstructed":{
+                "kernels":[
+                    "mgs_ext[0-9]{1,2}.bsp",
+                    "mgs_ab[0-9].bsp",
+                    "mgs_map[0-9]{1,2}.bsp",
+                    "mgs_spo[0-9]{1,2}.bsp"
+                ]
+            }
+        }
+    }
+}
