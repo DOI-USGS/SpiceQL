@@ -1,30 +1,30 @@
-image: ubuntu:18.04
+# image: ubuntu:18.04
 
-clone_github:
-    stage: deploy 
-    before_script:
-        - apt-get update -y && apt-get install openssh-client -y
-        - apt install git -y
-        - eval $(ssh-agent -s)
-        - echo "$GIT_SSH_PRIVATE_KEY" | openssl base64 -A -d | ssh-add -
-        - mkdir -p ~/.ssh
-        - chmod 700 ~/.ssh
-        - ssh-keyscan $GIT_LAB_HOST >> ~/.ssh/known_hosts
-        - chmod 644 ~/.ssh/known_hosts
-        - git config --global user.name "krodriguez"
-        - git config --global user.email "krodriguez@usgs.gov"
-        - ssh "git@$GIT_LAB_HOST"
-    script:
-        - echo $SOURCE_REPOSITORY
-        - git config --global http.sslVerify false
-        - rm -rf spiceql  # Needed to allow multiple CI runs
-        - git config --global user.name "krodriguez"
-        - git config --global user.email "krodriguez@usgs.gov"
-        - git clone --mirror https://github.com/DOI-USGS/SpiceQL.git spiceql
-        - cd spiceql
-        - git remote remove origin
-        - git remote add origin $DESTINATION_REPOSITORY
-        - git push -f --prune --all
-        - git push -f --prune --tags
-    only:
-        - branches
+# clone_github:
+#     stage: deploy 
+#     before_script:
+#         - apt-get update -y && apt-get install openssh-client -y
+#         - apt install git -y
+#         - eval $(ssh-agent -s)
+#         - echo "$GIT_SSH_PRIVATE_KEY" | openssl base64 -A -d | ssh-add -
+#         - mkdir -p ~/.ssh
+#         - chmod 700 ~/.ssh
+#         - ssh-keyscan $GIT_LAB_HOST >> ~/.ssh/known_hosts
+#         - chmod 644 ~/.ssh/known_hosts
+#         - git config --global user.name "krodriguez"
+#         - git config --global user.email "krodriguez@usgs.gov"
+#         - ssh "git@$GIT_LAB_HOST"
+#     script:
+#         - echo $SOURCE_REPOSITORY
+#         - git config --global http.sslVerify false
+#         - rm -rf spiceql  # Needed to allow multiple CI runs
+#         - git config --global user.name "krodriguez"
+#         - git config --global user.email "krodriguez@usgs.gov"
+#         - git clone --mirror https://github.com/DOI-USGS/SpiceQL.git spiceql
+#         - cd spiceql
+#         - git remote remove origin
+#         - git remote add origin $DESTINATION_REPOSITORY
+#         - git push -f --prune --all
+#         - git push -f --prune --tags
+#     only:
+#         - branches
