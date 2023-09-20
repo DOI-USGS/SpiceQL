@@ -35,8 +35,8 @@ release.
 
 ## [Unreleased]
 
-### Added
-
-### Fixed
+## [1.0.0] - 2023-09-20
 
 ### Changed
+- SpiceQL source code
+- Required administrative files
