@@ -14,5 +14,8 @@ find_library(CSPICE_LIBRARY
   NAMES cspice
 )
 
+link_directories($ENV{CONDA_PREFIX}/lib)
+include_directories(${CSPICE_INCLUDE_DIR})
+
 message(STATUS "CSPICE INCLUDE: " ${CSPICE_INCLUDE_DIR} )
 message(STATUS "CSPICE LIB: "  ${CSPICE_LIBRARY} )

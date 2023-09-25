@@ -98,7 +98,6 @@ if(SPICEQL_BUILD_LIB)
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/viking1.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/viking2.json)
 
-  
   set(SPICEQL_KERNELS ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/kernels/naif0011.tls)
 
   add_library(SpiceQL SHARED ${SPICEQL_SRC_FILES})
@@ -106,7 +105,6 @@ if(SPICEQL_BUILD_LIB)
   set_target_properties(SpiceQL PROPERTIES
                                   VERSION ${PROJECT_VERSION}
                                   SOVERSION 0)
-
 
   target_compile_definitions(SpiceQL PRIVATE SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE 
                                      PUBLIC -D_SOURCE_PREFIX="${CMAKE_CURRENT_SOURCE_DIR}")
@@ -119,7 +117,7 @@ if(SPICEQL_BUILD_LIB)
                             PRIVATE
                             ${CMAKE_CURRENT_SOURCE_DIR}/submodules/redis-plus-plus/src/
                             cereal
-                        )
+                            )
 
   target_link_libraries(SpiceQL
                         PUBLIC
@@ -128,10 +126,10 @@ if(SPICEQL_BUILD_LIB)
                         nlohmann_json::nlohmann_json
                         PRIVATE
                         redis++ 
-                        CSpice::cspice
+                        cspice
                         spdlog::spdlog_header_only
                         )
-
+   
   install(TARGETS SpiceQL LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
   install(DIRECTORY ${SPICEQL_INCLUDE_DIR} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
@@ -153,9 +151,8 @@ if(SPICEQL_BUILD_LIB)
   # Install the shipped kernels
   install(FILES ${SPICEQL_KERNELS} DESTINATION "etc/SpiceQL/db/kernels")
 
-
   # Install the library
-  install(TARGETS SpiceQL nlohmann_json
+  install(TARGETS SpiceQL nlohmann_json ghc_filesystem
           EXPORT spiceQLTargets
           LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
           INCLUDES DESTINATION ${SPICEQL_INSTALL_INCLUDE_DIR})

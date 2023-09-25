@@ -11,7 +11,7 @@ using namespace std::chrono;
 #include "Fixtures.h"
 #include "spice_types.h"
 #include "config.h"
-#include "SpiceUsr.h"
+#include <SpiceUsr.h>
 #include "memo.h"
 #include "query.h"
 

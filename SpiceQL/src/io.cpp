@@ -3,7 +3,7 @@
 
 #include <fmt/format.h>
 
-#include "SpiceUsr.h"
+#include <SpiceUsr.h>
 
 #include "io.h"
 #include "utils.h"

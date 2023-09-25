@@ -7,7 +7,12 @@ else()
   set(CMAKE_CXX_STANDARD 17)
 endif()
 
+find_package(CSpice REQUIRED)
 
+get_property(dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
+foreach(dir ${dirs})
+  message(STATUS "dir='${dir}'")
+endforeach()
 set(SPICEQL_TEST_DIRECTORY ${CMAKE_SOURCE_DIR}/SpiceQL/tests/)
 
 # collect all of the test sources
@@ -30,7 +35,7 @@ target_link_libraries(runSpiceQLTests
                       PRIVATE
                       SpiceQL
                       redis++
-                      CSpice::cspice
+                      cspice
                       gtest
                       gmock
                       Threads::Threads
