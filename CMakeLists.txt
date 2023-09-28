@@ -60,6 +60,7 @@ if(SPICEQL_BUILD_LIB)
   find_package(fmt REQUIRED)
   find_package(cereal REQUIRED)
   find_package(spdlog REQUIRED)
+  find_package(hiredis REQUIRED)
 
   set(SPICEQL_INSTALL_INCLUDE_DIR "include/SpiceQL")
   set(SPICEQL_SRC_FILES   ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/spiceql.cpp 
@@ -109,7 +110,7 @@ if(SPICEQL_BUILD_LIB)
   target_compile_definitions(SpiceQL PRIVATE SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE 
                                      PUBLIC -D_SOURCE_PREFIX="${CMAKE_CURRENT_SOURCE_DIR}")
   
-  message(STATUS "redis++ inc: "  ${hiredis_INCLUDE_DIRS})
+  message(STATUS "redis++ inc: "  ${HIREDIS_INCLUDE_DIRS})
   target_include_directories(SpiceQL
                             PUBLIC
                             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include>
