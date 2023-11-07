@@ -29,9 +29,11 @@
       ]
     },
     "spk": {
+      "reconstructed": {
+        "kernels": ["SEL_M_071020_090610_SGMH_02.BSP"]
+      },
       "smithed": {
         "kernels": ["SEL_M_[0-9]{6}_[0-9]{6}_SGMI_05.BSP",
-                    "SEL_M_071020_090610_SGMH_02.BSP",
                     "SELMAINGRGM900CL660DIRALT2008103020090610.bsp"]
       }
     }
