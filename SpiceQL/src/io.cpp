@@ -238,9 +238,9 @@ namespace SpiceQL {
       string formatString = (isComment) ? "{}\n" : "( '{}' // )";
 
       for(int i = 0; i < s.size()/maxLen; i++) {
-        newString.append(fmt::format(formatString, s.substr(i*maxLen, maxLen)) + "\n");
+        newString.append(fmt::format(fmt::runtime(formatString), s.substr(i*maxLen, maxLen)) + "\n");
       }
-      newString.append(fmt::format(formatString, s.substr(s.size()-(s.size()%maxLen), s.size()%maxLen)));
+      newString.append(fmt::format(fmt::runtime(formatString), s.substr(s.size()-(s.size()%maxLen), s.size()%maxLen)));
 
       return newString;
     };
