@@ -526,3 +526,34 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMex) {
   CompareKernelSets(getKernelsAsVector(res.at("mex").at("spk").at("reconstructed")), expected);  
 
 }
+
+TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsLo) {
+  fs::path dbPath = getMissionConfigFile("lo");
+  
+  compareKernelSets("lo");
+
+  ifstream i(dbPath);
+  nlohmann::json conf = nlohmann::json::parse(i);
+
+  MockRepository mocks;
+  mocks.OnCallFunc(ls).Return(files);
+
+  nlohmann::json res = listMissionKernels("doesn't matter", conf);
+
+  set<string> kernels = getKernelsAsSet(res);set<string> mission = missionMap.at("lo");
+  
+  vector<string> expected = {"lo3_photo_support_ME.bsp", "lo4_photo_support_ME.bsp", "lo5_photo_support_ME.bsp"};
+  CompareKernelSets(getKernelsAsVector(res.at("lo").at("spk").at("reconstructed")), expected);
+
+  expected = {"lo3_photo_support_ME.bc", "lo4_photo_support_ME.bc", "lo5_photo_support_ME.bc"};
+  CompareKernelSets(getKernelsAsVector(res.at("lo").at("ck").at("reconstructed")), expected); 
+
+  expected = {"lo01.ti", "lo02.ti"};
+  CompareKernelSets(getKernelsAsVector(res.at("lo").at("ik")), expected);
+
+  expected = {"lunarOrbiterAddendum001.ti", "lunarOrbiterAddendum002.ti"};
+  CompareKernelSets(getKernelsAsVector(res.at("lo").at("iak")), expected);
+
+  expected = {"lo_fict.tsc", "lo_fict1.tsc","lo_fict2.tsc","lo_fict3.tsc","lo_fict4.tsc","lo_fict5.tsc"};
+  CompareKernelSets(getKernelsAsVector(res.at("lo").at("sclk")), expected);
+}

@@ -1,0 +1,27 @@
+{
+    "lo": {
+        "spk": {
+            "reconstructed": {
+                "kernels": ["lo[0-9]{1}_photo_support_ME.bsp"]
+            }
+        },
+        "lsk": {
+            "kernels": ["naif[0-9]{4}.tls$"]
+        },
+        "iak": {
+            "kernels": ["lunarOrbiterAddendum[0-9]{3}.ti$"]
+        },
+        "ik": {
+            "kernels": ["lo[0-9]{2}.ti$"]
+        },
+        "ck": {
+            "reconstructed": {
+                "kernels": ["lo[0-9]{1}_photo_support_ME.bc$"]
+            }
+        },
+        "sclk": {
+            "kernels": ["lo[0-9]{0,1}_fict.tsc$"]
+        },
+        "deps" : ["/base/pck"]
+    }
+}

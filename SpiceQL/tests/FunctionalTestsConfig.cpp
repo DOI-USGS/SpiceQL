@@ -16,7 +16,7 @@ using namespace SpiceQL;
 TEST_F(TestConfig, FunctionalTestConfigConstruct) {
   json megaConfig = testConfig.globalConf();
 
-  EXPECT_EQ(megaConfig.size(), 62);
+  EXPECT_EQ(megaConfig.size(), 63);
 }
 
 TEST_F(TestConfig, FunctionalTestConfigEval) {
@@ -149,7 +149,7 @@ TEST_F(TestConfig, FunctionalTestsConfigGetRecursive) {
 
   json resJson = testConfig.getRecursive("sclk");
 
-  EXPECT_EQ(resJson.size(), 56);
+  EXPECT_EQ(resJson.size(), 57);
   for (auto &[key, val] : resJson.items()) {
     EXPECT_TRUE(val.contains("sclk"));
   }
