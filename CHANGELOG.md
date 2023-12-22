@@ -36,6 +36,7 @@ release.
 ## [Unreleased]
 
 ### Added
+- Adds support for LO [#11](ihttps://github.com/DOI-USGS/SpiceQL/issues/11)
 
 ### Fixed
 
