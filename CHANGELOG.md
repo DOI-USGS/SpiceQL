@@ -36,7 +36,8 @@ release.
 ## [Unreleased]
 
 ### Added
-- Adds support for LO [#11](ihttps://github.com/DOI-USGS/SpiceQL/issues/11)
+- Adds support for LO [#11](https://github.com/DOI-USGS/SpiceQL/issues/11)
+- Adds support for Smart1 [#16](https://github.com/DOI-USGS/SpiceQL/issues/16)
 
 ### Fixed
 

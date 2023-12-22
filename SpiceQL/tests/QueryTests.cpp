@@ -557,13 +557,21 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsLo) {
   expected = {"lo_fict.tsc", "lo_fict1.tsc","lo_fict2.tsc","lo_fict3.tsc","lo_fict4.tsc","lo_fict5.tsc"};
   CompareKernelSets(getKernelsAsVector(res.at("lo").at("sclk")), expected);
 
-
+}
 
 TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsSmart1) {
 
   fs::path dbPath = getMissionConfigFile("smart1");
   
   compareKernelSets("smart1");
+
+  ifstream i(dbPath);
+  nlohmann::json conf = nlohmann::json::parse(i);
+
+  MockRepository mocks;
+  mocks.OnCallFunc(ls).Return(files);
+
+  nlohmann::json res = listMissionKernels("doesn't matter", conf);
 
   set<string> kernels = getKernelsAsSet(res);set<string> mission = missionMap.at("smart1");
   
