@@ -556,4 +556,38 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsLo) {
 
   expected = {"lo_fict.tsc", "lo_fict1.tsc","lo_fict2.tsc","lo_fict3.tsc","lo_fict4.tsc","lo_fict5.tsc"};
   CompareKernelSets(getKernelsAsVector(res.at("lo").at("sclk")), expected);
+
+
+
+TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsSmart1) {
+
+  fs::path dbPath = getMissionConfigFile("smart1");
+  
+  compareKernelSets("smart1");
+
+  set<string> kernels = getKernelsAsSet(res);set<string> mission = missionMap.at("smart1");
+  
+  vector<string> expected = {"ATNS_P050930150947_00220.BC", "ATNS_P030929010023_00188.BC", "ATNS_P060301004212_00233.BC"};
+  CompareKernelSets(getKernelsAsVector(res.at("smart1").at("ck").at("reconstructed")), expected); 
+
+  expected = {"SMART1_070227_STEP.TSC"};
+  CompareKernelSets(getKernelsAsVector(res.at("smart1").at("sclk")), expected);
+
+  expected = {""};
+  CompareKernelSets(getKernelsAsVector(res.at("smart1").at("sclk")), expected);
+
+  expected = {"SMART1_AMIE_V01.TI"};
+  CompareKernelSets(getKernelsAsVector(res.at("smart1").at("ik")), expected); 
+
+  expected = {"ORMS_______________00233.BSP"};
+  CompareKernelSets(getKernelsAsVector(res.at("smart1").at("spk").at("predicted")), expected);
+
+  expected = {"ORMS__041111020517_00206.BSP"};
+  CompareKernelSets(getKernelsAsVector(res.at("smart1").at("spk").at("reconstructed")), expected);
+
+  expected = {"ORHM_______________00038.BSP"};
+  CompareKernelSets(getKernelsAsVector(res.at("smart1").at("spk").at("reconstructed")), expected);  
+
+  expected = {"SMART1_V1.TF"};
+  CompareKernelSets(getKernelsAsVector(res.at("smart1").at("fk")), expected);
 }
