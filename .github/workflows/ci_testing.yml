@@ -39,7 +39,7 @@ jobs:
         run: |
           mkdir -p build
           cd build
-          cmake -DCMAKE_BUILD_TYPE=RELEASE -DSPICEQL_BUILD_DOCS=OFF ..
+          cmake -DCMAKE_BUILD_TYPE=RELEASE -DSPICEQL_BUILD_DOCS=OFF -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install ..
           cmake --build .
       
       - name: Test
@@ -47,7 +47,6 @@ jobs:
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
         run: | 
-          cd build
           ctest -VV -C $BUILD_TYPE
   
       - name: Install
