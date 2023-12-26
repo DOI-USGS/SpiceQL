@@ -80,63 +80,63 @@ jobs:
               jsonschema --instance "$file" spiceMissionSchmea.schema.json 
           done;
   
-    build_docs:
-      runs-on: ubuntu-latest
-      defaults:
-        run:
-          shell: bash -l {0}
-      steps:
-        - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
-        - uses: conda-incubator/setup-miniconda@3b0f2504dd76ef23b6d31f291f4913fb60ab5ff3
-          with:
-              miniconda-version: "latest"
-              activate-environment: spiceql
-              channels: conda-forge
-              environment-file: environment.yml
-              auto-activate-base: false
-              auto-update-conda: true
+  build-docs:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+      - uses: conda-incubator/setup-miniconda@3b0f2504dd76ef23b6d31f291f4913fb60ab5ff3
+        with:
+            miniconda-version: "latest"
+            activate-environment: spiceql
+            channels: conda-forge
+            environment-file: environment.yml
+            auto-activate-base: false
+            auto-update-conda: true
   
-        - name: Conda info
-          run: |
-              conda info
-              conda list
+      - name: Conda info
+        run: |
+            conda info
+            conda list
   
-        - name: Create Build Environment
-          # Some projects don't allow in-source building, so create separate build and install
-          # directorie; we'll use them as our working directories for subsequent commands.
-          run: |
-              cmake -E make_directory ${{github.workspace}}/build
-              cmake -E make_directory ${{github.workspace}}/install
+      - name: Create Build Environment
+        # Some projects don't allow in-source building, so create separate build and install
+        # directorie; we'll use them as our working directories for subsequent commands.
+        run: |
+            cmake -E make_directory ${{github.workspace}}/build
+            cmake -E make_directory ${{github.workspace}}/install
   
-        - name: Configure CMake
-          working-directory: ${{github.workspace}}/build
-          run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DSPICEQL_BUILD_LIB=OFF -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install
+      - name: Configure CMake
+        working-directory: ${{github.workspace}}/build
+        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DSPICEQL_BUILD_LIB=OFF -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install
   
-        - name: Build
-          working-directory: ${{github.workspace}}/build
-          # Execute the build.
-          run: |
-            cmake --build . --config $BUILD_TYPE
+      - name: Build
+        working-directory: ${{github.workspace}}/build
+        # Execute the build.
+        run: |
+          cmake --build . --config $BUILD_TYPE
   
-        - name: Check Build Docs
-          working-directory: ${{github.workspace}}/build/docs/sphinx
-          # Check for the built docs
-          run: |
-              test -e index.html
-              test -e reference/api.html
-              test -e reference/tutorials.html
+      - name: Check Build Docs
+        working-directory: ${{github.workspace}}/build/docs/sphinx
+        # Check for the built docs
+        run: |
+            test -e index.html
+            test -e reference/api.html
+            test -e reference/tutorials.html
   
-        - name: Install Docs
-          working-directory: ${{github.workspace}}/build
-          # Install the build.
-          run: |
-            cmake --install . --config $BUILD_TYPE
+      - name: Install Docs
+        working-directory: ${{github.workspace}}/build
+        # Install the build.
+        run: |
+          cmake --install . --config $BUILD_TYPE
   
-        - name: Check Install Docs
-          working-directory: ${{github.workspace}}/install
-          # Check for the built docs
-          run: |
-              test -e share/doc/SpiceQL/sphinx/index.html
-              test -e share/doc/SpiceQL/sphinx/reference/api.html
-              test -e share/doc/SpiceQL/sphinx/reference/tutorials.html
+      - name: Check Install Docs
+        working-directory: ${{github.workspace}}/install
+        # Check for the built docs
+        run: |
+            test -e share/doc/SpiceQL/sphinx/index.html
+            test -e share/doc/SpiceQL/sphinx/reference/api.html
+            test -e share/doc/SpiceQL/sphinx/reference/tutorials.html
   
