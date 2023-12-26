@@ -14,7 +14,7 @@ dependencies:
   - ninja
   - pip
   - pytest
-  - python>=3.9,<3.10
+  - python
   - swig
   - jsonschema
   - cereal
