@@ -125,7 +125,6 @@ if(SPICEQL_BUILD_LIB)
 
   target_link_libraries(SpiceQL
                         PUBLIC
-                        ghc_filesystem
                         fmt::fmt-header-only
                         nlohmann_json::nlohmann_json
                         PRIVATE
