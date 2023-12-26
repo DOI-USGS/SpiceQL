@@ -39,7 +39,7 @@ jobs:
         run: |
           mkdir -p build
           cd build
-          cmake -DCMAKE_BUILD_TYPE=RELEASE -DCOVERAGE=ON -DALE_BUILD_DOCS=OFF ..
+          cmake -DCMAKE_BUILD_TYPE=RELEASE -DSPICEQL_BUILD_DOCS=OFF ..
           cmake --build .
       
       - name: Test
