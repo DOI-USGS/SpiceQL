@@ -9,7 +9,7 @@ env:
   ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
 
 jobs:
-  deploy-build:
+  anaconda-deploy:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -32,3 +32,24 @@ jobs:
     - name: Build tarbll
       run: |
           conda build --user usgs-astrogeology --label dev -c conda-forge -c tudat-team recipe/
+
+  aws-docs-deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:            
+      - name: Set AWS credentials for upload
+        uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+  
+      - name: Upload to S3
+        working-directory: ${{github.workspace}}/install
+        run: |
+          ls -l share/doc/SpiceQL/sphinx/
+          aws s3 sync --delete share/doc/SpiceQL/sphinx/ s3://asc-public-docs/software_manuals/spiceql/
+          
