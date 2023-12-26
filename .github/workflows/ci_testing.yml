@@ -80,7 +80,7 @@ jobs:
               jsonschema --instance "$file" spiceMissionSchmea.schema.json 
           done;
   
-    build-docs:
+    build_docs:
       runs-on: ubuntu-latest
       defaults:
         run:
