@@ -28,7 +28,7 @@ jobs:
           miniforge-version: latest
           use-mamba: true
           channels: conda-forge
-          activate-environment: ale
+          activate-environment: spiceql
           environment-file: environment.yml
           auto-activate-base: false
           auto-update-conda: true
@@ -91,6 +91,7 @@ jobs:
           with:
               miniconda-version: "latest"
               activate-environment: spiceql
+              channels: conda-forge
               environment-file: environment.yml
               auto-activate-base: false
               auto-update-conda: true
