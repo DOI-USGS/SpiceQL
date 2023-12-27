@@ -148,7 +148,8 @@ TEST_F(TestConfig, FunctionalTestsConfigGetRecursive) {
   mocks.OnCallFunc(ls).Return(paths);
 
   json resJson = testConfig.getRecursive("sclk");
-
+  
+  std::cout << resJson.dump(2) << std::endl;
   EXPECT_EQ(resJson.size(), 58);
   for (auto &[key, val] : resJson.items()) {
     EXPECT_TRUE(val.contains("sclk"));
