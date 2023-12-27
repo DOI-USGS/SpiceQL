@@ -2,13 +2,14 @@ channels:
   - defaults
   - conda-forge
   - usgs-astrogeology
-
+ 
 dependencies:
   - cmake
+  - cspice
   - cpp-filesystem
   - cspice 
   - doxygen
-  - fmt
+  - fmt==9.1.0
   - libhiredis
   - ninja
   - pip

@@ -95,3 +95,13 @@ int result2 = func_memoed(3);
 
 assert(result1 == result2);
 ```
+
+## How to Pull a Release
+1. Create a branch with the new version name (e.g., `1.0`)
+2. Update the version info in following files:
+  - `code.json` - Append to the metadata with the updated version info
+  - `CMakeLists.txt` - Update the project `VERSION` value
+  - `CHANGELOG.md` - Create a new section with the version number, date, and changes made in the upcoming release
+  - `docs/conf.py` - Update the version
+  - `recipe/meta.yaml` - Update the package version
+3. Tag a release candidate from the version branch

@@ -42,3 +42,5 @@ release.
 ### Fixed
 
 ### Changed
+- SpiceQL source code
+- Required administrative files

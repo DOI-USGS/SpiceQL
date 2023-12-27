@@ -1,6 +1,6 @@
 include(CMakeDependentOption)
 cmake_minimum_required(VERSION 3.10)
-project(SpiceQL VERSION 0.0.1 DESCRIPTION "Syntax Sugar for cspice")
+project(SpiceQL VERSION 1.0.0 DESCRIPTION "Syntax Sugar for cspice")
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
@@ -60,6 +60,7 @@ if(SPICEQL_BUILD_LIB)
   find_package(fmt REQUIRED)
   find_package(cereal REQUIRED)
   find_package(spdlog REQUIRED)
+  find_package(hiredis REQUIRED)
 
   set(SPICEQL_INSTALL_INCLUDE_DIR "include/SpiceQL")
   set(SPICEQL_SRC_FILES   ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/spiceql.cpp 
@@ -100,7 +101,6 @@ if(SPICEQL_BUILD_LIB)
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/viking1.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/viking2.json)
 
-  
   set(SPICEQL_KERNELS ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/kernels/naif0011.tls)
 
   add_library(SpiceQL SHARED ${SPICEQL_SRC_FILES})
@@ -109,11 +109,10 @@ if(SPICEQL_BUILD_LIB)
                                   VERSION ${PROJECT_VERSION}
                                   SOVERSION 0)
 
-
   target_compile_definitions(SpiceQL PRIVATE SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE 
                                      PUBLIC -D_SOURCE_PREFIX="${CMAKE_CURRENT_SOURCE_DIR}")
   
-  message(STATUS "redis++ inc: "  ${hiredis_INCLUDE_DIRS})
+  message(STATUS "redis++ inc: "  ${HIREDIS_INCLUDE_DIRS})
   target_include_directories(SpiceQL
                             PUBLIC
                             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include>
@@ -121,7 +120,7 @@ if(SPICEQL_BUILD_LIB)
                             PRIVATE
                             ${CMAKE_CURRENT_SOURCE_DIR}/submodules/redis-plus-plus/src/
                             cereal
-                        )
+                            )
 
   target_link_libraries(SpiceQL
                         PUBLIC
@@ -129,10 +128,10 @@ if(SPICEQL_BUILD_LIB)
                         nlohmann_json::nlohmann_json
                         PRIVATE
                         redis++ 
-                        CSpice::cspice
+                        cspice
                         spdlog::spdlog_header_only
                         )
-
+   
   install(TARGETS SpiceQL LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
   install(DIRECTORY ${SPICEQL_INCLUDE_DIR} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
@@ -154,9 +153,8 @@ if(SPICEQL_BUILD_LIB)
   # Install the shipped kernels
   install(FILES ${SPICEQL_KERNELS} DESTINATION "etc/SpiceQL/db/kernels")
 
-
   # Install the library
-  install(TARGETS SpiceQL nlohmann_json
+  install(TARGETS SpiceQL nlohmann_json ghc_filesystem
           EXPORT spiceQLTargets
           LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
           INCLUDES DESTINATION ${SPICEQL_INSTALL_INCLUDE_DIR})

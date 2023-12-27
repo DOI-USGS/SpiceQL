@@ -8,7 +8,7 @@
 #include "spice_types.h"
 #include "query.h"
 
-#include "SpiceUsr.h"
+#include <SpiceUsr.h>
 
 #include "spdlog/spdlog.h"
 
