@@ -81,7 +81,8 @@ if(SPICEQL_BUILD_LIB)
 
   set(SPICEQL_PRIVATE_HEADER_FILES ${SPICEQL_BUILD_INCLUDE_DIR}/memo.h)
 
-  set(SPICEQL_CONFIG_FILES ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/apollo16.json
+  set(SPICEQL_CONFIG_FILES ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/apollo15.json 
+                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/apollo16.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/apollo17.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/base.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/cassini.json
