@@ -47,7 +47,7 @@ jobs:
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
         run: | 
-          ctest -VV -C $BUILD_TYPE
+          ctest -VV 
   
       - name: Install
         working-directory: ${{github.workspace}}/build
