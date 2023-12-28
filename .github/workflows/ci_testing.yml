@@ -66,7 +66,6 @@ jobs:
               test -e lib/libSpiceQL.so
             fi
             test -e include/SpiceQL/spiceql.h
-            rm -rf ${{github.workspace}}/build
             python -c "import pyspiceql"
   
       # compair all json files against the schema 
