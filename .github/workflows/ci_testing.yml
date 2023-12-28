@@ -66,7 +66,7 @@ jobs:
               test -e $CONDA_PREFIX/lib/libSpiceQL.so
             fi
             test -e $CONDA_PREFIX/include/SpiceQL/spiceql.h
-            python -c "import pyspiceql"
+            $CONDA_PREFIX/bin/python -c "import pyspiceql"
   
       # compair all json files against the schema 
       - name: check json files
