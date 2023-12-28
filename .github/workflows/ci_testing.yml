@@ -70,12 +70,12 @@ jobs:
   
       # compair all json files against the schema 
       - name: check json files
-        working-directory: ${{github.workspace}}/SpiceQL/db/schema
+        working-directory: ${{github.workspace}}/SpiceQL/db/
         run: |
           for file in *.json;
               do
               pwd
-              jsonschema --instance "$file" spiceMissionSchmea.schema.json 
+              check-jsonschema "$file" --schemafile schema/spiceMissionSchmea.schema.json 
           done;
   
   build-docs:
