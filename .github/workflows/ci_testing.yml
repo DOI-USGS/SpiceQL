@@ -57,15 +57,15 @@ jobs:
           cmake --install . --config $BUILD_TYPE
   
       - name: Check install
-        working-directory: ${{CONDA_PREFIX}}/
+        working-directory: ${{github.workspace}}
         # Check that the library installed properly
         run: |
             if [ "$RUNNER_OS" == "macOS" ]; then
-              test -e lib/libSpiceQL.dylib
+              test -e $CONDA_PREFIX/lib/libSpiceQL.dylib
             elif [ "$RUNNER_OS" == "Linux" ]; then
-              test -e lib/libSpiceQL.so
+              test -e $CONDA_PREFIX/lib/libSpiceQL.so
             fi
-            test -e include/SpiceQL/spiceql.h
+            test -e $CONDA_PREFIX/include/SpiceQL/spiceql.h
             python -c "import pyspiceql"
   
       # compair all json files against the schema 
