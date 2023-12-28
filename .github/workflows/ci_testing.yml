@@ -57,7 +57,7 @@ jobs:
           cmake --install . --config $BUILD_TYPE
   
       - name: Check install
-        working-directory: ${{CONDA_PREFIX}}
+        working-directory: ${{CONDA_PREFIX}}/
         # Check that the library installed properly
         run: |
             if [ "$RUNNER_OS" == "macOS" ]; then
