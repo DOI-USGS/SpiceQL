@@ -679,7 +679,42 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsHayabusa2) {
   expected = {"hyb2oncAddendum0001.ti"};
   CompareKernelSets(getKernelsAsVector(res.at("onc").at("iak")), expected); 
 
-
-
 }
 
+TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsVoyager1) {
+
+  fs::path dbPath = getMissionConfigFile("voyager1");
+  
+  //@TODO deal with unused / old / incorrect kernels being picked up.  Conf correctly ignores old kernels, but causes mismatch
+  //compareKernelSets("voyager1");
+
+  ifstream i(dbPath);
+  nlohmann::json conf = nlohmann::json::parse(i);
+
+  MockRepository mocks;
+  mocks.OnCallFunc(ls).Return(files);
+
+  nlohmann::json res = listMissionKernels("doesn't matter", conf);
+
+  set<string> kernels = getKernelsAsSet(res);
+
+  set<string> mission = missionMap.at("voyager1");
+  
+  vector<string> expected = {"vg1_jup_qmw_wa_fc-31100_t2.bc", "vg1_jup_qmw_na_fc-31100_t2.bc", "vg1_sat_qmw_wa_fc-31100_t2.bc", "vg1_sat_qmw_na_fc-31100_t2.bc"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager1").at("ck").at("reconstructed")), expected); 
+
+  expected = {"vg1_eur_usgs2020.bc"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager1").at("ck").at("smithed")), expected); 
+
+  expected = {"vg100010.tsc", "vg100008.tsc"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager1").at("sclk")), expected);
+
+  expected = {"vg1_issna_v02.ti", "vg1_isswa_v01.ti"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager1").at("ik")), expected); 
+
+  expected = {"vg1_sat.bsp", "vgr1_jup230.bsp", "vg1_sat.bsp"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager1").at("spk").at("reconstructed")), expected);  
+
+  expected = {"vg1_v02.tf"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager1").at("fk")), expected);
+}
