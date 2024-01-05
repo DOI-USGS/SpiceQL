@@ -599,3 +599,87 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsSmart1) {
   expected = {"SMART1_V1.TF"};
   CompareKernelSets(getKernelsAsVector(res.at("smart1").at("fk")), expected);
 }
+
+TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsHayabusa2) {
+  fs::path dbPath = getMissionConfigFile("hayabusa2");
+  
+  compareKernelSets("hayabusa2");
+  ifstream i(dbPath);
+  nlohmann::json conf = nlohmann::json::parse(i);
+
+  MockRepository mocks;
+  mocks.OnCallFunc(ls).Return(files);
+
+  nlohmann::json res = listMissionKernels("doesn't matter", conf);
+
+  set<string> kernels = getKernelsAsSet(res);
+
+  set<string> mission = missionMap.at("hayabusa2");
+  
+  vector<string> expected = { "hyb2_hk_2015_v01.bc",
+                              "hyb2_hk_2016_v02.bc",
+                              "hyb2_hkattrpt_2017_v02.bc",
+                              "hyb2_aocsc_2015_v01.bc",
+                              "hyb2_aocsc_2017_v02.bc",
+                              "hyb2_hkattrpt_2016_v02.bc",
+                              "hyb2_hk_2014_v01.bc",
+                              "hyb2_hk_2017_v02.bc",
+                              "hyb2_hk_2015_v02.bc",
+                              "hyb2_hkattrpt_2015_v02.bc",
+                              "hyb2_aocsc_2016_v02.bc",
+                              "hyb2_aocsc_2018_v02.bc",
+                              "hyb2_hkattrpt_2018_v02.bc",
+                              "hyb2_aocsc_2015_v02.bc",
+                              "hyb2_hk_2014_v02.bc",
+                              "hyb2_aocsc_2014_v02.bc",
+                              "hyb2_aocsc_2014_v01.bc"
+                            };
+  CompareKernelSets(getKernelsAsVector(res.at("hayabusa2").at("ck").at("reconstructed")), expected); 
+
+  expected = {"hyb2_v06.tf",
+              "hyb2_v14.tf",
+              "hyb2_v10.tf",
+              "hyb2_ryugu_v01.tf",
+              "hyb2_v09.tf",
+              "hyb2_hp_v01.tf"
+             };
+  CompareKernelSets(getKernelsAsVector(res.at("hayabusa2").at("fk")), expected); 
+
+  expected = {"2162173_ryugu_20180601-20191230_0060_20181221.bsp",
+              "sat375.bsp",
+              "jup329.bsp",
+              "de430.bsp",
+              "2162173_Ryugu.bsp"
+             };
+
+  CompareKernelSets(getKernelsAsVector(res.at("hayabusa2").at("tspk")), expected); 
+
+  expected = {"hyb2_20141203-20161231_v01.tsc",
+              "hyb2_20141203-20171231_v01.tsc",
+              "hyb2_20141203-20191231_v01.tsc"
+             };
+  CompareKernelSets(getKernelsAsVector(res.at("hayabusa2").at("sclk")), expected); 
+
+//@TODO lidar derived?
+  expected = { "lidar_derived_trj_20191114_20180630053224_20190213030000_v02.bsp",
+               "hyb2_20151123-20151213_0001m_final_ver1.oem.bsp",
+               "hyb2_20141203-20161119_0001h_final_ver1.oem.bsp",
+               "hyb2_20141203-20151231_0001h_final_ver1.oem.bsp",
+               "hyb2_20141203-20141214_0001m_final_ver1.oem.bsp",
+               "hyb2_hpk_20180627_20190213_v01.bsp",
+               "hyb2_approach_od_v20180811114238.bsp"
+             };
+  CompareKernelSets(getKernelsAsVector(res.at("onc").at("spk").at("reconstructed")), expected); 
+
+  expected = {"hyb2_onc_v00.ti",
+              "hyb2_onc_v05.ti"
+             };
+  CompareKernelSets(getKernelsAsVector(res.at("onc").at("ik")), expected); 
+
+  expected = {"hyb2oncAddendum0001.ti"};
+  CompareKernelSets(getKernelsAsVector(res.at("onc").at("iak")), expected); 
+
+
+
+}
+

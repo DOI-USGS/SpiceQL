@@ -2,48 +2,30 @@
     "hayabusa2" : { 
         "ck" : { 
             "reconstructed" : { 
-                "kernels" : ["hayabusa_itokawarendezvous_v02n.bc$"]    
+                "kernels" : ["hyb2_.*_[0-9]{4}_v[0-9]{2}.bc"]    
             }
-        },
-        "dsk" : { 
-            "kernels" : ["hay_a_amica_5_itokawashape_v1_0_512q.bds$", "hay_a_amica_5_itokawashape_v1_0_64q.bds$"]
         },
         "fk" : { 
-            "kernels" : ["itokawa_fixed.tf$", "hayabusa_hp.tf$"]
-        },
-        "pck" : {
-            "reconstructed" : { 
-                "kernels" : ["itokawa_gaskell_n[0-9]{1}.tpc$"]
-            }
+            "kernels" : ["hyb2_v[0-9]{2}.tf$", "hyb2_ryugu_v[0-9]{2}.tf$", "hyb2_hp_v[0-9]{2}.tf$"]
         },
         "sclk" : { 
-            "kernels" : ["hayabusa.tsc$"]
+            "kernels" : ["hyb2_20141203-[0-9]{4}1231_v01.tsc$"]
         },
         "tspk" : { 
-            "kernels" : ["sb_25143_140.bsp$", "de403s.bsp$"]
+            "kernels" : ["de430.bsp$", "[0-9]{7}_ryugu_[0-9]{8}-[0-9]{8}_[0-9]{4}_[0-9]{8}.bsp$", "jup329.bsp", "sat375.bsp", "[0-9]{7}_Ryugu.bsp$", "[0-9]{7}_ryugu_[0-9]{8}-[0-9]{8}_[0-9]{4}_[0-9]{8}.bsp"]
         }
     },
-    "amica" : {
-        "ik" : { 
-            "kernels" : ["amica[0-9]{2}.ti$"]
-        }, 
+    "onc" : {
+        "ik" : {
+            "kernels" : ["hyb2_onc_v[0-9]{2}.ti$"]
+        },
         "iak" : {
-            "kernels" : ["amicaAddendum[0-9]{3}.ti$"]
+            "kernels" : ["hyb2oncAddendum[0-9]{4}.ti$"]
         },
-        "spk" : { 
-            "kernels" : ["hay_jaxa_050916_051119_v1n.bsp$", "hay_osbj_050911_051118_v1n.bsp$"]
-        },
-        "deps" : ["/hayabusa2"]
-    },
-    "nirs" : {
-        "ik" : { 
-            "kernels" : ["nirs[0-9]{2}.ti$"]
-        },  
-        "iak" : {
-            "kernels" : ["nirsAddendum[0-9]{3}.ti$"]
-        },
-        "spk" : { 
-            "kernels" : ["hay_jaxa_050916_051119_v1n.bsp$", "hayabusa_[0-9]{8}_[0-9]{8}_v[0-9]{2}.bsp$"]
+        "spk" : {
+            "reconstructed" : { 
+                "kernels" : ["hyb2_[0-9]{8}-[0-9]{8}_[0-9]{4}[a-z]{1}_final_ver[0-9]{1}.oem.bsp$", "hyb2_hpk_[0-9]{8}_[0-9]{8}_v[0-9]{2}.bsp$", "hyb2_approach_od_v[0-9]{14}.bsp","lidar_derived_trj_[0-9]{8}_[0-9]{14}_[0-9]{14}_v[0-9]{2}.bsp$"]
+            }
         },
         "deps" : ["/hayabusa2"]
     }
