@@ -1,4 +1,4 @@
-name: CMake
+name: Build-And-Test
 
 on: [push, pull_request]
 

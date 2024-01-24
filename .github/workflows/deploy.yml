@@ -1,9 +1,11 @@
 name: Deploy
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Build-And-Test"]
+    branches: [main]
+    types: 
+      - completed
 
 env:
   ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_TOKEN }}

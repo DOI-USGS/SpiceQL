@@ -199,14 +199,3 @@ else()
   message(STATUS "Skipping Bindings")
 endif()
 
-##############
-# Docs Build #
-##############
-
-option (SPICEQL_BUILD_DOCS "Build the SpiceQL Docs" ON)
-
-if(SPICEQL_BUILD_DOCS)
-  add_subdirectory ("docs")
-else()
-  message(STATUS "Skipping Docs")
-endif()
