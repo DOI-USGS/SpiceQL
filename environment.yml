@@ -24,3 +24,4 @@ dependencies:
     - mkdocs-swagger-ui-tag
     - mkdoxy
     - check-jsonschema
+    - mkdocs-material
