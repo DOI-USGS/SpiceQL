@@ -20,9 +20,7 @@ dependencies:
   - cereal
   - spdlog
   - pip:
-    - breathe
-    - sphinx-material
-    - m2r2
-    - sphinxcontrib.gist
-    - check-jsonschema
+    - mkdocs 
+    - swagger-ui-tag
+    - mkdoxy
 
