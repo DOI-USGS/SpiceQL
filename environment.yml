@@ -21,6 +21,6 @@ dependencies:
   - spdlog
   - pip:
     - mkdocs 
-    - swagger-ui-tag
+    - mkdocs-swagger-ui-tag
     - mkdoxy
 
