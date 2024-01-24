@@ -2,9 +2,9 @@ name: Deploy
 
 on:
   workflow_run:
-    workflows: ["Build-And-Test"]
+    workflows: ["CMake"]
     branches: [main]
-    types: 
+    types:
       - completed
 
 env:
@@ -36,7 +36,6 @@ jobs:
           conda build --user usgs-astrogeology --label dev -c conda-forge -c tudat-team recipe/
 
   aws-docs-deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -48,7 +47,53 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
+      
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+      - uses: conda-incubator/setup-miniconda@3b0f2504dd76ef23b6d31f291f4913fb60ab5ff3
+        with:
+            miniconda-version: "latest"
+            activate-environment: spiceql
+            channels: conda-forge
+            environment-file: environment.yml
+            auto-activate-base: false
+            auto-update-conda: true
+            
+      - name: Conda info
+        run: |
+            conda info
+            conda list
   
+      - name: Create Build Environment
+        # Some projects don't allow in-source building, so create separate build and install
+        # directorie; we'll use them as our working directories for subsequent commands.
+        run: |
+            cmake -E make_directory ${{github.workspace}}/build
+            cmake -E make_directory ${{github.workspace}}/install
+  
+      - name: Configure CMake
+        working-directory: ${{github.workspace}}/build
+        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DSPICEQL_BUILD_LIB=OFF -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install
+  
+      - name: Build
+        working-directory: ${{github.workspace}}/build
+        # Execute the build.
+        run: |
+          cmake --build .
+  
+      - name: Check Build Docs
+        working-directory: ${{github.workspace}}/build/docs/sphinx
+        # Check for the built docs
+        run: |
+            test -e index.html
+            test -e reference/api.html
+            test -e reference/tutorials.html
+  
+      - name: Install Docs
+        working-directory: ${{github.workspace}}/build
+        # Install the build.
+        run: |
+          cmake --install .
+     
       - name: Upload to S3
         working-directory: ${{github.workspace}}/install
         run: |
