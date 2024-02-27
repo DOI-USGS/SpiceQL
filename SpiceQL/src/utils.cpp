@@ -962,17 +962,17 @@ namespace SpiceQL {
         vector<pair<double, double>> times;
         //find the correct coverage window
         if(currFile == "SPK") {
-          SPICEDOUBLE_CELL(cover, 1000);
+          SPICEDOUBLE_CELL(cover, 4000);
           ssize_c(0, &cover);
-          ssize_c(1000, &cover);
+          ssize_c(4000, &cover);
           spkcov_c(kpath.c_str(), body, &cover);
           times = formatIntervals(cover);
         }
         else if(currFile == "CK") {
           //  200,000 is the max coverage window size for a CK kernel
-          SPICEDOUBLE_CELL(cover, 1000);
+          SPICEDOUBLE_CELL(cover, 2000);
           ssize_c(0, &cover);
-          ssize_c(1000, &cover);
+          ssize_c(2000, &cover);
 
           // A SPICE SEGMENT is composed of SPICE INTERVALS
           ckcov_c(kpath.c_str(), body, SPICEFALSE, "SEGMENT", 0.0, "TDB", &cover);
