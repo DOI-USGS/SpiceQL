@@ -1,21 +1,21 @@
 {
-    "voyager1": {
+    "voyager2": {
         "ck": {
             "reconstructed": {
-                "kernels": ["vg1_sat_qmw_[n,w]a_fc-31100_t2.bc","vg1_jup_qmw_[n,w]a_fc-31100_t2.bc$"]
+                "kernels": ["vg2_[a-z]{3}_qmw_[n,w]a_fc-32100_t2.bc$", "vg2_[a-z]{3}_version1_type[0-9]_iss_sedr.bc$" ]
             },
             "smithed": {
-                "kernels": ["vg1_eur_usgs2020.bc$"]
+                "kernels": ["vg2_eur_usgs2020.bc$"]
             }
         },
         "fk": { 
-            "kernels": ["vg1_v[0-9]{2}.tf$"]
+            "kernels": ["vg2_v[0-9]{2}.tf$"]
         },
         "iak": {
             "kernels": ["voyagerAddendum[0-9]{3}.ti$"]
         },
        "ik": {
-            "kernels": ["vg1_issna_v[0-9]{2}.ti$"]
+            "kernels": ["vg2_iss[w,n]a_v[0-9]{2}.ti$"]
         },
         "lsk": {
             "kernels": ["naif0009.tls$"]
@@ -24,11 +24,11 @@
             "kernels": ["pck00010_msgr_v23_europa2020.tpc$"]
         },
         "sclk": {
-            "kernels": ["vg1[0-9]{5}.tsc$"]
+            "kernels": ["vg2[0-9]{5}.tsc$"]
         },
         "spk": {
             "reconstructed": {
-                "kernels": ["vg1_sat.bsp$", "vgr1_jup230.bsp$", "vgr1_sat336.bsp$"]
+                "kernels": ["vg[r]?2_jup[0-9]{0,3}.bsp$", "vg[r]?2_sat[0-9]{0,3}.bsp$", "vg[r]?2_ura[0-9]{0,3}.bsp$", "vg[r]?2_nep[0-9]{0,3}.bsp$"]
             }
         },
         "deps" : ["/base/pck"]
