@@ -685,8 +685,7 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsVoyager1) {
 
   fs::path dbPath = getMissionConfigFile("voyager1");
   
-  //@TODO deal with unused / old / incorrect kernels being picked up.  Conf correctly ignores old kernels, but causes mismatch
-  //compareKernelSets("voyager1");
+  compareKernelSets("voyager1");
 
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
@@ -717,4 +716,52 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsVoyager1) {
 
   expected = {"vg1_v02.tf"};
   CompareKernelSets(getKernelsAsVector(res.at("voyager1").at("fk")), expected);
+}
+
+TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsVoyager2) {
+
+  fs::path dbPath = getMissionConfigFile("voyager2");
+  
+  compareKernelSets("voyager2");
+
+  ifstream i(dbPath);
+  nlohmann::json conf = nlohmann::json::parse(i);
+
+  MockRepository mocks;
+  mocks.OnCallFunc(ls).Return(files);
+
+  nlohmann::json res = listMissionKernels("doesn't matter", conf);
+
+  set<string> kernels = getKernelsAsSet(res);
+  set<string> mission = missionMap.at("voyager2");
+  
+  vector<string> expected = { "vg2_jup_qmw_wa_fc-32100_t2.bc",
+                              "vg2_nep_version1_type1_iss_sedr.bc",
+                              "vg2_ura_version1_type2_iss_sedr.bc",
+                              "vg2_sat_qmw_na_fc-32100_t2.bc",
+                              "vg2_jup_version1_type1_iss_sedr.bc",
+                              "vg2_ura_version1_type1_iss_sedr.bc",
+                              "vg2_jup_version1_type2_iss_sedr.bc",
+                              "vg2_sat_version1_type1_iss_sedr.bc",
+                              "vg2_jup_qmw_na_fc-32100_t2.bc",
+                              "vg2_sat_version1_type2_iss_sedr.bc",
+                              "vg2_sat_qmw_wa_fc-32100_t2.bc",
+                              "vg2_nep_version1_type2_iss_sedr.bc"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager2").at("ck").at("reconstructed")), expected); 
+
+  expected = {"vg2_eur_usgs2020.bc"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager2").at("ck").at("smithed")), expected); 
+
+  expected = {"vg200010.tsc", "vg200011.tsc" "vg200008.tsc"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager2").at("sclk")), expected);
+
+  expected = {"vg1_issna_v02.ti", "vg1_isswa_v01.ti"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager2").at("ik")), expected); 
+
+  expected = {"vg2_sat.bsp", "vgr2_jup230.bsp", "vg2_sat.bsp", "vg2_nep.bsp", "vg2_ura.bsp" "vgr2_nep081.bsp", "vgr2_sat336.bsp"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager2").at("spk").at("reconstructed")), expected);  
+
+  expected = {"vg2_v02.tf"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager2").at("fk")), expected);
+
 }
