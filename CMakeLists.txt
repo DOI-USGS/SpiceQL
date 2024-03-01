@@ -102,7 +102,9 @@ if(SPICEQL_BUILD_LIB)
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/tgo.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/viking1.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/viking2.json
-                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/voyager1.json)
+                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/voyager1.json
+                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/voyager2.json
+                           )
 
   set(SPICEQL_KERNELS ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/kernels/naif0011.tls)
 
