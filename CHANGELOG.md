@@ -38,7 +38,7 @@ release.
 ### Added
 - Adds support for LO [#11](https://github.com/DOI-USGS/SpiceQL/issues/11)
 - Adds support for Smart1 [#16](https://github.com/DOI-USGS/SpiceQL/issues/16)
-- Adds support for Viking1 [#13](https://github.com/DOI-USGS/SpiceQL/issues/13)
+- Adds support for Voyager [#13](https://github.com/DOI-USGS/SpiceQL/issues/13)
 
 ### Fixed
 
