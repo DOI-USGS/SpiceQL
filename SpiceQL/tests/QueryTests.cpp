@@ -686,11 +686,11 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsVoyager1) {
   fs::path dbPath = getMissionConfigFile("voyager1");
   
   compareKernelSets("voyager1");
->>>>>>> 756e24a (Added MSL config, tests, and data)
 
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
 
+  MockRepository mocks;
   mocks.OnCallFunc(ls).Return(files);
 
   nlohmann::json res = listMissionKernels("doesn't matter", conf);
@@ -770,7 +770,7 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMsl) {
 
   fs::path dbPath = getMissionConfigFile("msl");
   
-  //compareKernelSets("msl");
+  compareKernelSets("msl");
 
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);

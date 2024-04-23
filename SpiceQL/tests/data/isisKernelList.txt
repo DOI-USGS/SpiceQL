@@ -14293,7 +14293,6 @@
 /usgs/cpkgs/isis3/isis_data/msl/kernels/ik/msl_struct_v01.ti
 /usgs/cpkgs/isis3/isis_data/msl/kernels/lsk/msl.tls
 /usgs/cpkgs/isis3/isis_data/msl/kernels/lsk/msl.tls.history
-/usgs/cpkgs/isis3/isis_data/msl/kernels/mk/msl_v01.tm
 /usgs/cpkgs/isis3/isis_data/msl/kernels/sclk/MSL_76_SCLKSCET.00002.tsc
 /usgs/cpkgs/isis3/isis_data/msl/kernels/sclk/MSL_76_SCLKSCET.00007.tsc
 /usgs/cpkgs/isis3/isis_data/msl/kernels/sclk/MSL_76_SCLKSCET.00009.tsc
@@ -14328,9 +14327,7 @@
 /usgs/cpkgs/isis3/isis_data/msl/kernels/spk/msl_spk_cruise_od057_v1-tcm2_eph-edl-landed.bsp
 /usgs/cpkgs/isis3/isis_data/msl/kernels/spk/msl_still_at_ls_v1.bsp
 /usgs/cpkgs/isis3/isis_data/msl/kernels/spk/msl_struct_v01.bsp
-/usgs/cpkgs/isis3/isis_data/msl/kernels/spk/msl_struct_v01.cmt
 /usgs/cpkgs/isis3/isis_data/msl/kernels/spk/msl_struct_v02.bsp
-/usgs/cpkgs/isis3/isis_data/msl/kernels/spk/msl_struct_v02.cmt
 /usgs/cpkgs/isis3/isis_data/msl/kernels/spk/msl_surf_rover_loc.bsp
 /usgs/cpkgs/isis3/isis_data/msl/kernels/spk/msl_surf_rover_loc_0000_2003_v1.bsp
 /usgs/cpkgs/isis3/isis_data/msl/kernels/spk/msl_surf_rover_loc_2003_2127_v1.bsp
