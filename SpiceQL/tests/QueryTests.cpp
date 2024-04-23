@@ -686,11 +686,11 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsVoyager1) {
   fs::path dbPath = getMissionConfigFile("voyager1");
   
   compareKernelSets("voyager1");
+>>>>>>> 756e24a (Added MSL config, tests, and data)
 
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
 
-  MockRepository mocks;
   mocks.OnCallFunc(ls).Return(files);
 
   nlohmann::json res = listMissionKernels("doesn't matter", conf);
@@ -764,4 +764,77 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsVoyager2) {
   expected = {"vg2_v02.tf"};
   CompareKernelSets(getKernelsAsVector(res.at("voyager2").at("fk")), expected);
 
+}
+
+TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMsl) {
+
+  fs::path dbPath = getMissionConfigFile("msl");
+  
+  //compareKernelSets("msl");
+
+  ifstream i(dbPath);
+  nlohmann::json conf = nlohmann::json::parse(i);
+
+  MockRepository mocks;
+  mocks.OnCallFunc(ls).Return(files);
+
+  nlohmann::json res = listMissionKernels("doesn't matter", conf);
+
+  set<string> kernels = getKernelsAsSet(res);
+  set<string> mission = missionMap.at("msl");
+  
+  vector<string> expected = {"msl_ra_toolsref_v1.bc",
+                             "msl_cruise_recon_rawrt_v2.bc",
+                             "msl_cruise_recon_raweng_v1.bc",
+                             "msl_edl_v01.bc",
+                             "msl_surf_hga_tlm.bc",
+                             "msl_surf_ra_tlmenc.bc",
+                             "msl_surf_ra_tlmres.bc",
+                             "msl_surf_rsm_tlmenc.bc",
+                             "msl_surf_rsm_tlmres.bc",
+                             "msl_surf_rover_tlm.bc"};
+
+  CompareKernelSets(getKernelsAsVector(res.at("msl").at("ck").at("reconstructed")), expected); 
+
+
+  expected = {"msl.tf"};
+  CompareKernelSets(getKernelsAsVector(res.at("msl").at("fk")), expected);
+
+  expected = {"msl_aux_v00.ti",
+              "msl_chrmi_20120731_c03.ti",
+              "msl_hbla_20120731_c03.ti",
+              "msl_hblb_20120731_c03.ti",
+              "msl_hbra_20120731_c03.ti",
+              "msl_hbrb_20120731_c03.ti",
+              "msl_hfla_20120731_c03.ti",
+              "msl_hflb_20120731_c03.ti",
+              "msl_hfra_20120731_c03.ti",
+              "msl_hfrb_20120731_c03.ti",
+              "msl_mahli_20120731_c02.ti",
+              "msl_mardi_20120731_c02.ti",
+              "msl_ml_20120731_c03.ti",
+              "msl_mr_20120731_c03.ti",
+              "msl_nla_20120731_c04.ti",
+              "msl_nlb_20120731_c04.ti",
+              "msl_nlb_20130530_c05.ti",
+              "msl_nra_20120731_c04.ti",
+              "msl_nrb_20120731_c04.ti",
+              "msl_nrb_20130530_c05.ti",
+              "msl_struct_v01.ti"};
+
+  CompareKernelSets(getKernelsAsVector(res.at("msl").at("ik")), expected);
+  
+  expected = {"msl.tsl"};
+  CompareKernelSets(getKernelsAsVector(res.at("msl").at("lsk")), expected);
+
+  expected = {"msl.tsc",
+              "msl_lmst_ops120808_v1.tsc"};
+  CompareKernelSets(getKernelsAsVector(res.at("msl").at("sclk")), expected);
+
+  expected = {"msl_struct_v02.bsp",
+              "msl_cruise_v1.bsp",
+              "msl_edl_v01.bsp",
+              "msl_ls_ops120808_iau2000_v1.bsp",
+              "msl_surf_rover_loc.bsp"};
+  CompareKernelSets(getKernelsAsVector(res.at("msl").at("spk")), expected);
 }
