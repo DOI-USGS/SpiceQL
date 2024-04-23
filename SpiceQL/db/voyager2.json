@@ -2,7 +2,7 @@
     "voyager2": {
         "ck": {
             "reconstructed": {
-                "kernels": ["vg2_[a-z]{3}_qmw_[n,w]a_fc-32100_t2.bc$", "vg2_[a-z]{3}_version1_type[0-9]_iss_sedr.bc$" ]
+                "kernels": ["vg2_[a-z]{3}_qmw_[n,w]a_fc-32100_t2.bc$", "vg2_[a-z]{3}_qmw_[n,w]a_fc-32100.bc$", "vg2_[a-z]{3}_version1_type[0-9]_iss_sedr.bc$" ]
             },
             "smithed": {
                 "kernels": ["vg2_eur_usgs2020.bc$"]

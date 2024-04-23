@@ -15,7 +15,7 @@
             "kernels": ["voyagerAddendum[0-9]{3}.ti$"]
         },
        "ik": {
-            "kernels": ["vg1_issna_v[0-9]{2}.ti$"]
+            "kernels": ["vg1_iss[w,n]a_v[0-9]{2}.ti$"]
         },
         "lsk": {
             "kernels": ["naif0009.tls$"]
@@ -28,7 +28,7 @@
         },
         "spk": {
             "reconstructed": {
-                "kernels": ["vg1_sat.bsp$", "vgr1_jup230.bsp$", "vgr1_sat336.bsp$"]
+                "kernels": ["vg1_sat.bsp$", "vg1_jup.bsp$", "vg1_[a-z]{3}_version[0-9]{1}_type[0-9]{1}_iss_sedr.bc$","vgr1_jup230.bsp$", "vgr1_sat336.bsp$"]
             }
         },
         "deps" : ["/base/pck"]
