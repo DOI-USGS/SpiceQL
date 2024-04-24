@@ -261,6 +261,11 @@ TEST_F(IsisDataDirectory, FunctionalTestLroConf) {
       FAIL() << e << " was not found in the kernel results";
     }
   }
+
+  kernelToCheck = getKernelsAsVector(res.at("minirf").at("iak"));
+  expected = {"mrflroAddendum002.ti"};
+  EXPECT_EQ(kernelToCheck, expected);
+
 }
 
 

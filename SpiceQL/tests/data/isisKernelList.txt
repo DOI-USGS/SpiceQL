@@ -12222,6 +12222,7 @@
 /usgs/cpkgs/isis3/isis_data/lro/kernels/iak/lro_instrumentAddendum_v01.ti
 /usgs/cpkgs/isis3/isis_data/lro/kernels/iak/lro_instrumentAddendum_v03.ti
 /usgs/cpkgs/isis3/isis_data/lro/kernels/iak/lro_instrumentAddendum_v04.ti
+/usgs/cpkgs/isis3/isis_data/lro/kernels/iak/mrflroAddendum002.ti
 /usgs/cpkgs/isis3/isis_data/lro/kernels/spk/fdf29r_2018305_2018335_v01.bsp
 /usgs/cpkgs/isis3/isis_data/lro/kernels/spk/fdf29r_2014091_2014121_v01.bsp
 /usgs/cpkgs/isis3/isis_data/lro/kernels/spk/fdf29r_2018121_2018152_v01.bsp
