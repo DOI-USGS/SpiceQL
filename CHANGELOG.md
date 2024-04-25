@@ -42,6 +42,7 @@ release.
 - Adds support for Voyager [#13](https://github.com/DOI-USGS/SpiceQL/issues/13)
 - Adds support for LROC MiniRF [#10](https://github.com/DOI-USGS/SpiceQL/issues/10)
 - Adds support for MSL [#15](https://github.com/DOI-USGS/SpiceQL/issues/15)
+- Adds support for MER [#14](https://github.com/DOI-USGS/SpiceQL/issues/14)
 
 ### Fixed
 
