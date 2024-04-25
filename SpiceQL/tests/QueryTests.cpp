@@ -842,4 +842,84 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMsl) {
               "msl_ls_ops120808_iau2000_v1.bsp",
               "msl_surf_rover_loc.bsp"};
   CompareKernelSets(getKernelsAsVector(res.at("msl").at("spk")), expected);
+
+
+TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMer1) {
+
+  fs::path dbPath = getMissionConfigFile("mer1");
+  
+  compareKernelSets("mer1");
+
+  ifstream i(dbPath);
+  nlohmann::json conf = nlohmann::json::parse(i);
+
+  MockRepository mocks;
+  mocks.OnCallFunc(ls).Return(files);
+
+  nlohmann::json res = listMissionKernels("doesn't matter", conf);
+
+  set<string> kernels = getKernelsAsSet(res);
+  set<string> mission = missionMap.at("mer1");
+
+  vector<string> expected = {"mer1_surf_hga_ext10_v1.bc", "mer1_cruise.bc", "mer1_hga_stowed.bc", "mer1_surf_rover_prim_v1.bc"};
+  CompareKernelSets(getKernelsAsVector(res.at("mer1").at("ck").at("reconstructed")), expected); 
+
+  expected = {"mar033_2000-2025.bsp", "mer1_cruise.bsp",
+              "de410_de910.bsp","mer1_surf_iddg_ext11_v1.bsp",
+              "mer1_struct_ver11.bsp", "mer1_edl_rcb_v1.bsp",
+              "mer1_surf_iddg.bsp","mer1_surf_roverrl_0001_3240_v1.bsp"};
+  CompareKernelSets(getKernelsAsVector(res.at("mer1").at("spk").at("reconstructed")), expected);  
+
+  expected = {"mer1_tp_tm20b3_iau2000_v1.tf", "mer1.tf"};
+  CompareKernelSets(getKernelsAsVector(res.at("mer1").at("fk")), expected);
+  
+  expected = {"mer1_nl_20040125_c196.ti"};
+  CompareKernelSets(getKernelsAsVector(res.at("mer1").at("ik")), expected); 
+
+  expected = {"MER_253_SCLKSCET.00001.tsc"};
+  CompareKernelSets(getKernelsAsVector(res.at("mer1").at("sclk")), expected);
+
+  expected = {"mars_iau2000_v0.tpc"};
+  CompareKernelSets(getKernelsAsVector(res.at("mer1").at("pck")), expected);
+
+}
+
+TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMer2) {
+
+  fs::path dbPath = getMissionConfigFile("mer2");
+  
+  compareKernelSets("mer2");
+
+  ifstream i(dbPath);
+  nlohmann::json conf = nlohmann::json::parse(i);
+
+  MockRepository mocks;
+  mocks.OnCallFunc(ls).Return(files);
+
+  nlohmann::json res = listMissionKernels("doesn't matter", conf);
+
+  set<string> kernels = getKernelsAsSet(res);
+  set<string> mission = missionMap.at("mer2");
+  
+  vector<string> expected = {};
+  CompareKernelSets(getKernelsAsVector(res.at("mer2").at("ck").at("reconstructed")), expected); 
+
+  expected = {"spk_b_s_071029-160101_110624.bsp","mer2_surf_roverrl_ro_v01.bsp",
+              "mer2_ls_040108_iau2000_v1.bsp", "de410_de910.bsp",
+              "mer2_still_at_ls_v1.bsp", "mer2_struct_ver11.bsp",
+              "mar033_2000-2025.bsp", "mer2_edl_rcb_v1.bsp",
+              "mer2_surf_rover_all_v01.bsp"};
+  CompareKernelSets(getKernelsAsVector(res.at("mer2").at("spk").at("reconstructed")), expected);  
+
+  expected = {"mer2.tf","mer2_tp_ep78a3p_iau2000_v1.tf"};
+  CompareKernelSets(getKernelsAsVector(res.at("mer2").at("fk")), expected);
+  
+  expected = {"mer2_rl_20031204_c60.ti"};
+  CompareKernelSets(getKernelsAsVector(res.at("mer2").at("ik")), expected); 
+
+  expected = {"MER_254_SCLKSCET.00032.tsc", "mer2.tsc"};
+  CompareKernelSets(getKernelsAsVector(res.at("mer2").at("sclk")), expected);
+
+  expected = {"mars_iau2000_v0.tpc"};
+  CompareKernelSets(getKernelsAsVector(res.at("mer2").at("pck")), expected);
 }
