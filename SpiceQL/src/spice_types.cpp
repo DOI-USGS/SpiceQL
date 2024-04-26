@@ -457,8 +457,12 @@ namespace SpiceQL {
 
 
   KernelSet::KernelSet(json kernels) {
+    load(kernels);
+  }
+
+  void KernelSet::load(json kernels) { 
     SPDLOG_TRACE("Creating Kernelset: {}", kernels.dump());
-    this->kernels = kernels;
+    this->m_kernels.merge_patch(kernels);
 
     vector<string> kv = getKernelsAsVector(kernels);
   
@@ -470,5 +474,6 @@ namespace SpiceQL {
     }
     loadedKernels.insert(loadedKernels.end(), res.begin(), res.end());
   }
+
 } 
  

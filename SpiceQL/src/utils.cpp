@@ -8,6 +8,7 @@
 #include <fstream>
 #include <regex>
 #include <chrono>
+#include <float.h>
 
 #include <SpiceUsr.h>
 #include <SpiceZfc.h>
@@ -109,7 +110,6 @@ namespace SpiceQL {
 
 
   vector<vector<string>> getPathsFromRegex(string root, vector<string> regexes) {
-    cout << "root: " << root << endl;
     vector<string> files_to_search = Memo::ls(root, true);
       
     vector<vector<string>> kernels; 
@@ -123,7 +123,7 @@ namespace SpiceQL {
       
       for (auto &f : files_to_search) {
         temp = fs::path(f).filename();
-        if (regex_search(temp.c_str(), basic_regex(regex, regex_constants::optimize|regex_constants::ECMAScript))) {
+        if (regex_search(temp.c_str(), basic_regex(regex, regex_constants::optimize|regex_constants::ECMAScript)) && temp.at(0) != '.' ) {
           paths.push_back(f);
         }
       }
@@ -881,9 +881,8 @@ namespace SpiceQL {
   vector<string> glob(string const & root, string const & reg, bool recursive) {
     vector<string> paths;
     vector<string> files_to_search = Memo::ls(root, recursive);
-    
     for (auto &f : files_to_search) {
-      if (regex_search(f.c_str(), basic_regex(reg, regex_constants::optimize|regex_constants::ECMAScript))) {
+      if (regex_search(f.c_str(), basic_regex(reg, regex_constants::optimize|regex_constants::ECMAScript)) && string(fs::path(f).filename()).at(0) != '.') {
         paths.emplace_back(f);
       }
     }
@@ -928,14 +927,14 @@ namespace SpiceQL {
     string currFile = fileType;
 
     //create a spice cell capable of containing all the objects in the kernel.
-    SPICEINT_CELL(currCell, 100);
+    SPICEINT_CELL(currCell, 200000);
 
     //this resizing is done because otherwise a spice cell will append new data
     //to the last "currCell"
     ssize_c(0, &currCell);
     ssize_c(100, &currCell);
 
-    SPICEDOUBLE_CELL(cover, 100);
+    SPICEDOUBLE_CELL(cover, 200000);
 
     if (currFile == "SPK") {
       spkobj_c(kpath.c_str(), &currCell);
@@ -962,17 +961,17 @@ namespace SpiceQL {
         vector<pair<double, double>> times;
         //find the correct coverage window
         if(currFile == "SPK") {
-          SPICEDOUBLE_CELL(cover, 1000);
+          SPICEDOUBLE_CELL(cover, 200000);
           ssize_c(0, &cover);
-          ssize_c(1000, &cover);
+          ssize_c(200000, &cover);
           spkcov_c(kpath.c_str(), body, &cover);
           times = formatIntervals(cover);
         }
         else if(currFile == "CK") {
           //  200,000 is the max coverage window size for a CK kernel
-          SPICEDOUBLE_CELL(cover, 1000);
+          SPICEDOUBLE_CELL(cover, 200000);
           ssize_c(0, &cover);
-          ssize_c(1000, &cover);
+          ssize_c(200000, &cover);
 
           // A SPICE SEGMENT is composed of SPICE INTERVALS
           ckcov_c(kpath.c_str(), body, SPICEFALSE, "SEGMENT", 0.0, "TDB", &cover);
@@ -987,6 +986,104 @@ namespace SpiceQL {
       }
     }
     return result;
+  }
+
+
+  pair<double, double> getKernelStartStopTimes(string kpath) {
+    double start_time = 0;
+    double stop_time = 0;
+    
+    auto getStartStopFromInterval = [&](SpiceCell &coverage) {
+
+      //Get the number of intervals in the object.
+      checkNaifErrors();
+      int niv = card_c(&coverage) / 2;
+      //Convert the coverage interval start and stop times to TDB
+      SpiceDouble begin, end;
+
+      for(int j = 0;  j < niv;  j++) {
+        //Get the endpoints of the jth interval.
+        wnfetd_c(&coverage, j, &begin, &end);
+        checkNaifErrors();
+
+        if (start_time == 0 && stop_time == 0) { 
+          start_time = begin; 
+          stop_time = end;
+        }        
+
+        start_time = min(start_time, begin);
+        stop_time = max(stop_time, end);
+      }
+      checkNaifErrors();
+    };
+
+    SpiceChar fileType[32], source[2048];
+    SpiceInt handle;
+    SpiceBoolean found;
+
+    Kernel k(kpath);
+
+    checkNaifErrors();
+    kinfo_c(kpath.c_str(), 32, 2048, fileType, source, &handle, &found);
+    checkNaifErrors();
+
+    string currFile = fileType;
+
+    //create a spice cell capable of containing all the objects in the kernel.
+    SPICEINT_CELL(currCell, 200000);
+
+    //this resizing is done because otherwise a spice cell will append new data
+    //to the last "currCell"
+    ssize_c(0, &currCell);
+    ssize_c(200000, &currCell);
+
+    SPICEDOUBLE_CELL(cover, 200000);
+
+    if (currFile == "SPK") {
+      spkobj_c(kpath.c_str(), &currCell);
+    }
+    else if (currFile == "CK") {
+      ckobj_c(kpath.c_str(), &currCell);
+    }
+    else if (currFile == "TEXT") {
+      throw invalid_argument("Input Kernel is a text kernel which has no intervals");
+    }
+    checkNaifErrors();
+
+    vector<pair<double, double>> result;
+
+    for(int bodyCount = 0 ; bodyCount < card_c(&currCell) ; bodyCount++) {
+      //get the NAIF body code
+      int body = SPICE_CELL_ELEM_I(&currCell, bodyCount);
+
+      //only provide coverage for negative NAIF codes
+      //(Positive codes indicate planetary bodies, negatives indicate
+      // spacecraft and instruments)
+      checkNaifErrors();
+      if (body < 0) {
+        //find the correct coverage window
+        if(currFile == "SPK") {
+          SPICEDOUBLE_CELL(cover, 200000);
+          ssize_c(0, &cover);
+          ssize_c(200000, &cover);
+          spkcov_c(kpath.c_str(), body, &cover);
+          getStartStopFromInterval(cover);
+        }
+        else if(currFile == "CK") {
+          //  200,000 is the max coverage window size for a CK kernel
+          SPICEDOUBLE_CELL(cover, 200000);
+          ssize_c(0, &cover);
+          ssize_c(200000, &cover);
+
+          // A SPICE SEGMENT is composed of SPICE INTERVALS
+          ckcov_c(kpath.c_str(), body, SPICEFALSE, "SEGMENT", 0.0, "TDB", &cover);
+
+          getStartStopFromInterval(cover);
+        }
+        checkNaifErrors();
+      }
+    }
+    return pair<double, double>(start_time, stop_time);
   }
 
 
@@ -1027,6 +1124,43 @@ namespace SpiceQL {
     return new_json.dump();
   }
 
+
+  string globKernelStartStopTimes(string mission) { 
+    SPDLOG_TRACE("In globTimeIntervals.");
+    Config conf;
+    conf = conf[mission];
+    json new_json = {};
+    json sclk_json = getLatestKernels(conf.get("sclk"));
+    KernelSet sclks(sclk_json);
+
+    // Get CK Times
+    json ckJson = conf.getRecursive("ck");
+
+    vector<json::json_pointer> ckKernelGrps = findKeyInJson(ckJson, "kernels");
+    for(auto &ckKernelGrp : ckKernelGrps) { 
+      vector<vector<string>> kernelList = json2DArrayTo2DVector(ckJson[ckKernelGrp]);
+      for(auto &subList : kernelList) { 
+        for (auto & kernel : subList) {
+          pair<double, double> sstimes = getKernelStartStopTimes(kernel);
+          new_json[kernel] = sstimes;
+        }
+      }
+    }
+    
+    // get SPK times
+    json spkJson = conf.getRecursive("spk");
+    vector<json::json_pointer> spkKernelGrps = findKeyInJson(spkJson, "kernels");
+    for(auto &spkKernelGrp : spkKernelGrps) { 
+      vector<vector<string>> kernelList = json2DArrayTo2DVector(spkJson[spkKernelGrp]);
+      for(auto &subList : kernelList) { 
+        for (auto & kernel : subList) {
+          pair<double, double> sstimes = getKernelStartStopTimes(kernel);
+          new_json[kernel] = sstimes;
+        }
+      }
+    }
+    return new_json.dump();
+  }
 
 
   string getDataDirectory() {

@@ -15,7 +15,8 @@
             "kernels": ["naif[0-9]{4}.tls$"]
         },
         "pck": {
-            "kernels": ["PCK[0-9]{5}.TPC$"]
+            "kernels": ["PCK[0-9]{5}.TPC$"],
+            "deps" : ["/base/pck"]
         },
         "sclk": {
             "kernels": ["SMART1_[0-9]{6}_STEP.TSC$"]
@@ -27,7 +28,6 @@
             "predicted": {
                 "kernels": ["ORMS_______________[0-9]{5}.BSP$"]
             }
-        },
-        "deps" : ["/base/pck"]
+        }
     }
 }

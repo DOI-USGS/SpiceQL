@@ -4,7 +4,7 @@
 #include <spdlog/spdlog.h>
 
 int main(int argc, char **argv) {
-   spdlog::set_level(spdlog::level::debug);
+   spdlog::set_level(spdlog::level::trace);
    spdlog::set_pattern("SpiceQL-TESTS [%H:%M:%S %z] [%l] [%s@%# %!] %v"); 
    
    testing::Environment* const spiceql_env = testing::AddGlobalTestEnvironment(new TempTestingFiles);

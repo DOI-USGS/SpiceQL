@@ -43,6 +43,8 @@ target_link_libraries(runSpiceQLTests
                       )
 
 
-target_include_directories(runSpiceQLTests PRIVATE ${CMAKE_SOURCE_DIR}/submodules/redis-plus-plus/src/ ${CMAKE_SOURCE_DIR}/submodules/hippomocks/ )
+target_include_directories(runSpiceQLTests PRIVATE ${CMAKE_SOURCE_DIR}/submodules/redis-plus-plus/src/ 
+                                                   ${CMAKE_SOURCE_DIR}/submodules/hippomocks/ 
+                                                   ${CMAKE_SOURCE_DIR}/submodules/BTree/include/)
 
 gtest_discover_tests(runSpiceQLTests WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/SpiceQL/tests/)

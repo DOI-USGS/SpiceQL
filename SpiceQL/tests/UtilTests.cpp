@@ -14,6 +14,7 @@ using namespace std::chrono;
 #include <SpiceUsr.h>
 #include "memo.h"
 #include "query.h"
+#include "database.h"
 
 #include <spdlog/spdlog.h>
 
@@ -463,4 +464,11 @@ TEST_F(LroKernelSet, UnitTestGetTargetOrientation) {
   EXPECT_NEAR(resStates[4], 0.0, 1e-14);
   EXPECT_NEAR(resStates[5], 0.0, 1e-14);
   EXPECT_NEAR(resStates[6], 0.0, 1e-14);
+}
+
+TEST(Inventory, TestInventory) { 
+  Database db(false);
+  db.write_database();
+  nlohmann::json kernels = db.search_kernels("lroc", {Kernel::Type::FK, Kernel::Type::SCLK, Kernel::Type::SPK, Kernel::Type::CK, Kernel::Type::PCK}, Kernel::Quality::RECONSTRUCTED, 723470470.1831709, 723470590.1831709);
+  cout << kernels << endl;
 }

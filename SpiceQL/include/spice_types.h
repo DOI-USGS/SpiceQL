@@ -284,13 +284,16 @@ namespace SpiceQL {
      * @param kernels 
      */
     KernelSet(nlohmann::json kernels);
+    KernelSet() = default;
     ~KernelSet() = default;
+
+    void load(nlohmann::json kernels);
 
     //! map of path to kernel pointers
     std::vector<SharedKernel> loadedKernels;
     
     //! json used to populate the loadedKernels
-    nlohmann::json kernels; 
+    nlohmann::json m_kernels; 
   };
 
 

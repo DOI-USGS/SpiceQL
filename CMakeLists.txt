@@ -55,7 +55,7 @@ if(SPICEQL_BUILD_LIB)
   add_subdirectory("submodules/redis-plus-plus")
   add_subdirectory("submodules/gularkfilesystem")
   add_subdirectory("submodules/json")
-
+  
   find_package(CSpice REQUIRED)
   find_package(fmt REQUIRED)
   find_package(cereal REQUIRED)
@@ -69,7 +69,10 @@ if(SPICEQL_BUILD_LIB)
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/query.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/spice_types.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/memoized_functions.cpp
-                          ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/config.cpp)
+                          ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/config.cpp
+                          ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/inventory.cpp
+                          ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/database.cpp)
+
 
   set(SPICEQL_HEADER_FILES ${SPICEQL_BUILD_INCLUDE_DIR}/spiceql.h
                            ${SPICEQL_BUILD_INCLUDE_DIR}/utils.h
@@ -77,7 +80,9 @@ if(SPICEQL_BUILD_LIB)
                            ${SPICEQL_BUILD_INCLUDE_DIR}/io.h
                            ${SPICEQL_BUILD_INCLUDE_DIR}/spice_types.h
                            ${SPICEQL_BUILD_INCLUDE_DIR}/query.h
-                           ${SPICEQL_BUILD_INCLUDE_DIR}/config.h)
+                           ${SPICEQL_BUILD_INCLUDE_DIR}/config.h
+                           ${SPICEQL_BUILD_INCLUDE_DIR}/inventory.h
+                           ${SPICEQL_BUILD_INCLUDE_DIR}/database.h)
 
   set(SPICEQL_PRIVATE_HEADER_FILES ${SPICEQL_BUILD_INCLUDE_DIR}/memo.h)
 
@@ -119,6 +124,7 @@ if(SPICEQL_BUILD_LIB)
                             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include>
                             $<INSTALL_INTERFACE:include>
                             PRIVATE
+                            ${CMAKE_CURRENT_SOURCE_DIR}/submodules/BTree/include/
                             ${CMAKE_CURRENT_SOURCE_DIR}/submodules/redis-plus-plus/src/
                             cereal
                             )

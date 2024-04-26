@@ -120,6 +120,7 @@ namespace SpiceQL {
       return {};
       // throw invalid_argument(fmt::format("Pointer {} not in config/subset config", pointer.to_string()));
     }
+    
     eval_json = eval_json[pointer];
 
     vector<json::json_pointer> json_to_eval = SpiceQL::findKeyInJson(eval_json, "kernels", true);

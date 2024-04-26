@@ -130,6 +130,10 @@ namespace SpiceQL {
   std::vector<std::pair<double, double>> getTimeIntervals(std::string kpath);
 
 
+  std::pair<double, double> getKernelStartStopTimes(std::string kpath);
+
+  std::string globKernelStartStopTimes(std::string mission);
+
   /**
    * @brief Get start and stop times for all kernels
    * 
