@@ -1,14 +1,14 @@
 {
     "hayabusa": {
         "tspk": {
-            "kernels": ["^de403s.bsp$", "^sb_25143_140.bsp$"]
+            "kernels": ["de403s.bsp", "sb_25143_140.bsp"]
         },
         "lsk": {
-            "kernels": ["^naif[0-9]{4}.tls$"]
+            "kernels": ["naif[0-9]{4}.tls"]
         },
         "pck": {
             "reconstructed" : {
-                "kernels": ["^itokawa_gaskell_n[0-9]{1}.tpc$"]
+                "kernels": ["itokawa_gaskell_n[0-9]{1}.tpc"]
             },
           "deps" : ["/base/pck"]
         },
@@ -18,34 +18,34 @@
             }
         },
         "fk": {
-            "kernels": ["^hayabusa_hp.tf$", "^itokawa_fixed.tf$"]
+            "kernels": ["hayabusa_hp.tf", "itokawa_fixed.tf"]
         },
         "sclk": {
-            "kernels": ["^hayabusa.tsc$"]
+            "kernels": ["hayabusa.tsc"]
         },
         "dsk" : {
-            "kernels" : ["^hay_a_amica_5_itokawashape_v1_0_512q.bds$", "^hhay_a_amica_5_itokawashape_v1_0_64q.bds$"]
+            "kernels" : ["hay_a_amica_5_itokawashape_v1_0_512q.bds", "hhay_a_amica_5_itokawashape_v1_0_64q.bds"]
         }
     },
     "amica": {
         "spk" : {
             "reconstructed": { 
-                "kernels" : ["^hay_osbj_[0-9]{6}_[0-9]{6}_v1n.bsp$", "^hay_jaxa_[0-9]{6}_[0-9]{6}_v1n.bsp$"]
+                "kernels" : ["hay_osbj_[0-9]{6}_[0-9]{6}_v1n.bsp", "hay_jaxa_[0-9]{6}_[0-9]{6}_v1n.bsp"]
             }
         },
         "ik": {
-            "kernels": ["^amica31.ti$"]
+            "kernels": ["amica31.ti"]
         },
         "deps" : ["hayabusa"]
     },
     "nirs": {
         "spk" : {
             "reconstructed": { 
-                "kernels" : ["^hayabusa_[0-9]{8}_[0-9]{8}_v{2}.bsp$", "^hay_osbj_[0-9]{6}_[0-9]{6}_v1n.bsp$", "^hay_jaxa_[0-9]{6}_[0-9]{6}_v1n.bsp$"]
+                "kernels" : ["hayabusa_[0-9]{8}_[0-9]{8}_v{2}.bsp", "hay_osbj_[0-9]{6}_[0-9]{6}_v1n.bsp", "hay_jaxa_[0-9]{6}_[0-9]{6}_v1n.bsp"]
             }
         },
         "ik": {
-            "kernels": ["^nirs10.ti$"]
+            "kernels": ["nirs10.ti"]
         },
         "deps" : ["hayabusa"]
     }

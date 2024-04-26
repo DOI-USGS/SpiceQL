@@ -2,18 +2,18 @@
     "apollo15": {
         "spk" : { 
             "reconstructed" : { 
-                "kernels" : ["^AS15_M_REV[0-9].bsp$","^AS15_M_REV[0-9][0-9].bsp$","^AS15_M_REV[0-9][0-9]_v2.bsp$"]
+                "kernels" : ["AS15_M_REV[0-9].bsp$","AS15_M_REV[0-9][0-9].bsp$","AS15_M_REV[0-9][0-9]_v2.bsp$"]
             },
             "smithed" : { 
-                "kernels" : ["^AS15_M_REV[0-9][0-9]_SMITHED_V01.bsp$","^AS15_M_REV[0-9][0-9]_SMITHED_V02.bsp$"]
+                "kernels" : ["AS15_M_REV[0-9][0-9]_SMITHED_V01.bsp$","AS15_M_REV[0-9][0-9]_SMITHED_V02.bsp$"]
             }
         },
         "ck" : { 
             "reconstructed" : { 
-                "kernels" : ["^AS15_M_REV[0-9].bc$","AS15_M_REV[0-9][0-9].bc$", "^AS15_M_REV[0-9][0-9]_v2.bc$"]
+                "kernels" : ["AS15_M_REV[0-9].bc$","AS15_M_REV[0-9][0-9].bc$", "AS15_M_REV[0-9][0-9]_v2.bc$"]
             },
             "smithed" : { 
-                "kernels" : ["^AS15_M_REV[0-9][0-9]_SMITHED_V01.bc$", "^AS15_M_REV[0-9][0-9]_SMITHED_V02.bc$"]
+                "kernels" : ["AS15_M_REV[0-9][0-9]_SMITHED_V01.bc$", "AS15_M_REV[0-9][0-9]_SMITHED_V02.bc$"]
             }
         },
         "tspk": {
