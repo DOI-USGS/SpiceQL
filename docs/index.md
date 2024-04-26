@@ -4,7 +4,7 @@ This Library provides a C++ interface querying, reading and writing Naif SPICE k
 
 ## Building The Library
 
-The library leverages anaconda to maintain all of it's dependencies. So in order to build SpiceQL, you'll need to have Anaconda installed.
+The library leverages anaconda to maintain all of its dependencies. So in order to build SpiceQL, you'll need to have Anaconda installed.
 
 > **NOTE**:If you already have Anaconda installed, skip to step 3.
 
@@ -73,7 +73,7 @@ The SpiceQL API is available via Python bindings in the module `pyspiceql`. The 
 
 ## Memoization Header Library 
 
-SpiceQL has a simple memoization header only library at `Spiceql/include/memo.h`. This can cache function results on disk using a binary archive format mapped using a combined hash of a function ID and it's input parameters. 
+SpiceQL has a simple memoization header only library at `Spiceql/include/memo.h`. This can cache function results on disk using a binary archive format mapped using a combined hash of a function ID and its input parameters. 
 
 TLDR 
 ```C++

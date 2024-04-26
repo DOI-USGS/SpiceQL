@@ -1,13 +1,16 @@
 site_name: "SpiceQL Manual"
 
 theme:
-  name: material
-  
+  name: simple-blog
   icon:
     annotation: material/chevron-right-circle
   font:
     text: Inter
     code: Roboto Mono
+  colors:
+    primary: blue
+    title: black
+
 
   features:
       - navigation.tabs
