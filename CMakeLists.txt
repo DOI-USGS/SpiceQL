@@ -97,6 +97,7 @@ if(SPICEQL_BUILD_LIB)
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/mex.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/mgs.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/mro.json
+                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/msl.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/odyssey.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/smart1.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/tgo.json
@@ -203,14 +204,3 @@ else()
   message(STATUS "Skipping Bindings")
 endif()
 
-##############
-# Docs Build #
-##############
-
-option (SPICEQL_BUILD_DOCS "Build the SpiceQL Docs" ON)
-
-if(SPICEQL_BUILD_DOCS)
-  add_subdirectory ("docs")
-else()
-  message(STATUS "Skipping Docs")
-endif()

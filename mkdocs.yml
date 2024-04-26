@@ -1,0 +1,80 @@
+site_name: "SpiceQL Manual"
+
+theme:
+  name: simple-blog
+  icon:
+    annotation: material/chevron-right-circle
+  font:
+    text: Inter
+    code: Roboto Mono
+  colors:
+    primary: blue
+    title: black
+
+
+  features:
+      - navigation.tabs
+      - navigation.path
+      - navigation.indexes
+      - search.suggest
+      - search.suggest
+
+  palette:
+      # Palette toggle for dark mode
+      - media: "(prefers-color-scheme: dark)"
+        scheme: slate
+        primary: yellow
+        accent: blue
+        toggle:
+          icon: material/toggle-switch-off-outline
+          name: Switch to light mode
+
+      # Palette toggle for light mode
+      - media: "(prefers-color-scheme: light)"
+        scheme: default
+        primary: yellow
+        accent: blue
+        toggle:
+          icon: material/toggle-switch
+          name: Switch to dark mode
+
+nav:
+  - Home: index.md
+  - C++ API:
+      - SpiceQL C++ API:
+          - 'Links': 'SpiceQLCPPAPI/links.md'
+          - 'Classes':
+              - 'Class List': 'SpiceQLCPPAPI/annotated.md'
+              - 'Class Index': 'SpiceQLCPPAPI/classes.md'
+              - 'Class Hierarchy': 'SpiceQLCPPAPI/hierarchy.md'
+              - 'Class Members': 'SpiceQLCPPAPI/class_members.md'
+              - 'Class Member Functions': 'SpiceQLCPPAPI/class_member_functions.md'
+              - 'Class Member Variables': 'SpiceQLCPPAPI/class_member_variables.md'
+              - 'Class Member Typedefs': 'SpiceQLCPPAPI/class_member_typedefs.md'
+              - 'Class Member Enumerations': 'SpiceQLCPPAPI/class_member_enums.md'
+          - 'Namespaces':
+              - 'Namespace List': 'SpiceQLCPPAPI/namespaces.md'
+              - 'Namespace Members': 'SpiceQLCPPAPI/namespace_members.md'
+              - 'Namespace Member Functions': 'SpiceQLCPPAPI/namespace_member_functions.md'
+              - 'Namespace Member Variables': 'SpiceQLCPPAPI/namespace_member_variables.md'
+              - 'Namespace Member Typedefs': 'SpiceQLCPPAPI/namespace_member_typedefs.md'
+              - 'Namespace Member Enumerations': 'SpiceQLCPPAPI/namespace_member_enums.md'
+          - 'Variables': 'SpiceQLCPPAPI/variables.md'
+          - 'Macros': 'SpiceQLCPPAPI/macros.md'
+          - 'Files': 'SpiceQLCPPAPI/files.md'
+  - RESTful API: 
+      - SpiceQL RESTful API: 
+          - 'Home': 'RestAPI.md' 
+
+
+plugins:
+  - search
+  - swagger-ui-tag
+  - mkdoxy:
+      projects:
+        SpiceQLCPPAPI: 
+          src-dirs: SpiceQL/src/ SpiceQL/include/  
+          full-doc: True # if you want to generate full documentation
+          doxy-cfg: # standard doxygen configuration (key: value)
+            FILE_PATTERNS: "*.cpp *.h*" # specify file patterns to filter out
+            RECURSIVE: True # recursive search in source directories
