@@ -772,7 +772,6 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsVoyager2) {
 }
 
 TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMsl) {
-
   fs::path dbPath = getMissionConfigFile("msl");
   
   compareKernelSets("msl");
@@ -842,6 +841,7 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMsl) {
               "msl_ls_ops120808_iau2000_v1.bsp",
               "msl_surf_rover_loc.bsp"};
   CompareKernelSets(getKernelsAsVector(res.at("msl").at("spk")), expected);
+}
 
 
 TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMer1) {
