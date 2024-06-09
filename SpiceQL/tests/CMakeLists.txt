@@ -1,11 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # A lot of linux OSes do not support C++20
-if (APPLE)
-  set(CMAKE_CXX_STANDARD 20)
-else()
-  set(CMAKE_CXX_STANDARD 17)
-endif()
+set(CMAKE_CXX_STANDARD 20)
 
 find_package(CSpice REQUIRED)
 
