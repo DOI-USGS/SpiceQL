@@ -7,7 +7,6 @@ include(UseSWIG)
 list(APPEND CMAKE_SWIG_FLAGS "-py3;-DPY3;-keyword")
 
 # Setup for Python linking
-set(Python3_DIR $ENV{CONDA_PREFIX}/lib/)
 find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 
 # Setup for wrapper library
