@@ -8,6 +8,7 @@ dependencies:
   - cspice
   - cpp-filesystem
   - cspice 
+  - cxx-compiler
   - doxygen
   - fmt==9.1.0
   - libhiredis
