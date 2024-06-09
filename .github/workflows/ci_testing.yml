@@ -40,6 +40,7 @@ jobs:
         run: |
           mkdir -p build
           cd build
+          sudo rm -rf /usr/bin/python* 
           cmake -DCMAKE_BUILD_TYPE=RELEASE -DSPICEQL_BUILD_DOCS=OFF -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX ..
           cmake --build .
       
