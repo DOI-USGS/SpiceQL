@@ -1,0 +1,41 @@
+{
+    "mer2" : {
+        "ck" : {
+            "reconstructed" : {
+              "kernels" : ["mer2_surf_[a-z]{2,5}_ext[0-9]{1,2}_v[0-9]{1}.bc$",
+                           "mer2_surf_[a-z]{2,5}.bc$",
+                           "mer2_cruise.bc$",
+                           "mer2_surf_[a-z]{3,5}_[a-z]{2,3}_v[0-9]{1}.bc$",
+                           "mer2_hga_stowed.bc$"]
+            }
+        },
+        "spk" : {
+            "reconstructed" : {
+              "kernels" : ["de410_de910.bsp$",
+                           "mar033(_[0-9]{4}-[0-9]{4})?.bsp$",
+                           "mer2_cruise.bsp",
+                           "mer2_edl_rcb_v1.bsp",
+                           "mer2_ls_040108_iau2000_v[0-9]{1}.bsp$",
+                           "mer2_still_at_ls_v[0-9]{1}.bsp$",
+                           "mer2_surf_[a-z]{3,7}_[a-z]{2,3}_v[0-9]{1,2}.bsp$",
+                           "mer2_struct_ver[0-9]{2}.bsp$",
+                           "spk_b_s_071029-160101_110624.bsp$",
+                           "mer2_surf_[a-z]{4,7}_[a-z]{2,4}[0-9]{0,2}(_v[0-9]{1})?.bsp$"]
+            }
+        },
+        "fk" : {
+          "kernels" : ["mer2(_v[0-9]{2})?.tf$",
+                       "mer2_tp_[a-z]{2}[0-9]{2}[a-z][0-9]([a-z])?_iau2000_v[0-9]{1}.tf$"]
+        },
+        "ik" : {
+          "kernels" :"mer2_[a-z]{2}_([a-z][0-9]_)?[0-9]{8}_c[0-9]{2,3}.ti$"
+        },
+        "sclk" : { 
+          "kernels" : ["MER_254_SCLKSCET.[0-9]{5}.tsc$",
+                       "mer2(_hlst_[a-z]{2}[0-9]{2}[a-z][0-9]([a-z])?_v[0-9]{1})?.tsc"]
+        },
+        "pck" : {
+            "kernels" : "mars_iau2000_v0.tpc"
+        }
+    }
+}

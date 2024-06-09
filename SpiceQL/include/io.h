@@ -35,7 +35,7 @@ namespace SpiceQL {
        * @param centerOfMotion Naif body code of an object which is the center of motion for
        *                      bodyCode
        * @param referenceFrame Naif name of the reference system relative to which the state is
-       * @param id SPK segment identifier (max size 40)
+       * @param segmentId SPK segment identifier (max size 40)
        * @param degree Degree of the Hermite polynomials used to interpolate the states
        * @param stateVelocities Time ordered vector of state velocities dX, dY, dZ
        * @param segmentComment The comment string for the new segment
@@ -45,20 +45,20 @@ namespace SpiceQL {
                  int bodyCode,
                  int centerOfMotion,
                  std::string referenceFrame,
-                 std::string id, int degree,
-                 std::optional<std::vector<std::vector<double>>> stateVelocities,
-                 std::optional<std::string> segmentComment);
+                 std::string segmentId, int degree,
+                 std::vector<std::vector<double>> stateVelocities = {},
+                 std::string segmentComment = "");
 
       //! @cond Doxygen_Suppress
       std::vector<double> stateTimes;
       int bodyCode;
       int centerOfMotion;
       std::string referenceFrame;
-      std::string id;
+      std::string segmentId;
       int polyDegree;
       std::vector<std::vector<double>> statePositions;
-      std::optional<std::vector<std::vector<double>>> stateVelocities;
-      std::optional<std::string> comment;
+      std::vector<std::vector<double>> stateVelocities;
+      std::string comment;
       //! @endcond
   };
 
@@ -82,23 +82,23 @@ namespace SpiceQL {
          * @param times times for the CK segment in ascending order
          * @param bodyCode Naif body code of an object whose state is described by the segments
          * @param referenceFrame Naif name of the reference system relative to which the state is
-         * @param id SPK segment identifier (max size 40)
-         * @param anglularVelocities Time ordered vector of state velocities dX, dY, dZ
+         * @param segmentId SPK segment identifier (max size 40)
+         * @param angularVelocities Time ordered vector of state velocities dX, dY, dZ
          * @param comment The comment string for the new segment
          */
         CkSegment(std::vector<std::vector<double>> quats, std::vector<double> times,  int bodyCode,
-                  std::string referenceFrame, std::string id,
-                  std::optional<std::vector<std::vector<double>>> anglularVelocities = std::nullopt,
-                  std::optional<std::string> comment = std::nullopt);
+                  std::string referenceFrame, std::string segmentId,
+                  std::vector<std::vector<double>> angularVelocities = {},
+                  std::string comment = "");
 
         //! @cond Doxygen_Suppress
         std::vector<double> times;
         std::vector<std::vector<double>> quats;
         int bodyCode;
         std::string referenceFrame;
-        std::string id;
-        std::optional<std::vector<std::vector<double>>> angularVelocities = std::nullopt;
-        std::optional<std::string> comment = std::nullopt;
+        std::string segmentId;
+        std::vector<std::vector<double>> angularVelocities;
+        std::string comment;
         //! @endcond
     };
 
@@ -146,8 +146,8 @@ namespace SpiceQL {
                   std::string referenceFrame,
                   std::string segmentId,
                   int polyDegree,
-                  std::optional<std::vector<std::vector<double>>> stateVelocities = std::nullopt,
-                  std::optional<std::string> segmentComment = std::nullopt);
+                  std::vector<std::vector<double>> stateVelocities = {},
+                  std::string segmentComment = "");
 
 
     /**
@@ -174,8 +174,8 @@ namespace SpiceQL {
                  std::string segmentId,
                  std::string sclk,
                  std::string lsk,
-                 std::optional<std::vector<std::vector<double>>> angularVelocity = std::nullopt,
-                 std::optional<std::string> comment= std::nullopt);
+                 std::vector<std::vector<double>> angularVelocity = {},
+                 std::string comment = "");
 
 
     /**
@@ -193,6 +193,8 @@ namespace SpiceQL {
                std::string lsk,
                std::vector<CkSegment> segments);
 
+  void writeComment(std::string fileName,
+                    std::string comment);
 
   /**
    * @brief Write json key value pairs into a NAIF text kernel
@@ -202,6 +204,6 @@ namespace SpiceQL {
    * @param comment the comment to add to the top of the kernel
    * @param keywords json object containing key/value pairs to write to the text kernel
    */
-  void writeTextKernel(std::string fileName, std::string type, nlohmann::json &keywords, std::optional<std::string> comment = std::nullopt);
+  void writeTextKernel(std::string fileName, std::string type, nlohmann::json &keywords, std::string comment = "");
 
   }

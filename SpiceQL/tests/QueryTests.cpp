@@ -261,6 +261,11 @@ TEST_F(IsisDataDirectory, FunctionalTestLroConf) {
       FAIL() << e << " was not found in the kernel results";
     }
   }
+
+  kernelToCheck = getKernelsAsVector(res.at("minirf").at("iak"));
+  expected = {"mrflroAddendum002.ti"};
+  EXPECT_EQ(kernelToCheck, expected);
+
 }
 
 
@@ -598,4 +603,323 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsSmart1) {
 
   expected = {"SMART1_V1.TF"};
   CompareKernelSets(getKernelsAsVector(res.at("smart1").at("fk")), expected);
+}
+
+TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsHayabusa2) {
+  fs::path dbPath = getMissionConfigFile("hayabusa2");
+  
+  compareKernelSets("hayabusa2");
+  ifstream i(dbPath);
+  nlohmann::json conf = nlohmann::json::parse(i);
+
+  MockRepository mocks;
+  mocks.OnCallFunc(ls).Return(files);
+
+  nlohmann::json res = listMissionKernels("doesn't matter", conf);
+
+  set<string> kernels = getKernelsAsSet(res);
+
+  set<string> mission = missionMap.at("hayabusa2");
+  
+  vector<string> expected = { "hyb2_hk_2015_v01.bc",
+                              "hyb2_hk_2016_v02.bc",
+                              "hyb2_hkattrpt_2017_v02.bc",
+                              "hyb2_aocsc_2015_v01.bc",
+                              "hyb2_aocsc_2017_v02.bc",
+                              "hyb2_hkattrpt_2016_v02.bc",
+                              "hyb2_hk_2014_v01.bc",
+                              "hyb2_hk_2017_v02.bc",
+                              "hyb2_hk_2015_v02.bc",
+                              "hyb2_hkattrpt_2015_v02.bc",
+                              "hyb2_aocsc_2016_v02.bc",
+                              "hyb2_aocsc_2018_v02.bc",
+                              "hyb2_hkattrpt_2018_v02.bc",
+                              "hyb2_aocsc_2015_v02.bc",
+                              "hyb2_hk_2014_v02.bc",
+                              "hyb2_aocsc_2014_v02.bc",
+                              "hyb2_aocsc_2014_v01.bc"
+                            };
+  CompareKernelSets(getKernelsAsVector(res.at("hayabusa2").at("ck").at("reconstructed")), expected); 
+
+  expected = {"hyb2_v06.tf",
+              "hyb2_v14.tf",
+              "hyb2_v10.tf",
+              "hyb2_ryugu_v01.tf",
+              "hyb2_v09.tf",
+              "hyb2_hp_v01.tf"
+             };
+  CompareKernelSets(getKernelsAsVector(res.at("hayabusa2").at("fk")), expected); 
+
+  expected = {"2162173_ryugu_20180601-20191230_0060_20181221.bsp",
+              "sat375.bsp",
+              "jup329.bsp",
+              "de430.bsp",
+              "2162173_Ryugu.bsp"
+             };
+
+  CompareKernelSets(getKernelsAsVector(res.at("hayabusa2").at("tspk")), expected); 
+
+  expected = {"hyb2_20141203-20161231_v01.tsc",
+              "hyb2_20141203-20171231_v01.tsc",
+              "hyb2_20141203-20191231_v01.tsc"
+             };
+  CompareKernelSets(getKernelsAsVector(res.at("hayabusa2").at("sclk")), expected); 
+
+//@TODO lidar derived?
+  expected = { "lidar_derived_trj_20191114_20180630053224_20190213030000_v02.bsp",
+               "hyb2_20151123-20151213_0001m_final_ver1.oem.bsp",
+               "hyb2_20141203-20161119_0001h_final_ver1.oem.bsp",
+               "hyb2_20141203-20151231_0001h_final_ver1.oem.bsp",
+               "hyb2_20141203-20141214_0001m_final_ver1.oem.bsp",
+               "hyb2_hpk_20180627_20190213_v01.bsp",
+               "hyb2_approach_od_v20180811114238.bsp"
+             };
+  CompareKernelSets(getKernelsAsVector(res.at("onc").at("spk").at("reconstructed")), expected); 
+
+  expected = {"hyb2_onc_v00.ti",
+              "hyb2_onc_v05.ti"
+             };
+  CompareKernelSets(getKernelsAsVector(res.at("onc").at("ik")), expected); 
+
+  expected = {"hyb2oncAddendum0001.ti"};
+  CompareKernelSets(getKernelsAsVector(res.at("onc").at("iak")), expected); 
+
+}
+
+TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsVoyager1) {
+
+  fs::path dbPath = getMissionConfigFile("voyager1");
+  
+  compareKernelSets("voyager1");
+
+  ifstream i(dbPath);
+  nlohmann::json conf = nlohmann::json::parse(i);
+
+  MockRepository mocks;
+  mocks.OnCallFunc(ls).Return(files);
+
+  nlohmann::json res = listMissionKernels("doesn't matter", conf);
+
+  set<string> kernels = getKernelsAsSet(res);
+
+  set<string> mission = missionMap.at("voyager1");
+  
+  vector<string> expected = {"vg1_jup_qmw_wa_fc-31100_t2.bc", "vg1_jup_qmw_na_fc-31100_t2.bc", "vg1_sat_qmw_wa_fc-31100_t2.bc", "vg1_sat_qmw_na_fc-31100_t2.bc"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager1").at("ck").at("reconstructed")), expected); 
+
+  expected = {"vg1_eur_usgs2020.bc"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager1").at("ck").at("smithed")), expected); 
+
+  expected = {"vg100010.tsc", "vg100008.tsc"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager1").at("sclk")), expected);
+
+  expected = {"vg1_issna_v02.ti", "vg1_isswa_v01.ti"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager1").at("ik")), expected); 
+
+  expected = {"vg1_sat.bsp", "vgr1_jup230.bsp", "vg1_sat.bsp"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager1").at("spk").at("reconstructed")), expected);  
+
+  expected = {"vg1_v02.tf"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager1").at("fk")), expected);
+}
+
+TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsVoyager2) {
+
+  fs::path dbPath = getMissionConfigFile("voyager2");
+  
+  compareKernelSets("voyager2");
+
+  ifstream i(dbPath);
+  nlohmann::json conf = nlohmann::json::parse(i);
+
+  MockRepository mocks;
+  mocks.OnCallFunc(ls).Return(files);
+
+  nlohmann::json res = listMissionKernels("doesn't matter", conf);
+
+  set<string> kernels = getKernelsAsSet(res);
+  set<string> mission = missionMap.at("voyager2");
+  
+  vector<string> expected = { "vg2_jup_qmw_wa_fc-32100_t2.bc",
+                              "vg2_nep_version1_type1_iss_sedr.bc",
+                              "vg2_ura_version1_type2_iss_sedr.bc",
+                              "vg2_sat_qmw_na_fc-32100_t2.bc",
+                              "vg2_jup_version1_type1_iss_sedr.bc",
+                              "vg2_ura_version1_type1_iss_sedr.bc",
+                              "vg2_jup_version1_type2_iss_sedr.bc",
+                              "vg2_sat_version1_type1_iss_sedr.bc",
+                              "vg2_jup_qmw_na_fc-32100_t2.bc",
+                              "vg2_sat_version1_type2_iss_sedr.bc",
+                              "vg2_sat_qmw_wa_fc-32100_t2.bc",
+                              "vg2_nep_version1_type2_iss_sedr.bc"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager2").at("ck").at("reconstructed")), expected); 
+
+  expected = {"vg2_eur_usgs2020.bc"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager2").at("ck").at("smithed")), expected); 
+
+  expected = {"vg200010.tsc", "vg200011.tsc" "vg200008.tsc"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager2").at("sclk")), expected);
+
+  expected = {"vg1_issna_v02.ti", "vg1_isswa_v01.ti"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager2").at("ik")), expected); 
+
+  expected = {"vg2_sat.bsp", "vgr2_jup230.bsp", "vg2_sat.bsp", "vg2_nep.bsp", "vg2_ura.bsp" "vgr2_nep081.bsp", "vgr2_sat336.bsp"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager2").at("spk").at("reconstructed")), expected);  
+
+  expected = {"vg2_v02.tf"};
+  CompareKernelSets(getKernelsAsVector(res.at("voyager2").at("fk")), expected);
+
+}
+
+TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMsl) {
+  fs::path dbPath = getMissionConfigFile("msl");
+  
+  compareKernelSets("msl");
+
+  ifstream i(dbPath);
+  nlohmann::json conf = nlohmann::json::parse(i);
+
+  MockRepository mocks;
+  mocks.OnCallFunc(ls).Return(files);
+
+  nlohmann::json res = listMissionKernels("doesn't matter", conf);
+
+  set<string> kernels = getKernelsAsSet(res);
+  set<string> mission = missionMap.at("msl");
+  
+  vector<string> expected = {"msl_ra_toolsref_v1.bc",
+                             "msl_cruise_recon_rawrt_v2.bc",
+                             "msl_cruise_recon_raweng_v1.bc",
+                             "msl_edl_v01.bc",
+                             "msl_surf_hga_tlm.bc",
+                             "msl_surf_ra_tlmenc.bc",
+                             "msl_surf_ra_tlmres.bc",
+                             "msl_surf_rsm_tlmenc.bc",
+                             "msl_surf_rsm_tlmres.bc",
+                             "msl_surf_rover_tlm.bc"};
+
+  CompareKernelSets(getKernelsAsVector(res.at("msl").at("ck").at("reconstructed")), expected); 
+
+
+  expected = {"msl.tf"};
+  CompareKernelSets(getKernelsAsVector(res.at("msl").at("fk")), expected);
+
+  expected = {"msl_aux_v00.ti",
+              "msl_chrmi_20120731_c03.ti",
+              "msl_hbla_20120731_c03.ti",
+              "msl_hblb_20120731_c03.ti",
+              "msl_hbra_20120731_c03.ti",
+              "msl_hbrb_20120731_c03.ti",
+              "msl_hfla_20120731_c03.ti",
+              "msl_hflb_20120731_c03.ti",
+              "msl_hfra_20120731_c03.ti",
+              "msl_hfrb_20120731_c03.ti",
+              "msl_mahli_20120731_c02.ti",
+              "msl_mardi_20120731_c02.ti",
+              "msl_ml_20120731_c03.ti",
+              "msl_mr_20120731_c03.ti",
+              "msl_nla_20120731_c04.ti",
+              "msl_nlb_20120731_c04.ti",
+              "msl_nlb_20130530_c05.ti",
+              "msl_nra_20120731_c04.ti",
+              "msl_nrb_20120731_c04.ti",
+              "msl_nrb_20130530_c05.ti",
+              "msl_struct_v01.ti"};
+
+  CompareKernelSets(getKernelsAsVector(res.at("msl").at("ik")), expected);
+  
+  expected = {"msl.tsl"};
+  CompareKernelSets(getKernelsAsVector(res.at("msl").at("lsk")), expected);
+
+  expected = {"msl.tsc",
+              "msl_lmst_ops120808_v1.tsc"};
+  CompareKernelSets(getKernelsAsVector(res.at("msl").at("sclk")), expected);
+
+  expected = {"msl_struct_v02.bsp",
+              "msl_cruise_v1.bsp",
+              "msl_edl_v01.bsp",
+              "msl_ls_ops120808_iau2000_v1.bsp",
+              "msl_surf_rover_loc.bsp"};
+  CompareKernelSets(getKernelsAsVector(res.at("msl").at("spk")), expected);
+}
+
+
+TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMer1) {
+
+  fs::path dbPath = getMissionConfigFile("mer1");
+  
+  compareKernelSets("mer1");
+
+  ifstream i(dbPath);
+  nlohmann::json conf = nlohmann::json::parse(i);
+
+  MockRepository mocks;
+  mocks.OnCallFunc(ls).Return(files);
+
+  nlohmann::json res = listMissionKernels("doesn't matter", conf);
+
+  set<string> kernels = getKernelsAsSet(res);
+  set<string> mission = missionMap.at("mer1");
+
+  vector<string> expected = {"mer1_surf_hga_ext10_v1.bc", "mer1_cruise.bc", "mer1_hga_stowed.bc", "mer1_surf_rover_prim_v1.bc"};
+  CompareKernelSets(getKernelsAsVector(res.at("mer1").at("ck").at("reconstructed")), expected); 
+
+  expected = {"mar033_2000-2025.bsp", "mer1_cruise.bsp",
+              "de410_de910.bsp","mer1_surf_iddg_ext11_v1.bsp",
+              "mer1_struct_ver11.bsp", "mer1_edl_rcb_v1.bsp",
+              "mer1_surf_iddg.bsp","mer1_surf_roverrl_0001_3240_v1.bsp"};
+  CompareKernelSets(getKernelsAsVector(res.at("mer1").at("spk").at("reconstructed")), expected);  
+
+  expected = {"mer1_tp_tm20b3_iau2000_v1.tf", "mer1.tf"};
+  CompareKernelSets(getKernelsAsVector(res.at("mer1").at("fk")), expected);
+  
+  expected = {"mer1_nl_20040125_c196.ti"};
+  CompareKernelSets(getKernelsAsVector(res.at("mer1").at("ik")), expected); 
+
+  expected = {"MER_253_SCLKSCET.00001.tsc"};
+  CompareKernelSets(getKernelsAsVector(res.at("mer1").at("sclk")), expected);
+
+  expected = {"mars_iau2000_v0.tpc"};
+  CompareKernelSets(getKernelsAsVector(res.at("mer1").at("pck")), expected);
+
+}
+
+TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMer2) {
+
+  fs::path dbPath = getMissionConfigFile("mer2");
+  
+  compareKernelSets("mer2");
+
+  ifstream i(dbPath);
+  nlohmann::json conf = nlohmann::json::parse(i);
+
+  MockRepository mocks;
+  mocks.OnCallFunc(ls).Return(files);
+
+  nlohmann::json res = listMissionKernels("doesn't matter", conf);
+
+  set<string> kernels = getKernelsAsSet(res);
+  set<string> mission = missionMap.at("mer2");
+  
+  vector<string> expected = {};
+  CompareKernelSets(getKernelsAsVector(res.at("mer2").at("ck").at("reconstructed")), expected); 
+
+  expected = {"spk_b_s_071029-160101_110624.bsp","mer2_surf_roverrl_ro_v01.bsp",
+              "mer2_ls_040108_iau2000_v1.bsp", "de410_de910.bsp",
+              "mer2_still_at_ls_v1.bsp", "mer2_struct_ver11.bsp",
+              "mar033_2000-2025.bsp", "mer2_edl_rcb_v1.bsp",
+              "mer2_surf_rover_all_v01.bsp"};
+  CompareKernelSets(getKernelsAsVector(res.at("mer2").at("spk").at("reconstructed")), expected);  
+
+  expected = {"mer2.tf","mer2_tp_ep78a3p_iau2000_v1.tf"};
+  CompareKernelSets(getKernelsAsVector(res.at("mer2").at("fk")), expected);
+  
+  expected = {"mer2_rl_20031204_c60.ti"};
+  CompareKernelSets(getKernelsAsVector(res.at("mer2").at("ik")), expected); 
+
+  expected = {"MER_254_SCLKSCET.00032.tsc", "mer2.tsc"};
+  CompareKernelSets(getKernelsAsVector(res.at("mer2").at("sclk")), expected);
+
+  expected = {"mars_iau2000_v0.tpc"};
+  CompareKernelSets(getKernelsAsVector(res.at("mer2").at("pck")), expected);
 }

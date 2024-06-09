@@ -20,15 +20,15 @@ namespace SpiceQL {
                           int bodyCode,
                           int centerOfMotion,
                           string referenceFrame,
-                          string id, int degree,
-                          optional<vector<vector<double>>> stateVelocities,
-                          optional<string> comment) {
+                          string segmentId, int degree,
+                          vector<vector<double>> stateVelocities,
+                          string comment) {
 
     this->comment         = comment;
     this->bodyCode        = bodyCode;
     this->centerOfMotion  = centerOfMotion;
     this->referenceFrame  = referenceFrame;
-    this->id              = id;
+    this->segmentId       = segmentId;
     this->polyDegree      = degree;
     this->statePositions  = statePositions;
     this->stateVelocities = stateVelocities;
@@ -61,14 +61,15 @@ namespace SpiceQL {
                        int bodyCode,
                        string referenceFrame,
                        string segmentId,
-                       optional<vector<vector<double>>> anglularVelocities,
-                       optional<string> comment) {
+                       vector<vector<double>> angularVelocities,
+                       string comment) {
 
-    this->comment            = comment;
+    this->quats              = quats;
+    this->times              = times;
     this->bodyCode           = bodyCode;
     this->referenceFrame     = referenceFrame;
-    this->id                 = segmentId;
-    this->angularVelocities = anglularVelocities;
+    this->segmentId                 = segmentId;
+    this->angularVelocities  = angularVelocities;
     this->comment            = comment;
   }
 
@@ -81,8 +82,8 @@ namespace SpiceQL {
                string segmentId,
                string sclk,
                string lsk,
-               optional<vector<vector<double>>> angularVelocities,
-               optional<string> comment) {
+               vector<vector<double>> angularVelocities,
+               string comment) {
 
     SpiceInt handle;
     
@@ -98,24 +99,32 @@ namespace SpiceQL {
       et = sclkdp;
     }
     checkNaifErrors();
-    ckopn_c(path.c_str(), "CK", comment.value_or("CK Kernel").size(), &handle);
+
+    if(comment.empty()) {
+      comment = "CK Kernel";
+    }
+
+    ckopn_c(path.c_str(), "CK", comment.size(), &handle);
     checkNaifErrors();
+
     ckw03_c (handle,
              times.at(0),
              times.at(times.size()-1),
              bodyCode,
              referenceFrame.c_str(),
-             (bool)angularVelocities,
+             !angularVelocities.empty(),
              segmentId.c_str(),
              times.size(),
              times.data(),
              quats.data(),
-             (angularVelocities) ? angularVelocities->data() : nullptr,
+             (!angularVelocities.empty()) ? angularVelocities.data() : nullptr,
              times.size(),
              times.data());
     checkNaifErrors();
     ckcls_c(handle);
     checkNaifErrors();
+
+    writeComment(path, comment);
   }
 
 
@@ -127,12 +136,12 @@ namespace SpiceQL {
                  string referenceFrame,
                  string segmentId,
                  int polyDegree,
-                 optional<vector<vector<double>>> stateVelocities,
-                 optional<string> segmentComment) {
+                 vector<vector<double>> stateVelocities,
+                 string segmentComment) {
 
     vector<vector<double>> states;
 
-    if (!stateVelocities) {
+    if (stateVelocities.empty()) {
       // init a 0 velocity array
       vector<vector<double>> velocities;
       for (int i = 0; i < statePositions.size(); i++) {
@@ -141,7 +150,7 @@ namespace SpiceQL {
       stateVelocities = velocities;
     }
 
-    states = concatStates(statePositions, *stateVelocities);
+    states = concatStates(statePositions, stateVelocities);
 
     SpiceInt handle;
     checkNaifErrors();
@@ -163,6 +172,9 @@ namespace SpiceQL {
     spkcls_c(handle);
     checkNaifErrors();
 
+    // Write comment to header
+    writeComment(fileName, segmentComment);
+
     return;
   }
 
@@ -183,7 +195,7 @@ namespace SpiceQL {
              segments[0].bodyCode,
              segments[0].centerOfMotion,
              segments[0].referenceFrame,
-             segments[0].id,
+             segments[0].segmentId,
              segments[0].polyDegree,
              segments[0].stateVelocities,
              segments[0].comment);
@@ -206,7 +218,7 @@ namespace SpiceQL {
             segments[0].times,
             segments[0].bodyCode,
             segments[0].referenceFrame,
-            segments[0].id,
+            segments[0].segmentId,
             sclk,
             lsk,
             segments[0].angularVelocities,
@@ -214,8 +226,40 @@ namespace SpiceQL {
 
   }
 
+  void writeComment(string fileName, string comment) {
+    SpiceInt handle;
+    dafopw_c(fileName.c_str(), &handle);
+    checkNaifErrors();
 
-  void writeTextKernel(string fileName, string type, json &keywords, optional<string> comment) {
+    // Trap errors so they are not fatal if the comment section fills up.
+    // Calling environments can decide how to handle it.
+
+    string commOut;
+    checkNaifErrors();
+    for ( int i = 0 ; i < comment.size() ; i++ ) {
+        if ( comment[i] == '\n' ) {
+          while ( commOut.size() < 2 ) { commOut.append(" "); }
+          dafac_c(handle, 1, commOut.size(), commOut.data());
+          checkNaifErrors();
+          commOut.clear();
+        }
+        else {
+          commOut.push_back(comment[i]);
+        }
+    }
+
+    // See if there is residual to write
+    if ( commOut.size() > 0 ) {
+      while ( commOut.size() < 2 ) { commOut.append(" "); }
+      dafac_c(handle, 1, commOut.size(), commOut.data());
+      checkNaifErrors();
+    }
+
+    // Close file handle
+    dafcls_c(handle);
+  }
+
+  void writeTextKernel(string fileName, string type, json &keywords, string comment) {
 
     /**
      * @brief Return an adjusted string such that it multi-lined if longer than some max length.
@@ -286,7 +330,7 @@ namespace SpiceQL {
 
     textKernel << "KPL/" + toUpper(type) << endl << endl;
     textKernel << "\\begintext" << endl << endl;
-    textKernel << comment.value_or("") << endl << endl;
+    textKernel << comment << endl << endl;
     textKernel << "\\begindata" << endl << endl;
 
     for(auto it = keywords.begin(); it != keywords.end(); it++) {

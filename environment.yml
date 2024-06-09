@@ -20,10 +20,14 @@ dependencies:
   - jsonschema
   - cereal
   - spdlog
+  # API dependencies
+  - fastapi
+  - pydantic==2.6.3
+  - uvicorn
+  - numpy
   - pip:
-    - breathe
-    - sphinx-material
-    - m2r2
-    - sphinxcontrib.gist
+    - mkdocs 
+    - mkdocs-swagger-ui-tag
+    - mkdoxy
     - check-jsonschema
-
+    - mkdocs-simple-blog

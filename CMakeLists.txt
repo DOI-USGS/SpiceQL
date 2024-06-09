@@ -89,19 +89,26 @@ if(SPICEQL_BUILD_LIB)
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/cassini.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/clem1.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/galileo.json
+                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/hayabusa2.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/juno.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/kaguya.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/lro.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/lo.json
+                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/mer1.json
+                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/mer2.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/mess.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/mex.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/mgs.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/mro.json
+                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/msl.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/odyssey.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/smart1.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/tgo.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/viking1.json
-                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/viking2.json)
+                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/viking2.json
+                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/voyager1.json
+                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/voyager2.json
+                           )
 
   set(SPICEQL_KERNELS ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/kernels/naif0011.tls)
 
@@ -201,14 +208,3 @@ else()
   message(STATUS "Skipping Bindings")
 endif()
 
-##############
-# Docs Build #
-##############
-
-option (SPICEQL_BUILD_DOCS "Build the SpiceQL Docs" ON)
-
-if(SPICEQL_BUILD_DOCS)
-  add_subdirectory ("docs")
-else()
-  message(STATUS "Skipping Docs")
-endif()
