@@ -7,7 +7,7 @@ include(UseSWIG)
 list(APPEND CMAKE_SWIG_FLAGS "-py3;-DPY3;-keyword")
 
 # Setup for Python linking
-find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
+find_package(Python3 REQUIRED COMPONENTS Interpreter Development PATHS $ENV{CONDA_PREFIX})
 
 # Setup for wrapper library
 set(PYSPICEQL_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/pyspiceql")
