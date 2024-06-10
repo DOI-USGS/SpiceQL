@@ -40,7 +40,6 @@ jobs:
         run: |
           mkdir -p build
           cd build
-          sudo rm -rf /usr/bin/python* 
           cmake -DCMAKE_BUILD_TYPE=RELEASE -DSPICEQL_BUILD_DOCS=OFF -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX ..
           cmake --build .
       
@@ -109,7 +108,7 @@ jobs:
   
       - name: Configure CMake
         working-directory: ${{github.workspace}}/build
-        run: sudo rm -rf /usr/bin/python* && cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DSPICEQL_BUILD_LIB=OFF -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install
+        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DSPICEQL_BUILD_LIB=OFF -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install
       - name: Build
         working-directory: ${{github.workspace}}/
         # Execute the build.

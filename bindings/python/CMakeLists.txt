@@ -7,6 +7,7 @@ include(UseSWIG)
 list(APPEND CMAKE_SWIG_FLAGS "-py3;-DPY3;-keyword")
 
 # Setup for Python linking
+set(Python_FIND_VIRTUALENV FIRST)
 find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 
 # Setup for wrapper library
