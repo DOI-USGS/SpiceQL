@@ -24,8 +24,8 @@ namespace SpiceQL {
         public: 
         Inventory(bool force_regen=false);
         ~Inventory();
-        nlohmann::json search_kernels(std::string instrument, std::vector<std::string> types, std::string quality, 
-                                                double start_time=-std::numeric_limits<double>::max(), double stop_time=std::numeric_limits<double>::max());
+        nlohmann::json search_for_kernelset(std::string instrument, std::vector<std::string> types, double start_time=-std::numeric_limits<double>::max(), double stop_time=std::numeric_limits<double>::max(), 
+                                      std::string ckQuality="smithed", std::string spkQuality="smithed", bool enforce_quality=false);
 
     };
 }

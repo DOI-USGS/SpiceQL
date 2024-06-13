@@ -21,14 +21,18 @@ namespace SpiceQL {
         delete m_impl;
     }
 
-    nlohmann::json Inventory::search_kernels(std::string instrument, std::vector<string> types, string quality, double start_time, double stop_time) { 
+    nlohmann::json Inventory::search_for_kernelset(std::string instrument, std::vector<string> types, double start_time, double stop_time,  string ckQuality, string spkQuality, bool enforce_quality) { 
         vector<Kernel::Type> enum_types;
-        Kernel::Quality enum_quality = Kernel::translateQuality(quality); 
+        Kernel::Quality enum_ck_quality = Kernel::translateQuality(ckQuality); 
+        Kernel::Quality enum_spk_quality = Kernel::translateQuality(spkQuality);  
 
         for (auto &e:types) { 
             enum_types.push_back(Kernel::translateType(e));
         }
 
-        return m_impl->search_kernels(instrument, enum_types, enum_quality, start_time, stop_time);
+        return m_impl->search_for_kernelset(instrument, enum_types, start_time, stop_time, enum_ck_quality, enum_spk_quality, enforce_quality);
     }
+
+
+
 }

@@ -164,7 +164,8 @@ namespace SpiceQL {
   }
 
 
-  json Database::search_kernels(string instrument, vector<Kernel::Type> types, Kernel::Quality quality, double start_time, double stop_time) { 
+  json Database::search_for_kernelset(string instrument, vector<Kernel::Type> types, double start_time, double stop_time,
+                                  Kernel::Quality ckQuality, Kernel::Quality spkQuality, bool enforce_quality) { 
     // get time dep kernels first 
     json kernels;
     if (start_time > stop_time) { 
@@ -174,45 +175,64 @@ namespace SpiceQL {
     for (auto &type: types) { 
       // load time kernels
       if (type == Kernel::Type::CK || type == Kernel::Type::SPK) { 
-        TimeIndexedKernels *time_indices;
-        string key = instrument+":"+Kernel::translateType(type)+":"+Kernel::translateQuality(quality)+":"+"kernels";
-        SPDLOG_DEBUG("Key: {}", key);
+        TimeIndexedKernels *time_indices = nullptr;
+        bool found = false;        
 
-        if (m_timedep_kerns.contains(key)) { 
-          SPDLOG_DEBUG("Key {} found", key); 
-          
-          // we can get the key 
-          time_indices = m_timedep_kerns[key]; 
+        Kernel::Quality quality = spkQuality;
+        if (type == Kernel::Type::CK) { 
+          quality = ckQuality;
         }
-        else { 
-          // try to load the memory mapped files 
-          fs::path cache = Memo::getCacheDir(); 
-          cache /= "dbindexes" / (fs::path)key;
-          SPDLOG_TRACE("Loading indices from directory: {}", (string)cache);
-          
-          if(!fs::exists(cache)) { 
-            // skip 
-            SPDLOG_TRACE("cache {} does not exist.", (string)cache);
-            continue;
+
+        // iterate down the qualities 
+        for(int i = (int)quality; i > 0 && !found; i--) { 
+          string key = instrument+":"+Kernel::translateType(type)+":"+Kernel::QUALITIES.at(i)+":"+"kernels";
+          SPDLOG_DEBUG("Key: {}", key);
+
+          if (m_timedep_kerns.contains(key)) { 
+            SPDLOG_DEBUG("Key {} found", key); 
+            
+            // we can get the key 
+            time_indices = m_timedep_kerns[key]; 
+            found = true;
+            quality = (Kernel::Quality)i; 
           }
-          time_indices = new TimeIndexedKernels(); 
+          else { 
+            // try to load the memory mapped files 
+            fs::path cache = Memo::getCacheDir(); 
+            cache /= "dbindexes" / (fs::path)key;
+            SPDLOG_TRACE("Loading indices from directory: {}", (string)cache);
+            
+            if(!fs::exists(cache)) { 
+              // skip 
+              SPDLOG_TRACE("cache {} does not exist.", (string)cache);
+              continue;
+            }
+            found = true;
+            time_indices = new TimeIndexedKernels();
+            quality = (Kernel::Quality)i; 
 
-          ifstream start_times_ifs{cache/"start_time.bin", ios_base::in | ios_base::binary};
-          start_times_ifs >> time_indices->start_times;
-          ifstream stop_times_ifs{cache/"stop_time.bin", ios_base::in | ios_base::binary};
-          stop_times_ifs >> time_indices->stop_times;        
-          // indices are simple, store as a binary archive
-          std::ifstream ifs_index(cache/"index.bin");
-          cereal::BinaryInputArchive ia(ifs_index);
-          ia >> time_indices->index; 
+            ifstream start_times_ifs{cache/"start_time.bin", ios_base::in | ios_base::binary};
+            start_times_ifs >> time_indices->start_times;
+            ifstream stop_times_ifs{cache/"stop_time.bin", ios_base::in | ios_base::binary};
+            stop_times_ifs >> time_indices->stop_times;        
+            // indices are simple, store as a binary archive
+            std::ifstream ifs_index(cache/"index.bin");
+            cereal::BinaryInputArchive ia(ifs_index);
+            ia >> time_indices->index; 
+          }
+          if (enforce_quality) break; // only interate once if quality is enforced 
         }
 
-        SPDLOG_TRACE("NUMBER OF KERNELS: {}", time_indices->index.size());
-        SPDLOG_TRACE("NUMBER OF START TIMES: {}", time_indices->start_times.size());
-        SPDLOG_TRACE("NUMBER OF STOP TIMES: {}", time_indices->stop_times.size()); 
-        
+        if (time_indices) { 
+          SPDLOG_TRACE("NUMBER OF KERNELS: {}", time_indices->index.size());
+          SPDLOG_TRACE("NUMBER OF START TIMES: {}", time_indices->start_times.size());
+          SPDLOG_TRACE("NUMBER OF STOP TIMES: {}", time_indices->stop_times.size()); 
+        } else { 
+          // no kernels found 
+          continue;
+        }
         size_t iterations = 0; 
-        
+      
         // init containers
         unordered_set<size_t> start_time_kernels; 
         vector<string> final_time_kernels;
@@ -234,20 +254,18 @@ namespace SpiceQL {
           }
         } 
         if (final_time_kernels.size()) { 
-          kernels[Kernel::translateType(type)] = final_time_kernels;
+          kernels[Kernel::translateType(type)]["kernels"] = final_time_kernels;
+          kernels[Kernel::translateType(type)]["quality"] = Kernel::translateQuality(quality);
         }
         SPDLOG_TRACE("NUMBER OF ITERATIONS: {}", iterations); 
       }
       else { // text/non time based kernels
         string key = instrument+":"+Kernel::translateType(type)+":"+"kernels"; 
         SPDLOG_DEBUG("GETTING {} with key {}", Kernel::translateType(type), key);
-        if (m_nontimedep_kerns.contains(key)) 
+        if (m_nontimedep_kerns.contains(key) && !m_nontimedep_kerns[key].empty()) 
           kernels[Kernel::translateType(type)] = m_nontimedep_kerns[key];
       }
-
-
-    } 
-  
+    }
     return kernels;
   }
   
