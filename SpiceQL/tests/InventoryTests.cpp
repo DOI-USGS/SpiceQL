@@ -13,7 +13,6 @@
 TEST_F(LroKernelSet, TestInventorySmithed) { 
   Inventory inv(true);
   nlohmann::json kernels = inv.search_for_kernelset("lroc", {"fk", "sclk", "spk", "ck"}, 110000000, 140000000);
-  cout << kernels << endl;
   EXPECT_EQ(fs::path(kernels["fk"][0]).filename(), "lro_frames_1111111_v01.tf");
   EXPECT_EQ(fs::path(kernels["sclk"][0]).filename(), "lro_clkcor_2020184_v00.tsc");
   EXPECT_EQ(fs::path(kernels["ck"][0]).filename(), "lrolc_1111111_1111111_v11.bc"); 
