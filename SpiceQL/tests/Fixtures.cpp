@@ -169,7 +169,6 @@ void IsisDataDirectory::CompareKernelSets(vector<string> kVector, vector<string>
 
 void LroKernelSet::SetUp() {
   root = getenv("SPICEROOT");
-   
   // Move Clock kernels
   // TODO: Programmatic clock kernels
   lskPath = fs::path("data") / "naif0012.tls";
@@ -200,7 +199,7 @@ void LroKernelSet::SetUp() {
   writeCk(ckPath1, quats, times1, bodyCode, referenceFrame, "CK ID 1",  sclkPath, lskPath, avs, "CK1");
 
   // Write CK2 ------------------------------------------
-  ckPath2 = root / "ck" / "lrolc.0002.bc";
+  ckPath2 = root / "ck" / "lrolc_1111111_1111111_v11.bc";
   avs = {{3,4,5}, {6,5,5}};
   quats = {{0.3754439, 0.3754439, 0.3754439, -0.7596879}, {-0.5632779, -0.5632779, -0.5632779, 0.21944}};
   writeCk(ckPath2, quats, times2, bodyCode, referenceFrame, "CK ID 2", sclkPath, lskPath, avs, "CK2");
