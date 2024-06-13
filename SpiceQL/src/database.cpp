@@ -179,8 +179,10 @@ namespace SpiceQL {
         bool found = false;        
 
         Kernel::Quality quality = spkQuality;
+        string qkey = "spkQuality";
         if (type == Kernel::Type::CK) { 
           quality = ckQuality;
+          qkey = "ckQuality";
         }
 
         // iterate down the qualities 
@@ -254,8 +256,8 @@ namespace SpiceQL {
           }
         } 
         if (final_time_kernels.size()) { 
-          kernels[Kernel::translateType(type)]["kernels"] = final_time_kernels;
-          kernels[Kernel::translateType(type)]["quality"] = Kernel::translateQuality(quality);
+          kernels[Kernel::translateType(type)] = final_time_kernels;
+          kernels[qkey] = Kernel::translateQuality(quality);
         }
         SPDLOG_TRACE("NUMBER OF ITERATIONS: {}", iterations); 
       }
