@@ -41,11 +41,11 @@ async def message():
     try: 
       data_dir_exists = os.path.exists(pyspiceql.getDataDirectory()) 
       return {"data_content": os.listdir(pyspiceql.getDataDirectory()), 
-              "data_dir_exists": os.path.exists(pyspiceql.getDataDirectory()), 
-              "is_healthy": os.listdir(pyspiceql.getDataDirectory())}
+              "data_dir_exists": data_dir_exists, 
+              "is_healthy": data_dir_exists}
     except Exception as e:
         logger.error(f"ERROR: {e}")
-        return {"is_ok": False}
+        return {"is_healthy": False}
 
 
 # SpiceQL endpoints
