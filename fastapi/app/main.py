@@ -6,7 +6,11 @@ from fastapi import FastAPI, Query
 from pydantic import BaseModel, Field
 from starlette.responses import RedirectResponse
 import numpy as np
+import os
 import pyspiceql
+import logging
+
+logger = logging.getLogger('uvicorn.error')
 
 SEARCH_KERNELS_BOOL = True
 
@@ -32,11 +36,16 @@ app = FastAPI()
 async def root():
     return RedirectResponse(url="/docs")
 
-@app.post("/customMessage")
-async def message(
-    message_item: MessageItem
-    ):
-    return {"message": message_item.message}
+@app.get("/healthCheck")
+async def message():
+    try: 
+      data_dir_exists = os.path.exists(pyspiceql.getDataDirectory()) 
+      return {"data_content": os.listdir(pyspiceql.getDataDirectory()), 
+              "data_dir_exists": os.path.exists(pyspiceql.getDataDirectory()), 
+              "is_healthy": os.listdir(pyspiceql.getDataDirectory())}
+    except Exception as e:
+        logger.error(f"ERROR: {e}")
+        return {"is_ok": False}
 
 
 # SpiceQL endpoints
