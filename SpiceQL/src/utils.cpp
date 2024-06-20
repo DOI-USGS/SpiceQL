@@ -399,11 +399,9 @@ namespace SpiceQL {
     // First try getting the entire state matrix (6x6), which includes CJ and the angular velocity
     checkNaifErrors();
     frmchg_((int *) &refFrame, (int *) &toFrame, &et, (doublereal *) stateCJ);
-    checkNaifErrors();
-
-    if (!failed_c()) {
+    try {
       // Transpose and isolate CJ and av
-      checkNaifErrors();
+      checkNaifErrors(true);
       xpose6_c(stateCJ, stateCJ);
       xf2rav_c(stateCJ, CJ_spice, av_spice);
       checkNaifErrors();
@@ -412,18 +410,15 @@ namespace SpiceQL {
       for(int i = 0; i < 3; i++) {
         orientation.push_back(av_spice[i]);
       }
-
     }
-    else {  // TODO This case is untested
+    catch(runtime_error &e) {
+      has_av = false;
+
       // Recompute CJ_spice ignoring av
       checkNaifErrors();
-      reset_c(); // reset frmchg_ failure
-
-      refchg_((int *) &refFrame, (int *) &toFrame, &et, (doublereal *) CJ_spice);
+      refchg_((int *)&refFrame, (int *)&toFrame, &et, (doublereal *)CJ_spice);
       xpose_c(CJ_spice, CJ_spice);
       checkNaifErrors();
-
-      has_av = false;
     }
 
     // Translate matrix to std:array quaternion
@@ -610,7 +605,7 @@ namespace SpiceQL {
   json findKeywords(string keytpl) {
     // Define gnpool i/o
     const SpiceInt START = 0;
-    const SpiceInt ROOM = 50;
+    const SpiceInt ROOM = 100;
     const SpiceInt LENOUT = 100;
     ConstSpiceChar *cstr = keytpl.c_str();
     SpiceInt nkeys;
