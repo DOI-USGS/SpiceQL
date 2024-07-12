@@ -354,6 +354,20 @@ namespace SpiceQL {
    */
   double doubleSclkToEt(int frameCode, double sclk, std::string mission, bool searchKernels=true);
 
+
+  /**
+   * @brief Converts a given double ephemeris time to an sclk string
+   *
+   *
+   * @param frameCode int Frame id to use
+   * @param et ephemeris time
+   * @param mission string Mission name as it relates to the config files
+   * @param searchKernels bool Whether to search the kernels for the user
+   * @return string
+   */
+  std::string doubleEtToSclk(int frameCode, double et, std::string mission, bool searchKernels);
+
+
   /**
    * @brief Get the center, class id, and class of a given frame
    *

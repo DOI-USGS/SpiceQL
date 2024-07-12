@@ -282,6 +282,7 @@ namespace SpiceQL {
   **/
   std::vector<std::vector<int>> frameTrace(double et, int initialFrame, std::string mission="", std::string ckQuality="reconstructed",  bool searchKernels=true);
 
+
   /**
     * @brief finds key:values in kernel pool
     *

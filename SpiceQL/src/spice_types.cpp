@@ -258,6 +258,26 @@ namespace SpiceQL {
       return et;
   }
 
+
+  string doubleEtToSclk(int frameCode, double et, string mission, bool searchKernels) {
+      Config missionConf;
+      json sclks;
+
+      if (searchKernels) {
+        sclks = loadSelectKernels("sclk", mission);
+      }
+
+      KernelSet sclkSet(sclks);
+
+      SpiceChar sclk[100];
+      checkNaifErrors();
+      sce2s_c(frameCode, et, 100, sclk);
+      checkNaifErrors();
+      SPDLOG_DEBUG("strsclktoet({}, {}, {}) -> {}", frameCode, mission, sclk, et);
+
+      return string(sclk);
+  }
+
   json findMissionKeywords(string key, string mission, bool searchKernels) {
     json translationKernels = {};
 
