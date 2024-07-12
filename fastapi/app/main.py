@@ -134,6 +134,21 @@ async def doubleSclkToEt(
         body = ErrorModel(error=str(e))
         return ResponseModel(statusCode=500, body=body)
 
+
+@app.get("/doubleEtToSclk")
+async def strSclkToEt(
+    frameCode: int,
+    et: float,
+    mission: str):
+    try:
+        result = pyspiceql.doubleEtToSclk(frameCode, et, mission, SEARCH_KERNELS_BOOL)
+        body = ResultModel(result=result)
+        return ResponseModel(statusCode=200, body=body)
+    except Exception as e:
+        body = ErrorModel(error=str(e))
+        return ResponseModel(statusCode=500, body=body)
+
+
 @app.get("/utcToEt")
 async def utcToEt(
     utc: str):
