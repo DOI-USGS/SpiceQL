@@ -1,8 +1,8 @@
 """Module providing SpiceQL endpoints"""
 
 from ast import literal_eval
-from typing import Annotated, Any
-from fastapi import FastAPI, Query
+from typing import Any
+from fastapi import FastAPI
 from pydantic import BaseModel, Field
 from starlette.responses import RedirectResponse
 import numpy as np
@@ -56,7 +56,7 @@ async def getTargetStates(
     frame: str,
     abcorr: str,
     mission: str,
-    ets: Annotated[list[float], Query()] | str | None = None,
+    ets: str = None,
     startEts: float | None = None,
     exposureDuration: float | None = None,
     numOfExposures: int | None = None,
@@ -85,7 +85,7 @@ async def getTargetOrientations(
     toFrame: int,
     refFrame: int,
     mission: str,
-    ets: Annotated[list[float], Query()] | str | None = None,
+    ets: str | None = None,
     startEts: float | None = None,
     exposureDuration: float | None = None,
     numOfExposures: int | None = None,
