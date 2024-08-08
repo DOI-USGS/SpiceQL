@@ -31,12 +31,7 @@ class ResponseModel(BaseModel):
 # Create FastAPI instance
 app = FastAPI()
 
-# General endpoints
-@app.get("/", include_in_schema=False)
-async def root():
-    return RedirectResponse(url="/docs")
-
-@app.get("/healthCheck")
+@app.get("/")
 async def message():
     try: 
       data_dir_exists = os.path.exists(pyspiceql.getDataDirectory()) 
