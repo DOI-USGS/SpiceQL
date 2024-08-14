@@ -411,7 +411,7 @@ namespace SpiceQL {
       refinedMissionKernels = searchEphemerisKernels(refinedMissionKernels, times, true, cachedTimes);
 
       if (refinedMissionKernels.contains("ck")) {
-        for (int i = (int) ckQualityEnum; (int) ckQualityEnum != 0; i--) {
+        for (int i = (int) ckQualityEnum; (int) i > 0; i--) {
           string ckQual = Kernel::translateQuality(Kernel::Quality(i));
           if (refinedMissionKernels["ck"].contains(ckQual)) {
             if (size(refinedMissionKernels["ck"][ckQual]["kernels"]) != 0) {
@@ -423,7 +423,7 @@ namespace SpiceQL {
       }
 
       if (refinedMissionKernels.contains("spk")) {
-        for (int i = (int) spkQualityEnum; (int) spkQualityEnum != 0; i--) {
+        for (int i = (int) spkQualityEnum; (int) i > 0; i--) {
           string spkQual = Kernel::translateQuality(Kernel::Quality(i));
           if (refinedMissionKernels["spk"].contains(spkQual)) {
             if (size(refinedMissionKernels["spk"][spkQual]["kernels"]) != 0) {
