@@ -150,10 +150,6 @@ namespace SpiceQL {
       for (auto &[mission, kernels] : json_kernels.items()) {
         fmt::print("mission: {}\n", mission);    
 
-        if (mission == "Base") { 
-            continue;
-        }
-
         for(auto &[kernel_type, kernel_obj] : kernels.items()) { 
           if (kernel_type == "ck" || kernel_type == "spk") { 
             // we need to log the times
@@ -255,7 +251,7 @@ namespace SpiceQL {
         }
 
         // iterate down the qualities 
-        for(int i = (int)quality; i > 0 && !found; i--) { 
+        for(int i = (int)quality; i >= 0 && !found; i--) { 
           string key = instrument+"/"+Kernel::translateType(type)+"/"+Kernel::QUALITIES.at(i)+"/"+"kernels";
           SPDLOG_DEBUG("Key: {}", key);
           quality = (Kernel::Quality)i; 

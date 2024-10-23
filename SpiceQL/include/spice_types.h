@@ -43,12 +43,12 @@ namespace SpiceQL {
        * @brief Enumeration representing the different possible kernel qualities
        **/
       enum class Quality  {
+        NOQUALITY=0,       // Either Quaility doesn't apply (e.g. text kernels) -or-
+                           // we dont care about quality (e.g. CK of any quality)
         NADIR = 1,         // Assumes Nadir pointing
         PREDICTED = 2,     // Based on predicted future location of the spacecraft/body
         RECONSTRUCTED = 3, // Supplemented by real spacecraft/body data
         SMITHED = 4,       // Controlled Kernels
-        NA = SMITHED       // Either Quaility doesn't apply (e.g. text kernels) -or-
-                           // we dont care about quality (e.g. CK of any quality)
       };
 
       /**

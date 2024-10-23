@@ -47,7 +47,7 @@ namespace SpiceQL {
                                                     "iak", "ik", "fk",
                                                     "dsk", "pck", "ek"};
 
-  const std::vector<std::string> Kernel::QUALITIES = { "na",
+  const std::vector<std::string> Kernel::QUALITIES = { "noquality",
                                                        "predicted",
                                                        "nadir",
                                                        "reconstructed",
