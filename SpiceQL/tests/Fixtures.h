@@ -66,6 +66,18 @@ class LroKernelSet : public ::testing::Test  {
     void TearDown() override;
 };
 
+class KernelsWithQualities : public ::testing::Test  {
+  protected:
+    fs::path root;
+    string spkPathPredict; 
+    string spkPathRecon; 
+    string spkPathRecon2; 
+    string spkPathSmithed; 
+
+    void SetUp() override;
+    void TearDown() override;
+};
+
 class TestConfig : public KernelDataDirectories {
   protected:
 

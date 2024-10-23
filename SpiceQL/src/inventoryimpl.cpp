@@ -106,8 +106,8 @@ namespace SpiceQL {
           fc::BTreePair<double, size_t> p;
           p.first = sstimes.first; 
           p.second = index;
-          if(kernel_times->start_times.contains(p.first)) { 
-            p.first-=0.0000001; 
+          while(kernel_times->start_times.contains(p.first)) { 
+            p.first-=0.001; 
           } 
           kernel_times->start_times.insert(p);
 
@@ -115,8 +115,8 @@ namespace SpiceQL {
           p2.first = sstimes.second; 
           p2.second = index; 
 
-          if(kernel_times->stop_times.contains(p2.first)) { 
-            p2.first+=0.0000001; 
+          while(kernel_times->stop_times.contains(p2.first)) { 
+            p2.first+=0.001; 
           }  
           kernel_times->stop_times.insert(p2);
 
@@ -276,14 +276,12 @@ namespace SpiceQL {
               vector<string> file_paths_v = getKey<vector<string>>(DB_SPICE_ROOT_KEY+"/"+key+"/"+DB_TIME_FILES_KEY); 
 
               time_indices->file_paths = file_paths_v;
-              
+              SPDLOG_TRACE("Index, start time, stop time sizes: {}, {}, {}", file_index_v.size(), start_times_v.size(), stop_times_v.size());
               // load start_times 
               for(size_t i = 0; i < start_times_v.size(); i++) {
                 time_indices->start_times[start_times_v[i]] = file_index_v[i];
                 time_indices->stop_times[stop_times_v[i]] = file_index_v[i];
               }
-
-              found = true;
             }
             catch (runtime_error &e) { 
               // should probably replace with a more specific exception 
@@ -291,53 +289,61 @@ namespace SpiceQL {
               continue;
             }
           }
+
+          if (time_indices) { 
+            SPDLOG_TRACE("NUMBER OF KERNELS: {}", time_indices->file_paths.size());
+            SPDLOG_TRACE("NUMBER OF START TIMES: {}", time_indices->start_times.size());
+            SPDLOG_TRACE("NUMBER OF STOP TIMES: {}", time_indices->stop_times.size()); 
+          } else { 
+            // no kernels found 
+            continue;
+          }
+  
+          size_t iterations = 0; 
+      
+          // init containers
+          unordered_set<size_t> start_time_kernels; 
+          vector<string> final_time_kernels;
+
+          // Get everything starting before the stop_time; 
+          auto start_upper_bound = time_indices->start_times.upper_bound(stop_time);
+          if(start_upper_bound == time_indices->start_times.begin() && start_upper_bound->first <= start_time)  { 
+             iterations++;
+             start_time_kernels.insert(start_upper_bound->second);  
+          }
+          for(auto it = time_indices->start_times.begin() ;it != start_upper_bound; it++) {
+            iterations++;
+            start_time_kernels.insert(it->second);             
+          }
+
+          SPDLOG_TRACE("NUMBER OF KERNELS MATCHING START TIME: {}", start_time_kernels.size()); 
+
+          // Get everything stopping after the start_time; 
+          auto stop_lower_bound = time_indices->stop_times.lower_bound(start_time);
+          SPDLOG_TRACE("IS {} in the array? {}", stop_lower_bound->second, start_time_kernels.contains(stop_lower_bound->second)); 
+          if(time_indices->stop_times.end() == stop_lower_bound && stop_lower_bound->first >= stop_time && start_time_kernels.contains(stop_lower_bound->second)) { 
+            final_time_kernels.push_back(time_indices->file_paths.at(stop_lower_bound->second));
+          }
+          else { 
+            for(auto &it = stop_lower_bound;it != time_indices->stop_times.end(); it++) { 
+              // if it's also in the start_time set, add it to the list
+              iterations++;
+              SPDLOG_TRACE("IS {} in the array? {}", it->second, start_time_kernels.contains(it->second)); 
+              if (start_time_kernels.contains(it->second)) {
+                final_time_kernels.push_back(data_dir / time_indices->file_paths.at(it->second));
+              }
+            } 
+          }
+          if (final_time_kernels.size()) { 
+            found = true;
+            kernels[Kernel::translateType(type)] = final_time_kernels;
+            kernels[qkey] = Kernel::translateQuality(quality);
+          }
+          SPDLOG_TRACE("NUMBER OF ITERATIONS: {}", iterations);
+          SPDLOG_TRACE("NUMBER OF KERNELS FOUND: {}", final_time_kernels.size());  
+          
           if (enforce_quality) break; // only interate once if quality is enforced 
         }
-
-        if (time_indices) { 
-          SPDLOG_TRACE("NUMBER OF KERNELS: {}", time_indices->file_paths.size());
-          SPDLOG_TRACE("NUMBER OF START TIMES: {}", time_indices->start_times.size());
-          SPDLOG_TRACE("NUMBER OF STOP TIMES: {}", time_indices->stop_times.size()); 
-        } else { 
-          // no kernels found 
-          continue;
-        }
-        size_t iterations = 0; 
-      
-        // init containers
-        unordered_set<size_t> start_time_kernels; 
-        vector<string> final_time_kernels;
-
-        // Get everything starting before the stop_time; 
-        auto start_upper_bound = time_indices->start_times.upper_bound(stop_time);
-        for(auto it = time_indices->start_times.begin() ;it != start_upper_bound; it++) {
-          iterations++;
-          start_time_kernels.insert(it->second);             
-        }
-
-        SPDLOG_TRACE("NUMBER OF KERNELS MATCHING START TIME: {}", start_time_kernels.size()); 
-
-        // Get everything stopping after the start_time; 
-        auto stop_lower_bound = time_indices->stop_times.lower_bound(start_time);
-        if(time_indices->stop_times.end() == stop_lower_bound && start_time_kernels.contains(stop_lower_bound->second)) { 
-          final_time_kernels.push_back(time_indices->file_paths.at(stop_lower_bound->second));
-        }
-        else { 
-          for(auto &it = stop_lower_bound;it != time_indices->stop_times.end(); it++) { 
-            // if it's also in the start_time set, add it to the list
-            iterations++;
-            
-            if (start_time_kernels.contains(it->second)) {
-              final_time_kernels.push_back(data_dir / time_indices->file_paths.at(it->second));
-            }
-          } 
-        }
-        if (final_time_kernels.size()) { 
-          kernels[Kernel::translateType(type)] = final_time_kernels;
-          kernels[qkey] = Kernel::translateQuality(quality);
-        }
-        SPDLOG_TRACE("NUMBER OF ITERATIONS: {}", iterations);
-        SPDLOG_TRACE("NUMBER OF KERNELS FOUND: {}", final_time_kernels.size());  
       }
       else { // text/non time based kernels
         SPDLOG_DEBUG("Trying to search time independant kernels");
