@@ -54,9 +54,9 @@ void TempTestingFiles::SetUp() {
 
 
 void TempTestingFiles::TearDown() {
-    if(!fs::remove_all(tempDir)) {
-      throw runtime_error("Could not delete temporary files");
-    }
+    // if(!fs::remove_all(tempDir)) {
+    //   throw runtime_error("Could not delete temporary files");
+    // }
 }
 
 
@@ -169,6 +169,46 @@ void IsisDataDirectory::CompareKernelSets(vector<string> kVector, vector<string>
       FAIL() << e << " was not found in the kernel results";
     }
   }
+}
+
+void KernelsWithQualities::SetUp() { 
+  root = getenv("SPICEROOT");
+
+  fs::create_directory(root / "spk");
+
+  // we are using Mars odyssey here 
+  int bodyCode = -83000;
+  std::string referenceFrame = "j2000"; 
+
+  std::vector<double> times1 = {110000000, 120000000};
+  std::vector<double> times2 = {130000000, 140000000};
+
+  // create predicted SPK 
+
+  std::vector<std::vector<double>> velocities = {{1,1,1}, {2,2,2}};
+  std::vector<std::vector<double>> positions = {{1, 1, 1}, {2, 2, 2}};
+  spkPathPredict = root / "spk" / "m01_map.bsp";
+  writeSpk(spkPathPredict, positions, times1, bodyCode, 1, referenceFrame, "SPK ID 1", 1, velocities, "SPK 1");
+
+  // create reconstructed SPK  
+  spkPathRecon = root / "spk" / "m01_ab_v2.bsp";
+
+  writeSpk(spkPathRecon, positions, times1, bodyCode, 1, referenceFrame, "SPK ID 1", 1, velocities, "SPK 1"); 
+
+  // create another reconstructed SPK with different times 
+  spkPathRecon2 = root / "spk" / "m01_map_rec.bsp";
+
+  writeSpk(spkPathRecon2, positions, times2, bodyCode, 1, referenceFrame, "SPK ID 1", 1, velocities, "SPK 1"); 
+
+  spkPathSmithed = root / "spk" / "themis_dayir_merged_2018Jul13_spk.bsp";
+  writeSpk(spkPathSmithed, positions, times1, bodyCode, 1, referenceFrame, "SPK ID 1", 1, velocities, "SPK 1"); 
+  
+  Inventory::create_database();
+}
+
+
+void KernelsWithQualities::TearDown() {
+
 }
 
 

@@ -4,6 +4,7 @@
 
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
+#include <ghc/fs_std.hpp>
 
 #include "inventory.h"
 #include "inventoryimpl.h"
@@ -26,7 +27,12 @@ namespace SpiceQL {
 
             return impl.search_for_kernelset(instrument, enum_types, start_time, stop_time, enum_ck_quality, enum_spk_quality, enforce_quality);
         }
-
+        
+        string getDbFilePath() { 
+            static std::string db_path = fs::path(getCacheDir()) / DB_HDF_FILE;
+            return db_path;
+        }
+ 
         void create_database() { 
             // force generate the database
             InventoryImpl db(true);
