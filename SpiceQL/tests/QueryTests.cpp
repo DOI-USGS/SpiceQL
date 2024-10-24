@@ -121,7 +121,7 @@ TEST_F(KernelDataDirectories, FunctionalTestListMissionKernelsAllMess) {
   EXPECT_EQ(SpiceQL::getKernelsAsVector(res["mdis"]["fk"]["kernels"]).size(), 2);
   EXPECT_EQ(SpiceQL::getKernelsAsVector(res["mdis"]["ik"]["kernels"]).size(), 2);
   EXPECT_EQ(SpiceQL::getKernelsAsVector(res["mdis"]["iak"]["kernels"]).size(), 2);
-  EXPECT_EQ(SpiceQL::getKernelsAsVector(res["mdis"]["pck"]["na"]["kernels"]).size(), 2);
+  EXPECT_EQ(SpiceQL::getKernelsAsVector(res["mdis"]["pck"]["noquality"]["kernels"]).size(), 2);
 
   EXPECT_EQ(SpiceQL::getKernelsAsVector(res["mdis_att"]["ck"]["reconstructed"]["kernels"]).size(), 4);
 
@@ -172,7 +172,7 @@ TEST_F(KernelDataDirectories, FunctionalTestListMissionKernelsGalileo) {
   ASSERT_EQ(SpiceQL::getKernelsAsVector(res["galileo"]["spk"]["reconstructed"]["kernels"]).size(), 2);
   ASSERT_EQ(SpiceQL::getKernelsAsVector(res["galileo"]["iak"]["kernels"]).size(), 1);
   ASSERT_EQ(SpiceQL::getKernelsAsVector(res["galileo"]["pck"]["smithed"]["kernels"]).size(), 2);
-  ASSERT_EQ(SpiceQL::getKernelsAsVector(res["galileo"]["pck"]["na"]["kernels"]).size(), 1);
+  ASSERT_EQ(SpiceQL::getKernelsAsVector(res["galileo"]["pck"]["noquality"]["kernels"]).size(), 1);
   ASSERT_EQ(SpiceQL::getKernelsAsVector(res["galileo"]["sclk"]["kernels"]).size(), 1);
 }
 
