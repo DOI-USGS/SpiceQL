@@ -28,6 +28,13 @@ class ResponseModel(BaseModel):
     statusCode: int
     body: ResultModel | ErrorModel
 
+# Helper funcs
+def validate_quality(quality: str) -> str:
+    '''Check for empty strings, return default "smithed"'''
+    if (quality):
+        return quality
+    return "smithed"
+
 # Create FastAPI instance
 app = FastAPI()
 
@@ -68,7 +75,7 @@ async def getTargetStates(
                 ets = list(etsNpArray)
             else:
                 raise Exception("Verify that a startEts, exposureDuration, and numOfExposures are being passed correctly.")
-        result = pyspiceql.getTargetStates(ets, target, observer, frame, abcorr, mission, ckQuality, spkQuality, SEARCH_KERNELS_BOOL)
+        result = pyspiceql.getTargetStates(ets, target, observer, frame, abcorr, mission, validate_quality(ckQuality), validate_quality(spkQuality), SEARCH_KERNELS_BOOL)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -96,7 +103,7 @@ async def getTargetOrientations(
                 ets = list(etsNpArray)
             else:
                 raise Exception("Verify that a startEts, exposureDuration, and numOfExposures are being passed correctly.")
-        result = pyspiceql.getTargetOrientations(ets, toFrame, refFrame, mission, ckQuality, SEARCH_KERNELS_BOOL)
+        result = pyspiceql.getTargetOrientations(ets, toFrame, refFrame, mission, validate_quality(ckQuality), SEARCH_KERNELS_BOOL)
         body = ResultModel(result=result)  
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -235,7 +242,7 @@ async def frameTrace(
     mission: str,
     ckQuality: str = "smithed"):
     try:
-        result = pyspiceql.frameTrace(et, initialFrame, mission, ckQuality, SEARCH_KERNELS_BOOL)
+        result = pyspiceql.frameTrace(et, initialFrame, mission, validate_quality(ckQuality), SEARCH_KERNELS_BOOL)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -250,7 +257,7 @@ async def extractExactCkTimes(
     mission: str,
     ckQuality: str = "smithed"):
     try:
-        result = pyspiceql.extractExactCkTimes(observStart, observEnd, targetFrame, mission, ckQuality, SEARCH_KERNELS_BOOL)
+        result = pyspiceql.extractExactCkTimes(observStart, observEnd, targetFrame, mission, validate_quality(ckQuality), SEARCH_KERNELS_BOOL)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
