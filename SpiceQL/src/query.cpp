@@ -230,6 +230,13 @@ namespace SpiceQL {
     }
     if (pointers.empty() && kernels.is_object()) { 
       // Assume it's in the format {"sclk" : ["path1", "path2"], "ck" : ["path1"], ...}  
+      
+      json iaks = {};
+      // we want to furnish them last
+      if(kernels.contains("iak")) { 
+        iaks = kernels["iak"]; 
+        kernels.erase("iak");
+      }
       for (auto& [key, val] : kernels.items()) { 
         SPDLOG_TRACE("Getting Kernels of Type: {}", key);
         if(!val.empty()) { 
@@ -240,6 +247,16 @@ namespace SpiceQL {
           } 
         }
       }
+
+      // add iaks at the end
+      if(!iaks.empty()) { 
+        vector<string> ks = jsonArrayToVector(iaks);
+        for (auto &kernel : ks) { 
+            SPDLOG_TRACE("Adding: {}", kernel);
+            kernelVect.push_back(kernel);
+        }  
+      }
+
     }
     else {
       for (auto & p : pointers) {
