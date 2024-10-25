@@ -42,7 +42,9 @@ namespace SpiceQL {
   string DB_START_TIME_KEY = "starttime"; 
   string DB_STOP_TIME_KEY = "stoptime"; 
   string DB_TIME_FILES_KEY = "path_index"; 
-  string DB_SS_TIME_INDICES_KEY = "ss_index"; 
+  string DB_START_TIME_INDICES_KEY = "start_kindex"; 
+  string DB_STOP_TIME_INDICES_KEY = "stop_kindex"; 
+
 
   string getCacheDir() { 
       static std::string  CACHE_DIRECTORY = "";
@@ -90,7 +92,7 @@ namespace SpiceQL {
     
     json timeJson = conf.getRecursive(type);
     json ckKernelGrp = timeJson[type][quality]["kernels"];
-    
+
     for(auto &arr : ckKernelGrp) {
       for(auto &subArr : arr) {
         for (auto &kernel : subArr) {
@@ -141,14 +143,18 @@ namespace SpiceQL {
       json json_kernels = getLatestKernels(config.get()); 
 
       // load time kernels for creating the timed kernel DataBase 
-      json sclk_json = getLatestKernels(config.getRecursive("sclk")); 
-      json lsk_json = getLatestKernels(config.getRecursive("lsk")); 
-      
-      m_required_kernels.load(sclk_json); 
+      json lsk_json = getLatestKernels(config["base"].getRecursive("lsk")); 
+
+      SPDLOG_TRACE("InventoryImpl LSKs: {}", lsk_json.dump(4));
+
       m_required_kernels.load(lsk_json); 
 
       for (auto &[mission, kernels] : json_kernels.items()) {
         fmt::print("mission: {}\n", mission);    
+
+        json sclk_json = getLatestKernels(config[mission].getRecursive("sclk")); 
+        SPDLOG_TRACE("{} SCLKs: {}", mission, sclk_json.dump(4)); 
+        KernelSet sclks_ks(sclk_json); 
 
         for(auto &[kernel_type, kernel_obj] : kernels.items()) { 
           if (kernel_type == "ck" || kernel_type == "spk") { 
@@ -272,15 +278,18 @@ namespace SpiceQL {
 
               vector<double> start_times_v = getKey<vector<double>>(DB_SPICE_ROOT_KEY+"/"+key+"/"+DB_START_TIME_KEY); 
               vector<double> stop_times_v = getKey<vector<double>>(DB_SPICE_ROOT_KEY+"/"+key+"/"+DB_STOP_TIME_KEY);
-              vector<size_t> file_index_v = getKey<vector<size_t>>(DB_SPICE_ROOT_KEY+"/"+key+"/"+DB_SS_TIME_INDICES_KEY); 
+              vector<size_t> start_file_index_v = getKey<vector<size_t>>(DB_SPICE_ROOT_KEY+"/"+key+"/"+DB_START_TIME_INDICES_KEY); 
+              vector<size_t> stop_file_index_v = getKey<vector<size_t>>(DB_SPICE_ROOT_KEY+"/"+key+"/"+DB_STOP_TIME_INDICES_KEY); 
               vector<string> file_paths_v = getKey<vector<string>>(DB_SPICE_ROOT_KEY+"/"+key+"/"+DB_TIME_FILES_KEY); 
 
               time_indices->file_paths = file_paths_v;
-              SPDLOG_TRACE("Index, start time, stop time sizes: {}, {}, {}", file_index_v.size(), start_times_v.size(), stop_times_v.size());
+              SPDLOG_TRACE("Index, start time, stop time sizes: {}, {}, {}", start_file_index_v.size(), start_times_v.size(), stop_times_v.size());
               // load start_times 
               for(size_t i = 0; i < start_times_v.size(); i++) {
-                time_indices->start_times[start_times_v[i]] = file_index_v[i];
-                time_indices->stop_times[stop_times_v[i]] = file_index_v[i];
+                time_indices->start_times[start_times_v[i]] = start_file_index_v[i];
+              }
+              for(size_t i = 0; i < stop_times_v.size(); i++) {
+                time_indices->stop_times[stop_times_v[i]] = stop_file_index_v[i];
               }
             }
             catch (runtime_error &e) { 
@@ -313,6 +322,7 @@ namespace SpiceQL {
           }
           for(auto it = time_indices->start_times.begin() ;it != start_upper_bound; it++) {
             iterations++;
+            SPDLOG_TRACE("Inserting {} with the start time {}", time_indices->file_paths.at(it->second), it->first);
             start_time_kernels.insert(it->second);             
           }
 
@@ -320,15 +330,15 @@ namespace SpiceQL {
 
           // Get everything stopping after the start_time; 
           auto stop_lower_bound = time_indices->stop_times.lower_bound(start_time);
-          SPDLOG_TRACE("IS {} in the array? {}", stop_lower_bound->second, start_time_kernels.contains(stop_lower_bound->second)); 
           if(time_indices->stop_times.end() == stop_lower_bound && stop_lower_bound->first >= stop_time && start_time_kernels.contains(stop_lower_bound->second)) { 
+            SPDLOG_TRACE("Is {} in the array? {}", stop_lower_bound->second, start_time_kernels.contains(stop_lower_bound->second)); 
             final_time_kernels.push_back(time_indices->file_paths.at(stop_lower_bound->second));
           }
           else { 
-            for(auto &it = stop_lower_bound;it != time_indices->stop_times.end(); it++) { 
+            for(auto it = stop_lower_bound;it != time_indices->stop_times.end(); it++) { 
               // if it's also in the start_time set, add it to the list
               iterations++;
-              SPDLOG_TRACE("IS {} in the array? {}", it->second, start_time_kernels.contains(it->second)); 
+              SPDLOG_TRACE("Is {} with stop time {} in the array? {}", time_indices->file_paths.at(it->second), it->first, start_time_kernels.contains(it->second)); 
               if (start_time_kernels.contains(it->second)) {
                 final_time_kernels.push_back(data_dir / time_indices->file_paths.at(it->second));
               }
@@ -394,21 +404,26 @@ namespace SpiceQL {
         start_times_v.reserve(kernels->start_times.size());
         vector<double> stop_times_v;
         stop_times_v.reserve(kernels->stop_times.size());
-        vector<size_t> indices_v;
-        indices_v.reserve(kernels->start_times.size());
+        vector<size_t> start_indices_v;
+        start_indices_v.reserve(kernels->start_times.size());
+        vector<size_t> stop_indices_v;
+        stop_indices_v.reserve(kernels->stop_times.size());
+
 
         for (const auto &[k, v] : kernels->start_times) { 
           start_times_v.push_back(k);
-          indices_v.push_back(v);
+          start_indices_v.push_back(v);
         }
 
         for (const auto &[k, v] : kernels->stop_times) { 
           stop_times_v.push_back(k);
+          stop_indices_v.push_back(v);
         } 
 
         H5Easy::dump(file, DB_SPICE_ROOT_KEY + "/"+kernel_key+"/"+DB_START_TIME_KEY, start_times_v, H5Easy::DumpMode::Overwrite);
         H5Easy::dump(file, DB_SPICE_ROOT_KEY + "/"+kernel_key+"/"+DB_STOP_TIME_KEY, stop_times_v, H5Easy::DumpMode::Overwrite);
-        H5Easy::dump(file, DB_SPICE_ROOT_KEY + "/"+kernel_key+"/"+DB_SS_TIME_INDICES_KEY, indices_v, H5Easy::DumpMode::Overwrite);
+        H5Easy::dump(file, DB_SPICE_ROOT_KEY + "/"+kernel_key+"/"+DB_START_TIME_INDICES_KEY, start_indices_v, H5Easy::DumpMode::Overwrite);
+        H5Easy::dump(file, DB_SPICE_ROOT_KEY + "/"+kernel_key+"/"+DB_STOP_TIME_INDICES_KEY, stop_indices_v, H5Easy::DumpMode::Overwrite);
       }
     }
 
