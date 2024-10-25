@@ -231,41 +231,42 @@ TEST_F(IsisDataDirectory, FunctionalTestLroConf) {
   mocks.OnCallFunc(ls).Return(files);
   
   nlohmann::json res = listMissionKernels("doesn't matter", conf);
-  
+  SPDLOG_DEBUG("Kernel Results: {}", res.dump(4));
   // check a kernel from each regex exists in their quality groups
   vector<string> kernelToCheck =  SpiceQL::getKernelsAsVector(res.at("moc").at("ck").at("reconstructed").at("kernels"));
   vector<string> expected = {"moc42r_2016305_2016336_v01.bc"};
-  
+  SPDLOG_DEBUG("Checking CKs");
   for (auto &e : expected) { 
     auto it = find(kernelToCheck.begin(), kernelToCheck.end(), e);
     if (it == kernelToCheck.end()) {
-      FAIL() << e << " was not found in the kernel results";
+      throw runtime_error(e+" was not found in the kernel results");
     }
   }
   
+  SPDLOG_DEBUG("Checking Recon SPKs");
   kernelToCheck = getKernelsAsVector(res.at("moc").at("spk").at("reconstructed")); 
   expected = {"fdf29r_2018305_2018335_v01.bsp", "fdf29_2021327_2021328_b01.bsp"};
   for (auto &e : expected) { 
     auto it = find(kernelToCheck.begin(), kernelToCheck.end(), e);
     if (it == kernelToCheck.end()) {
-      FAIL() << e << " was not found in the kernel results";
+      throw runtime_error(e+" was not found in the kernel results");
     }
   }
 
-
+  SPDLOG_DEBUG("Checking Smithed SPKs");
   kernelToCheck = getKernelsAsVector(res.at("moc").at("spk").at("smithed")); 
   expected = {"LRO_ES_05_201308_GRGM660PRIMAT270.bsp", "LRO_ES_16_201406_GRGM900C_L600.BSP"};
   for (auto &e : expected) { 
     auto it = find(kernelToCheck.begin(), kernelToCheck.end(), e);
     if (it == kernelToCheck.end()) {
-      FAIL() << e << " was not found in the kernel results";
+      throw runtime_error(e+" was not found in the kernel results");
     }
   }
 
+  SPDLOG_DEBUG("Checking IAKs");
   kernelToCheck = getKernelsAsVector(res.at("minirf").at("iak"));
   expected = {"mrflroAddendum002.ti"};
   EXPECT_EQ(kernelToCheck, expected);
-
 }
 
 

@@ -146,7 +146,7 @@ TEST_F(LroKernelSet, UnitTestFindMissionKeywords) {
   nlohmann::json keywords = findMissionKeywords("INS-85600_CCD_CENTER", "lro");
 
   nlohmann::json expectedResults;
-  expectedResults["INS-85600_CCD_CENTER"] = {2531.3, 0.4};
+  expectedResults["INS-85600_CCD_CENTER"] = {2531.5, 0.5};
 
   EXPECT_EQ(keywords, expectedResults);
 }

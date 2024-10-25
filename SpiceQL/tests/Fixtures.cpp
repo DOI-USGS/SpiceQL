@@ -54,9 +54,9 @@ void TempTestingFiles::SetUp() {
 
 
 void TempTestingFiles::TearDown() {
-    // if(!fs::remove_all(tempDir)) {
-    //   throw runtime_error("Could not delete temporary files");
-    // }
+    if(!fs::remove_all(tempDir)) {
+      throw runtime_error("Could not delete temporary files");
+    }
 }
 
 
@@ -273,9 +273,11 @@ void LroKernelSet::SetUp() {
   writeSpk(spkPath3, positions, times1, bodyCode/1000, 301, referenceFrame, "SPK ID 3", 1, velocities, "SPK 3");
 
   // Write IK1 -------------------------------------------
+  fs::create_directory(root / "iak");
   fs::create_directory(root / "ik");
+ 
 
-  ikPath1 = root / "ik" / "lro_instruments_v10.ti";
+  ikPath1 = root / "iak" / "lro_instrumentAddendum_v11.ti";
   nlohmann::json jKeywords = {
     {"INS-85600_PIXEL_SAMPLES", { 5064 }},
     {"INS-85600_PIXEL_LINES", { 1 }},
@@ -286,7 +288,7 @@ void LroKernelSet::SetUp() {
   writeTextKernel(ikPath1, "ik", jKeywords);
 
   // Write IK2 -------------------------------------------
-  ikPath2 = root / "ik" / "lro_instruments_v11.ti";
+  ikPath2 = root / "ik" / "lro_lroc_v11.ti";
   jKeywords = {
     {"INS-85600_PIXEL_SAMPLES", { 5063 }},
     {"INS-85600_PIXEL_LINES", { 1 }},
