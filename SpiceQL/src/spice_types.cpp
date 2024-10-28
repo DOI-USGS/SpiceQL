@@ -75,6 +75,9 @@ namespace SpiceQL {
 
 
   Kernel::Quality Kernel::translateQuality(string qa) {
+    if (qa.empty()) {
+      qa = "smithed";
+    }
     auto res = findInVector<string>(Kernel::QUALITIES, qa);
     if (res.first) {
       return static_cast<Kernel::Quality>(res.second);
