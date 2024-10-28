@@ -1,8 +1,5 @@
 {
   "lro" : {
-    "ik" : {
-      "kernels" : ["lro_instruments_v[0-9]{2}.ti$"]
-    },
     "iak" : {
       "kernels" : ["lro_instrumentAddendum_v[0-9]{2}.ti$"]
     },

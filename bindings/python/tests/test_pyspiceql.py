@@ -4,7 +4,7 @@ from pyspiceql import getMissionConfig, Config, getKernelStringValue
 def test_jsonConversion():
     lro_config = getMissionConfig('lro')
     assert isinstance(lro_config, dict)
-    kernel_list = lro_config["lro"]["ik"]["kernels"]
+    kernel_list = lro_config["lro"]["iak"]["kernels"]
     assert isinstance(kernel_list, list)
 
 def test_config():

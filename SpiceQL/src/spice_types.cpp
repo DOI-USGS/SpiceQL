@@ -80,8 +80,7 @@ namespace SpiceQL {
       return static_cast<Kernel::Quality>(res.second);
     }
 
-    std::string qualities = std::accumulate(Kernel::QUALITIES.begin(), Kernel::QUALITIES.end(), std::string(", "));
-    throw invalid_argument(fmt::format("{} is not a valid kernel type, available types are: {}", qa, qualities));
+    throw invalid_argument(fmt::format("{} is not a valid kernel type, available types are: {}", qa, fmt::join(Kernel::QUALITIES, ", ")));
   }
 
 

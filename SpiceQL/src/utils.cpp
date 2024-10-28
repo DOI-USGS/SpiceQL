@@ -176,6 +176,8 @@ namespace SpiceQL {
 
 
   vector<double> getTargetState(double et, string target, string observer, string frame, string abcorr) {
+    SPDLOG_TRACE("getTargetState(et={}, target={}, observer={}, frame={}, abcorr={})", et, target, observer, frame, abcorr);
+
     // convert params to spice types
     ConstSpiceChar *target_spice = target.c_str();  // better way to do this?
     ConstSpiceChar *observer_spice = observer.c_str();
@@ -185,7 +187,6 @@ namespace SpiceQL {
     // define outputs
     SpiceDouble lt;
     SpiceDouble starg_spice[6];
-
     checkNaifErrors();
     spkezr_c( target_spice, et, frame_spice, abcorr_spice, observer_spice, starg_spice, &lt );
     checkNaifErrors();
@@ -208,26 +209,19 @@ namespace SpiceQL {
     }
 
     json ephemKernels = {};
-    json lskKernels = {};
-    json pckKernels = {};
-    json spkKernels = {};
+    json baseKernels = {};
 
     if (searchKernels) {
-      ephemKernels = Inventory::search_for_kernelset(mission, {"sclk", "ck", "spk", "pck", "tspk"}, ets.front(), ets.back(), ckQuality, spkQuality);
-      lskKernels = Inventory::search_for_kernelset("base", {"lsk"});
-      pckKernels = Inventory::search_for_kernelset("base", {"pck"});
-      spkKernels = Inventory::search_for_kernelset("base", {"spk"});
-      SPDLOG_DEBUG("LSK Kernels : {}", lskKernels.dump(4));
+      ephemKernels = Inventory::search_for_kernelset(mission, {"sclk", "ck", "spk", "pck", "tspk", "fk"}, ets.front(), ets.back(), ckQuality, spkQuality);
+      baseKernels = Inventory::search_for_kernelset("base", {"lsk", "pck", "spk"});
+      SPDLOG_DEBUG("Base Kernels : {}", baseKernels.dump(4));
       SPDLOG_DEBUG("{} Kernels : {}", mission, ephemKernels.dump(4));
-      SPDLOG_DEBUG("PCK Kernels : {}", pckKernels.dump(4));
-      SPDLOG_DEBUG("SPK Kernels : {}", spkKernels.dump(4)); 
     }
 
     auto start = high_resolution_clock::now();
+    KernelSet baseSet(baseKernels);
     KernelSet ephemSet(ephemKernels);
-    KernelSet lskSet(lskKernels);
-    KernelSet pckSet(pckKernels);
-    KernelSet spkSet(spkKernels);
+
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop - start);
     SPDLOG_INFO("Time in microseconds to furnish kernel sets: {}", duration.count());
@@ -1102,7 +1096,7 @@ namespace SpiceQL {
           ssize_c(200000, &cover);
 
           // A SPICE SEGMENT is composed of SPICE INTERVALS
-          ckcov_c(kpath.c_str(), body, SPICEFALSE, "SEGMENT", 0.0, "TDB", &cover);
+          ckcov_c(kpath.c_str(), body, SPICEFALSE, "INTERVAL", 0.0, "TDB", &cover);
 
           getStartStopFromInterval(cover);
         }

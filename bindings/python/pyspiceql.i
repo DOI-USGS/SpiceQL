@@ -16,6 +16,9 @@
   #include <vector> 
 %}
 
+%template(DoublePair) std::pair<double, double>;
+
+
 %typemap(in) nlohmann::json {
   if (PyDict_Check($input) || PyList_Check($input)) {
     PyObject* module = PyImport_ImportModule("json");
