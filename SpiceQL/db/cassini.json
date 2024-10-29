@@ -3,45 +3,45 @@
     "ck": {
       "reconstructed": {
         "kernels": [
-          "[0-9]{6}_[0-9]{6}r*.bc",
-          "[0-9]{5}_[0-9]{5}r*.bc"
+          "^[0-9]{6}_[0-9]{6}r*.bc$",
+          "^[0-9]{5}_[0-9]{5}r*.bc$"
         ]
       },
       "smithed": {
         "kernels": [
-          "Enceladus_CISS_2019Shape_camera.bc",
-          "99213_99243cb_ISS.bc",
-          "0[0-9]{4}_[0-9]{5}c[0-9]{1}_ISS.bc"
+          "^Enceladus_CISS_2019Shape_camera.bc$",
+          "^99213_99243cb_ISS.bc$",
+          "^0[0-9]{4}_[0-9]{5}c[0-9]{1}_ISS.bc$"
         ]
       }
     },
     "fk": {
       "kernels": [
-        "cas_v[0-9]{2}_usgs.tf",
-        "cas_v[0-9]{2}.tf"
+        "^cas_v[0-9]{2}_usgs.tf$",
+        "^cas_v[0-9]{2}.tf$"
       ]
     },
     "iak": {
       "kernels": [
-        "vimsAddendum[0-9]{2}.ti",
-        "IssNAAddendum[0-9]{3}.ti",
-        "IssWAAddendum[0-9]{3}.ti"
+        "^vimsAddendum[0-9]{2}.ti$",
+        "^IssNAAddendum[0-9]{3}.ti$",
+        "^IssWAAddendum[0-9]{3}.ti$"
       ]
     },
     "pck": {
-      "kernels": "pck[0-9]{5}.tpc",
+      "kernels": "^pck[0-9]{5}.tpc$",
       "smithed": {
-        "kernels": "cpck15Dec2017_2019Shape.tpc"
+        "kernels": "^cpck15Dec2017_2019Shape.tpc$"
       }
     },
     "sclk": {
-      "kernels": "cas[0-9]{5}.tsc"
+      "kernels": "^cas[0-9]{5}.tsc$"
     },
     "spk": {
       "kernels": [
-        "010420R_SCPSE_EP1_JP83.bsp",
-        "[0-9]{6}R*_SCPSE_[0-9]{5}_[0-9]{5}.bsp",
-        "cpck30Sep2004_jupiter.tpc"
+        "^010420R_SCPSE_EP1_JP83.bsp$",
+        "^[0-9]{6}R*_SCPSE_[0-9]{5}_[0-9]{5}.bsp$",
+        "^cpck30Sep2004_jupiter.tpc$"
       ]
     }
   }
