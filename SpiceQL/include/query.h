@@ -92,7 +92,7 @@ namespace SpiceQL {
     *
     * @param root Directory with kernels somewhere in the directory or its subdirectories
     * @param conf JSON config file, usually this is a JSON object read from one of the db files that shipped with the library
-    * @param kernelType Some CK kernel type, see Kernel::TYPES
+    * @param kernelType Some CK kernel type, see KERNEL_TYPES
    **/
   nlohmann::json globKernels(std::string root, nlohmann::json conf, std::string kernelType);
 

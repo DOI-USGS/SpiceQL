@@ -184,28 +184,29 @@ TEST_F(TestConfig, FunctionalTestsSubConfigGetLatestRecursive) {
 
 
 TEST_F(TestConfig, FunctionalTestsConfigGet) {
-  vector<string> expectedPointers = {"/ck/reconstructed", "/fk", "/iak", "/ik", "/pck", "/spk/reconstructed", "/spk/smithed", "/sclk", "/tspk"};
+  vector<string> expectedPointers = {"/ck/reconstructed", "/fk", "/iak", "/ik", "/spk/reconstructed", "/spk/smithed", "/sclk"};
   MockRepository mocks;
   mocks.OnCallFunc(Memo::ls).Return(paths);
 
   json resJson = testConfig.get("lroc");
-  EXPECT_EQ(resJson.size(), 8);
+  EXPECT_EQ(resJson.size(), 6);
   for (auto pointer : expectedPointers) {
-    ASSERT_TRUE(resJson.contains(json::json_pointer(pointer)));
+    SPDLOG_DEBUG("Checking for {}", pointer); 
+    EXPECT_TRUE(resJson.contains(json::json_pointer(pointer)));
     EXPECT_TRUE(resJson[json::json_pointer(pointer)]["kernels"].size() > 0);
   }
 }
 
 TEST_F(TestConfig, FunctionalTestsConfigGetVector) {
-  vector<string> expectedLrocPointers = {"/ck/reconstructed", "/fk", "/iak", "/ik", "/pck", "/spk/reconstructed", "/spk/smithed", "/sclk", "/tspk"};
-  vector<string> expectedCassiniPointers = {"/ck/reconstructed", "/ck/smithed", "/fk", "/iak", "/pck", "/pck/smithed", "/sclk", "/spk"};
+  vector<string> expectedLrocPointers = {"/ck/reconstructed", "/fk", "/iak", "/ik", "/spk/reconstructed", "/spk/smithed", "/sclk"};
+  vector<string> expectedCassiniPointers = {"/ck/reconstructed", "/ck/smithed", "/fk", "/iak", "/pck/smithed", "/sclk", "/spk"};
   MockRepository mocks;
   mocks.OnCallFunc(Memo::ls).Return(paths);
 
   vector<string> configPointers = {"lroc", "cassini"};
   json resJson = testConfig.get(configPointers);
   ASSERT_EQ(resJson.size(), 2);
-  ASSERT_EQ(resJson["lroc"].size(), 8);
+  ASSERT_EQ(resJson["lroc"].size(), 6);
   for (auto pointer : expectedLrocPointers) {
     ASSERT_TRUE(resJson["lroc"].contains(json::json_pointer(pointer)));
     EXPECT_TRUE(resJson["lroc"][json::json_pointer(pointer)]["kernels"].size() > 0);
@@ -219,13 +220,13 @@ TEST_F(TestConfig, FunctionalTestsConfigGetVector) {
 }
 
 TEST_F(TestConfig, FunctionalTestsSubsetConfigGetVector) {
-  vector<string> expectedPointers = {"/fk", "/sclk", "/ik", "/pck"};
+  vector<string> expectedPointers = {"/fk", "/sclk", "/ik"};
   MockRepository mocks;
   mocks.OnCallFunc(Memo::ls).Return(paths);
   testConfig = testConfig["lroc"];
 
   json resJson = testConfig.get(expectedPointers);
-  ASSERT_EQ(resJson.size(), 4);
+  ASSERT_EQ(resJson.size(), 3);
   for (auto pointer : expectedPointers) {
     ASSERT_TRUE(resJson.contains(json::json_pointer(pointer)));
     EXPECT_TRUE(resJson[json::json_pointer(pointer)]["kernels"].size() > 0);

@@ -51,6 +51,7 @@ class LroKernelSet : public ::testing::Test  {
     fs::path root;
     string lskPath;
     string sclkPath;
+    string tspkPath;
     string ckPath1;
     string ckPath2;
     string spkPath1;
@@ -59,6 +60,8 @@ class LroKernelSet : public ::testing::Test  {
     string ikPath1;
     string ikPath2;
     string fkPath;
+    string moonPckPath;
+    string basePckPath;  
 
     nlohmann::json conf;
 

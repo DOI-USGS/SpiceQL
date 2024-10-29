@@ -15,9 +15,6 @@
         },
         "fk" : { 
             "kernels" : ["eros_fixed.tf$"]
-        },
-        "pck" : { 
-            "kernels" : ["pck[0-9]{5}.tpc$"]
         }
     },
     "msi": {

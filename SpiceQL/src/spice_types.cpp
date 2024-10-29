@@ -42,12 +42,12 @@ namespace SpiceQL {
   }
 
 
-  const std::vector<std::string> Kernel::TYPES =  { "na", "ck", "spk", "tspk",
+  const std::vector<std::string> KERNEL_TYPES =  { "na", "ck", "spk", "tspk",
                                                     "lsk", "mk", "sclk",
                                                     "iak", "ik", "fk",
                                                     "dsk", "pck", "ek"};
 
-  const std::vector<std::string> Kernel::QUALITIES = { "noquality",
+  const std::vector<std::string> KERNEL_QUALITIES = { "noquality",
                                                        "predicted",
                                                        "nadir",
                                                        "reconstructed",
@@ -55,12 +55,12 @@ namespace SpiceQL {
 
 
   string Kernel::translateType(Kernel::Type type) {
-    return Kernel::TYPES[static_cast<int>(type)];
+    return KERNEL_TYPES[static_cast<int>(type)];
   }
 
 
   Kernel::Type Kernel::translateType(string type) {
-    auto res = findInVector<string>(Kernel::TYPES, type);
+    auto res = findInVector<string>(KERNEL_TYPES, type);
     if (res.first) {
       return static_cast<Kernel::Type>(res.second);
     }
@@ -70,17 +70,17 @@ namespace SpiceQL {
 
 
   string Kernel::translateQuality(Kernel::Quality qa) {
-    return Kernel::QUALITIES[static_cast<int>(qa)];
+    return KERNEL_QUALITIES[static_cast<int>(qa)];
   }
 
 
   Kernel::Quality Kernel::translateQuality(string qa) {
-    auto res = findInVector<string>(Kernel::QUALITIES, qa);
+    auto res = findInVector<string>(KERNEL_QUALITIES, qa);
     if (res.first) {
       return static_cast<Kernel::Quality>(res.second);
     }
 
-    throw invalid_argument(fmt::format("{} is not a valid kernel type, available types are: {}", qa, fmt::join(Kernel::QUALITIES, ", ")));
+    throw invalid_argument(fmt::format("{} is not a valid kernel type, available types are: {}", qa, fmt::join(KERNEL_QUALITIES, ", ")));
   }
 
 

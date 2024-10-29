@@ -168,7 +168,7 @@ namespace SpiceQL {
       }
 
       // iterate over potential qualities
-      for(auto qual: Kernel::QUALITIES) {
+      for(auto qual: KERNEL_QUALITIES) {
         if(!category.contains(qual)) {
           continue;
         }
@@ -211,14 +211,6 @@ namespace SpiceQL {
   vector<string> getKernelsAsVector(json kernels) {
     SPDLOG_TRACE("geKernelsAsVector json: {}", kernels.dump());
 
-    // Remove ckQuality and spkQuality properties
-    if (kernels.contains("ckQuality")) {
-      kernels.erase("ckQuality");
-    }
-    if (kernels.contains("spkQuality")) {
-      kernels.erase("spkQuality");
-    }
-
     vector<json::json_pointer> pointers = findKeyInJson(kernels, "kernels");
     vector<string> kernelVect;
 
@@ -239,7 +231,7 @@ namespace SpiceQL {
       }
       for (auto& [key, val] : kernels.items()) { 
         SPDLOG_TRACE("Getting Kernels of Type: {}", key);
-        if(!val.empty()) { 
+        if(!val.empty() && val.is_array()) { 
            vector<string> ks = jsonArrayToVector(val);
           for (auto &kernel : ks) { 
             SPDLOG_TRACE("Adding: {}", kernel);

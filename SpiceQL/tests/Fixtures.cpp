@@ -219,10 +219,14 @@ void LroKernelSet::SetUp() {
   // TODO: Programmatic clock kernels
   lskPath = fs::path("data") / "naif0012.tls";
   sclkPath = fs::path("data") / "lro_clkcor_2020184_v00.tsc";
+  tspkPath = fs::path("data") / "moon_pa_de421_1900-2050.bpc";
+
   create_directory(root / "clocks");
+  create_directory(root / "tspk");
 
   fs::copy_file(lskPath, root / "clocks" / "naif0012.tls");
   fs::copy_file(sclkPath, root / "clocks" / "lro_clkcor_2020184_v00.tsc");
+  fs::copy_file(tspkPath, root / "tspk" / "moon_pa_de421_1900-2050.bpc");
 
   // reassign member vars to temp dir
   lskPath = root / "clocks" / "naif0012.tls";
@@ -300,6 +304,7 @@ void LroKernelSet::SetUp() {
 
   // Write FK ---------------------------------------------
   fs::create_directory(root / "fk");
+  fs::create_directory(root / "pck");
 
   jKeywords = {
     {"FRAME_LRO_LROCWAC", -85620},
@@ -322,8 +327,13 @@ void LroKernelSet::SetUp() {
   };
 
   fkPath = root / "fk" / "lro_frames_1111111_v01.tf";
+  moonPckPath = root / "pck" / "moon_080317.tf"; 
+  basePckPath = root / "pck" / "pck00009.tpc";
 
+  // contents doesn't matter rn 
   writeTextKernel(fkPath, "fk", jKeywords);
+  writeTextKernel(moonPckPath, "fk", jKeywords);
+  writeTextKernel(basePckPath, "fk", jKeywords);
 
   conf = R"({
     "moc" : {

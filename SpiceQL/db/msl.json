@@ -36,7 +36,7 @@
                        "msl_[a-z]{3}_[0-9]{8}_c[0-9]{2}.ti$"]
         },
         "lsk":{
-            "kernels":"msl.tls(.history)?$"
+            "kernels":"msl.tls$"
         },
         "spk":{
             "kernels":["msl_struct_v[0-9]{2}.bsp$",

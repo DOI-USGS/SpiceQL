@@ -11,9 +11,6 @@
                 "kernels" : ["dawn_rec_[0-9]{6}-.*.bsp$"]
             }
         },
-        "pck": {
-            "kernels": ["pck[0-9]{5}$", "dawn_vesta_v[0-9]{2}.tpc$", "dawn_vesta_v[0-9]{2}.tf$", "dawn_ceres_v[0-9]{2}.tpc$", "dawn_ceres_v[0-9]{2}.tf$"]
-        },
         "ck" : { 
             "reconstructed" : {
                 "kernels" : ["dawn_sc_[0-9]{6}_[0-9]{6}.bc$"]
@@ -61,5 +58,15 @@
             "kernels": ["dawn_vir_v[0-9]{2}.ti$"]
         },
         "deps" : ["/dawn"]
+    },
+    "dawn_vesta" : { 
+       "pck" : {
+          "kernels" : ["dawn_vesta_v[0-9]{2}.tpc$", "dawn_vesta_v[0-9]{2}.tf$"]
+       } 
+    },
+    "dawn_ceres" : {
+        "pck": {
+            "kernels": ["dawn_ceres_v[0-9]{2}.tpc$", "dawn_ceres_v[0-9]{2}.tf$"]
+        }
     }
 }

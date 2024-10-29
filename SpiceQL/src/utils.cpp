@@ -98,7 +98,7 @@ namespace SpiceQL {
     transform(s.begin(), s.end(), s.begin(), [](unsigned char c){ return tolower(c); });
     return s;
   }
-
+  
 
   string replaceAll(string str, const string& from, const string& to) {
     size_t start_pos = 0;

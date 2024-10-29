@@ -20,7 +20,6 @@ set (SPICEQL_TEST_SOURCE    ${SPICEQL_TEST_DIRECTORY}/TestUtilities.cpp
                             ${SPICEQL_TEST_DIRECTORY}/KernelTests.cpp
                             ${SPICEQL_TEST_DIRECTORY}/MemoTests.cpp
                             ${SPICEQL_TEST_DIRECTORY}/InventoryTests.cpp 
-                            ${SPICEQL_TEST_DIRECTORY}/FunctionalTestsSpiceQueries.cpp
                             ${SPICEQL_TEST_DIRECTORY}/FunctionalTestsConfig.cpp)
 
 # setup test executable

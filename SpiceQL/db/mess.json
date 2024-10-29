@@ -14,7 +14,7 @@
             }
         },
         "tspk" : {
-          "kernels" : ["de423s.bsp", "des405.bsp"]
+          "kernels" : ["des405.bsp"]
         },
         "fk" : {
           "kernels" : "msgr_v[0-9]{3}.tf"

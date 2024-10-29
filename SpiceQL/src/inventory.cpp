@@ -15,7 +15,7 @@ using namespace std;
 
 namespace SpiceQL { 
     namespace Inventory { 
-        nlohmann::json search_for_kernelset(std::string instrument, std::vector<string> types, double start_time, double stop_time,  string ckQuality, string spkQuality, bool enforce_quality) { 
+        json search_for_kernelset(string instrument, vector<string> types, double start_time, double stop_time,  string ckQuality, string spkQuality, bool enforce_quality) { 
             InventoryImpl impl;
             vector<Kernel::Type> enum_types;
             Kernel::Quality enum_ck_quality = Kernel::translateQuality(ckQuality); 
@@ -27,9 +27,23 @@ namespace SpiceQL {
 
             return impl.search_for_kernelset(instrument, enum_types, start_time, stop_time, enum_ck_quality, enum_spk_quality, enforce_quality);
         }
-        
+
+        json search_for_kernelsets(vector<string> spiceql_names, vector<string> types, double start_time, double stop_time, 
+                                      string ckQuality, string spkQuality, bool enforce_quality, bool overwrite) { 
+            InventoryImpl impl;
+            Kernel::Quality enum_ck_quality = Kernel::translateQuality(ckQuality); 
+            Kernel::Quality enum_spk_quality = Kernel::translateQuality(spkQuality);   
+            vector<Kernel::Type> enum_types;
+            for (auto &e:types) { 
+                enum_types.push_back(Kernel::translateType(e));
+            } 
+
+            json kernels = impl.search_for_kernelsets(spiceql_names, enum_types, start_time, stop_time, enum_ck_quality, enum_spk_quality, enforce_quality, overwrite);
+            return kernels; 
+        }
+
         string getDbFilePath() { 
-            static std::string db_path = fs::path(getCacheDir()) / DB_HDF_FILE;
+            static string db_path = fs::path(getCacheDir()) / DB_HDF_FILE;
             return db_path;
         }
  

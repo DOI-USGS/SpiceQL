@@ -1,10 +1,7 @@
 {
     "newhorizons": {
-        "tspk": {
-            "kernels": ["de413.bsp$", "de418.bsp$", "jup260.bsp$", "nh_nep_ura_000.bsp$", "nh_plu017.bsp$", "kbo_centaur_[0-9]{8}.bsp$", "nh_extras.bsp$", "sb_2014mu69_20150903_s6.bsp$"]
-        },
         "pck": {
-            "kernels": ["pck[0-9]{5}.tpc$", "nh_stars_kbo_centaur_v[0-9]{3}.tpc$", "nh_pcnh_[0-9]{3}.tpc$"]
+            "kernels": ["nh_stars_kbo_centaur_v[0-9]{3}.tpc$", "nh_pcnh_[0-9]{3}.tpc$"]
         },
         "fk": {
             "kernels": ["nh_v[0-9]{3}.tf$", "nh_soc_misc_v[0-9]{3}.tf$"]
@@ -67,5 +64,48 @@
             "kernels" : ["leisaAddendum[0-9]{3}.ti$"]
         },
         "deps" : ["/newhorizons"]
+    },
+    "nh_uranus" : {
+        "tspk" : {
+            "noquality" : {
+                "kernels" : ["^nh_nep_ura_000.bsp$", "^de413.bsp$"]
+            }
+        }
+    },
+    "nh_neptune" : {
+        "tspk" : {
+            "noquality" : {
+                "kernels" : ["^nh_nep_ura_000.bsp$", "^de413.bsp$"]
+            }
+        }
+    },
+    "nh_pluto" : {
+        "tspk" : {
+            "noquality" : {
+                "kernels" : ["^nh_plu017.bsp$", "^de413.bsp$"]
+            }
+        }
+    },
+    "nh_charon" : { 
+        "deps" : ["/pluto"]
+    },
+    "nh_nix" : { 
+        "deps" : ["/pluto"]
+    },
+    "nh_hydra" : { 
+        "deps" : ["/pluto"]
+    },
+    "nh_callirrhoe" :{
+      "tspk" : {
+        "noquality" : {
+            "kernels" : ["^nh_extras.bsp$", "^de418.bsp$"]
+        }
+      }
+    },
+    "nh_styx" : { 
+        "deps" : ["/nh_callirrhoe"]
+    },
+    "nh_kerberos" : { 
+        "deps" : ["/nh_callirrhoe"]
     }
 }

@@ -28,14 +28,13 @@
         }
       }
     },
-    
-    "metric": {
+    "apollo17_metric": {
       "iak": {
         "kernels": "apollo17MetricAddendum[0-9]{3}.ti"
       },
       "deps" : ["/apollo17"]
     },
-    "panoramic": {
+    "apollo17_panoramic": {
       "ik": {
         "kernels": [
           "apollo17_metric.[0-9]{4}.ti",
@@ -43,9 +42,6 @@
           "apollo17_panoramic.[0-9]{4}.ti"
         ]
       },
-      "deps" : ["/apollo17"]
-    },
-    "apollo_pan": {
       "iak": {
         "kernels": "apolloPanAddendum[0-9]{3}.ti"
       },

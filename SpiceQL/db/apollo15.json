@@ -16,13 +16,6 @@
                 "kernels" : ["AS15_M_REV[0-9][0-9]_SMITHED_V01.bc$", "AS15_M_REV[0-9][0-9]_SMITHED_V02.bc$"]
             }
         },
-        "tspk": {
-            "kernels": ["moon_pa_de421_1900-2050.bpc", "de421.bsp"]
-        },
-        "pck": {
-            "kernels": ["moon_080317.tf$", "moon_assoc_me.tf$"],
-            "deps" : ["/base/pck"]
-        },
         "fk": {
             "kernels": ["apollo15.[0-9]{4}.tf", "apollo15_v2.[0-9]{4}.tf"]
         },
@@ -30,22 +23,22 @@
             "kernels": ["apollo15.[0-9]{4}.tsc"]
         }
     },
-    "metric": {
+    "apollo15_metric": {
         "ik": {
             "kernels": ["apollo15_metric.[0-9]{4}.ti$"]
         },
         "iak" : {
             "kernels" : "apollo15MetricAddendum[0-9]{3}.ti$"
-        }
+        },
+        "deps" : ["/apollo15"]
     },
-    "panoramic": {
+    "apollo15_panoramic": {
         "ik": {
             "kernels": ["apollo15_panoramic.[0-9]{4}.ti$"]
-        }
-    },
-    "apollo_pan": {
+        },
         "iak": {
             "kernels": "apolloPanAddendum[0-9]{3}.ti$"
-        }
+        },
+        "deps" : ["/apollo15"]
     }
 }

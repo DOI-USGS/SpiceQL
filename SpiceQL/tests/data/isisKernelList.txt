@@ -9659,8 +9659,6 @@
 /home/ec2-user/efs_prod/isis_data/juno/kernels/fk/juno_v11.tf
 /home/ec2-user/efs_prod/isis_data/kaguya/kernels/ck/SEL_M_ALL_D_V02.BC
 /home/ec2-user/efs_prod/isis_data/kaguya/kernels/sclk/SEL_M_V01.TSC
-/home/ec2-user/efs_prod/isis_data/kaguya/kernels/pck/moon_assoc_me.tf
-/home/ec2-user/efs_prod/isis_data/kaguya/kernels/pck/moon_080317.tf
 /home/ec2-user/efs_prod/isis_data/kaguya/kernels/ik/SEL_MI_V01.TI
 /home/ec2-user/efs_prod/isis_data/kaguya/kernels/ik/SEL_TC_V01.TI
 /home/ec2-user/efs_prod/isis_data/kaguya/kernels/iak/kaguyaTcAddendum001.ti
@@ -9674,7 +9672,6 @@
 /home/ec2-user/efs_prod/isis_data/kaguya/kernels/spk/SEL_M_071020_081226_SGMI_05.BSP
 /home/ec2-user/efs_prod/isis_data/kaguya/kernels/spk/SELMAINGRGM900CL660DIRALT2008103020090610.bsp
 /home/ec2-user/efs_prod/isis_data/kaguya/kernels/spk/SEL_M_071020_090610_SGMH_02.BSP
-/home/ec2-user/efs_prod/isis_data/kaguya/kernels/tspk/de421.bsp
 /home/ec2-user/efs_prod/isis_data/kaguya/kernels/fk/SEL_V01.TF
 /home/ec2-user/efs_prod/isis_data/galileo/kernels/ck/ck92345a_plt.bc
 /home/ec2-user/efs_prod/isis_data/galileo/kernels/ck/ck90342b_plt.bc
@@ -12198,8 +12195,6 @@
 /home/ec2-user/efs_prod/isis_data/lro/kernels/sclk/lro_clkcor_2021293_v00.tsc
 /home/ec2-user/efs_prod/isis_data/lro/kernels/sclk/lro_clkcor_2021327_v00.tsc
 /home/ec2-user/efs_prod/isis_data/lro/kernels/sclk/lro_clkcor_2021287_v00.tsc
-/home/ec2-user/efs_prod/isis_data/lro/kernels/pck/moon_assoc_me.tf
-/home/ec2-user/efs_prod/isis_data/lro/kernels/pck/moon_080317.tf
 /home/ec2-user/efs_prod/isis_data/lro/kernels/ik/lro_lroc_v13.ti
 /home/ec2-user/efs_prod/isis_data/lro/kernels/ik/lro_lroc_v15.ti
 /home/ec2-user/efs_prod/isis_data/lro/kernels/ik/lro_lroc_v16.ti
@@ -12479,7 +12474,6 @@
 /home/ec2-user/efs_prod/isis_data/lro/kernels/spk/fdf29_2021327_2021328_b01.bsp
 /home/ec2-user/efs_prod/isis_data/lro/kernels/spk/LRO_ES_05_201308_GRGM660PRIMAT270.bsp
 /home/ec2-user/efs_prod/isis_data/lro/kernels/spk/fdf29r_2014335_2015001_v01.bsp
-/home/ec2-user/efs_prod/isis_data/lro/kernels/tspk/de421.bsp
 /home/ec2-user/efs_prod/isis_data/lro/kernels/fk/lro_frames_2009322_v01.tf
 /home/ec2-user/efs_prod/isis_data/lro/kernels/fk/lro_frames_2010277_v01.tf
 /home/ec2-user/efs_prod/isis_data/lro/kernels/fk/lro_frames_2009171_v01.tf
@@ -14277,7 +14271,6 @@
 /home/ec2-user/efs_prod/isis_data/msl/kernels/ik/msl_nrb_20130530_c05.ti
 /home/ec2-user/efs_prod/isis_data/msl/kernels/ik/msl_struct_v01.ti
 /home/ec2-user/efs_prod/isis_data/msl/kernels/lsk/msl.tls
-/home/ec2-user/efs_prod/isis_data/msl/kernels/lsk/msl.tls.history
 /home/ec2-user/efs_prod/isis_data/msl/kernels/sclk/MSL_76_SCLKSCET.00002.tsc
 /home/ec2-user/efs_prod/isis_data/msl/kernels/sclk/MSL_76_SCLKSCET.00007.tsc
 /home/ec2-user/efs_prod/isis_data/msl/kernels/sclk/MSL_76_SCLKSCET.00009.tsc

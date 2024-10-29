@@ -1,7 +1,7 @@
 {
     "hayabusa": {
         "tspk": {
-            "kernels": ["de403s.bsp", "sb_25143_140.bsp"]
+            "kernels": ["sb_25143_140.bsp"]
         },
         "lsk": {
             "kernels": ["naif[0-9]{4}.tls"]

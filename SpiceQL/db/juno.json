@@ -22,16 +22,11 @@
         "iak" : {
           "kernels" : "junoAddendum[0-9]{3}.ti$"
         },
-        "pck" : {
-          "noquality": {
-            "kernels" : "pck000[0-9]{2}.tpc$"
-          }
-        },
         "sclk" : {
           "kernels" : "jno_sclkscet_[0-9]{5}.tsc$"
         },
         "tspk" : {
-          "kernels" : ["de4[3-4][0-9]s.bsp$", "juno_struct_v[0-9]{2}.bsp$", "jup[0-9]{3}.bsp$"]
+          "kernels" : ["juno_struct_v[0-9]{2}.bsp$", "jup[0-9]{3}.bsp$"]
         }
     }
 }

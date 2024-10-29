@@ -8,9 +8,6 @@
         "pck" : {
             "deps" : ["/base/pck"]
         },
-        "lsk": {
-            "kernels": ["naif[0-9]{4}.tls$"]
-        },
         "iak": {
             "kernels": ["lunarOrbiterAddendum[0-9]{3}.ti$"]
         },

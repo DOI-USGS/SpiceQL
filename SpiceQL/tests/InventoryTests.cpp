@@ -20,8 +20,8 @@ TEST_F(LroKernelSet, TestInventorySmithed) {
   
   EXPECT_EQ(kernels["spk"].size(), 3);
   
-  EXPECT_EQ(kernels["ckQuality"], "reconstructed");  
-  EXPECT_EQ(kernels["spkQuality"], "smithed");  
+  EXPECT_EQ(kernels["lroc_ck_quality"], "reconstructed");  
+  EXPECT_EQ(kernels["lroc_spk_quality"], "smithed");  
 }
 
 TEST_F(LroKernelSet, TestInventoryRecon) { 
@@ -31,7 +31,7 @@ TEST_F(LroKernelSet, TestInventoryRecon) {
   EXPECT_EQ(fs::path(kernels["sclk"][0]).filename(), "lro_clkcor_2020184_v00.tsc");
   EXPECT_TRUE(!kernels.contains("spk")); // no spks
   EXPECT_EQ(fs::path(kernels["ck"][0]).filename(), "soc31_1111111_1111111_v21.bc");
-  EXPECT_EQ(kernels["ckQuality"], "reconstructed"); 
+  EXPECT_EQ(kernels["lroc_ck_quality"], "reconstructed"); 
 }
 
 
@@ -73,7 +73,7 @@ TEST_F(LroKernelSet, TestInventoryPortability) {
 TEST_F(KernelsWithQualities, TestUnenforcedQuality) { 
   nlohmann::json kernels = Inventory::search_for_kernelset("odyssey", {"spk"}, 130000000, 140000000, "smithed", "smithed", false);
   // smithed kernels should not exist so it should return reconstructed
-  EXPECT_EQ(kernels["spkQuality"].get<string>(), "reconstructed");
+  EXPECT_EQ(kernels["odyssey_spk_quality"].get<string>(), "reconstructed");
 }
 
 
@@ -83,3 +83,30 @@ TEST_F(KernelsWithQualities, TestEnforcedQuality) {
   EXPECT_TRUE(kernels.is_null());
 }
 
+TEST_F(LroKernelSet, TestInventorySearch) {
+  // do a time query
+  nlohmann::json kernels = Inventory::search_for_kernelset("lroc", {"lsk", "sclk", "ck", "spk", "iak", "fk"}, 110000000, 140000001);
+  SPDLOG_DEBUG("TEST KERNELS: {}", kernels.dump(4));
+  EXPECT_EQ(kernels["ck"].size(), 2);
+  EXPECT_EQ(fs::path(kernels["ck"][0].get<string>()).filename(), "soc31_1111111_1111111_v21.bc" );
+  EXPECT_EQ(fs::path(kernels["iak"][0].get<string>()).filename(), "lro_instrumentAddendum_v11.ti");
+  EXPECT_EQ(fs::path(kernels["fk"][0].get<string>()).filename(), "lro_frames_1111111_v01.tf");
+  EXPECT_EQ(fs::path(kernels["sclk"][0].get<string>()).filename(), "lro_clkcor_2020184_v00.tsc");
+}
+
+TEST_F(LroKernelSet, TestInventorySearchSetsNoOverwrite) {
+  // do a time query
+  nlohmann::json kernels = Inventory::search_for_kernelsets({"moon", "base"}, {"pck"}, 110000000, 140000001, "reconstructed", "reconstructed", false, false);
+  SPDLOG_DEBUG("TEST KERNELS: {}", kernels.dump(4));
+  EXPECT_EQ(kernels["pck"].size(), 2);
+  EXPECT_EQ(fs::path(kernels["pck"][0].get<string>()).filename(), "moon_080317.tf");
+  EXPECT_EQ(fs::path(kernels["pck"][1].get<string>()).filename(), "pck00009.tpc");
+}
+
+TEST_F(LroKernelSet, TestInventorySearchSetsOverwrite) {
+  // do a time query
+  nlohmann::json kernels = Inventory::search_for_kernelsets({"moon", "base"}, {"pck"}, 110000000, 140000001, "reconstructed", "reconstructed", false, true);
+  SPDLOG_DEBUG("TEST KERNELS: {}", kernels.dump(4));
+  EXPECT_EQ(kernels["pck"].size(), 1);
+  EXPECT_EQ(fs::path(kernels["pck"][0].get<string>()).filename(), "pck00009.tpc");
+}

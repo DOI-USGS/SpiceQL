@@ -159,7 +159,7 @@ namespace SpiceQL {
         for(auto &[kernel_type, kernel_obj] : kernels.items()) { 
           if (kernel_type == "ck" || kernel_type == "spk") { 
             // we need to log the times
-            for (auto &quality : Kernel::QUALITIES) {
+            for (auto &quality : KERNEL_QUALITIES) {
               if (kernel_obj.contains(quality)) {
 
                 // make the keys match Config's nested keys
@@ -225,16 +225,54 @@ namespace SpiceQL {
       dataset.read(data);
       return data; 
     } catch (exception &e) { 
-      throw runtime_error("Failed to key [" + key + "] from [" + hdf_file + "].");
+      throw runtime_error("Failed to get key [" + key + "] from [" + hdf_file + "].");
     }
   }
 
+  json InventoryImpl::search_for_kernelsets(vector<string> spiceql_names, vector<Kernel::Type> types, double start_time, double stop_time,
+                                  Kernel::Quality ckQuality, Kernel::Quality spkQuality, bool enforce_quality, bool overwrite) { 
+      json kernels; 
+      // simply iterate over the names
+      for(auto &name : spiceql_names) { 
+        json subKernels = search_for_kernelset(name, types, start_time, stop_time,
+                                  ckQuality, spkQuality, enforce_quality); 
+        SPDLOG_TRACE("subkernels for {}: {}", name, subKernels.dump(4));
+        SPDLOG_TRACE("Overwrite? {}", overwrite);
+        if(overwrite) { 
+          SPDLOG_TRACE("Overwriting Kernels");
+          kernels.merge_patch(subKernels);
+        }
+        else { 
+          if(kernels.is_null()) { 
+            kernels = subKernels;
+            continue;
+          }
 
-  json InventoryImpl::search_for_kernelset(string instrument, vector<Kernel::Type> types, double start_time, double stop_time,
+          SPDLOG_TRACE("Merging Kernels");
+          for(auto &[k, v] : subKernels.items()) { 
+            if(kernels.contains(k) && kernels[k].is_array()) { 
+              // create a set for quick lookups for duplicates
+              std::unordered_set<string> k_set(kernels[k].begin(), kernels[k].end());
+              SPDLOG_DEBUG("Merging {} and {}", kernels[k].dump(), v.dump());
+              for(auto & e: v) { 
+                if(!k_set.contains(e)) kernels[k].push_back(e);
+              }
+            }
+            else { 
+              kernels[k] = v;
+            }
+          }
+        }
+      }
+      return kernels;
+  }
+
+
+  json InventoryImpl::search_for_kernelset(string spiceql_name, vector<Kernel::Type> types, double start_time, double stop_time,
                                   Kernel::Quality ckQuality, Kernel::Quality spkQuality, bool enforce_quality) { 
     // get time dep kernels first 
     json kernels;
-    instrument = toLower(instrument);
+    spiceql_name = toLower(spiceql_name);
 
     fs::path data_dir = getDataDirectory();
 
@@ -250,15 +288,15 @@ namespace SpiceQL {
         bool found = false;        
 
         Kernel::Quality quality = spkQuality;
-        string qkey = "spkQuality";
+        string qkey = spiceql_name+"_spk_quality";
         if (type == Kernel::Type::CK) { 
           quality = ckQuality;
-          qkey = "ckQuality";
+          qkey = spiceql_name+"_ck_quality";
         }
 
         // iterate down the qualities 
         for(int i = (int)quality; i >= 0 && !found; i--) { 
-          string key = instrument+"/"+Kernel::translateType(type)+"/"+Kernel::QUALITIES.at(i)+"/"+"kernels";
+          string key = spiceql_name+"/"+Kernel::translateType(type)+"/"+KERNEL_QUALITIES.at(i)+"/"+"kernels";
           SPDLOG_DEBUG("Key: {}", key);
           quality = (Kernel::Quality)i; 
 
@@ -357,7 +395,7 @@ namespace SpiceQL {
       }
       else { // text/non time based kernels
         SPDLOG_DEBUG("Trying to search time independant kernels");
-        string key = instrument+"/"+Kernel::translateType(type)+"/"+"kernels"; 
+        string key = spiceql_name+"/"+Kernel::translateType(type)+"/"+"kernels"; 
         SPDLOG_DEBUG("GETTING {} with key {}", Kernel::translateType(type), key);
         if (m_nontimedep_kerns.contains(key) && !m_nontimedep_kerns[key].empty()) {  
           vector<string> ks = m_nontimedep_kerns[key]; 

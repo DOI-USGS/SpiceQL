@@ -117,7 +117,7 @@ TEST_F(KernelDataDirectories, FunctionalTestListMissionKernelsAllMess) {
   EXPECT_EQ(SpiceQL::getKernelsAsVector(res["mdis"]["ck"]["reconstructed"]["kernels"]).size(), 4);
   EXPECT_EQ(SpiceQL::getKernelsAsVector(res["mdis"]["ck"]["smithed"]["kernels"]).size(), 4);
   EXPECT_EQ(SpiceQL::getKernelsAsVector(res["mdis"]["spk"]["reconstructed"]["kernels"]).size(), 2);
-  EXPECT_EQ(SpiceQL::getKernelsAsVector(res["mdis"]["tspk"]["kernels"]).size(), 1);
+  EXPECT_EQ(SpiceQL::getKernelsAsVector(res["mdis"]["tspk"]["kernels"]).size(), 0);
   EXPECT_EQ(SpiceQL::getKernelsAsVector(res["mdis"]["fk"]["kernels"]).size(), 2);
   EXPECT_EQ(SpiceQL::getKernelsAsVector(res["mdis"]["ik"]["kernels"]).size(), 2);
   EXPECT_EQ(SpiceQL::getKernelsAsVector(res["mdis"]["iak"]["kernels"]).size(), 2);
@@ -172,7 +172,7 @@ TEST_F(KernelDataDirectories, FunctionalTestListMissionKernelsGalileo) {
   ASSERT_EQ(SpiceQL::getKernelsAsVector(res["galileo"]["spk"]["reconstructed"]["kernels"]).size(), 2);
   ASSERT_EQ(SpiceQL::getKernelsAsVector(res["galileo"]["iak"]["kernels"]).size(), 1);
   ASSERT_EQ(SpiceQL::getKernelsAsVector(res["galileo"]["pck"]["smithed"]["kernels"]).size(), 2);
-  ASSERT_EQ(SpiceQL::getKernelsAsVector(res["galileo"]["pck"]["noquality"]["kernels"]).size(), 1);
+  ASSERT_EQ(SpiceQL::getKernelsAsVector(res["galileo"]["pck"]["noquality"]["kernels"]).size(), 0);
   ASSERT_EQ(SpiceQL::getKernelsAsVector(res["galileo"]["sclk"]["kernels"]).size(), 1);
 }
 
@@ -192,7 +192,7 @@ TEST_F(KernelDataDirectories, FunctionalTestListMissionKernelsCassini) {
   ASSERT_EQ(SpiceQL::getKernelsAsVector(res["cassini"]["ck"]["smithed"]["kernels"]).size(), 2);
   ASSERT_EQ(SpiceQL::getKernelsAsVector(res["cassini"]["fk"]["kernels"]).size(), 2);
   ASSERT_EQ(SpiceQL::getKernelsAsVector(res["cassini"]["iak"]["kernels"]).size(), 3);
-  ASSERT_EQ(SpiceQL::getKernelsAsVector(res["cassini"]["pck"]["kernels"]).size(), 3);
+  ASSERT_EQ(SpiceQL::getKernelsAsVector(res["cassini"]["pck"]["kernels"]).size(), 0);
   ASSERT_EQ(SpiceQL::getKernelsAsVector(res["cassini"]["pck"]["smithed"]["kernels"]).size(), 1);
   ASSERT_EQ(SpiceQL::getKernelsAsVector(res["cassini"]["sclk"]["kernels"]).size(), 1);
   ASSERT_EQ(SpiceQL::getKernelsAsVector(res["cassini"]["spk"]["kernels"]).size(), 3);
@@ -245,7 +245,7 @@ TEST_F(IsisDataDirectory, FunctionalTestLroConf) {
   
   SPDLOG_DEBUG("Checking Recon SPKs");
   kernelToCheck = getKernelsAsVector(res.at("moc").at("spk").at("reconstructed")); 
-  expected = {"fdf29r_2018305_2018335_v01.bsp", "fdf29_2021327_2021328_b01.bsp"};
+  expected = {"fdf29r_2018305_2018335_v01.bsp"};
   for (auto &e : expected) { 
     auto it = find(kernelToCheck.begin(), kernelToCheck.end(), e);
     if (it == kernelToCheck.end()) {
@@ -274,6 +274,9 @@ TEST_F(IsisDataDirectory, FunctionalTestJunoConf) {
   set<string> expectedDiff = {"jup260.bsp",
                               "jup310.bsp",
                               "jup329.bsp",
+                              "de436s.bsp",
+                              "de438s.bsp",
+                              "de440s.bsp",
                               "vgr1_jup230.bsp",
                               "vgr2_jup204.bsp",
                               "vgr2_jup230.bsp"};

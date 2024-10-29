@@ -30,7 +30,7 @@
         ]
       }
     },
-    "metric": {
+    "apollo16_metric": {
       "ik": {
         "kernels": [
           "apollo16_metric.[0-9]{4}.ti",
@@ -44,13 +44,10 @@
         "deps" : ["/base/pck"]
       }
     },
-    "panoramic": {
+    "apollo16_panoramic": {
       "ik": {
         "kernels": "apollo16_panoramic.[0-9]{4}.ti"
       },
-      "deps" : ["/apollo16"]
-    },
-    "apollo_pan": {
       "iak": {
         "kernels": "apolloPanAddendum[0-9]{3}.ti"
       },
