@@ -209,17 +209,13 @@ namespace SpiceQL {
     }
 
     json ephemKernels = {};
-    json baseKernels = {};
 
     if (searchKernels) {
-      ephemKernels = Inventory::search_for_kernelset(mission, {"sclk", "ck", "spk", "pck", "tspk", "fk"}, ets.front(), ets.back(), ckQuality, spkQuality);
-      baseKernels = Inventory::search_for_kernelset("base", {"lsk", "pck", "spk"});
-      SPDLOG_DEBUG("Base Kernels : {}", baseKernels.dump(4));
+      ephemKernels = Inventory::search_for_kernelsets({mission, observer, "base"}, {"sclk", "ck", "spk", "pck", "tspk", "fk", "lsk", "fk"}, ets.front(), ets.back(), ckQuality, spkQuality);
       SPDLOG_DEBUG("{} Kernels : {}", mission, ephemKernels.dump(4));
     }
 
     auto start = high_resolution_clock::now();
-    KernelSet baseSet(baseKernels);
     KernelSet ephemSet(ephemKernels);
 
     auto stop = high_resolution_clock::now();
@@ -460,7 +456,7 @@ namespace SpiceQL {
     json pckKernels = {};
 
     if (searchKernels) {
-      ephemKernels = Inventory::search_for_kernelset(mission, {"sclk", "ck", "pck", "fk", "tspk"}, ets.front(), ets.back(), ckQuality, "noquality");
+      ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"sclk", "ck", "pck", "fk", "tspk", "lsk", "pck", "tspk"}, ets.front(), ets.back(), ckQuality, "noquality");
       lskKernels = Inventory::search_for_kernelset("base", {"lsk"});
       pckKernels = Inventory::search_for_kernelset("base", {"pck"});
     }
@@ -952,7 +948,7 @@ namespace SpiceQL {
     //this resizing is done because otherwise a spice cell will append new data
     //to the last "currCell"
     ssize_c(0, &currCell);
-    ssize_c(100, &currCell);
+    ssize_c(200000, &currCell);
 
     SPICEDOUBLE_CELL(cover, 200000);
 

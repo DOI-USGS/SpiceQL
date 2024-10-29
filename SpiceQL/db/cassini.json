@@ -23,9 +23,9 @@
     },
     "iak": {
       "kernels": [
-        "vimsAddendum[0-9]{2}.ti",
-        "IssNAAddendum[0-9]{3}.ti",
-        "IssWAAddendum[0-9]{3}.ti"
+        "^vimsAddendum[0-9]{2}.ti$",
+        "^IssNAAddendum[0-9]{3}.ti$",
+        "^IssWAAddendum[0-9]{3}.ti$"
       ]
     },
     "pck": {
