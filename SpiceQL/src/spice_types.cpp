@@ -331,6 +331,7 @@ namespace SpiceQL {
       baseKernels = Inventory::search_for_kernelset("base", {"fk"});
       missionKernels = Inventory::search_for_kernelset(mission, {"fk"});
     }
+    
     KernelSet baseKset(baseKernels);
     KernelSet missionKset(missionKernels);
 

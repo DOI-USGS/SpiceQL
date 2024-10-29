@@ -31,6 +31,9 @@
     },
     "deps" : ["/base"]
   },
+  "iau_moon" : {
+    "deps" : ["/moon"]
+  },
   "neptune" : { 
     "tspk" : {
       "noquality": {

@@ -452,19 +452,13 @@ namespace SpiceQL {
     }
 
     json ephemKernels = {};
-    json lskKernels = {};
-    json pckKernels = {};
 
     if (searchKernels) {
-      ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"sclk", "ck", "pck", "fk", "tspk", "lsk", "pck", "tspk"}, ets.front(), ets.back(), ckQuality, "noquality");
-      lskKernels = Inventory::search_for_kernelset("base", {"lsk"});
-      pckKernels = Inventory::search_for_kernelset("base", {"pck"});
+      ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"sclk", "ck", "pck", "fk", "tspk", "lsk", "tspk"}, ets.front(), ets.back(), ckQuality, "noquality");
     }
 
     auto start = high_resolution_clock::now();
     KernelSet ephemSet(ephemKernels);
-    KernelSet lskSet(lskKernels);
-    KernelSet pckSet(pckKernels);
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop - start);
     SPDLOG_INFO("Time in microseconds to furnish kernel sets: {}", duration.count());
