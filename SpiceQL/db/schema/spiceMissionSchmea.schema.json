@@ -52,7 +52,7 @@
           "$ref": "#/definitions/quality_kernels"
         },
         "tspk": {
-          "$ref": "#/definitions/kernels"
+          "$ref": "#/definitions/quality_kernels"
         },
         "fk": {
           "$ref": "#/definitions/kernels"

@@ -1040,14 +1040,14 @@ namespace SpiceQL {
     string currFile = fileType;
 
     //create a spice cell capable of containing all the objects in the kernel.
-    SPICEINT_CELL(currCell, 200000);
+    SPICEINT_CELL(currCell, 300000);
 
     //this resizing is done because otherwise a spice cell will append new data
     //to the last "currCell"
     ssize_c(0, &currCell);
-    ssize_c(200000, &currCell);
+    ssize_c(300000, &currCell);
 
-    SPICEDOUBLE_CELL(cover, 200000);
+    SPICEDOUBLE_CELL(cover, 300000);
 
     if (currFile == "SPK") {
       spkobj_c(kpath.c_str(), &currCell);
@@ -1073,17 +1073,17 @@ namespace SpiceQL {
       if (body < 0) {
         //find the correct coverage window
         if(currFile == "SPK") {
-          SPICEDOUBLE_CELL(cover, 200000);
+          SPICEDOUBLE_CELL(cover, 300000);
           ssize_c(0, &cover);
-          ssize_c(200000, &cover);
+          ssize_c(300000, &cover);
           spkcov_c(kpath.c_str(), body, &cover);
           getStartStopFromInterval(cover);
         }
         else if(currFile == "CK") {
           //  200,000 is the max coverage window size for a CK kernel
-          SPICEDOUBLE_CELL(cover, 200000);
+          SPICEDOUBLE_CELL(cover, 300000);
           ssize_c(0, &cover);
-          ssize_c(200000, &cover);
+          ssize_c(300000, &cover);
 
           // A SPICE SEGMENT is composed of SPICE INTERVALS
           ckcov_c(kpath.c_str(), body, SPICEFALSE, "INTERVAL", 0.0, "TDB", &cover);

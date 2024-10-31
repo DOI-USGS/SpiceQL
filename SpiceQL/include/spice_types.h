@@ -18,7 +18,7 @@ namespace SpiceQL {
   extern const std::vector<std::string> KERNEL_TYPES;
   extern const std::vector<std::string> KERNEL_QUALITIES;
   
-  void load(std::string path, bool force_refurnsh); 
+  void load(std::string path, bool force_refurnsh=true); 
   void unload(std::string path);
 
   /**
