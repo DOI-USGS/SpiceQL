@@ -236,15 +236,20 @@ namespace SpiceQL {
       KernelSet sclkSet(sclks);
       KernelSet lskSet(lsks);
       
-      // we want the platforms code, if they passs in an instrument code (e.g. -85600), truncate it to (-85)
-      frameCode = (abs(frameCode / 1000) > 0) ? frameCode/1000 : frameCode; 
-
       SpiceDouble et;
       checkNaifErrors();
-      scs2e_c(frameCode, sclk.c_str(), &et);
-      checkNaifErrors();
-      SPDLOG_DEBUG("strsclktoet({}, {}, {}) -> {}", frameCode, mission, sclk, et);
-      
+      try {
+        scs2e_c(frameCode, sclk.c_str(), &et);
+        checkNaifErrors();
+        SPDLOG_DEBUG("strsclktoet({}, {}, {}) -> {}", frameCode, mission, sclk, et);
+      }
+      catch(exception &e) { 
+        // we want the platforms code, if they passs in an instrument code (e.g. -85600), truncate it to (-85)
+        frameCode = (abs(frameCode / 1000) > 0) ? frameCode/1000 : frameCode;
+        scs2e_c(frameCode, sclk.c_str(), &et);
+        checkNaifErrors();
+        SPDLOG_DEBUG("strsclktoet({}, {}, {}) -> {}", frameCode, mission, sclk, et); 
+      }
       return et;
   }
 
