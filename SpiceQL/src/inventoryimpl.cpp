@@ -1,6 +1,8 @@
 #include <iostream>
 #include <regex>
 
+// we need to include this to overwrite and other std::fs imports
+#include <ghc/fs_std.hpp>
 #include <nlohmann/json.hpp>
 #include <fc/btree.h>
 #include <fc/disk_btree.h>
