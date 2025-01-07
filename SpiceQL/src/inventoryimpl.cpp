@@ -152,7 +152,7 @@ namespace SpiceQL {
       m_required_kernels.load(lsk_json); 
 
       for (auto &[mission, kernels] : json_kernels.items()) {
-        fmt::print("mission: {}\n", mission);    
+        SPDLOG_TRACE("MISSION: {}", mission);
 
         json sclk_json = getLatestKernels(config[mission].getRecursive("sclk")); 
         SPDLOG_TRACE("{} SCLKs: {}", mission, sclk_json.dump(4)); 
