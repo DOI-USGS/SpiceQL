@@ -27,6 +27,27 @@ TEST(QueryTests, UnitTestGetLatestKernel) {
   EXPECT_EQ(getLatestKernel(kernels)[0],  "test/iak.0004.ti");
 }
 
+
+TEST(QueryTests, UnitTestGetLatestKernelDuplicateFileNames) {
+  vector<string> kernels = {
+                    "/base/kernels/spk/mar080.bsp",
+                    "/base/kernels/spk/mar097.bsp",
+                    "/mro/kernels/spk/mar063.bsp",
+                    "/odyssey/kernels/spk/mar063.bsp",
+                    "/tgo/kernels/spk/mar085.bsp",
+                    "/tgo/kernels/spk/mar097.bsp",
+                    "/tgo/kernels/tspk/mar085.bsp",
+                    "/tgo/kernels/tspk/mar097.bsp",
+                    "/viking1/kernels/spk/mar033.bsp",
+                    "/viking2/kernels/spk/mar033.bsp", 
+                    "/base/kernels/spk/mar097.bsp"
+  };
+
+  // which one doesn't matter, as long as we get mar097.bsp
+  EXPECT_EQ(static_cast<fs::path>(getLatestKernel(kernels)[0]).filename(),  "mar097.bsp");
+}
+
+
 TEST(QueryTests, getKernelStringValue){
   unique_ptr<Kernel> k(new Kernel("data/msgr_mdis_v010.ti"));
   // INS-236810_CCD_CENTER        =  (  511.5, 511.5 )

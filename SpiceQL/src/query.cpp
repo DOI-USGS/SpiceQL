@@ -70,6 +70,14 @@ namespace SpiceQL {
     }
   }
 
+  // Comparator function for kernel paths
+  bool fileNameComp(string a, string b) {
+      string fna = static_cast<fs::path>(a).filename();
+      string fnb = static_cast<fs::path>(b).filename();
+      int comp = fna.compare(fnb);  
+      SPDLOG_TRACE("Comparing {} and {}: {}", fna, fnb, comp);
+      return comp < 0;
+  }
 
   vector<string> getLatestKernel(vector<string> kernels) {
     if(kernels.empty()) {
@@ -88,17 +96,25 @@ namespace SpiceQL {
       }
       bool foundList = false;
       for (int i = 0; i < files.size(); i++) {
+        
         const fs::path &firstVecElem = files[i][0];
         string fileName = firstVecElem.filename();
         string kernelName = k.filename();
+        SPDLOG_TRACE("filename: {}", fileName); 
+        SPDLOG_TRACE("kernel name: {}", kernelName); 
+
         int findRes = fileName.find_first_of("0123456789");
         if (findRes != string::npos) {
           fileName = fileName.erase(findRes);
         }
+
         findRes = kernelName.find_first_of("0123456789");
         if (findRes != string::npos) {
           kernelName = kernelName.erase(findRes);
         }
+        SPDLOG_TRACE("Truncated filename: {}", fileName); 
+        SPDLOG_TRACE("Truncated kernel name: {}", kernelName); 
+
         if (fileName == kernelName) {
           files[i].push_back(k);
           foundList = true;
@@ -112,7 +128,7 @@ namespace SpiceQL {
 
     vector<string> outKernels = {};
     for (auto kernelList : files) {
-      outKernels.push_back(*(max_element(kernelList.begin(), kernelList.end())));
+      outKernels.push_back(*(max_element(kernelList.begin(), kernelList.end(), fileNameComp)));
     }
 
     return outKernels;
@@ -120,11 +136,13 @@ namespace SpiceQL {
 
 
   json getLatestKernels(json kernels) {
-
+    SPDLOG_TRACE("Looking for kernels to get Latest: {}", kernels.dump(2));
     vector<json::json_pointer> kptrs = findKeyInJson(kernels, "kernels", true);
     vector<vector<string>> lastest;
 
     for (json::json_pointer &ptr : kptrs) {
+      SPDLOG_TRACE("Getting Latest Kernels from: {}", ptr.to_string());
+      SPDLOG_TRACE("JSON: {}", kernels[ptr]);
       vector<vector<string>> kvect = json2DArrayTo2DVector(kernels[ptr]);
       vector<vector<string>> newLatest;
  
