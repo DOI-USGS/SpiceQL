@@ -128,7 +128,6 @@ namespace SpiceQL {
 
     vector<string> outKernels = {};
     for (auto kernelList : files) {
-      SPDLOG_TRACE("Max element: {}", *max_element(kernelList.begin(), kernelList.end(), fileNameComp));
       outKernels.push_back(*(max_element(kernelList.begin(), kernelList.end(), fileNameComp)));
     }
 
