@@ -40,7 +40,7 @@ jobs:
         run: |
           mkdir -p build
           cd build
-          cmake -DCMAKE_BUILD_TYPE=RELEASE -DSPICEQL_BUILD_DOCS=OFF -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX ..
+          cmake -DCMAKE_BUILD_TYPE=RELEASE -DSPICEQL_BUILD_DOCS=OFF -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DPython3_EXECUTABLE=`which python` -DPYTHON_LIBRARY=$(python -c "import sysconfig; print(sysconfig.get_config_var('LIBDIR'))") ..
           cmake --build .
       
       - name: Test
@@ -48,7 +48,7 @@ jobs:
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
         run: | 
-          ctest -VV  
+          ctest -j6 --output-on-failure  
   
       - name: Install
         working-directory: ${{github.workspace}}/build
@@ -108,7 +108,7 @@ jobs:
   
       - name: Configure CMake
         working-directory: ${{github.workspace}}/build
-        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DSPICEQL_BUILD_LIB=OFF -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install
+        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DSPICEQL_BUILD_LIB=OFF -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install 
       - name: Build
         working-directory: ${{github.workspace}}/
         # Execute the build.

@@ -142,7 +142,7 @@ namespace SpiceQL {
 
     for (json::json_pointer &ptr : kptrs) {
       SPDLOG_TRACE("Getting Latest Kernels from: {}", ptr.to_string());
-      SPDLOG_TRACE("JSON: {}", kernels[ptr]);
+      SPDLOG_TRACE("JSON: {}", kernels[ptr].dump());
       vector<vector<string>> kvect = json2DArrayTo2DVector(kernels[ptr]);
       vector<vector<string>> newLatest;
  

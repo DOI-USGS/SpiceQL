@@ -279,12 +279,15 @@ namespace SpiceQL {
 
   string doubleEtToSclk(int frameCode, double et, string mission, bool searchKernels) {
       Config missionConf;
+      json lsks;
       json sclks;
 
       if (searchKernels) {
-        sclks = Inventory::search_for_kernelset(mission, {"lsk", "fk", "sclk"});
+        lsks = Inventory::search_for_kernelset("base", {"lsk"}); 
+        sclks = Inventory::search_for_kernelset(mission, {"fk", "sclk"});
       }
 
+      KernelSet lskSet(lsks);
       KernelSet sclkSet(sclks);
 
       SpiceChar sclk[100];

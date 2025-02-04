@@ -35,7 +35,15 @@ release.
 
 ## [Unreleased]
 
-## 1.0
+## 1.0.1
+
+### Changed
+- Changes to support integration with ISIS [#48](https://github.com/DOI-USGS/SpiceQL/pull/48)
+
+### Fixed
+- Fixed getLatestKernels bug [#49](https://github.com/DOI-USGS/SpiceQL/pull/49)
+
+## 1.0.0
 
 ### Added
 
@@ -46,9 +54,26 @@ release.
 - Adds support for LROC MiniRF [#10](https://github.com/DOI-USGS/SpiceQL/issues/10)
 - Adds support for MSL [#15](https://github.com/DOI-USGS/SpiceQL/issues/15)
 - Adds support for MER [#14](https://github.com/DOI-USGS/SpiceQL/issues/14)
-
-### Fixed
+- Add github workflows [#20](https://github.com/DOI-USGS/SpiceQL/pull/20)
+- Added PR template with licensing [#5](https://github.com/DOI-USGS/SpiceQL/pull/5)
 
 ### Changed
-- SpiceQL source code
-- Required administrative files
+
+- Mkdocs update [#26](https://github.com/DOI-USGS/SpiceQL/pull/26)
+- FastAPI app [#27](https://github.com/DOI-USGS/SpiceQL/pull/27)
+- Clean up any mention of Sphinx [#32](https://github.com/DOI-USGS/SpiceQL/pull/32)
+- Supporting ALE's ISD to Kernel functionality [#33](https://github.com/DOI-USGS/SpiceQL/pull/33)
+- New inventory class [#31](https://github.com/DOI-USGS/SpiceQL/pull/31)
+- Ale changes [#36](https://github.com/DOI-USGS/SpiceQL/pull/36)
+- Accept string for ets param [#34](https://github.com/DOI-USGS/SpiceQL/pull/34)
+- Dockerize FastAPI [#35](https://github.com/DOI-USGS/SpiceQL/pull/35)
+- Validates quality param [#40](https://github.com/DOI-USGS/SpiceQL/pull/40)
+- Planetary body search [#42](https://github.com/DOI-USGS/SpiceQL/pull/42)
+
+### Fixed
+- Bug fixes + tests [#38](https://github.com/DOI-USGS/SpiceQL/pull/38)
+- Bugfixes [#39](https://github.com/DOI-USGS/SpiceQL/pull/39)
+- Fixing bugs in the time search [#41](https://github.com/DOI-USGS/SpiceQL/pull/41)
+- Fixed bug where cks were using interval scope [#43](https://github.com/DOI-USGS/SpiceQL/pull/43)
+- SCLK Bug fixes [#44](https://github.com/DOI-USGS/SpiceQL/pull/44)
+

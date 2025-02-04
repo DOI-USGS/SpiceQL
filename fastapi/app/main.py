@@ -1,8 +1,8 @@
 """Module providing SpiceQL endpoints"""
 
 from ast import literal_eval
-from typing import Any
-from fastapi import FastAPI
+from typing import Annotated, Any
+from fastapi import FastAPI, Query
 from pydantic import BaseModel, Field
 from starlette.responses import RedirectResponse
 import numpy as np
@@ -28,14 +28,27 @@ class ResponseModel(BaseModel):
     statusCode: int
     body: ResultModel | ErrorModel
 
+class TargetStatesRequestModel(BaseModel):
+    target: str
+    observer: str
+    frame: str
+    abcorr: str
+    mission: str
+    ets: Annotated[list[float], Query()] | float | str | None = None
+    startEts: float | None = None
+    exposureDuration: float | None = None
+    numOfExposures: int | None = None
+    ckQuality: str = "predicted"
+    spkQuality: str = "predicted"
+
 # Create FastAPI instance
 app = FastAPI()
 
 @app.get("/")
 async def message():
     try: 
-      data_dir_exists = os.path.exists(pyspiceql.getDataDirectory()) 
-      return {"data_content": os.listdir(pyspiceql.getDataDirectory()), 
+      data_dir_exists = os.path.exists(pyspiceql.getDataDirectory())
+      return {"data_content": os.listdir(pyspiceql.getDataDirectory()),
               "data_dir_exists": data_dir_exists, 
               "is_healthy": data_dir_exists}
     except Exception as e:
@@ -61,10 +74,17 @@ async def getTargetStates(
         if ets is not None:
             if isinstance(ets, str):
                 ets = literal_eval(ets)
+            else:
+                # getTargetStates requires an iterable ets.  If not iterable, make it a list.
+                try:
+                    iter(ets)
+                except TypeError:
+                    ets = [ets]
         else:
             if all(v is not None for v in [startEts, exposureDuration, numOfExposures]):
                 stopEts = (exposureDuration * numOfExposures) + startEts
                 etsNpArray = np.arange(startEts, stopEts, exposureDuration)
+                # If ets is a single value, np.arange yields an empty array
                 ets = list(etsNpArray)
             else:
                 raise Exception("Verify that a startEts, exposureDuration, and numOfExposures are being passed correctly.")
@@ -74,6 +94,46 @@ async def getTargetStates(
     except Exception as e:
         body = ErrorModel(error=str(e))
         return ResponseModel(statusCode=500, body=body)
+    
+    
+@app.post("/getTargetStates")
+async def getTargetStates(params: TargetStatesRequestModel):
+    target = params.target
+    observer = params.observer
+    frame =  params.frame
+    abcorr = params.abcorr
+    mission = params.mission
+    ets = params.ets
+    startEts = params.startEts
+    exposureDuration = params.exposureDuration
+    numOfExposures = params.numOfExposures
+    ckQuality = params.ckQuality
+    spkQuality = params.spkQuality
+    try:
+        if ets is not None:
+            if isinstance(ets, str):
+                ets = literal_eval(ets)
+            else:
+                # getTargetStates requires an iterable ets.  If not iterable, make it a list.
+                try:
+                    iter(ets)
+                except TypeError:
+                    ets = [ets]
+        else:
+            if all(v is not None for v in [startEts, exposureDuration, numOfExposures]):
+                stopEts = (exposureDuration * numOfExposures) + startEts
+                etsNpArray = np.arange(startEts, stopEts, exposureDuration)
+                # If ets is a single value, np.arange yields an empty array
+                ets = list(etsNpArray)
+            else:
+                raise Exception("Verify that startEts, exposureDuration, and numOfExposures are being passed correctly.")
+        result = pyspiceql.getTargetStates(ets, target, observer, frame, abcorr, mission, ckQuality, spkQuality, SEARCH_KERNELS_BOOL)
+        body = ResultModel(result=result)
+        return ResponseModel(statusCode=200, body=body)
+    except Exception as e:
+        body = ErrorModel(error=str(e))
+        return ResponseModel(statusCode=500, body=body)
+    
     
 @app.get("/getTargetOrientations")
 async def getTargetOrientations(
@@ -95,13 +155,14 @@ async def getTargetOrientations(
                 etsNpArray = np.arange(startEts, stopEts, exposureDuration)
                 ets = list(etsNpArray)
             else:
-                raise Exception("Verify that a startEts, exposureDuration, and numOfExposures are being passed correctly.")
+                raise Exception("Verify that startEts, exposureDuration, and numOfExposures are being passed correctly.")
         result = pyspiceql.getTargetOrientations(ets, toFrame, refFrame, mission, ckQuality, SEARCH_KERNELS_BOOL)
         body = ResultModel(result=result)  
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
         body = ErrorModel(error=str(e))
         return ResponseModel(statusCode=500, body=body)
+    
 
 @app.get("/strSclkToEt")
 async def strSclkToEt(
@@ -132,7 +193,7 @@ async def doubleSclkToEt(
 
 
 @app.get("/doubleEtToSclk")
-async def strSclkToEt(
+async def doubleEtToSclk(
     frameCode: int,
     et: float,
     mission: str):

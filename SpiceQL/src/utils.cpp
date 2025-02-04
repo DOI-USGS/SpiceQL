@@ -211,7 +211,7 @@ namespace SpiceQL {
     json ephemKernels = {};
 
     if (searchKernels) {
-      ephemKernels = Inventory::search_for_kernelsets({mission, observer, "base"}, {"sclk", "ck", "spk", "pck", "tspk", "fk", "lsk", "fk"}, ets.front(), ets.back(), ckQuality, spkQuality);
+      ephemKernels = Inventory::search_for_kernelsets({mission, target, observer, "base"}, {"sclk", "ck", "spk", "pck", "tspk", "fk", "lsk", "fk"}, ets.front(), ets.back(), ckQuality, spkQuality);
       SPDLOG_DEBUG("{} Kernels : {}", mission, ephemKernels.dump(4));
     }
 
