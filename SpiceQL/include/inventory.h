@@ -23,6 +23,6 @@ namespace SpiceQL {
                                       std::string ckQuality="smithed", std::string spkQuality="smithed", bool enforce_quality=false,  bool overwrite=false);  
         std::string getDbFilePath();
 
-        void create_database(); 
+        void create_database(std::vector<std::string> mlist = {}); 
     }    
 }

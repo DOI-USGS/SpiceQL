@@ -47,9 +47,9 @@ namespace SpiceQL {
             return db_path;
         }
  
-        void create_database() { 
+        void create_database(vector<string> mlist) { 
             // force generate the database
-            InventoryImpl db(true);
+            InventoryImpl db(true, mlist);
         }
     }
 }

@@ -7,6 +7,7 @@
 #include <fc/btree.h>
 #include <fc/disk_btree.h>
 #include <spdlog/spdlog.h>
+#include <queue>
 
 #include <cereal/archives/binary.hpp>
 #include <cereal/archives/portable_binary.hpp>
@@ -125,7 +126,7 @@ namespace SpiceQL {
           kernel_times->stop_times.insert(p2);
 
           // get relative path to make db portable 
-          fs::path relative_path_kernel = fs::relative(kernel, getDataDirectory());
+          fs::path relative_path_kernel = fs::absolute(kernel); // fs::relative(kernel, fs::absolute(getDataDirectory()));
           SPDLOG_TRACE("Relative Kernel: {}", relative_path_kernel.generic_string()); 
           kernel_times->file_paths.push_back(relative_path_kernel);
         }
@@ -134,7 +135,7 @@ namespace SpiceQL {
   }
 
 
-  InventoryImpl::InventoryImpl(bool force_regen) : m_required_kernels() { 
+  InventoryImpl::InventoryImpl(bool force_regen, vector<string> mlist) : m_required_kernels() { 
     fs::path db_root = getCacheDir();
     fs::path db_file = db_root / DB_HDF_FILE; 
 
@@ -153,6 +154,10 @@ namespace SpiceQL {
 
       for (auto &[mission, kernels] : json_kernels.items()) {
         SPDLOG_TRACE("MISSION: {}", mission);
+        // if the mission list is populated and the mission is NOT in the list, continue 
+        if(mlist.size() > 0 && std::find(mlist.begin(), mlist.end(), mission) == mlist.end()) { 
+          continue;
+        }
 
         json sclk_json = getLatestKernels(config[mission].getRecursive("sclk")); 
         SPDLOG_TRACE("{} SCLKs: {}", mission, sclk_json.dump(4)); 
@@ -188,7 +193,7 @@ namespace SpiceQL {
               for (auto &subarr: kernel_obj[ptr]) 
                 for (auto &kernel : subarr) { 
                   string k = kernel.get<string>();
-                  fs::path relative_path_kernel = fs::relative(k, getDataDirectory());
+                  fs::path relative_path_kernel = fs::absolute(k); // fs::relative(k, fs::absolute(getDataDirectory()));
                   SPDLOG_TRACE("Relative Kernel: {}", relative_path_kernel.generic_string()); 
                   kernel_vec.push_back(relative_path_kernel); 
                 } 
@@ -352,7 +357,7 @@ namespace SpiceQL {
       
           // init containers
           unordered_set<size_t> start_time_kernels; 
-          vector<string> final_time_kernels;
+          priority_queue<string> final_time_kernels;
 
           // Get everything starting before the stop_time; 
           auto start_upper_bound = time_indices->start_times.upper_bound(stop_time);
@@ -372,7 +377,7 @@ namespace SpiceQL {
           auto stop_lower_bound = time_indices->stop_times.lower_bound(start_time);
           if(time_indices->stop_times.end() == stop_lower_bound && stop_lower_bound->first >= stop_time && start_time_kernels.contains(stop_lower_bound->second)) { 
             SPDLOG_TRACE("Is {} in the array? {}", stop_lower_bound->second, start_time_kernels.contains(stop_lower_bound->second)); 
-            final_time_kernels.push_back(time_indices->file_paths.at(stop_lower_bound->second));
+            final_time_kernels.push(time_indices->file_paths.at(stop_lower_bound->second));
           }
           else { 
             for(auto it = stop_lower_bound;it != time_indices->stop_times.end(); it++) { 
@@ -380,18 +385,32 @@ namespace SpiceQL {
               iterations++;
               SPDLOG_TRACE("Is {} with stop time {} in the array? {}", time_indices->file_paths.at(it->second), it->first, start_time_kernels.contains(it->second)); 
               if (start_time_kernels.contains(it->second)) {
-                final_time_kernels.push_back(data_dir / time_indices->file_paths.at(it->second));
+                final_time_kernels.push(time_indices->file_paths.at(it->second));
+                if (type == Kernel::Type::SPK) break;
               }
             } 
           }
+
           if (final_time_kernels.size()) { 
             found = true;
-            kernels[Kernel::translateType(type)] = final_time_kernels;
-            kernels[qkey] = Kernel::translateQuality(quality);
+            if (type == Kernel::Type::SPK) { 
+              // to match ISIS implementation, lex sort and get the highest
+              kernels[Kernel::translateType(type)] = {final_time_kernels.top()};
+              kernels[qkey] = Kernel::translateQuality(quality);   
+            }
+            else { 
+              vector<string> ftk_v(final_time_kernels.size());
+              for(int i = final_time_kernels.size()-1; i>=0; i--) { 
+                ftk_v[i] = final_time_kernels.top();
+                final_time_kernels.pop();
+              }
+              kernels[Kernel::translateType(type)] = ftk_v;
+              kernels[qkey] = Kernel::translateQuality(quality);
+            }
           }
           SPDLOG_TRACE("NUMBER OF ITERATIONS: {}", iterations);
           SPDLOG_TRACE("NUMBER OF KERNELS FOUND: {}", final_time_kernels.size());  
-          
+
           if (enforce_quality) break; // only interate once if quality is enforced 
         }
       }
@@ -401,7 +420,7 @@ namespace SpiceQL {
         SPDLOG_DEBUG("GETTING {} with key {}", Kernel::translateType(type), key);
         if (m_nontimedep_kerns.contains(key) && !m_nontimedep_kerns[key].empty()) {  
           vector<string> ks = m_nontimedep_kerns[key]; 
-          for(auto &e : ks) e = data_dir / e; // re-add the data dir 
+          for(auto &e : ks) e =  e; // re-add the data dir 
           kernels[Kernel::translateType(type)] = ks;
         
         }
@@ -409,7 +428,7 @@ namespace SpiceQL {
           // load from DB 
           try { 
             vector<string> ks = getKey<vector<string>>(DB_SPICE_ROOT_KEY + "/"+key);
-            for(auto &e : ks) e = data_dir / e; // re-add the data dir
+            // for(auto &e : ks) e = data_dir / e; // re-add the data dir
             kernels[Kernel::translateType(type)] = ks;
           } catch (runtime_error &e) { 
             SPDLOG_TRACE("{}", e.what()); // usually a key not found error

@@ -37,7 +37,7 @@ namespace SpiceQL {
 
   class InventoryImpl {
     public:
-    InventoryImpl(bool force_regen=false); 
+    InventoryImpl(bool force_regen=false, std::vector<std::string> mlist = {}); 
     template<class T> T getKey(std::string key);
     void write_database();
     nlohmann::json search_for_kernelset(std::string spiceql_name, std::vector<Kernel::Type> types, double start_time=-std::numeric_limits<double>::max(), double stop_time=std::numeric_limits<double>::max(),

@@ -8,6 +8,7 @@
 #include "inventory.h"
 #include "inventoryimpl.h"
 
+#include <fstream>
 #include <spdlog/spdlog.h>
 #include <highfive/highfive.hpp>
 
@@ -101,6 +102,19 @@ TEST_F(LroKernelSet, TestInventorySearchSetsNoOverwrite) {
   EXPECT_EQ(kernels["pck"].size(), 2);
   EXPECT_EQ(fs::path(kernels["pck"][0].get<string>()).filename(), "moon_080317.tf");
   EXPECT_EQ(fs::path(kernels["pck"][1].get<string>()).filename(), "pck00009.tpc");
+}
+
+TEST(SpiceQLPerformence, Inventory) { 
+	 std::ofstream outfile;
+        outfile.open("/home/ec2-user/spiceqltimes_themis.txt", std::ios_base::app); // append instead of overwrite
+    for(int i = 0; i < 1; i++) {
+        const clock_t begin_time = clock();
+	cout << Inventory::search_for_kernelsets({"odyssey", "mars"}, KERNEL_TYPES, 715662878.32324, 715663065.2303) << endl;
+        float seconds = float( clock () - begin_time ) /  CLOCKS_PER_SEC;
+	cout << seconds << endl;
+	outfile << seconds << endl;
+
+    }
 }
 
 TEST_F(LroKernelSet, TestInventorySearchSetsOverwrite) {
