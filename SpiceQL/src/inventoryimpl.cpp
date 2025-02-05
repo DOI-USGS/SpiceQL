@@ -126,7 +126,7 @@ namespace SpiceQL {
           kernel_times->stop_times.insert(p2);
 
           // get relative path to make db portable 
-          fs::path relative_path_kernel = fs::absolute(kernel); // fs::relative(kernel, fs::absolute(getDataDirectory()));
+          fs::path relative_path_kernel = fs::relative(kernel, fs::absolute(getDataDirectory()));
           SPDLOG_TRACE("Relative Kernel: {}", relative_path_kernel.generic_string()); 
           kernel_times->file_paths.push_back(relative_path_kernel);
         }
@@ -193,7 +193,7 @@ namespace SpiceQL {
               for (auto &subarr: kernel_obj[ptr]) 
                 for (auto &kernel : subarr) { 
                   string k = kernel.get<string>();
-                  fs::path relative_path_kernel = fs::absolute(k); // fs::relative(k, fs::absolute(getDataDirectory()));
+                  fs::path relative_path_kernel = fs::relative(k, fs::absolute(getDataDirectory()));
                   SPDLOG_TRACE("Relative Kernel: {}", relative_path_kernel.generic_string()); 
                   kernel_vec.push_back(relative_path_kernel); 
                 } 
@@ -420,7 +420,7 @@ namespace SpiceQL {
         SPDLOG_DEBUG("GETTING {} with key {}", Kernel::translateType(type), key);
         if (m_nontimedep_kerns.contains(key) && !m_nontimedep_kerns[key].empty()) {  
           vector<string> ks = m_nontimedep_kerns[key]; 
-          for(auto &e : ks) e =  e; // re-add the data dir 
+          for(auto &e : ks) e =  data_dir / e; // re-add the data dir 
           kernels[Kernel::translateType(type)] = ks;
         
         }
@@ -428,7 +428,7 @@ namespace SpiceQL {
           // load from DB 
           try { 
             vector<string> ks = getKey<vector<string>>(DB_SPICE_ROOT_KEY + "/"+key);
-            // for(auto &e : ks) e = data_dir / e; // re-add the data dir
+            for(auto &e : ks) e = data_dir / e; // re-add the data dir
             kernels[Kernel::translateType(type)] = ks;
           } catch (runtime_error &e) { 
             SPDLOG_TRACE("{}", e.what()); // usually a key not found error
