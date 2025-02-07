@@ -4,7 +4,6 @@ from ast import literal_eval
 from typing import Annotated, Any
 from fastapi import FastAPI, Query
 from pydantic import BaseModel, Field
-from starlette.responses import RedirectResponse
 import numpy as np
 import os
 import pyspiceql
@@ -35,9 +34,9 @@ class TargetStatesRequestModel(BaseModel):
     abcorr: str
     mission: str
     ets: Annotated[list[float], Query()] | float | str | None = None
-    startEts: float | None = None
-    exposureDuration: float | None = None
-    numOfExposures: int | None = None
+    startEts: Annotated[list[float], Query()] | float | str | None = None
+    stopEts: Annotated[list[float], Query()] | float | str | None = None
+    exposureDuration: Annotated[list[float], Query()] | float | str | None = None
     ckQuality: str = "predicted"
     spkQuality: str = "predicted"
 
@@ -65,9 +64,9 @@ async def getTargetStates(
     abcorr: str,
     mission: str,
     ets: str = None,
-    startEts: float | None = None,
-    exposureDuration: float | None = None,
-    numOfExposures: int | None = None,
+    startEts: Annotated[list[float], Query()] | float | str | None = None,
+    stopEts: Annotated[list[float], Query()] | float | str | None = None,
+    exposureDuration: Annotated[list[float], Query()] | float | str | None = None,
     ckQuality: str = "smithed",
     spkQuality: str = "smithed"):
     try:
@@ -81,13 +80,7 @@ async def getTargetStates(
                 except TypeError:
                     ets = [ets]
         else:
-            if all(v is not None for v in [startEts, exposureDuration, numOfExposures]):
-                stopEts = (exposureDuration * numOfExposures) + startEts
-                etsNpArray = np.arange(startEts, stopEts, exposureDuration)
-                # If ets is a single value, np.arange yields an empty array
-                ets = list(etsNpArray)
-            else:
-                raise Exception("Verify that a startEts, exposureDuration, and numOfExposures are being passed correctly.")
+            ets = calculate_ets(startEts, stopEts, exposureDuration)
         result = pyspiceql.getTargetStates(ets, target, observer, frame, abcorr, mission, ckQuality, spkQuality, SEARCH_KERNELS_BOOL)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
@@ -105,8 +98,8 @@ async def getTargetStates(params: TargetStatesRequestModel):
     mission = params.mission
     ets = params.ets
     startEts = params.startEts
+    stopEts = params.stopEts
     exposureDuration = params.exposureDuration
-    numOfExposures = params.numOfExposures
     ckQuality = params.ckQuality
     spkQuality = params.spkQuality
     try:
@@ -120,13 +113,7 @@ async def getTargetStates(params: TargetStatesRequestModel):
                 except TypeError:
                     ets = [ets]
         else:
-            if all(v is not None for v in [startEts, exposureDuration, numOfExposures]):
-                stopEts = (exposureDuration * numOfExposures) + startEts
-                etsNpArray = np.arange(startEts, stopEts, exposureDuration)
-                # If ets is a single value, np.arange yields an empty array
-                ets = list(etsNpArray)
-            else:
-                raise Exception("Verify that startEts, exposureDuration, and numOfExposures are being passed correctly.")
+            ets = calculate_ets(startEts, stopEts, exposureDuration)
         result = pyspiceql.getTargetStates(ets, target, observer, frame, abcorr, mission, ckQuality, spkQuality, SEARCH_KERNELS_BOOL)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
@@ -141,21 +128,16 @@ async def getTargetOrientations(
     refFrame: int,
     mission: str,
     ets: str | None = None,
-    startEts: float | None = None,
-    exposureDuration: float | None = None,
-    numOfExposures: int | None = None,
+    startEts: Annotated[list[float], Query()] | float | str | None = None,
+    stopEts: Annotated[list[float], Query()] | float | str | None = None,
+    exposureDuration: Annotated[list[float], Query()] | float | str | None = None,
     ckQuality: str = "smithed"):
     try:
         if ets is not None:
             if isinstance(ets, str):
                 ets = literal_eval(ets)
         else:
-            if all(v is not None for v in [startEts, exposureDuration, numOfExposures]):
-                stopEts = (exposureDuration * numOfExposures) + startEts
-                etsNpArray = np.arange(startEts, stopEts, exposureDuration)
-                ets = list(etsNpArray)
-            else:
-                raise Exception("Verify that startEts, exposureDuration, and numOfExposures are being passed correctly.")
+            ets = calculate_ets(startEts, stopEts, exposureDuration)
         result = pyspiceql.getTargetOrientations(ets, toFrame, refFrame, mission, ckQuality, SEARCH_KERNELS_BOOL)
         body = ResultModel(result=result)  
         return ResponseModel(statusCode=200, body=body)
@@ -317,4 +299,51 @@ async def extractExactCkTimes(
     except Exception as e:
         body = ErrorModel(error=str(e))
         return ResponseModel(statusCode=500, body=body)
+
+def calculate_ets(startEts, stopEts, exposureDuration) -> list:
+    ets = []
+    etsCalculationParams = [startEts, stopEts, exposureDuration]
+    if all(v is not None for v in etsCalculationParams):
+        if (all(isinstance(i, list) for i in etsCalculationParams)
+            and (len(startEts) == len (stopEts) == len(exposureDuration))):
+            ets = interpolate_times(startEts, stopEts, exposureDuration)
+        elif (all(isinstance(i, str) for i in etsCalculationParams)
+                or all(isinstance(i, float) for i in etsCalculationParams)):
+            startEts = literal_eval(startEts)
+            stopEts = literal_eval(stopEts)
+            exposureDuration = literal_eval(exposureDuration)
+            etsCalculationParams = [startEts, stopEts, exposureDuration]
+            if all(isinstance(i, float) for i in etsCalculationParams):
+                etsNpArray = np.arange(startEts, stopEts, exposureDuration)
+                # If ets is a single value, np.arange yields an empty array
+                ets = list(etsNpArray)
+            elif (all(isinstance(i, tuple) for i in etsCalculationParams)
+                    or all(isinstance(i, list) for i in etsCalculationParams)):
+                ets = interpolate_times(startEts, stopEts, exposureDuration)
+        else:
+            raise Exception("Params startEts, stopEts, and exposureDuration must be either all floats or lists of the same length.")
+    else:
+        raise Exception("Verify that either params ets or startEts, stopEts, and exposureDuration are being passed correctly.")
+    return ets
+
+def interpolate_times(start_times, stop_times, exposure_times) -> np.ndarray:
+    # Convert lists to numpy arrays for easy manipulation
+    start_times = np.asarray(start_times)
+    exposure_times = np.asarray(exposure_times)
+    stop_times = np.asarray(stop_times)
+    print("start_times=" + str(start_times))
+    print("exposure_times=" + str(exposure_times))
+    print("stop_times=" + str(stop_times))
+    result = zip(start_times, stop_times, exposure_times)
+    print("result=" + str(list(result)))
+    times = []
+    for start, stop, exposure_time in zip(start_times, stop_times, exposure_times):
+        print("start=" + str(start))
+        print("stop=" + str(stop))
+        print("exposure_time=" + str(exposure_time))
+        interp_times = np.arange(start, stop, exposure_time, dtype=float)
+        print("interp_times=" + str(interp_times))
+        times.extend(interp_times.tolist())
+        
+    return np.asarray(times)
     
