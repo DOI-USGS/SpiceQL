@@ -209,7 +209,8 @@ namespace SpiceQL {
                                                    std::string mission="",
                                                    std::string ckQuality="reconstructed",
                                                    std::string spkQuality="reconstructed",
-                                                   bool searchKernels=true);
+                                                   bool searchKernels=true,
+                                                   std::vector<std::string> kernel_list={});
 
   /**
    * @brief Extracts all segment times between observStart and observeEnd
@@ -262,7 +263,8 @@ namespace SpiceQL {
                                                          int refFrame=1, // use j2000 for default reference frame
                                                          std::string mission="", 
                                                          std::string ckQuality="reconstructed",  
-                                                         bool searchKernels=true);
+                                                         bool searchKernels=true, 
+                                                         std::vector<std::string> kernel_list={});
 
 
   /**
@@ -478,6 +480,18 @@ namespace SpiceQL {
     * @returns string vector containing arr data
    **/
    std::string getDataDirectory();
+
+
+   /**
+    * @brief Merges the right json to the left json 
+    *
+    * @param j1 input json obj, this json is having it's values edited 
+    * @param j2 input json obj to be merged into j1
+    * @param overwrite if true, overwrites the keys in j1 in favors of those in j2. If overwrite=true, this is the same as nlohmann::json::merge_patch  
+    * 
+    * @returns j1 with j2 keys + values
+   **/ 
+   nlohmann::json merge_json(nlohmann::json &j1, nlohmann::json &j2, bool overwrite=false);
 
 
   /**

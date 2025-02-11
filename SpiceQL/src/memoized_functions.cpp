@@ -39,19 +39,4 @@ namespace SpiceQL {
     return func_memoed(root, recursive);
   }
 
-
-  int Memo::translateNameToCode(string frame, string mission, bool searchKernels) {
-    Cache c({getDataDirectory()});
-    spdlog::trace("Calling translateNameToCode via cache");
-    static auto func_memoed = make_memoized(c, "spiceql_translateNameToCode", SpiceQL::translateNameToCode);
-    return func_memoed(frame, mission, searchKernels);
-  }
-
-
-  string Memo::translateCodeToName(int frame, string mission, bool searchKernels) {
-    Cache c({getDataDirectory()});
-    spdlog::trace("Calling translateCodeToName via cache");
-    static auto func_memoed = make_memoized(c, "spiceql_translateCodeToName", SpiceQL::translateCodeToName);
-    return func_memoed(frame, mission, searchKernels);
-  }
 }

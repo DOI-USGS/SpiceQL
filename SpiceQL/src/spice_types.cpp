@@ -88,14 +88,21 @@ namespace SpiceQL {
   }
 
 
-  int translateNameToCode(string frame, string mission, bool searchKernels) {    
+  int translateNameToCode(string frame, string mission, bool searchKernels, vector<string> kernel_list) {    
     SpiceInt code;
     SpiceBoolean found;
     json kernelsToLoad = {};
 
     if (mission != "" && searchKernels) {
       kernelsToLoad = Inventory::search_for_kernelset(mission, {"fk"});
-    } 
+    }
+    
+    if (!kernel_list.empty()) {
+      json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+      // merge them into the ephem kernels overwriting anything found in the query
+      merge_json(kernelsToLoad, regexk);
+    }
+    
     KernelSet kset(kernelsToLoad);
 
     checkNaifErrors();
@@ -115,7 +122,7 @@ namespace SpiceQL {
   }
 
 
-  string translateCodeToName(int frame, string mission, bool searchKernels) {
+  string translateCodeToName(int frame, string mission, bool searchKernels, vector<string> kernel_list) {
     SpiceChar name[128];
     SpiceBoolean found;
     json kernelsToLoad = {};
@@ -123,6 +130,12 @@ namespace SpiceQL {
     if (mission != "" && searchKernels){
       kernelsToLoad = Inventory::search_for_kernelset(mission, {"fk"});
     }
+    if (!kernel_list.empty()) {
+      json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+      // merge them into the ephem kernels overwriting anything found in the query
+      merge_json(kernelsToLoad, regexk);
+    }
+    
     KernelSet kset(kernelsToLoad);
 
     checkNaifErrors();
@@ -141,7 +154,7 @@ namespace SpiceQL {
     return string(name);
   }
 
-  vector<int> getFrameInfo(int frame, string mission, bool searchKernels) {
+  vector<int> getFrameInfo(int frame, string mission, bool searchKernels, vector<string> kernel_list) {
     SpiceInt cent;
     SpiceInt frclss;
     SpiceInt clssid;
@@ -152,6 +165,11 @@ namespace SpiceQL {
     if (mission != "" && searchKernels) {
       // Load only the FKs
       kernelsToLoad = Inventory::search_for_kernelset(mission, {"fk"});
+    }
+    if (!kernel_list.empty()) {
+      json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+      // merge them into the ephem kernels overwriting anything found in the query
+      merge_json(kernelsToLoad, regexk);
     }
     KernelSet kset(kernelsToLoad);
 
@@ -184,7 +202,7 @@ namespace SpiceQL {
   }
 
 
-  double utcToEt(string utc, bool searchKernels) {
+  double utcToEt(string utc, bool searchKernels, vector<string> kernel_list) {
       Config conf;
       conf = conf["base"];
       json lsks = {};
@@ -193,7 +211,12 @@ namespace SpiceQL {
       if (searchKernels) {
        lsks = conf.getLatest("lsk");
       }
-
+      if (!kernel_list.empty()) {
+        json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+        // merge them into the ephem kernels overwriting anything found in the query
+        merge_json(lsks, regexk);
+      }
+      
       KernelSet lsk(lsks);
 
       SpiceDouble et;
@@ -204,7 +227,7 @@ namespace SpiceQL {
       return et;
   }
 
-  string etToUtc(double et, string format, double precision, bool searchKernels) {
+  string etToUtc(double et, string format, double precision, bool searchKernels, vector<string> kernel_list) {
       Config conf;
       conf = conf["base"];
       json lsks = {};
@@ -212,6 +235,11 @@ namespace SpiceQL {
       // get lsk kernel
       if (searchKernels) {
        lsks = Inventory::search_for_kernelset("base", {"lsk"});
+      }
+      if (!kernel_list.empty()) {
+        json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+        // merge them into the ephem kernels overwriting anything found in the query
+        merge_json(lsks, regexk);
       }
 
       KernelSet lsk(lsks);
@@ -224,17 +252,21 @@ namespace SpiceQL {
       return utc_string;
   }
 
-  double strSclkToEt(int frameCode, string sclk, string mission, bool searchKernels) {
+
+  double strSclkToEt(int frameCode, string sclk, string mission, bool searchKernels, vector<string> kernel_list) {
       SPDLOG_TRACE("calling strSclkToEt({}, {}, {}, {})", frameCode, sclk, mission, searchKernels);
-      json sclks;
-      json lsks;
+      json ephemKernels;
       if (searchKernels) {
-        lsks = Inventory::search_for_kernelset("base", {"lsk"}); 
-        sclks = Inventory::search_for_kernelset(mission, {"fk", "sclk"});
+        ephemKernels = Inventory::search_for_kernelsets({"base", mission}, {"lsk", "fk", "sclk"}); 
       }
 
-      KernelSet sclkSet(sclks);
-      KernelSet lskSet(lsks);
+      if (!kernel_list.empty()) {
+        json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+        // merge them into the ephem kernels overwriting anything found in the query
+        merge_json(ephemKernels, regexk);
+      }
+
+      KernelSet kSet(ephemKernels);
       
       SpiceDouble et;
       checkNaifErrors();
@@ -253,13 +285,19 @@ namespace SpiceQL {
       return et;
   }
 
-  double doubleSclkToEt(int frameCode, double sclk, string mission, bool searchKernels) {
+  double doubleSclkToEt(int frameCode, double sclk, string mission, bool searchKernels, vector<string> kernel_list) {
       Config missionConf;
       json sclks;
 
       if (searchKernels) {
         // sclks = loadSelectKernels("sclk", mission);
         sclks = Inventory::search_for_kernelset(mission, {"lsk", "fk", "sclk"});
+      }
+
+      if (!kernel_list.empty()) {
+        json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+        // merge them into the ephem kernels overwriting anything found in the query
+        merge_json(sclks, regexk);
       }
 
       KernelSet sclkSet(sclks);
@@ -277,7 +315,7 @@ namespace SpiceQL {
   }
 
 
-  string doubleEtToSclk(int frameCode, double et, string mission, bool searchKernels) {
+  string doubleEtToSclk(int frameCode, double et, string mission, bool searchKernels, vector<string> kernel_list) {
       Config missionConf;
       json lsks;
       json sclks;
@@ -285,6 +323,12 @@ namespace SpiceQL {
       if (searchKernels) {
         lsks = Inventory::search_for_kernelset("base", {"lsk"}); 
         sclks = Inventory::search_for_kernelset(mission, {"fk", "sclk"});
+      }
+
+      if (!kernel_list.empty()) {
+        json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+        // merge them into the ephem kernels overwriting anything found in the query
+        merge_json(sclks, regexk);
       }
 
       KernelSet lskSet(lsks);
@@ -299,11 +343,17 @@ namespace SpiceQL {
       return string(sclk);
   }
 
-  json findMissionKeywords(string key, string mission, bool searchKernels) {
+  json findMissionKeywords(string key, string mission, bool searchKernels, vector<string> kernel_list) {
     json translationKernels = {};
 
     if (mission != "" && searchKernels) {
       translationKernels = Inventory::search_for_kernelset(mission, {"iak", "fk", "ik"});
+    }
+
+    if (!kernel_list.empty()) {
+      json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+      // merge them into the ephem kernels overwriting anything found in the query
+      merge_json(translationKernels, regexk);
     }
 
     KernelSet kset(translationKernels);
@@ -312,7 +362,7 @@ namespace SpiceQL {
   }
 
 
-  json findTargetKeywords(string key, string mission, bool searchKernels) {
+  json findTargetKeywords(string key, string mission, bool searchKernels, vector<string> kernel_list) {
     json baseKernels = {};
     json missionKernels = {};
 
@@ -320,13 +370,20 @@ namespace SpiceQL {
       baseKernels = Inventory::search_for_kernelset("base", {"pck"});
       missionKernels = Inventory::search_for_kernelset(mission, {"pck"});
     }
+
+    if (!kernel_list.empty()) {
+      json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+      // merge them into the ephem kernels overwriting anything found in the query
+      merge_json(missionKernels, regexk);
+    }
+
     KernelSet baseKset(baseKernels);
     KernelSet missionKset(missionKernels);
     return findKeywords(key);
   }
 
 
-  json getTargetFrameInfo(int targetId, string mission, bool searchKernels) {
+  json getTargetFrameInfo(int targetId, string mission, bool searchKernels, vector<string> kernel_list) {
     SpiceInt frameCode;
     SpiceChar frameName[128];
     SpiceBoolean found;
@@ -339,7 +396,13 @@ namespace SpiceQL {
       baseKernels = Inventory::search_for_kernelset("base", {"fk"});
       missionKernels = Inventory::search_for_kernelset(mission, {"fk"});
     }
-    
+
+    if (!kernel_list.empty()) {
+      json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+      // merge them into the ephem kernels overwriting anything found in the query
+      merge_json(missionKernels, regexk);
+    }
+
     KernelSet baseKset(baseKernels);
     KernelSet missionKset(missionKernels);
 

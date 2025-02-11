@@ -97,7 +97,7 @@ namespace Memo {
 
     inline std::string getCacheDir() { 
         static std::string  CACHE_DIRECTORY = "";
-
+	// return "/home/ec2-user/efs_prod/spiceql_cache/";
         if (CACHE_DIRECTORY == "") { 
             const char* cache_dir_char = getenv("SPICEQL_CACHE_DIR");
         

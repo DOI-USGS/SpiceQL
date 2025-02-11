@@ -8,6 +8,11 @@
     },
     "sclk" : {
       "kernels" : ["lro_clkcor_[0-9]{7}_v[0-9]{2}.tsc$"]
+    },
+    "tspk" : { 
+       "noquality" : { 
+        "kernels" : "^de421.bsp$"
+       }
     }
   },
   "moc" : {

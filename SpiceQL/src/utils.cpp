@@ -200,12 +200,41 @@ namespace SpiceQL {
     return lt_starg;
   }
 
+  json merge_json(json &j1, json &j2, bool overwrite) { 
+    if(overwrite) { 
+      SPDLOG_TRACE("Overwriting Kernels");
+      j1.merge_patch(j2);
+    }
+    else { 
+      if(j1.is_null()) { 
+        j1 = j2;
+        return j1; 
+      }
 
-  vector<vector<double>> getTargetStates(vector<double> ets, string target, string observer, string frame, string abcorr, string mission, string ckQuality, string spkQuality, bool searchKernels) {
-    SPDLOG_TRACE("Calling getTargetStates with {}, {}, {}, {}, {}, {}, {}, {}, {}", ets.size(), target, observer, frame, abcorr, mission, ckQuality, spkQuality, searchKernels);
+      SPDLOG_TRACE("Merging Kernels");
+      for(auto &[k, v] : j2.items()) { 
+        if(j1.contains(k) && j1[k].is_array()) { 
+          // create a set for quick lookups for duplicates
+          std::unordered_set<string> k_set(j1[k].begin(), j1[k].end());
+          SPDLOG_DEBUG("Merging {} and {}", j1[k].dump(), v.dump());
+          for(auto & e: v) { 
+            if(!k_set.contains(e)) j1[k].push_back(e);
+          }
+        }
+        else { 
+          j1[k] = v;
+        }
+      }
+    }
+    return j1;
+  }  
+
+
+  vector<vector<double>> getTargetStates(vector<double> ets, string target, string observer, string frame, string abcorr, string mission, string ckQuality, string spkQuality, bool searchKernels, vector<string> kernel_list) {
+    SPDLOG_TRACE("Calling getTargetStates with {}, {}, {}, {}, {}, {}, {}, {}, {}. {}", ets.size(), target, observer, frame, abcorr, mission, ckQuality, spkQuality, searchKernels, kernel_list.size());
     
     if (ets.size() < 1) {
-      throw invalid_argument("No ephemeris times given.");
+      throw invalid_argument("No ephemeris times given."); 
     }
 
     json ephemKernels = {};
@@ -213,6 +242,12 @@ namespace SpiceQL {
     if (searchKernels) {
       ephemKernels = Inventory::search_for_kernelsets({mission, target, observer, "base"}, {"sclk", "ck", "spk", "pck", "tspk", "fk", "lsk", "fk"}, ets.front(), ets.back(), ckQuality, spkQuality);
       SPDLOG_DEBUG("{} Kernels : {}", mission, ephemKernels.dump(4));
+    }
+
+    if (!kernel_list.empty()) {
+       json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+       // merge them into the ephem kernels overwriting anything found in the query
+       merge_json(ephemKernels, regexk);
     }
 
     auto start = high_resolution_clock::now();
@@ -442,7 +477,7 @@ namespace SpiceQL {
   }
 
 
-  vector<vector<double>> getTargetOrientations(vector<double> ets, int toFrame, int refFrame, string mission, string ckQuality, bool searchKernels) {
+  vector<vector<double>> getTargetOrientations(vector<double> ets, int toFrame, int refFrame, string mission, string ckQuality, bool searchKernels, vector<string> kernel_list) {
     SPDLOG_TRACE("Calling getTargetOrientations with {}, {}, {}, {}, {}, {}", ets.size(), toFrame, refFrame, mission, ckQuality, searchKernels);
     // Config config;
     // json missionJson;
@@ -455,6 +490,12 @@ namespace SpiceQL {
 
     if (searchKernels) {
       ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"sclk", "ck", "pck", "fk", "tspk", "lsk", "tspk"}, ets.front(), ets.back(), ckQuality, "noquality");
+    }
+
+    if (!kernel_list.empty()) {
+       json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+       // merge them into the ephem kernels overwriting anything found in the query
+       merge_json(ephemKernels, regexk);
     }
 
     auto start = high_resolution_clock::now();

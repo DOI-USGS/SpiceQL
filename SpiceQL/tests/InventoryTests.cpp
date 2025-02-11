@@ -104,6 +104,7 @@ TEST_F(LroKernelSet, TestInventorySearchSetsNoOverwrite) {
   EXPECT_EQ(fs::path(kernels["pck"][1].get<string>()).filename(), "pck00009.tpc");
 }
 
+
 TEST(SpiceQLPerformence, Inventory) { 
 	 std::ofstream outfile;
         outfile.open("/home/ec2-user/spiceqltimes_themis.txt", std::ios_base::app); // append instead of overwrite
@@ -117,10 +118,21 @@ TEST(SpiceQLPerformence, Inventory) {
     }
 }
 
+
 TEST_F(LroKernelSet, TestInventorySearchSetsOverwrite) {
   // do a time query
   nlohmann::json kernels = Inventory::search_for_kernelsets({"moon", "base"}, {"pck"}, 110000000, 140000001, "reconstructed", "reconstructed", false, true);
   SPDLOG_DEBUG("TEST KERNELS: {}", kernels.dump(4));
   EXPECT_EQ(kernels["pck"].size(), 1);
   EXPECT_EQ(fs::path(kernels["pck"][0].get<string>()).filename(), "pck00009.tpc");
+}
+
+
+TEST_F(LroKernelSet, TestInventorySearchSetFromRegex) {
+  // do a time query
+  nlohmann::json kernels = Inventory::search_for_kernelset_from_regex({"/lroc/sclk/.*", "/lroc/spk/smithed/LRO_TEST_GRGM660MAT[0-9]{3}.bsp", "/iau_moon/pck/moon.*"});
+  SPDLOG_DEBUG("TEST KERNELS: {}", kernels.dump(4));
+  EXPECT_EQ(kernels["spk"].size(), 3);
+  EXPECT_EQ(kernels["spk_quality"].get<string>(), "smithed"); 
+  EXPECT_EQ(fs::path(kernels["pck"][0].get<string>()).filename(), "moon_080317.tf");
 }
