@@ -37,8 +37,8 @@ class TargetStatesRequestModel(BaseModel):
     startEts: Annotated[list[float], Query()] | float | str | None = None
     stopEts: Annotated[list[float], Query()] | float | str | None = None
     exposureDuration: Annotated[list[float], Query()] | float | str | None = None
-    ckQuality: str = "predicted"
-    spkQuality: str = "predicted"
+    ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"]
+    spkQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"]
 
 # Create FastAPI instance
 app = FastAPI()
@@ -67,8 +67,8 @@ async def getTargetStates(
     startEts: Annotated[list[float], Query()] | float | str | None = None,
     stopEts: Annotated[list[float], Query()] | float | str | None = None,
     exposureDuration: Annotated[list[float], Query()] | float | str | None = None,
-    ckQuality: str = "smithed",
-    spkQuality: str = "smithed"):
+    ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
+    spkQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"]):
     try:
         if ets is not None:
             if isinstance(ets, str):
@@ -81,7 +81,9 @@ async def getTargetStates(
                     ets = [ets]
         else:
             ets = calculate_ets(startEts, stopEts, exposureDuration)
-        result = pyspiceql.getTargetStates(ets, target, observer, frame, abcorr, mission, ckQuality, spkQuality, SEARCH_KERNELS_BOOL)
+        ckQualities = strToList(ckQualities)
+        spkQualities = strToList(spkQualities)
+        result = pyspiceql.getTargetStates(ets, target, observer, frame, abcorr, mission, ckQualities, spkQualities, SEARCH_KERNELS_BOOL)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -100,8 +102,8 @@ async def getTargetStates(params: TargetStatesRequestModel):
     startEts = params.startEts
     stopEts = params.stopEts
     exposureDuration = params.exposureDuration
-    ckQuality = params.ckQuality
-    spkQuality = params.spkQuality
+    ckQualities = params.ckQualities
+    spkQualities = params.spkQualities
     try:
         if ets is not None:
             if isinstance(ets, str):
@@ -114,7 +116,9 @@ async def getTargetStates(params: TargetStatesRequestModel):
                     ets = [ets]
         else:
             ets = calculate_ets(startEts, stopEts, exposureDuration)
-        result = pyspiceql.getTargetStates(ets, target, observer, frame, abcorr, mission, ckQuality, spkQuality, SEARCH_KERNELS_BOOL)
+        ckQualities = strToList(ckQualities)
+        spkQualities = strToList(spkQualities)
+        result = pyspiceql.getTargetStates(ets, target, observer, frame, abcorr, mission, ckQualities, spkQualities, SEARCH_KERNELS_BOOL)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -131,14 +135,21 @@ async def getTargetOrientations(
     startEts: Annotated[list[float], Query()] | float | str | None = None,
     stopEts: Annotated[list[float], Query()] | float | str | None = None,
     exposureDuration: Annotated[list[float], Query()] | float | str | None = None,
-    ckQuality: str = "smithed"):
+    ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"]):
     try:
         if ets is not None:
             if isinstance(ets, str):
                 ets = literal_eval(ets)
+            else:
+                # getTargetStates requires an iterable ets.  If not iterable, make it a list.
+                try:
+                    iter(ets)
+                except TypeError:
+                    ets = [ets]
         else:
             ets = calculate_ets(startEts, stopEts, exposureDuration)
-        result = pyspiceql.getTargetOrientations(ets, toFrame, refFrame, mission, ckQuality, SEARCH_KERNELS_BOOL)
+        ckQualities = strToList(ckQualities)
+        result = pyspiceql.getTargetOrientations(ets, toFrame, refFrame, mission, ckQualities, SEARCH_KERNELS_BOOL)
         body = ResultModel(result=result)  
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -276,9 +287,9 @@ async def frameTrace(
     et: float,
     initialFrame: int,
     mission: str,
-    ckQuality: str = "smithed"):
+    ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"]):
     try:
-        result = pyspiceql.frameTrace(et, initialFrame, mission, ckQuality, SEARCH_KERNELS_BOOL)
+        result = pyspiceql.frameTrace(et, initialFrame, mission, ckQualities, SEARCH_KERNELS_BOOL)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -291,9 +302,10 @@ async def extractExactCkTimes(
     observEnd: float,
     targetFrame: int,
     mission: str,
-    ckQuality: str = "smithed"):
+    ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"]):
     try:
-        result = pyspiceql.extractExactCkTimes(observStart, observEnd, targetFrame, mission, ckQuality, SEARCH_KERNELS_BOOL)
+        ckQualities = strToList(ckQualities)
+        result = pyspiceql.extractExactCkTimes(observStart, observEnd, targetFrame, mission, ckQualities, SEARCH_KERNELS_BOOL)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -331,19 +343,21 @@ def interpolate_times(start_times, stop_times, exposure_times) -> np.ndarray:
     start_times = np.asarray(start_times)
     exposure_times = np.asarray(exposure_times)
     stop_times = np.asarray(stop_times)
-    print("start_times=" + str(start_times))
-    print("exposure_times=" + str(exposure_times))
-    print("stop_times=" + str(stop_times))
     result = zip(start_times, stop_times, exposure_times)
-    print("result=" + str(list(result)))
     times = []
     for start, stop, exposure_time in zip(start_times, stop_times, exposure_times):
-        print("start=" + str(start))
-        print("stop=" + str(stop))
-        print("exposure_time=" + str(exposure_time))
         interp_times = np.arange(start, stop, exposure_time, dtype=float)
-        print("interp_times=" + str(interp_times))
         times.extend(interp_times.tolist())
-        
     return np.asarray(times)
+
+def strToList(value: str) -> list:
+    if value is not None:
+        if isinstance(value, str):
+            value = literal_eval(value)
+        else:
+            try:
+                iter(value)
+            except TypeError:
+                value = [value]
+    return value
     

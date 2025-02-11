@@ -192,8 +192,8 @@ namespace SpiceQL {
    *           "XCN"   - converged Newtonian light time correction
    *           "XCN+S" - converged Newtonian light time correction and stellar aberration correction.
    * @param mission Config subset as it relates to the mission
-   * @param ckQuality string describing the quality of cks to try and obtain
-   * @param spkQuality string describing the quality of spks to try and obtain
+   * @param ckQualities vector of strings describing the quality of cks to try and obtain
+   * @param spkQualities string of strings describing the quality of spks to try and obtain
    * @param searchKernels bool Whether to search the kernels for the user
    *
    * @see SpiceQL::getTargetState
@@ -207,8 +207,8 @@ namespace SpiceQL {
                                                    std::string frame="J2000", // use j2000 for default reference frame
                                                    std::string abcorr="NONE",
                                                    std::string mission="",
-                                                   std::string ckQuality="reconstructed",
-                                                   std::string spkQuality="reconstructed",
+                                                   std::vector<std::string> ckQualities={"smithed", "reconstructed"},
+                                                   std::vector<std::string> spkQualities={"smithed", "reconstructed"},
                                                    bool searchKernels=true,
                                                    std::vector<std::string> kernel_list={});
 
@@ -222,9 +222,10 @@ namespace SpiceQL {
    * @param observStart Ephemeris time to start searching at
    * @param observEnd Ephemeris time to stop searching at
    * @param targetFrame Target reference frame to get ephemeris data in
+   * @param ckQualities vector of string describing the quality of cks to try and obtain
    * @returns A list of times
    **/
-  std::vector<double> extractExactCkTimes(double observStart, double observEnd, int targetFrame, std::string mission, std::string ckQuality, bool searchKernels);
+  std::vector<double> extractExactCkTimes(double observStart, double observEnd, int targetFrame, std::string mission, std::vector<std::string> ckQualities, bool searchKernels);
 
   /**
    * @brief Gives quaternion and angular velocity for a given frame at a given ephemeris time
@@ -251,7 +252,7 @@ namespace SpiceQL {
    * @param toframe the source frame's NAIF code.
    * @param refframe the reference frame's NAIF code, orientations are relative to this reference frame
    * @param mission Config subset as it relates to the mission
-   * @param ckQuality string describing the quality of cks to try and obtain
+   * @param ckQualities vector of string describing the quality of cks to try and obtain
    * @param searchKernels bool Whether to search the kernels for the user
    *
    * @see SpiceQL::getTargetOrientation
@@ -261,9 +262,9 @@ namespace SpiceQL {
   std::vector<std::vector<double>> getTargetOrientations(std::vector<double> ets, 
                                                          int toFrame, 
                                                          int refFrame=1, // use j2000 for default reference frame
-                                                         std::string mission="", 
-                                                         std::string ckQuality="reconstructed",  
-                                                         bool searchKernels=true, 
+                                                         std::string mission="",
+                                                         std::vector<std::string> ckQualities={"smithed", "reconstructed"},  
+                                                         bool searchKernels=true,
                                                          std::vector<std::string> kernel_list={});
 
 
@@ -276,13 +277,13 @@ namespace SpiceQL {
    * @param et ephemeris times at which you want to optain the frame trace
    * @param initialFrame the initial frame's NAIF code.
    * @param mission Config subset as it relates to the mission
-   * @param ckQuality int describing the quality of cks to try and obtain
+   * @param ckQualities vector of strings describing the quality of cks to try and obtain
    * @param searchKernels bool Whether to search the kernels for the user
    *
    * @returns A two element vector of vectors ints, where the first element is the sequence of time dependent frames
    * and the second is the sequence of constant frames
   **/
-  std::vector<std::vector<int>> frameTrace(double et, int initialFrame, std::string mission="", std::string ckQuality="reconstructed",  bool searchKernels=true);
+  std::vector<std::vector<int>> frameTrace(double et, int initialFrame, std::string mission="", std::vector<std::string> ckQualities={"smithed", "reconstructed"},  bool searchKernels=true);
 
 
   /**

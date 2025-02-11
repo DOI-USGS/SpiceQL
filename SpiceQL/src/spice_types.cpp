@@ -87,6 +87,14 @@ namespace SpiceQL {
     throw invalid_argument(fmt::format("{} is not a valid kernel type, available types are: {}", qa, fmt::join(KERNEL_QUALITIES, ", ")));
   }
 
+  vector<Kernel::Quality> Kernel::translateQualities(vector<string> qas) {
+    vector<Kernel::Quality> qualities = {};
+    for (string qa : qas) {
+      qualities.push_back(Kernel::translateQuality(qa));
+    }
+    return qualities;
+  } 
+
 
   int translateNameToCode(string frame, string mission, bool searchKernels, vector<string> kernel_list) {    
     SpiceInt code;

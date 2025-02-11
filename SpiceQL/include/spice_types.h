@@ -88,6 +88,14 @@ namespace SpiceQL {
        * @return Kernel::Type representation of the kernel type, eg. "reconstructed" returns Kernel::Quality::Reconstructed
        **/
       static Quality translateQuality(std::string qa);
+
+      /**
+       * @brief Switch between Kernel quality string to enum
+       *
+       * @param qas Vector of Kernel::Quality strings
+       * @return Vector of Kernel::Quality values
+       **/
+      static std::vector<Kernel::Quality> translateQualities(std::vector<std::string> qas);
       
 
       /**

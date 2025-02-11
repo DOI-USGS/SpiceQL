@@ -240,12 +240,12 @@ namespace SpiceQL {
 
 
   json InventoryImpl::search_for_kernelsets(vector<string> spiceql_names, vector<Kernel::Type> types, double start_time, double stop_time,
-                                  Kernel::Quality ckQuality, Kernel::Quality spkQuality, bool enforce_quality, bool overwrite) { 
+                                  vector<Kernel::Quality> ckQualities, vector<Kernel::Quality> spkQualities, bool enforce_quality, bool overwrite) { 
       json kernels; 
       // simply iterate over the names
       for(auto &name : spiceql_names) { 
         json subKernels = search_for_kernelset(name, types, start_time, stop_time,
-                                  ckQuality, spkQuality, enforce_quality); 
+                                  ckQualities, spkQualities, enforce_quality); 
         SPDLOG_TRACE("subkernels for {}: {}", name, subKernels.dump(4));
         SPDLOG_TRACE("Overwrite? {}", overwrite);
         merge_json(kernels, subKernels, overwrite);
@@ -256,7 +256,7 @@ namespace SpiceQL {
 
 
   json InventoryImpl::search_for_kernelset(string spiceql_name, vector<Kernel::Type> types, double start_time, double stop_time,
-                                  Kernel::Quality ckQuality, Kernel::Quality spkQuality, bool enforce_quality) { 
+                                  vector<Kernel::Quality> ckQualities, vector<Kernel::Quality> spkQualities, bool enforce_quality) { 
     // get time dep kernels first 
     json kernels;
     spiceql_name = toLower(spiceql_name);
@@ -274,18 +274,20 @@ namespace SpiceQL {
         TimeIndexedKernels *time_indices = nullptr;
         bool found = false;        
 
-        Kernel::Quality quality = spkQuality;
+        vector<Kernel::Quality> qualities = spkQualities;
         string qkey = spiceql_name+"_spk_quality";
         if (type == Kernel::Type::CK) { 
-          quality = ckQuality;
+          qualities = ckQualities;
           qkey = spiceql_name+"_ck_quality";
         } 
 
-        // iterate down the qualities 
-        for(int i = (int)quality; i >= 0 && !found; i--) { 
-          string key = spiceql_name+"/"+Kernel::translateType(type)+"/"+KERNEL_QUALITIES.at(i)+"/";
+        // sort in descending order
+        std::sort(qualities.begin(), qualities.end(), std::greater<>());
+
+        // iterate down the qualities
+        for(auto quality = qualities.begin(); quality != qualities.end() && !found; ++quality) {
+          string key = spiceql_name+"/"+Kernel::translateType(type)+"/"+Kernel::translateQuality(*quality)+"/";
           SPDLOG_DEBUG("Key: {}", key);
-          quality = (Kernel::Quality)i; 
 
           if (m_timedep_kerns.contains(key)) { 
             SPDLOG_DEBUG("Key {} found", key); 
@@ -376,14 +378,14 @@ namespace SpiceQL {
             if (type == Kernel::Type::SPK) { 
               // the SPK in the last position is the higher priority one 
               kernels[Kernel::translateType(type)] = {data_dir / final_time_kernels.back()};
-              kernels[qkey] = Kernel::translateQuality(quality);   
+              kernels[qkey] = Kernel::translateQuality(*quality);   
             }
             else { 
               for(string &e : final_time_kernels) { 
                 e = data_dir / e;
               }
               kernels[Kernel::translateType(type)] = final_time_kernels;
-              kernels[qkey] = Kernel::translateQuality(quality);
+              kernels[qkey] = Kernel::translateQuality(*quality);
             }
           }
           SPDLOG_TRACE("NUMBER OF ITERATIONS: {}", iterations);

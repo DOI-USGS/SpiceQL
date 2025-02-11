@@ -18,30 +18,33 @@ using namespace std;
 
 namespace SpiceQL { 
     namespace Inventory { 
-        json search_for_kernelset(string instrument, vector<string> types, double start_time, double stop_time,  string ckQuality, string spkQuality, bool enforce_quality) { 
+        json search_for_kernelset(string instrument, vector<string> types, double start_time, double stop_time,  vector<string> ckQualities, vector<string> spkQualities, bool enforce_quality) { 
             InventoryImpl impl;
+            
+            vector<Kernel::Quality> enum_ck_qualities = Kernel::translateQualities(ckQualities);
+            vector<Kernel::Quality> enum_spk_qualities = Kernel::translateQualities(spkQualities);
+            
             vector<Kernel::Type> enum_types;
-            Kernel::Quality enum_ck_quality = Kernel::translateQuality(ckQuality); 
-            Kernel::Quality enum_spk_quality = Kernel::translateQuality(spkQuality);  
-
             for (auto &e:types) { 
                 enum_types.push_back(Kernel::translateType(e));
             }
 
-            return impl.search_for_kernelset(instrument, enum_types, start_time, stop_time, enum_ck_quality, enum_spk_quality, enforce_quality);
+            return impl.search_for_kernelset(instrument, enum_types, start_time, stop_time, enum_ck_qualities, enum_spk_qualities, enforce_quality);
         }
 
         json search_for_kernelsets(vector<string> spiceql_names, vector<string> types, double start_time, double stop_time, 
-                                      string ckQuality, string spkQuality, bool enforce_quality, bool overwrite) { 
+                                      vector<string> ckQualities, vector<string> spkQualities, bool enforce_quality, bool overwrite) { 
             InventoryImpl impl;
-            Kernel::Quality enum_ck_quality = Kernel::translateQuality(ckQuality); 
-            Kernel::Quality enum_spk_quality = Kernel::translateQuality(spkQuality);   
+              
+            vector<Kernel::Quality> enum_ck_qualities = Kernel::translateQualities(ckQualities);
+            vector<Kernel::Quality> enum_spk_qualities = Kernel::translateQualities(spkQualities);
+
             vector<Kernel::Type> enum_types;
             for (auto &e:types) { 
                 enum_types.push_back(Kernel::translateType(e));
             } 
 
-            json kernels = impl.search_for_kernelsets(spiceql_names, enum_types, start_time, stop_time, enum_ck_quality, enum_spk_quality, enforce_quality, overwrite);
+            json kernels = impl.search_for_kernelsets(spiceql_names, enum_types, start_time, stop_time, enum_ck_qualities, enum_spk_qualities, enforce_quality, overwrite);
             return kernels; 
         }
 
