@@ -273,22 +273,24 @@ namespace SpiceQL {
   }
 
 
-  vector<double> extractExactCkTimes(double observStart, double observEnd, int targetFrame, string mission, vector<string> ckQualities, bool searchKernels) {
+  vector<double> extractExactCkTimes(double observStart, double observEnd, int targetFrame, string mission, vector<string> ckQualities, bool searchKernels, vector<string> kernel_list) {
     SPDLOG_TRACE("Calling extractExactCkTimes with {}, {}, {}, {}, {}, {}", observStart, observEnd, targetFrame, mission, ckQualities.size(), searchKernels);
     // Config config;
     json missionJson;
 
     json ephemKernels = {};
-    json lskKernels = {};
-
 
     if (searchKernels) {
-      ephemKernels = Inventory::search_for_kernelset(mission, {"ck", "sclk"}, observStart, observEnd, ckQualities, {"noquality"});
-      lskKernels = Inventory::search_for_kernelset("base", {"lsk"});
+      ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"ck", "sclk", "lsk"}, observStart, observEnd, ckQualities, {"noquality"});
+    }
+
+    if (!kernel_list.empty()) {
+       json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+       // merge them into the ephem kernels overwriting anything found in the query
+       merge_json(ephemKernels, regexk);
     }
 
     KernelSet ephemSet(ephemKernels);
-    KernelSet lskSet(lskKernels);
 
     int count = 0;
 
@@ -479,8 +481,6 @@ namespace SpiceQL {
 
   vector<vector<double>> getTargetOrientations(vector<double> ets, int toFrame, int refFrame, string mission, vector<string> ckQualities, bool searchKernels, vector<string> kernel_list) {
     SPDLOG_TRACE("Calling getTargetOrientations with {}, {}, {}, {}, {}, {}, {}", ets.size(), toFrame, refFrame, mission, ckQualities.size(), searchKernels, kernel_list.size());
-    // Config config;
-    // json missionJson;
 
     if (ets.size() < 1) {
       throw invalid_argument("No ephemeris times given.");
@@ -519,23 +519,23 @@ namespace SpiceQL {
   }
 
 
-  vector<vector<int>> frameTrace(double et, int initialFrame, string mission, vector<string> ckQualities, bool searchKernels) {
+  vector<vector<int>> frameTrace(double et, int initialFrame, string mission, vector<string> ckQualities, bool searchKernels, vector<string> kernel_list) {
     checkNaifErrors();
     // Config config;
     // json missionJson;
     json ephemKernels;
-    json lskKernels;
-    json pckKernels;
 
     if (searchKernels) {
-      ephemKernels = Inventory::search_for_kernelset(mission, {"sclk", "ck", "pck", "fk", "tspk"}, et, et, ckQualities, {"noquality"});
-      lskKernels = Inventory::search_for_kernelset("base", {"lsk"});
-      pckKernels = Inventory::search_for_kernelset("base", {"pck"});
+      ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"sclk", "ck", "pck", "fk", "lsk", "tspk"}, et, et, ckQualities, {"noquality"});
+    }
+
+    if (!kernel_list.empty()) {
+       json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+       // merge them into the ephem kernels overwriting anything found in the query
+       merge_json(ephemKernels, regexk);
     }
 
     KernelSet ephemSet(ephemKernels);
-    KernelSet lskSet(lskKernels);
-    KernelSet pckSet(pckKernels);
 
     checkNaifErrors();
     // The code for this method was extracted from the Naif routine rotget written by N.J. Bachman &

@@ -11,8 +11,6 @@ import logging
 
 logger = logging.getLogger('uvicorn.error')
 
-SEARCH_KERNELS_BOOL = True
-
 # Models
 class MessageItem(BaseModel):
     message: str
@@ -40,6 +38,7 @@ class TargetStatesRequestModel(BaseModel):
     ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"]
     spkQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"]
     kernelList: Annotated[list[str], Query()] | str | None = []
+    searchKernels: bool = True
 
 # Create FastAPI instance
 app = FastAPI()
@@ -70,7 +69,8 @@ async def getTargetStates(
     exposureDuration: Annotated[list[float], Query()] | float | str | None = None,
     ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
     spkQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    kernelList: Annotated[list[str], Query()] | str | None = [],
+    searchKernels: bool = True):
     try:
         if ets is not None:
             if isinstance(ets, str):
@@ -86,7 +86,7 @@ async def getTargetStates(
         ckQualities = strToList(ckQualities)
         spkQualities = strToList(spkQualities)
         kernelList = strToList(kernelList)
-        result = pyspiceql.getTargetStates(ets, target, observer, frame, abcorr, mission, ckQualities, spkQualities, SEARCH_KERNELS_BOOL, kernelList)
+        result = pyspiceql.getTargetStates(ets, target, observer, frame, abcorr, mission, ckQualities, spkQualities, searchKernels, kernelList)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -108,6 +108,7 @@ async def getTargetStates(params: TargetStatesRequestModel):
     ckQualities = params.ckQualities
     spkQualities = params.spkQualities
     kernelList = params.kernelList
+    searchKernels = params.searchKernels
     try:
         if ets is not None:
             if isinstance(ets, str):
@@ -123,7 +124,7 @@ async def getTargetStates(params: TargetStatesRequestModel):
         ckQualities = strToList(ckQualities)
         spkQualities = strToList(spkQualities)
         kernelList = strToList(kernelList)
-        result = pyspiceql.getTargetStates(ets, target, observer, frame, abcorr, mission, ckQualities, spkQualities, SEARCH_KERNELS_BOOL, kernelList)
+        result = pyspiceql.getTargetStates(ets, target, observer, frame, abcorr, mission, ckQualities, spkQualities, searchKernels, kernelList)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -141,7 +142,8 @@ async def getTargetOrientations(
     stopEts: Annotated[list[float], Query()] | float | str | None = None,
     exposureDuration: Annotated[list[float], Query()] | float | str | None = None,
     ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    kernelList: Annotated[list[str], Query()] | str | None = [],
+    searchKernels: bool = True):
     try:
         if ets is not None:
             if isinstance(ets, str):
@@ -156,7 +158,7 @@ async def getTargetOrientations(
             ets = calculate_ets(startEts, stopEts, exposureDuration)
         ckQualities = strToList(ckQualities)
         kernelList = strToList(kernelList)
-        result = pyspiceql.getTargetOrientations(ets, toFrame, refFrame, mission, ckQualities, SEARCH_KERNELS_BOOL, kernelList)
+        result = pyspiceql.getTargetOrientations(ets, toFrame, refFrame, mission, ckQualities, searchKernels, kernelList)
         body = ResultModel(result=result)  
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -169,10 +171,11 @@ async def strSclkToEt(
     frameCode: int,
     sclk: str,
     mission: str,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    kernelList: Annotated[list[str], Query()] | str | None = [],
+    searchKernels: bool = True):
     try:
         kernelList = strToList(kernelList)
-        result = pyspiceql.strSclkToEt(frameCode, sclk, mission, SEARCH_KERNELS_BOOL, kernelList)
+        result = pyspiceql.strSclkToEt(frameCode, sclk, mission, searchKernels, kernelList)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -185,10 +188,11 @@ async def doubleSclkToEt(
     frameCode: int,
     sclk: float,
     mission: str,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    kernelList: Annotated[list[str], Query()] | str | None = [],
+    searchKernels: bool = True):
     try:
         kernelList = strToList(kernelList)
-        result = pyspiceql.doubleSclkToEt(frameCode, sclk, mission, SEARCH_KERNELS_BOOL, kernelList)
+        result = pyspiceql.doubleSclkToEt(frameCode, sclk, mission, searchKernels, kernelList)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -201,10 +205,11 @@ async def doubleEtToSclk(
     frameCode: int,
     et: float,
     mission: str,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    kernelList: Annotated[list[str], Query()] | str | None = [],
+    searchKernels: bool = True):
     try:
         kernelList = strToList(kernelList)
-        result = pyspiceql.doubleEtToSclk(frameCode, et, mission, SEARCH_KERNELS_BOOL, kernelList)
+        result = pyspiceql.doubleEtToSclk(frameCode, et, mission, searchKernels, kernelList)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -215,10 +220,11 @@ async def doubleEtToSclk(
 @app.get("/utcToEt")
 async def utcToEt(
     utc: str,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    kernelList: Annotated[list[str], Query()] | str | None = [],
+    searchKernels: bool = True):
     try:
         kernelList = strToList(kernelList)
-        result = pyspiceql.utcToEt(utc, SEARCH_KERNELS_BOOL, kernelList)
+        result = pyspiceql.utcToEt(utc, searchKernels, kernelList)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -230,10 +236,11 @@ async def etToUtc(
     et: float,
     format: str,
     precision: float,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    kernelList: Annotated[list[str], Query()] | str | None = [],
+    searchKernels: bool = True):
     try:
         kernelList = strToList(kernelList)
-        result = pyspiceql.etToUtc(et, format, precision, SEARCH_KERNELS_BOOL, kernelList)
+        result = pyspiceql.etToUtc(et, format, precision, searchKernels, kernelList)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -244,10 +251,11 @@ async def etToUtc(
 async def translateNameToCode(
     frame: str,
     mission: str,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    kernelList: Annotated[list[str], Query()] | str | None = [],
+    searchKernels: bool = True):
     try:
         kernelList = strToList(kernelList)
-        result = pyspiceql.translateNameToCode(frame, mission, SEARCH_KERNELS_BOOL, kernelList)
+        result = pyspiceql.translateNameToCode(frame, mission, searchKernels, kernelList)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -258,10 +266,11 @@ async def translateNameToCode(
 async def translateCodeToName(
     frame: int,
     mission: str,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    kernelList: Annotated[list[str], Query()] | str | None = [],
+    searchKernels: bool = True):
     try:
         kernelList = strToList(kernelList)
-        result = pyspiceql.translateCodeToName(frame, mission, SEARCH_KERNELS_BOOL, kernelList)
+        result = pyspiceql.translateCodeToName(frame, mission, searchKernels, kernelList)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -272,10 +281,11 @@ async def translateCodeToName(
 async def getFrameInfo(
     frame: int,
     mission: str,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    kernelList: Annotated[list[str], Query()] | str | None = [],
+    searchKernels: bool = True):
     try:
         kernelList = strToList(kernelList)
-        result = pyspiceql.getFrameInfo(frame, mission, SEARCH_KERNELS_BOOL, kernelList)
+        result = pyspiceql.getFrameInfo(frame, mission, searchKernels, kernelList)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -286,10 +296,11 @@ async def getFrameInfo(
 async def getTargetFrameInfo(
     targetId: int,
     mission: str,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    kernelList: Annotated[list[str], Query()] | str | None = [],
+    searchKernels: bool = True):
     try:
         kernelList = strToList(kernelList)
-        result = pyspiceql.getTargetFrameInfo(targetId, mission, SEARCH_KERNELS_BOOL, kernelList)
+        result = pyspiceql.getTargetFrameInfo(targetId, mission, searchKernels, kernelList)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -300,10 +311,11 @@ async def getTargetFrameInfo(
 async def findMissionKeywords(
     key: str,
     mission: str,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    kernelList: Annotated[list[str], Query()] | str | None = [],
+    searchKernels: bool = True):
     try:
         kernelList = strToList(kernelList)
-        result = pyspiceql.findMissionKeywords(key, mission, SEARCH_KERNELS_BOOL, kernelList)
+        result = pyspiceql.findMissionKeywords(key, mission, searchKernels, kernelList)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -314,10 +326,11 @@ async def findMissionKeywords(
 async def findTargetKeywords(
     key: str,
     mission: str,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    kernelList: Annotated[list[str], Query()] | str | None = [],
+    searchKernels: bool = True):
     try:
         kernelList = strToList(kernelList)
-        result = pyspiceql.findTargetKeywords(key, mission, SEARCH_KERNELS_BOOL, kernelList)
+        result = pyspiceql.findTargetKeywords(key, mission, searchKernels, kernelList)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -329,9 +342,13 @@ async def frameTrace(
     et: float,
     initialFrame: int,
     mission: str,
-    ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"]):
+    ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
+    kernelList: Annotated[list[str], Query()] | str | None = [],
+    searchKernels: bool = True):
     try:
-        result = pyspiceql.frameTrace(et, initialFrame, mission, ckQualities, SEARCH_KERNELS_BOOL)
+        ckQualities = strToList(ckQualities)
+        kernelList = strToList(kernelList)
+        result = pyspiceql.frameTrace(et, initialFrame, mission, ckQualities, searchKernels, kernelList)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -344,10 +361,13 @@ async def extractExactCkTimes(
     observEnd: float,
     targetFrame: int,
     mission: str,
-    ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"]):
+    ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
+    kernelList: Annotated[list[str], Query()] | str | None = [],
+    searchKernels: bool = True):
     try:
         ckQualities = strToList(ckQualities)
-        result = pyspiceql.extractExactCkTimes(observStart, observEnd, targetFrame, mission, ckQualities, SEARCH_KERNELS_BOOL)
+        kernelList = strToList(kernelList)
+        result = pyspiceql.extractExactCkTimes(observStart, observEnd, targetFrame, mission, ckQualities, searchKernels, kernelList)
         body = ResultModel(result=result)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:

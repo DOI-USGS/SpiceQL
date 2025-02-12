@@ -225,7 +225,13 @@ namespace SpiceQL {
    * @param ckQualities vector of string describing the quality of cks to try and obtain
    * @returns A list of times
    **/
-  std::vector<double> extractExactCkTimes(double observStart, double observEnd, int targetFrame, std::string mission, std::vector<std::string> ckQualities, bool searchKernels);
+  std::vector<double> extractExactCkTimes(double observStart, 
+                                          double observEnd, 
+                                          int targetFrame, 
+                                          std::string mission, 
+                                          std::vector<std::string> ckQualities, 
+                                          bool searchKernels,
+                                          std::vector<std::string> kernel_list={});
 
   /**
    * @brief Gives quaternion and angular velocity for a given frame at a given ephemeris time
@@ -283,7 +289,12 @@ namespace SpiceQL {
    * @returns A two element vector of vectors ints, where the first element is the sequence of time dependent frames
    * and the second is the sequence of constant frames
   **/
-  std::vector<std::vector<int>> frameTrace(double et, int initialFrame, std::string mission="", std::vector<std::string> ckQualities={"smithed", "reconstructed"},  bool searchKernels=true);
+  std::vector<std::vector<int>> frameTrace(double et, 
+                                           int initialFrame, 
+                                           std::string mission="", 
+                                           std::vector<std::string> ckQualities={"smithed", "reconstructed"},  
+                                           bool searchKernels=true,
+                                           std::vector<std::string> kernel_list={});
 
 
   /**
