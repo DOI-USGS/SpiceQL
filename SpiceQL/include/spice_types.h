@@ -181,7 +181,7 @@ namespace SpiceQL {
    * @param searchKernels bool Whether to search the kernels for the user
    * @returns double precision ephemeris time
    **/
-  double utcToEt(std::string utc, bool searchKernels = true, std::vector<std::string> kernel_list={});
+  std::pair<double, nlohmann::json> utcToEt(std::string utc, bool searchKernels = true, std::vector<std::string> kernel_list={});
 
 
   /**
@@ -195,7 +195,7 @@ namespace SpiceQL {
    * @param searchKernels bool Whether to search the kernels for the user
    * @returns double precision ephemeris time
    **/
-  std::string etToUtc(double et, std::string format = "C", double precision = 8, bool searchKernels=true, std::vector<std::string> kernel_list={});
+  std::pair<std::string, nlohmann::json> etToUtc(double et, std::string format = "C", double precision = 8, bool searchKernels=true, std::vector<std::string> kernel_list={});
 
 
   /**
@@ -211,7 +211,7 @@ namespace SpiceQL {
    * @param searchKernels bool Whether to search the kernels for the user
    * @return double
    */
-  double strSclkToEt(int frameCode, std::string sclk, std::string mission, bool searchKernels=true, std::vector<std::string> kernel_list={});
+  std::pair<double, nlohmann::json> strSclkToEt(int frameCode, std::string sclk, std::string mission, bool searchKernels=true, std::vector<std::string> kernel_list={});
 
   /**
    * @brief Converts a given double spacecraft clock time to an ephemeris time
@@ -226,7 +226,7 @@ namespace SpiceQL {
    * @param searchKernels bool Whether to search the kernels for the user
    * @return double
    */
-  double doubleSclkToEt(int frameCode, double sclk, std::string mission, bool searchKernels=true, std::vector<std::string> kernel_list={});
+  std::pair<double, nlohmann::json> doubleSclkToEt(int frameCode, double sclk, std::string mission, bool searchKernels=true, std::vector<std::string> kernel_list={});
 
 
   /**
@@ -239,7 +239,7 @@ namespace SpiceQL {
    * @param searchKernels bool Whether to search the kernels for the user
    * @return string
    */
-  std::string doubleEtToSclk(int frameCode, double et, std::string mission, bool searchKernels, std::vector<std::string> kernel_list={});
+  std::pair<std::string, nlohmann::json> doubleEtToSclk(int frameCode, double et, std::string mission, bool searchKernels, std::vector<std::string> kernel_list={});
 
 
   /**
@@ -252,7 +252,7 @@ namespace SpiceQL {
    * @param searchKernels bool Whether to search the kernels for the user
    * @return 3 element vector of the given frames center, class id, and class
   **/
-  std::vector<int> getFrameInfo(int frame, std::string mission, bool searchKernels=true, std::vector<std::string> kernel_list={});
+  std::pair<std::vector<int>, nlohmann::json> getFrameInfo(int frame, std::string mission, bool searchKernels=true, std::vector<std::string> kernel_list={});
 
   /**
    * @brief Switch between NAIF frame string name to integer frame code
@@ -264,7 +264,7 @@ namespace SpiceQL {
    * @param searchKernels bool Whether to search the kernels for the user
    * @return integer Naif frame code
   **/
-  int translateNameToCode(std::string frame, std::string mission="", bool searchKernels=true, std::vector<std::string> kernel_list={});
+  std::pair<int, nlohmann::json> translateNameToCode(std::string frame, std::string mission="", bool searchKernels=true, std::vector<std::string> kernel_list={});
 
   /**
    * @brief Switch between NAIF frame integer code to string frame name
@@ -276,7 +276,7 @@ namespace SpiceQL {
    * @param mission Mission name as it relates to the config files
    * @return string Naif frame name
   **/
-  std::string translateCodeToName(int frame, std::string mission="", bool searchKernels=true, std::vector<std::string> kernel_list={});
+  std::pair<std::string, nlohmann::json> translateCodeToName(int frame, std::string mission="", bool searchKernels=true, std::vector<std::string> kernel_list={});
 
   /**
     * @brief returns kernel values for a specific mission in the form of a json
@@ -288,7 +288,7 @@ namespace SpiceQL {
     * @param searchKernels bool Whether to search the kernels for the user
     * @returns json of values
   **/
-  nlohmann::json findMissionKeywords(std::string key, std::string mission, bool searchKernels=true, std::vector<std::string> kernel_list={});
+  std::pair<nlohmann::json, nlohmann::json> findMissionKeywords(std::string key, std::string mission, bool searchKernels=true, std::vector<std::string> kernel_list={});
 
   /**
     * @brief returns Target values in the form of a vector
@@ -301,7 +301,7 @@ namespace SpiceQL {
     * @param searchKernels bool Whether to search the kernels for the user
     * @returns vector of values
   **/
-  nlohmann::json findTargetKeywords(std::string key, std::string mission, bool searchKernels = true, std::vector<std::string> kernel_list={});
+  std::pair<nlohmann::json, nlohmann::json> findTargetKeywords(std::string key, std::string mission, bool searchKernels = true, std::vector<std::string> kernel_list={});
 
   /**
     * @brief returns frame name and frame code associated to the target ID.
@@ -313,5 +313,5 @@ namespace SpiceQL {
     * @param searchKernels bool Whether to search the kernels for the user
     * @returns json of frame name and frame code
   **/
-  nlohmann::json getTargetFrameInfo(int targetId, std::string mission, bool searchKernels=true, std::vector<std::string> kernel_list={});
+  std::pair<nlohmann::json, nlohmann::json> getTargetFrameInfo(int targetId, std::string mission, bool searchKernels=true, std::vector<std::string> kernel_list={});
 }

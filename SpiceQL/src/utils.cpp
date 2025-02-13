@@ -229,8 +229,7 @@ namespace SpiceQL {
     return j1;
   }  
 
-
-  vector<vector<double>> getTargetStates(vector<double> ets, string target, string observer, string frame, string abcorr, string mission, vector<string> ckQualities, vector<string> spkQualities, bool searchKernels, vector<string> kernel_list) {
+  pair<vector<vector<double>>, json> getTargetStates(vector<double> ets, string target, string observer, string frame, string abcorr, string mission, vector<string> ckQualities, vector<string> spkQualities, bool searchKernels, vector<string> kernel_list) {
     SPDLOG_TRACE("Calling getTargetStates with {}, {}, {}, {}, {}, {}, {}, {}, {}", ets.size(), target, observer, frame, abcorr, mission, ckQualities.size(), spkQualities.size(), searchKernels, kernel_list.size());
     
     if (ets.size() < 1) {
@@ -269,11 +268,11 @@ namespace SpiceQL {
     duration = duration_cast<microseconds>(stop - start);
     SPDLOG_INFO("Time in microseconds to get data results: {}", duration.count());
  
-    return lt_stargs;
+    return {lt_stargs, ephemKernels};
   }
 
 
-  vector<double> extractExactCkTimes(double observStart, double observEnd, int targetFrame, string mission, vector<string> ckQualities, bool searchKernels, vector<string> kernel_list) {
+  pair<vector<double>, json> extractExactCkTimes(double observStart, double observEnd, int targetFrame, string mission, vector<string> ckQualities, bool searchKernels, vector<string> kernel_list) {
     SPDLOG_TRACE("Calling extractExactCkTimes with {}, {}, {}, {}, {}, {}", observStart, observEnd, targetFrame, mission, ckQualities.size(), searchKernels);
     // Config config;
     json missionJson;
@@ -427,7 +426,7 @@ namespace SpiceQL {
       daffna_c(&found); // Find next forward array in current daf
     }
 
-    return cacheTimes;
+    return {cacheTimes, ephemKernels};
   }
 
   vector<double> getTargetOrientation(double et, int toFrame, int refFrame) {
@@ -479,7 +478,7 @@ namespace SpiceQL {
   }
 
 
-  vector<vector<double>> getTargetOrientations(vector<double> ets, int toFrame, int refFrame, string mission, vector<string> ckQualities, bool searchKernels, vector<string> kernel_list) {
+  pair<vector<vector<double>>, json> getTargetOrientations(vector<double> ets, int toFrame, int refFrame, string mission, vector<string> ckQualities, bool searchKernels, vector<string> kernel_list) {
     SPDLOG_TRACE("Calling getTargetOrientations with {}, {}, {}, {}, {}, {}, {}", ets.size(), toFrame, refFrame, mission, ckQualities.size(), searchKernels, kernel_list.size());
 
     if (ets.size() < 1) {
@@ -515,11 +514,11 @@ namespace SpiceQL {
     duration = duration_cast<microseconds>(stop - start);
     SPDLOG_INFO("Time in microseconds to get data results: {}", duration.count());
 
-    return orientations;
+    return {orientations, ephemKernels};
   }
 
 
-  vector<vector<int>> frameTrace(double et, int initialFrame, string mission, vector<string> ckQualities, bool searchKernels, vector<string> kernel_list) {
+  pair<vector<vector<int>>, json> frameTrace(double et, int initialFrame, string mission, vector<string> ckQualities, bool searchKernels, vector<string> kernel_list) {
     checkNaifErrors();
     // Config config;
     // json missionJson;
@@ -652,7 +651,7 @@ namespace SpiceQL {
     checkNaifErrors();
 
     vector<vector<int>> res = {timeFrames, constantFrames};
-    return res;
+    return {res, ephemKernels};
   }
 
 

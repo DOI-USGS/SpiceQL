@@ -201,16 +201,16 @@ namespace SpiceQL {
    *
    * @return A vector of vectors with a Nx7 state vector of positions and velocities in x,y,z,vx,vy,vz format followed by the light time adjustment.
    **/
-  std::vector<std::vector<double>> getTargetStates(std::vector<double> ets,
-                                                   std::string target,
-                                                   std::string observer,
-                                                   std::string frame="J2000", // use j2000 for default reference frame
-                                                   std::string abcorr="NONE",
-                                                   std::string mission="",
-                                                   std::vector<std::string> ckQualities={"smithed", "reconstructed"},
-                                                   std::vector<std::string> spkQualities={"smithed", "reconstructed"},
-                                                   bool searchKernels=true,
-                                                   std::vector<std::string> kernel_list={});
+  std::pair<std::vector<std::vector<double>>, nlohmann::json> getTargetStates(std::vector<double> ets,
+                                                  std::string target,
+                                                  std::string observer,
+                                                  std::string frame="J2000", // use j2000 for default reference frame
+                                                  std::string abcorr="NONE",
+                                                  std::string mission="",
+                                                  std::vector<std::string> ckQualities={"smithed", "reconstructed"},
+                                                  std::vector<std::string> spkQualities={"smithed", "reconstructed"},
+                                                  bool searchKernels=true,
+                                                  std::vector<std::string> kernel_list={});
 
   /**
    * @brief Extracts all segment times between observStart and observeEnd
@@ -225,7 +225,7 @@ namespace SpiceQL {
    * @param ckQualities vector of string describing the quality of cks to try and obtain
    * @returns A list of times
    **/
-  std::vector<double> extractExactCkTimes(double observStart, 
+  std::pair<std::vector<double>, nlohmann::json> extractExactCkTimes(double observStart, 
                                           double observEnd, 
                                           int targetFrame, 
                                           std::string mission, 
@@ -265,7 +265,7 @@ namespace SpiceQL {
    *
    * @returns Vector of SPICE-style quaternions (w,x,y,z) and optional angular velocity (4 element without angular velocity, 7 element with)
    **/
-  std::vector<std::vector<double>> getTargetOrientations(std::vector<double> ets, 
+  std::pair<std::vector<std::vector<double>>, nlohmann::json> getTargetOrientations(std::vector<double> ets, 
                                                          int toFrame, 
                                                          int refFrame=1, // use j2000 for default reference frame
                                                          std::string mission="",
@@ -289,7 +289,7 @@ namespace SpiceQL {
    * @returns A two element vector of vectors ints, where the first element is the sequence of time dependent frames
    * and the second is the sequence of constant frames
   **/
-  std::vector<std::vector<int>> frameTrace(double et, 
+  std::pair<std::vector<std::vector<int>>, nlohmann::json> frameTrace(double et, 
                                            int initialFrame, 
                                            std::string mission="", 
                                            std::vector<std::string> ckQualities={"smithed", "reconstructed"},  

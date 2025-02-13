@@ -369,7 +369,7 @@ TEST(UtilTests, testJson2DArrayTo2DVector) {
 
 TEST_F(LroKernelSet, UnitTestGetTargetStates) {
   vector<double> ets = {110000000, 110000001};
-  vector<vector<double>> resStates = getTargetStates(ets, "LRO", "LRO", "J2000", "NONE", "lroc", {"smithed"}, {"smithed"});
+  pair<vector<vector<double>>, nlohmann::json> resStates = getTargetStates(ets, "LRO", "LRO", "J2000", "NONE", "lroc", {"smithed"}, {"smithed"});
 
   EXPECT_EQ(resStates.size(), 2);
   ASSERT_EQ(resStates.at(0).size(), 7);

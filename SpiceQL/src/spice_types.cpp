@@ -96,7 +96,7 @@ namespace SpiceQL {
   } 
 
 
-  int translateNameToCode(string frame, string mission, bool searchKernels, vector<string> kernel_list) {    
+  pair<int, json> translateNameToCode(string frame, string mission, bool searchKernels, vector<string> kernel_list) {    
     SpiceInt code;
     SpiceBoolean found;
     json kernelsToLoad = {};
@@ -126,11 +126,11 @@ namespace SpiceQL {
       throw invalid_argument(fmt::format("Frame code for frame name [{}] not found.", frame));
     }
 
-    return code;
+    return {code, kernelsToLoad};
   }
 
 
-  string translateCodeToName(int frame, string mission, bool searchKernels, vector<string> kernel_list) {
+  pair<string, json> translateCodeToName(int frame, string mission, bool searchKernels, vector<string> kernel_list) {
     SpiceChar name[128];
     SpiceBoolean found;
     json kernelsToLoad = {};
@@ -159,10 +159,10 @@ namespace SpiceQL {
        throw invalid_argument(fmt::format("Frame name for code {} not found.", frame));
     }
     
-    return string(name);
+    return {string(name), kernelsToLoad};
   }
 
-  vector<int> getFrameInfo(int frame, string mission, bool searchKernels, vector<string> kernel_list) {
+  pair<vector<int>, json> getFrameInfo(int frame, string mission, bool searchKernels, vector<string> kernel_list) {
     SpiceInt cent;
     SpiceInt frclss;
     SpiceInt clssid;
@@ -190,7 +190,7 @@ namespace SpiceQL {
        throw invalid_argument(fmt::format("Frame info for code {} not found.", frame));
     }
 
-    return {cent, frclss, clssid};
+    return {{cent, frclss, clssid}, kernelsToLoad};
   }
 
   Kernel::Kernel(string path) {
@@ -210,7 +210,7 @@ namespace SpiceQL {
   }
 
 
-  double utcToEt(string utc, bool searchKernels, vector<string> kernel_list) {
+  pair<double, json> utcToEt(string utc, bool searchKernels, vector<string> kernel_list) {
       Config conf;
       conf = conf["base"];
       json lsks = {};
@@ -232,10 +232,10 @@ namespace SpiceQL {
       str2et_c(utc.c_str(), &et);
       checkNaifErrors();
 
-      return et;
+      return {et, lsks};
   }
 
-  string etToUtc(double et, string format, double precision, bool searchKernels, vector<string> kernel_list) {
+  pair<string, json> etToUtc(double et, string format, double precision, bool searchKernels, vector<string> kernel_list) {
       Config conf;
       conf = conf["base"];
       json lsks = {};
@@ -257,11 +257,11 @@ namespace SpiceQL {
       et2utc_c(et, format.c_str(), precision, 100, utc_spice);
       checkNaifErrors();
       string utc_string(utc_spice);
-      return utc_string;
+      return {utc_string, lsks};
   }
 
 
-  double strSclkToEt(int frameCode, string sclk, string mission, bool searchKernels, vector<string> kernel_list) {
+  pair<double, json> strSclkToEt(int frameCode, string sclk, string mission, bool searchKernels, vector<string> kernel_list) {
       SPDLOG_TRACE("calling strSclkToEt({}, {}, {}, {})", frameCode, sclk, mission, searchKernels);
       json ephemKernels;
       if (searchKernels) {
@@ -290,10 +290,10 @@ namespace SpiceQL {
         checkNaifErrors();
         SPDLOG_DEBUG("strsclktoet({}, {}, {}) -> {}", frameCode, mission, sclk, et); 
       }
-      return et;
+      return {et, ephemKernels};
   }
 
-  double doubleSclkToEt(int frameCode, double sclk, string mission, bool searchKernels, vector<string> kernel_list) {
+  pair<double, json> doubleSclkToEt(int frameCode, double sclk, string mission, bool searchKernels, vector<string> kernel_list) {
       Config missionConf;
       json sclks;
 
@@ -319,28 +319,25 @@ namespace SpiceQL {
       checkNaifErrors();
       SPDLOG_DEBUG("strsclktoet({}, {}, {}) -> {}", frameCode, mission, sclk, et);
 
-      return et;
+      return {et, sclks};
   }
 
 
-  string doubleEtToSclk(int frameCode, double et, string mission, bool searchKernels, vector<string> kernel_list) {
+  pair<string, json> doubleEtToSclk(int frameCode, double et, string mission, bool searchKernels, vector<string> kernel_list) {
       Config missionConf;
-      json lsks;
-      json sclks;
+      json kernelsToLoad;
 
       if (searchKernels) {
-        lsks = Inventory::search_for_kernelset("base", {"lsk"}); 
-        sclks = Inventory::search_for_kernelset(mission, {"fk", "sclk"});
+        kernelsToLoad = Inventory::search_for_kernelsets({mission, "base"}, {"lsk", "fk", "sclk"}); 
       }
 
       if (!kernel_list.empty()) {
         json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
         // merge them into the ephem kernels overwriting anything found in the query
-        merge_json(sclks, regexk);
+        merge_json(kernelsToLoad, regexk);
       }
 
-      KernelSet lskSet(lsks);
-      KernelSet sclkSet(sclks);
+      KernelSet kSet(kernelsToLoad);
 
       SpiceChar sclk[100];
       checkNaifErrors();
@@ -348,10 +345,10 @@ namespace SpiceQL {
       checkNaifErrors();
       SPDLOG_DEBUG("strsclktoet({}, {}, {}) -> {}", frameCode, mission, sclk, et);
 
-      return string(sclk);
+      return {string(sclk), kernelsToLoad};
   }
 
-  json findMissionKeywords(string key, string mission, bool searchKernels, vector<string> kernel_list) {
+  pair<json, json> findMissionKeywords(string key, string mission, bool searchKernels, vector<string> kernel_list) {
     json translationKernels = {};
 
     if (mission != "" && searchKernels) {
@@ -366,53 +363,47 @@ namespace SpiceQL {
 
     KernelSet kset(translationKernels);
 
-    return findKeywords(key);
+    return {findKeywords(key), translationKernels};
   }
 
 
-  json findTargetKeywords(string key, string mission, bool searchKernels, vector<string> kernel_list) {
-    json baseKernels = {};
-    json missionKernels = {};
+  pair<json, json> findTargetKeywords(string key, string mission, bool searchKernels, vector<string> kernel_list) {
+    json kernelsToLoad = {};
 
     if (mission != "" && searchKernels) {
-      baseKernels = Inventory::search_for_kernelset("base", {"pck"});
-      missionKernels = Inventory::search_for_kernelset(mission, {"pck"});
+      kernelsToLoad = Inventory::search_for_kernelsets({mission, "base"}, {"pck"});
     }
 
     if (!kernel_list.empty()) {
       json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
       // merge them into the ephem kernels overwriting anything found in the query
-      merge_json(missionKernels, regexk);
+      merge_json(kernelsToLoad, regexk);
     }
 
-    KernelSet baseKset(baseKernels);
-    KernelSet missionKset(missionKernels);
-    return findKeywords(key);
+    KernelSet kSet(kernelsToLoad);
+    return {findKeywords(key), kernelsToLoad};
   }
 
 
-  json getTargetFrameInfo(int targetId, string mission, bool searchKernels, vector<string> kernel_list) {
+  pair<json, json> getTargetFrameInfo(int targetId, string mission, bool searchKernels, vector<string> kernel_list) {
     SpiceInt frameCode;
     SpiceChar frameName[128];
     SpiceBoolean found;
 
     json frameInfo;
-    json baseKernels = {};
-    json missionKernels = {};
+    json kernelsToLoad = {};
 
     if (mission != "" && searchKernels) {
-      baseKernels = Inventory::search_for_kernelset("base", {"fk"});
-      missionKernels = Inventory::search_for_kernelset(mission, {"fk"});
+      kernelsToLoad = Inventory::search_for_kernelsets({mission, "base"}, {"fk"});
     }
 
     if (!kernel_list.empty()) {
       json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
       // merge them into the ephem kernels overwriting anything found in the query
-      merge_json(missionKernels, regexk);
+      merge_json(kernelsToLoad, regexk);
     }
 
-    KernelSet baseKset(baseKernels);
-    KernelSet missionKset(missionKernels);
+    KernelSet kSet(kernelsToLoad);
 
     checkNaifErrors();
     cidfrm_c(targetId, 128, &frameCode, frameName, &found);
@@ -425,7 +416,7 @@ namespace SpiceQL {
     frameInfo["frameCode"] = frameCode;
     frameInfo["frameName"] = frameName;
 
-    return frameInfo;
+    return {frameInfo, kernelsToLoad};
   }
 
   void load(string path, bool force_refurnsh) {
