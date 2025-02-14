@@ -50,7 +50,7 @@
   _outer = PyList_New($1.first.size());
   for (size_t i = 0; i < $1.first.size(); ++i) {
     _inner = PyList_New($1.first[i].size());
-    for (size_t j = 0; j < $1.first[1].size(); ++j){
+    for (size_t j = 0; j < $1.first[i].size(); ++j){
       PyList_SetItem(_inner,j,PyFloat_FromDouble($1.first[i][j]));
     }
     PyList_SetItem(_outer,i,_inner);
@@ -72,7 +72,7 @@
   _outer = PyList_New($1.first.size());
   for (size_t i = 0; i < $1.first.size(); ++i) {
     _inner = PyList_New($1.first[i].size());
-    for (size_t j = 0; j < $1.first[1].size(); ++j){
+    for (size_t j = 0; j < $1.first[i].size(); ++j){
       PyList_SetItem(_inner,j,PyInt_FromLong($1.first[i][j]));
     }
     PyList_SetItem(_outer,i,_inner);
