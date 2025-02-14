@@ -369,7 +369,7 @@ TEST(UtilTests, testJson2DArrayTo2DVector) {
 
 TEST_F(LroKernelSet, UnitTestGetTargetStates) {
   vector<double> ets = {110000000, 110000001};
-  pair<vector<vector<double>>, nlohmann::json> resStates = getTargetStates(ets, "LRO", "LRO", "J2000", "NONE", "lroc", {"smithed"}, {"smithed"});
+  auto [resStates, kernels] = getTargetStates(ets, "LRO", "LRO", "J2000", "NONE", "lroc", {"smithed"}, {"smithed"});
 
   EXPECT_EQ(resStates.size(), 2);
   ASSERT_EQ(resStates.at(0).size(), 7);
@@ -404,7 +404,7 @@ TEST_F(LroKernelSet, UnitTestGetTargetState) {
 
 TEST_F(LroKernelSet, UnitTestGetTargetOrientations) {
   vector<double> ets = {110000000};
-  vector<vector<double>> resOrientations = getTargetOrientations(ets, 1, -85000, "lroc");
+  auto [resOrientations, kernels] = getTargetOrientations(ets, 1, -85000, "lroc");
 
   EXPECT_EQ(resOrientations.size(), 1);
   ASSERT_EQ(resOrientations.at(0).size(), 7);

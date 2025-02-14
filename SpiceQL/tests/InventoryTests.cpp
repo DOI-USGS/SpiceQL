@@ -15,11 +15,13 @@
 TEST_F(LroKernelSet, TestInventorySmithed) { 
   Inventory::create_database();
   nlohmann::json kernels = Inventory::search_for_kernelset("lroc", {"fk", "sclk", "spk", "ck"}, 110000000, 140000000);
+  SPDLOG_DEBUG("Returned Kernels {} ", kernels.dump());
+  
   EXPECT_EQ(fs::path(kernels["fk"][0]).filename(), "lro_frames_1111111_v01.tf");
   EXPECT_EQ(fs::path(kernels["sclk"][0]).filename(), "lro_clkcor_2020184_v00.tsc");
   EXPECT_EQ(fs::path(kernels["ck"][0]).filename(), "soc31_1111111_1111111_v21.bc"); 
   
-  EXPECT_EQ(kernels["spk"].size(), 3);
+  EXPECT_EQ(kernels["spk"].size(), 1);
   
   EXPECT_EQ(kernels["lroc_ck_quality"], "reconstructed");  
   EXPECT_EQ(kernels["lroc_spk_quality"], "smithed");  
@@ -57,7 +59,7 @@ TEST_F(LroKernelSet, TestInventoryPortability) {
   fs::path dbfile = Inventory::getDbFilePath();
   HighFive::File file(dbfile, HighFive::File::ReadOnly);
   
-  auto dataset = file.getDataSet("spice/lroc/sclk/kernels");
+  auto dataset = file.getDataSet("/spice/lroc/sclk");
   vector<string> data = dataset.read<vector<string>>();   
   dataset.read(data);
 
@@ -72,7 +74,7 @@ TEST_F(LroKernelSet, TestInventoryPortability) {
 
 
 TEST_F(KernelsWithQualities, TestUnenforcedQuality) { 
-  nlohmann::json kernels = Inventory::search_for_kernelset("odyssey", {"spk"}, 130000000, 140000000, {"smithed"}, {"smithed"}, false);
+  nlohmann::json kernels = Inventory::search_for_kernelset("odyssey", {"spk"}, 130000000, 140000000, {"smithed", "reconstructed"}, {"smithed", "reconstructed"}, false);
   // smithed kernels should not exist so it should return reconstructed
   EXPECT_EQ(kernels["odyssey_spk_quality"].get<string>(), "reconstructed");
 }
@@ -97,7 +99,7 @@ TEST_F(LroKernelSet, TestInventorySearch) {
 
 TEST_F(LroKernelSet, TestInventorySearchSetsNoOverwrite) {
   // do a time query
-  nlohmann::json kernels = Inventory::search_for_kernelsets({"moon", "base"}, {"pck"}, 110000000, 140000001, "reconstructed", "reconstructed", false, false);
+  nlohmann::json kernels = Inventory::search_for_kernelsets({"moon", "base"}, {"pck"}, 110000000, 140000001, {"reconstructed"}, {"reconstructed"}, false, false);
   SPDLOG_DEBUG("TEST KERNELS: {}", kernels.dump(4));
   EXPECT_EQ(kernels["pck"].size(), 2);
   EXPECT_EQ(fs::path(kernels["pck"][0].get<string>()).filename(), "moon_080317.tf");

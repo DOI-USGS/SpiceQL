@@ -114,10 +114,10 @@ TEST(UnitTest, WriteTextKernelArrayAppend) {
   Kernel k1(tpath1);
   Kernel k2(tpath2);
 
-  EXPECT_EQ(translateNameToCode("body"), -90);
-  EXPECT_EQ(translateNameToCode("planet"), 10);
-  EXPECT_EQ(translateNameToCode("instrument1"), -90101);
-  EXPECT_EQ(translateNameToCode("instrument2"), -90102);
-  EXPECT_EQ(translateNameToCode("instrument3"), -90103);
+  EXPECT_EQ(translateNameToCode("body").first, -90);
+  EXPECT_EQ(translateNameToCode("planet").first, 10);
+  EXPECT_EQ(translateNameToCode("instrument1").first, -90101);
+  EXPECT_EQ(translateNameToCode("instrument2").first, -90102);
+  EXPECT_EQ(translateNameToCode("instrument3").first, -90103);
 }
 
