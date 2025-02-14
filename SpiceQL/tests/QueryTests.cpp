@@ -243,9 +243,11 @@ TEST_F(IsisDataDirectory, FunctionalTestApollo17Conf) {
   }
 }
 
+TEST_F(IsisDataDirectory, FunctionalTestsLroKernelList) { 
+  compareKernelSets("lro", {"de421.bsp"});
+}
 
 TEST_F(IsisDataDirectory, FunctionalTestLroConf) {
-  compareKernelSets("lro");
 
   nlohmann::json conf = getMissionConfig("lro");
   MockRepository mocks;

@@ -1298,8 +1298,7 @@ namespace SpiceQL {
     fs::path dbPath = getMissionConfigFile(mission);
 
     ifstream i(dbPath);
-    json conf;
-    i >> conf;
+    json conf = json::parse(i);
     return conf;
   }
 
