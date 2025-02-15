@@ -15,6 +15,7 @@ using namespace std::chrono;
 #include "memo.h"
 #include "query.h"
 #include "inventory.h"
+#include "api.h"
 
 #include <spdlog/spdlog.h>
 

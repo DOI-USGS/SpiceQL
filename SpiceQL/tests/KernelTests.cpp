@@ -8,6 +8,7 @@
 #include "spice_types.h"
 #include "query.h"
 #include "inventory.h"
+#include "api.h"
 
 #include <SpiceUsr.h>
 

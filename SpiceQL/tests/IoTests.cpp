@@ -4,6 +4,7 @@
 #include "Fixtures.h"
 #include "io.h"
 #include "utils.h"
+#include "api.h"
 
 using namespace SpiceQL;
 
@@ -114,10 +115,10 @@ TEST(UnitTest, WriteTextKernelArrayAppend) {
   Kernel k1(tpath1);
   Kernel k2(tpath2);
 
-  EXPECT_EQ(translateNameToCode("body").first, -90);
-  EXPECT_EQ(translateNameToCode("planet").first, 10);
-  EXPECT_EQ(translateNameToCode("instrument1").first, -90101);
-  EXPECT_EQ(translateNameToCode("instrument2").first, -90102);
-  EXPECT_EQ(translateNameToCode("instrument3").first, -90103);
+  EXPECT_EQ(translateNameToCode("body", "lro").first, -90);
+  EXPECT_EQ(translateNameToCode("planet", "lro").first, 10);
+  EXPECT_EQ(translateNameToCode("instrument1", "lro").first, -90101);
+  EXPECT_EQ(translateNameToCode("instrument2", "lro").first, -90102);
+  EXPECT_EQ(translateNameToCode("instrument3", "lro").first, -90103);
 }
 
