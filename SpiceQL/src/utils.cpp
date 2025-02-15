@@ -227,48 +227,6 @@ namespace SpiceQL {
       }
     }
     return j1;
-  }  
-
-  pair<vector<vector<double>>, json> getTargetStates(vector<double> ets, string target, string observer, string frame, string abcorr, string mission, vector<string> ckQualities, vector<string> spkQualities, bool searchKernels, vector<string> kernel_list) {
-    SPDLOG_TRACE("Calling getTargetStates with {}, {}, {}, {}, {}, {}, {}, {}, {}", ets.size(), target, observer, frame, abcorr, mission, ckQualities.size(), spkQualities.size(), searchKernels, kernel_list.size());
-    
-    if (ets.size() < 1) {
-      throw invalid_argument("No ephemeris times given."); 
-    }
-
-    json ephemKernels = {};
-
-    if (searchKernels) {
-      ephemKernels = Inventory::search_for_kernelsets({mission, target, observer, "base"}, {"sclk", "ck", "spk", "pck", "tspk", "fk", "lsk", "fk"}, ets.front(), ets.back(), ckQualities, spkQualities);
-      SPDLOG_DEBUG("{} Kernels : {}", mission, ephemKernels.dump(4));
-    }
-
-    if (!kernel_list.empty()) {
-       json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
-       // merge them into the ephem kernels overwriting anything found in the query
-       merge_json(ephemKernels, regexk);
-    }
-
-    auto start = high_resolution_clock::now();
-    KernelSet ephemSet(ephemKernels);
-
-    auto stop = high_resolution_clock::now();
-    auto duration = duration_cast<microseconds>(stop - start);
-    SPDLOG_INFO("Time in microseconds to furnish kernel sets: {}", duration.count());
-    
-    start = high_resolution_clock::now();
-    vector<vector<double>> lt_stargs;
-    vector<double> lt_starg;
-    for (auto et: ets) {
-      lt_starg = getTargetState(et, target, observer, frame, abcorr);
-      lt_stargs.push_back(lt_starg);
-    }
-
-    stop = high_resolution_clock::now();
-    duration = duration_cast<microseconds>(stop - start);
-    SPDLOG_INFO("Time in microseconds to get data results: {}", duration.count());
- 
-    return {lt_stargs, ephemKernels};
   }
 
 
@@ -478,183 +436,6 @@ namespace SpiceQL {
   }
 
 
-  pair<vector<vector<double>>, json> getTargetOrientations(vector<double> ets, int toFrame, int refFrame, string mission, vector<string> ckQualities, bool searchKernels, vector<string> kernel_list) {
-    SPDLOG_TRACE("Calling getTargetOrientations with {}, {}, {}, {}, {}, {}, {}", ets.size(), toFrame, refFrame, mission, ckQualities.size(), searchKernels, kernel_list.size());
-
-    if (ets.size() < 1) {
-      throw invalid_argument("No ephemeris times given.");
-    }
-
-    json ephemKernels = {};
-
-    if (searchKernels) {
-      ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"sclk", "ck", "pck", "fk", "tspk", "lsk", "tspk"}, ets.front(), ets.back(), ckQualities, {"noquality"});
-    }
-
-    if (!kernel_list.empty()) {
-       json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
-       // merge them into the ephem kernels overwriting anything found in the query
-       merge_json(ephemKernels, regexk);
-    }
-
-    auto start = high_resolution_clock::now();
-    KernelSet ephemSet(ephemKernels);
-    auto stop = high_resolution_clock::now();
-    auto duration = duration_cast<microseconds>(stop - start);
-    SPDLOG_INFO("Time in microseconds to furnish kernel sets: {}", duration.count());
-
-    start = high_resolution_clock::now();
-    vector<vector<double>> orientations = {};
-    vector<double> orientation;
-    for (auto et: ets) {
-      orientation = getTargetOrientation(et, toFrame, refFrame);
-      orientations.push_back(orientation);
-    }
-    stop = high_resolution_clock::now();
-    duration = duration_cast<microseconds>(stop - start);
-    SPDLOG_INFO("Time in microseconds to get data results: {}", duration.count());
-
-    return {orientations, ephemKernels};
-  }
-
-
-  pair<vector<vector<int>>, json> frameTrace(double et, int initialFrame, string mission, vector<string> ckQualities, bool searchKernels, vector<string> kernel_list) {
-    checkNaifErrors();
-    // Config config;
-    // json missionJson;
-    json ephemKernels;
-
-    if (searchKernels) {
-      ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"sclk", "ck", "pck", "fk", "lsk", "tspk"}, et, et, ckQualities, {"noquality"});
-    }
-
-    if (!kernel_list.empty()) {
-       json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
-       // merge them into the ephem kernels overwriting anything found in the query
-       merge_json(ephemKernels, regexk);
-    }
-
-    KernelSet ephemSet(ephemKernels);
-
-    checkNaifErrors();
-    // The code for this method was extracted from the Naif routine rotget written by N.J. Bachman &
-    //   W.L. Taber (JPL)
-    int           center;
-    int           type;
-    int           typid;
-    SpiceBoolean  found;
-    int           frmidx;  // Frame chain index for current frame
-    SpiceInt      nextFrame;   // Naif frame code of next frame
-    int           J2000Code = 1;
-    checkNaifErrors();
-    vector<int> frameCodes;
-    vector<int> frameTypes;
-    vector<int> constantFrames;
-    vector<int> timeFrames;
-    frameCodes.push_back(initialFrame);
-    frinfo_c((SpiceInt)frameCodes[0],
-             (SpiceInt *)&center,
-             (SpiceInt *)&type,
-             (SpiceInt *)&typid, &found);
-    frameTypes.push_back(type);
-
-    while (frameCodes[frameCodes.size() - 1] != J2000Code) {
-      frmidx  =  frameCodes.size() - 1;
-      // First get the frame type  (Note:: we may also need to save center if we use dynamic frames)
-      // (Another note:  the type returned is the Naif from type.  This is not quite the same as the
-      // SpiceRotation enumerated FrameType.  The SpiceRotation FrameType differentiates between
-      // pck types.  FrameTypes of 2, 6, and 7 will all be considered to be Naif frame type 2.  The
-      // logic for FrameTypes in this method is correct for all types except type 7.  Current pck
-      // do not exercise this option.  Should we ever use pck with a target body not referenced to
-      // the J2000 frame and epoch, both this method and loadPCFromSpice will need to be modified.
-      frinfo_c((SpiceInt) frameCodes[frmidx],
-               (SpiceInt *) &center,
-               (SpiceInt *) &type,
-               (SpiceInt *) &typid, &found);
-
-      if (!found) {
-        string msg = "The frame " + to_string(frameCodes[frmidx]) + " is not supported by Naif";
-        throw logic_error(msg);
-      }
-
-      double matrix[3][3];
-
-      // To get the next link in the frame chain, use the frame type
-      // 1 = INTERNAL, 2 = PCK
-      if (type == 1 ||  type == 2) {
-        nextFrame = J2000Code;
-      }
-      // 3 = CK
-      else if (type == 3) {
-        ckfrot_((SpiceInt *) &typid, &et, (double *) matrix, &nextFrame, (logical *) &found);
-
-        if (!found) {
-          string msg = "The ck rotation from frame " + to_string(frameCodes[frmidx]) + " can not "
-               + "be found due to no pointing available at requested time or a problem with the "
-               + "frame";
-          throw logic_error(msg);
-        }
-      }
-      // 4 = TK
-      else if (type == 4) {
-        tkfram_((SpiceInt *) &typid, (double *) matrix, &nextFrame, (logical *) &found);
-        if (!found) {
-          string msg = "The tk rotation from frame " + to_string(frameCodes[frmidx]) +
-                       " can not be found";
-          throw logic_error(msg);
-        }
-      }
-      // 5 = DYN
-      else if (type == 5) {
-        //
-        //        Unlike the other frame classes, the dynamic frame evaluation
-        //        routine ZZDYNROT requires the input frame ID rather than the
-        //        dynamic frame class ID. ZZDYNROT also requires the center ID
-        //        we found via the FRINFO call.
-
-        zzdynrot_((SpiceInt *) &typid, (SpiceInt *) &center, &et, (double *) matrix, &nextFrame);
-      }
-
-      else {
-        string msg = "The frame " + to_string(frameCodes[frmidx]) +
-                     " has a type " + to_string(type) + " not supported by your version of Naif Spicelib. " + 
-                     "You need to update.";
-        throw logic_error(msg);
-      }
-      frameCodes.push_back(nextFrame);
-      frameTypes.push_back(type);
-    }
-    SPDLOG_TRACE("All Frame Chain Codes: {}", fmt::join(frameCodes, ", "));
-
-    constantFrames.clear();
-    // 4 = TK
-    while (frameCodes.size() > 0) {
-      if (frameTypes[0] == 4) {
-        constantFrames.push_back(frameCodes[0]);
-        frameCodes.erase(frameCodes.begin());
-        frameTypes.erase(frameTypes.begin());
-      }
-      else {
-        break;
-      }
-    }
-
-    if (constantFrames.size() != 0) {
-      timeFrames.push_back(constantFrames[constantFrames.size() - 1]);
-    }
-
-    for (int i = 0;  i < (int) frameCodes.size(); i++) {
-      timeFrames.push_back(frameCodes[i]);
-    }
-    SPDLOG_TRACE("Time Dependent Frame Chain Codes: {}", fmt::join(timeFrames, ", "));
-    SPDLOG_TRACE("Constant Frame Chain Codes: {}", fmt::join(constantFrames, ", "));
-    checkNaifErrors();
-
-    vector<vector<int>> res = {timeFrames, constantFrames};
-    return {res, ephemKernels};
-  }
-
-
   // Given a string keyname template, search the kernel pool for matching keywords and their values
   // returns json with up to ROOM=50 matching keynames:values
   // if no keys are found, returns null
@@ -847,6 +628,83 @@ namespace SpiceQL {
     return res;
   }
 
+  vector<vector<double>> json2DFloatArrayTo2DVector(json arr) {
+    vector<vector<double>> res;
+
+    if (arr.is_array()) {
+      for(auto &subarr : arr) {
+        if (subarr.empty() || subarr.is_null()) {
+          continue; 
+        }
+        
+        vector<double> subres; 
+
+        if (!subarr.is_array()) { 
+          throw invalid_argument("Input json is not a valid 2D Json array: " + arr.dump());
+        }
+        for(auto &k : subarr) {
+          // should be a single element
+          if (k.empty()) { 
+            continue;
+          }
+          if (k.is_array()) { // needs to be scalar
+            throw invalid_argument("Input json is not a valid 2D Json array: " + arr.dump());
+          }
+          subres.emplace_back(k);
+        }
+        res.push_back(subres);
+      }
+    }
+    else if (arr.is_number_float()) {
+      vector<double> subres; 
+      subres.emplace_back(arr);
+      res.emplace_back(subres);
+    }
+    else {
+      throw invalid_argument("Input json is not a valid 2D Json array: " + arr.dump());
+    }
+
+    return res;
+  }
+
+  vector<vector<int>> json2DIntArrayTo2DVector(json arr) {
+    vector<vector<int>> res;
+
+    if (arr.is_array()) {
+      for(auto &subarr : arr) {
+        if (subarr.empty() || subarr.is_null()) {
+          continue; 
+        }
+        
+        vector<int> subres; 
+
+        if (!subarr.is_array()) { 
+          throw invalid_argument("Input json is not a valid 2D Json array: " + arr.dump());
+        }
+        for(auto &k : subarr) {
+          // should be a single element
+          if (k.empty()) { 
+            continue;
+          }
+          if (k.is_array()) { // needs to be scalar
+            throw invalid_argument("Input json is not a valid 2D Json array: " + arr.dump());
+          }
+          subres.emplace_back(k);
+        }
+        res.push_back(subres);
+      }
+    }
+    else if (arr.is_number_integer()) {
+      vector<int> subres; 
+      subres.emplace_back(arr);
+      res.emplace_back(subres);
+    }
+    else {
+      throw invalid_argument("Input json is not a valid 2D Json array: " + arr.dump());
+    }
+
+    return res;
+  }
 
   vector<pair<double, double>> json2DArrayToDoublePair(json arr) {
     vector<pair<double, double>> res;
@@ -895,6 +753,45 @@ namespace SpiceQL {
       }
     }
     else if (arr.is_string()) {
+      res.emplace_back(arr);
+    }
+    else {
+      spdlog::dump_backtrace();
+      throw invalid_argument("Input json is not a valid Json array: " + arr.dump());
+    }
+
+    return res;
+  }
+
+  vector<double> jsonDoubleArrayToVector(json arr) {
+    vector<double> res;
+
+    if (arr.is_array()) {
+      for(auto it : arr) {
+        res.emplace_back(it);
+      }
+    }
+    else if (arr.is_number_float()) {
+      res.emplace_back(arr);
+    }
+    else {
+      spdlog::dump_backtrace();
+      throw invalid_argument("Input json is not a valid Json array: " + arr.dump());
+    }
+
+    return res;
+  }
+
+
+  vector<int> jsonIntArrayToVector(json arr) {
+    vector<int> res;
+
+    if (arr.is_array()) {
+      for(auto it : arr) {
+        res.emplace_back(it);
+      }
+    }
+    else if (arr.is_number_integer()) {
       res.emplace_back(arr);
     }
     else {

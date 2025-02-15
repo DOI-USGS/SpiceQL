@@ -214,3 +214,4 @@ namespace std {
 %include "utils.i"
 %include "memoized_functions.i"
 %include "inventory.i"
+%include "api.i"

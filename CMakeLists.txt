@@ -68,7 +68,8 @@ if(SPICEQL_BUILD_LIB)
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/memoized_functions.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/config.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/inventory.cpp
-                          ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/inventoryimpl.cpp)
+                          ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/inventoryimpl.cpp
+                          ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/api.cpp)
 
 
   set(SPICEQL_HEADER_FILES ${SPICEQL_BUILD_INCLUDE_DIR}/spiceql.h
@@ -79,9 +80,11 @@ if(SPICEQL_BUILD_LIB)
                            ${SPICEQL_BUILD_INCLUDE_DIR}/query.h
                            ${SPICEQL_BUILD_INCLUDE_DIR}/config.h
                            ${SPICEQL_BUILD_INCLUDE_DIR}/inventory.h
-                           ${SPICEQL_BUILD_INCLUDE_DIR}/inventoryimpl.h)
+                           ${SPICEQL_BUILD_INCLUDE_DIR}/inventoryimpl.h
+                           ${SPICEQL_BUILD_INCLUDE_DIR}/api.h)
 
-  set(SPICEQL_PRIVATE_HEADER_FILES ${SPICEQL_BUILD_INCLUDE_DIR}/memo.h)
+  set(SPICEQL_PRIVATE_HEADER_FILES ${SPICEQL_BUILD_INCLUDE_DIR}/memo.h
+                                   ${SPICEQL_BUILD_INCLUDE_DIR}/restincurl.h)
 
   set(SPICEQL_CONFIG_FILES ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/apollo15.json 
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/apollo16.json
