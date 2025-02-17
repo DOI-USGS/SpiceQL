@@ -71,14 +71,14 @@ TEST(UtilTests, testGetKernelTimes) {
     SPDLOG_DEBUG("{}, {}", e.first, e.second);
   }  
 
-  std::vector<std::pair<double, double>> v_memo_init = Memo::getTimeIntervals(path);
+  std::vector<std::pair<double, double>> v_memo_init = getTimeIntervals(path);
 
   SPDLOG_DEBUG("cached times");
   for (auto &e : v_memo_init) { 
     SPDLOG_DEBUG("{}, {}", e.first, e.second);
   }  
 
-  std::vector<std::pair<double, double>> v_memo = Memo::getTimeIntervals(path);
+  std::vector<std::pair<double, double>> v_memo = getTimeIntervals(path);
 
   SPDLOG_DEBUG("times from memo");
   for (auto &e : v_memo) { 

@@ -200,6 +200,7 @@ namespace Memo {
     
 
     class Memory {
+        public: 
         mutable std::map<std::size_t, std::any> m_data;
 
         template<typename Func, typename... Params>
@@ -208,7 +209,8 @@ namespace Memo {
             }
         template<typename Func, typename... Params>
             auto operator()(std::string descr, const Func& f, Params&&... params) -> decltype(f(params...)) const {
-                std::size_t seed = hash_combine(0, descr, params...);
+                std::size_t seed = 0; 
+                hash_combine(seed, descr, params...);
                 return (*this)(seed, f, std::forward<Params>(params)...);
             }
         template<typename Func, typename... Params>
@@ -257,14 +259,14 @@ namespace Memo {
 }
 }
 
-// namespace std {
-//   // literally have no idea why I need to make this specialization... can't compile otherwise
-//   template <> struct hash<std::vector<std::string >(const std::string&, bool)> {
-//     size_t operator()(const auto & x) const {
-//       return 0;
-//     }
-//   };
-// }
+namespace std {
+  // literally have no idea why I need to make this specialization... can't compile otherwise
+  template <> struct hash<std::vector<std::string >(const std::string&, bool)> {
+    size_t operator()(const auto & x) const {
+      return 0;
+    }
+  };
+}
 
 template<>
 struct std::hash<std::vector<std::string>>

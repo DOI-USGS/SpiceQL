@@ -10,14 +10,14 @@ using namespace std;
 namespace SpiceQL {
 
   vector<pair<double, double>> Memo::getTimeIntervals(string kpath) {
-    Cache c({kpath});
+    Memory c;
     static auto func_memoed = make_memoized(c, "spiceql_getTimeIntervals", SpiceQL::getTimeIntervals);
     return func_memoed(kpath); 
   }
 
 
   string Memo::globTimeIntervals(string mission) { 
-    Cache c({fs::path(getDataDirectory())});
+    Memory c;
     SPDLOG_TRACE("Calling globTimeIntervals via cache");
     static auto func_memoed = make_memoized(c, "spiceql_globTimeIntervals", SpiceQL::globTimeIntervals);
     return func_memoed(mission);
@@ -25,7 +25,7 @@ namespace SpiceQL {
 
 
   vector<vector<string>> Memo::getPathsFromRegex (string root, vector<string> regexes) { 
-    Cache c({fs::path(root)});
+    Memory c;
     SPDLOG_TRACE("Calling globTimeIntervals via cache");
     static auto func_memoed = make_memoized(c, "spiceql_getPathsFromRegex", SpiceQL::getPathsFromRegex);
     return func_memoed(root, regexes); 
@@ -33,7 +33,7 @@ namespace SpiceQL {
 
 
   vector<string> Memo::ls(string const & root, bool recursive) {
-    Cache c({root});
+
     SPDLOG_TRACE("Calling ls via cache");
     static auto func_memoed = make_memoized(c, "spiceql_ls", SpiceQL::ls);
     return func_memoed(root, recursive);
