@@ -24,103 +24,103 @@
 using json = nlohmann::json;
 using namespace std;
 
-std::map<std::string, std::string> spiceql_mission_map = {
-    {"AMICA", "amica"},
-    {"CHANDRAYAAN-1_M3", "m3"},
-    {"CHANDRAYAAN-1_MRFFR", "mrffr"},
-    {"CASSINI_ISS_NAC", "cassini"},
-    {"CASSINI_ISS_WAC", "cassini"},
-    {"DAWN_FC2_FILTER_1", "fc2"},
-    {"DAWN_FC2_FILTER_2", "fc2"},
-    {"DAWN_FC2_FILTER_3", "fc2"},
-    {"DAWN_FC2_FILTER_4", "fc2"},
-    {"DAWN_FC2_FILTER_5", "fc2"},
-    {"DAWN_FC2_FILTER_6", "fc2"},
-    {"DAWN_FC2_FILTER_7", "fc2"},
-    {"DAWN_FC2_FILTER_8", "fc2"},
-    {"GLL_SSI_PLATFORM", "galileo"},
-    {"HAYABUSA_AMICA", "amica"},
-    {"HAYABUSA_NIRS", "nirs"},
-    {"HAYABUSA2_ONC-W2", ""},
-    {"JUNO_JUNOCAM", "juno"},
-    {"JUPITER", "voyager1"},
-    {"LRO_LROCNACL", "lroc"},
-    {"LRO_LROCNACR", "lroc"},
-    {"LRO_LROCWAC_UV", "lroc"},
-    {"LRO_LROCWAC_VIS", "lroc"},
-    {"LRO_MINIRF", ""},
-    {"M10_VIDICON_A", "m10_vidicon_a"},
-    {"M10_VIDICON_B", "m10_vidicon_b"},
-    {"MARS", "mro"},
-    {"MSGR_MDIS_WAC", "mdis"},
-    {"MSGR_MDIS_NAC", "mdis"},
-    {"MEX_HRSC_SRC", "src"},
-    {"MEX_HRSC_IR", "hrsc"},
-    {"MGS_MOC_NA", "mgs"},
-    {"MGS_MOC_WA_RED", "mgs"},
-    {"MGS_MOC_WA_BLUE", "mgs"},
-    {"MOON", "apollo15"},
-    {"MRO_MARCI_VIS", "marci"},
-    {"MRO_MARCI_UV", "marci"},
-    {"MRO_CTX", "ctx"},
-    {"MRO_HIRISE", "hirise"},
-    {"MRO_CRISM_VNIR", "crism"},
-    {"NEAR EARTH ASTEROID RENDEZVOUS", ""},
-    {"MSL_MASTCAM_RIGHT", ""},
-    {"MSL_MASTCAM_LEFT", ""},
-    {"NH_LORRI", "lorri"},
-    {"NH_RALPH_LEISA", "leisa"},
-    {"NH_MVIC", "mvic_tdi"},
-    {"ISIS_NH_RALPH_MVIC_METHANE", "mvic_framing"},
-    {"THEMIS_IR", "odyssey"},
-    {"THEMIS_VIS", "odyssey"},
-    {"ORX_OCAMS_MAPCAM", ""},
-    {"ORX_OCAMS_POLYCAM", ""},
-    {"ORX_OCAMS_SAMCAM", ""},
-    {"LISM_MI-VIS1", "kaguya"},
-    {"LISM_MI-VIS2", "kaguya"},
-    {"LISM_MI-VIS3", "kaguya"},
-    {"LISM_MI-VIS4", "kaguya"},
-    {"LISM_MI-VIS5", "kaguya"},
-    {"LISM_MI-NIR1", "kaguya"},
-    {"LISM_MI-NIR2", "kaguya"},
-    {"LISM_MI-NIR3", "kaguya"},
-    {"LISM_MI-NIR4", "kaguya"},
-    {"LISM_TC1_WDF", "kaguya"},
-    {"LISM_TC1_WTF", "kaguya"},
-    {"LISM_TC1_SDF", "kaguya"},
-    {"LISM_TC1_STF", "kaguya"},
-    {"LISM_TC1_WDN", "kaguya"},
-    {"LISM_TC1_WTN", "kaguya"},
-    {"LISM_TC1_SDN", "kaguya"},
-    {"LISM_TC1_STN", "kaguya"},
-    {"LISM_TC1_WDH", "kaguya"},
-    {"LISM_TC1_WTH", "kaguya"},
-    {"LISM_TC1_SDH", "kaguya"},
-    {"LISM_TC1_STH", "kaguya"},
-    {"LISM_TC1_SSH", "kaguya"},
-    {"LO1_HIGH_RESOLUTION_CAMERA", ""},
-    {"LO2_HIGH_RESOLUTION_CAMERA", ""},
-    {"LO3_HIGH_RESOLUTION_CAMERA", ""},
-    {"LO4_HIGH_RESOLUTION_CAMERA", ""},
-    {"LO5_HIGH_RESOLUTION_CAMERA", ""},
-    {"NEPTUNE", "voyager1"}, 
-    {"SATURN", "voyager1"},
-    {"TGO_CASSIS", "cassis"},
-    {"VIKING ORBITER 1", "viking1"},
-    {"VIKING ORBITER 2", "viking2"},
-    {"VG1_ISSNA", ""},
-    {"VG1_ISSWA", ""},
-    {"VG2_ISSNA", ""},
-    {"VG2_ISSWA", ""},
-    {"ULTRAVIOLET/VISIBLE CAMERA", "uvvis"},
-    {"Near Infrared Camera", "nir"},
-    {"High Resolution Camera", "clementine1"},
-    {"Long Wave Infrared Camera", "clementine1"},
-    {"Visual and Infrared Spectrometer", "vir"}
-  };
-
 namespace SpiceQL {
+
+  map<string, string> spiceql_mission_map = {
+      {"AMICA", "amica"},
+      {"CHANDRAYAAN-1_M3", "m3"},
+      {"CHANDRAYAAN-1_MRFFR", "mrffr"},
+      {"CASSINI_ISS_NAC", "cassini"},
+      {"CASSINI_ISS_WAC", "cassini"},
+      {"DAWN_FC2_FILTER_1", "fc2"},
+      {"DAWN_FC2_FILTER_2", "fc2"},
+      {"DAWN_FC2_FILTER_3", "fc2"},
+      {"DAWN_FC2_FILTER_4", "fc2"},
+      {"DAWN_FC2_FILTER_5", "fc2"},
+      {"DAWN_FC2_FILTER_6", "fc2"},
+      {"DAWN_FC2_FILTER_7", "fc2"},
+      {"DAWN_FC2_FILTER_8", "fc2"},
+      {"GLL_SSI_PLATFORM", "galileo"},
+      {"HAYABUSA_AMICA", "amica"},
+      {"HAYABUSA_NIRS", "nirs"},
+      {"HAYABUSA2_ONC-W2", ""},
+      {"JUNO_JUNOCAM", "juno"},
+      {"JUPITER", "voyager1"},
+      {"LRO_LROCNACL", "lroc"},
+      {"LRO_LROCNACR", "lroc"},
+      {"LRO_LROCWAC_UV", "lroc"},
+      {"LRO_LROCWAC_VIS", "lroc"},
+      {"LRO_MINIRF", ""},
+      {"M10_VIDICON_A", "m10_vidicon_a"},
+      {"M10_VIDICON_B", "m10_vidicon_b"},
+      {"MARS", "mro"},
+      {"MSGR_MDIS_WAC", "mdis"},
+      {"MSGR_MDIS_NAC", "mdis"},
+      {"MEX_HRSC_SRC", "src"},
+      {"MEX_HRSC_IR", "hrsc"},
+      {"MGS_MOC_NA", "mgs"},
+      {"MGS_MOC_WA_RED", "mgs"},
+      {"MGS_MOC_WA_BLUE", "mgs"},
+      {"MOON", "apollo15"},
+      {"MRO_MARCI_VIS", "marci"},
+      {"MRO_MARCI_UV", "marci"},
+      {"MRO_CTX", "ctx"},
+      {"MRO_HIRISE", "hirise"},
+      {"MRO_CRISM_VNIR", "crism"},
+      {"NEAR EARTH ASTEROID RENDEZVOUS", ""},
+      {"MSL_MASTCAM_RIGHT", ""},
+      {"MSL_MASTCAM_LEFT", ""},
+      {"NH_LORRI", "lorri"},
+      {"NH_RALPH_LEISA", "leisa"},
+      {"NH_MVIC", "mvic_tdi"},
+      {"ISIS_NH_RALPH_MVIC_METHANE", "mvic_framing"},
+      {"THEMIS_IR", "odyssey"},
+      {"THEMIS_VIS", "odyssey"},
+      {"ORX_OCAMS_MAPCAM", ""},
+      {"ORX_OCAMS_POLYCAM", ""},
+      {"ORX_OCAMS_SAMCAM", ""},
+      {"LISM_MI-VIS1", "kaguya"},
+      {"LISM_MI-VIS2", "kaguya"},
+      {"LISM_MI-VIS3", "kaguya"},
+      {"LISM_MI-VIS4", "kaguya"},
+      {"LISM_MI-VIS5", "kaguya"},
+      {"LISM_MI-NIR1", "kaguya"},
+      {"LISM_MI-NIR2", "kaguya"},
+      {"LISM_MI-NIR3", "kaguya"},
+      {"LISM_MI-NIR4", "kaguya"},
+      {"LISM_TC1_WDF", "kaguya"},
+      {"LISM_TC1_WTF", "kaguya"},
+      {"LISM_TC1_SDF", "kaguya"},
+      {"LISM_TC1_STF", "kaguya"},
+      {"LISM_TC1_WDN", "kaguya"},
+      {"LISM_TC1_WTN", "kaguya"},
+      {"LISM_TC1_SDN", "kaguya"},
+      {"LISM_TC1_STN", "kaguya"},
+      {"LISM_TC1_WDH", "kaguya"},
+      {"LISM_TC1_WTH", "kaguya"},
+      {"LISM_TC1_SDH", "kaguya"},
+      {"LISM_TC1_STH", "kaguya"},
+      {"LISM_TC1_SSH", "kaguya"},
+      {"LO1_HIGH_RESOLUTION_CAMERA", ""},
+      {"LO2_HIGH_RESOLUTION_CAMERA", ""},
+      {"LO3_HIGH_RESOLUTION_CAMERA", ""},
+      {"LO4_HIGH_RESOLUTION_CAMERA", ""},
+      {"LO5_HIGH_RESOLUTION_CAMERA", ""},
+      {"NEPTUNE", "voyager1"}, 
+      {"SATURN", "voyager1"},
+      {"TGO_CASSIS", "cassis"},
+      {"VIKING ORBITER 1", "viking1"},
+      {"VIKING ORBITER 2", "viking2"},
+      {"VG1_ISSNA", ""},
+      {"VG1_ISSWA", ""},
+      {"VG2_ISSNA", ""},
+      {"VG2_ISSWA", ""},
+      {"ULTRAVIOLET/VISIBLE CAMERA", "uvvis"},
+      {"Near Infrared Camera", "nir"},
+      {"High Resolution Camera", "clementine1"},
+      {"Long Wave Infrared Camera", "clementine1"},
+      {"Visual and Infrared Spectrometer", "vir"}
+    };
 
     std::string url_encode(const std::string &value) {
         std::ostringstream escaped;
@@ -165,19 +165,21 @@ namespace SpiceQL {
                 queryString+= x.value().dump();
                 queryString+= "&";
             }
+            
             std::string encodedString = url_encode(queryString);
-            std::cout << "[RestfulSpice] spiceAPIQuery encodedString = " << encodedString << std::endl;
+            SPDLOG_TRACE("spiceAPIQuery encodedString = {}", encodedString);
             client.Build()->Get(encodedString).Option(CURLOPT_FOLLOWLOCATION, 1L).AcceptJson().WithCompletion([&](const restincurl::Result& result) {
-            std::cout << "[RestfulSpice] spiceAPIQuery GET result body = " << result.body << std::endl;
+            SPDLOG_TRACE("spiceAPIQuery GET result body = {}", result.body);
             j = json::parse(result.body);
             }).ExecuteSynchronous();
-        }else{
-            std::cout << "[RestfulSpice] spiceAPIQuery POST" << std::endl;
+        } else {
+            SPDLOG_TRACE("spiceAPIQuery POST");
             client.Build()->Post(queryString).Option(CURLOPT_FOLLOWLOCATION, 1L).AcceptJson().WithJson(args.dump()).WithCompletion([&](const restincurl::Result& result) {
-            std::cout << "[RestfulSpice] spiceAPIQuery POST result = " << result.body << std::endl;
+            SPDLOG_TRACE("spiceAPIQuery POST result = {}", result.body);
             j = json::parse(result.body);
             }).ExecuteSynchronous();
         }
+        
         client.CloseWhenFinished();
         client.WaitForFinish();
 
@@ -186,10 +188,10 @@ namespace SpiceQL {
     }
 
 
-    pair<vector<vector<double>>, json> getTargetStates(vector<double> ets, string target, string observer, string frame, string abcorr, string mission, vector<string> ckQualities, vector<string> spkQualities, bool useWeb, bool searchKernels, vector<string> kernel_list) {
-        SPDLOG_TRACE("Calling getTargetStates with {}, {}, {}, {}, {}, {}, {}, {}, {}, {}", ets.size(), target, observer, frame, abcorr, mission, ckQualities.size(), spkQualities.size(), useWeb, searchKernels, kernel_list.size());
+    pair<vector<vector<double>>, json> getTargetStates(vector<double> ets, string target, string observer, string frame, string abcorr, string mission, vector<string> ckQualities, vector<string> spkQualities, bool useWeb, bool searchKernels, vector<string> kernelList) {
+        SPDLOG_TRACE("Calling getTargetStates with {}, {}, {}, {}, {}, {}, {}, {}, {}, {}", ets.size(), target, observer, frame, abcorr, mission, ckQualities.size(), spkQualities.size(), useWeb, searchKernels, kernelList.size());
 
-        if (useWeb){
+        if (useWeb) {
             // @TODO validity checks
             json args = json::object({
                 {"target", target},
@@ -200,9 +202,8 @@ namespace SpiceQL {
                 {"mission", mission},
                 {"ckQualities", ckQualities},
                 {"spkQualities", spkQualities},
-                {"useWeb", false},
                 {"searchKernels", searchKernels},
-                {"kernelList", kernel_list}
+                {"kernelList", kernelList}
                 });
             // @TODO check that json exists / contains what we're looking for
             json out  = spiceAPIQuery("getTargetStates", args);
@@ -221,8 +222,8 @@ namespace SpiceQL {
             SPDLOG_DEBUG("{} Kernels : {}", mission, ephemKernels.dump(4));
         }
 
-        if (!kernel_list.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+        if (!kernelList.empty()) {
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(ephemKernels, regexk);
         }
@@ -250,8 +251,8 @@ namespace SpiceQL {
     }
 
 
-    pair<vector<vector<double>>, json> getTargetOrientations(vector<double> ets, int toFrame, int refFrame, string mission, vector<string> ckQualities, bool useWeb, bool searchKernels, vector<string> kernel_list) {
-        SPDLOG_TRACE("Calling getTargetOrientations with {}, {}, {}, {}, {}, {}, {}, {}", ets.size(), toFrame, refFrame, mission, ckQualities.size(), useWeb, searchKernels, kernel_list.size());
+    pair<vector<vector<double>>, json> getTargetOrientations(vector<double> ets, int toFrame, int refFrame, string mission, vector<string> ckQualities, bool useWeb, bool searchKernels, vector<string> kernelList) {
+        SPDLOG_TRACE("Calling getTargetOrientations with {}, {}, {}, {}, {}, {}, {}, {}", ets.size(), toFrame, refFrame, mission, ckQualities.size(), useWeb, searchKernels, kernelList.size());
 
         if (useWeb){
             json args = json::object({
@@ -260,9 +261,8 @@ namespace SpiceQL {
                 {"refFrame", refFrame},
                 {"mission", mission},
                 {"ckQualities", ckQualities},
-                {"useWeb", false},
                 {"searchKernels", searchKernels},
-                {"kernelList", kernel_list}
+                {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("getTargetOrientations", args);
             vector<vector<double>> kvect = json2DFloatArrayTo2DVector(out["body"]["return"]);
@@ -279,8 +279,8 @@ namespace SpiceQL {
             ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"sclk", "ck", "pck", "fk", "tspk", "lsk", "tspk"}, ets.front(), ets.back(), ckQualities, {"noquality"});
         }
 
-        if (!kernel_list.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+        if (!kernelList.empty()) {
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(ephemKernels, regexk);
         }
@@ -306,17 +306,16 @@ namespace SpiceQL {
     }
 
 
-    pair<double, json> strSclkToEt(int frameCode, string sclk, string mission, bool useWeb, bool searchKernels, vector<string> kernel_list) {
-        SPDLOG_TRACE("calling strSclkToEt({}, {}, {}, {}, {}, {})", frameCode, sclk, mission, useWeb, searchKernels, kernel_list.size());
+    pair<double, json> strSclkToEt(int frameCode, string sclk, string mission, bool useWeb, bool searchKernels, vector<string> kernelList) {
+        SPDLOG_TRACE("calling strSclkToEt({}, {}, {}, {}, {}, {})", frameCode, sclk, mission, useWeb, searchKernels, kernelList.size());
 
-        if (useWeb){
+        if (useWeb) {
             json args = json::object({
                 {"frameCode", frameCode},
                 {"sclk", sclk},
                 {"mission", mission},
-                {"useWeb", false},
                 {"searchKernels", searchKernels},
-                {"kernelList", kernel_list}
+                {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("strSclkToEt", args);
             double result = out["body"]["return"].get<double>();
@@ -328,8 +327,8 @@ namespace SpiceQL {
             ephemKernels = Inventory::search_for_kernelsets({"base", mission}, {"lsk", "fk", "sclk"}); 
         }
 
-        if (!kernel_list.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+        if (!kernelList.empty()) {
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(ephemKernels, regexk);
         }
@@ -354,15 +353,68 @@ namespace SpiceQL {
     }
 
 
-    pair<double, json> doubleSclkToEt(int frameCode, double sclk, string mission, bool useWeb, bool searchKernels, vector<string> kernel_list) {
+   pair<string, json> doubleEtToSclk(int frameCode, double et, string mission, bool useWeb, bool searchKernels, vector<string> kernelList) {
+        SPDLOG_TRACE("calling strSclkToEt({}, {}, {}, {}, {}, {})", frameCode, et, mission, useWeb, searchKernels, kernelList.size());
+
+        Config missionConf;
+        json ephemKernels;
+       
+        if (useWeb) {
+            json args = json::object({
+                {"frameCode", frameCode},
+                {"et", et},
+                {"mission", mission},
+                {"searchKernels", searchKernels},
+                {"kernelList", kernelList}
+            });
+            json out = spiceAPIQuery("doubleEtToSclk", args);
+            string result = out["body"]["return"].get<string>();
+            return make_pair(result, out["body"]["kernels"]);
+        }
+
+        if (searchKernels) {
+          ephemKernels = Inventory::search_for_kernelsets({"base", "mission"}, {"fk", "lsk", "sclk"}); 
+        }
+
+        if (!kernelList.empty()) {
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
+            // merge them into the ephem kernels overwriting anything found in the query
+            merge_json(ephemKernels, regexk);
+        }
+
+        KernelSet sclkSet(ephemKernels);
+
+        SpiceChar sclk[100];
+        checkNaifErrors();
+        sce2s_c(frameCode, et, 100, sclk);
+        checkNaifErrors();
+        SPDLOG_DEBUG("strsclktoet({}, {}, {}) -> {}", frameCode, mission, sclk, et);
+
+        return make_pair(string(sclk), ephemKernels);
+   }
+
+
+   json findMissionKeywords(string key, string mission, bool searchKernels) {
+     json translationKernels = {};
+
+     if (mission != "" && searchKernels) {
+       translationKernels = Inventory::search_for_kernelset(mission, {"iak", "fk", "ik"});
+     }
+
+     KernelSet kset(translationKernels);
+
+     return findKeywords(key);
+   }
+
+
+    pair<double, json> doubleSclkToEt(int frameCode, double sclk, string mission, bool useWeb, bool searchKernels, vector<string> kernelList) {
         if (useWeb){
             json args = json::object({
                 {"frameCode", frameCode},
                 {"sclk", sclk},
                 {"mission", mission},
-                {"useWeb", false},
                 {"searchKernels", searchKernels},
-                {"kernelList", kernel_list}
+                {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("doubleSclkToEt", args);
             double result = out["body"]["return"].get<double>();
@@ -375,8 +427,8 @@ namespace SpiceQL {
             sclks = Inventory::search_for_kernelset(mission, {"lsk", "fk", "sclk"});
         }
 
-        if (!kernel_list.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+        if (!kernelList.empty()) {
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(sclks, regexk);
         }
@@ -396,13 +448,12 @@ namespace SpiceQL {
     }
 
 
-    pair<double, json> utcToEt(string utc, bool useWeb, bool searchKernels, vector<string> kernel_list) {
+    pair<double, json> utcToEt(string utc, bool useWeb, bool searchKernels, vector<string> kernelList) {
         if (useWeb){
             json args = json::object({
                 {"utc", utc},
-                {"useWeb", false},
                 {"searchKernels", searchKernels},
-                {"kernelList", kernel_list}
+                {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("utcToEt", args);
             double result = out["body"]["return"].get<double>();
@@ -417,8 +468,8 @@ namespace SpiceQL {
         if (searchKernels) {
         lsks = conf.getLatest("lsk");
         }
-        if (!kernel_list.empty()) {
-        json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+        if (!kernelList.empty()) {
+        json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
         // merge them into the ephem kernels overwriting anything found in the query
         merge_json(lsks, regexk);
         }
@@ -434,15 +485,14 @@ namespace SpiceQL {
     }
 
 
-    pair<string, json> etToUtc(double et, string format, double precision, bool useWeb, bool searchKernels, vector<string> kernel_list) {
+    pair<string, json> etToUtc(double et, string format, double precision, bool useWeb, bool searchKernels, vector<string> kernelList) {
         if (useWeb){
             json args = json::object({
                 {"et", et},
                 {"format", format},
                 {"precision", precision},
-                {"useWeb", false},
                 {"searchKernels", searchKernels},
-                {"kernelList", kernel_list}
+                {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("etToUtc", args);
             string result = out["body"]["return"].get<string>();
@@ -457,8 +507,8 @@ namespace SpiceQL {
         if (searchKernels) {
         lsks = Inventory::search_for_kernelset("base", {"lsk"});
         }
-        if (!kernel_list.empty()) {
-        json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+        if (!kernelList.empty()) {
+        json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
         // merge them into the ephem kernels overwriting anything found in the query
         merge_json(lsks, regexk);
         }
@@ -474,14 +524,13 @@ namespace SpiceQL {
     }
 
 
-    pair<int, json> translateNameToCode(string frame, string mission, bool useWeb, bool searchKernels, vector<string> kernel_list) {    
+    pair<int, json> translateNameToCode(string frame, string mission, bool useWeb, bool searchKernels, vector<string> kernelList) {    
         if (useWeb){
             json args = json::object({
                 {"frame", frame},
                 {"mission", mission},
-                {"useWeb", false},
                 {"searchKernels", searchKernels},
-                {"kernelList", kernel_list}
+                {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("translateNameToCode", args);
             int result = out["body"]["return"].get<int>();
@@ -496,8 +545,8 @@ namespace SpiceQL {
             kernelsToLoad = Inventory::search_for_kernelset(mission, {"fk"});
         }
 
-        if (!kernel_list.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+        if (!kernelList.empty()) {
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(kernelsToLoad, regexk);
         }
@@ -521,14 +570,13 @@ namespace SpiceQL {
     }
 
 
-    pair<string, json> translateCodeToName(int frame, string mission, bool useWeb, bool searchKernels, vector<string> kernel_list) {
+    pair<string, json> translateCodeToName(int frame, string mission, bool useWeb, bool searchKernels, vector<string> kernelList) {
         if (useWeb){
             json args = json::object({
                 {"frame", frame},
                 {"mission", mission},
-                {"useWeb", false},
                 {"searchKernels", searchKernels},
-                {"kernelList", kernel_list}
+                {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("translateCodeToame", args);
             string result = out["body"]["return"].get<string>();
@@ -542,8 +590,8 @@ namespace SpiceQL {
         if (mission != "" && searchKernels){
             kernelsToLoad = Inventory::search_for_kernelset(mission, {"fk"});
         }
-        if (!kernel_list.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+        if (!kernelList.empty()) {
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(kernelsToLoad, regexk);
         }
@@ -567,14 +615,13 @@ namespace SpiceQL {
     }
 
 
-    pair<vector<int>, json> getFrameInfo(int frame, string mission, bool useWeb, bool searchKernels, vector<string> kernel_list) {
+    pair<vector<int>, json> getFrameInfo(int frame, string mission, bool useWeb, bool searchKernels, vector<string> kernelList) {
         if (useWeb){
             json args = json::object({
                 {"frame", frame},
                 {"mission", mission},
-                {"useWeb", false},
                 {"searchKernels", searchKernels},
-                {"kernelList", kernel_list}
+                {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("getFrameInfo", args);
             vector<int> result = jsonIntArrayToVector(out["body"]["return"]);
@@ -592,8 +639,8 @@ namespace SpiceQL {
             // Load only the FKs
             kernelsToLoad = Inventory::search_for_kernelset(mission, {"fk"});
         }
-        if (!kernel_list.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+        if (!kernelList.empty()) {
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(kernelsToLoad, regexk);
         }
@@ -612,14 +659,13 @@ namespace SpiceQL {
     }
 
 
-    pair<json, json> getTargetFrameInfo(int targetId, string mission, bool useWeb, bool searchKernels, vector<string> kernel_list) {
+    pair<json, json> getTargetFrameInfo(int targetId, string mission, bool useWeb, bool searchKernels, vector<string> kernelList) {
         if (useWeb){
             json args = json::object({
                 {"targetId", targetId},
                 {"mission", mission},
-                {"useWeb", false},
                 {"searchKernels", searchKernels},
-                {"kernelList", kernel_list}
+                {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("getTargetFrameInfo", args);
             json result = out["body"]["return"];
@@ -637,8 +683,8 @@ namespace SpiceQL {
             kernelsToLoad = Inventory::search_for_kernelsets({mission, "base"}, {"fk"});
         }
 
-        if (!kernel_list.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+        if (!kernelList.empty()) {
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(kernelsToLoad, regexk);
         }
@@ -660,14 +706,13 @@ namespace SpiceQL {
     }
 
 
-    pair<json, json> findMissionKeywords(string key, string mission, bool useWeb, bool searchKernels, vector<string> kernel_list) {
+    pair<json, json> findMissionKeywords(string key, string mission, bool useWeb, bool searchKernels, vector<string> kernelList) {
         if (useWeb){
             json args = json::object({
                 {"key", key},
                 {"mission", mission},
-                {"useWeb", false},
                 {"searchKernels", searchKernels},
-                {"kernelList", kernel_list}
+                {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("findMissionKeywords", args);
             json result = out["body"]["return"];
@@ -680,8 +725,8 @@ namespace SpiceQL {
             translationKernels = Inventory::search_for_kernelset(mission, {"iak", "fk", "ik"});
         }
 
-        if (!kernel_list.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+        if (!kernelList.empty()) {
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(translationKernels, regexk);
         }
@@ -692,14 +737,13 @@ namespace SpiceQL {
     }
 
 
-    pair<json, json> findTargetKeywords(string key, string mission, bool useWeb, bool searchKernels, vector<string> kernel_list) {
+    pair<json, json> findTargetKeywords(string key, string mission, bool useWeb, bool searchKernels, vector<string> kernelList) {
         if (useWeb){
             json args = json::object({
                 {"key", key},
                 {"mission", mission},
-                {"useWeb", false},
                 {"searchKernels", searchKernels},
-                {"kernelList", kernel_list}
+                {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("findTargetKeywords", args);
             json result = out["body"]["return"];
@@ -712,8 +756,8 @@ namespace SpiceQL {
             kernelsToLoad = Inventory::search_for_kernelsets({mission, "base"}, {"pck"});
         }
 
-        if (!kernel_list.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+        if (!kernelList.empty()) {
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(kernelsToLoad, regexk);
         }
@@ -723,7 +767,7 @@ namespace SpiceQL {
     }
 
 
-    pair<vector<vector<int>>, json> frameTrace(double et, int initialFrame, string mission, vector<string> ckQualities, bool useWeb, bool searchKernels, vector<string> kernel_list) {
+    pair<vector<vector<int>>, json> frameTrace(double et, int initialFrame, string mission, vector<string> ckQualities, bool useWeb, bool searchKernels, vector<string> kernelList) {
         checkNaifErrors();
 
         if (useWeb){
@@ -732,9 +776,8 @@ namespace SpiceQL {
                 {"initialFrame", initialFrame},
                 {"mission", mission},
                 {"ckQualities", ckQualities},
-                {"useWeb", false},
                 {"searchKernels", searchKernels},
-                {"kernelList", kernel_list}
+                {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("frameTrace", args);
             vector<vector<int>> kvect = json2DIntArrayTo2DVector(out["body"]["return"]);
@@ -747,8 +790,8 @@ namespace SpiceQL {
             ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"sclk", "ck", "pck", "fk", "lsk", "tspk"}, et, et, ckQualities, {"noquality"});
         }
 
-        if (!kernel_list.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+        if (!kernelList.empty()) {
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(ephemKernels, regexk);
         }
@@ -873,7 +916,7 @@ namespace SpiceQL {
     }
 
 
-    pair<vector<double>, json> extractExactCkTimes(double observStart, double observEnd, int targetFrame, string mission, vector<string> ckQualities, bool useWeb, bool searchKernels, vector<string> kernel_list) {
+    pair<vector<double>, json> extractExactCkTimes(double observStart, double observEnd, int targetFrame, string mission, vector<string> ckQualities, bool useWeb, bool searchKernels, vector<string> kernelList) {
         SPDLOG_TRACE("Calling extractExactCkTimes with {}, {}, {}, {}, {}, {}, {}", observStart, observEnd, targetFrame, mission, ckQualities.size(), useWeb, searchKernels);
         
         if (useWeb){
@@ -883,9 +926,8 @@ namespace SpiceQL {
                 {"targetFrame",targetFrame},
                 {"mission", mission},
                 {"ckQualities", ckQualities},
-                {"useWeb", false},
                 {"searchKernels", searchKernels},
-                {"kernelList", kernel_list}
+                {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("extractExactCkTimes", args);
             vector<double> kvect = jsonDoubleArrayToVector(out["body"]["return"]);
@@ -899,8 +941,8 @@ namespace SpiceQL {
         ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"ck", "sclk", "lsk"}, observStart, observEnd, ckQualities, {"noquality"});
         }
 
-        if (!kernel_list.empty()) {
-        json regexk = Inventory::search_for_kernelset_from_regex(kernel_list);
+        if (!kernelList.empty()) {
+        json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
         // merge them into the ephem kernels overwriting anything found in the query
         merge_json(ephemKernels, regexk);
         }
