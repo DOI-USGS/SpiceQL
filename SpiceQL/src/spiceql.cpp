@@ -12,6 +12,7 @@ using namespace std;
 #include "utils.h"
 #include "spiceql.h"
 #include "memoized_functions.h"
+#include "api.h"
 
 namespace SpiceQL { 
   // putting log init in a anonymous namespace 

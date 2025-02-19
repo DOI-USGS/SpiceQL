@@ -23,6 +23,7 @@ namespace SpiceQL {
   extern std::string DB_STOP_TIME_KEY; 
   extern std::string DB_TIME_FILES_KEY; 
   extern std::string DB_SS_TIME_INDICES_KEY; 
+  extern std::string DB_SPICE_ROOT_KEY;
 
   std::string getCacheDir(); 
   std::string getHdfFile();
@@ -37,13 +38,13 @@ namespace SpiceQL {
 
   class InventoryImpl {
     public:
-    InventoryImpl(bool force_regen=false); 
+    InventoryImpl(bool force_regen=false, std::vector<std::string> mlist = {}); 
     template<class T> T getKey(std::string key);
     void write_database();
     nlohmann::json search_for_kernelset(std::string spiceql_name, std::vector<Kernel::Type> types, double start_time=-std::numeric_limits<double>::max(), double stop_time=std::numeric_limits<double>::max(),
-                                            Kernel::Quality ckQuality=Kernel::Quality::SMITHED, Kernel::Quality spkQuality=Kernel::Quality::SMITHED,  bool enforce_quality=false);
+                                            std::vector<Kernel::Quality> ckQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, std::vector<Kernel::Quality> spkQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED},  bool enforce_quality=false);
     nlohmann::json search_for_kernelsets(std::vector<std::string> spiceql_names, std::vector<Kernel::Type> types, double start_time=-std::numeric_limits<double>::max(), double stop_time=std::numeric_limits<double>::max(),
-                                            Kernel::Quality ckQuality=Kernel::Quality::SMITHED, Kernel::Quality spkQuality=Kernel::Quality::SMITHED,  bool enforce_quality=false, bool overwrite=false);
+                                            std::vector<Kernel::Quality> ckQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, std::vector<Kernel::Quality> spkQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED},  bool enforce_quality=false, bool overwrite=false);
     nlohmann::json m_json_inventory; 
 
     std::map<std::string, std::vector<std::string>> m_nontimedep_kerns;  

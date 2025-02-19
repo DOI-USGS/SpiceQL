@@ -9,15 +9,15 @@
 %include "carrays.i"
 %include "std_pair.i"
 
-#include <nlohmann/json.hpp>
+// #include <nlohmann/json.hpp>
 
 %{
   #include <array>
   #include <vector> 
+  #include <nlohmann/json.hpp>
 %}
 
 %template(DoublePair) std::pair<double, double>;
-
 
 %typemap(in) nlohmann::json {
   if (PyDict_Check($input) || PyList_Check($input)) {
@@ -44,6 +44,146 @@
   $result = PyObject_CallMethodObjArgs(module, jsonLoads, pythonJsonString, NULL);
 }
 
+
+// pair<vector<vector<double>>, json>
+%typemap(out) std::pair<std::vector<std::vector<double>>, nlohmann::json> (PyObject* _inner,PyObject* _outer) {
+  _outer = PyList_New($1.first.size());
+  for (size_t i = 0; i < $1.first.size(); ++i) {
+    _inner = PyList_New($1.first[i].size());
+    for (size_t j = 0; j < $1.first[i].size(); ++j){
+      PyList_SetItem(_inner,j,PyFloat_FromDouble($1.first[i][j]));
+    }
+    PyList_SetItem(_outer,i,_inner);
+  }
+
+  PyObject* module = PyImport_ImportModule("json");
+  PyObject* jsonLoads = PyUnicode_FromString("loads");
+
+  std::string jsonString = $1.second.dump();
+  PyObject* pythonJsonString = PyUnicode_DecodeUTF8(jsonString.c_str(), jsonString.size(), NULL);
+
+  $result = PyTuple_New(2);
+  PyTuple_SetItem($result, 0, _outer);
+  PyTuple_SetItem($result, 1,  PyObject_CallMethodObjArgs(module, jsonLoads, pythonJsonString, NULL));
+}
+
+// pair<vector<vector<int>>, json>
+%typemap(out) std::pair<std::vector<std::vector<int>>, nlohmann::json> (PyObject* _inner,PyObject* _outer) {
+  _outer = PyList_New($1.first.size());
+  for (size_t i = 0; i < $1.first.size(); ++i) {
+    _inner = PyList_New($1.first[i].size());
+    for (size_t j = 0; j < $1.first[i].size(); ++j){
+      PyList_SetItem(_inner,j,PyInt_FromLong($1.first[i][j]));
+    }
+    PyList_SetItem(_outer,i,_inner);
+  }
+
+  PyObject* module = PyImport_ImportModule("json");
+  PyObject* jsonLoads = PyUnicode_FromString("loads");
+
+  std::string jsonString = $1.second.dump();
+  PyObject* pythonJsonString = PyUnicode_DecodeUTF8(jsonString.c_str(), jsonString.size(), NULL);
+
+  $result = PyTuple_New(2);
+  PyTuple_SetItem($result, 0, _outer);
+  PyTuple_SetItem($result, 1,  PyObject_CallMethodObjArgs(module, jsonLoads, pythonJsonString, NULL));
+}
+
+// pair<vector<double>, json>
+%typemap(out) std::pair<std::vector<double>, nlohmann::json> {
+  PyObject* vec_list = PyList_New($1.first.size());
+  for (size_t i = 0; i < $1.first.size(); ++i) {
+      PyList_SetItem(vec_list, i, PyFloat_FromDouble($1.first[i]));
+  }
+
+  PyObject* module = PyImport_ImportModule("json");
+  PyObject* jsonLoads = PyUnicode_FromString("loads");
+
+  std::string jsonString = $1.second.dump();
+  PyObject* pythonJsonString = PyUnicode_DecodeUTF8(jsonString.c_str(), jsonString.size(), NULL);
+
+  $result = PyTuple_New(2);
+  PyTuple_SetItem($result, 0, vec_list);
+  PyTuple_SetItem($result, 1,  PyObject_CallMethodObjArgs(module, jsonLoads, pythonJsonString, NULL));
+}
+
+// pair<vector<int>, json>
+%typemap(out) std::pair<std::vector<int>, nlohmann::json> {
+  PyObject* vec_list = PyList_New($1.first.size());
+  for (size_t i = 0; i < $1.first.size(); ++i) {
+      PyList_SetItem(vec_list, i, PyInt_FromLong($1.first[i]));
+  }
+
+  PyObject* module = PyImport_ImportModule("json");
+  PyObject* jsonLoads = PyUnicode_FromString("loads");
+
+  std::string jsonString = $1.second.dump();
+  PyObject* pythonJsonString = PyUnicode_DecodeUTF8(jsonString.c_str(), jsonString.size(), NULL);
+
+  $result = PyTuple_New(2);
+  PyTuple_SetItem($result, 0, vec_list);
+  PyTuple_SetItem($result, 1,  PyObject_CallMethodObjArgs(module, jsonLoads, pythonJsonString, NULL));
+}
+
+// pair<double, json>
+%typemap(out) std::pair<double, nlohmann::json> {
+  PyObject* dblOut = PyFloat_FromDouble($1.first);
+
+  PyObject* module = PyImport_ImportModule("json");
+  PyObject* jsonLoads = PyUnicode_FromString("loads");
+
+  std::string jsonString = $1.second.dump();
+  PyObject* pythonJsonString = PyUnicode_DecodeUTF8(jsonString.c_str(), jsonString.size(), NULL);
+
+  $result = PyTuple_New(2);
+  PyTuple_SetItem($result, 0, dblOut);
+  PyTuple_SetItem($result, 1,  PyObject_CallMethodObjArgs(module, jsonLoads, pythonJsonString, NULL));
+}
+
+// pair<int, json>
+%typemap(out) std::pair<int, nlohmann::json> {
+  PyObject* intOut = PyInt_FromLong($1.first);
+
+  PyObject* module = PyImport_ImportModule("json");
+  PyObject* jsonLoads = PyUnicode_FromString("loads");
+
+  std::string jsonString = $1.second.dump();
+  PyObject* pythonJsonString = PyUnicode_DecodeUTF8(jsonString.c_str(), jsonString.size(), NULL);
+
+  $result = PyTuple_New(2);
+  PyTuple_SetItem($result, 0, intOut);
+  PyTuple_SetItem($result, 1,  PyObject_CallMethodObjArgs(module, jsonLoads, pythonJsonString, NULL));
+}
+
+// pair<string, json>
+%typemap(out) std::pair<std::string, nlohmann::json> {
+  PyObject* strOut = PyString_FromString($1.first.c_str());
+
+  PyObject* module = PyImport_ImportModule("json");
+  PyObject* jsonLoads = PyUnicode_FromString("loads");
+
+  std::string jsonString = $1.second.dump();
+  PyObject* pythonJsonString = PyUnicode_DecodeUTF8(jsonString.c_str(), jsonString.size(), NULL);
+
+  $result = PyTuple_New(2);
+  PyTuple_SetItem($result, 0, strOut);
+  PyTuple_SetItem($result, 1,  PyObject_CallMethodObjArgs(module, jsonLoads, pythonJsonString, NULL));
+}
+
+// pair<json, json>
+%typemap(out) std::pair<nlohmann::json, nlohmann::json> {
+  PyObject* module = PyImport_ImportModule("json");
+  PyObject* jsonLoads = PyUnicode_FromString("loads");
+
+  std::string jsonString1 = $1.first.dump();
+  std::string jsonString2 = $1.second.dump();
+  PyObject* pythonJsonString1 = PyUnicode_DecodeUTF8(jsonString1.c_str(), jsonString1.size(), NULL);
+  PyObject* pythonJsonString2 = PyUnicode_DecodeUTF8(jsonString2.c_str(), jsonString2.size(), NULL);
+
+  $result = PyTuple_New(2);
+  PyTuple_SetItem($result, 0,  PyObject_CallMethodObjArgs(module, jsonLoads, pythonJsonString1, NULL));
+  PyTuple_SetItem($result, 1,  PyObject_CallMethodObjArgs(module, jsonLoads, pythonJsonString2, NULL));
+}
 
 namespace std {
   %template(IntVector) vector<int>;
@@ -74,3 +214,4 @@ namespace std {
 %include "utils.i"
 %include "memoized_functions.i"
 %include "inventory.i"
+%include "api.i"

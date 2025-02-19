@@ -7,6 +7,7 @@
 #include <fc/btree.h>
 #include <fc/disk_btree.h>
 #include <spdlog/spdlog.h>
+#include <queue>
 
 #include <cereal/archives/binary.hpp>
 #include <cereal/archives/portable_binary.hpp>
@@ -125,7 +126,7 @@ namespace SpiceQL {
           kernel_times->stop_times.insert(p2);
 
           // get relative path to make db portable 
-          fs::path relative_path_kernel = fs::relative(kernel, getDataDirectory());
+          fs::path relative_path_kernel = fs::relative(kernel, fs::absolute(getDataDirectory()));
           SPDLOG_TRACE("Relative Kernel: {}", relative_path_kernel.generic_string()); 
           kernel_times->file_paths.push_back(relative_path_kernel);
         }
@@ -134,7 +135,7 @@ namespace SpiceQL {
   }
 
 
-  InventoryImpl::InventoryImpl(bool force_regen) : m_required_kernels() { 
+  InventoryImpl::InventoryImpl(bool force_regen, vector<string> mlist) : m_required_kernels() { 
     fs::path db_root = getCacheDir();
     fs::path db_file = db_root / DB_HDF_FILE; 
 
@@ -153,6 +154,10 @@ namespace SpiceQL {
 
       for (auto &[mission, kernels] : json_kernels.items()) {
         SPDLOG_TRACE("MISSION: {}", mission);
+        // if the mission list is populated and the mission is NOT in the list, continue 
+        if(mlist.size() > 0 && std::find(mlist.begin(), mlist.end(), mission) == mlist.end()) { 
+          continue;
+        }
 
         json sclk_json = getLatestKernels(config[mission].getRecursive("sclk")); 
         SPDLOG_TRACE("{} SCLKs: {}", mission, sclk_json.dump(4)); 
@@ -165,7 +170,7 @@ namespace SpiceQL {
               if (kernel_obj.contains(quality)) {
 
                 // make the keys match Config's nested keys
-                string map_key = mission + "/" + kernel_type +"/"+quality+"/kernels";
+                string map_key = mission + "/" + kernel_type +"/"+quality;
                 
                 // make sure no path symbols are in the key
                 // replaceAll(map_key, "/", ":");
@@ -181,14 +186,14 @@ namespace SpiceQL {
             vector<json::json_pointer> ptrs = findKeyInJson(kernel_obj, "kernels", true); 
             
             for (auto &ptr : ptrs) { 
-              string btree_key = mission + "/" + kernel_type + "/kernels";
+              string btree_key = mission + "/" + kernel_type;
               vector<string> kernel_vec;
 
               // Doing it bracketless, there are too many brackets
               for (auto &subarr: kernel_obj[ptr]) 
                 for (auto &kernel : subarr) { 
                   string k = kernel.get<string>();
-                  fs::path relative_path_kernel = fs::relative(k, getDataDirectory());
+                  fs::path relative_path_kernel = fs::relative(k, fs::absolute(getDataDirectory()));
                   SPDLOG_TRACE("Relative Kernel: {}", relative_path_kernel.generic_string()); 
                   kernel_vec.push_back(relative_path_kernel); 
                 } 
@@ -231,47 +236,27 @@ namespace SpiceQL {
     }
   }
 
+
+
+
   json InventoryImpl::search_for_kernelsets(vector<string> spiceql_names, vector<Kernel::Type> types, double start_time, double stop_time,
-                                  Kernel::Quality ckQuality, Kernel::Quality spkQuality, bool enforce_quality, bool overwrite) { 
+                                  vector<Kernel::Quality> ckQualities, vector<Kernel::Quality> spkQualities, bool enforce_quality, bool overwrite) { 
       json kernels; 
       // simply iterate over the names
       for(auto &name : spiceql_names) { 
         json subKernels = search_for_kernelset(name, types, start_time, stop_time,
-                                  ckQuality, spkQuality, enforce_quality); 
+                                  ckQualities, spkQualities, enforce_quality); 
         SPDLOG_TRACE("subkernels for {}: {}", name, subKernels.dump(4));
         SPDLOG_TRACE("Overwrite? {}", overwrite);
-        if(overwrite) { 
-          SPDLOG_TRACE("Overwriting Kernels");
-          kernels.merge_patch(subKernels);
-        }
-        else { 
-          if(kernels.is_null()) { 
-            kernels = subKernels;
-            continue;
-          }
-
-          SPDLOG_TRACE("Merging Kernels");
-          for(auto &[k, v] : subKernels.items()) { 
-            if(kernels.contains(k) && kernels[k].is_array()) { 
-              // create a set for quick lookups for duplicates
-              std::unordered_set<string> k_set(kernels[k].begin(), kernels[k].end());
-              SPDLOG_DEBUG("Merging {} and {}", kernels[k].dump(), v.dump());
-              for(auto & e: v) { 
-                if(!k_set.contains(e)) kernels[k].push_back(e);
-              }
-            }
-            else { 
-              kernels[k] = v;
-            }
-          }
-        }
+        merge_json(kernels, subKernels, overwrite);
       }
       return kernels;
   }
 
 
+
   json InventoryImpl::search_for_kernelset(string spiceql_name, vector<Kernel::Type> types, double start_time, double stop_time,
-                                  Kernel::Quality ckQuality, Kernel::Quality spkQuality, bool enforce_quality) { 
+                                  vector<Kernel::Quality> ckQualities, vector<Kernel::Quality> spkQualities, bool enforce_quality) { 
     // get time dep kernels first 
     json kernels;
     spiceql_name = toLower(spiceql_name);
@@ -289,18 +274,20 @@ namespace SpiceQL {
         TimeIndexedKernels *time_indices = nullptr;
         bool found = false;        
 
-        Kernel::Quality quality = spkQuality;
+        vector<Kernel::Quality> qualities = spkQualities;
         string qkey = spiceql_name+"_spk_quality";
         if (type == Kernel::Type::CK) { 
-          quality = ckQuality;
+          qualities = ckQualities;
           qkey = spiceql_name+"_ck_quality";
-        }
+        } 
 
-        // iterate down the qualities 
-        for(int i = (int)quality; i >= 0 && !found; i--) { 
-          string key = spiceql_name+"/"+Kernel::translateType(type)+"/"+KERNEL_QUALITIES.at(i)+"/"+"kernels";
+        // sort in descending order
+        std::sort(qualities.begin(), qualities.end(), std::greater<>());
+
+        // iterate down the qualities
+        for(auto quality = qualities.begin(); quality != qualities.end() && !found; ++quality) {
+          string key = spiceql_name+"/"+Kernel::translateType(type)+"/"+Kernel::translateQuality(*quality)+"/";
           SPDLOG_DEBUG("Key: {}", key);
-          quality = (Kernel::Quality)i; 
 
           if (m_timedep_kerns.contains(key)) { 
             SPDLOG_DEBUG("Key {} found", key); 
@@ -380,28 +367,40 @@ namespace SpiceQL {
               iterations++;
               SPDLOG_TRACE("Is {} with stop time {} in the array? {}", time_indices->file_paths.at(it->second), it->first, start_time_kernels.contains(it->second)); 
               if (start_time_kernels.contains(it->second)) {
-                final_time_kernels.push_back(data_dir / time_indices->file_paths.at(it->second));
+                final_time_kernels.push_back(time_indices->file_paths.at(it->second));
+                if (type == Kernel::Type::SPK) break;
               }
             } 
           }
+
           if (final_time_kernels.size()) { 
             found = true;
-            kernels[Kernel::translateType(type)] = final_time_kernels;
-            kernels[qkey] = Kernel::translateQuality(quality);
+            if (type == Kernel::Type::SPK) { 
+              // the SPK in the last position is the higher priority one 
+              kernels[Kernel::translateType(type)] = {data_dir / final_time_kernels.back()};
+              kernels[qkey] = Kernel::translateQuality(*quality);   
+            }
+            else { 
+              for(string &e : final_time_kernels) { 
+                e = data_dir / e;
+              }
+              kernels[Kernel::translateType(type)] = final_time_kernels;
+              kernels[qkey] = Kernel::translateQuality(*quality);
+            }
           }
           SPDLOG_TRACE("NUMBER OF ITERATIONS: {}", iterations);
           SPDLOG_TRACE("NUMBER OF KERNELS FOUND: {}", final_time_kernels.size());  
-          
+
           if (enforce_quality) break; // only interate once if quality is enforced 
         }
       }
       else { // text/non time based kernels
         SPDLOG_DEBUG("Trying to search time independant kernels");
-        string key = spiceql_name+"/"+Kernel::translateType(type)+"/"+"kernels"; 
+        string key = spiceql_name+"/"+Kernel::translateType(type)+"/"; 
         SPDLOG_DEBUG("GETTING {} with key {}", Kernel::translateType(type), key);
         if (m_nontimedep_kerns.contains(key) && !m_nontimedep_kerns[key].empty()) {  
           vector<string> ks = m_nontimedep_kerns[key]; 
-          for(auto &e : ks) e = data_dir / e; // re-add the data dir 
+          for(auto &e : ks) e =  data_dir / e; // re-add the data dir 
           kernels[Kernel::translateType(type)] = ks;
         
         }
@@ -449,7 +448,6 @@ namespace SpiceQL {
         vector<size_t> stop_indices_v;
         stop_indices_v.reserve(kernels->stop_times.size());
 
-
         for (const auto &[k, v] : kernels->start_times) { 
           start_times_v.push_back(k);
           start_indices_v.push_back(v);
@@ -471,7 +469,7 @@ namespace SpiceQL {
     {
       for(auto &e : m_nontimedep_kerns) { 
         if(e.second.size() > 0) {
-          SPDLOG_DEBUG("Writing {} of with {} kernels.", e.first, e.second.size());
+          SPDLOG_DEBUG("Writing {} with {} kernels.", DB_SPICE_ROOT_KEY + "/"+e.first, e.second.size());
           H5Easy::dump(file, DB_SPICE_ROOT_KEY + "/"+e.first, e.second, H5Easy::DumpMode::Overwrite);
         }
       }

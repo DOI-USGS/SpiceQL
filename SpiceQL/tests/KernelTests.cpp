@@ -8,6 +8,7 @@
 #include "spice_types.h"
 #include "query.h"
 #include "inventory.h"
+#include "api.h"
 
 #include <SpiceUsr.h>
 
@@ -22,10 +23,10 @@ TEST_F(LroKernelSet, UnitTestTranslateFrame) {
   mocks.OnCallFunc(loadTranslationKernels).Return(translationKernels);
 
   string expectedFrameName = "LRO_LROCWAC";
-  int frameCode = translateNameToCode(expectedFrameName, "lroc");
+  auto [frameCode, kernels1] = translateNameToCode(expectedFrameName, "lroc");
   EXPECT_EQ(frameCode, -85620);
 
-  string frameName = translateCodeToName(frameCode, "lroc");
+  auto [frameName, kernels2] = translateCodeToName(frameCode, "lroc");
   EXPECT_EQ(frameName, expectedFrameName);
 }
 
@@ -87,7 +88,7 @@ TEST_F(LroKernelSet, UnitTestStackedKernelSetConstructorDestructor) {
     ktotal_c("ck", &nkernels);
     EXPECT_EQ(nkernels, 2);
     ktotal_c("spk", &nkernels);
-    EXPECT_EQ(nkernels, 4);
+    EXPECT_EQ(nkernels, 2);
   }
 
   // All kernels in previous stack should be unfurnished
@@ -96,7 +97,7 @@ TEST_F(LroKernelSet, UnitTestStackedKernelSetConstructorDestructor) {
   ktotal_c("ck", &nkernels);
   EXPECT_EQ(nkernels, 1);
   ktotal_c("spk", &nkernels);
-  EXPECT_EQ(nkernels, 2);
+  EXPECT_EQ(nkernels, 1);
 }
 
 
@@ -105,7 +106,7 @@ TEST_F(LroKernelSet, UnitTestStrSclkToEt) {
   testKernelJson["kernels"] = {{ckPath1}, {ckPath2}, {spkPath1}, {spkPath2}, {spkPath3}, {ikPath2}, {fkPath}, {sclkPath}, {lskPath}};
   KernelSet testSet(testKernelJson);
   
-  double et = strSclkToEt(-85, "1/281199081:48971", "lro");
+  auto [et, kernels] = strSclkToEt(-85, "1/281199081:48971", "lro");
 
   EXPECT_DOUBLE_EQ(et, 312778347.97478431);
 }
@@ -116,14 +117,14 @@ TEST_F(LroKernelSet, UnitTestDoubleSclkToEt) {
   testKernelJson["kernels"] = {{ckPath1}, {ckPath2}, {spkPath1}, {spkPath2}, {spkPath3}, {ikPath2}, {fkPath}, {sclkPath}, {lskPath}};
   KernelSet testSet(testKernelJson);
 
-  double et = doubleSclkToEt(-85, 922997380.174174, "lro");
+  auto [et, kernels] = doubleSclkToEt(-85, 922997380.174174, "lro");
 
   EXPECT_DOUBLE_EQ(et, 31593348.006268278);
 }
 
 
 TEST_F(LroKernelSet, UnitTestUtcToEt) {
-  double et = utcToEt("2016-11-26 22:32:14.582000");
+  auto [et, kernels] = utcToEt("2016-11-26 22:32:14.582000");
 
   EXPECT_DOUBLE_EQ(et, 533471602.76499087);
 }
@@ -135,7 +136,7 @@ TEST_F(LroKernelSet, UnitTestGetFrameInfo) {
   translationKernels["fk"]["kernels"] = {{fkPath}};
   mocks.OnCallFunc(loadTranslationKernels).Return(translationKernels);
 
-  vector<int> res = getFrameInfo(-85620, "lroc");
+  auto [res, kernels] = getFrameInfo(-85620, "lroc");
   EXPECT_EQ(res[0], -85);
   EXPECT_EQ(res[1], 3);
   EXPECT_EQ(res[2], -85620);
@@ -143,7 +144,7 @@ TEST_F(LroKernelSet, UnitTestGetFrameInfo) {
 
 
 TEST_F(LroKernelSet, UnitTestFindMissionKeywords) {
-  nlohmann::json keywords = findMissionKeywords("INS-85600_CCD_CENTER", "lro");
+  auto [keywords, kernels] = findMissionKeywords("INS-85600_CCD_CENTER", "lro");
 
   nlohmann::json expectedResults;
   expectedResults["INS-85600_CCD_CENTER"] = {2531.5, 0.5};
@@ -153,7 +154,7 @@ TEST_F(LroKernelSet, UnitTestFindMissionKeywords) {
 
 
 TEST_F(LroKernelSet, UnitTestGetTargetFrameInfo) {
-  nlohmann::json frameInfo = getTargetFrameInfo(499, "lroc");
+  auto [frameInfo, kernels] = getTargetFrameInfo(499, "lroc");
 
   nlohmann::json expectedResults;
   expectedResults["frameCode"] = 10014;

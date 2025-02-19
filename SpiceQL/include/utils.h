@@ -170,62 +170,6 @@ namespace SpiceQL {
   std::vector<double> getTargetState(double et, std::string target, std::string observer, std::string frame="J2000", std::string abcorr="NONE"); // use j2000 for default reference frame
 
   /**
-   * @brief Gives the positions and velocities for a given frame given a set of ephemeris times
-   *
-   * Mostly a C++ wrap for NAIF's spkezr_c
-   *
-   * @param ets ephemeris times at which you want to obtain the target state
-   * @param target NAIF ID for the target frame
-   * @param observer NAIF ID for the observing frame
-   * @param frame The reference frame in which to get the positions in
-   * @param abcorr aborration correction flag, default it NONE.
-   *        This can set to:
-   *           "NONE" - No correction
-   *        For the "reception" case, i.e. photons from the target being recieved by the observer at the given time.
-   *           "LT"   - One way light time correction
-   *           "LT+S" - Correct for one-way light time and stellar aberration correction
-   *           "CN"   - Converging Newtonian light time correction
-   *           "CN+S" - Converged Newtonian light time correction and stellar aberration correction
-   *        For the "transmission" case, i.e. photons emitted from the oberver hitting at target at the given time
-   *           "XLT"   - One-way light time correction using a newtonian formulation
-   *           "XLT+S" - One-way light time and stellar aberration correction using a newtonian formulation
-   *           "XCN"   - converged Newtonian light time correction
-   *           "XCN+S" - converged Newtonian light time correction and stellar aberration correction.
-   * @param mission Config subset as it relates to the mission
-   * @param ckQuality string describing the quality of cks to try and obtain
-   * @param spkQuality string describing the quality of spks to try and obtain
-   * @param searchKernels bool Whether to search the kernels for the user
-   *
-   * @see SpiceQL::getTargetState
-   * @see Kernel::Quality
-   *
-   * @return A vector of vectors with a Nx7 state vector of positions and velocities in x,y,z,vx,vy,vz format followed by the light time adjustment.
-   **/
-  std::vector<std::vector<double>> getTargetStates(std::vector<double> ets,
-                                                   std::string target,
-                                                   std::string observer,
-                                                   std::string frame="J2000", // use j2000 for default reference frame
-                                                   std::string abcorr="NONE",
-                                                   std::string mission="",
-                                                   std::string ckQuality="reconstructed",
-                                                   std::string spkQuality="reconstructed",
-                                                   bool searchKernels=true);
-
-  /**
-   * @brief Extracts all segment times between observStart and observeEnd
-   *
-   * Givven an observation start and observation end, extract all times assocaited
-   * with segments in a CK file. The times returned are all times assocaited with
-   * concrete CK segment times with no interpolation.
-   *
-   * @param observStart Ephemeris time to start searching at
-   * @param observEnd Ephemeris time to stop searching at
-   * @param targetFrame Target reference frame to get ephemeris data in
-   * @returns A list of times
-   **/
-  std::vector<double> extractExactCkTimes(double observStart, double observEnd, int targetFrame, std::string mission, std::string ckQuality, bool searchKernels);
-
-  /**
    * @brief Gives quaternion and angular velocity for a given frame at a given ephemeris time
    *
    * Gets an orientation for an input frame in some reference frame.
@@ -238,49 +182,6 @@ namespace SpiceQL {
    * @returns SPICE-style quaternions (w,x,y,z) and optional angular velocity (4 element without angular velocity, 7 element with)
   **/
   std::vector<double> getTargetOrientation(double et, int toFrame, int refFrame=1); // use j2000 for default reference frame
-
-  /**
-   * @brief Gives quaternion and angular velocity for a given frame at a set of ephemeris times
-   *
-   * Gets orientations for an input frame in some reference frame.
-   * The orientations returned from this function can be used to transform a position
-   * in the source frame to the ref frame.
-   *
-   * @param ets ephemeris times at which you want to optain the target pointing
-   * @param toframe the source frame's NAIF code.
-   * @param refframe the reference frame's NAIF code, orientations are relative to this reference frame
-   * @param mission Config subset as it relates to the mission
-   * @param ckQuality string describing the quality of cks to try and obtain
-   * @param searchKernels bool Whether to search the kernels for the user
-   *
-   * @see SpiceQL::getTargetOrientation
-   *
-   * @returns Vector of SPICE-style quaternions (w,x,y,z) and optional angular velocity (4 element without angular velocity, 7 element with)
-   **/
-  std::vector<std::vector<double>> getTargetOrientations(std::vector<double> ets, 
-                                                         int toFrame, 
-                                                         int refFrame=1, // use j2000 for default reference frame
-                                                         std::string mission="", 
-                                                         std::string ckQuality="reconstructed",  
-                                                         bool searchKernels=true);
-
-
-  /**
-   * @brief Given an ephemeris time and a starting frame, find the path from that starting frame to J2000 (1)
-   *
-   * This function uses NAIF routines and builds a path from the initalframe to J2000 making
-   * note of all the in between frames
-   *
-   * @param et ephemeris times at which you want to optain the frame trace
-   * @param initialFrame the initial frame's NAIF code.
-   * @param mission Config subset as it relates to the mission
-   * @param ckQuality int describing the quality of cks to try and obtain
-   * @param searchKernels bool Whether to search the kernels for the user
-   *
-   * @returns A two element vector of vectors ints, where the first element is the sequence of time dependent frames
-   * and the second is the sequence of constant frames
-  **/
-  std::vector<std::vector<int>> frameTrace(double et, int initialFrame, std::string mission="", std::string ckQuality="reconstructed",  bool searchKernels=true);
 
 
   /**
@@ -441,6 +342,34 @@ namespace SpiceQL {
 
 
   /**
+    * @brief Returns std::vector<double> interpretation of a json array.
+    *
+    * Attempts to convert the json array to a C++ array. Also handles
+    * strings in cases where one element arrays are stored as scalars.
+    * Throws exception if the json obj is not an array.
+    *
+    * @param arr input json arr
+    *
+    * @returns double containing arr data
+   **/
+   std::vector<double> jsonDoubleArrayToVector(nlohmann::json arr);
+
+
+  /**
+    * @brief Returns std::vector<int> interpretation of a json array.
+    *
+    * Attempts to convert the json array to a C++ array. Also handles
+    * strings in cases where one element arrays are stored as scalars.
+    * Throws exception if the json obj is not an array.
+    *
+    * @param arr input json arr
+    *
+    * @returns int containing arr data
+   **/
+   std::vector<int> jsonIntArrayToVector(nlohmann::json arr);
+
+
+  /**
     * @brief Returns std::vector<std::vector<string>> interpretation of a json array.
     *
     * Attempts to convert the json array to a C++ array. Also handles
@@ -452,6 +381,35 @@ namespace SpiceQL {
     * @returns string vector containing arr data
    **/
    std::vector<std::vector<std::string>> json2DArrayTo2DVector(nlohmann::json arr);
+
+
+   /**
+    * @brief Returns std::vector<std::vector<float>> interpretation of a json array.
+    *
+    * Attempts to convert the json array to a C++ array. Also handles
+    * strings in cases where one element arrays are stored as scalars.
+    * Throws exception if the json obj is not an array.
+    *
+    * @param arr input json arr
+    *
+    * @returns double vector containing arr data
+   **/
+   std::vector<std::vector<double>> json2DFloatArrayTo2DVector(nlohmann::json arr);
+
+
+   /**
+    * @brief Returns std::vector<std::vector<int>> interpretation of a json array.
+    *
+    * Attempts to convert the json array to a C++ array. Also handles
+    * strings in cases where one element arrays are stored as scalars.
+    * Throws exception if the json obj is not an array.
+    *
+    * @param arr input json arr
+    *
+    * @returns int vector containing arr data
+   **/
+   std::vector<std::vector<int>> json2DIntArrayTo2DVector(nlohmann::json arr);
+
 
   /**
     * @brief Returns std::vector<std::vector<string>> interpretation of a json array.
@@ -478,6 +436,18 @@ namespace SpiceQL {
     * @returns string vector containing arr data
    **/
    std::string getDataDirectory();
+
+
+   /**
+    * @brief Merges the right json to the left json 
+    *
+    * @param j1 input json obj, this json is having it's values edited 
+    * @param j2 input json obj to be merged into j1
+    * @param overwrite if true, overwrites the keys in j1 in favors of those in j2. If overwrite=true, this is the same as nlohmann::json::merge_patch  
+    * 
+    * @returns j1 with j2 keys + values
+   **/ 
+   nlohmann::json merge_json(nlohmann::json &j1, nlohmann::json &j2, bool overwrite=false);
 
 
   /**

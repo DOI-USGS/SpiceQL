@@ -1,4 +1,5 @@
 import pytest
+import pyspiceql
 from pyspiceql import getMissionConfig, Config, getKernelStringValue
 
 def test_jsonConversion():

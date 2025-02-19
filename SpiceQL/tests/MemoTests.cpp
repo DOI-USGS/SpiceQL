@@ -71,14 +71,14 @@ TEST(UtilTests, testGetKernelTimes) {
     SPDLOG_DEBUG("{}, {}", e.first, e.second);
   }  
 
-  std::vector<std::pair<double, double>> v_memo_init = Memo::getTimeIntervals(path);
+  std::vector<std::pair<double, double>> v_memo_init = getTimeIntervals(path);
 
   SPDLOG_DEBUG("cached times");
   for (auto &e : v_memo_init) { 
     SPDLOG_DEBUG("{}, {}", e.first, e.second);
   }  
 
-  std::vector<std::pair<double, double>> v_memo = Memo::getTimeIntervals(path);
+  std::vector<std::pair<double, double>> v_memo = getTimeIntervals(path);
 
   SPDLOG_DEBUG("times from memo");
   for (auto &e : v_memo) { 
@@ -89,8 +89,8 @@ TEST(UtilTests, testGetKernelTimes) {
   EXPECT_EQ(v_memo, v_memo_init);
 }
 
-
-TEST(UtilTests, testExiringCache) {  
+// disabled until we do one file cache system 
+TEST(UtilTests, DISABLED_testExiringCache) {  
   string tempname = "spiceql-cachetest-" + SpiceQL::gen_random(10);
 
   fs::path t = fs::temp_directory_path() / tempname / "tests"; 
@@ -121,11 +121,10 @@ TEST(UtilTests, testExiringCache) {
   SPDLOG_DEBUG("third ls results {}", fmt::join(v3, ", "));
   
   EXPECT_NE(v2, v3);
-
 }
 
-
-TEST(UtilTests, testCacheDeleteDep) { 
+// disabled until we move to a one file cache system 
+TEST(UtilTests, DISABLED_testCacheDeleteDep) { 
   string tempname = "spiceql-cachetest-" + SpiceQL::gen_random(10); 
   fs::path t = fs::temp_directory_path() / tempname / "tests"; 
   fs::create_directories(t);

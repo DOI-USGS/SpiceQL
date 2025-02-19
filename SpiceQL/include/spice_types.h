@@ -88,6 +88,14 @@ namespace SpiceQL {
        * @return Kernel::Type representation of the kernel type, eg. "reconstructed" returns Kernel::Quality::Reconstructed
        **/
       static Quality translateQuality(std::string qa);
+
+      /**
+       * @brief Switch between Kernel quality string to enum
+       *
+       * @param qas Vector of Kernel::Quality strings
+       * @return Vector of Kernel::Quality values
+       **/
+      static std::vector<Kernel::Quality> translateQualities(std::vector<std::string> qas);
       
 
       /**
@@ -161,149 +169,4 @@ namespace SpiceQL {
     //! json used to populate the loadedKernels
     nlohmann::json m_kernels; 
   };
-
-
-  /**
-   * @brief convert a UTC string to an ephemeris time
-   *
-   * Basically a wrapper around NAIF's cspice str2et function except it also temporarily loads the required kernels.
-   * See Also: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/str2et_c.html
-   *
-   * @param et UTC string, e.g. "1988 June 13, 12:29:48 TDB"
-   * @param searchKernels bool Whether to search the kernels for the user
-   * @returns double precision ephemeris time
-   **/
-  double utcToEt(std::string utc, bool searchKernels = true);
-
-
-  /**
-   * @brief convert et string to a UTC string
-   *
-   * Basically a wrapper around NAIF's cspice et2utc_c function except it also temporarily loads the required kernels.
-   * See Also: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/et2utc_c.html
-   *
-   * @param et ephemeris time
-   * @param precision number of decimal 
-   * @param searchKernels bool Whether to search the kernels for the user
-   * @returns double precision ephemeris time
-   **/
-  std::string etToUtc(double et, std::string format = "C", double precision = 8, bool searchKernels=true);
-
-
-  /**
-   * @brief Converts a given string spacecraft clock time to an ephemeris time
-   *
-   * Given a known frame code strSclkToEt converts a given spacecraft clock time as a string
-   * to an ephemeris time. Call this function if your clock time looks something like:
-   * 1/281199081:48971
-   *
-   * @param frameCode int Frame id to use
-   * @param sclk string Spacecraft Clock formatted as a string
-   * @param mission string Mission name as it relates to the config files
-   * @param searchKernels bool Whether to search the kernels for the user
-   * @return double
-   */
-  double strSclkToEt(int frameCode, std::string sclk, std::string mission, bool searchKernels=true);
-
-  /**
-   * @brief Converts a given double spacecraft clock time to an ephemeris time
-   *
-   * Given a known frame code doubleSclkToEt converts a given spacecraft clock time as a double
-   * to an ephemeris time. Call this function if your clock time looks something like:
-   * 922997380.174174
-   *
-   * @param frameCode int Frame id to use
-   * @param sclk int Spacecraft Clock formatted as an int
-   * @param mission string Mission name as it relates to the config files
-   * @param searchKernels bool Whether to search the kernels for the user
-   * @return double
-   */
-  double doubleSclkToEt(int frameCode, double sclk, std::string mission, bool searchKernels=true);
-
-
-  /**
-   * @brief Converts a given double ephemeris time to an sclk string
-   *
-   *
-   * @param frameCode int Frame id to use
-   * @param et ephemeris time
-   * @param mission string Mission name as it relates to the config files
-   * @param searchKernels bool Whether to search the kernels for the user
-   * @return string
-   */
-  std::string doubleEtToSclk(int frameCode, double et, std::string mission, bool searchKernels);
-
-
-  /**
-   * @brief Get the center, class id, and class of a given frame
-   *
-   * See <a href="https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/req/naif_ids.html">NAIF's Docs on frame codes</a> for more information
-   *
-   * @param frame String frame name to translate to a NAIF code
-   * @param mission Mission name as it relates to the config files
-   * @param searchKernels bool Whether to search the kernels for the user
-   * @return 3 element vector of the given frames center, class id, and class
-  **/
-  std::vector<int> getFrameInfo(int frame, std::string mission, bool searchKernels=true);
-
-  /**
-   * @brief Switch between NAIF frame string name to integer frame code
-   *
-   * See <a href="https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/req/naif_ids.html">NAIF's Docs on frame codes</a> for more information
-   *
-   * @param frame String frame name to translate to a NAIF code
-   * @param mission Mission name as it relates to the config files
-   * @param searchKernels bool Whether to search the kernels for the user
-   * @return integer Naif frame code
-  **/
-  int translateNameToCode(std::string frame, std::string mission="", bool searchKernels=true);
-
-  /**
-   * @brief Switch between NAIF frame integer code to string frame name
-   *
-   * See <a href="https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/req/naif_ids.html">NAIF's Docs on frame codes</a> for more information
-   *
-   * @param frame int NAIF frame code to translate
-   * @param searchKernels bool Whether to search the kernels for the user
-   * @param mission Mission name as it relates to the config files
-   * @return string Naif frame name
-  **/
-  std::string translateCodeToName(int frame, std::string mission="", bool searchKernels=true);
-
-  /**
-    * @brief returns kernel values for a specific mission in the form of a json
-    *
-    *  Takes in a kernel key and returns the value associated with the inputted mission as a json
-    * 
-    * @param key key - Kernel to get values from 
-    * @param mission mission name
-    * @param searchKernels bool Whether to search the kernels for the user
-    * @returns json of values
-  **/
-  nlohmann::json findMissionKeywords(std::string key, std::string mission, bool searchKernels=true);
-
-  /**
-    * @brief returns Target values in the form of a vector
-    *
-    *  Takes in a target and key and returns the value associated in the form of vector.
-    *  Note: This function is mainly for obtaining target keywords. For obtaining other values, use findMissionKeywords.
-    * 
-    * @param key keyword for desired values
-    * @param mission mission name as it relates to the config files
-    * @param searchKernels bool Whether to search the kernels for the user
-    * @returns vector of values
-  **/
-  nlohmann::json findTargetKeywords(std::string key, std::string mission, bool searchKernels = true);
-
-  /**
-    * @brief returns frame name and frame code associated to the target ID.
-    *
-    *  Takes in a target id and returns the frame name and frame code in json format
-    * 
-    * @param targetId target ID
-    * @param mission mission name as it relates to the config files
-    * @param searchKernels bool Whether to search the kernels for the user
-    * @returns json of frame name and frame code
-  **/
-  nlohmann::json getTargetFrameInfo(int targetId, std::string mission, bool searchKernels=true);
 }

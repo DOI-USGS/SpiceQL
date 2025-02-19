@@ -1,2 +1,5 @@
-from .pyspiceql import *
-
+try: 
+  from .pyspiceql import *
+except: 
+  from pyspiceql import *
+           

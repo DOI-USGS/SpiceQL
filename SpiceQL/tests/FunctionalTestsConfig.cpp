@@ -189,7 +189,7 @@ TEST_F(TestConfig, FunctionalTestsConfigGet) {
   mocks.OnCallFunc(Memo::ls).Return(paths);
 
   json resJson = testConfig.get("lroc");
-  EXPECT_EQ(resJson.size(), 6);
+  EXPECT_EQ(resJson.size(), 7);
   for (auto pointer : expectedPointers) {
     SPDLOG_DEBUG("Checking for {}", pointer); 
     EXPECT_TRUE(resJson.contains(json::json_pointer(pointer)));
@@ -206,7 +206,7 @@ TEST_F(TestConfig, FunctionalTestsConfigGetVector) {
   vector<string> configPointers = {"lroc", "cassini"};
   json resJson = testConfig.get(configPointers);
   ASSERT_EQ(resJson.size(), 2);
-  ASSERT_EQ(resJson["lroc"].size(), 6);
+  ASSERT_EQ(resJson["lroc"].size(), 7);
   for (auto pointer : expectedLrocPointers) {
     ASSERT_TRUE(resJson["lroc"].contains(json::json_pointer(pointer)));
     EXPECT_TRUE(resJson["lroc"][json::json_pointer(pointer)]["kernels"].size() > 0);
