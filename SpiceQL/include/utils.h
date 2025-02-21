@@ -302,6 +302,14 @@ namespace SpiceQL {
 
 
    /**
+    * @brief Returns the REST URL
+    *
+    * @returns SpiceQL's REST URL as string
+   **/
+   std::string getRestUrl();
+
+
+   /**
     * @brief resolve the dependencies in a config in place
     *
     * Given a config with "deps" keys in it and a second config to extract

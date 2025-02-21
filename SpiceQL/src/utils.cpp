@@ -1215,6 +1215,19 @@ namespace SpiceQL {
   }
 
 
+  string getRestUrl() {
+    char* spiceqlRestUrlEnvVar = std::getenv("SPICEQL_REST_URL");
+    string spiceqlRestUrl;
+    if (spiceqlRestUrlEnvVar == NULL) {
+      spiceqlRestUrl = "https://astrogeology.usgs.gov/apis/spiceq/latest/";
+    } else {
+      spiceqlRestUrl = string(spiceqlRestUrlEnvVar);
+    }
+    SPDLOG_TRACE("SpiceQL REST URL: {}", spiceqlRestUrl); 
+    return spiceqlRestUrl;
+  }  
+
+
   void resolveConfigDependencies(json &config, const json &dependencies) {
     SPDLOG_TRACE("IN resolveConfigDependencies");
     vector<json::json_pointer> depLists = findKeyInJson(config, "deps");
