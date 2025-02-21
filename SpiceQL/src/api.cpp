@@ -135,9 +135,9 @@ namespace SpiceQL {
                 escaped << c;
                 continue;
             }
-
+            
             if (c == '"'){
-            continue;
+                continue;
             }
 
             // Any other characters are percent-encoded
@@ -152,30 +152,32 @@ namespace SpiceQL {
     json spiceAPIQuery(std::string functionName, json args, std::string method){
         restincurl::Client client;
         // Need to be able to set URL externally
-        std::string queryString = "http://127.0.0.1:8080/" + functionName;
+        std::string queryString = "http://127.0.0.1:8080/" + functionName + "?";
 
         json j;
 
         if (method == "GET"){
-            std::cout << "[RestfulSpice] spiceAPIQuery GET" << std::endl;
-            queryString += "?";
+            SPDLOG_TRACE("spiceAPIQuery GET");
             for (auto x : args.items()) {
+                if (x.value().is_null()) {
+                    continue;
+                }
                 queryString+= x.key();
                 queryString+= "=";
                 queryString+= x.value().dump();
                 queryString+= "&";
             }
-            
+            SPDLOG_TRACE("queryString = {}", queryString);
             std::string encodedString = url_encode(queryString);
-            SPDLOG_TRACE("spiceAPIQuery encodedString = {}", encodedString);
+            SPDLOG_TRACE("encodedString = {}", encodedString);
             client.Build()->Get(encodedString).Option(CURLOPT_FOLLOWLOCATION, 1L).AcceptJson().WithCompletion([&](const restincurl::Result& result) {
-            SPDLOG_TRACE("spiceAPIQuery GET result body = {}", result.body);
+            SPDLOG_TRACE("GET result body = {}", result.body);
             j = json::parse(result.body);
             }).ExecuteSynchronous();
         } else {
-            SPDLOG_TRACE("spiceAPIQuery POST");
+            SPDLOG_TRACE("POST");
             client.Build()->Post(queryString).Option(CURLOPT_FOLLOWLOCATION, 1L).AcceptJson().WithJson(args.dump()).WithCompletion([&](const restincurl::Result& result) {
-            SPDLOG_TRACE("spiceAPIQuery POST result = {}", result.body);
+            SPDLOG_TRACE("POST result = {}", result.body);
             j = json::parse(result.body);
             }).ExecuteSynchronous();
         }

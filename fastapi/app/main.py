@@ -138,7 +138,7 @@ async def getTargetOrientations(
     toFrame: int,
     refFrame: int,
     mission: str,
-    ets: str | None = None,
+    ets: Annotated[list[float], Query()] | float | str | None = [],
     startEts: Annotated[list[float], Query()] | float | str | None = None,
     stopEts: Annotated[list[float], Query()] | float | str | None = None,
     exposureDuration: Annotated[list[float], Query()] | float | str | None = None,
@@ -172,7 +172,6 @@ async def strSclkToEt(
     frameCode: int,
     sclk: str,
     mission: str,
-    useWeb: bool = False,
     searchKernels: bool = True,
     kernelList: Annotated[list[str], Query()] | str | None = []):
     try:
@@ -351,7 +350,6 @@ async def frameTrace(
         ckQualities = strToList(ckQualities)
         kernelList = strToList(kernelList)
         result, kernels = pyspiceql.frameTrace(et, initialFrame, mission, ckQualities, False, searchKernels, kernelList)
-        print("frameTrace result = " + str(result))
         body = ResultModel(result=result, kernels=kernels)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -418,7 +416,7 @@ def strToList(value: str) -> list:
     # Converts a string into a list or its literal value
     if value is not None:
         if isinstance(value, str):
-            value = literal_eval(value)
+            value = value.replace("[", "").replace("]", "").split(",")
         else:
             try:
                 iter(value)
