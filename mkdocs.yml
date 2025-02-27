@@ -35,12 +35,6 @@ extra_css:
 nav:
   - index.md
   - "[ C++ API ]":
-      - 'Classes':
-          - 'Class List': 'SpiceQLCPPAPI/annotated.md'
-          - 'Class Index': 'SpiceQLCPPAPI/classes.md'
-          - 'Class Member Functions': 'SpiceQLCPPAPI/class_member_functions.md'
-          - 'Class Member Variables': 'SpiceQLCPPAPI/class_member_variables.md'
-          - 'Class Member Enumerations': 'SpiceQLCPPAPI/class_member_enums.md'
       - 'Namespaces':
           - 'Namespace List': 'SpiceQLCPPAPI/namespaces.md'
           - 'Functions': 'SpiceQLCPPAPI/namespace_member_functions.md'
