@@ -27,6 +27,7 @@ theme:
       - navigation.indexes
       - search.suggest
       - search.suggest
+      - content.tabs.link
 
 extra_css: 
   - assets/extra.css
@@ -45,6 +46,7 @@ nav:
           - 'Functions': 'SpiceQLCPPAPI/namespace_member_functions.md'
   - "[ RESTful API ]": 
       - 'OpenAPI Docs': 'RestAPI.md' 
+  - "[ USGS Astrogeology Docs ]" : https://astrogeology.usgs.gov/docs/
 
 markdown_extensions:
   - pymdownx.highlight:
@@ -53,14 +55,19 @@ markdown_extensions:
   - pymdownx.caret
   - pymdownx.mark
   - pymdownx.tilde
-  
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences 
+  - pymdownx.tabbed:
+      alternate_style: true
 plugins:
   - search
   - swagger-ui-tag
   - mkdoxy:
       projects:
         SpiceQLCPPAPI: 
-          src-dirs: SpiceQL/include/  
+          src-dirs: SpiceQL/include/
+          FILE_PATTERNS: 'api.h inventory.h'  
           full-doc: True # if you want to generate full documentation
           doxy-cfg: # standard doxygen configuration (key: value)
-            RECURSIVE: True # recursive search in source directories
+            RECURSIVE: false # recursive search in source directories
