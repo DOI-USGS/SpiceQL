@@ -152,7 +152,7 @@ namespace SpiceQL {
     json spiceAPIQuery(std::string functionName, json args, std::string method){
         restincurl::Client client;
         // Need to be able to set URL externally
-        std::string queryString = "http://127.0.0.1:8080/" + functionName + "?";
+        std::string queryString = getRestUrl()+ functionName + "?";
 
         json j;
 
