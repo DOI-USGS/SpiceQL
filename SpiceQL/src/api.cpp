@@ -135,7 +135,7 @@ namespace SpiceQL {
                 escaped << c;
                 continue;
             }
-            
+
             if (c == '"'){
                 continue;
             }
@@ -152,7 +152,7 @@ namespace SpiceQL {
     json spiceAPIQuery(std::string functionName, json args, std::string method){
         restincurl::Client client;
         // Need to be able to set URL externally
-        std::string queryString = "http://127.0.0.1:8080/" + functionName + "?";
+        std::string queryString = getRestUrl() + functionName + "?";
 
         json j;
 
@@ -375,7 +375,7 @@ namespace SpiceQL {
         }
 
         if (searchKernels) {
-          ephemKernels = Inventory::search_for_kernelsets({"base", "mission"}, {"fk", "lsk", "sclk"}); 
+          ephemKernels = Inventory::search_for_kernelsets({"base", mission}, {"fk", "lsk", "sclk"}); 
         }
 
         if (!kernelList.empty()) {
@@ -426,7 +426,7 @@ namespace SpiceQL {
         json sclks;
 
         if (searchKernels) {
-            sclks = Inventory::search_for_kernelset(mission, {"lsk", "fk", "sclk"});
+            sclks = Inventory::search_for_kernelsets({"base", mission}, {"lsk", "fk", "sclk"});
         }
 
         if (!kernelList.empty()) {
@@ -580,7 +580,7 @@ namespace SpiceQL {
                 {"searchKernels", searchKernels},
                 {"kernelList", kernelList}
             });
-            json out = spiceAPIQuery("translateCodeToame", args);
+            json out = spiceAPIQuery("translateCodeToName", args);
             string result = out["body"]["return"].get<string>();
             return make_pair(result, out["body"]["kernels"]);
         }
