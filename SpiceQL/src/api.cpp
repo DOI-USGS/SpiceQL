@@ -13,7 +13,6 @@
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
 
-#include "config.h"
 #include "query.h"
 #include "spice_types.h"
 #include "utils.h"
@@ -373,7 +372,6 @@ namespace SpiceQL {
    pair<string, json> doubleEtToSclk(int frameCode, double et, string mission, bool useWeb, bool searchKernels, vector<string> kernelList) {
         SPDLOG_TRACE("calling strSclkToEt({}, {}, {}, {}, {}, {})", frameCode, et, mission, useWeb, searchKernels, kernelList.size());
 
-        Config missionConf;
         json ephemKernels;
        
         try {
@@ -480,8 +478,6 @@ namespace SpiceQL {
             SPDLOG_DEBUG("Could not get a successful response from the web API.");
         }
 
-        Config conf;
-        conf = conf["base"];
         json lsks = {};
 
         // get lsk kernel
@@ -525,8 +521,6 @@ namespace SpiceQL {
             SPDLOG_DEBUG("Could not get a successful response from the web API.");
         }
 
-        Config conf;
-        conf = conf["base"];
         json lsks = {};
 
         // get lsk kernel
