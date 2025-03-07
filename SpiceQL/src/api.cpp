@@ -486,12 +486,12 @@ namespace SpiceQL {
 
         // get lsk kernel
         if (searchKernels) {
-        lsks = conf.getLatest("lsk");
+            lsks = Inventory::search_for_kernelset("base", {"lsk"});
         }
         if (!kernelList.empty()) {
-        json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
-        // merge them into the ephem kernels overwriting anything found in the query
-        merge_json(lsks, regexk);
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
+            // merge them into the ephem kernels overwriting anything found in the query
+            merge_json(lsks, regexk);
         }
         
         KernelSet lsk(lsks);
@@ -531,12 +531,12 @@ namespace SpiceQL {
 
         // get lsk kernel
         if (searchKernels) {
-        lsks = Inventory::search_for_kernelset("base", {"lsk"});
+            lsks = Inventory::search_for_kernelset("base", {"lsk"});
         }
         if (!kernelList.empty()) {
-        json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
-        // merge them into the ephem kernels overwriting anything found in the query
-        merge_json(lsks, regexk);
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
+            // merge them into the ephem kernels overwriting anything found in the query
+            merge_json(lsks, regexk);
         }
 
         KernelSet lsk(lsks);
