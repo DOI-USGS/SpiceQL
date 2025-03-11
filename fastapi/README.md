@@ -9,7 +9,7 @@ conda env update -n spiceql-api -f environment.yaml
 ```
 
 ### 2. Set environment variables
-Similarly to your SpiceQL conda environment, set `SPICEROOT` or `ISISDATA` to your ISIS data area. You may also need to set `SSPICE_DEBUG` to any value, like `True`.
+Similarly to your SpiceQL conda environment, set `SPICEROOT` or `ISISDATA` to your ISIS data area. You may also need to set `SPICEQL_DEV_DB` to `True`.
 
 To set an environment variable within the scope of your conda environment:
 ```

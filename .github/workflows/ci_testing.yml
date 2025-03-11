@@ -17,7 +17,7 @@ jobs:
       run:
         shell: bash -l {0}
     env:
-      SSPICE_DEBUG: y
+      SPICEQL_DEV_DB: True
       SPICEQL_LOG_LEVEL: DEBUG
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9

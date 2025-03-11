@@ -226,7 +226,7 @@ namespace SpiceQL {
    * 
    * Default behavior returns the installed DB files in $CONDA_PREFIX/etc/SpiceQL/db.
    *
-   * If the env var $SSPICE_DEBUG is set, this returns the local source path of 
+   * If the env var $SPICEQL_DEV_DB is set, this returns the local source path of 
    * _SOURCE_PREFIX/SpiceQL/db/ 
    * 
    * @return std::string directory containing db files
@@ -238,7 +238,7 @@ namespace SpiceQL {
    * @brief Returns a vector of all the available configs
    * 
    * Returns the db files in either the installed or debug directory depending 
-   * on whether or not SSPICE_DEBUG is set. 
+   * on whether or not SPICEQL_DEV_DB is set. 
    *
    * @see getConfigDirectory
    *
@@ -251,7 +251,7 @@ namespace SpiceQL {
    * @brief Get names of available config files as a json vector
    *
    * This iterates through all the configs in the db folder either installed 
-   * or in the debug directory depending on whether or not SSPICE_DEBUG is set. Loads them 
+   * or in the debug directory depending on whether or not SPICEQL_DEV_DB is set. Loads them 
    * as vector of json obects and returns the vector. 
    *
    * @return std::vector<nlohmann::json> 
