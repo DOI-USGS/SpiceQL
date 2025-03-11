@@ -170,21 +170,36 @@ namespace SpiceQL {
             std::string encodedString = url_encode(queryString);
             SPDLOG_TRACE("encodedString = {}", encodedString);
             client.Build()->Get(encodedString).Option(CURLOPT_FOLLOWLOCATION, 1L).AcceptJson().WithCompletion([&](const restincurl::Result& result) {
-            SPDLOG_TRACE("GET result body = {}", result.body);
-            j = json::parse(result.body);
+                if (result.http_response_code != 200) {
+                    SPDLOG_DEBUG("[Failed HTTP request] HTTP Code: {}, Message: {}, Payload: {}", result.http_response_code, result.msg, result.body);
+                }
+                SPDLOG_TRACE("GET result body = {}", result.body);
+                j = json::parse(result.body);
             }).ExecuteSynchronous();
         } else {
             SPDLOG_TRACE("POST");
             client.Build()->Post(queryString).Option(CURLOPT_FOLLOWLOCATION, 1L).AcceptJson().WithJson(args.dump()).WithCompletion([&](const restincurl::Result& result) {
-            SPDLOG_TRACE("POST result = {}", result.body);
-            j = json::parse(result.body);
+                if (result.http_response_code != 200) {
+                    SPDLOG_DEBUG("[Failed HTTP request] HTTP Code: {}, Message: {}, Payload: {}", result.http_response_code, result.msg, result.body);
+                }
+                SPDLOG_TRACE("POST result = {}", result.body);
+                j = json::parse(result.body);
             }).ExecuteSynchronous();
         }
         
         client.CloseWhenFinished();
         client.WaitForFinish();
 
-        // @TODO throw exception if no json or invalid json is returned
+        // Check is JSON is valid
+        if (j.is_null() || !json::accept(j.dump())) {
+            throw runtime_error("REST API Response is not a valid JSON.");
+        }
+
+        // Check for successful call
+        if (!(j["statusCode"] == 200)) {
+            throw runtime_error("REST API Error Response: [" + j["body"].dump() + "]");
+        }
+
         return j;
     }
 
@@ -192,29 +207,24 @@ namespace SpiceQL {
     pair<vector<vector<double>>, json> getTargetStates(vector<double> ets, string target, string observer, string frame, string abcorr, string mission, vector<string> ckQualities, vector<string> spkQualities, bool useWeb, bool searchKernels, vector<string> kernelList) {
         SPDLOG_TRACE("Calling getTargetStates with {}, {}, {}, {}, {}, {}, {}, {}, {}, {}", ets.size(), target, observer, frame, abcorr, mission, ckQualities.size(), spkQualities.size(), useWeb, searchKernels, kernelList.size());
 
-        try {
-            if (useWeb) {
-                // @TODO validity checks
-                json args = json::object({
-                    {"target", target},
-                    {"observer", observer},
-                    {"frame", frame},
-                    {"abcorr", abcorr},
-                    {"ets", ets},
-                    {"mission", mission},
-                    {"ckQualities", ckQualities},
-                    {"spkQualities", spkQualities},
-                    {"searchKernels", searchKernels},
-                    {"kernelList", kernelList}
-                    });
-                // @TODO check that json exists / contains what we're looking for
-                json out  = spiceAPIQuery("getTargetStates", args);
-                vector<vector<double>> kvect = json2DFloatArrayTo2DVector(out["body"]["return"]);
-                return make_pair(kvect, out["body"]["kernels"]);
-            }
-        } catch (exception &e) {
-            checkNaifErrors();
-            SPDLOG_DEBUG("Could not get a successful response from the web API.");
+        if (useWeb) {
+            // @TODO validity checks
+            json args = json::object({
+                {"target", target},
+                {"observer", observer},
+                {"frame", frame},
+                {"abcorr", abcorr},
+                {"ets", ets},
+                {"mission", mission},
+                {"ckQualities", ckQualities},
+                {"spkQualities", spkQualities},
+                {"searchKernels", searchKernels},
+                {"kernelList", kernelList}
+                });
+            // @TODO check that json exists / contains what we're looking for
+            json out  = spiceAPIQuery("getTargetStates", args);
+            vector<vector<double>> kvect = json2DFloatArrayTo2DVector(out["body"]["return"]);
+            return make_pair(kvect, out["body"]["kernels"]);
         }
 
         if (ets.size() < 1) {
@@ -260,24 +270,19 @@ namespace SpiceQL {
     pair<vector<vector<double>>, json> getTargetOrientations(vector<double> ets, int toFrame, int refFrame, string mission, vector<string> ckQualities, bool useWeb, bool searchKernels, vector<string> kernelList) {
         SPDLOG_TRACE("Calling getTargetOrientations with {}, {}, {}, {}, {}, {}, {}, {}", ets.size(), toFrame, refFrame, mission, ckQualities.size(), useWeb, searchKernels, kernelList.size());
 
-        try {
-            if (useWeb){
-                json args = json::object({
-                    {"ets", ets},
-                    {"toFrame", toFrame},
-                    {"refFrame", refFrame},
-                    {"mission", mission},
-                    {"ckQualities", ckQualities},
-                    {"searchKernels", searchKernels},
-                    {"kernelList", kernelList}
-                });
-                json out = spiceAPIQuery("getTargetOrientations", args);
-                vector<vector<double>> kvect = json2DFloatArrayTo2DVector(out["body"]["return"]);
-                return make_pair(kvect, out["body"]["kernels"]);
-            }
-        } catch (exception &e) {
-            checkNaifErrors();
-            SPDLOG_DEBUG("Could not get a successful response from the web API.");
+        if (useWeb){
+            json args = json::object({
+                {"ets", ets},
+                {"toFrame", toFrame},
+                {"refFrame", refFrame},
+                {"mission", mission},
+                {"ckQualities", ckQualities},
+                {"searchKernels", searchKernels},
+                {"kernelList", kernelList}
+            });
+            json out = spiceAPIQuery("getTargetOrientations", args);
+            vector<vector<double>> kvect = json2DFloatArrayTo2DVector(out["body"]["return"]);
+            return make_pair(kvect, out["body"]["kernels"]);
         }
 
         if (ets.size() < 1) {
@@ -320,22 +325,17 @@ namespace SpiceQL {
     pair<double, json> strSclkToEt(int frameCode, string sclk, string mission, bool useWeb, bool searchKernels, vector<string> kernelList) {
         SPDLOG_TRACE("calling strSclkToEt({}, {}, {}, {}, {}, {})", frameCode, sclk, mission, useWeb, searchKernels, kernelList.size());
 
-        try {
-            if (useWeb) {
-                json args = json::object({
-                    {"frameCode", frameCode},
-                    {"sclk", sclk},
-                    {"mission", mission},
-                    {"searchKernels", searchKernels},
-                    {"kernelList", kernelList}
-                });
-                json out = spiceAPIQuery("strSclkToEt", args);
-                double result = out["body"]["return"].get<double>();
-                return make_pair(result, out["body"]["kernels"]);
-            }
-        } catch (exception &e) {
-            checkNaifErrors();
-            SPDLOG_DEBUG("Could not get a successful response from the web API.");
+        if (useWeb) {
+            json args = json::object({
+                {"frameCode", frameCode},
+                {"sclk", sclk},
+                {"mission", mission},
+                {"searchKernels", searchKernels},
+                {"kernelList", kernelList}
+            });
+            json out = spiceAPIQuery("strSclkToEt", args);
+            double result = out["body"]["return"].get<double>();
+            return make_pair(result, out["body"]["kernels"]);
         }
 
         json ephemKernels;
@@ -373,23 +373,18 @@ namespace SpiceQL {
         SPDLOG_TRACE("calling strSclkToEt({}, {}, {}, {}, {}, {})", frameCode, et, mission, useWeb, searchKernels, kernelList.size());
 
         json ephemKernels;
-       
-        try {
-            if (useWeb) {
-                json args = json::object({
-                    {"frameCode", frameCode},
-                    {"et", et},
-                    {"mission", mission},
-                    {"searchKernels", searchKernels},
-                    {"kernelList", kernelList}
-                });
-                json out = spiceAPIQuery("doubleEtToSclk", args);
-                string result = out["body"]["return"].get<string>();
-                return make_pair(result, out["body"]["kernels"]);
-            }
-        } catch (exception &e) {
-            checkNaifErrors();
-            SPDLOG_DEBUG("Could not get a successful response from the web API.");
+
+        if (useWeb) {
+            json args = json::object({
+                {"frameCode", frameCode},
+                {"et", et},
+                {"mission", mission},
+                {"searchKernels", searchKernels},
+                {"kernelList", kernelList}
+            });
+            json out = spiceAPIQuery("doubleEtToSclk", args);
+            string result = out["body"]["return"].get<string>();
+            return make_pair(result, out["body"]["kernels"]);
         }
 
         if (searchKernels) {
@@ -415,22 +410,18 @@ namespace SpiceQL {
 
 
     pair<double, json> doubleSclkToEt(int frameCode, double sclk, string mission, bool useWeb, bool searchKernels, vector<string> kernelList) {
-        try {
-            if (useWeb){
-                json args = json::object({
-                    {"frameCode", frameCode},
-                    {"sclk", sclk},
-                    {"mission", mission},
-                    {"searchKernels", searchKernels},
-                    {"kernelList", kernelList}
-                });
-                json out = spiceAPIQuery("doubleSclkToEt", args);
-                double result = out["body"]["return"].get<double>();
-                return make_pair(result, out["body"]["kernels"]);
-            }
-        } catch (exception &e) {
-            checkNaifErrors();
-            SPDLOG_DEBUG("Could not get a successful response from the web API.");
+
+        if (useWeb){
+            json args = json::object({
+                {"frameCode", frameCode},
+                {"sclk", sclk},
+                {"mission", mission},
+                {"searchKernels", searchKernels},
+                {"kernelList", kernelList}
+            });
+            json out = spiceAPIQuery("doubleSclkToEt", args);
+            double result = out["body"]["return"].get<double>();
+            return make_pair(result, out["body"]["kernels"]);
         }
         
         json sclks;
@@ -462,20 +453,15 @@ namespace SpiceQL {
 
     pair<double, json> utcToEt(string utc, bool useWeb, bool searchKernels, vector<string> kernelList) {
         
-        try {
-            if (useWeb){
-                json args = json::object({
-                    {"utc", utc},
-                    {"searchKernels", searchKernels},
-                    {"kernelList", kernelList}
-                });
-                json out = spiceAPIQuery("utcToEt", args);
-                double result = out["body"]["return"].get<double>();
-                return make_pair(result, out["body"]["kernels"]);
-            }
-        } catch (exception &e) {
-            checkNaifErrors();
-            SPDLOG_DEBUG("Could not get a successful response from the web API.");
+        if (useWeb){
+            json args = json::object({
+                {"utc", utc},
+                {"searchKernels", searchKernels},
+                {"kernelList", kernelList}
+            });
+            json out = spiceAPIQuery("utcToEt", args);
+            double result = out["body"]["return"].get<double>();
+            return make_pair(result, out["body"]["kernels"]);
         }
 
         json lsks = {};
@@ -502,25 +488,20 @@ namespace SpiceQL {
 
 
     pair<string, json> etToUtc(double et, string format, double precision, bool useWeb, bool searchKernels, vector<string> kernelList) {
-        
-        try {
-            if (useWeb){
-                json args = json::object({
-                    {"et", et},
-                    {"format", format},
-                    {"precision", precision},
-                    {"searchKernels", searchKernels},
-                    {"kernelList", kernelList}
-                });
-                json out = spiceAPIQuery("etToUtc", args);
-                string result = out["body"]["return"].get<string>();
-                return make_pair(result, out["body"]["kernels"]);
-            }   
-        } catch (exception &e) {
-            checkNaifErrors();
-            SPDLOG_DEBUG("Could not get a successful response from the web API.");
-        }
-
+    
+        if (useWeb){
+            json args = json::object({
+                {"et", et},
+                {"format", format},
+                {"precision", precision},
+                {"searchKernels", searchKernels},
+                {"kernelList", kernelList}
+            });
+            json out = spiceAPIQuery("etToUtc", args);
+            string result = out["body"]["return"].get<string>();
+            return make_pair(result, out["body"]["kernels"]);
+        }   
+       
         json lsks = {};
 
         // get lsk kernel
@@ -546,21 +527,16 @@ namespace SpiceQL {
 
     pair<int, json> translateNameToCode(string frame, string mission, bool useWeb, bool searchKernels, vector<string> kernelList) {    
         
-        try {
-            if (useWeb){
-                json args = json::object({
-                    {"frame", frame},
-                    {"mission", mission},
-                    {"searchKernels", searchKernels},
-                    {"kernelList", kernelList}
-                });
-                json out = spiceAPIQuery("translateNameToCode", args);
-                int result = out["body"]["return"].get<int>();
-                return make_pair(result, out["body"]["kernels"]);
-            }
-        } catch (exception &e) {
-            checkNaifErrors();
-            SPDLOG_DEBUG("Could not get a successful response from the web API.");
+        if (useWeb){
+            json args = json::object({
+                {"frame", frame},
+                {"mission", mission},
+                {"searchKernels", searchKernels},
+                {"kernelList", kernelList}
+            });
+            json out = spiceAPIQuery("translateNameToCode", args);
+            int result = out["body"]["return"].get<int>();
+            return make_pair(result, out["body"]["kernels"]);
         }
         
         SpiceInt code;
@@ -598,21 +574,16 @@ namespace SpiceQL {
 
     pair<string, json> translateCodeToName(int frame, string mission, bool useWeb, bool searchKernels, vector<string> kernelList) {
         
-        try {
-            if (useWeb){
-                json args = json::object({
-                    {"frame", frame},
-                    {"mission", mission},
-                    {"searchKernels", searchKernels},
-                    {"kernelList", kernelList}
-                });
-                json out = spiceAPIQuery("translateCodeToName", args);
-                string result = out["body"]["return"].get<string>();
-                return make_pair(result, out["body"]["kernels"]);
-            }
-        } catch (exception &e) {
-            checkNaifErrors();
-            SPDLOG_DEBUG("Could not get a successful response from the web API.");
+        if (useWeb){
+            json args = json::object({
+                {"frame", frame},
+                {"mission", mission},
+                {"searchKernels", searchKernels},
+                {"kernelList", kernelList}
+            });
+            json out = spiceAPIQuery("translateCodeToName", args);
+            string result = out["body"]["return"].get<string>();
+            return make_pair(result, out["body"]["kernels"]);
         }
 
         SpiceChar name[128];
@@ -649,21 +620,16 @@ namespace SpiceQL {
 
     pair<vector<int>, json> getFrameInfo(int frame, string mission, bool useWeb, bool searchKernels, vector<string> kernelList) {
         
-        try {
-            if (useWeb){
-                json args = json::object({
-                    {"frame", frame},
-                    {"mission", mission},
-                    {"searchKernels", searchKernels},
-                    {"kernelList", kernelList}
-                });
-                json out = spiceAPIQuery("getFrameInfo", args);
-                vector<int> result = jsonIntArrayToVector(out["body"]["return"]);
-                return make_pair(result, out["body"]["kernels"]);
-            }
-        } catch (exception &e) {
-            checkNaifErrors();
-            SPDLOG_DEBUG("Could not get a successful response from the web API.");
+        if (useWeb){
+            json args = json::object({
+                {"frame", frame},
+                {"mission", mission},
+                {"searchKernels", searchKernels},
+                {"kernelList", kernelList}
+            });
+            json out = spiceAPIQuery("getFrameInfo", args);
+            vector<int> result = jsonIntArrayToVector(out["body"]["return"]);
+            return make_pair(result, out["body"]["kernels"]);
         }
 
         SpiceInt cent;
@@ -699,21 +665,16 @@ namespace SpiceQL {
 
     pair<json, json> getTargetFrameInfo(int targetId, string mission, bool useWeb, bool searchKernels, vector<string> kernelList) {
         
-        try {
-            if (useWeb){
-                json args = json::object({
-                    {"targetId", targetId},
-                    {"mission", mission},
-                    {"searchKernels", searchKernels},
-                    {"kernelList", kernelList}
-                });
-                json out = spiceAPIQuery("getTargetFrameInfo", args);
-                json result = out["body"]["return"];
-                return make_pair(result, out["body"]["kernels"]);
-            }
-        } catch (exception &e) {
-            checkNaifErrors();
-            SPDLOG_DEBUG("Could not get a successful response from the web API.");
+        if (useWeb){
+            json args = json::object({
+                {"targetId", targetId},
+                {"mission", mission},
+                {"searchKernels", searchKernels},
+                {"kernelList", kernelList}
+            });
+            json out = spiceAPIQuery("getTargetFrameInfo", args);
+            json result = out["body"]["return"];
+            return make_pair(result, out["body"]["kernels"]);
         }
 
         SpiceInt frameCode;
@@ -752,21 +713,16 @@ namespace SpiceQL {
 
     pair<json, json> findMissionKeywords(string key, string mission, bool useWeb, bool searchKernels, vector<string> kernelList) {
         
-        try {
-            if (useWeb){
-                json args = json::object({
-                    {"key", key},
-                    {"mission", mission},
-                    {"searchKernels", searchKernels},
-                    {"kernelList", kernelList}
-                });
-                json out = spiceAPIQuery("findMissionKeywords", args);
-                json result = out["body"]["return"];
-                return make_pair(result, out["body"]["kernels"]);
-            }
-        } catch (exception &e) {
-            checkNaifErrors();
-            SPDLOG_DEBUG("Could not get a successful response from the web API.");
+        if (useWeb){
+            json args = json::object({
+                {"key", key},
+                {"mission", mission},
+                {"searchKernels", searchKernels},
+                {"kernelList", kernelList}
+            });
+            json out = spiceAPIQuery("findMissionKeywords", args);
+            json result = out["body"]["return"];
+            return make_pair(result, out["body"]["kernels"]);
         }
 
         json translationKernels = {};
@@ -789,21 +745,16 @@ namespace SpiceQL {
 
     pair<json, json> findTargetKeywords(string key, string mission, bool useWeb, bool searchKernels, vector<string> kernelList) {
         
-        try {
-            if (useWeb){
-                json args = json::object({
-                    {"key", key},
-                    {"mission", mission},
-                    {"searchKernels", searchKernels},
-                    {"kernelList", kernelList}
-                });
-                json out = spiceAPIQuery("findTargetKeywords", args);
-                json result = out["body"]["return"];
-                return make_pair(result, out["body"]["kernels"]);
-            }
-        } catch (exception &e) {
-            checkNaifErrors();
-            SPDLOG_DEBUG("Could not get a successful response from the web API.");
+        if (useWeb){
+            json args = json::object({
+                {"key", key},
+                {"mission", mission},
+                {"searchKernels", searchKernels},
+                {"kernelList", kernelList}
+            });
+            json out = spiceAPIQuery("findTargetKeywords", args);
+            json result = out["body"]["return"];
+            return make_pair(result, out["body"]["kernels"]);
         }
         
         json kernelsToLoad = {};
@@ -826,23 +777,18 @@ namespace SpiceQL {
     pair<vector<vector<int>>, json> frameTrace(double et, int initialFrame, string mission, vector<string> ckQualities, bool useWeb, bool searchKernels, vector<string> kernelList) {
         checkNaifErrors();
 
-        try {
-            if (useWeb){
-                json args = json::object({
-                    {"et", et},
-                    {"initialFrame", initialFrame},
-                    {"mission", mission},
-                    {"ckQualities", ckQualities},
-                    {"searchKernels", searchKernels},
-                    {"kernelList", kernelList}
-                });
-                json out = spiceAPIQuery("frameTrace", args);
-                vector<vector<int>> kvect = json2DIntArrayTo2DVector(out["body"]["return"]);
-                return make_pair(kvect, out["body"]["kernels"]);
-            }
-        } catch (exception &e) {
-            checkNaifErrors();
-            SPDLOG_DEBUG("Could not get a successful response from the web API.");
+        if (useWeb){
+            json args = json::object({
+                {"et", et},
+                {"initialFrame", initialFrame},
+                {"mission", mission},
+                {"ckQualities", ckQualities},
+                {"searchKernels", searchKernels},
+                {"kernelList", kernelList}
+            });
+            json out = spiceAPIQuery("frameTrace", args);
+            vector<vector<int>> kvect = json2DIntArrayTo2DVector(out["body"]["return"]);
+            return make_pair(kvect, out["body"]["kernels"]);
         }
 
         json ephemKernels;
@@ -980,24 +926,19 @@ namespace SpiceQL {
     pair<vector<double>, json> extractExactCkTimes(double observStart, double observEnd, int targetFrame, string mission, vector<string> ckQualities, bool useWeb, bool searchKernels, vector<string> kernelList) {
         SPDLOG_TRACE("Calling extractExactCkTimes with {}, {}, {}, {}, {}, {}, {}", observStart, observEnd, targetFrame, mission, ckQualities.size(), useWeb, searchKernels);
         
-        try {
-            if (useWeb){
-                json args = json::object({
-                    {"observStart", observStart},
-                    {"observEnd", observEnd},
-                    {"targetFrame",targetFrame},
-                    {"mission", mission},
-                    {"ckQualities", ckQualities},
-                    {"searchKernels", searchKernels},
-                    {"kernelList", kernelList}
-                });
-                json out = spiceAPIQuery("extractExactCkTimes", args);
-                vector<double> kvect = jsonDoubleArrayToVector(out["body"]["return"]);
-                return make_pair(kvect, out["body"]["kernels"]);
-            }
-        } catch (exception &e) {
-            checkNaifErrors();
-            SPDLOG_DEBUG("Could not get a successful response from the web API.");
+        if (useWeb){
+            json args = json::object({
+                {"observStart", observStart},
+                {"observEnd", observEnd},
+                {"targetFrame",targetFrame},
+                {"mission", mission},
+                {"ckQualities", ckQualities},
+                {"searchKernels", searchKernels},
+                {"kernelList", kernelList}
+            });
+            json out = spiceAPIQuery("extractExactCkTimes", args);
+            vector<double> kvect = jsonDoubleArrayToVector(out["body"]["return"]);
+            return make_pair(kvect, out["body"]["kernels"]);
         }
 
         json missionJson;
