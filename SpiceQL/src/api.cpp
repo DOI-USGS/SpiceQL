@@ -370,7 +370,7 @@ namespace SpiceQL {
 
 
    pair<string, json> doubleEtToSclk(int frameCode, double et, string mission, bool useWeb, bool searchKernels, vector<string> kernelList) {
-        SPDLOG_TRACE("calling strSclkToEt({}, {}, {}, {}, {}, {})", frameCode, et, mission, useWeb, searchKernels, kernelList.size());
+        SPDLOG_TRACE("calling doubleEtToSclk({}, {}, {}, {}, {}, {})", frameCode, et, mission, useWeb, searchKernels, kernelList.size());
 
         json ephemKernels;
 
