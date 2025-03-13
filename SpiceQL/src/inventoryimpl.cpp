@@ -368,7 +368,6 @@ namespace SpiceQL {
               SPDLOG_TRACE("Is {} with stop time {} in the array? {}", time_indices->file_paths.at(it->second), it->first, start_time_kernels.contains(it->second)); 
               if (start_time_kernels.contains(it->second)) {
                 final_time_kernels.push_back(time_indices->file_paths.at(it->second));
-                if (type == Kernel::Type::SPK) break;
               }
             } 
           }
