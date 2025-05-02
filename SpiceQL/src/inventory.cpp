@@ -139,6 +139,7 @@ namespace SpiceQL {
 
         string getDbFilePath() { 
             static string db_path = fs::path(getCacheDir()) / DB_HDF_FILE;
+            SPDLOG_TRACE("db_path: {}", db_path);
             return db_path;
         }
  

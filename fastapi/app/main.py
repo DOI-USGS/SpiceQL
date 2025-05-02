@@ -48,8 +48,11 @@ app = FastAPI()
 async def message():
     try: 
       data_dir_exists = os.path.exists(pyspiceql.getDataDirectory())
+      db_exists = os.path.exists(pyspiceql.getDbFilePath()) 
+
       return {"data_content": os.listdir(pyspiceql.getDataDirectory()),
               "data_dir_exists": data_dir_exists, 
+              "db_exists": db_exists,
               "is_healthy": data_dir_exists}
     except Exception as e:
         logger.error(f"ERROR: {e}")
