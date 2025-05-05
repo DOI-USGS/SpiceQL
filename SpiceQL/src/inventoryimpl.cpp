@@ -24,6 +24,7 @@
 #include "utils.h"
 #include "query.h"
 #include "memo.h"
+#include "version.h"
 
 
 using json = nlohmann::json;
@@ -429,6 +430,10 @@ namespace SpiceQL {
     fs::remove(hdf_file);
     H5Easy::File file(hdf_file, H5Easy::File::Create); 
 
+    // Write version
+    HighFive::Group group = file.getGroup("/");
+    group.createAttribute<std::string>("SPICEQL_VERSION", SPICEQL_VERSION);
+
     for (auto it=m_timedep_kerns.begin(); it!=m_timedep_kerns.end(); ++it) {
       string kernel_key = it->first; 
       TimeIndexedKernels *kernels = m_timedep_kerns[kernel_key];       
@@ -474,7 +479,7 @@ namespace SpiceQL {
         }
       }
     }
-
+    
   }
 
 };

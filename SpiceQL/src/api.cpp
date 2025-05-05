@@ -945,13 +945,13 @@ namespace SpiceQL {
         json ephemKernels = {};
 
         if (searchKernels) {
-        ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"ck", "sclk", "lsk"}, observStart, observEnd, ckQualities, {"noquality"});
+            ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"ck", "sclk", "lsk"}, observStart, observEnd, ckQualities, {"noquality"});
         }
 
         if (!kernelList.empty()) {
-        json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
-        // merge them into the ephem kernels overwriting anything found in the query
-        merge_json(ephemKernels, regexk);
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
+            // merge them into the ephem kernels overwriting anything found in the query
+            merge_json(ephemKernels, regexk);
         }
 
         KernelSet ephemSet(ephemKernels);
@@ -968,12 +968,12 @@ namespace SpiceQL {
         ktotal_c("ck", (SpiceInt *)&count);
 
         if (count > 1) {
-        std::string msg = "Unable to get exact CK record times when more than 1 CK is loaded, Aborting";
-        throw std::runtime_error(msg);
+            std::string msg = "Unable to get exact CK record times when more than 1 CK is loaded, Aborting";
+            throw std::runtime_error(msg);
         }
         else if (count < 1) {
-        std::string msg = "No CK kernels loaded, Aborting";
-        throw std::runtime_error(msg);
+            std::string msg = "No CK kernels loaded, Aborting";
+            throw std::runtime_error(msg);
         }
 
         // case of a single ck -- read instances and data straight from kernel for given time range
@@ -1002,93 +1002,93 @@ namespace SpiceQL {
         std::vector<double> cacheTimes = {};
 
         while (found) {
-        observationSpansToNextSegment = false;
-        double sum[10]; // daf segment summary
-        double dc[2];   // segment starting and ending times in tics
-        SpiceInt ic[6]; // segment summary values:
-        // instrument code for platform,
-        // reference frame code,
-        // data type,
-        // velocity flag,
-        // offset to quat 1,
-        // offset to end.
-        dafgs_c(sum);
-        dafus_c(sum, (SpiceInt)2, (SpiceInt)6, dc, ic);
+            observationSpansToNextSegment = false;
+            double sum[10]; // daf segment summary
+            double dc[2];   // segment starting and ending times in tics
+            SpiceInt ic[6]; // segment summary values:
+            // instrument code for platform,
+            // reference frame code,
+            // data type,
+            // velocity flag,
+            // offset to quat 1,
+            // offset to end.
+            dafgs_c(sum);
+            dafus_c(sum, (SpiceInt)2, (SpiceInt)6, dc, ic);
 
-        // Don't read type 5 ck here
-        if (ic[2] == 5)
-            break;
-
-        // Check times for type 3 ck segment if spacecraft matches
-        if (ic[0] == spCode && ic[2] == 3) {
-            sct2e_c((int)spCode / 1000, dc[0], &segStartEt);
-            sct2e_c((int)spCode / 1000, dc[1], &segStopEt);
-            checkNaifErrors();
-            double et;
-
-            // Get times for this segment
-            if (currentTime >= segStartEt && currentTime <= segStopEt) {
-
-            // Check for a gap in the time coverage by making sure the time span of the observation
-            //  does not cross a segment unless the next segment starts where the current one ends
-            if (observationSpansToNextSegment && currentTime > segStartEt) {
-                std::string msg = "Observation crosses segment boundary--unable to interpolate pointing";
-                throw std::runtime_error(msg);
-            }
-            if (observEnd > segStopEt) {
-                observationSpansToNextSegment = true;
-            }
-
-            // Extract necessary header parameters
-            int dovelocity = ic[3];
-            int end = ic[5];
-            double val[2];
-            dafgda_c(handle, end - 1, end, val);
-            //            int nints = (int) val[0];
-            int ninstances = (int)val[1];
-            int numvel = dovelocity * 3;
-            int quatnoff = ic[4] + (4 + numvel) * ninstances - 1;
-            //            int nrdir = (int) (( ninstances - 1 ) / DIRSIZ); /* sclkdp directory records */
-            int sclkdp1off = quatnoff + 1;
-            int sclkdpnoff = sclkdp1off + ninstances - 1;
-            //            int start1off = sclkdpnoff + nrdir + 1;
-            //            int startnoff = start1off + nints - 1;
-            int sclkSpCode = spCode / 1000;
-
-            // Now get the times
-            std::vector<double> sclkdp(ninstances);
-            dafgda_c(handle, sclkdp1off, sclkdpnoff, (SpiceDouble *)&sclkdp[0]);
-
-            int instance = 0;
-            sct2e_c(sclkSpCode, sclkdp[0], &et);
-
-            while (instance < (ninstances - 1) && et < currentTime) {
-                instance++;
-                sct2e_c(sclkSpCode, sclkdp[instance], &et);
-            }
-
-            if (instance > 0)
-                instance--;
-            sct2e_c(sclkSpCode, sclkdp[instance], &et);
-
-            while (instance < (ninstances - 1) && et < observEnd) {
-                cacheTimes.push_back(et);
-                instance++;
-                sct2e_c(sclkSpCode, sclkdp[instance], &et);
-            }
-            cacheTimes.push_back(et);
-
-            if (!observationSpansToNextSegment) {
-                timeLoaded = true;
+            // Don't read type 5 ck here
+            if (ic[2] == 5)
                 break;
+
+            // Check times for type 3 ck segment if spacecraft matches
+            if (ic[0] == spCode && ic[2] == 3) {
+                sct2e_c((int)spCode / 1000, dc[0], &segStartEt);
+                sct2e_c((int)spCode / 1000, dc[1], &segStopEt);
+                checkNaifErrors();
+                double et;
+
+                // Get times for this segment
+                if (currentTime >= segStartEt && currentTime <= segStopEt) {
+
+                    // Check for a gap in the time coverage by making sure the time span of the observation
+                    //  does not cross a segment unless the next segment starts where the current one ends
+                    if (observationSpansToNextSegment && currentTime > segStartEt) {
+                        std::string msg = "Observation crosses segment boundary--unable to interpolate pointing";
+                        throw std::runtime_error(msg);
+                    }
+                    if (observEnd > segStopEt) {
+                        observationSpansToNextSegment = true;
+                    }
+
+                    // Extract necessary header parameters
+                    int dovelocity = ic[3];
+                    int end = ic[5];
+                    double val[2];
+                    dafgda_c(handle, end - 1, end, val);
+                    //            int nints = (int) val[0];
+                    int ninstances = (int)val[1];
+                    int numvel = dovelocity * 3;
+                    int quatnoff = ic[4] + (4 + numvel) * ninstances - 1;
+                    //            int nrdir = (int) (( ninstances - 1 ) / DIRSIZ); /* sclkdp directory records */
+                    int sclkdp1off = quatnoff + 1;
+                    int sclkdpnoff = sclkdp1off + ninstances - 1;
+                    //            int start1off = sclkdpnoff + nrdir + 1;
+                    //            int startnoff = start1off + nints - 1;
+                    int sclkSpCode = spCode / 1000;
+
+                    // Now get the times
+                    std::vector<double> sclkdp(ninstances);
+                    dafgda_c(handle, sclkdp1off, sclkdpnoff, (SpiceDouble *)&sclkdp[0]);
+
+                    int instance = 0;
+                    sct2e_c(sclkSpCode, sclkdp[0], &et);
+
+                    while (instance < (ninstances - 1) && et < currentTime) {
+                        instance++;
+                        sct2e_c(sclkSpCode, sclkdp[instance], &et);
+                    }
+
+                    if (instance > 0)
+                        instance--;
+                    sct2e_c(sclkSpCode, sclkdp[instance], &et);
+
+                    while (instance < (ninstances - 1) && et < observEnd) {
+                        cacheTimes.push_back(et);
+                        instance++;
+                        sct2e_c(sclkSpCode, sclkdp[instance], &et);
+                    }
+                    cacheTimes.push_back(et);
+
+                    if (!observationSpansToNextSegment) {
+                        timeLoaded = true;
+                        break;
+                    }
+                    else {
+                        currentTime = segStopEt;
+                    }
+                }
             }
-            else {
-                currentTime = segStopEt;
-            }
-            }
-        }
-        dafcs_c(handle);  // Continue search in daf last searched
-        daffna_c(&found); // Find next forward array in current daf
+            dafcs_c(handle);  // Continue search in daf last searched
+            daffna_c(&found); // Find next forward array in current daf
         }
 
         return {cacheTimes, ephemKernels};

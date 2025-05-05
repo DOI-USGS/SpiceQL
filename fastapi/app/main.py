@@ -8,6 +8,7 @@ import numpy as np
 import os
 import pyspiceql
 import logging
+import h5py
 
 logger = logging.getLogger('uvicorn.error')
 
@@ -49,7 +50,6 @@ async def message():
     try: 
       data_dir_exists = os.path.exists(pyspiceql.getDataDirectory())
       db_exists = os.path.exists(pyspiceql.getDbFilePath()) 
-
       return {"data_content": os.listdir(pyspiceql.getDataDirectory()),
               "data_dir_exists": data_dir_exists, 
               "db_exists": db_exists,

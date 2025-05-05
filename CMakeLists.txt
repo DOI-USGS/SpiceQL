@@ -1,6 +1,7 @@
 include(CMakeDependentOption)
 cmake_minimum_required(VERSION 3.10)
-project(SpiceQL VERSION 1.1.1 DESCRIPTION "Spice Query Library")
+project(SpiceQL VERSION 1.1.2 DESCRIPTION "Spice Query Library")
+set(PACKAGE_VERSION ${PROJECT_VERSION})
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
@@ -119,6 +120,7 @@ if(SPICEQL_BUILD_LIB)
 
   set(SPICEQL_KERNELS ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/kernels/naif0011.tls)
 
+  configure_file (${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include/version.h.in ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include/version.h @ONLY)
   add_library(SpiceQL SHARED ${SPICEQL_SRC_FILES})
 
   set_target_properties(SpiceQL PROPERTIES
