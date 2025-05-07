@@ -9,6 +9,7 @@ dependencies:
   - cspice 
   - cxx-compiler
   - doxygen
+  - h5py
   - highfive
   - fmt==9.1.0
   - libhiredis
