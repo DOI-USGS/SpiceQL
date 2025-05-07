@@ -49,11 +49,22 @@ app = FastAPI()
 async def message():
     try: 
       data_dir_exists = os.path.exists(pyspiceql.getDataDirectory())
-      db_exists = os.path.exists(pyspiceql.getDbFilePath()) 
+      db_exists = os.path.exists(pyspiceql.getDbFilePath())
+      if db_exists:
+        try:
+            hdf_db = h5py.File(pyspiceql.getDbFilePath(), 'r')
+            spiceql_version = hdf_db.attrs['SPICEQL_VERSION']
+        except Exception as e:
+            raise Exception("Could not read SpiceQL version from HDF file.")
+      else:
+        logger.error(f"SpiceQL DB not found at : {pyspiceql.getDbFilePath()}")
+        raise Exception("SpiceQL DB could not be found.")
+        
       return {"data_content": os.listdir(pyspiceql.getDataDirectory()),
               "data_dir_exists": data_dir_exists, 
               "db_exists": db_exists,
-              "is_healthy": data_dir_exists}
+              "is_healthy": data_dir_exists,
+              "spiceql_version" : spiceql_version}
     except Exception as e:
         logger.error(f"ERROR: {e}")
         return {"is_healthy": False}
