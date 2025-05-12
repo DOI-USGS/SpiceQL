@@ -544,7 +544,7 @@ namespace SpiceQL {
         json kernelsToLoad = {};
 
         if (mission != "" && searchKernels) {
-            kernelsToLoad = Inventory::search_for_kernelset(mission, {"fk"});
+            kernelsToLoad = Inventory::search_for_kernelset(mission, {"fk", "ik"});
         }
 
         if (!kernelList.empty()) {
