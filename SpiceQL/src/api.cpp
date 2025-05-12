@@ -234,7 +234,7 @@ namespace SpiceQL {
         json ephemKernels = {};
 
         if (searchKernels) {
-            ephemKernels = Inventory::search_for_kernelsets({mission, target, observer, "base"}, {"sclk", "ck", "spk", "pck", "tspk", "lsk", "fk"}, ets.front(), ets.back(), ckQualities, spkQualities);
+            ephemKernels = Inventory::search_for_kernelsets({mission, target, observer, "base"}, {"sclk", "ck", "spk", "pck", "tspk", "lsk", "fk", "ik"}, ets.front(), ets.back(), ckQualities, spkQualities);
             SPDLOG_DEBUG("{} Kernels : {}", mission, ephemKernels.dump(4));
         }
 
@@ -292,7 +292,7 @@ namespace SpiceQL {
         json ephemKernels = {};
 
         if (searchKernels) {
-            ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"sclk", "ck", "pck", "fk", "lsk", "tspk"}, ets.front(), ets.back(), ckQualities, {"noquality"});
+            ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"sclk", "ck", "pck", "fk", "ik", "lsk", "tspk"}, ets.front(), ets.back(), ckQualities, {"noquality"});
         }
 
         if (!kernelList.empty()) {
@@ -794,7 +794,7 @@ namespace SpiceQL {
         json ephemKernels;
 
         if (searchKernels) {
-            ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"sclk", "ck", "pck", "fk", "lsk", "tspk"}, et, et, ckQualities, {"noquality"});
+            ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"sclk", "ck", "pck", "fk", "ik", "lsk", "tspk"}, et, et, ckQualities, {"noquality"});
         }
 
         if (!kernelList.empty()) {
