@@ -1094,6 +1094,8 @@ namespace SpiceQL {
 
   void resolveConfigDependencies(json &config, const json &dependencies) {
     SPDLOG_TRACE("IN resolveConfigDependencies");
+    SPDLOG_TRACE("config: {}", config.dump(2));
+
     vector<json::json_pointer> depLists = findKeyInJson(config, "deps");
     
     // 10 seems like a reasonable number of recursive dependencies to allow
@@ -1115,6 +1117,7 @@ namespace SpiceQL {
                                            "max recursion depth of {} reached", maxRecurssion));
       }
     }
+    SPDLOG_TRACE("Finished resolving");
   }
 
 
