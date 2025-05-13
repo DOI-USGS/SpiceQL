@@ -111,7 +111,7 @@ namespace SpiceQL {
 
 
   vector<vector<string>> getPathsFromRegex(string root, vector<string> regexes) {
-    vector<string> files_to_search = Memo::ls(root, true);
+    vector<string> files_to_search = ls(root, true);
       
     vector<vector<string>> kernels; 
     string temp;
