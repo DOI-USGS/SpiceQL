@@ -21,6 +21,14 @@ using namespace std;
 using namespace SpiceQL;
 
 
+// Initialize static members
+fs::path TempTestingFiles::tempDir;
+fs::path TempTestingFiles::tempData;
+string TempTestingFiles::base;
+vector<string> TempTestingFiles::files;
+unordered_map<string, set<string>> TempTestingFiles::missionMap;
+unordered_map<string, set<string>> TempTestingFiles::kernelTypeMap;
+
 void TempTestingFiles::SetUp() {
   int max_tries = 10;
   auto tmp_dir = fs::temp_directory_path();
@@ -47,18 +55,52 @@ void TempTestingFiles::SetUp() {
   }
 
   tempDir = tpath;
+  tempData = tpath / "isis_data";
+  setenv("SPICEROOT", tempData.c_str(), true);
+  setenv("SPICEQL_CACHE_DIR", (tempDir / "cache").c_str(), true);
 
-  setenv("SPICEROOT", tempDir.c_str(), true);
-  setenv("SPICEQL_CACHE_DIR", tempDir.c_str(), true);
+  ifstream infile("data/isisKernelList.txt");
+  string line;
+
+  while(getline(infile, line)) {
+    fs::path p = line;
+    string mission = p.parent_path().parent_path().parent_path().filename();
+    string kernelType = p.parent_path().filename();
+
+    files.emplace_back(tempData / p.filename());
+
+    fs::create_directories(tempData / p.parent_path());
+    SPDLOG_DEBUG("Creating {}", (tempData / p).c_str());
+    ofstream outfile(tempData / p);
+    outfile.close();
+
+    auto iter = missionMap.find(mission);
+    if (iter == missionMap.end()) {
+      SPDLOG_TRACE("adding {}", mission);
+      set<string> s = {tempData / p};
+      missionMap.emplace(mission, s);
+    }
+    else {
+      missionMap[mission].emplace(tempData / p);
+    }
+
+    iter = kernelTypeMap.find(kernelType);
+    if (iter == kernelTypeMap.end()) {
+      set<string> s = {tempData / p};
+      kernelTypeMap.emplace(kernelType, s);
+    }
+    else {
+      kernelTypeMap[kernelType].emplace(tempData / p);
+    }
+  }
+
 }
-
 
 void TempTestingFiles::TearDown() {
     if(!fs::remove_all(tempDir)) {
       throw runtime_error("Could not delete temporary files");
     }
 }
-
 
 void KernelDataDirectories::SetUp() { 
   
@@ -81,55 +123,22 @@ void KernelDataDirectories::TearDown() { }
 
 
 void IsisDataDirectory::SetUp() { 
-  base = "";
 
-  ifstream infile("data/isisKernelList.txt");
-  string line;
-
-  while(getline(infile, line)) {
-    fs::path p = line;
-    string mission = p.parent_path().parent_path().parent_path().filename();
-    string kernelType = p.parent_path().filename();
-
-    files.emplace_back(base / p.filename());
-
-    auto iter = missionMap.find(mission);
-    if (iter == missionMap.end()) {
-      set<string> s = {p.filename()};
-      missionMap.emplace(mission, s);
-    }
-    else {
-      missionMap[mission].emplace(p.filename());
-    }
-
-    iter = kernelTypeMap.find(kernelType);
-    if (iter == kernelTypeMap.end()) {
-      set<string> s = {p.filename()};
-      kernelTypeMap.emplace(kernelType, s);
-    }
-    else {
-      kernelTypeMap[kernelType].emplace(p.filename());
-    }
-  }
 }
 
 
 void IsisDataDirectory::TearDown() {}
 
 
-void IsisDataDirectory::compareKernelSets(string name, set<string> expectedDiff) {
+void compareKernelSets(string name, set<string> expectedDiff) {
   fs::path dbPath = getMissionConfigFile(name);
 
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
-
-  MockRepository mocks;
-  mocks.OnCallFunc(ls).Return(files);
-  
-  nlohmann::json res = listMissionKernels("doesn't matter", conf);
+  nlohmann::json res = listMissionKernels(name, conf);
 
   set<string> kernels = getKernelsAsSet(res);
-  set<string> expectedKernels = missionMap.at(name);
+  set<string> expectedKernels = TempTestingFiles::missionMap.at(name);
   set<string> diff;
   set<string> diffDiff;
 
@@ -162,7 +171,7 @@ void IsisDataDirectory::compareKernelSets(string name, set<string> expectedDiff)
 }
 
 
-void IsisDataDirectory::CompareKernelSets(vector<string> kVector, vector<string> expectedSubSet) {
+void CompareKernelSets(vector<string> kVector, vector<string> expectedSubSet) {
   for (auto &e : kVector) { 
     auto it = find(kVector.begin(), kVector.end(), e);
     if (it == kVector.end()) {

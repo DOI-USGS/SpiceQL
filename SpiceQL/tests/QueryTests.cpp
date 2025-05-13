@@ -1,7 +1,6 @@
 #include <fstream>
 #include <algorithm>
 
-#include <HippoMocks/hippomocks.h>
 #include <fmt/format.h>
 #include <gtest/gtest.h>
 #include <spdlog/spdlog.h>
@@ -126,9 +125,6 @@ TEST_F(KernelDataDirectories, FunctionalTestListMissionKernelsAllMess) {
   nlohmann::json conf;
   i >> conf;
 
-  MockRepository mocks;
-  mocks.OnCallFunc(ls).Return(paths);
-
   nlohmann::json res = listMissionKernels("/isis_data/", conf);
 
   SPDLOG_INFO("res: {}", res.dump());
@@ -158,9 +154,6 @@ TEST_F(KernelDataDirectories, FunctionalTestListMissionKernelsClem1) {
   nlohmann::json conf;
   i >> conf;
 
-  MockRepository mocks;
-  mocks.OnCallFunc(ls).Return(paths);
-
   nlohmann::json res = listMissionKernels("/isis_data/", conf);
 
   ASSERT_EQ(SpiceQL::getKernelsAsVector(res["clementine1"]["ck"]["reconstructed"]["kernels"]).size(), 4);
@@ -183,9 +176,6 @@ TEST_F(KernelDataDirectories, FunctionalTestListMissionKernelsGalileo) {
   nlohmann::json conf;
   i >> conf;
 
-  MockRepository mocks;
-  mocks.OnCallFunc(ls).Return(paths);
-
   nlohmann::json res = listMissionKernels("/isis_data/", conf);
 
   ASSERT_EQ(SpiceQL::getKernelsAsVector(res["galileo"]["ck"]["reconstructed"]["kernels"]).size(), 4);
@@ -198,14 +188,11 @@ TEST_F(KernelDataDirectories, FunctionalTestListMissionKernelsGalileo) {
 }
 
 
-
 TEST_F(KernelDataDirectories, FunctionalTestListMissionKernelsCassini) {
   fs::path dbPath = getMissionConfigFile("cassini");
   ifstream i(dbPath);
   nlohmann::json conf;
   i >> conf;
-  MockRepository mocks;
-  mocks.OnCallFunc(ls).Return(paths);
 
   nlohmann::json res = listMissionKernels("/isis_data/", conf);
 
@@ -220,22 +207,17 @@ TEST_F(KernelDataDirectories, FunctionalTestListMissionKernelsCassini) {
 }
 
 
-
 // test for apollo 17 kernels 
-TEST_F(IsisDataDirectory, FunctionalTestApollo17Conf) {
+TEST(FunctionalTestApollo17, Conf) {
   fs::path dbPath = getMissionConfigFile("apollo17");
   
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
-  SPDLOG_DEBUG("parsed conf");
-
-  SPDLOG_DEBUG("mocked");
-
-  nlohmann::json res = listMissionKernels("doesn't matter", conf);
- SPDLOG_DEBUG("got res");
-
+  SPDLOG_TRACE(conf.dump(2));
+  nlohmann::json res = listMissionKernels(TempTestingFiles::tempData.c_str(), conf);
+  SPDLOG_TRACE(res.dump(2));
   set<string> kernels = getKernelsAsSet(res);
-  set<string> expectedKernels = missionMap.at("apollo17");
+  set<string> expectedKernels = TempTestingFiles::missionMap.at("apollo17");
   set<string> diff; 
   
   set_difference(expectedKernels.begin(), expectedKernels.end(), kernels.begin(), kernels.end(), inserter(diff, diff.begin()));
@@ -252,8 +234,6 @@ TEST_F(IsisDataDirectory, FunctionalTestsLroKernelList) {
 TEST_F(IsisDataDirectory, FunctionalTestLroConf) {
 
   nlohmann::json conf = getMissionConfig("lro");
-  MockRepository mocks;
-  mocks.OnCallFunc(ls).Return(files);
   
   nlohmann::json res = listMissionKernels("doesn't matter", conf);
   SPDLOG_DEBUG("Kernel Results: {}", res.dump(4));
@@ -313,8 +293,6 @@ TEST_F(IsisDataDirectory, FunctionalTestMroConf) {
   compareKernelSets("mro");
 
   nlohmann::json conf = getMissionConfig("mro");
-  MockRepository mocks;
-  mocks.OnCallFunc(ls).Return(files);
   
   nlohmann::json res = listMissionKernels("doesn't matter", conf);
 
@@ -363,13 +341,11 @@ TEST_F(IsisDataDirectory, FunctionalTestMgsConf) {
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
 
-  MockRepository mocks;
-  mocks.OnCallFunc(ls).Return(files);
 
   nlohmann::json res = listMissionKernels("doesn't matter", conf);
 
   set<string> kernels = getKernelsAsSet(res);
-  set<string> mission = missionMap.at("mgs");
+  set<string> mission = TempTestingFiles::missionMap.at("mgs");
  
   // check a kernel from each regex exists in their quality groups
   vector<string> kernelToCheck =  getKernelsAsVector(res.at("mgs").at("ck").at("reconstructed"));
@@ -428,13 +404,10 @@ TEST_F(IsisDataDirectory, FunctionalTestOdysseyConf) {
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
 
-  MockRepository mocks;
-  mocks.OnCallFunc(ls).Return(files);
-
   nlohmann::json res = listMissionKernels("doesn't matter", conf);
 
   set<string> kernels = getKernelsAsSet(res);
-  set<string> mission = missionMap.at("odyssey");
+  set<string> mission = TempTestingFiles::missionMap.at("odyssey");
 
   vector<string> expected = {"m01_sc_ab0110.bc", 
                              "m01_sc_map3_rec_nadir.bc", 
@@ -476,13 +449,10 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsKaguya) {
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
 
-  MockRepository mocks;
-  mocks.OnCallFunc(ls).Return(files);
-
   nlohmann::json res = listMissionKernels("doesn't matter", conf);
 
   set<string> kernels = getKernelsAsSet(res);
-  set<string> mission = missionMap.at("kaguya");
+  set<string> mission = TempTestingFiles::missionMap.at("kaguya");
   
   vector<string> expected = {"SEL_M_ALL_D_V02.BC"};
   CompareKernelSets(getKernelsAsVector(res.at("kaguya").at("ck").at("reconstructed")), expected); 
@@ -501,14 +471,11 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsTgo) {
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
 
-  MockRepository mocks;
-  mocks.OnCallFunc(ls).Return(files);
-
   nlohmann::json res = listMissionKernels("doesn't matter", conf);
 
   set<string> kernels = getKernelsAsSet(res);
 
-  set<string> mission = missionMap.at("tgo");
+  set<string> mission = TempTestingFiles::missionMap.at("tgo");
   
   vector<string> expected = {"em16_tgo_sc_fmp_026_01_20200321_20200418_f20180215_v01.bc"};
   CompareKernelSets(getKernelsAsVector(res.at("tgo").at("ck").at("predicted")), expected); 
@@ -536,12 +503,9 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMex) {
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
 
-  MockRepository mocks;
-  mocks.OnCallFunc(ls).Return(files);
-
   nlohmann::json res = listMissionKernels("doesn't matter", conf);
 
-  set<string> kernels = getKernelsAsSet(res);set<string> mission = missionMap.at("mex");
+  set<string> kernels = getKernelsAsSet(res);set<string> mission = TempTestingFiles::missionMap.at("mex");
   
   vector<string> expected = {"ATNM_P060401000000_00780.BC"};
   CompareKernelSets(getKernelsAsVector(res.at("mex").at("ck").at("predicted")), expected); 
@@ -569,12 +533,9 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsLo) {
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
 
-  MockRepository mocks;
-  mocks.OnCallFunc(ls).Return(files);
-
   nlohmann::json res = listMissionKernels("doesn't matter", conf);
 
-  set<string> kernels = getKernelsAsSet(res);set<string> mission = missionMap.at("lo");
+  set<string> kernels = getKernelsAsSet(res);set<string> mission = TempTestingFiles::missionMap.at("lo");
   
   vector<string> expected = {"lo3_photo_support_ME.bsp", "lo4_photo_support_ME.bsp", "lo5_photo_support_ME.bsp"};
   CompareKernelSets(getKernelsAsVector(res.at("lo").at("spk").at("reconstructed")), expected);
@@ -602,12 +563,9 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsSmart1) {
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
 
-  MockRepository mocks;
-  mocks.OnCallFunc(ls).Return(files);
-
   nlohmann::json res = listMissionKernels("doesn't matter", conf);
 
-  set<string> kernels = getKernelsAsSet(res);set<string> mission = missionMap.at("smart1");
+  set<string> kernels = getKernelsAsSet(res);set<string> mission = TempTestingFiles::missionMap.at("smart1");
   
   vector<string> expected = {"ATNS_P050930150947_00220.BC", "ATNS_P030929010023_00188.BC", "ATNS_P060301004212_00233.BC"};
   CompareKernelSets(getKernelsAsVector(res.at("smart1").at("ck").at("reconstructed")), expected); 
@@ -641,14 +599,12 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsHayabusa2) {
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
 
-  MockRepository mocks;
-  mocks.OnCallFunc(ls).Return(files);
 
   nlohmann::json res = listMissionKernels("doesn't matter", conf);
 
   set<string> kernels = getKernelsAsSet(res);
 
-  set<string> mission = missionMap.at("hayabusa2");
+  set<string> mission = TempTestingFiles::missionMap.at("hayabusa2");
   
   vector<string> expected = { "hyb2_hk_2015_v01.bc",
                               "hyb2_hk_2016_v02.bc",
@@ -724,14 +680,12 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsVoyager1) {
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
 
-  MockRepository mocks;
-  mocks.OnCallFunc(ls).Return(files);
 
   nlohmann::json res = listMissionKernels("doesn't matter", conf);
 
   set<string> kernels = getKernelsAsSet(res);
 
-  set<string> mission = missionMap.at("voyager1");
+  set<string> mission = TempTestingFiles::missionMap.at("voyager1");
   
   vector<string> expected = {"vg1_jup_qmw_wa_fc-31100_t2.bc", "vg1_jup_qmw_na_fc-31100_t2.bc", "vg1_sat_qmw_wa_fc-31100_t2.bc", "vg1_sat_qmw_na_fc-31100_t2.bc"};
   CompareKernelSets(getKernelsAsVector(res.at("voyager1").at("ck").at("reconstructed")), expected); 
@@ -761,13 +715,13 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsVoyager2) {
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
 
-  MockRepository mocks;
-  mocks.OnCallFunc(ls).Return(files);
+  
+  
 
   nlohmann::json res = listMissionKernels("doesn't matter", conf);
 
   set<string> kernels = getKernelsAsSet(res);
-  set<string> mission = missionMap.at("voyager2");
+  set<string> mission = TempTestingFiles::missionMap.at("voyager2");
   
   vector<string> expected = { "vg2_jup_qmw_wa_fc-32100_t2.bc",
                               "vg2_nep_version1_type1_iss_sedr.bc",
@@ -808,13 +762,13 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMsl) {
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
 
-  MockRepository mocks;
-  mocks.OnCallFunc(ls).Return(files);
+  
+  
 
   nlohmann::json res = listMissionKernels("doesn't matter", conf);
 
   set<string> kernels = getKernelsAsSet(res);
-  set<string> mission = missionMap.at("msl");
+  set<string> mission = TempTestingFiles::missionMap.at("msl");
   
   vector<string> expected = {"msl_ra_toolsref_v1.bc",
                              "msl_cruise_recon_rawrt_v2.bc",
@@ -882,13 +836,13 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMer1) {
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
 
-  MockRepository mocks;
-  mocks.OnCallFunc(ls).Return(files);
+  
+  
 
   nlohmann::json res = listMissionKernels("doesn't matter", conf);
 
   set<string> kernels = getKernelsAsSet(res);
-  set<string> mission = missionMap.at("mer1");
+  set<string> mission = TempTestingFiles::missionMap.at("mer1");
 
   vector<string> expected = {"mer1_surf_hga_ext10_v1.bc", "mer1_cruise.bc", "mer1_hga_stowed.bc", "mer1_surf_rover_prim_v1.bc"};
   CompareKernelSets(getKernelsAsVector(res.at("mer1").at("ck").at("reconstructed")), expected); 
@@ -922,13 +876,13 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMer2) {
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
 
-  MockRepository mocks;
-  mocks.OnCallFunc(ls).Return(files);
+  
+  
 
   nlohmann::json res = listMissionKernels("doesn't matter", conf);
 
   set<string> kernels = getKernelsAsSet(res);
-  set<string> mission = missionMap.at("mer2");
+  set<string> mission = TempTestingFiles::missionMap.at("mer2");
   
   vector<string> expected = {};
   CompareKernelSets(getKernelsAsVector(res.at("mer2").at("ck").at("reconstructed")), expected); 
