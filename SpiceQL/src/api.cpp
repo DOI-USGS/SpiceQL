@@ -774,7 +774,7 @@ namespace SpiceQL {
     }
 
 
-    pair<vector<vector<int>>, json> frameTrace(double et, int initialFrame, string mission, vector<string> ckQualities, bool useWeb, bool searchKernels, vector<string> kernelList) {
+    pair<vector<vector<int>>, json> frameTrace(double et, int initialFrame, string mission, vector<string> ckQualities, vector<string> spkQualities, bool useWeb, bool searchKernels, vector<string> kernelList) {
         checkNaifErrors();
 
         if (useWeb){
@@ -794,7 +794,7 @@ namespace SpiceQL {
         json ephemKernels;
 
         if (searchKernels) {
-            ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"sclk", "ck", "pck", "fk", "ik", "lsk", "tspk"}, et, et, ckQualities, {"noquality"});
+            ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"sclk", "ck", "pck", "fk", "ik", "iak", "lsk", "spk", "tspk"}, et, et, ckQualities, spkQualities);
         }
 
         if (!kernelList.empty()) {

@@ -358,12 +358,14 @@ async def frameTrace(
     initialFrame: int,
     mission: str,
     ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
+    spkQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
     searchKernels: bool = True,
     kernelList: Annotated[list[str], Query()] | str | None = []):
     try:
         ckQualities = strToList(ckQualities)
+        spkQualities = strToList(spkQualities)
         kernelList = strToList(kernelList)
-        result, kernels = pyspiceql.frameTrace(et, initialFrame, mission, ckQualities, False, searchKernels, kernelList)
+        result, kernels = pyspiceql.frameTrace(et, initialFrame, mission, ckQualities, spkQualities, False, searchKernels, kernelList)
         body = ResultModel(result=result, kernels=kernels)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:

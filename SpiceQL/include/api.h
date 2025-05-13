@@ -237,13 +237,14 @@ namespace SpiceQL {
      * @param initialFrame the initial frame's NAIF code.
      * @param mission Config subset as it relates to the mission
      * @param ckQualities vector of strings describing the quality of cks to try and obtain
+     * @param spkQualities vector of strings describing the quality of spks to try and obtain
      * @param searchKernels bool Whether to search the kernels for the user
      * @param kernelList vector<string> vector of additional kernels to load 
      *
      * @returns A two element vector of vectors ints, where the first element is the sequence of time dependent frames
      * and the second is the sequence of constant frames
      **/
-    std::pair<std::vector<std::vector<int>>, nlohmann::json> frameTrace(double et, int initialFrame, std::string mission, std::vector<std::string> ckQualities={"smithed", "reconstructed"}, bool useWeb=false, bool searchKernels=true, std::vector<std::string> kernelList={});
+    std::pair<std::vector<std::vector<int>>, nlohmann::json> frameTrace(double et, int initialFrame, std::string mission, std::vector<std::string> ckQualities={"smithed", "reconstructed"}, std::vector<std::string> spkQualities={"smithed", "reconstructed"}, bool useWeb=false, bool searchKernels=true, std::vector<std::string> kernelList={});
 
     /**
      * @brief Extracts all segment times between observStart and observeEnd

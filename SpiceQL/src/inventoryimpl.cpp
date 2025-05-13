@@ -302,7 +302,7 @@ namespace SpiceQL {
             time_indices = new TimeIndexedKernels();
             
             try {
-              SPDLOG_TRACE("Starting desrializing the DB");
+              SPDLOG_TRACE("Starting deserializing the DB");
 
               vector<double> start_times_v = getKey<vector<double>>(DB_SPICE_ROOT_KEY+"/"+key+"/"+DB_START_TIME_KEY); 
               vector<double> stop_times_v = getKey<vector<double>>(DB_SPICE_ROOT_KEY+"/"+key+"/"+DB_STOP_TIME_KEY);
@@ -396,7 +396,7 @@ namespace SpiceQL {
         }
       }
       else { // text/non time based kernels
-        SPDLOG_DEBUG("Trying to search time independant kernels");
+        SPDLOG_DEBUG("Trying to search time independent kernels");
         string key = spiceql_name+"/"+Kernel::translateType(type)+"/"; 
         SPDLOG_DEBUG("GETTING {} with key {}", Kernel::translateType(type), key);
         if (m_nontimedep_kerns.contains(key) && !m_nontimedep_kerns[key].empty()) {  
