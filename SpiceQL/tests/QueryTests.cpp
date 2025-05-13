@@ -224,13 +224,16 @@ TEST_F(KernelDataDirectories, FunctionalTestListMissionKernelsCassini) {
 // test for apollo 17 kernels 
 TEST_F(IsisDataDirectory, FunctionalTestApollo17Conf) {
   fs::path dbPath = getMissionConfigFile("apollo17");
-
+  
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
-
+  SPDLOG_DEBUG("parsed conf");
   MockRepository mocks;
   mocks.OnCallFunc(ls).Return(files);
+   SPDLOG_DEBUG("mocked");
+
   nlohmann::json res = listMissionKernels("doesn't matter", conf);
+ SPDLOG_DEBUG("got res");
 
   set<string> kernels = getKernelsAsSet(res);
   set<string> expectedKernels = missionMap.at("apollo17");
