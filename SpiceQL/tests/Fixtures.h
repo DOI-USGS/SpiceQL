@@ -14,26 +14,27 @@ using namespace SpiceQL;
 
 
 class TempTestingFiles : public ::testing::Environment {
-  protected:
-    fs::path tempDir;
+  public:
+    static fs::path tempDir;
+    static fs::path tempData;
+    static string base;
+    static vector<string> files; 
+    static unordered_map<string, set<string>> missionMap;
+    static unordered_map<string, set<string>> kernelTypeMap;
 
     void SetUp() override;
     void TearDown() override;
 };
 
+void compareKernelSets(string name, set<string> expectedDiff = {});
+void CompareKernelSets(vector<string> kVector, vector<string> expectedSubSet);
+
 class IsisDataDirectory : public ::testing::Test {
   protected: 
     
-    string base;
-    vector<string> files; 
-
-    unordered_map<string, set<string>> missionMap;
-    unordered_map<string, set<string>> kernelTypeMap;
-    
     void SetUp() override;
     void TearDown() override; 
-    void compareKernelSets(string name, set<string> expectedDiff = {});
-    void CompareKernelSets(vector<string> kVector, vector<string> expectedSubSet);
+
 };
 
 class KernelDataDirectories : public ::testing::Test  {
