@@ -27,6 +27,7 @@ namespace SpiceQL {
         config[it.key()] = it.value();
       }
     }
+    SPDLOG_TRACE("resolving Config deps");
     resolveConfigDependencies(config, config);
   }
 

@@ -986,15 +986,23 @@ namespace SpiceQL {
   string getConfigDirectory() {
     // If running tests or debugging locally
     char* condaPrefix = std::getenv("CONDA_PREFIX");
-    SPDLOG_TRACE("CONDA_PREFIX: {}", string(condaPrefix));
+    fs::path installDbPath = "";
+
+    if(condaPrefix) { 
+      SPDLOG_TRACE("CONDA_PREFIX: {}", string(condaPrefix));
+      installDbPath = fs::absolute(condaPrefix) / "etc" / "SpiceQL" / "db";
+    } else { 
+      SPDLOG_TRACE("CONDA_PREFIX not set");
+    }
 
     fs::path debugDbPath = fs::absolute(_SOURCE_PREFIX) / "SpiceQL" / "db";
-    fs::path installDbPath = fs::absolute(condaPrefix) / "etc" / "SpiceQL" / "db";
 
     // Use installDbPath unless $SPICEQL_DEV_DB is set
     fs::path dbPath;
     if (std::getenv("SPICEQL_DEV_DB") && toLower(string(std::getenv("SPICEQL_DEV_DB"))) == "true") {
       dbPath = debugDbPath; 
+    } else if (installDbPath.empty()) {
+      throw runtime_error("Config Directory Not Found.");
     } else {
       dbPath = installDbPath;
     }
