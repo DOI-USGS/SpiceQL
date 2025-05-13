@@ -228,8 +228,7 @@ TEST_F(IsisDataDirectory, FunctionalTestApollo17Conf) {
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
   SPDLOG_DEBUG("parsed conf");
-  MockRepository mocks;
-  mocks.OnCallFunc(ls).Return(files);
+
   SPDLOG_DEBUG("mocked");
 
   nlohmann::json res = listMissionKernels("doesn't matter", conf);
