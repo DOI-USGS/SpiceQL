@@ -33,10 +33,11 @@ namespace SpiceQL {
 
 
   vector<string> Memo::ls(string const & root, bool recursive) {
-    Memory c;
-    SPDLOG_TRACE("Calling ls via cache");
-    static auto func_memoed = make_memoized(c, "spiceql_ls", SpiceQL::ls);
-    return func_memoed(root, recursive);
+    // Memory c;
+    // SPDLOG_TRACE("Calling ls via cache");
+    // static auto func_memoed = make_memoized(c, "spiceql_ls", SpiceQL::ls);
+    // return func_memoed(root, recursive);
+    return ls(root, recursive);
   }
 
 }
