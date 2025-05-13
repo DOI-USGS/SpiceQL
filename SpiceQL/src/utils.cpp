@@ -662,7 +662,7 @@ namespace SpiceQL {
         }
       }
     }
-
+    SPDLOG_TRACE("ls returning {} files.", paths.size());
     return paths;
   }
 
