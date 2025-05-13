@@ -669,7 +669,7 @@ namespace SpiceQL {
 
   vector<string> glob(string const & root, string const & reg, bool recursive) {
     vector<string> paths;
-    vector<string> files_to_search = Memo::ls(root, recursive);
+    vector<string> files_to_search = ls(root, recursive);
     for (auto &f : files_to_search) {
       if (regex_search(f.c_str(), basic_regex(reg, regex_constants::optimize|regex_constants::ECMAScript)) && string(fs::path(f).filename()).at(0) != '.') {
         paths.emplace_back(f);
@@ -982,17 +982,24 @@ namespace SpiceQL {
       throw runtime_error(fmt::format("Please set env var SPICEROOT, ISISDATA or ALESPICEROOT in order to proceed."));
   }
 
-
   string getConfigDirectory() {
-    // If running tests or debugging locally
-    char* condaPrefix = std::getenv("CONDA_PREFIX");
+    // Check for custom prefix first
+    char* spiceqlPrefix = std::getenv("SPICEQL_PREFIX");
     fs::path installDbPath = "";
 
-    if(condaPrefix) { 
-      SPDLOG_TRACE("CONDA_PREFIX: {}", string(condaPrefix));
-      installDbPath = fs::absolute(condaPrefix) / "etc" / "SpiceQL" / "db";
-    } else { 
-      SPDLOG_TRACE("CONDA_PREFIX not set");
+    if(spiceqlPrefix) {
+      SPDLOG_TRACE("SPICEQL_PREFIX: {}", string(spiceqlPrefix));
+      installDbPath = fs::absolute(spiceqlPrefix) / "etc" / "SpiceQL" / "db";
+    } else {
+      SPDLOG_TRACE("Using CONDA_PRETIX");
+      // Fall back to CONDA_PREFIX if SPICEQL_PREFIX not set
+      char* condaPrefix = std::getenv("CONDA_PREFIX");
+      if(condaPrefix) {
+        SPDLOG_TRACE("CONDA_PREFIX: {}", string(condaPrefix));
+        installDbPath = fs::absolute(condaPrefix) / "etc" / "SpiceQL" / "db";
+      } else {
+        SPDLOG_TRACE("Neither SPICEQL_PREFIX nor CONDA_PREFIX set");
+      }
     }
 
     fs::path debugDbPath = fs::absolute(_SOURCE_PREFIX) / "SpiceQL" / "db";
@@ -1000,20 +1007,20 @@ namespace SpiceQL {
     // Use installDbPath unless $SPICEQL_DEV_DB is set
     fs::path dbPath;
     if (std::getenv("SPICEQL_DEV_DB") && toLower(string(std::getenv("SPICEQL_DEV_DB"))) == "true") {
-      dbPath = debugDbPath; 
+      dbPath = debugDbPath;
     } else if (installDbPath.empty()) {
-      throw runtime_error("Config Directory Not Found.");
+      throw runtime_error("Config Directory Not Found. Please set SPICEQL_PREFIX or CONDA_PREFIX environment variable.");
     } else {
       dbPath = installDbPath;
     }
-    SPDLOG_TRACE("SpiceQL DB Path: {}", dbPath.string()); 
+    SPDLOG_TRACE("SpiceQL DB Path: {}", dbPath.string());
 
     if (!fs::is_directory(dbPath)) {
       throw runtime_error("Config Directory Not Found.");
     }
 
-    return dbPath; 
-  }  
+    return dbPath;
+  }
 
 
   vector<string> getAvailableConfigFiles() {
