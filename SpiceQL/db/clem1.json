@@ -13,7 +13,7 @@
     },
     "spk" : {
       "reconstructed" : {
-        "kernels" :  ["clem.*\\.bsp", "SPKMERGE_940219_940504_CLEMV001b.bsp"]
+        "kernels" :  "clem.*\\.bsp"
       }
     },
     "fk" : {
