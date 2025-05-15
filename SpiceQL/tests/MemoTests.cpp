@@ -14,6 +14,7 @@ using namespace std::chrono;
 #include "memoized_functions.h"
 #include "spiceql.h"
 #include "io.h"
+#include "Fixtures.h"
 
 #include <spdlog/spdlog.h>
 
@@ -45,11 +46,8 @@ TEST(UtilTests, testHashCollisions) {
 }
 
 
-TEST(UtilTests, testGetKernelTimes) {  
-  // fs::path temp_dir = fs::temp_directory_path();
-  // fs::path ck_path = temp_dir / "testck.bsp";
-  
-  fs::path path = static_cast<fs::path>(getenv("SPICEROOT")) / "test_ck.bsp";
+TEST_F(TempTestingFiles, GetKernelTimes) {  
+  fs::path path = tempDir / "test_ck.bsp";
   fs::path lskPath = fs::path("data") / "naif0012.tls"; 
   fs::path sclkPath = fs::path("data") / "lro_clkcor_2020184_v00.tsc";
 

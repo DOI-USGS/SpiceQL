@@ -1,8 +1,6 @@
 #include "Fixtures.h"
 #include "Paths.h"
 
-#include <HippoMocks/hippomocks.h>
-
 #include <fmt/format.h>
 #include <spdlog/spdlog.h>
 
@@ -60,8 +58,8 @@ void TempTestingFiles::TearDown() {
 }
 
 
-void KernelDataDirectories::SetUp() { 
-  
+void KernelDataDirectories::SetUp() {
+  TempTestingFiles::SetUp(); 
   // combine multiple path lists here as we add more.
   paths = base_paths;
   paths.insert(paths.end(), mess_paths.begin(), mess_paths.end());
@@ -74,41 +72,58 @@ void KernelDataDirectories::SetUp() {
   paths.insert(paths.end(), juno_paths.begin(), juno_paths.end());
   paths.insert(paths.end(), viking1_paths.begin(), viking1_paths.end());
   paths.insert(paths.end(), viking2_paths.begin(), viking2_paths.end());
+
+  // Create directories and empty files for all paths
+  for (const auto& path : paths) {
+    fs::path fpath = tempDir / path; 
+    SPDLOG_TRACE("creating {}", fpath.c_str());
+    fs::create_directories(fpath.parent_path());
+    fs::ofstream outFile(fpath);
+    outFile.close();
+  }
 }
 
 
 void KernelDataDirectories::TearDown() { }
 
 
-void IsisDataDirectory::SetUp() { 
-  base = "";
-
-  ifstream infile("data/isisKernelList.txt");
+void IsisDataDirectory::SetUp() {
+  TempTestingFiles::SetUp();
+  base = tempDir;
+  setenv("SPICEROOT", base.c_str(), true);
   string line;
+ 
+  fs::ifstream infile(fs::path("data") / "isisKernelList.txt");
 
   while(getline(infile, line)) {
     fs::path p = line;
+    fs::path filename = base/p;
     string mission = p.parent_path().parent_path().parent_path().filename();
     string kernelType = p.parent_path().filename();
 
-    files.emplace_back(base / p.filename());
+    fs::create_directories(filename.parent_path());
+
+    fs::ofstream outFile(filename);
+    SPDLOG_TRACE("writing {}", (base/p).c_str());
+    outFile.close();
+    files.emplace_back(filename);
 
     auto iter = missionMap.find(mission);
     if (iter == missionMap.end()) {
-      set<string> s = {p.filename()};
+      set<string> s = {filename};
       missionMap.emplace(mission, s);
     }
     else {
-      missionMap[mission].emplace(p.filename());
+      missionMap[mission].emplace(filename);
     }
 
     iter = kernelTypeMap.find(kernelType);
     if (iter == kernelTypeMap.end()) {
-      set<string> s = {p.filename()};
+      set<string> s = {filename};
       kernelTypeMap.emplace(kernelType, s);
     }
     else {
-      kernelTypeMap[kernelType].emplace(p.filename());
+      kernelTypeMap[kernelType].emplace(filename);
     }
   }
 }
@@ -122,11 +137,8 @@ void IsisDataDirectory::compareKernelSets(string name, set<string> expectedDiff)
 
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
-
-  MockRepository mocks;
-  mocks.OnCallFunc(ls).Return(files);
   
-  nlohmann::json res = listMissionKernels("doesn't matter", conf);
+  nlohmann::json res = listMissionKernels(tempDir/name, conf);
 
   set<string> kernels = getKernelsAsSet(res);
   set<string> expectedKernels = missionMap.at(name);
@@ -157,7 +169,7 @@ void IsisDataDirectory::compareKernelSets(string name, set<string> expectedDiff)
   }
 
   if (diffFailMessage != "") {
-    FAIL() << diffFailMessage << endl;
+    throw runtime_error(diffFailMessage);
   }
 }
 
@@ -171,8 +183,9 @@ void IsisDataDirectory::CompareKernelSets(vector<string> kVector, vector<string>
   }
 }
 
-void KernelsWithQualities::SetUp() { 
-  root = getenv("SPICEROOT");
+void KernelsWithQualities::SetUp() {
+  TempTestingFiles::SetUp();
+  root = tempDir;
 
   fs::create_directory(root / "spk");
 
@@ -202,8 +215,7 @@ void KernelsWithQualities::SetUp() {
 
   spkPathSmithed = root / "spk" / "themis_dayir_merged_2018Jul13_spk.bsp";
   writeSpk(spkPathSmithed, positions, times1, bodyCode, 1, referenceFrame, "SPK ID 1", 1, velocities, "SPK 1"); 
-  
-  Inventory::create_database();
+  Inventory::create_database(); 
 }
 
 
@@ -213,6 +225,7 @@ void KernelsWithQualities::TearDown() {
 
 
 void LroKernelSet::SetUp() {
+  TempTestingFiles::SetUp();
   root = getenv("SPICEROOT");
 
   // Move Clock kernels
@@ -220,6 +233,7 @@ void LroKernelSet::SetUp() {
   lskPath = fs::path("data") / "naif0012.tls";
   sclkPath = fs::path("data") / "lro_clkcor_2020184_v00.tsc";
   tspkPath = fs::path("data") / "moon_pa_de421_1900-2050.bpc";
+  spqldbPath = fs::path("data") / "lrokernels.hdf";
 
   create_directory(root / "clocks");
   create_directory(root / "tspk");
@@ -227,6 +241,7 @@ void LroKernelSet::SetUp() {
   fs::copy_file(lskPath, root / "clocks" / "naif0012.tls");
   fs::copy_file(sclkPath, root / "clocks" / "lro_clkcor_2020184_v00.tsc");
   fs::copy_file(tspkPath, root / "tspk" / "moon_pa_de421_1900-2050.bpc");
+  fs::copy_file(spqldbPath, root / "spiceqldb.hdf");
 
   // reassign member vars to temp dir
   lskPath = root / "clocks" / "naif0012.tls";
@@ -370,15 +385,12 @@ void LroKernelSet::SetUp() {
     }
 })"_json;
 // should be created in the existing directory
-  Inventory::create_database();
 }
 
 void LroKernelSet::TearDown() {
-
 }
 
 void TestConfig::SetUp() {
-  KernelDataDirectories::SetUp();
 }
 
 void TestConfig::TearDown() {

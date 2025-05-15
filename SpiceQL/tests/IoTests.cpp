@@ -9,7 +9,7 @@
 using namespace SpiceQL;
 
 
-TEST(IoTests, UnitTestWriteCkTest) {
+TEST_F(TempTestingFiles, UnitTestWriteCkTest) {
   fs::path path;
   path = static_cast<fs::path>(getenv("SPICEROOT")) / "test_ck.bsp";
 
@@ -46,7 +46,7 @@ TEST(IOTests, CreateSPKSegmentTest) {
 }
 
 
-TEST(IoTests, WriteSPKSegmentTest) {
+TEST_F(TempTestingFiles, WriteSPKSegmentTest) {
   fs::path tpath;
   tpath = static_cast<fs::path>(getenv("SPICEROOT")) / "test_spk.bsp";
 
@@ -69,7 +69,7 @@ TEST(IoTests, WriteSPKSegmentTest) {
 }
 
 
-TEST(UnitTest, WriteTextKernel) { 
+TEST_F(TempTestingFiles, WriteTextKernel) { 
   fs::path tpath = static_cast<fs::path>(getenv("SPICEROOT")) / "test_ik.ti";
 
   nlohmann::json j = {
@@ -93,7 +93,7 @@ TEST(UnitTest, WriteTextKernel) {
 }
 
 
-TEST(UnitTest, WriteTextKernelArrayAppend) { 
+TEST_F(TempTestingFiles, WriteTextKernelArrayAppend) { 
   // NAIF_BODY_CODE can be defined in multiple kernels, if and multiple kernels 
   // are furnished, the kernels should not overwrite the array but append to it instead.
   fs::path tpath1 = static_cast<fs::path>(getenv("SPICEROOT")) / "test_ik1.ti";

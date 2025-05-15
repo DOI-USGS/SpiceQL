@@ -1,8 +1,6 @@
 #include <gtest/gtest.h>
 #include <fmt/format.h>
 
-#include <HippoMocks/hippomocks.h>
-
 #include "utils.h"
 #include "Fixtures.h"
 #include "spice_types.h"
@@ -17,10 +15,9 @@
 using namespace SpiceQL;
 
 TEST_F(LroKernelSet, UnitTestTranslateFrame) {
-  MockRepository mocks;
+
   nlohmann::json translationKernels;
   translationKernels["fk"]["kernels"] = {{fkPath}};
-  mocks.OnCallFunc(loadTranslationKernels).Return(translationKernels);
 
   string expectedFrameName = "LRO_LROCWAC";
   auto [frameCode, kernels1] = translateNameToCode(expectedFrameName, "lroc");
@@ -131,10 +128,9 @@ TEST_F(LroKernelSet, UnitTestUtcToEt) {
 
 
 TEST_F(LroKernelSet, UnitTestGetFrameInfo) {
-  MockRepository mocks;
+
   nlohmann::json translationKernels;
   translationKernels["fk"]["kernels"] = {{fkPath}};
-  mocks.OnCallFunc(loadTranslationKernels).Return(translationKernels);
 
   auto [res, kernels] = getFrameInfo(-85620, "lroc");
   EXPECT_EQ(res[0], -85);

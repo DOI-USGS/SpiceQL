@@ -242,8 +242,8 @@ TEST(UtilTests, eraseAtPointer) {
 }
 
 
-TEST(UtilTests, getRootDependency) {
-  std::string folder = getenv("SPICEROOT");
+TEST_F(TempTestingFiles, GetRootDependency) {
+  std::string folder = tempDir;
   folder += "/mission_2";
   ASSERT_TRUE(fs::create_directory(folder));
 
@@ -265,7 +265,7 @@ TEST(UtilTests, getRootDependency) {
 }
 
 
-TEST(UtilTests, checkNaifErrors) {
+TEST_F(TempTestingFiles, checkNaifErrors) {
   checkNaifErrors();
   furnsh_c("does/not/exist");
 

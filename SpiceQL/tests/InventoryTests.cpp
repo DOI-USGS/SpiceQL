@@ -107,7 +107,7 @@ TEST_F(LroKernelSet, TestInventorySearchSetsNoOverwrite) {
 }
 
 
-TEST(SpiceQLPerformence, Inventory) { 
+TEST_F(TempTestingFiles, SpiceQLPerformenceInventory) { 
 	 std::ofstream outfile;
         outfile.open("/home/ec2-user/spiceqltimes_themis.txt", std::ios_base::app); // append instead of overwrite
     for(int i = 0; i < 1; i++) {
