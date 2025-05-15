@@ -169,7 +169,11 @@ namespace SpiceQL {
             SPDLOG_TRACE("queryString = {}", queryString);
             std::string encodedString = url_encode(queryString);
             SPDLOG_TRACE("encodedString = {}", encodedString);
-            client.Build()->Get(encodedString).Option(CURLOPT_FOLLOWLOCATION, 1L).AcceptJson().WithCompletion([&](const restincurl::Result& result) {
+            client.Build()->Get(encodedString)
+                    .Option(CURLOPT_FOLLOWLOCATION, 1L)
+                    .Option(CURLOPT_SSL_VERIFYPEER, 0L)
+                    .AcceptJson()
+                    .WithCompletion([&](const restincurl::Result& result) {
                 if (result.http_response_code != 200) {
                     SPDLOG_DEBUG("[Failed HTTP request] HTTP Code: {}, Message: {}, Payload: {}", result.http_response_code, result.msg, result.body);
                 }
@@ -178,7 +182,12 @@ namespace SpiceQL {
             }).ExecuteSynchronous();
         } else {
             SPDLOG_TRACE("POST");
-            client.Build()->Post(queryString).Option(CURLOPT_FOLLOWLOCATION, 1L).AcceptJson().WithJson(args.dump()).WithCompletion([&](const restincurl::Result& result) {
+            client.Build()->Post(queryString)
+                    .Option(CURLOPT_FOLLOWLOCATION, 1L)
+                    .Option(CURLOPT_SSL_VERIFYPEER, 0L)
+                    .AcceptJson()
+                    .WithJson(args.dump())
+                    .WithCompletion([&](const restincurl::Result& result) {
                 if (result.http_response_code != 200) {
                     SPDLOG_DEBUG("[Failed HTTP request] HTTP Code: {}, Message: {}, Payload: {}", result.http_response_code, result.msg, result.body);
                 }
