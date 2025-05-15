@@ -1,7 +1,5 @@
 #pragma once
 
-#include <HippoMocks/hippomocks.h>
-
 #include "config.h"
 
 #include "gtest/gtest.h"
