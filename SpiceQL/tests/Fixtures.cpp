@@ -241,7 +241,7 @@ void LroKernelSet::SetUp() {
   fs::copy_file(lskPath, root / "clocks" / "naif0012.tls");
   fs::copy_file(sclkPath, root / "clocks" / "lro_clkcor_2020184_v00.tsc");
   fs::copy_file(tspkPath, root / "tspk" / "moon_pa_de421_1900-2050.bpc");
-  fs::copy_file(spqldbPath, root / "spiceqlsb.hdf");
+  fs::copy_file(spqldbPath, root / "spiceqldb.hdf");
 
   // reassign member vars to temp dir
   lskPath = root / "clocks" / "naif0012.tls";
