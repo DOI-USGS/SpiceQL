@@ -172,6 +172,7 @@ namespace SpiceQL {
             client.Build()->Get(encodedString)
                     .Option(CURLOPT_FOLLOWLOCATION, 1L)
                     .Option(CURLOPT_SSL_VERIFYPEER, 0L)
+                    .Option(CURLOPT_TIMEOUT, 180)
                     .AcceptJson()
                     .WithCompletion([&](const restincurl::Result& result) {
                 if (result.http_response_code != 200) {
@@ -185,6 +186,7 @@ namespace SpiceQL {
             client.Build()->Post(queryString)
                     .Option(CURLOPT_FOLLOWLOCATION, 1L)
                     .Option(CURLOPT_SSL_VERIFYPEER, 0L)
+                    .Option(CURLOPT_TIMEOUT, 180)
                     .AcceptJson()
                     .WithJson(args.dump())
                     .WithCompletion([&](const restincurl::Result& result) {
