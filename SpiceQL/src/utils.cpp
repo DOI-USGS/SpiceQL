@@ -1068,7 +1068,7 @@ namespace SpiceQL {
     char* spiceqlRestUrlEnvVar = std::getenv("SPICEQL_REST_URL");
     string spiceqlRestUrl;
     if (spiceqlRestUrlEnvVar == NULL) {
-      spiceqlRestUrl = "https://astrogeology.usgs.gov/apis/spiceq/latest/";
+      spiceqlRestUrl = "https://astrogeology.usgs.gov/apis/spiceql/latest/";
     } else {
       spiceqlRestUrl = string(spiceqlRestUrlEnvVar);
     }
