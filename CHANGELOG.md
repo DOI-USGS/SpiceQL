@@ -35,6 +35,9 @@ release.
 
 ## [Unreleased]
 
+### Fixed
+- Fixed default SpiceQL REST URL [#63](https://github.com/DOI-USGS/SpiceQL/pull/63)
+
 ## 1.0.1
 
 ### Changed
