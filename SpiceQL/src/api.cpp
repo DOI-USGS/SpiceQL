@@ -1,5 +1,6 @@
 #include <exception>
 #include <fstream>
+#include <sstream>
 
 #include <SpiceUsr.h>
 #include <SpiceZfc.h>

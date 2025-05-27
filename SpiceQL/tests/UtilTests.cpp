@@ -96,7 +96,7 @@ TEST(UtilTests, resolveConfigDependencies) {
     },
     "bad_nested_key" : "bad_value",
     "nested_key" : {
-      "value_key" : ["value_2", "value_1"]
+      "value_key" : ["value_1", "value_2"]
     }
   })"_json;
   EXPECT_EQ(resolvedConfig, expectedConfig);
@@ -167,10 +167,10 @@ TEST(UtilTests, mergeConfigs) {
         "kernels" : "predict_ck_1.bc"
       },
       "reconstructed" : {
-        "kernels" : ["recon_ck_3.bs", "recon_ck_1.bc", "recon_ck_2.bc"]
+        "kernels" : ["recon_ck_1.bc","recon_ck_2.bc","recon_ck_3.bs"]
       },
       "smithed" : {
-        "kernels" : ["smithed_ck_2.bs", "smithed_ck_3.bs", "smithed_ck_1.bs"]
+        "kernels" : ["smithed_ck_1.bs","smithed_ck_2.bs","smithed_ck_3.bs"]
       }
     },
     "spk" : {

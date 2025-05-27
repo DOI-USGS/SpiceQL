@@ -160,10 +160,10 @@ namespace SpiceQL {
           }
 
           if (it.value().is_array()) {
-            baseConfig[it.key()].insert(baseConfig[it.key()].end(), it.value().begin(), it.value().end());
+            baseConfig[it.key()].insert(baseConfig[it.key()].begin(), it.value().begin(), it.value().end());
           }
           else {
-            baseConfig[it.key()] += it.value();
+            baseConfig[it.key()].insert(baseConfig[it.key()].begin(), it.value());
           }
         }
       }
