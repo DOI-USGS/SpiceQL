@@ -94,6 +94,7 @@ if(SPICEQL_BUILD_LIB)
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/cassini.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/chandrayaan1.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/clem1.json
+                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/dawn.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/galileo.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/hayabusa.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/hayabusa2.json
@@ -101,6 +102,7 @@ if(SPICEQL_BUILD_LIB)
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/kaguya.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/lro.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/lo.json
+                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/mariner10.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/mer1.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/mer2.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/mess.json
@@ -108,8 +110,10 @@ if(SPICEQL_BUILD_LIB)
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/mgs.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/mro.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/msl.json
+                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/near.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/newhorizons.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/odyssey.json
+                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/rosetta.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/smart1.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/tgo.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/viking1.json
