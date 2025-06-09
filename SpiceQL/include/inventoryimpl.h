@@ -42,9 +42,11 @@ namespace SpiceQL {
     template<class T> T getKey(std::string key);
     void write_database();
     nlohmann::json search_for_kernelset(std::string spiceql_name, std::vector<Kernel::Type> types, double start_time=-std::numeric_limits<double>::max(), double stop_time=std::numeric_limits<double>::max(),
-                                            std::vector<Kernel::Quality> ckQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, std::vector<Kernel::Quality> spkQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED},  bool enforce_quality=false);
+                                            std::vector<Kernel::Quality> ckQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, std::vector<Kernel::Quality> spkQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED},
+                                            bool full_kernel_path=false, bool enforce_quality=false);
     nlohmann::json search_for_kernelsets(std::vector<std::string> spiceql_names, std::vector<Kernel::Type> types, double start_time=-std::numeric_limits<double>::max(), double stop_time=std::numeric_limits<double>::max(),
-                                            std::vector<Kernel::Quality> ckQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, std::vector<Kernel::Quality> spkQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED},  bool enforce_quality=false, bool overwrite=false);
+                                            std::vector<Kernel::Quality> ckQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, std::vector<Kernel::Quality> spkQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED},
+                                            bool full_kernel_path=false, bool enforce_quality=false, bool overwrite=false);
     nlohmann::json m_json_inventory; 
 
     std::map<std::string, std::vector<std::string>> m_nontimedep_kerns;  

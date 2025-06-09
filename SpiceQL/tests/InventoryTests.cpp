@@ -74,14 +74,14 @@ TEST_F(LroKernelSet, TestInventoryPortability) {
 
 
 TEST_F(KernelsWithQualities, TestUnenforcedQuality) { 
-  nlohmann::json kernels = Inventory::search_for_kernelset("odyssey", {"spk"}, 130000000, 140000000, {"smithed", "reconstructed"}, {"smithed", "reconstructed"}, false);
+  nlohmann::json kernels = Inventory::search_for_kernelset("odyssey", {"spk"}, 130000000, 140000000, {"smithed", "reconstructed"}, {"smithed", "reconstructed"}, false, false);
   // smithed kernels should not exist so it should return reconstructed
   EXPECT_EQ(kernels["odyssey_spk_quality"].get<string>(), "reconstructed");
 }
 
 
 TEST_F(KernelsWithQualities, TestEnforcedQuality) { 
-  nlohmann::json kernels = Inventory::search_for_kernelset("odyssey", {"spk"}, 130000000, 140000000, {"smithed"}, {"smithed"}, true);
+  nlohmann::json kernels = Inventory::search_for_kernelset("odyssey", {"spk"}, 130000000, 140000000, {"smithed"}, {"smithed"}, false, true);
   // Should be empty since we are enforcing smithed
   EXPECT_TRUE(kernels.is_null());
 }
@@ -99,7 +99,7 @@ TEST_F(LroKernelSet, TestInventorySearch) {
 
 TEST_F(LroKernelSet, TestInventorySearchSetsNoOverwrite) {
   // do a time query
-  nlohmann::json kernels = Inventory::search_for_kernelsets({"moon", "base"}, {"pck"}, 110000000, 140000001, {"reconstructed"}, {"reconstructed"}, false, false);
+  nlohmann::json kernels = Inventory::search_for_kernelsets({"moon", "base"}, {"pck"}, 110000000, 140000001, {"reconstructed"}, {"reconstructed"}, false, false, false);
   SPDLOG_DEBUG("TEST KERNELS: {}", kernels.dump(4));
   EXPECT_EQ(kernels["pck"].size(), 2);
   EXPECT_EQ(fs::path(kernels["pck"][0].get<string>()).filename(), "moon_080317.tf");
@@ -123,7 +123,7 @@ TEST_F(TempTestingFiles, SpiceQLPerformenceInventory) {
 
 TEST_F(LroKernelSet, TestInventorySearchSetsOverwrite) {
   // do a time query
-  nlohmann::json kernels = Inventory::search_for_kernelsets({"moon", "base"}, {"pck"}, 110000000, 140000001, {"reconstructed"}, {"reconstructed"}, false, true);
+  nlohmann::json kernels = Inventory::search_for_kernelsets({"moon", "base"}, {"pck"}, 110000000, 140000001, {"reconstructed"}, {"reconstructed"}, false, false, true);
   SPDLOG_DEBUG("TEST KERNELS: {}", kernels.dump(4));
   EXPECT_EQ(kernels["pck"].size(), 1);
   EXPECT_EQ(fs::path(kernels["pck"][0].get<string>()).filename(), "pck00009.tpc");

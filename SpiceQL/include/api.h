@@ -37,6 +37,7 @@ namespace SpiceQL {
      * @param ckQualities vector of strings describing the quality of cks to try and obtain
      * @param spkQualities string of strings describing the quality of spks to try and obtain
      * @param searchKernels bool Whether to search the kernels for the user
+     * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
      * @param kernelList vector<string> vector of additional kernels to load 
      * 
      * @see SpiceQL::getTargetState
@@ -44,7 +45,7 @@ namespace SpiceQL {
      *
      * @return A vector of vectors with a Nx7 state vector of positions and velocities in x,y,z,vx,vy,vz format followed by the light time adjustment.
      **/
-    std::pair<std::vector<std::vector<double>>, nlohmann::json> getTargetStates(std::vector<double> ets, std::string target, std::string observer, std::string frame, std::string abcorr, std::string mission, std::vector<std::string> ckQualities={"smithed", "reconstructed"}, std::vector<std::string> spkQualities={"smithed", "reconstructed"}, bool useWeb=false, bool searchKernels=true, std::vector<std::string> kernelList={});
+    std::pair<std::vector<std::vector<double>>, nlohmann::json> getTargetStates(std::vector<double> ets, std::string target, std::string observer, std::string frame, std::string abcorr, std::string mission, std::vector<std::string> ckQualities={"smithed", "reconstructed"}, std::vector<std::string> spkQualities={"smithed", "reconstructed"}, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, std::vector<std::string> kernelList={});
     
     /**
      * @brief Gives quaternion and angular velocity for a given frame at a set of ephemeris times
@@ -59,13 +60,14 @@ namespace SpiceQL {
      * @param mission Config subset as it relates to the mission
      * @param ckQualities vector of string describing the quality of cks to try and obtain
      * @param searchKernels bool Whether to search the kernels for the user
+     * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
      * @param kernelList vector<string> vector of additional kernels to load 
      *
      * @see SpiceQL::getTargetOrientation
      *
      * @returns Vector of SPICE-style quaternions (w,x,y,z) and optional angular velocity (4 element without angular velocity, 7 element with)
      **/
-    std::pair<std::vector<std::vector<double>>, nlohmann::json> getTargetOrientations(std::vector<double> ets, int toFrame, int refFrame, std::string mission, std::vector<std::string> ckQualities={"smithed", "reconstructed"}, bool useWeb=false, bool searchKernels=true, std::vector<std::string> kernelList={});
+    std::pair<std::vector<std::vector<double>>, nlohmann::json> getTargetOrientations(std::vector<double> ets, int toFrame, int refFrame, std::string mission, std::vector<std::string> ckQualities={"smithed", "reconstructed"}, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, std::vector<std::string> kernelList={});
     
     /**
      * @brief Converts a given string spacecraft clock time to an ephemeris time
@@ -78,10 +80,11 @@ namespace SpiceQL {
      * @param sclk string Spacecraft Clock formatted as a string
      * @param mission string Mission name as it relates to the config files
      * @param searchKernels bool Whether to search the kernels for the user
+     * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
      * @param kernelList vector<string> vector of additional kernels to load     
      * @return double
      */
-    std::pair<double, nlohmann::json> strSclkToEt(int frameCode, std::string sclk, std::string mission, bool useWeb=false, bool searchKernels=true, std::vector<std::string> kernelList={});
+    std::pair<double, nlohmann::json> strSclkToEt(int frameCode, std::string sclk, std::string mission, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, std::vector<std::string> kernelList={});
 
     /**
      * @brief Converts a given double spacecraft clock time to an ephemeris time
@@ -94,10 +97,11 @@ namespace SpiceQL {
      * @param sclk int Spacecraft Clock formatted as an int
      * @param mission string Mission name as it relates to the config files
      * @param searchKernels bool Whether to search the kernels for the user
+     * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
      * @param kernelList vector<string> vector of additional kernels to load 
      * @return double
      */
-    std::pair<double, nlohmann::json> doubleSclkToEt(int frameCode, double sclk, std::string mission, bool useWeb=false, bool searchKernels=true, std::vector<std::string> kernelList={});
+    std::pair<double, nlohmann::json> doubleSclkToEt(int frameCode, double sclk, std::string mission, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, std::vector<std::string> kernelList={});
 
 
     /**
@@ -111,10 +115,11 @@ namespace SpiceQL {
      * @param et double Spacecraft ephemeris time to convert to an SCLK
      * @param mission string Mission name as it relates to the config files
      * @param searchKernels bool Whether to search the kernels for the user
+     * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
      * @param kernelList vector<string> vector of additional kernels to load 
      * @return double
      */
-    std::pair<std::string, nlohmann::json> doubleEtToSclk(int frameCode, double et, std::string mission, bool useWeb=false, bool searchKernels=true, std::vector<std::string> kernelList={});
+    std::pair<std::string, nlohmann::json> doubleEtToSclk(int frameCode, double et, std::string mission, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, std::vector<std::string> kernelList={});
 
 
     /**
@@ -125,9 +130,10 @@ namespace SpiceQL {
      *
      * @param et UTC string, e.g. "1988 June 13, 12:29:48 TDB"
      * @param searchKernels bool Whether to search the kernels for the user
+     * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
      * @returns double precision ephemeris time
      **/
-    std::pair<double, nlohmann::json> utcToEt(std::string utc, bool useWeb=false, bool searchKernels=true, std::vector<std::string> kernelList={});
+    std::pair<double, nlohmann::json> utcToEt(std::string utc, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, std::vector<std::string> kernelList={});
 
     /**
      * @brief convert et string to a UTC string
@@ -138,11 +144,12 @@ namespace SpiceQL {
      * @param et ephemeris time
      * @param precision number of decimal 
      * @param searchKernels bool Whether to search the kernels for the user
+     * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
      * @param kernelList vector<string> vector of additional kernels to load 
      *
      * @returns double precision ephemeris time
      **/
-    std::pair<std::string, nlohmann::json> etToUtc(double et, std::string format, double precision, bool useWeb=false, bool searchKernels=true, std::vector<std::string> kernelList={});
+    std::pair<std::string, nlohmann::json> etToUtc(double et, std::string format, double precision, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, std::vector<std::string> kernelList={});
 
     /**
      * @brief Switch between NAIF frame string name to integer frame code
@@ -152,11 +159,12 @@ namespace SpiceQL {
      * @param frame String frame name to translate to a NAIF code
      * @param mission Mission name as it relates to the config files
      * @param searchKernels bool Whether to search the kernels for the user
+     * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
      * @param kernelList vector<string> vector of additional kernels to load 
      * 
      * @return integer Naif frame code
      **/
-    std::pair<int, nlohmann::json> translateNameToCode(std::string frame, std::string mission, bool useWeb=false, bool searchKernels=true, std::vector<std::string> kernelList={});
+    std::pair<int, nlohmann::json> translateNameToCode(std::string frame, std::string mission, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, std::vector<std::string> kernelList={});
 
     /**
      * @brief Switch between NAIF frame integer code to string frame name
@@ -166,11 +174,12 @@ namespace SpiceQL {
      * @param frame int NAIF frame code to translate
      * @param searchKernels bool Whether to search the kernels for the user
      * @param mission Mission name as it relates to the config files
+     * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
      * @param kernelList vector<string> vector of additional kernels to load 
      *
      * @return string Naif frame name
      **/
-    std::pair<std::string, nlohmann::json> translateCodeToName(int frame, std::string mission, bool useWeb=false, bool searchKernels=true, std::vector<std::string> kernelList={});
+    std::pair<std::string, nlohmann::json> translateCodeToName(int frame, std::string mission, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, std::vector<std::string> kernelList={});
 
     /**
      * @brief Get the center, class id, and class of a given frame
@@ -180,11 +189,12 @@ namespace SpiceQL {
      * @param frame String frame name to translate to a NAIF code
      * @param mission Mission name as it relates to the config files
      * @param searchKernels bool Whether to search the kernels for the user
+     * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
      * @param kernelList vector<string> vector of additional kernels to load 
      *
      * @return 3 element vector of the given frames center, class id, and class
      **/
-    std::pair<std::vector<int>, nlohmann::json> getFrameInfo(int frame, std::string mission, bool useWeb=false, bool searchKernels=true, std::vector<std::string> kernelList={});
+    std::pair<std::vector<int>, nlohmann::json> getFrameInfo(int frame, std::string mission, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, std::vector<std::string> kernelList={});
 
      /**
     * @brief returns frame name and frame code associated to the target ID.
@@ -194,11 +204,12 @@ namespace SpiceQL {
     * @param targetId target ID
     * @param mission mission name as it relates to the config files
     * @param searchKernels bool Whether to search the kernels for the user
+    * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
     * @param kernelList vector<string> vector of additional kernels to load 
     * 
     * @returns json of frame name and frame code
     **/
-    std::pair<nlohmann::json, nlohmann::json> getTargetFrameInfo(int targetId, std::string mission, bool useWeb=false, bool searchKernels=true, std::vector<std::string> kernelList={});
+    std::pair<nlohmann::json, nlohmann::json> getTargetFrameInfo(int targetId, std::string mission, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, std::vector<std::string> kernelList={});
 
     /**
     * @brief returns kernel values for a specific mission in the form of a json
@@ -207,10 +218,11 @@ namespace SpiceQL {
     * 
     * @param key key - Kernel to get values from 
     * @param mission mission name
+    * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
     * @param searchKernels bool Whether to search the kernels for the user
     * @returns json of values
     **/
-    std::pair<nlohmann::json, nlohmann::json> findMissionKeywords(std::string key, std::string mission, bool useWeb=false, bool searchKernels=true, std::vector<std::string> kernelList={});
+    std::pair<nlohmann::json, nlohmann::json> findMissionKeywords(std::string key, std::string mission, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, std::vector<std::string> kernelList={});
 
     /**
     * @brief returns Target values in the form of a vector
@@ -221,11 +233,12 @@ namespace SpiceQL {
     * @param key keyword for desired values
     * @param mission mission name as it relates to the config files
     * @param searchKernels bool Whether to search the kernels for the user
+    * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
     * @param kernelList vector<string> vector of additional kernels to load 
     *
     * @returns vector of values
     **/
-    std::pair<nlohmann::json, nlohmann::json> findTargetKeywords(std::string key, std::string mission, bool useWeb=false, bool searchKernels=true, std::vector<std::string> kernelList={});
+    std::pair<nlohmann::json, nlohmann::json> findTargetKeywords(std::string key, std::string mission, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, std::vector<std::string> kernelList={});
 
     /**
      * @brief Given an ephemeris time and a starting frame, find the path from that starting frame to J2000 (1)
@@ -239,12 +252,13 @@ namespace SpiceQL {
      * @param ckQualities vector of strings describing the quality of cks to try and obtain
      * @param spkQualities vector of strings describing the quality of spks to try and obtain
      * @param searchKernels bool Whether to search the kernels for the user
+     * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
      * @param kernelList vector<string> vector of additional kernels to load 
      *
      * @returns A two element vector of vectors ints, where the first element is the sequence of time dependent frames
      * and the second is the sequence of constant frames
      **/
-    std::pair<std::vector<std::vector<int>>, nlohmann::json> frameTrace(double et, int initialFrame, std::string mission, std::vector<std::string> ckQualities={"smithed", "reconstructed"}, std::vector<std::string> spkQualities={"smithed", "reconstructed"}, bool useWeb=false, bool searchKernels=true, std::vector<std::string> kernelList={});
+    std::pair<std::vector<std::vector<int>>, nlohmann::json> frameTrace(double et, int initialFrame, std::string mission, std::vector<std::string> ckQualities={"smithed", "reconstructed"}, std::vector<std::string> spkQualities={"smithed", "reconstructed"}, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, std::vector<std::string> kernelList={});
 
     /**
      * @brief Extracts all segment times between observStart and observeEnd
@@ -257,9 +271,10 @@ namespace SpiceQL {
      * @param observEnd Ephemeris time to stop searching at
      * @param targetFrame Target reference frame to get ephemeris data in
      * @param ckQualities vector of string describing the quality of cks to try and obtain
+     * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
      * @param kernelList vector<string> vector of additional kernels to load 
      *
      * @returns A list of times
      **/
-    std::pair<std::vector<double>, nlohmann::json> extractExactCkTimes(double observStart, double observEnd, int targetFrame, std::string mission, std::vector<std::string> ckQualities={"smithed", "reconstructed"}, bool useWeb=false, bool searchKernels=true, std::vector<std::string> kernelList={});
+    std::pair<std::vector<double>, nlohmann::json> extractExactCkTimes(double observStart, double observEnd, int targetFrame, std::string mission, std::vector<std::string> ckQualities={"smithed", "reconstructed"}, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, std::vector<std::string> kernelList={});
 }
