@@ -74,14 +74,14 @@ TEST_F(LroKernelSet, TestInventoryPortability) {
 
 
 TEST_F(KernelsWithQualities, TestUnenforcedQuality) { 
-  nlohmann::json kernels = Inventory::search_for_kernelset("odyssey", {"spk"}, 130000000, 140000000, {"smithed", "reconstructed"}, {"smithed", "reconstructed"}, false, false);
+  nlohmann::json kernels = Inventory::search_for_kernelset("odyssey", {"spk"}, 130000000, 140000000, {"smithed", "reconstructed"}, {"smithed", "reconstructed"}, false, false, false);
   // smithed kernels should not exist so it should return reconstructed
   EXPECT_EQ(kernels["odyssey_spk_quality"].get<string>(), "reconstructed");
 }
 
 
 TEST_F(KernelsWithQualities, TestEnforcedQuality) { 
-  nlohmann::json kernels = Inventory::search_for_kernelset("odyssey", {"spk"}, 130000000, 140000000, {"smithed"}, {"smithed"}, false, true);
+  nlohmann::json kernels = Inventory::search_for_kernelset("odyssey", {"spk"}, 130000000, 140000000, {"smithed"}, {"smithed"}, false, false, true);
   // Should be empty since we are enforcing smithed
   EXPECT_TRUE(kernels.is_null());
 }
