@@ -50,7 +50,7 @@ namespace SpiceQL {
 
 
 
-        json search_for_kernelset_from_regex(vector<string> list) { 
+        json search_for_kernelset_from_regex(vector<string> list, bool full_kernel_path) { 
             // strings should be formatted similar to the hdf keys e.g. 
             // mro/sclk/name 
             // mro/ck/reconstructed/name 
@@ -121,10 +121,14 @@ namespace SpiceQL {
                     SPDLOG_TRACE("Checking using regex \"{}\": {}", regex, temp);
                     if (regex_search(temp.c_str(), basic_regex(regex, regex_constants::optimize|regex_constants::ECMAScript)) && temp.at(0) != '.' ) {
                         SPDLOG_TRACE("{} matches; adding {} at {}", temp, f, key); 
+                        fs::path f_path = fs::path(f);
+                        if (full_kernel_path) {
+                            f_path = data_dir / f_path;
+                        }
                         if (kernels[kernel_type].is_null())
-                            kernels[kernel_type] = {data_dir / fs::path(f)};
+                            kernels[kernel_type] = {f_path};
                         else 
-                            kernels[kernel_type].push_back(data_dir / fs::path(f));
+                            kernels[kernel_type].push_back(f_path);
 
                         if (kernel_type == "spk")
                             kernels["spk_quality"] = quality; 

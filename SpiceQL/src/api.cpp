@@ -257,7 +257,7 @@ namespace SpiceQL {
         }
 
         if (!kernelList.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(ephemKernels, regexk);
         }
@@ -315,7 +315,7 @@ namespace SpiceQL {
         }
 
         if (!kernelList.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(ephemKernels, regexk);
         }
@@ -364,7 +364,7 @@ namespace SpiceQL {
         }
 
         if (!kernelList.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(ephemKernels, regexk);
         }
@@ -413,7 +413,7 @@ namespace SpiceQL {
         }
 
         if (!kernelList.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(ephemKernels, regexk);
         }
@@ -453,7 +453,7 @@ namespace SpiceQL {
         }
 
         if (!kernelList.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(sclks, regexk);
         }
@@ -494,7 +494,7 @@ namespace SpiceQL {
             lsks = Inventory::search_for_kernelset("base", {"lsk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath);
         }
         if (!kernelList.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(lsks, regexk);
         }
@@ -533,7 +533,7 @@ namespace SpiceQL {
             lsks = Inventory::search_for_kernelset("base", {"lsk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath);
         }
         if (!kernelList.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(lsks, regexk);
         }
@@ -573,7 +573,7 @@ namespace SpiceQL {
         }
 
         if (!kernelList.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(kernelsToLoad, regexk);
         }
@@ -620,7 +620,7 @@ namespace SpiceQL {
             kernelsToLoad = Inventory::search_for_kernelset(mission, {"fk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath);
         }
         if (!kernelList.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(kernelsToLoad, regexk);
         }
@@ -671,7 +671,7 @@ namespace SpiceQL {
             kernelsToLoad = Inventory::search_for_kernelset(mission, {"fk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath);
         }
         if (!kernelList.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(kernelsToLoad, regexk);
         }
@@ -717,7 +717,7 @@ namespace SpiceQL {
         }
 
         if (!kernelList.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(kernelsToLoad, regexk);
         }
@@ -761,7 +761,7 @@ namespace SpiceQL {
         }
 
         if (!kernelList.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(translationKernels, regexk);
         }
@@ -794,7 +794,7 @@ namespace SpiceQL {
         }
 
         if (!kernelList.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(kernelsToLoad, regexk);
         }
@@ -829,7 +829,7 @@ namespace SpiceQL {
         }
 
         if (!kernelList.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(ephemKernels, regexk);
         }
@@ -981,7 +981,7 @@ namespace SpiceQL {
         }
 
         if (!kernelList.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernelList);
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(ephemKernels, regexk);
         }
