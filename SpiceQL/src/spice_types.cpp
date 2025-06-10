@@ -139,7 +139,11 @@ namespace SpiceQL {
 
     for (auto &k : kv) {
       SPDLOG_TRACE("Initial kernel {}", k);
-      if (k.find(data_dir.string()) == std::string::npos) {
+
+      if (fs::path(k).is_absolute()) {
+        SPDLOG_TRACE("k is absolute");
+      } else {
+        SPDLOG_TRACE("k is relative");
         k = data_dir / k;
       }
       
