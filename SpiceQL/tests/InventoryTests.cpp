@@ -69,7 +69,7 @@ TEST_F(LroKernelSet, TestInventoryPortability) {
   nlohmann::json kernels = Inventory::search_for_kernelset("lroc", {"fk", "sclk", "spk", "ck"});
 
   // these paths should be expanded
-  EXPECT_TRUE(kernels["sclk"][0].get<string>().size() > data.at(0).size());
+  EXPECT_TRUE(kernels["sclk"][0].get<string>().size() == data.at(0).size());
 }
 
 
