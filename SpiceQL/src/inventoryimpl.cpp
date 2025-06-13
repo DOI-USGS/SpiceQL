@@ -278,12 +278,12 @@ namespace SpiceQL {
 
   json InventoryImpl::search_for_kernelsets(vector<string> spiceql_names, vector<Kernel::Type> types, double start_time, double stop_time,
                                   vector<Kernel::Quality> ckQualities, vector<Kernel::Quality> spkQualities, bool full_kernel_path, 
-                                  bool enforce_quality, bool limit_quality, bool overwrite) { 
+                                  bool limit_quality, bool overwrite) { 
       json kernels; 
       // simply iterate over the names
       for(auto &name : spiceql_names) { 
         json subKernels = search_for_kernelset(name, types, start_time, stop_time,
-                                  ckQualities, spkQualities, full_kernel_path, enforce_quality, limit_quality); 
+                                  ckQualities, spkQualities, full_kernel_path, limit_quality); 
         SPDLOG_TRACE("subkernels for {}: {}", name, subKernels.dump(4));
         SPDLOG_TRACE("Overwrite? {}", overwrite);
         merge_json(kernels, subKernels, overwrite);
@@ -295,7 +295,7 @@ namespace SpiceQL {
 
   json InventoryImpl::search_for_kernelset(string spiceql_name, vector<Kernel::Type> types, double start_time, double stop_time,
                                   vector<Kernel::Quality> ckQualities, vector<Kernel::Quality> spkQualities, bool full_kernel_path,
-                                  bool enforce_quality, bool limit_quality) { 
+                                  bool limit_quality) { 
     // get time dep kernels first 
     json kernels;
     spiceql_name = toLower(spiceql_name);
@@ -435,8 +435,6 @@ namespace SpiceQL {
           }
           SPDLOG_TRACE("NUMBER OF ITERATIONS: {}", iterations);
           SPDLOG_TRACE("NUMBER OF KERNELS FOUND: {}", final_time_kernels.size());  
-
-          if (enforce_quality) break; // only interate once if quality is enforced 
         }
       }
       else { // text/non time based kernels

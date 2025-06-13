@@ -15,7 +15,7 @@
 
 TEST_F(LroKernelSet, TestInventorySmithed) { 
   Inventory::create_database();
-  nlohmann::json kernels = Inventory::search_for_kernelset("lroc", {"fk", "sclk", "spk", "ck"}, 110000000, 140000000, {"smithed", "reconstructed"}, {"smithed", "reconstructed"}, false, false, false);
+  nlohmann::json kernels = Inventory::search_for_kernelset("lroc", {"fk", "sclk", "spk", "ck"}, 110000000, 140000000, {"smithed", "reconstructed"}, {"smithed", "reconstructed"}, false, false);
   SPDLOG_DEBUG("Returned Kernels {} ", kernels.dump());
   
   EXPECT_EQ(fs::path(kernels["fk"][0]).filename(), "lro_frames_1111111_v01.tf");
@@ -30,7 +30,7 @@ TEST_F(LroKernelSet, TestInventorySmithed) {
 
 TEST_F(LroKernelSet, TestInventoryRecon) { 
   Inventory::create_database();
-  nlohmann::json kernels = Inventory::search_for_kernelset("lroc", {"fk", "sclk", "spk", "ck"}, 110000000, 140000000, {"reconstructed"}, {"reconstructed"}, false, false, false);
+  nlohmann::json kernels = Inventory::search_for_kernelset("lroc", {"fk", "sclk", "spk", "ck"}, 110000000, 140000000, {"reconstructed"}, {"reconstructed"}, false, false);
   EXPECT_EQ(fs::path(kernels["fk"][0]).filename(), "lro_frames_1111111_v01.tf");
   EXPECT_EQ(fs::path(kernels["sclk"][0]).filename(), "lro_clkcor_2020184_v00.tsc");
   EXPECT_TRUE(!kernels.contains("spk")); // no spks
@@ -89,7 +89,7 @@ TEST_F(KernelsWithQualities, TestEnforcedQuality) {
 
 TEST_F(LroKernelSet, TestInventorySearch) {
   // do a time query
-  nlohmann::json kernels = Inventory::search_for_kernelset("lroc", {"lsk", "sclk", "ck", "spk", "iak", "fk"}, 110000000, 140000001, {"smithed", "reconstructed"}, {"smithed", "reconstructed"}, false, false, false);
+  nlohmann::json kernels = Inventory::search_for_kernelset("lroc", {"lsk", "sclk", "ck", "spk", "iak", "fk"}, 110000000, 140000001, {"smithed", "reconstructed"}, {"smithed", "reconstructed"}, false, false);
   SPDLOG_DEBUG("TEST KERNELS: {}", kernels.dump(4));
   EXPECT_EQ(kernels["ck"].size(), 2);
   EXPECT_EQ(fs::path(kernels["ck"][0].get<string>()).filename(), "soc31_1111111_1111111_v21.bc" );
