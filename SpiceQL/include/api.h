@@ -291,7 +291,7 @@ namespace SpiceQL {
      *
      * @returns A list of times
      **/
-    std::pair<std::vector<double>, nlohmann::json> extractExactCkTimes(double observStart, double observEnd, int targetFrame, std::string mission, std::vector<std::string> ckQualities={"smithed", "reconstructed"}, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, std::vector<std::string> kernelList={});
+    std::pair<std::vector<double>, nlohmann::json> extractExactCkTimes(double observStart, double observEnd, int targetFrame, std::string mission, std::vector<std::string> ckQualities={"smithed", "reconstructed"}, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, bool limitQuality=true, std::vector<std::string> kernelList={});
 
     /**
      * @brief Searches for kernels given mission(s) and parameters.
