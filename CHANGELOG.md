@@ -43,7 +43,7 @@ release.
 - Fixed default SpiceQL REST URL [#63](https://github.com/DOI-USGS/SpiceQL/pull/63)
 - Added missing db files (dawn, mariner10, near, and rosetta) to CMakeLists.txt [#69](https://github.com/DOI-USGS/SpiceQL/pull/69)
 - Fixed ordering of `tspks` when dependencies are merged within the database structures [#65](https://github.com/DOI-USGS/SpiceQL/pull/65)
-- Added `limitQuality` and `enforceQuality` options [#74](https://github.com/DOI-USGS/SpiceQL/pull/74)
+- Added `limitQuality` option and removed `enforceQuality` option [#74](https://github.com/DOI-USGS/SpiceQL/pull/74)
 
 ## 1.0.1
 
