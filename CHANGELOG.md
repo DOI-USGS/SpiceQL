@@ -35,6 +35,8 @@ release.
 
 ## [Unreleased]
 
+## 1.2.0
+
 ### Added
 - Added file creation permission verification before creating database and resolve database creation to specified mission list only if `mlist` is set [#75](https://github.com/DOI-USGS/SpiceQL/pull/75)
 - Added /searchForKernelsets REST endpoint [#76](https://github.com/DOI-USGS/SpiceQL/pull/76)
