@@ -43,7 +43,7 @@ class TargetStatesRequestModel(BaseModel):
     kernelList: Annotated[list[str], Query()] | str | None = []
     searchKernels: bool = True
     fullKernelPath: bool = False
-    limitQuality: bool = True
+    limitQuality: bool = False
 
 # Create FastAPI instance
 app = FastAPI()
@@ -89,7 +89,7 @@ async def getTargetStates(
     spkQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
     searchKernels: bool = True,
     fullKernelPath: bool = False,
-    limitQuality: bool = True,
+    limitQuality: bool = False,
     kernelList: Annotated[list[str], Query()] | str | None = []):
     try:
         if ets is not None:
@@ -167,7 +167,7 @@ async def getTargetOrientations(
     ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
     searchKernels: bool = True,
     fullKernelPath: bool = False,
-    limitQuality: bool = True,
+    limitQuality: bool = False,
     kernelList: Annotated[list[str], Query()] | str | None = []):
     try:
         if ets is not None:
@@ -198,7 +198,7 @@ async def strSclkToEt(
     mission: str,
     searchKernels: bool = True,
     fullKernelPath: bool = False,
-    limitQuality: bool = True,
+    limitQuality: bool = False,
     kernelList: Annotated[list[str], Query()] | str | None = []):
     try:
         kernelList = strToList(kernelList)
@@ -217,7 +217,7 @@ async def doubleSclkToEt(
     mission: str,
     searchKernels: bool = True,
     fullKernelPath: bool = False,
-    limitQuality: bool = True,
+    limitQuality: bool = False,
     kernelList: Annotated[list[str], Query()] | str | None = []):
     try:
         kernelList = strToList(kernelList)
@@ -236,7 +236,7 @@ async def doubleEtToSclk(
     mission: str,
     searchKernels: bool = True,
     fullKernelPath: bool = False,
-    limitQuality: bool = True,
+    limitQuality: bool = False,
     kernelList: Annotated[list[str], Query()] | str | None = []):
     try:
         kernelList = strToList(kernelList)
@@ -253,7 +253,7 @@ async def utcToEt(
     utc: str,
     searchKernels: bool = True,
     fullKernelPath: bool = False,
-    limitQuality: bool = True,
+    limitQuality: bool = False,
     kernelList: Annotated[list[str], Query()] | str | None = []):
     try:
         kernelList = strToList(kernelList)
@@ -271,7 +271,7 @@ async def etToUtc(
     precision: float,
     searchKernels: bool = True,
     fullKernelPath: bool = False,
-    limitQuality: bool = True,
+    limitQuality: bool = False,
     kernelList: Annotated[list[str], Query()] | str | None = []):
     try:
         kernelList = strToList(kernelList)
@@ -288,7 +288,7 @@ async def translateNameToCode(
     mission: str,
     searchKernels: bool = True,
     fullKernelPath: bool = False,
-    limitQuality: bool = True,
+    limitQuality: bool = False,
     kernelList: Annotated[list[str], Query()] | str | None = []):
     try:
         kernelList = strToList(kernelList)
@@ -305,7 +305,7 @@ async def translateCodeToName(
     mission: str,
     searchKernels: bool = True,
     fullKernelPath: bool = False,
-    limitQuality: bool = True,
+    limitQuality: bool = False,
     kernelList: Annotated[list[str], Query()] | str | None = []):
     try:
         kernelList = strToList(kernelList)
@@ -322,7 +322,7 @@ async def getFrameInfo(
     mission: str,
     searchKernels: bool = True,
     fullKernelPath: bool = False,
-    limitQuality: bool = True,
+    limitQuality: bool = False,
     kernelList: Annotated[list[str], Query()] | str | None = []):
     try:
         kernelList = strToList(kernelList)
@@ -339,7 +339,7 @@ async def getTargetFrameInfo(
     mission: str,
     searchKernels: bool = True,
     fullKernelPath: bool = False,
-    limitQuality: bool = True,
+    limitQuality: bool = False,
     kernelList: Annotated[list[str], Query()] | str | None = []):
     try:
         kernelList = strToList(kernelList)
@@ -356,7 +356,7 @@ async def findMissionKeywords(
     mission: str,
     searchKernels: bool = True,
     fullKernelPath: bool = False,
-    limitQuality: bool = True,
+    limitQuality: bool = False,
     kernelList: Annotated[list[str], Query()] | str | None = []):
     try:
         kernelList = strToList(kernelList)
@@ -373,7 +373,7 @@ async def findTargetKeywords(
     mission: str,
     searchKernels: bool = True,
     fullKernelPath: bool = False,
-    limitQuality: bool = True,
+    limitQuality: bool = False,
     kernelList: Annotated[list[str], Query()] | str | None = []):
     try:
         kernelList = strToList(kernelList)
@@ -393,7 +393,7 @@ async def frameTrace(
     spkQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
     searchKernels: bool = True,
     fullKernelPath: bool = False,
-    limitQuality: bool = True,
+    limitQuality: bool = False,
     kernelList: Annotated[list[str], Query()] | str | None = []):
     try:
         ckQualities = strToList(ckQualities)
@@ -415,7 +415,7 @@ async def extractExactCkTimes(
     ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
     searchKernels: bool = True,
     fullKernelPath: bool = False,
-    limitQuality: bool = True,
+    limitQuality: bool = False,
     kernelList: Annotated[list[str], Query()] | str | None = []):
     try:
         ckQualities = strToList(ckQualities)
