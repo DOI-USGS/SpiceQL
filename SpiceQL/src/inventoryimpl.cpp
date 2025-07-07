@@ -274,8 +274,6 @@ namespace SpiceQL {
   }
 
 
-
-
   json InventoryImpl::search_for_kernelsets(vector<string> spiceql_names, vector<Kernel::Type> types, double start_time, double stop_time,
                                   vector<Kernel::Quality> ckQualities, vector<Kernel::Quality> spkQualities, bool full_kernel_path, 
                                   bool limit_quality, bool overwrite) { 
@@ -290,7 +288,6 @@ namespace SpiceQL {
       }
       return kernels;
   }
-
 
 
   json InventoryImpl::search_for_kernelset(string spiceql_name, vector<Kernel::Type> types, double start_time, double stop_time,

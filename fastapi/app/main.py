@@ -56,9 +56,10 @@ async def message():
       if db_exists:
         try:
             hdf_db = h5py.File(pyspiceql.getDbFilePath(), 'r')
+            logger.info(hdf_db.attrs)
             spiceql_version = hdf_db.attrs['SPICEQL_VERSION']
         except Exception as e:
-            raise Exception("Could not read SpiceQL version from HDF file.")
+            raise Exception(f"Could not read SpiceQL version from HDF file: {e}.")
       else:
         logger.error(f"SpiceQL DB not found at : {pyspiceql.getDbFilePath()}")
         raise Exception("SpiceQL DB could not be found.")
@@ -427,6 +428,30 @@ async def extractExactCkTimes(
         body = ErrorModel(error=str(e))
         return ResponseModel(statusCode=500, body=body)
 
+
+@app.get("/getExactTargetOrientations")
+async def getExactTargetOrientations(
+    startEt: float,
+    stopEt: float,
+    toFrame: int = 0,
+    refFrame: int = 0,
+    mission: str = "",
+    ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
+    searchKernels: bool = True,
+    fullKernelPath: bool = False,
+    limitQuality: bool = True,
+    kernelList: Annotated[list[str], Query()] | str | None = []):
+    try:
+        ckQualities = strToList(ckQualities)
+        kernelList = strToList(kernelList)
+        result, kernels = pyspiceql.getExactTargetOrientations(startEt, stopEt, toFrame, refFrame, mission, ckQualities, False, searchKernels, fullKernelPath, limitQuality, kernelList)
+        body = ResultModel(result=result, kernels=kernels)
+        return ResponseModel(statusCode=200, body=body)
+    except Exception as e:
+        body = ErrorModel(error=str(e))
+        return ResponseModel(statusCode=500, body=body)
+
+
 @app.get("/searchForKernelsets")
 async def searchForKernelsets(
     spiceqlNames: Annotated[list[str], Query()] | str = [],
@@ -485,6 +510,7 @@ def interpolate_times(start_times, stop_times, exposure_times) -> np.ndarray:
     for start, stop, exposure_time in zip(start_times, stop_times, exposure_times):
         interp_times = np.arange(start, stop, exposure_time, dtype=float)
         times.extend(interp_times.tolist())
+    logging.info(f"interpolated times = {times}")
     return np.asarray(times)
 
 def strToList(value: str) -> list:
