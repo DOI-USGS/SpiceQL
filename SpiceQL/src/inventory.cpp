@@ -20,7 +20,7 @@ namespace SpiceQL {
     namespace Inventory { 
         json search_for_kernelset(string instrument, vector<string> types, double start_time, double stop_time,  
                                   vector<string> ckQualities, vector<string> spkQualities, bool full_kernel_path, 
-                                  bool limit_quality) { 
+                                  int limit_ck, int limit_spk) { 
             InventoryImpl impl;
             
             vector<Kernel::Quality> enum_ck_qualities = Kernel::translateQualities(ckQualities);
@@ -31,12 +31,12 @@ namespace SpiceQL {
                 enum_types.push_back(Kernel::translateType(e));
             }
 
-            return impl.search_for_kernelset(instrument, enum_types, start_time, stop_time, enum_ck_qualities, enum_spk_qualities, full_kernel_path, limit_quality);
+            return impl.search_for_kernelset(instrument, enum_types, start_time, stop_time, enum_ck_qualities, enum_spk_qualities, full_kernel_path, limit_ck, limit_spk);
         }
 
         json search_for_kernelsets(vector<string> spiceql_names, vector<string> types, double start_time, double stop_time, 
                                    vector<string> ckQualities, vector<string> spkQualities, bool full_kernel_path, 
-                                   bool limit_quality, bool overwrite) { 
+                                   int limit_ck, int limit_spk, bool overwrite) { 
             InventoryImpl impl;
               
             vector<Kernel::Quality> enum_ck_qualities = Kernel::translateQualities(ckQualities);
@@ -47,7 +47,7 @@ namespace SpiceQL {
                 enum_types.push_back(Kernel::translateType(e));
             } 
 
-            json kernels = impl.search_for_kernelsets(spiceql_names, enum_types, start_time, stop_time, enum_ck_qualities, enum_spk_qualities, full_kernel_path, limit_quality, overwrite);
+            json kernels = impl.search_for_kernelsets(spiceql_names, enum_types, start_time, stop_time, enum_ck_qualities, enum_spk_qualities, full_kernel_path, limit_ck, limit_spk, overwrite);
             return kernels; 
         }
 
