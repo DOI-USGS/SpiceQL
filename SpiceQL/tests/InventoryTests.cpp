@@ -15,7 +15,7 @@
 
 TEST_F(LroKernelSet, TestInventorySmithed) { 
   Inventory::create_database();
-  nlohmann::json kernels = Inventory::search_for_kernelset("lroc", {"fk", "sclk", "spk", "ck"}, 110000000, 140000000, {"smithed", "reconstructed"}, {"smithed", "reconstructed"}, false, false);
+  nlohmann::json kernels = Inventory::search_for_kernelset("lroc", {"fk", "sclk", "spk", "ck"}, 110000000, 140000000, {"smithed", "reconstructed"}, {"smithed", "reconstructed"}, false);
   SPDLOG_DEBUG("Returned Kernels {} ", kernels.dump());
   
   EXPECT_EQ(fs::path(kernels["fk"][0]).filename(), "lro_frames_1111111_v01.tf");
@@ -30,7 +30,7 @@ TEST_F(LroKernelSet, TestInventorySmithed) {
 
 TEST_F(LroKernelSet, TestInventoryRecon) { 
   Inventory::create_database();
-  nlohmann::json kernels = Inventory::search_for_kernelset("lroc", {"fk", "sclk", "spk", "ck"}, 110000000, 140000000, {"reconstructed"}, {"reconstructed"}, false, false);
+  nlohmann::json kernels = Inventory::search_for_kernelset("lroc", {"fk", "sclk", "spk", "ck"}, 110000000, 140000000, {"reconstructed"}, {"reconstructed"}, false);
   EXPECT_EQ(fs::path(kernels["fk"][0]).filename(), "lro_frames_1111111_v01.tf");
   EXPECT_EQ(fs::path(kernels["sclk"][0]).filename(), "lro_clkcor_2020184_v00.tsc");
   EXPECT_TRUE(!kernels.contains("spk")); // no spks
@@ -75,21 +75,21 @@ TEST_F(LroKernelSet, TestInventoryPortability) {
 
 
 TEST_F(KernelsWithQualities, TestUnenforcedQuality) { 
-  nlohmann::json kernels = Inventory::search_for_kernelset("odyssey", {"spk"}, 130000000, 140000000, {"smithed", "reconstructed"}, {"smithed", "reconstructed"}, false, false);
+  nlohmann::json kernels = Inventory::search_for_kernelset("odyssey", {"spk"}, 130000000, 140000000, {"smithed", "reconstructed"}, {"smithed", "reconstructed"}, false);
   // smithed kernels should not exist so it should return reconstructed
   EXPECT_EQ(kernels["odyssey_spk_quality"].get<string>(), "reconstructed");
 }
 
 
 TEST_F(KernelsWithQualities, TestEnforcedQuality) { 
-  nlohmann::json kernels = Inventory::search_for_kernelset("odyssey", {"spk"}, 130000000, 140000000, {"smithed"}, {"smithed"}, false, true);
+  nlohmann::json kernels = Inventory::search_for_kernelset("odyssey", {"spk"}, 130000000, 140000000, {"smithed"}, {"smithed"}, false);
   // Should be empty since we are enforcing smithed
   EXPECT_TRUE(kernels.is_null());
 }
 
 TEST_F(LroKernelSet, TestInventorySearch) {
   // do a time query
-  nlohmann::json kernels = Inventory::search_for_kernelset("lroc", {"lsk", "sclk", "ck", "spk", "iak", "fk"}, 110000000, 140000001, {"smithed", "reconstructed"}, {"smithed", "reconstructed"}, false, false);
+  nlohmann::json kernels = Inventory::search_for_kernelset("lroc", {"lsk", "sclk", "ck", "spk", "iak", "fk"}, 110000000, 140000001, {"smithed", "reconstructed"}, {"smithed", "reconstructed"}, false);
   SPDLOG_DEBUG("TEST KERNELS: {}", kernels.dump(4));
   EXPECT_EQ(kernels["ck"].size(), 2);
   EXPECT_EQ(fs::path(kernels["ck"][0].get<string>()).filename(), "soc31_1111111_1111111_v21.bc" );
@@ -100,7 +100,7 @@ TEST_F(LroKernelSet, TestInventorySearch) {
 
 TEST_F(LroKernelSet, TestInventorySearchSetsNoOverwrite) {
   // do a time query
-  pair<string, nlohmann::json> result = searchForKernelsets({"moon", "base"}, {"pck"}, 110000000, 140000001, {"reconstructed"}, {"reconstructed"}, false, false);
+  pair<string, nlohmann::json> result = searchForKernelsets({"moon", "base"}, {"pck"}, 110000000, 140000001, {"reconstructed"}, {"reconstructed"}, false);
   nlohmann::json kernels = result.second;
   SPDLOG_DEBUG("TEST KERNELS: {}", kernels.dump(4));
   EXPECT_EQ(kernels["pck"].size(), 2);
@@ -124,7 +124,7 @@ TEST_F(TempTestingFiles, SpiceQLPerformanceInventory) {
 
 TEST_F(LroKernelSet, TestInventorySearchSetsOverwrite) {
   // do a time query
-  pair<string, nlohmann::json> result = searchForKernelsets({"moon", "base"}, {"pck"}, 110000000, 140000001, {"reconstructed"}, {"reconstructed"}, false, false, true);
+  pair<string, nlohmann::json> result = searchForKernelsets({"moon", "base"}, {"pck"}, 110000000, 140000001, {"reconstructed"}, {"reconstructed"}, false, -1, 1, true);
   nlohmann::json kernels = result.second;
   SPDLOG_DEBUG("TEST KERNELS: {}", kernels.dump(4));
   EXPECT_EQ(kernels["pck"].size(), 2);

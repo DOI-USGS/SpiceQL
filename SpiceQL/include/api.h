@@ -38,7 +38,8 @@ namespace SpiceQL {
      * @param spkQualities string of strings describing the quality of spks to try and obtain
      * @param searchKernels bool Whether to search the kernels for the user
      * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
-     * @param limitQuality bool only returns higher priority quality kernel if true
+     * @param limitCk int number of cks to limit to, default is -1 to retrieve all
+     * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
      * @param kernelList vector<string> vector of additional kernels to load 
      * 
      * @see SpiceQL::getTargetState
@@ -58,7 +59,8 @@ namespace SpiceQL {
         bool useWeb=false,
         bool searchKernels=true,
         bool fullKernelPath=false,
-        bool limitQuality=true,
+        int limitCk=-1, 
+        int limitSpk=1,
         std::vector<std::string> kernelList={});
     
     /**
@@ -75,7 +77,8 @@ namespace SpiceQL {
      * @param ckQualities vector of string describing the quality of cks to try and obtain
      * @param searchKernels bool Whether to search the kernels for the user
      * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
-     * @param limitQuality bool only returns higher priority quality kernel if true
+     * @param limitCk int number of cks to limit to, default is -1 to retrieve all
+     * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
      * @param kernelList vector<string> vector of additional kernels to load 
      *
      * @see SpiceQL::getTargetOrientation
@@ -91,7 +94,8 @@ namespace SpiceQL {
         bool useWeb=false,
         bool searchKernels=true,
         bool fullKernelPath=false,
-        bool limitQuality=true,
+        int limitCk=-1, 
+        int limitSpk=1,
         std::vector<std::string> kernelList={});
     
     /**
@@ -106,7 +110,8 @@ namespace SpiceQL {
      * @param mission string Mission name as it relates to the config files
      * @param searchKernels bool Whether to search the kernels for the user
      * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
-     * @param limitQuality bool only returns higher priority quality kernel if true
+     * @param limitCk int number of cks to limit to, default is -1 to retrieve all
+     * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
      * @param kernelList vector<string> vector of additional kernels to load     
      * @return double
      */
@@ -117,7 +122,8 @@ namespace SpiceQL {
         bool useWeb=false,
         bool searchKernels=true,
         bool fullKernelPath=false,
-        bool limitQuality=true,
+        int limitCk=-1, 
+        int limitSpk=1,
         std::vector<std::string> kernelList={});
 
     /**
@@ -132,7 +138,8 @@ namespace SpiceQL {
      * @param mission string Mission name as it relates to the config files
      * @param searchKernels bool Whether to search the kernels for the user
      * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
-     * @param limitQuality bool only returns higher priority quality kernel if true
+     * @param limitCk int number of cks to limit to, default is -1 to retrieve all
+     * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
      * @param kernelList vector<string> vector of additional kernels to load 
      * @return double
      */
@@ -143,7 +150,8 @@ namespace SpiceQL {
         bool useWeb=false,
         bool searchKernels=true,
         bool fullKernelPath=false,
-        bool limitQuality=true,
+        int limitCk=-1, 
+        int limitSpk=1,
         std::vector<std::string> kernelList={});
 
 
@@ -159,7 +167,8 @@ namespace SpiceQL {
      * @param mission string Mission name as it relates to the config files
      * @param searchKernels bool Whether to search the kernels for the user
      * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
-     * @param limitQuality bool only returns higher priority quality kernel if true
+     * @param limitCk int number of cks to limit to, default is -1 to retrieve all
+     * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
      * @param kernelList vector<string> vector of additional kernels to load 
      * @return double
      */
@@ -170,7 +179,8 @@ namespace SpiceQL {
         bool useWeb=false,
         bool searchKernels=true,
         bool fullKernelPath=false,
-        bool limitQuality=true,
+        int limitCk=-1, 
+        int limitSpk=1,
         std::vector<std::string> kernelList={});
 
 
@@ -183,7 +193,8 @@ namespace SpiceQL {
      * @param et UTC string, e.g. "1988 June 13, 12:29:48 TDB"
      * @param searchKernels bool Whether to search the kernels for the user
      * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
-     * @param limitQuality bool only returns higher priority quality kernel if true
+     * @param limitCk int number of cks to limit to, default is -1 to retrieve all
+     * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
      * @returns double precision ephemeris time
      **/
     std::pair<double, nlohmann::json> utcToEt(
@@ -191,7 +202,8 @@ namespace SpiceQL {
         bool useWeb=false,
         bool searchKernels=true,
         bool fullKernelPath=false,
-        bool limitQuality=true,
+        int limitCk=-1, 
+        int limitSpk=1,
         std::vector<std::string> kernelList={});
 
     /**
@@ -204,7 +216,8 @@ namespace SpiceQL {
      * @param precision number of decimal 
      * @param searchKernels bool Whether to search the kernels for the user
      * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
-     * @param limitQuality bool only returns higher priority quality kernel if true
+     * @param limitCk int number of cks to limit to, default is -1 to retrieve all
+     * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
      * @param kernelList vector<string> vector of additional kernels to load 
      *
      * @returns double precision ephemeris time
@@ -216,7 +229,8 @@ namespace SpiceQL {
         bool useWeb=false, 
         bool searchKernels=true, 
         bool fullKernelPath=false, 
-        bool limitQuality=true, 
+        int limitCk=-1, 
+        int limitSpk=1,
         std::vector<std::string> kernelList={});
 
     /**
@@ -228,7 +242,8 @@ namespace SpiceQL {
      * @param mission Mission name as it relates to the config files
      * @param searchKernels bool Whether to search the kernels for the user
      * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
-     * @param limitQuality bool only returns higher priority quality kernel if true
+     * @param limitCk int number of cks to limit to, default is -1 to retrieve all
+     * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
      * @param kernelList vector<string> vector of additional kernels to load 
      * 
      * @return integer Naif frame code
@@ -239,7 +254,8 @@ namespace SpiceQL {
         bool useWeb=false, 
         bool searchKernels=true, 
         bool fullKernelPath=false, 
-        bool limitQuality=true, 
+        int limitCk=-1, 
+        int limitSpk=1, 
         std::vector<std::string> kernelList={});
 
     /**
@@ -251,7 +267,8 @@ namespace SpiceQL {
      * @param searchKernels bool Whether to search the kernels for the user
      * @param mission Mission name as it relates to the config files
      * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
-     * @param limitQuality bool only returns higher priority quality kernel if true
+     * @param limitCk int number of cks to limit to, default is -1 to retrieve all
+     * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
      * @param kernelList vector<string> vector of additional kernels to load 
      *
      * @return string Naif frame name
@@ -262,7 +279,8 @@ namespace SpiceQL {
         bool useWeb=false, 
         bool searchKernels=true, 
         bool fullKernelPath=false, 
-        bool limitQuality=true, 
+        int limitCk=-1, 
+        int limitSpk=1,
         std::vector<std::string> kernelList={});
 
     /**
@@ -274,7 +292,8 @@ namespace SpiceQL {
      * @param mission Mission name as it relates to the config files
      * @param searchKernels bool Whether to search the kernels for the user
      * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
-    * @param limitQuality bool only returns higher priority quality kernel if true
+     * @param limitCk int number of cks to limit to, default is -1 to retrieve all
+     * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
      * @param kernelList vector<string> vector of additional kernels to load 
      *
      * @return 3 element vector of the given frames center, class id, and class
@@ -285,7 +304,8 @@ namespace SpiceQL {
         bool useWeb=false, 
         bool searchKernels=true, 
         bool fullKernelPath=false, 
-        bool limitQuality=true, 
+        int limitCk=-1, 
+        int limitSpk=1,
         std::vector<std::string> kernelList={});
 
      /**
@@ -297,7 +317,8 @@ namespace SpiceQL {
     * @param mission mission name as it relates to the config files
     * @param searchKernels bool Whether to search the kernels for the user
     * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
-    * @param limitQuality bool only returns higher priority quality kernel if true
+    * @param limitCk int number of cks to limit to, default is -1 to retrieve all
+    * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
     * @param kernelList vector<string> vector of additional kernels to load 
     * 
     * @returns json of frame name and frame code
@@ -308,7 +329,8 @@ namespace SpiceQL {
         bool useWeb=false, 
         bool searchKernels=true, 
         bool fullKernelPath=false, 
-        bool limitQuality=true, 
+        int limitCk=-1, 
+        int limitSpk=1,
         std::vector<std::string> kernelList={});
 
 
@@ -320,7 +342,8 @@ namespace SpiceQL {
     * @param key key - Kernel to get values from 
     * @param mission mission name
     * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
-    * @param limitQuality bool only returns higher priority quality kernel if true
+    * @param limitCk int number of cks to limit to, default is -1 to retrieve all
+    * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
     * @param searchKernels bool Whether to search the kernels for the user
     * @returns json of values
     **/
@@ -330,7 +353,8 @@ namespace SpiceQL {
         bool useWeb=false, 
         bool searchKernels=true, 
         bool fullKernelPath=false, 
-        bool limitQuality=true, 
+        int limitCk=-1, 
+        int limitSpk=1,
         std::vector<std::string> kernelList={});
 
 
@@ -344,7 +368,8 @@ namespace SpiceQL {
     * @param mission mission name as it relates to the config files
     * @param searchKernels bool Whether to search the kernels for the user
     * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
-    * @param limitQuality bool only returns higher priority quality kernel if true
+    * @param limitCk int number of cks to limit to, default is -1 to retrieve all
+    * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
     * @param kernelList vector<string> vector of additional kernels to load 
     *
     * @returns vector of values
@@ -355,7 +380,8 @@ namespace SpiceQL {
         bool useWeb=false, 
         bool searchKernels=true, 
         bool fullKernelPath=false, 
-        bool limitQuality=true, 
+        int limitCk=-1, 
+        int limitSpk=1,
         std::vector<std::string> kernelList={});
 
 
@@ -372,7 +398,8 @@ namespace SpiceQL {
      * @param spkQualities vector of strings describing the quality of spks to try and obtain
      * @param searchKernels bool Whether to search the kernels for the user
      * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
-     * @param limitQuality bool only returns higher priority quality kernel if true
+     * @param limitCk int number of cks to limit to, default is -1 to retrieve all
+     * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
      * @param kernelList vector<string> vector of additional kernels to load 
      *
      * @returns A two element vector of vectors ints, where the first element is the sequence of time dependent frames
@@ -387,7 +414,8 @@ namespace SpiceQL {
         bool useWeb=false, 
         bool searchKernels=true,
         bool fullKernelPath=false, 
-        bool limitQuality=true, 
+        int limitCk=-1, 
+        int limitSpk=1, 
         std::vector<std::string> kernelList={});
 
     /**
@@ -402,7 +430,8 @@ namespace SpiceQL {
      * @param targetFrame Target reference frame to get ephemeris data in
      * @param ckQualities vector of string describing the quality of cks to try and obtain
      * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
-     * @param limitQuality bool only returns higher priority quality kernel if true
+     * @param limitCk int number of cks to limit to, default is -1 to retrieve all
+     * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
      * @param kernelList vector<string> vector of additional kernels to load 
      *
      * @returns A list of times
@@ -416,7 +445,8 @@ namespace SpiceQL {
         bool useWeb=false, 
         bool searchKernels=true, 
         bool fullKernelPath=false, 
-        bool limitQuality=true, 
+        int limitCk=-1, 
+        int limitSpk=1,
         std::vector<std::string> kernelList={});
 
     /**
@@ -447,7 +477,8 @@ namespace SpiceQL {
         bool useWeb, 
         bool searchKernels, 
         bool fullKernelPath, 
-        bool limitQuality, 
+        int limitCk=-1, 
+        int limitSpk=1,
         std::vector<std::string> kernelList);
 
 
@@ -464,6 +495,8 @@ namespace SpiceQL {
      * @param spkQualities vector of string describing the quality of spks to try and obtain
      * @param useWeb whether to use web SpiceQL
      * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
+     * @param limitCk limitCk int number of cks to limit to, default is -1 to retrieve all
+     * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
      * @param overwrite subkernels will take precedent over parent mission kernels if true
      *
      * @returns An empty return and list of kernels
@@ -476,6 +509,8 @@ namespace SpiceQL {
         std::vector<std::string> ckQualities={"smithed", "reconstructed"}, 
         std::vector<std::string> spkQualities={"smithed", "reconstructed"}, 
         bool useWeb=false, 
-        bool fullKernelPath=false, 
+        bool fullKernelPath=false,
+        int limitCk=-1, 
+        int limitSpk=1, 
         bool overwrite=false);
 }

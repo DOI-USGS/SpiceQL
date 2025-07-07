@@ -276,12 +276,13 @@ namespace SpiceQL {
 
   json InventoryImpl::search_for_kernelsets(vector<string> spiceql_names, vector<Kernel::Type> types, double start_time, double stop_time,
                                   vector<Kernel::Quality> ckQualities, vector<Kernel::Quality> spkQualities, bool full_kernel_path, 
-                                  bool limit_quality, bool overwrite) { 
-      json kernels; 
+                                  int limit_ck, int limit_spk, bool overwrite) { 
+      json kernels;
       // simply iterate over the names
       for(auto &name : spiceql_names) { 
         json subKernels = search_for_kernelset(name, types, start_time, stop_time,
-                                  ckQualities, spkQualities, full_kernel_path, limit_quality); 
+                                  ckQualities, spkQualities, full_kernel_path, limit_ck, limit_spk); 
+                                  
         SPDLOG_TRACE("subkernels for {}: {}", name, subKernels.dump(4));
         SPDLOG_TRACE("Overwrite? {}", overwrite);
         merge_json(kernels, subKernels, overwrite);
@@ -292,7 +293,7 @@ namespace SpiceQL {
 
   json InventoryImpl::search_for_kernelset(string spiceql_name, vector<Kernel::Type> types, double start_time, double stop_time,
                                   vector<Kernel::Quality> ckQualities, vector<Kernel::Quality> spkQualities, bool full_kernel_path,
-                                  bool limit_quality) { 
+                                  int limit_ck, int limit_spk) { 
     // get time dep kernels first 
     json kernels;
     spiceql_name = toLower(spiceql_name);
@@ -302,7 +303,6 @@ namespace SpiceQL {
     if (start_time > stop_time) { 
       throw range_error("start time cannot be greater than stop time.");
     }
-
     for (auto &type: types) { 
       // load time kernel
       if (type == Kernel::Type::CK || type == Kernel::Type::SPK) { 
@@ -310,11 +310,13 @@ namespace SpiceQL {
         TimeIndexedKernels *time_indices = nullptr;
         bool found = false;        
 
+        int limitQuality = limit_spk;
         vector<Kernel::Quality> qualities = spkQualities;
         string qkey = spiceql_name+"_spk_quality";
         if (type == Kernel::Type::CK) { 
           qualities = ckQualities;
           qkey = spiceql_name+"_ck_quality";
+          limitQuality = limit_ck;
         } 
 
         // sort in descending order
@@ -411,22 +413,28 @@ namespace SpiceQL {
 
           if (final_time_kernels.size()) { 
             found = true;
-            if (limit_quality) { 
-              // the SPK in the last position is the higher priority one 
-              if (full_kernel_path) {
-                kernels[Kernel::translateType(type)] = {data_dir / final_time_kernels.back()};
-              } else {
-                kernels[Kernel::translateType(type)] = {final_time_kernels.back()};
+            if (limitQuality != -1 || limitQuality <= final_time_kernels.size()) { 
+              vector<string> limitedKernels;
+              for (auto i = final_time_kernels.size()-limitQuality; i < final_time_kernels.size(); ++i) {
+                if (full_kernel_path) {
+                  limitedKernels.push_back(data_dir / final_time_kernels[i]);
+                } else {
+                  limitedKernels.push_back(final_time_kernels[i]);
+                }
               }
+              kernels[Kernel::translateType(type)] = limitedKernels;
               kernels[qkey] = Kernel::translateQuality(*quality);   
             }
             else { 
+              vector<string> allKernels;
               if (full_kernel_path) {
                 for(string &e : final_time_kernels) { 
-                  e = data_dir / e;
+                  allKernels.push_back(data_dir / e);
                 }
-              } 
-              kernels[Kernel::translateType(type)] = final_time_kernels;
+              } else {
+                allKernels = final_time_kernels;
+              }
+              kernels[Kernel::translateType(type)] = allKernels;
               kernels[qkey] = Kernel::translateQuality(*quality);
             }
           }

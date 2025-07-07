@@ -35,6 +35,9 @@ release.
 
 ## [Unreleased]
 
+### Changed
+- Turned `limitQuality` into `limitCk` and `limitSpk` query params [#80](https://github.com/DOI-USGS/SpiceQL/pull/80)
+
 ## 1.2.0
 
 ### Added

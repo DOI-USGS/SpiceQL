@@ -222,7 +222,7 @@ namespace SpiceQL {
 
     pair<vector<vector<double>>, json> getTargetStates(vector<double> ets, string target, string observer, string frame, string abcorr, string mission, 
                                                        vector<string> ckQualities, vector<string> spkQualities, bool useWeb, bool searchKernels, bool fullKernelPath, 
-                                                       bool limitQuality, vector<string> kernelList) {
+                                                       int limitCk, int limitSpk, vector<string> kernelList) {
         SPDLOG_TRACE("Calling getTargetStates with {}, {}, {}, {}, {}, {}, {}, {}, {}, {}", ets.size(), target, observer, frame, abcorr, mission, ckQualities.size(), spkQualities.size(), useWeb, searchKernels, kernelList.size());
 
         if (useWeb) {
@@ -238,7 +238,8 @@ namespace SpiceQL {
                 {"spkQualities", spkQualities},
                 {"searchKernels", searchKernels},
                 {"fullKernelPath", fullKernelPath},
-                {"limitQuality", limitQuality},
+                {"limitCk", limitCk},
+                {"limitSpk", limitSpk},
                 {"kernelList", kernelList}
                 });
             // @TODO check that json exists / contains what we're looking for
@@ -254,7 +255,7 @@ namespace SpiceQL {
         json ephemKernels = {};
 
         if (searchKernels) {
-            ephemKernels = Inventory::search_for_kernelsets({mission, target, observer, "base"}, {"sclk", "ck", "spk", "pck", "tspk", "lsk", "fk", "ik"}, ets.front(), ets.back(), ckQualities, spkQualities, fullKernelPath, limitQuality);
+            ephemKernels = Inventory::search_for_kernelsets({mission, target, observer, "base"}, {"sclk", "ck", "spk", "pck", "tspk", "lsk", "fk", "ik"}, ets.front(), ets.back(), ckQualities, spkQualities, fullKernelPath, limitCk, limitSpk);
             SPDLOG_DEBUG("{} Kernels : {}", mission, ephemKernels.dump(4));
         }
 
@@ -289,7 +290,7 @@ namespace SpiceQL {
 
     pair<vector<vector<double>>, json> getTargetOrientations(vector<double> ets, int toFrame, int refFrame, string mission, 
                                                              vector<string> ckQualities, bool useWeb, bool searchKernels, bool fullKernelPath, 
-                                                             bool limitQuality, vector<string> kernelList) {
+                                                             int limitCk, int limitSpk, vector<string> kernelList) {
         SPDLOG_TRACE("Calling getTargetOrientations with {}, {}, {}, {}, {}, {}, {}, {}", ets.size(), toFrame, refFrame, mission, ckQualities.size(), useWeb, searchKernels, kernelList.size());
 
         if (useWeb){
@@ -301,7 +302,8 @@ namespace SpiceQL {
                 {"ckQualities", ckQualities},
                 {"searchKernels", searchKernels},
                 {"fullKernelPath", fullKernelPath},
-                {"limitQuality", limitQuality},
+                {"limitCk", limitCk},
+                {"limitSpk", limitSpk},
                 {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("getTargetOrientations", args);
@@ -316,7 +318,7 @@ namespace SpiceQL {
         json ephemKernels = {};
 
         if (searchKernels) {
-            ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"sclk", "ck", "pck", "fk", "ik", "lsk", "tspk"}, ets.front(), ets.back(), ckQualities, {"noquality"}, fullKernelPath, limitQuality);
+            ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"sclk", "ck", "pck", "fk", "ik", "lsk", "tspk"}, ets.front(), ets.back(), ckQualities, {"noquality"}, fullKernelPath, limitCk, limitSpk);
         }
 
         if (!kernelList.empty()) {
@@ -346,7 +348,7 @@ namespace SpiceQL {
     }
 
 
-    pair<vector<vector<double>>, json> getExactTargetOrientations(double startEt, double stopEt, int toFrame, int refFrame, string mission, vector<string> ckQualities, bool useWeb, bool searchKernels, bool fullKernelPath, bool limitQuality, vector<string> kernelList) {
+    pair<vector<vector<double>>, json> getExactTargetOrientations(double startEt, double stopEt, int toFrame, int refFrame, string mission, vector<string> ckQualities, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {
         SPDLOG_TRACE("Calling getExactTargetOrientations with startEt={}, stopEt={}, toFrame={}, refFrame={}, mission={}, ckQualities.size()={}, useWeb={}, searchKernels={}, kernelList.size()={}", 
             startEt, stopEt, toFrame, refFrame, mission, ckQualities.size(), useWeb, searchKernels, kernelList.size());
         
@@ -360,6 +362,8 @@ namespace SpiceQL {
                 {"ckQualities", ckQualities},
                 {"searchKernels", searchKernels},
                 {"fullKernelPath", fullKernelPath},
+                {"limitCk", limitCk},
+                {"limitSpk", limitSpk},
                 {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("getTargetOrientations", args);
@@ -368,9 +372,9 @@ namespace SpiceQL {
         }
         
         // force searchKernels and useWeb to false
-        auto [exactCkTimes, kernels1] = extractExactCkTimes(startEt, stopEt, toFrame, mission, ckQualities, false, searchKernels, fullKernelPath, true, kernelList);
+        auto [exactCkTimes, kernels1] = extractExactCkTimes(startEt, stopEt, toFrame, mission, ckQualities, false, searchKernels, fullKernelPath, 1, 1, kernelList);
         SPDLOG_DEBUG("number of exact ck times = {}", exactCkTimes.size());
-        auto [orientations, kernels2] = getTargetOrientations(exactCkTimes, toFrame, refFrame, mission, ckQualities, false, searchKernels, fullKernelPath, limitQuality, kernelList);
+        auto [orientations, kernels2] = getTargetOrientations(exactCkTimes, toFrame, refFrame, mission, ckQualities, false, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList);
         json ephemKernels = merge_json(kernels1, kernels2);
 
         // Merge the two vectors into a new vector of format t,x,y,z,w
@@ -387,7 +391,7 @@ namespace SpiceQL {
     }
 
 
-    pair<double, json> strSclkToEt(int frameCode, string sclk, string mission, bool useWeb, bool searchKernels, bool fullKernelPath, bool limitQuality, vector<string> kernelList) {
+    pair<double, json> strSclkToEt(int frameCode, string sclk, string mission, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {
         SPDLOG_TRACE("calling strSclkToEt({}, {}, {}, {}, {}, {})", frameCode, sclk, mission, useWeb, searchKernels, kernelList.size());
 
         if (useWeb) {
@@ -397,7 +401,8 @@ namespace SpiceQL {
                 {"mission", mission},
                 {"searchKernels", searchKernels},
                 {"fullKernelPath", fullKernelPath},
-                {"limitQuality", limitQuality},
+                {"limitCk", limitCk},
+                {"limitSpk", limitSpk},
                 {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("strSclkToEt", args);
@@ -407,7 +412,7 @@ namespace SpiceQL {
 
         json ephemKernels;
         if (searchKernels) {
-            ephemKernels = Inventory::search_for_kernelsets({"base", mission}, {"lsk", "fk", "sclk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitQuality); 
+            ephemKernels = Inventory::search_for_kernelsets({"base", mission}, {"lsk", "fk", "sclk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk); 
         }
 
         if (!kernelList.empty()) {
@@ -436,7 +441,7 @@ namespace SpiceQL {
     }
 
 
-   pair<string, json> doubleEtToSclk(int frameCode, double et, string mission, bool useWeb, bool searchKernels, bool fullKernelPath, bool limitQuality, vector<string> kernelList) {
+   pair<string, json> doubleEtToSclk(int frameCode, double et, string mission, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {
         SPDLOG_TRACE("calling doubleEtToSclk({}, {}, {}, {}, {}, {})", frameCode, et, mission, useWeb, searchKernels, kernelList.size());
 
         json ephemKernels;
@@ -448,7 +453,8 @@ namespace SpiceQL {
                 {"mission", mission},
                 {"searchKernels", searchKernels},
                 {"fullKernelPath", fullKernelPath},
-                {"limitQuality", limitQuality},
+                {"limitCk", limitCk},
+                {"limitSpk", limitSpk},
                 {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("doubleEtToSclk", args);
@@ -457,7 +463,7 @@ namespace SpiceQL {
         }
 
         if (searchKernels) {
-          ephemKernels = Inventory::search_for_kernelsets({"base", mission}, {"fk", "lsk", "sclk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitQuality); 
+          ephemKernels = Inventory::search_for_kernelsets({"base", mission}, {"fk", "lsk", "sclk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk); 
         }
 
         if (!kernelList.empty()) {
@@ -478,7 +484,7 @@ namespace SpiceQL {
    }
 
 
-    pair<double, json> doubleSclkToEt(int frameCode, double sclk, string mission, bool useWeb, bool searchKernels, bool fullKernelPath, bool limitQuality, vector<string> kernelList) {
+    pair<double, json> doubleSclkToEt(int frameCode, double sclk, string mission, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {
 
         if (useWeb){
             json args = json::object({
@@ -487,7 +493,8 @@ namespace SpiceQL {
                 {"mission", mission},
                 {"searchKernels", searchKernels},
                 {"fullKernelPath", fullKernelPath},
-                {"limitQuality", limitQuality},
+                {"limitCk", limitCk},
+                {"limitSpk", limitSpk},
                 {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("doubleSclkToEt", args);
@@ -498,7 +505,7 @@ namespace SpiceQL {
         json sclks;
 
         if (searchKernels) {
-            sclks = Inventory::search_for_kernelsets({"base", mission}, {"lsk", "fk", "sclk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitQuality);
+            sclks = Inventory::search_for_kernelsets({"base", mission}, {"lsk", "fk", "sclk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk);
         }
 
         if (!kernelList.empty()) {
@@ -522,14 +529,15 @@ namespace SpiceQL {
     }
 
 
-    pair<double, json> utcToEt(string utc, bool useWeb, bool searchKernels, bool fullKernelPath, bool limitQuality, vector<string> kernelList) {
+    pair<double, json> utcToEt(string utc, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {
         
         if (useWeb){
             json args = json::object({
                 {"utc", utc},
                 {"searchKernels", searchKernels},
                 {"fullKernelPath", fullKernelPath},
-                {"limitQuality", limitQuality},
+                {"limitCk", limitCk},
+                {"limitSpk", limitSpk},
                 {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("utcToEt", args);
@@ -541,7 +549,7 @@ namespace SpiceQL {
 
         // get lsk kernel
         if (searchKernels) {
-            lsks = Inventory::search_for_kernelset("base", {"lsk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitQuality);
+            lsks = Inventory::search_for_kernelset("base", {"lsk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk);
         }
         if (!kernelList.empty()) {
             json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
@@ -560,7 +568,7 @@ namespace SpiceQL {
     }
 
 
-    pair<string, json> etToUtc(double et, string format, double precision, bool useWeb, bool searchKernels, bool fullKernelPath, bool limitQuality, vector<string> kernelList) {
+    pair<string, json> etToUtc(double et, string format, double precision, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {
     
         if (useWeb){
             json args = json::object({
@@ -569,7 +577,8 @@ namespace SpiceQL {
                 {"precision", precision},
                 {"searchKernels", searchKernels},
                 {"fullKernelPath", fullKernelPath},
-                {"limitQuality", limitQuality},
+                {"limitCk", limitCk},
+                {"limitSpk", limitSpk},
                 {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("etToUtc", args);
@@ -581,7 +590,7 @@ namespace SpiceQL {
 
         // get lsk kernel
         if (searchKernels) {
-            lsks = Inventory::search_for_kernelset("base", {"lsk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitQuality);
+            lsks = Inventory::search_for_kernelset("base", {"lsk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk);
         }
         if (!kernelList.empty()) {
             json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
@@ -600,7 +609,7 @@ namespace SpiceQL {
     }
 
 
-    pair<int, json> translateNameToCode(string frame, string mission, bool useWeb, bool searchKernels, bool fullKernelPath, bool limitQuality, vector<string> kernelList) {    
+    pair<int, json> translateNameToCode(string frame, string mission, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {    
         
         if (useWeb){
             json args = json::object({
@@ -608,7 +617,8 @@ namespace SpiceQL {
                 {"mission", mission},
                 {"searchKernels", searchKernels},
                 {"fullKernelPath", fullKernelPath},
-                {"limitQuality", limitQuality},
+                {"limitCk", limitCk},
+                {"limitSpk", limitSpk},
                 {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("translateNameToCode", args);
@@ -621,7 +631,7 @@ namespace SpiceQL {
         json kernelsToLoad = {};
 
         if (mission != "" && searchKernels) {
-            kernelsToLoad = Inventory::search_for_kernelset(mission, {"fk", "ik"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitQuality);
+            kernelsToLoad = Inventory::search_for_kernelset(mission, {"fk", "ik"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk);
         }
 
         if (!kernelList.empty()) {
@@ -649,7 +659,7 @@ namespace SpiceQL {
     }
 
 
-    pair<string, json> translateCodeToName(int frame, string mission, bool useWeb, bool searchKernels, bool fullKernelPath, bool limitQuality, vector<string> kernelList) {
+    pair<string, json> translateCodeToName(int frame, string mission, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {
         
         if (useWeb){
             json args = json::object({
@@ -657,7 +667,8 @@ namespace SpiceQL {
                 {"mission", mission},
                 {"searchKernels", searchKernels},
                 {"fullKernelPath", fullKernelPath},
-                {"limitQuality", limitQuality},
+                {"limitCk", limitCk},
+                {"limitSpk", limitSpk},
                 {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("translateCodeToName", args);
@@ -670,7 +681,7 @@ namespace SpiceQL {
         json kernelsToLoad = {};
 
         if (mission != "" && searchKernels){
-            kernelsToLoad = Inventory::search_for_kernelset(mission, {"fk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitQuality);
+            kernelsToLoad = Inventory::search_for_kernelset(mission, {"fk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk);
         }
         if (!kernelList.empty()) {
             json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
@@ -697,7 +708,7 @@ namespace SpiceQL {
     }
 
 
-    pair<vector<int>, json> getFrameInfo(int frame, string mission, bool useWeb, bool searchKernels, bool fullKernelPath, bool limitQuality, vector<string> kernelList) {
+    pair<vector<int>, json> getFrameInfo(int frame, string mission, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {
         
         if (useWeb){
             json args = json::object({
@@ -705,7 +716,8 @@ namespace SpiceQL {
                 {"mission", mission},
                 {"searchKernels", searchKernels},
                 {"fullKernelPath", fullKernelPath},
-                {"limitQuality", limitQuality},
+                {"limitCk", limitCk},
+                {"limitSpk", limitSpk},
                 {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("getFrameInfo", args);
@@ -722,7 +734,7 @@ namespace SpiceQL {
 
         if (mission != "" && searchKernels) {
             // Load only the FKs
-            kernelsToLoad = Inventory::search_for_kernelset(mission, {"fk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitQuality);
+            kernelsToLoad = Inventory::search_for_kernelset(mission, {"fk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk);
         }
         if (!kernelList.empty()) {
             json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
@@ -744,7 +756,7 @@ namespace SpiceQL {
     }
 
 
-    pair<json, json> getTargetFrameInfo(int targetId, string mission, bool useWeb, bool searchKernels, bool fullKernelPath, bool limitQuality, vector<string> kernelList) {
+    pair<json, json> getTargetFrameInfo(int targetId, string mission, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {
         
         if (useWeb){
             json args = json::object({
@@ -752,7 +764,8 @@ namespace SpiceQL {
                 {"mission", mission},
                 {"searchKernels", searchKernels},
                 {"fullKernelPath", fullKernelPath},
-                {"limitQuality", limitQuality},
+                {"limitCk", limitCk},
+                {"limitSpk", limitSpk},
                 {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("getTargetFrameInfo", args);
@@ -768,7 +781,7 @@ namespace SpiceQL {
         json kernelsToLoad = {};
 
         if (mission != "" && searchKernels) {
-            kernelsToLoad = Inventory::search_for_kernelsets({mission, "base"}, {"fk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitQuality);
+            kernelsToLoad = Inventory::search_for_kernelsets({mission, "base"}, {"fk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk);
         }
 
         if (!kernelList.empty()) {
@@ -794,7 +807,7 @@ namespace SpiceQL {
     }
 
 
-    pair<json, json> findMissionKeywords(string key, string mission, bool useWeb, bool searchKernels, bool fullKernelPath, bool limitQuality, vector<string> kernelList) {
+    pair<json, json> findMissionKeywords(string key, string mission, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {
         
         if (useWeb){
             json args = json::object({
@@ -802,7 +815,8 @@ namespace SpiceQL {
                 {"mission", mission},
                 {"searchKernels", searchKernels},
                 {"fullKernelPath", fullKernelPath},
-                {"limitQuality", limitQuality},
+                {"limitCk", limitCk},
+                {"limitSpk", limitSpk},
                 {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("findMissionKeywords", args);
@@ -813,7 +827,7 @@ namespace SpiceQL {
         json translationKernels = {};
 
         if (mission != "" && searchKernels) {
-            translationKernels = Inventory::search_for_kernelset(mission, {"iak", "fk", "ik"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitQuality);
+            translationKernels = Inventory::search_for_kernelset(mission, {"iak", "fk", "ik"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk);
         }
 
         if (!kernelList.empty()) {
@@ -828,7 +842,7 @@ namespace SpiceQL {
     }
 
 
-    pair<json, json> findTargetKeywords(string key, string mission, bool useWeb, bool searchKernels, bool fullKernelPath, bool limitQuality, vector<string> kernelList) {
+    pair<json, json> findTargetKeywords(string key, string mission, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {
         
         if (useWeb){
             json args = json::object({
@@ -836,7 +850,8 @@ namespace SpiceQL {
                 {"mission", mission},
                 {"searchKernels", searchKernels},
                 {"fullKernelPath", fullKernelPath},
-                {"limitQuality", limitQuality},
+                {"limitCk", limitCk},
+                {"limitSpk", limitSpk},
                 {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("findTargetKeywords", args);
@@ -847,7 +862,7 @@ namespace SpiceQL {
         json kernelsToLoad = {};
 
         if (mission != "" && searchKernels) {
-            kernelsToLoad = Inventory::search_for_kernelsets({mission, "base"}, {"pck"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitQuality);
+            kernelsToLoad = Inventory::search_for_kernelsets({mission, "base"}, {"pck"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk);
         }
 
         if (!kernelList.empty()) {
@@ -861,7 +876,7 @@ namespace SpiceQL {
     }
 
 
-    pair<vector<vector<int>>, json> frameTrace(double et, int initialFrame, string mission, vector<string> ckQualities, vector<string> spkQualities, bool useWeb, bool searchKernels, bool fullKernelPath, bool limitQuality, vector<string> kernelList) {
+    pair<vector<vector<int>>, json> frameTrace(double et, int initialFrame, string mission, vector<string> ckQualities, vector<string> spkQualities, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {
         checkNaifErrors();
 
         if (useWeb){
@@ -872,7 +887,8 @@ namespace SpiceQL {
                 {"ckQualities", ckQualities},
                 {"searchKernels", searchKernels},
                 {"fullKernelPath", fullKernelPath},
-                {"limitQuality", limitQuality},
+                {"limitCk", limitCk},
+                {"limitSpk", limitSpk},
                 {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("frameTrace", args);
@@ -883,7 +899,7 @@ namespace SpiceQL {
         json ephemKernels;
 
         if (searchKernels) {
-            ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"sclk", "ck", "pck", "fk", "ik", "iak", "lsk", "spk", "tspk"}, et, et, ckQualities, spkQualities, fullKernelPath, limitQuality);
+            ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"sclk", "ck", "pck", "fk", "ik", "iak", "lsk", "spk", "tspk"}, et, et, ckQualities, spkQualities, fullKernelPath, limitCk, limitSpk);
         }
 
         if (!kernelList.empty()) {
@@ -1012,7 +1028,7 @@ namespace SpiceQL {
     }
 
 
-    pair<vector<double>, json> extractExactCkTimes(double observStart, double observEnd, int targetFrame, string mission, vector<string> ckQualities, bool useWeb, bool searchKernels, bool fullKernelPath, bool limitQuality, vector<string> kernelList) {
+    pair<vector<double>, json> extractExactCkTimes(double observStart, double observEnd, int targetFrame, string mission, vector<string> ckQualities, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {
         SPDLOG_TRACE("Calling extractExactCkTimes with {}, {}, {}, {}, {}, {}, {}", observStart, observEnd, targetFrame, mission, ckQualities.size(), useWeb, searchKernels);
         
         if (useWeb){
@@ -1024,7 +1040,8 @@ namespace SpiceQL {
                 {"ckQualities", ckQualities},
                 {"searchKernels", searchKernels},
                 {"fullKernelPath", fullKernelPath},
-                {"limitQuality", limitQuality},
+                {"limitCk", limitCk},
+                {"limitSpk", limitSpk},
                 {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("extractExactCkTimes", args);
@@ -1036,7 +1053,7 @@ namespace SpiceQL {
         json ephemKernels = {};
 
         if (searchKernels) {
-            ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"ck", "sclk", "lsk"}, observStart, observEnd, ckQualities, {"noquality"}, fullKernelPath, limitQuality);
+            ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"ck", "sclk", "lsk"}, observStart, observEnd, ckQualities, {"noquality"}, fullKernelPath, limitCk, limitSpk);
         }
 
         if (!kernelList.empty()) {
@@ -1187,7 +1204,8 @@ namespace SpiceQL {
     }
 
     std::pair<string, nlohmann::json> searchForKernelsets(vector<string> spiceqlNames, vector<string> types, double startTime, double stopTime,
-                                  vector<string> ckQualities, vector<string> spkQualities, bool useWeb, bool fullKernelPath, bool overwrite) { 
+                                  vector<string> ckQualities, vector<string> spkQualities, bool useWeb, bool fullKernelPath, int limitCk, int limitSpk,
+                                  bool overwrite) { 
       if (useWeb){
         json args = json::object({
             {"spiceqlNames", spiceqlNames},
@@ -1197,13 +1215,15 @@ namespace SpiceQL {
             {"ckQualities", ckQualities},
             {"spkQualities", spkQualities},
             {"fullKernelPath", fullKernelPath},
+            {"limitCk", limitCk},
+            {"limitSpk", limitSpk},
             {"overwrite", overwrite}
         });
         json out = spiceAPIQuery("searchForKernelsets", args);
         string kvect = out["body"]["return"];
         return make_pair(kvect, out["body"]["kernels"]);
       }
-      json kernels = Inventory::search_for_kernelsets(spiceqlNames, types, startTime, stopTime, ckQualities, spkQualities, fullKernelPath, overwrite);
+      json kernels = Inventory::search_for_kernelsets(spiceqlNames, types, startTime, stopTime, ckQualities, spkQualities, fullKernelPath, limitCk, limitSpk, overwrite);
       return {"", kernels};
   }
 }
