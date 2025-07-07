@@ -479,7 +479,7 @@ namespace SpiceQL {
         bool fullKernelPath, 
         int limitCk=-1, 
         int limitSpk=1,
-        std::vector<std::string> kernelList);
+        std::vector<std::string> kernelList = {});
 
 
     /**
