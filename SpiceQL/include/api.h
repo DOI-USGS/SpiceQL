@@ -447,7 +447,7 @@ namespace SpiceQL {
         bool useWeb=false, 
         bool searchKernels=true, 
         bool fullKernelPath=false, 
-        int limitCk=-1, 
+        int limitCk=1, 
         int limitSpk=1,
         std::vector<std::string> kernelList={});
 
