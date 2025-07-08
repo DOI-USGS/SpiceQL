@@ -432,7 +432,7 @@ async def extractExactCkTimes(
     ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
     searchKernels: bool = True,
     fullKernelPath: bool = False,
-    limitCk: int = -1,
+    limitCk: int = 1,
     limitSpk: int = 1,
     kernelList: Annotated[list[str], Query()] | str | None = []):
     try:
@@ -456,12 +456,13 @@ async def getExactTargetOrientations(
     ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
     searchKernels: bool = True,
     fullKernelPath: bool = False,
-    limitQuality: bool = True,
+    limitCk: int = -1,
+    limitSpk: int = 1,    
     kernelList: Annotated[list[str], Query()] | str | None = []):
     try:
         ckQualities = strToList(ckQualities)
         kernelList = strToList(kernelList)
-        result, kernels = pyspiceql.getExactTargetOrientations(startEt, stopEt, toFrame, refFrame, mission, ckQualities, False, searchKernels, fullKernelPath, limitQuality, kernelList)
+        result, kernels = pyspiceql.getExactTargetOrientations(startEt, stopEt, toFrame, refFrame, mission, ckQualities, False, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
         body = ResultModel(result=result, kernels=kernels)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
