@@ -421,9 +421,11 @@ namespace SpiceQL {
     /**
      * @brief Extracts all segment times between observStart and observeEnd
      *
-     * Givven an observation start and observation end, extract all times assocaited
+     * Given an observation start and observation end, extract all times assocaited
      * with segments in a CK file. The times returned are all times assocaited with
-     * concrete CK segment times with no interpolation.
+     * concrete CK segment times with no interpolation. This function is limited to 
+     * loading one CK file at a time, if a time window covers multiple CK files, 
+     * the function will throw an error.
      *
      * @param observStart Ephemeris time to start searching at
      * @param observEnd Ephemeris time to stop searching at
@@ -451,6 +453,10 @@ namespace SpiceQL {
 
     /**
      * @brief Returns exact target orientations for given time intervals and parameters
+     *
+     * Given a start and stop ephemeris time, extract all times assocaited with segments in a CK file. The times returned are all times assocaited with
+     * concrete CK segment times with no interpolation. This function is limited to loading one CK file at a time, if a time window covers multiple CK files, 
+     * the function will throw an error.
      *
      * @param startEts vector of start ephemeris times
      * @param stopEts vector of stop ephemeris times
