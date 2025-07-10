@@ -479,14 +479,13 @@ namespace SpiceQL {
         int toFrame, 
         int refFrame, 
         std::string mission, 
-        std::vector<std::string> ckQualities, 
-        bool useWeb, 
-        bool searchKernels, 
-        bool fullKernelPath, 
+        std::vector<std::string> ckQualities={"smithed", "reconstructed"}, 
+        bool useWeb=false, 
+        bool searchKernels=true, 
+        bool fullKernelPath=false, 
         int limitCk=-1, 
         int limitSpk=1,
         std::vector<std::string> kernelList = {});
-
 
     /**
      * @brief Searches for kernels given mission(s) and parameters.
