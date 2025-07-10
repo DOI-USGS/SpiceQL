@@ -35,6 +35,8 @@ release.
 
 ## [Unreleased]
 
+## 1.2.2
+
 - Fixed getExactTargetOrientations using the correct default params 
 
 ## 1.2.1
