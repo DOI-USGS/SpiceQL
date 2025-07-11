@@ -35,9 +35,13 @@ release.
 
 ## [Unreleased]
 
+### Fixed
+- Fixed getExactTargetOrientations to use the correct reference frame when extracting exact times and returned angular velocities when present [#86](https://github.com/DOI-USGS/SpiceQL/pull/86)
+
 ## 1.2.2
 
-- Fixed getExactTargetOrientations using the correct default params 
+### Fixed
+- Fixed getExactTargetOrientations using the correct default params [#84](https://github.com/DOI-USGS/SpiceQL/pull/84)
 
 ## 1.2.1
 
