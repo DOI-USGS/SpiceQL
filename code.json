@@ -227,5 +227,50 @@
       "date": {
         "metadataLastUpdated": "2025-07-10"
       }
+    }, {
+      "name": "SpiceQL",
+      "organization": "U.S. Geological Survey",
+      "description": "GitLab repository for library that interacts with NAIF's SPICE kernels",
+      "version": "1.2.3",
+      "status": "Development",
+
+      "permissions": {
+        "usageType": "openSource",
+        "licenses": [
+          {
+            "name": "Public Domain, CC0-1.0",
+            "URL": "https://code.usgs.gov/astrogeology/spiceql/-/raw/main/LICENSE.md"
+          }
+        ]
+      },
+
+      "homepageURL": "https://code.usgs.gov/astrogeology/spiceql/",
+      "downloadURL": "https://code.usgs.gov/astrogeology/spiceql/-/archive/1.2.3/spiceql-1.2.3.zip",
+      "disclaimerURL": "https://code.usgs.gov/astrogeology/spiceql/-/raw/1.2.3/DISCLAIMER.md",
+      "repositoryURL": "https://code.usgs.gov/astrogeology/spiceql.git",
+      "vcs": "git",
+
+      "laborHours": 520,
+
+      "tags": [
+        "Planetary",
+        "Remote Sensing",
+        "Data Processing",
+        "Ephemerides",
+        "Kernels"
+      ],
+
+      "languages": [
+        "C++", "Python"
+      ],
+
+      "contact": {
+        "name": "Adam Paquette",
+        "email": "acpaquette@usgs.gov"
+      },
+
+      "date": {
+        "metadataLastUpdated": "2025-07-11"
+      }
     }
   ]

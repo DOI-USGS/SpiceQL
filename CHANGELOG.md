@@ -32,15 +32,26 @@ When preparing for a bug fix release create a new 2nd heading above the Fixed
 heading to indicate that only the bug fixes and security fixes are in the bug fix
 release.
 -->
-
 ## [Unreleased]
+
+### Fixed 
+- Fixed getExactTargetOrientations using the correct default params 
+- Fixed bug where limitSpk and limitCk was iterating incorrectly 
+- Fixed cassini conf
+
+### Added 
+- Added context manager support to KernelSet 
+
+
+## 1.2.3
+
+### Fixed
+- Fixed getExactTargetOrientations to use the correct reference frame when extracting exact times and returned angular velocities when present [#86](https://github.com/DOI-USGS/SpiceQL/pull/86)
 
 ## 1.2.2
 
-- Fixed getExactTargetOrientations using the correct default params 
-- Fixed bug where limitSpk and limitCk was iterating incorrectly 
-- Added context manager support to KernelSet 
-- Fixed cassini conf
+### Fixed
+- Fixed getExactTargetOrientations using the correct default params [#84](https://github.com/DOI-USGS/SpiceQL/pull/84)
 
 ## 1.2.1
 

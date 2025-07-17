@@ -372,7 +372,7 @@ namespace SpiceQL {
         }
         
         // force searchKernels and useWeb to false
-        auto [exactCkTimes, kernels1] = extractExactCkTimes(startEt, stopEt, toFrame, mission, ckQualities, false, searchKernels, fullKernelPath, 1, 1, kernelList);
+        auto [exactCkTimes, kernels1] = extractExactCkTimes(startEt, stopEt, refFrame, mission, ckQualities, false, searchKernels, fullKernelPath, 1, 1, kernelList);
         SPDLOG_DEBUG("number of exact ck times = {}", exactCkTimes.size());
         auto [orientations, kernels2] = getTargetOrientations(exactCkTimes, toFrame, refFrame, mission, ckQualities, false, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList);
         json ephemKernels = merge_json(kernels1, kernels2);
@@ -381,8 +381,14 @@ namespace SpiceQL {
         vector<vector<double>> ephems;
         size_t n = std::min(exactCkTimes.size(), orientations.size());
         for (size_t i = 0; i < n; ++i) {
-            if (orientations[i].size() >= 4) {
+            if (orientations[i].size() == 4) {
                 vector<double> merged = {exactCkTimes[i], orientations[i][0], orientations[i][1], orientations[i][2], orientations[i][3]};
+                ephems.push_back(merged);
+            }
+            else if (orientations[i].size() > 4) {
+                vector<double> merged = {exactCkTimes[i], 
+                                         orientations[i][0], orientations[i][1], orientations[i][2], orientations[i][3],
+                                         orientations[i][4], orientations[i][5], orientations[i][6]};
                 ephems.push_back(merged);
             }
         }
