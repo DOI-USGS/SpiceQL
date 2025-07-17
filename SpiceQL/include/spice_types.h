@@ -162,7 +162,8 @@ namespace SpiceQL {
     ~KernelSet();
 
     void load(nlohmann::json kernels);
-
+    void unload();
+    
     //! map of path to kernel pointers
     std::vector<Kernel*> m_loadedKernels;
     

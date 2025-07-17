@@ -406,7 +406,6 @@ namespace SpiceQL {
               SPDLOG_TRACE("Is {} with stop time {} in the array? {}", time_indices->file_paths.at(it->second), it->first, start_time_kernels.contains(it->second)); 
               if (start_time_kernels.contains(it->second)) {
                 final_time_kernels.push_back(time_indices->file_paths.at(it->second));
-                if (type == Kernel::Type::SPK) break;
               }
             } 
           }
@@ -415,7 +414,7 @@ namespace SpiceQL {
             found = true;
             if (limitQuality != -1 || limitQuality <= final_time_kernels.size()) { 
               vector<string> limitedKernels;
-              for (auto i = final_time_kernels.size()-limitQuality; i < final_time_kernels.size(); ++i) {
+              for (auto i = 0; i < limitQuality; ++i) {
                 if (full_kernel_path) {
                   limitedKernels.push_back(data_dir / final_time_kernels[i]);
                 } else {
