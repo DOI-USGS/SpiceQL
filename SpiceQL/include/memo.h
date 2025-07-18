@@ -105,7 +105,7 @@ namespace Memo {
         
             if (cache_dir_char == NULL) {
                 std::string  tempname = "spiceql-cache-" + gen_random(10);
-                cache_dir = (fs::temp_directory_path() / tempname / "spiceql_cache").to_string(); 
+                cache_dir = (fs::temp_directory_path() / tempname / "spiceql_cache").string(); 
             }
             else {
                 cache_dir = cache_dir_char;
