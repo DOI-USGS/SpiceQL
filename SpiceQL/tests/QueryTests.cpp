@@ -203,9 +203,9 @@ TEST_F(KernelDataDirectories, FunctionalTestListMissionKernelsCassini) {
   EXPECT_EQ(SpiceQL::getKernelsAsVector(res["cassini"]["fk"]["kernels"]).size(), 2);
   EXPECT_EQ(SpiceQL::getKernelsAsVector(res["cassini"]["iak"]["kernels"]).size(), 3);
   EXPECT_EQ(SpiceQL::getKernelsAsVector(res["cassini"]["pck"]["kernels"]).size(), 0);
-  EXPECT_EQ(SpiceQL::getKernelsAsVector(res["cassini"]["pck"]["smithed"]["kernels"]).size(), 1);
+  EXPECT_EQ(SpiceQL::getKernelsAsVector(res["cassini"]["pck"]["smithed"]["kernels"]).size(), 2);
   EXPECT_EQ(SpiceQL::getKernelsAsVector(res["cassini"]["sclk"]["kernels"]).size(), 1);
-  EXPECT_EQ(SpiceQL::getKernelsAsVector(res["cassini"]["spk"]["kernels"]).size(), 3);
+  EXPECT_EQ(SpiceQL::getKernelsAsVector(res["cassini"]["spk"]["reconstructed"]["kernels"]).size(), 2);
 }
 
 
