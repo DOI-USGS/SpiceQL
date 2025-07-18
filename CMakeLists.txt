@@ -140,13 +140,13 @@ target_include_directories(SpiceQL
                             $<INSTALL_INTERFACE:include>
                             PRIVATE
                             ${CMAKE_CURRENT_SOURCE_DIR}/submodules/BTree/include/
-                            cereal
                             )
 
   target_link_libraries(SpiceQL
                         PUBLIC
                         fmt::fmt-header-only
                         nlohmann_json::nlohmann_json
+                        cereal::cereal
                         PRIVATE
                         cspice
                         spdlog::spdlog_header_only
