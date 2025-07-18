@@ -85,21 +85,21 @@ namespace SpiceQL {
     }
     vector<vector<string>> files = {};
 
-    string extension = static_cast<fs::path>(kernels.at(0)).extension();
+    string extension = static_cast<fs::path>(kernels.at(0)).extension().string();
     transform(extension.begin(), extension.end(), extension.begin(), ::tolower);
     // ensure everything is different versions of the same file
     for(const fs::path &k : kernels) {
-      string currentKernelExt = k.extension();
+      string currentKernelExt = k.extension().string();
       transform(currentKernelExt.begin(), currentKernelExt.end(), currentKernelExt.begin(), ::tolower);
       if (currentKernelExt != extension) {
-        throw invalid_argument("The input extensions (" + (string)k.filename() + ") are not different versions of the same file " + kernels.at(0));
+        throw invalid_argument("The input extensions (" + k.filename().string() + ") are not different versions of the same file " + kernels.at(0));
       }
       bool foundList = false;
       for (int i = 0; i < files.size(); i++) {
         
         const fs::path &firstVecElem = files[i][0];
-        string fileName = firstVecElem.filename();
-        string kernelName = k.filename();
+        string fileName = firstVecElem.filename().string();
+        string kernelName = k.filename().string();
         SPDLOG_TRACE("filename: {}", fileName); 
         SPDLOG_TRACE("kernel name: {}", kernelName); 
 
@@ -116,12 +116,12 @@ namespace SpiceQL {
         SPDLOG_TRACE("Truncated kernel name: {}", kernelName); 
 
         if (fileName == kernelName) {
-          files[i].push_back(k);
+          files[i].push_back(k.string());
           foundList = true;
         }
       }
       if (!foundList) {
-        files.push_back({k});
+        files.push_back({k.string()});
       }
       foundList = false;
     }
