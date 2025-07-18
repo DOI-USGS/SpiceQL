@@ -140,7 +140,7 @@ namespace SpiceQL {
 
       fs::path fsDataPath(dataPath);
       json::json_pointer kernelPath(getParentPointer(full_pointer.to_string(), 1));
-      if (fs::exists((string)fsDataPath + kernelPath.to_string())) {
+      if (fs::exists(fsDataPath.string() + kernelPath.to_string())) {
         fsDataPath += kernelPath.to_string();
         kernelPath = json::json_pointer("/kernels");
         string kernelType = json::json_pointer(getParentPointer(full_pointer.to_string(), 2)).back();
@@ -150,7 +150,7 @@ namespace SpiceQL {
         }
       }
 
-      vector<vector<string>> res = getPathsFromRegex(fsDataPath, jsonArrayToVector(eval_json[json_pointer]));
+      vector<vector<string>> res = getPathsFromRegex(fsDataPath.string(), jsonArrayToVector(eval_json[json_pointer]));
       eval_json[json_pointer] = res;
     }
     copyConfig[pointer] = eval_json;
