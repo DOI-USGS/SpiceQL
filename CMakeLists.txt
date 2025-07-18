@@ -153,6 +153,7 @@ target_include_directories(SpiceQL
                         PUBLIC
                         fmt::fmt-header-only
                         nlohmann_json::nlohmann_json
+                        cereal::cereal
                         PRIVATE
                         CSPICE::cspice
                         spdlog::spdlog_header_only
