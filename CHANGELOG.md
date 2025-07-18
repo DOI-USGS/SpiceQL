@@ -34,6 +34,15 @@ release.
 -->
 ## [Unreleased]
 
+### Fixed 
+- Fixed getExactTargetOrientations using the correct default params 
+- Fixed bug where limitSpk and limitCk was iterating incorrectly 
+- Fixed cassini conf
+
+### Added 
+- Added context manager support to KernelSet 
+
+
 ## 1.2.3
 
 ### Fixed

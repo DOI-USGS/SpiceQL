@@ -161,11 +161,16 @@ namespace SpiceQL {
     }
   }
 
-  KernelSet::~KernelSet() { 
+
+  void KernelSet::unload() {
     for(auto p : m_loadedKernels) { 
       delete p;
     }
     m_loadedKernels.clear();
+  }
+
+  KernelSet::~KernelSet() { 
+    this->unload();
   }
 
 } 

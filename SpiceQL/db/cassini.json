@@ -1,10 +1,15 @@
 {
   "cassini": {
     "ck": {
+      "predicted": {
+        "kernels": [
+          "^[0-9]{5}_[0-9]{5}p.*.bc$"
+        ]
+      },
       "reconstructed": {
         "kernels": [
-          "^[0-9]{6}_[0-9]{6}r*.bc$",
-          "^[0-9]{5}_[0-9]{5}r*.bc$"
+          "^[0-9]{6}_[0-9]{6}r.*.bc$",
+          "^[0-9]{5}_[0-9]{5}r.*.bc$"
         ]
       },
       "smithed": {
@@ -30,18 +35,27 @@
     },
     "pck": {
       "smithed": {
-        "kernels": "^cpck15Dec2017_2019Shape.tpc$"
+        "kernels": [
+          "^cpck15Dec2017_2019Shape.tpc$",
+          "^cpck30Sep2004_jupiter.tpc$"
+        ]
       }
     },
     "sclk": {
       "kernels": "^cas[0-9]{5}.tsc$"
     },
     "spk": {
+      "predicted": {
+        "kernels": [
+          "^[0-9]{6}.*P_SCPSE_[0-9]{5}_[0-9]{5}.bsp$"
+        ]
+      },
+      "reconstructed": { 
       "kernels": [
-        "^010420R_SCPSE_EP1_JP83.bsp$",
-        "^[0-9]{6}R*_SCPSE_[0-9]{5}_[0-9]{5}.bsp$",
-        "^cpck30Sep2004_jupiter.tpc$"
-      ]
+          "^010420R_SCPSE_EP1_JP83.bsp$",
+          "^[0-9]{6}R*_SCPSE_[0-9]{5}_[0-9]{5}.bsp$"
+        ]
+      }
     }
   }
 }
