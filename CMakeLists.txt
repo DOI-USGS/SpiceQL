@@ -55,7 +55,7 @@ if(SPICEQL_BUILD_LIB)
   add_subdirectory("submodules/gularkfilesystem")
   add_subdirectory("submodules/json")
   
-  find_package(cspice REQUIRED)
+  find_package(CSpice REQUIRED)
   find_package(fmt CONFIG REQUIRED)
   find_package(cereal CONFIG REQUIRED)
   find_package(spdlog CONFIG REQUIRED)
