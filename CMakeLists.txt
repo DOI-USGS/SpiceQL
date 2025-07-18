@@ -65,7 +65,7 @@ if(SPICEQL_BUILD_LIB)
   set(SPICEQL_INSTALL_INCLUDE_DIR "include/SpiceQL")
   set(SPICEQL_SRC_FILES   ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/spiceql.cpp 
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/utils.cpp
-                          ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/io.cpp
+                          ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/spiceql_io.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/query.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/spice_types.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/memoized_functions.cpp
