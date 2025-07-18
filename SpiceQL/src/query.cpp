@@ -72,9 +72,9 @@ namespace SpiceQL {
 
   // Comparator function for kernel paths
   bool fileNameComp(string a, string b) {
-      string fna = static_cast<fs::path>(a).filename();
-      string fnb = static_cast<fs::path>(b).filename();
-      int comp = fna.compare(fnb);  
+      string fna = static_cast<fs::path>(a).filename().string();
+      string fnb = static_cast<fs::path>(b).filename().string();
+      int comp = fna.compare(fnb);
       SPDLOG_TRACE("Comparing {} and {}: {}", fna, fnb, comp);
       return comp < 0;
   }
