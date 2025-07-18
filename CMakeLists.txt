@@ -55,10 +55,10 @@ if(SPICEQL_BUILD_LIB)
   add_subdirectory("submodules/gularkfilesystem")
   add_subdirectory("submodules/json")
   
-  find_package(cspice REQUIRED CONFIG)
-  find_package(fmt REQUIRED CONFIG)
-  find_package(cereal REQUIRED CONFIG)
-  find_package(spdlog REQUIRED CONFIG)
+  find_package(cspice REQUIRED)
+  find_package(fmt CONFIG REQUIRED)
+  find_package(cereal CONFIG REQUIRED)
+  find_package(spdlog CONFIG REQUIRED)
   find_package(HighFive REQUIRED)
   find_package(CURL REQUIRED)
 
@@ -78,7 +78,7 @@ if(SPICEQL_BUILD_LIB)
   set(SPICEQL_HEADER_FILES ${SPICEQL_BUILD_INCLUDE_DIR}/spiceql.h
                            ${SPICEQL_BUILD_INCLUDE_DIR}/utils.h
                            ${SPICEQL_BUILD_INCLUDE_DIR}/memoized_functions.h
-                           ${SPICEQL_BUILD_INCLUDE_DIR}/io.h
+                           ${SPICEQL_BUILD_INCLUDE_DIR}/spiceql_io.h
                            ${SPICEQL_BUILD_INCLUDE_DIR}/spice_types.h
                            ${SPICEQL_BUILD_INCLUDE_DIR}/query.h
                            ${SPICEQL_BUILD_INCLUDE_DIR}/config.h

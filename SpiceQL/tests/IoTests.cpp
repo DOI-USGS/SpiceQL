@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "Fixtures.h"
-#include "io.h"
+#include "spiceql_io.h"
 #include "utils.h"
 #include "api.h"
 
