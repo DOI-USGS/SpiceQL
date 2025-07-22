@@ -6,8 +6,35 @@
 
 namespace SpiceQL {
 
-    extern std::map<std::string, std::string> spiceql_mission_map;
+    extern nlohmann::json aliasMap;
+    
+    /**
+     * @brief Accessor for the aliasMap.
+     * @return const reference to the aliasMap JSON object.
+     */
+    inline const nlohmann::json& getAliasMap() {
+        return aliasMap;
+    }
 
+
+    /**
+     * @brief Adds or updates a key-value pair in the aliasMap.
+     * @param key The key to add or update.
+     * @param value The value to associate with the key.
+     */
+    void addAliasKey(const std::string& key, const std::string& value);
+
+    
+    /**
+     * @brief Setter for the aliasMap.
+     * @param newAliasMap The new JSON object to set as the aliasMap.
+     */
+    inline void setAliasMap(const nlohmann::json& newAliasMap) {
+        aliasMap = newAliasMap;
+    }
+
+    std::string getSpiceqlName(const std::string& name);
+    
     std::string url_encode(const std::string &value);
     nlohmann::json spiceAPIQuery(std::string functionName, nlohmann::json args, std::string method="GET");
     

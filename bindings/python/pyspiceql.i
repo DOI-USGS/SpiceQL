@@ -44,6 +44,26 @@
   $result = PyObject_CallMethodObjArgs(module, jsonLoads, pythonJsonString, NULL);
 }
 
+%typemap(out) nlohmann::json& {
+  PyObject* module = PyImport_ImportModule("json");
+  PyObject* jsonLoads = PyUnicode_FromString("loads");
+  std::string jsonString = ($1)->dump();
+  PyObject* pythonJsonString = PyUnicode_DecodeUTF8(jsonString.c_str(), jsonString.size(), NULL);
+  $result = PyObject_CallMethodObjArgs(module, jsonLoads, pythonJsonString, NULL);
+}
+
+%typemap(in) nlohmann::json& {
+  if (PyDict_Check($input) || PyList_Check($input)) {
+    PyObject* module = PyImport_ImportModule("json");
+    PyObject* jsonDumps = PyUnicode_FromString("dumps");
+    PyObject* pythonJsonString = PyObject_CallMethodObjArgs(module, jsonDumps, $input, NULL);
+    $1 = new nlohmann::json(nlohmann::json::parse(PyUnicode_AsUTF8(pythonJsonString)));
+  }
+  else {
+    PyErr_SetString(PyExc_TypeError, "not a json serializable type");
+    SWIG_fail;
+  }
+}
 
 // pair<vector<vector<double>>, json>
 %typemap(out) std::pair<std::vector<std::vector<double>>, nlohmann::json> (PyObject* _inner,PyObject* _outer) {
@@ -206,6 +226,38 @@ namespace std {
     SWIG_exception(SWIG_UnknownError, "Unknown error");
   }
 }
+
+%typemap(out) std::map<std::string, std::string> {
+  PyObject* dict = PyDict_New();
+  for (auto it = $1.begin(); it != $1.end(); ++it) {
+    PyObject* key = PyUnicode_FromString(it->first.c_str());
+    PyObject* value = PyUnicode_FromString(it->second.c_str());
+    PyDict_SetItem(dict, key, value);
+    Py_DECREF(key);
+    Py_DECREF(value);
+  }
+  $result = dict;
+}
+
+%typemap(in) std::map<std::string, std::string> {
+  if (!PyDict_Check($input)) {
+    PyErr_SetString(PyExc_TypeError, "Parameter must be a dict");
+    SWIG_fail;
+  }
+  PyObject *key, *value;
+  Py_ssize_t pos = 0;
+  std::map<std::string, std::string> temp;
+  while (PyDict_Next($input, &pos, &key, &value)) {
+    if (!PyUnicode_Check(key) || !PyUnicode_Check(value)) {
+      PyErr_SetString(PyExc_TypeError, "Keys and values must be strings");
+      SWIG_fail;
+    }
+    temp[std::string(PyUnicode_AsUTF8(key))] = std::string(PyUnicode_AsUTF8(value));
+  }
+  $1 = temp;
+}
+
+
 
 %include "config.i"
 %include "io.i"

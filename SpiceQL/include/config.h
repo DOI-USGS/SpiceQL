@@ -14,6 +14,13 @@
 namespace SpiceQL {
 
   /**
+   * @brief Get a list of all frames in the supported by the library
+   * 
+   * @return std::vector<std::string> list of frames
+   */
+  std::vector<std::string> frameList();
+
+  /**
    * @brief Object for interacting with SpiceQL target configs
    * 
    * The config class can wrap multiple config files and give an interface for interacting 

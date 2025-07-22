@@ -20,17 +20,18 @@
 #include "inventory.h"
 #include "api.h"
 #include "restincurl.h"
+#include "config.h"
 
 using json = nlohmann::json;
 using namespace std;
 
 namespace SpiceQL {
 
- double default_StartTime = -std::numeric_limits<double>::max();
- double default_StopTime = std::numeric_limits<double>::max();
- vector<string> default_KernelQualities = {"smithed", "reconstructed"};
+    double default_StartTime = -std::numeric_limits<double>::max();
+    double default_StopTime = std::numeric_limits<double>::max();
+    vector<string> default_KernelQualities = {"smithed", "reconstructed"};
 
-  map<string, string> spiceql_mission_map = {
+    json aliasMap = {
       {"AMICA", "amica"},
       {"CHANDRAYAAN-1_M3", "m3"},
       {"CHANDRAYAAN-1_MRFFR", "mrffr"},
@@ -47,14 +48,14 @@ namespace SpiceQL {
       {"GLL_SSI_PLATFORM", "galileo"},
       {"HAYABUSA_AMICA", "amica"},
       {"HAYABUSA_NIRS", "nirs"},
-      {"HAYABUSA2_ONC-W2", ""},
+      {"HAYABUSA2_ONC-W2", "onc"},
       {"JUNO_JUNOCAM", "juno"},
       {"JUPITER", "voyager1"},
       {"LRO_LROCNACL", "lroc"},
       {"LRO_LROCNACR", "lroc"},
       {"LRO_LROCWAC_UV", "lroc"},
       {"LRO_LROCWAC_VIS", "lroc"},
-      {"LRO_MINIRF", ""},
+      {"LRO_MINIRF", "minirf"},
       {"M10_VIDICON_A", "m10_vidicon_a"},
       {"M10_VIDICON_B", "m10_vidicon_b"},
       {"MARS", "mro"},
@@ -65,24 +66,18 @@ namespace SpiceQL {
       {"MGS_MOC_NA", "mgs"},
       {"MGS_MOC_WA_RED", "mgs"},
       {"MGS_MOC_WA_BLUE", "mgs"},
-      {"MOON", "apollo15"},
       {"MRO_MARCI_VIS", "marci"},
       {"MRO_MARCI_UV", "marci"},
       {"MRO_CTX", "ctx"},
       {"MRO_HIRISE", "hirise"},
       {"MRO_CRISM_VNIR", "crism"},
       {"NEAR EARTH ASTEROID RENDEZVOUS", ""},
-      {"MSL_MASTCAM_RIGHT", ""},
-      {"MSL_MASTCAM_LEFT", ""},
       {"NH_LORRI", "lorri"},
       {"NH_RALPH_LEISA", "leisa"},
       {"NH_MVIC", "mvic_tdi"},
       {"ISIS_NH_RALPH_MVIC_METHANE", "mvic_framing"},
       {"THEMIS_IR", "odyssey"},
       {"THEMIS_VIS", "odyssey"},
-      {"ORX_OCAMS_MAPCAM", ""},
-      {"ORX_OCAMS_POLYCAM", ""},
-      {"ORX_OCAMS_SAMCAM", ""},
       {"LISM_MI-VIS1", "kaguya"},
       {"LISM_MI-VIS2", "kaguya"},
       {"LISM_MI-VIS3", "kaguya"},
@@ -105,27 +100,65 @@ namespace SpiceQL {
       {"LISM_TC1_SDH", "kaguya"},
       {"LISM_TC1_STH", "kaguya"},
       {"LISM_TC1_SSH", "kaguya"},
-      {"LO1_HIGH_RESOLUTION_CAMERA", ""},
-      {"LO2_HIGH_RESOLUTION_CAMERA", ""},
-      {"LO3_HIGH_RESOLUTION_CAMERA", ""},
-      {"LO4_HIGH_RESOLUTION_CAMERA", ""},
-      {"LO5_HIGH_RESOLUTION_CAMERA", ""},
+      {"LO1_HIGH_RESOLUTION_CAMERA", "lo"},
+      {"LO2_HIGH_RESOLUTION_CAMERA", "lo"},
+      {"LO3_HIGH_RESOLUTION_CAMERA", "lo"},
+      {"LO4_HIGH_RESOLUTION_CAMERA", "lo"},
+      {"LO5_HIGH_RESOLUTION_CAMERA", "lo"},
       {"NEPTUNE", "voyager1"}, 
       {"SATURN", "voyager1"},
       {"TGO_CASSIS", "cassis"},
       {"VIKING ORBITER 1", "viking1"},
       {"VIKING ORBITER 2", "viking2"},
-      {"VG1_ISSNA", ""},
-      {"VG1_ISSWA", ""},
-      {"VG2_ISSNA", ""},
-      {"VG2_ISSWA", ""},
+      {"VG1_ISSNA", "voyager1"},
+      {"VG1_ISSWA", "voyager1"},
+      {"VG2_ISSNA", "voyager2"},
+      {"VG2_ISSWA", "voyager2"},
       {"ULTRAVIOLET/VISIBLE CAMERA", "uvvis"},
       {"Near Infrared Camera", "nir"},
       {"High Resolution Camera", "clementine1"},
       {"Long Wave Infrared Camera", "clementine1"},
       {"Visual and Infrared Spectrometer", "vir"}
     };
+    
+    /**
+     * @brief Translates a given name using the aliasMap and checks if the name is in the frameList.
+     * 
+     * If the name exists as a key in aliasMap, returns the mapped value.
+     * If the name exists in frameList, returns the name itself.
+     * Otherwise, returns an empty string.
+     * 
+     * @param name The name to translate.
+     * @param frameList The list of valid frame names.
+     * @return The translated name or an empty string if not found.
+     */
+    std::string getSpiceqlName(const std::string& name) {
+        // Check if name is in aliasMap
+        if (aliasMap.contains(name)) {
+            return aliasMap[name].get<std::string>();
+        }
+        // Check if name is in frameList
+        for (const auto& frame : frameList()) {
+            if (frame == name) {
+                return name;
+            }
+        }
+        // Not found
+        return "";
+    }
 
+
+    inline void addAliasKey(const std::string& key, const std::string& value) {
+        aliasMap[key] = value;
+    }
+
+    
+    /**
+     * @brief URL encodes a given string.
+     * 
+     * @param value The string to encode.
+     * @return The encoded string.
+     */
     std::string url_encode(const std::string &value) {
         std::ostringstream escaped;
         escaped.fill('0');
