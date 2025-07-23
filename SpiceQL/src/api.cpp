@@ -366,7 +366,7 @@ namespace SpiceQL {
                 {"limitSpk", limitSpk},
                 {"kernelList", kernelList}
             });
-            json out = spiceAPIQuery("getTargetOrientations", args);
+            json out = spiceAPIQuery("getExactTargetOrientations", args);
             vector<vector<double>> kvect = json2DFloatArrayTo2DVector(out["body"]["return"]);
             return make_pair(kvect, out["body"]["kernels"]);
         }
