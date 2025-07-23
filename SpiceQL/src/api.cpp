@@ -148,7 +148,7 @@ namespace SpiceQL {
     }
 
 
-    inline void addAliasKey(const std::string& key, const std::string& value) {
+    void addAliasKey(const std::string& key, const std::string& value) {
         aliasMap[key] = value;
     }
 
