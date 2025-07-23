@@ -204,9 +204,9 @@ namespace SpiceQL {
                 queryString+= x.value().dump();
                 queryString+= "&";
             }
-            SPDLOG_TRACE("queryString = {}", queryString);
+            SPDLOG_DEBUG("queryString = {}", queryString);
             std::string encodedString = url_encode(queryString);
-            SPDLOG_TRACE("encodedString = {}", encodedString);
+            SPDLOG_DEBUG("encodedString = {}", encodedString);
             client.Build()->Get(encodedString)
                     .Option(CURLOPT_FOLLOWLOCATION, 1L)
                     .Option(CURLOPT_SSL_VERIFYPEER, 0L)
@@ -216,8 +216,13 @@ namespace SpiceQL {
                 if (result.http_response_code != 200) {
                     SPDLOG_DEBUG("[Failed HTTP request] HTTP Code: {}, Message: {}, Payload: {}", result.http_response_code, result.msg, result.body);
                 }
-                SPDLOG_TRACE("GET result body = {}", result.body);
-                j = json::parse(result.body);
+                SPDLOG_DEBUG("GET result body = {}", result.body);
+                try { 
+                    j = json::parse(result.body);
+                } catch (const json::parse_error& e) {
+                    SPDLOG_ERROR("Error parsing JSON: {}", e.what());
+                    throw runtime_error("Got invalid JSON response from API: " + result.body);
+                }
             }).ExecuteSynchronous();
         } else {
             SPDLOG_TRACE("POST");
@@ -231,7 +236,7 @@ namespace SpiceQL {
                 if (result.http_response_code != 200) {
                     SPDLOG_DEBUG("[Failed HTTP request] HTTP Code: {}, Message: {}, Payload: {}", result.http_response_code, result.msg, result.body);
                 }
-                SPDLOG_TRACE("POST result = {}", result.body);
+                SPDLOG_DEBUG("POST result = {}", result.body);
                 j = json::parse(result.body);
             }).ExecuteSynchronous();
         }
@@ -303,7 +308,7 @@ namespace SpiceQL {
 
         auto stop = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-        SPDLOG_INFO("Time in std::chrono::microseconds to furnish kernel sets: {}", duration.count());
+        SPDLOG_TRACE("Time in std::chrono::microseconds to furnish kernel sets: {}", duration.count());
 
         start = std::chrono::high_resolution_clock::now();
         vector<vector<double>> lt_stargs;
@@ -315,7 +320,7 @@ namespace SpiceQL {
 
         stop = std::chrono::high_resolution_clock::now();
         duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-        SPDLOG_INFO("Time in std::chrono::microseconds to get data results: {}", duration.count());
+        SPDLOG_TRACE("Time in std::chrono::microseconds to get data results: {}", duration.count());
 
         return {lt_stargs, ephemKernels};
     }
@@ -364,7 +369,7 @@ namespace SpiceQL {
         KernelSet ephemSet(ephemKernels);
         auto stop = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-        SPDLOG_INFO("Time in std::chrono::microseconds to furnish kernel sets: {}", duration.count());
+        SPDLOG_TRACE("Time in std::chrono::microseconds to furnish kernel sets: {}", duration.count());
 
         start = std::chrono::high_resolution_clock::now();
         vector<vector<double>> orientations = {};
@@ -375,7 +380,7 @@ namespace SpiceQL {
         }
         stop = std::chrono::high_resolution_clock::now();
         duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-        SPDLOG_INFO("Time in std::chrono::microseconds to get data results: {}", duration.count());
+        SPDLOG_TRACE("Time in std::chrono::microseconds to get data results: {}", duration.count());
 
         return {orientations, ephemKernels};
     }
