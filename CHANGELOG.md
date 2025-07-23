@@ -38,10 +38,10 @@ release.
 - Fixed getExactTargetOrientations using the correct default params 
 - Fixed bug where limitSpk and limitCk was iterating incorrectly 
 - Fixed cassini conf
+- Fixed internal getExactTargetOrientations() REST endpoint call [#92](https://github.com/DOI-USGS/SpiceQL/pull/92)
 
 ### Added 
 - Added context manager support to KernelSet 
-
 
 ## 1.2.3
 
