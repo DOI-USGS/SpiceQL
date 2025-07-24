@@ -362,16 +362,18 @@ namespace SpiceQL {
 
 
     /**
-    * @brief returns kernel values for a specific mission in the form of a json
+    * @brief returns kernel text keyword values for a specific mission as json
     *
-    *  Takes in a kernel key and returns the value associated with the inputted mission as a json
-    * 
-    * @param key key - Kernel to get values from 
-    * @param mission mission name
+    *  Takes in a kernel key from iaks, iks, and fks and returns the value associated with the input mission (e.g. LRO, MRO, sun etc) as json. 
+    *  findMissionKeywords is a aggregation of cspice's gnpool_c, gcpool_c, gdpool_c, and gipool_c. Input key supports wildcards, e.g. "LRO_*", "*_BORESIGHT_SAMPLE", or "*-8600*". 
+    *  
+    * @param key kernel text keyword to look for 
+    * @param mission spiceql name to search for (e.g. LRO, MRO, sun etc)
     * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
     * @param limitCk int number of cks to limit to, default is -1 to retrieve all
     * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
     * @param searchKernels bool Whether to search the kernels for the user
+    * @param kernelList vector of additional kernels to load 
     * @returns json of values
     **/
     std::pair<nlohmann::json, nlohmann::json> findMissionKeywords(
@@ -388,7 +390,8 @@ namespace SpiceQL {
     /**
     * @brief returns Target values in the form of a vector
     *
-    *  Takes in a target and key and returns the value associated in the form of vector.
+    *  Takes in a target and key and returns the value associated in the form of vector from PCKs.
+    *  findTargetKeywords is a aggregation of cspice's gnpool_c, gcpool_c, gdpool_c, and gipool_c. Input key supports wildcards, e.g. "LRO_*", "*_BORESIGHT_SAMPLE", or "*-8600*".
     *  Note: This function is mainly for obtaining target keywords. For obtaining other values, use findMissionKeywords.
     * 
     * @param key keyword for desired values
