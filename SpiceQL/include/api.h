@@ -374,7 +374,8 @@ namespace SpiceQL {
     * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
     * @param searchKernels bool Whether to search the kernels for the user
     * @param kernelList vector of additional kernels to load 
-    * @returns json of values
+    * 
+    * @returns json object of key value pairs
     **/
     std::pair<nlohmann::json, nlohmann::json> findMissionKeywords(
         std::string key, 
@@ -402,7 +403,7 @@ namespace SpiceQL {
     * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
     * @param kernelList vector<string> vector of additional kernels to load 
     *
-    * @returns vector of values
+    * @returns json object of key value pairs
     **/
     std::pair<nlohmann::json, nlohmann::json> findTargetKeywords(
         std::string key, 
