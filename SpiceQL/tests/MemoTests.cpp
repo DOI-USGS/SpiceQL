@@ -13,7 +13,7 @@ using namespace std::chrono;
 #include "memo.h"
 #include "memoized_functions.h"
 #include "spiceql.h"
-#include "io.h"
+#include "spiceql_io.h"
 #include "Fixtures.h"
 
 #include <spdlog/spdlog.h>
