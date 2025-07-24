@@ -391,7 +391,7 @@ namespace SpiceQL {
     * @brief returns Target values in the form of a vector
     *
     *  Takes in a target and key and returns the value associated in the form of vector from PCKs.
-    *  findTargetKeywords is a aggregation of cspice's gnpool_c, gcpool_c, gdpool_c, and gipool_c. Input key supports wildcards, e.g. "LRO_*", "*_BORESIGHT_SAMPLE", or "*-8600*".
+    *  findTargetKeywords is a aggregation of cspice's gnpool_c, gcpool_c, gdpool_c, and gipool_c. Input key supports wildcards, e.g. "*_RADII" or "*-8600*".
     *  Note: This function is mainly for obtaining target keywords. For obtaining other values, use findMissionKeywords.
     * 
     * @param key keyword for desired values
@@ -455,7 +455,7 @@ namespace SpiceQL {
      * with segments in a CK file. The times returned are all times assocaited with
      * concrete CK segment times with no interpolation. This function is limited to 
      * loading one CK file at a time, if a time window covers multiple CK files, 
-     * the function will throw an error.
+     * the function will throw an error. For this reason, limitCK is set to 1 by default.
      *
      * @param observStart Ephemeris time to start searching at
      * @param observEnd Ephemeris time to stop searching at
