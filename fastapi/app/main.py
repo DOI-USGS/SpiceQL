@@ -83,7 +83,7 @@ async def getTargetStates(
     frame: str,
     abcorr: str,
     mission: str,
-    ets: str = None,
+    ets: Annotated[list[float], Query()] | float | str | None = None,
     startEts: Annotated[list[float], Query()] | float | str | None = None,
     stopEts: Annotated[list[float], Query()] | float | str | None = None,
     exposureDuration: Annotated[list[float], Query()] | float | str | None = None,
@@ -105,7 +105,11 @@ async def getTargetStates(
                 except TypeError:
                     ets = [ets]
         else:
+            print("startEts = ", startEts)
+            print("stopEts = ", stopEts)
+            print("exposureDuration = ", exposureDuration)  
             ets = calculate_ets(startEts, stopEts, exposureDuration)
+            print("ets = ", ets)    
         ckQualities = strToList(ckQualities)
         spkQualities = strToList(spkQualities)
         kernelList = strToList(kernelList)
@@ -464,6 +468,7 @@ async def getExactTargetOrientations(
         kernelList = strToList(kernelList)
         result, kernels = pyspiceql.getExactTargetOrientations(startEt, stopEt, toFrame, refFrame, mission, ckQualities, False, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
         body = ResultModel(result=result, kernels=kernels)
+        print(body)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
         body = ErrorModel(error=str(e))
@@ -530,6 +535,7 @@ def interpolate_times(start_times, stop_times, exposure_times) -> np.ndarray:
     for start, stop, exposure_time in zip(start_times, stop_times, exposure_times):
         interp_times = np.arange(start, stop, exposure_time, dtype=float)
         times.extend(interp_times.tolist())
+        times.append(stop)
     logging.info(f"interpolated times = {times}")
     return np.asarray(times)
 
