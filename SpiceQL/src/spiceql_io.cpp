@@ -5,7 +5,7 @@
 
 #include <SpiceUsr.h>
 
-#include "io.h"
+#include "spiceql_io.h"
 #include "utils.h"
 
 

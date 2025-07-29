@@ -56,15 +56,15 @@ if(SPICEQL_BUILD_LIB)
   add_subdirectory("submodules/json")
   
   find_package(CSpice REQUIRED)
-  find_package(fmt REQUIRED)
-  find_package(cereal REQUIRED)
-  find_package(spdlog REQUIRED)
+  find_package(fmt CONFIG REQUIRED)
+  find_package(cereal CONFIG REQUIRED)
+  find_package(spdlog CONFIG REQUIRED)
   find_package(HighFive REQUIRED)
 
   set(SPICEQL_INSTALL_INCLUDE_DIR "include/SpiceQL")
   set(SPICEQL_SRC_FILES   ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/spiceql.cpp 
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/utils.cpp
-                          ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/io.cpp
+                          ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/spiceql_io.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/query.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/spice_types.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/memoized_functions.cpp
@@ -77,7 +77,7 @@ if(SPICEQL_BUILD_LIB)
   set(SPICEQL_HEADER_FILES ${SPICEQL_BUILD_INCLUDE_DIR}/spiceql.h
                            ${SPICEQL_BUILD_INCLUDE_DIR}/utils.h
                            ${SPICEQL_BUILD_INCLUDE_DIR}/memoized_functions.h
-                           ${SPICEQL_BUILD_INCLUDE_DIR}/io.h
+                           ${SPICEQL_BUILD_INCLUDE_DIR}/spiceql_io.h
                            ${SPICEQL_BUILD_INCLUDE_DIR}/spice_types.h
                            ${SPICEQL_BUILD_INCLUDE_DIR}/query.h
                            ${SPICEQL_BUILD_INCLUDE_DIR}/config.h
@@ -141,13 +141,13 @@ target_include_directories(SpiceQL
                             $<INSTALL_INTERFACE:include>
                             PRIVATE
                             ${CMAKE_CURRENT_SOURCE_DIR}/submodules/BTree/include/
-                            cereal
                             )
 
   target_link_libraries(SpiceQL
                         PUBLIC
                         fmt::fmt-header-only
                         nlohmann_json::nlohmann_json
+                        cereal::cereal
                         PRIVATE
                         cspice
                         spdlog::spdlog_header_only
