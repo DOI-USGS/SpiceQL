@@ -420,10 +420,6 @@ namespace SpiceQL {
         vector<vector<double>> ephems;
         size_t n = std::min(exactCkTimes.size(), orientations.size());
         
-        // so we dont return 0
-        if (exactCkTimes.empty()) {
-            n = orientations.size();
-        }
         SPDLOG_DEBUG("n = {}", n);
         for (size_t i = 0; i < n; ++i) {
             if (orientations[i].size() == 4) {
