@@ -386,9 +386,9 @@ namespace SpiceQL {
     }
 
 
-    pair<vector<vector<double>>, json> getExactTargetOrientations(double startEt, double stopEt, int toFrame, int refFrame, string mission, vector<string> ckQualities, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {
-        SPDLOG_TRACE("Calling getExactTargetOrientations with startEt={}, stopEt={}, toFrame={}, refFrame={}, mission={}, ckQualities.size()={}, useWeb={}, searchKernels={}, kernelList.size()={}", 
-            startEt, stopEt, toFrame, refFrame, mission, ckQualities.size(), useWeb, searchKernels, kernelList.size());
+    pair<vector<vector<double>>, json> getExactTargetOrientations(double startEt, double stopEt, int toFrame, int refFrame, int exactCkFrame, string mission, vector<string> ckQualities, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {
+        SPDLOG_TRACE("Calling getExactTargetOrientations with startEt={}, stopEt={}, toFrame={}, refFrame={}, exactCkFrame={}, mission={}, ckQualities.size()={}, useWeb={}, searchKernels={}, kernelList.size()={}", 
+            startEt, stopEt, toFrame, refFrame, exactCkFrame, mission, ckQualities.size(), useWeb, searchKernels, kernelList.size());
         
         if (useWeb){
             json args = json::object({
@@ -396,6 +396,7 @@ namespace SpiceQL {
                 {"stopEt", stopEt},
                 {"toFrame", toFrame},
                 {"refFrame", refFrame},
+                {"exactCkFrame", exactCkFrame},
                 {"mission", mission},
                 {"ckQualities", ckQualities},
                 {"searchKernels", searchKernels},
@@ -410,40 +411,34 @@ namespace SpiceQL {
         }
         
         // force searchKernels and useWeb to false
-        auto [exactCkTimes, kernels1] = extractExactCkTimes(startEt, stopEt, refFrame, mission, ckQualities, false, searchKernels, fullKernelPath, 1, 1, kernelList);
-        SPDLOG_DEBUG("number of exact ck times = {}", exactCkTimes.size());
-
-        // If exactCkTimes is empty, use startEt and stopEt as the times
-        vector<double> timesToUse = exactCkTimes;
-        if (exactCkTimes.empty()) {
-            timesToUse = {startEt, stopEt};
-        }
-        auto [orientations, kernels2] = getTargetOrientations(timesToUse, toFrame, refFrame, mission, ckQualities, false, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList);
+        auto [exactCkTimes, kernels1] = extractExactCkTimes(startEt, stopEt, exactCkFrame, mission, ckQualities, false, searchKernels, fullKernelPath, 1, 1, kernelList);
+        SPDLOG_DEBUG("Number of exact ck times = {}", exactCkTimes.size());
+        auto [orientations, kernels2] = getTargetOrientations(exactCkTimes, toFrame, refFrame, mission, ckQualities, false, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList);
         json ephemKernels = merge_json(kernels1, kernels2);
 
-        // // Merge the two vectors into a new vector of format t,x,y,z,w
-        // vector<vector<double>> ephems;
-        // size_t n = std::min(exactCkTimes.size(), orientations.size());
+        // Merge the two vectors into a new vector of format t,x,y,z,w
+        vector<vector<double>> ephems;
+        size_t n = std::min(exactCkTimes.size(), orientations.size());
         
-        // // so we dont return 0
-        // if (exactCkTimes.empty()) {
-        //     n = orientations.size();
-        // }
-        // SPDLOG_DEBUG("n = {}", n);
-        // for (size_t i = 0; i < n; ++i) {
-        //     if (orientations[i].size() == 4) {
-        //         vector<double> merged = {exactCkTimes[i], orientations[i][0], orientations[i][1], orientations[i][2], orientations[i][3]};
-        //         ephems.push_back(merged);
-        //     }
-        //     else if (orientations[i].size() > 4) {
-        //         vector<double> merged = {exactCkTimes[i], 
-        //                                  orientations[i][0], orientations[i][1], orientations[i][2], orientations[i][3],
-        //                                  orientations[i][4], orientations[i][5], orientations[i][6]};
-        //         ephems.push_back(merged);
-        //     }
-        // }
+        // so we dont return 0
+        if (exactCkTimes.empty()) {
+            n = orientations.size();
+        }
+        SPDLOG_DEBUG("n = {}", n);
+        for (size_t i = 0; i < n; ++i) {
+            if (orientations[i].size() == 4) {
+                vector<double> merged = {exactCkTimes[i], orientations[i][0], orientations[i][1], orientations[i][2], orientations[i][3]};
+                ephems.push_back(merged);
+            }
+            else if (orientations[i].size() > 4) {
+                vector<double> merged = {exactCkTimes[i], 
+                                         orientations[i][0], orientations[i][1], orientations[i][2], orientations[i][3],
+                                         orientations[i][4], orientations[i][5], orientations[i][6]};
+                ephems.push_back(merged);
+            }
+        }
 
-        return {orientations, ephemKernels};
+        return {ephems, ephemKernels};
     }
 
 

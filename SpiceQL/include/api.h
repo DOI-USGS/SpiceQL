@@ -505,6 +505,7 @@ namespace SpiceQL {
         double stopEt, 
         int toFrame, 
         int refFrame, 
+        int exactCkFrame, 
         std::string mission, 
         std::vector<std::string> ckQualities={"smithed", "reconstructed"}, 
         bool useWeb=false, 
