@@ -420,7 +420,7 @@ namespace SpiceQL {
 
           if (final_time_kernels.size()) { 
             found = true;
-            if (limitQuality != -1 || limitQuality < final_time_kernels.size()) { 
+            if (limitQuality > -1 && limitQuality < final_time_kernels.size()) { 
               vector<string> limitedKernels;
               int start_idx = final_time_kernels.size() - 1;
               int stop_idx = start_idx - limitQuality;
