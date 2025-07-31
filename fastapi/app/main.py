@@ -163,7 +163,7 @@ async def getTargetOrientations(
     toFrame: int,
     refFrame: int,
     mission: str,
-    ets: Annotated[list[float], Query()] | float | str | None = [],
+    ets: Annotated[list[float], Query()] | float | str | None = None,
     startEt: float | None = None,
     stopEt: float | None = None,
     numRecords: int | None = None,
