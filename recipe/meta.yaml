@@ -34,29 +34,32 @@ build:
 requirements:
 requirements:
   build:
-    - {{ compiler('cxx') }} 
-    - libgcc-ng  # [linux]
-    - libstdcxx-ng  # [linux]
-    - cmake >=3.14
+    - {{ compiler('cxx') }} =18 # [osx]
+    - {{ compiler('cxx') }} # [linux]
     - make
     - swig
-    - fmt >9,<10
-    - spdlog =1.12
+    - cmake-no-system >=3.14
 
   host:
-    - python
     - setuptools
     - cpp-filesystem
     - pip
     - cereal
     - highfive
     - cspice
+    - hdf5
+    - fmt >9,<10
+    - spdlog =1.12
+    - openssl
+    - python
+    - libcurl
+
   run:
+    - python
     - cspice
     - hdf5
     - libcurl
-    - python
-    - uvicorn
+
 
 test:
   imports:
