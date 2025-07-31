@@ -36,6 +36,7 @@ release.
 
 ### Changed
 - Changed `getTargetStates` and `getTargetOrientations` fastapi endpoints to take a start, stop, and number of records rather than a list of starts, stops, and exposure times [#94](https://github.com/DOI-USGS/SpiceQL/pull/94)
+- Changed `getExactTargetOrientations` to take a frame to get the exact times in [#94](https://github.com/DOI-USGS/SpiceQL/pull/94)
 
 ### Fixed 
 - Fixed getExactTargetOrientations using the correct default params [#88](https://github.com/DOI-USGS/SpiceQL/pull/88) and [#94](https://github.com/DOI-USGS/SpiceQL/pull/94)
