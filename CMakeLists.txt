@@ -1,6 +1,6 @@
 include(CMakeDependentOption)
 cmake_minimum_required(VERSION 3.10)
-project(SpiceQL VERSION 1.2.3 DESCRIPTION "Spice Query Library")
+project(SpiceQL VERSION 1.2.4 DESCRIPTION "Spice Query Library")
 
 set(PACKAGE_VERSION ${PROJECT_VERSION})
 
@@ -60,6 +60,7 @@ if(SPICEQL_BUILD_LIB)
   find_package(cereal REQUIRED)
   find_package(spdlog REQUIRED)
   find_package(HighFive REQUIRED)
+  find_package(CURL REQUIRED)
 
   set(SPICEQL_INSTALL_INCLUDE_DIR "include/SpiceQL")
   set(SPICEQL_SRC_FILES   ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/spiceql.cpp 
@@ -152,6 +153,7 @@ target_include_directories(SpiceQL
                         cspice
                         spdlog::spdlog_header_only
                         HighFive
+                        ${CURL_LIBRARIES}
                         )
    
   install(TARGETS SpiceQL LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
