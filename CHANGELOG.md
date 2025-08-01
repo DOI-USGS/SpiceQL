@@ -43,6 +43,7 @@ release.
 - Fixed bug where limitSpk and limitCk was iterating incorrectly [#88](https://github.com/DOI-USGS/SpiceQL/pull/88) and [#94](https://github.com/DOI-USGS/SpiceQL/pull/94)
 - Fixed cassini conf [#88](https://github.com/DOI-USGS/SpiceQL/pull/88) 
 - Fixed internal getExactTargetOrientations() REST endpoint call [#92](https://github.com/DOI-USGS/SpiceQL/pull/92)
+- Fixed kaguya database to have properly defined reconstructed spk kernels [#8](https://github.com/DOI-USGS/SpiceQL/pull/8)
 
 ### Added 
 - Added context manager support to KernelSet [#88](https://github.com/DOI-USGS/SpiceQL/pull/88)
