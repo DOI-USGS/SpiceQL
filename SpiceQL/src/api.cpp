@@ -262,7 +262,7 @@ namespace SpiceQL {
                                                        vector<string> ckQualities, vector<string> spkQualities, bool useWeb, bool searchKernels, bool fullKernelPath, 
                                                        int limitCk, int limitSpk, vector<string> kernelList) {
         SPDLOG_TRACE("Calling getTargetStates with {}, {}, {}, {}, {}, {}, {}, {}, {}, {}", ets.size(), target, observer, frame, abcorr, mission, ckQualities.size(), spkQualities.size(), useWeb, searchKernels, kernelList.size());
-
+        SPDLOG_TRACE("ets: [{}]", fmt::join(ets, ", "));
         if (useWeb) {
             // @TODO validity checks
             json args = json::object({
@@ -330,7 +330,7 @@ namespace SpiceQL {
                                                              vector<string> ckQualities, bool useWeb, bool searchKernels, bool fullKernelPath, 
                                                              int limitCk, int limitSpk, vector<string> kernelList) {
         SPDLOG_TRACE("Calling getTargetOrientations with {}, {}, {}, {}, {}, {}, {}, {}", ets.size(), toFrame, refFrame, mission, ckQualities.size(), useWeb, searchKernels, kernelList.size());
-
+        SPDLOG_TRACE("ets: [{}]", fmt::join(ets, ", "));
         if (useWeb){
             json args = json::object({
                 {"ets", ets},
@@ -381,14 +381,14 @@ namespace SpiceQL {
         stop = std::chrono::high_resolution_clock::now();
         duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
         SPDLOG_TRACE("Time in std::chrono::microseconds to get data results: {}", duration.count());
-
+    
         return {orientations, ephemKernels};
     }
 
 
-    pair<vector<vector<double>>, json> getExactTargetOrientations(double startEt, double stopEt, int toFrame, int refFrame, string mission, vector<string> ckQualities, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {
-        SPDLOG_TRACE("Calling getExactTargetOrientations with startEt={}, stopEt={}, toFrame={}, refFrame={}, mission={}, ckQualities.size()={}, useWeb={}, searchKernels={}, kernelList.size()={}", 
-            startEt, stopEt, toFrame, refFrame, mission, ckQualities.size(), useWeb, searchKernels, kernelList.size());
+    pair<vector<vector<double>>, json> getExactTargetOrientations(double startEt, double stopEt, int toFrame, int refFrame, int exactCkFrame, string mission, vector<string> ckQualities, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {
+        SPDLOG_TRACE("Calling getExactTargetOrientations with startEt={}, stopEt={}, toFrame={}, refFrame={}, exactCkFrame={}, mission={}, ckQualities.size()={}, useWeb={}, searchKernels={}, kernelList.size()={}", 
+            startEt, stopEt, toFrame, refFrame, exactCkFrame, mission, ckQualities.size(), useWeb, searchKernels, kernelList.size());
         
         if (useWeb){
             json args = json::object({
@@ -396,6 +396,7 @@ namespace SpiceQL {
                 {"stopEt", stopEt},
                 {"toFrame", toFrame},
                 {"refFrame", refFrame},
+                {"exactCkFrame", exactCkFrame},
                 {"mission", mission},
                 {"ckQualities", ckQualities},
                 {"searchKernels", searchKernels},
@@ -410,14 +411,16 @@ namespace SpiceQL {
         }
         
         // force searchKernels and useWeb to false
-        auto [exactCkTimes, kernels1] = extractExactCkTimes(startEt, stopEt, refFrame, mission, ckQualities, false, searchKernels, fullKernelPath, 1, 1, kernelList);
-        SPDLOG_DEBUG("number of exact ck times = {}", exactCkTimes.size());
+        auto [exactCkTimes, kernels1] = extractExactCkTimes(startEt, stopEt, exactCkFrame, mission, ckQualities, false, searchKernels, fullKernelPath, 1, 1, kernelList);
+        SPDLOG_DEBUG("Number of exact ck times = {}", exactCkTimes.size());
         auto [orientations, kernels2] = getTargetOrientations(exactCkTimes, toFrame, refFrame, mission, ckQualities, false, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList);
         json ephemKernels = merge_json(kernels1, kernels2);
 
         // Merge the two vectors into a new vector of format t,x,y,z,w
         vector<vector<double>> ephems;
         size_t n = std::min(exactCkTimes.size(), orientations.size());
+        
+        SPDLOG_DEBUG("n = {}", n);
         for (size_t i = 0; i < n; ++i) {
             if (orientations[i].size() == 4) {
                 vector<double> merged = {exactCkTimes[i], orientations[i][0], orientations[i][1], orientations[i][2], orientations[i][3]};

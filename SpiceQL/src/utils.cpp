@@ -279,7 +279,7 @@ namespace SpiceQL {
 
 
   // Given a string keyname template, search the kernel pool for matching keywords and their values
-  // returns json with up to ROOM=50 matching keynames:values
+  // returns json with up to ROOM=200 matching keynames:values
   // if no keys are found, returns null
   json findKeywords(string keytpl) {
     // Define gnpool i/o

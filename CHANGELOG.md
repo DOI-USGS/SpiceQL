@@ -34,14 +34,21 @@ release.
 -->
 ## [Unreleased]
 
+## 1.2.4
+
+### Changed
+- Changed `getTargetStates` and `getTargetOrientations` fastapi endpoints to take a start, stop, and number of records rather than a list of starts, stops, and exposure times [#94](https://github.com/DOI-USGS/SpiceQL/pull/94)
+- Changed `getExactTargetOrientations` to take a frame to get the exact times in [#94](https://github.com/DOI-USGS/SpiceQL/pull/94)
+
 ### Fixed 
-- Fixed getExactTargetOrientations using the correct default params 
-- Fixed bug where limitSpk and limitCk was iterating incorrectly 
-- Fixed cassini conf
+- Fixed getExactTargetOrientations using the correct default params [#88](https://github.com/DOI-USGS/SpiceQL/pull/88) and [#94](https://github.com/DOI-USGS/SpiceQL/pull/94)
+- Fixed bug where limitSpk and limitCk was iterating incorrectly [#88](https://github.com/DOI-USGS/SpiceQL/pull/88) and [#94](https://github.com/DOI-USGS/SpiceQL/pull/94)
+- Fixed cassini conf [#88](https://github.com/DOI-USGS/SpiceQL/pull/88) 
 - Fixed internal getExactTargetOrientations() REST endpoint call [#92](https://github.com/DOI-USGS/SpiceQL/pull/92)
+- Fixed kaguya database to have properly defined reconstructed spk kernels [#8](https://github.com/DOI-USGS/SpiceQL/pull/8)
 
 ### Added 
-- Added context manager support to KernelSet 
+- Added context manager support to KernelSet [#88](https://github.com/DOI-USGS/SpiceQL/pull/88)
 
 ## 1.2.3
 

@@ -353,6 +353,7 @@ namespace SpiceQL {
               for(size_t i = 0; i < start_times_v.size(); i++) {
                 time_indices->start_times[start_times_v[i]] = start_file_index_v[i];
               }
+              // load stop_times 
               for(size_t i = 0; i < stop_times_v.size(); i++) {
                 time_indices->stop_times[stop_times_v[i]] = stop_file_index_v[i];
               }
@@ -376,8 +377,9 @@ namespace SpiceQL {
           size_t iterations = 0; 
       
           // init containers
-          unordered_set<size_t> start_time_kernels; 
+          unordered_set<size_t> start_time_kernels;
           vector<string> final_time_kernels;
+          vector<int> final_time_kernel_indices;
 
           // Get everything starting before the stop_time; 
           auto start_upper_bound = time_indices->start_times.upper_bound(stop_time);
@@ -388,7 +390,7 @@ namespace SpiceQL {
           for(auto it = time_indices->start_times.begin() ;it != start_upper_bound; it++) {
             iterations++;
             SPDLOG_TRACE("Inserting {} with the start time {}", time_indices->file_paths.at(it->second), it->first);
-            start_time_kernels.insert(it->second);             
+            start_time_kernels.insert(it->second);
           }
 
           SPDLOG_TRACE("NUMBER OF KERNELS MATCHING START TIME: {}", start_time_kernels.size()); 
@@ -397,7 +399,7 @@ namespace SpiceQL {
           auto stop_lower_bound = time_indices->stop_times.lower_bound(start_time);
           if(time_indices->stop_times.end() == stop_lower_bound && stop_lower_bound->first >= stop_time && start_time_kernels.contains(stop_lower_bound->second)) { 
             SPDLOG_TRACE("Is {} in the array? {}", stop_lower_bound->second, start_time_kernels.contains(stop_lower_bound->second)); 
-            final_time_kernels.push_back(time_indices->file_paths.at(stop_lower_bound->second));
+            final_time_kernel_indices.push_back(stop_lower_bound->second);
           }
           else { 
             for(auto it = stop_lower_bound;it != time_indices->stop_times.end(); it++) { 
@@ -405,16 +407,24 @@ namespace SpiceQL {
               iterations++;
               SPDLOG_TRACE("Is {} with stop time {} in the array? {}", time_indices->file_paths.at(it->second), it->first, start_time_kernels.contains(it->second)); 
               if (start_time_kernels.contains(it->second)) {
-                final_time_kernels.push_back(time_indices->file_paths.at(it->second));
+                final_time_kernel_indices.push_back(it->second);
               }
-            } 
+            }
+          }
+          
+          // Sort the indices as the kernel dbs enforce load priority
+          sort(final_time_kernel_indices.begin(), final_time_kernel_indices.end());
+          for (auto index : final_time_kernel_indices) {
+            final_time_kernels.push_back(time_indices->file_paths.at(index));
           }
 
           if (final_time_kernels.size()) { 
             found = true;
-            if (limitQuality != -1 || limitQuality <= final_time_kernels.size()) { 
+            if (limitQuality > -1 && limitQuality < final_time_kernels.size()) { 
               vector<string> limitedKernels;
-              for (auto i = 0; i < limitQuality; ++i) {
+              int start_idx = final_time_kernels.size() - 1;
+              int stop_idx = start_idx - limitQuality;
+              for (auto i = start_idx; i > stop_idx; --i) {
                 if (full_kernel_path) {
                   limitedKernels.push_back(data_dir / final_time_kernels[i]);
                 } else {
