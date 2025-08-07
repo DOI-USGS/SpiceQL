@@ -34,6 +34,9 @@ release.
 -->
 ## [Unreleased]
 
+### Changed
+- Refactored FastAPI models and added OpenAPI examples [#96](https://github.com/DOI-USGS/SpiceQL/pull/96)
+
 ## 1.2.4
 
 ### Changed
