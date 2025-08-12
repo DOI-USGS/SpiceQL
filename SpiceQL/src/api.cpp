@@ -10,6 +10,7 @@
 
 #include <fmt/format.h>
 #include <fmt/compile.h>
+#include <fmt/ranges.h>
 
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>

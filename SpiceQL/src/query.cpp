@@ -12,7 +12,7 @@
 #include <SpiceUsr.h>
 
 #include <ghc/fs_std.hpp>
-#include <spdlog/spdlog.h>
+#include <fmt/ranges.h>
 
 #include <spdlog/spdlog.h>
 

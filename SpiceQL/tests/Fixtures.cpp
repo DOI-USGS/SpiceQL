@@ -2,6 +2,7 @@
 #include "Paths.h"
 
 #include <fmt/format.h>
+#include <fmt/ranges.h>
 #include <spdlog/spdlog.h>
 
 #include <exception>
