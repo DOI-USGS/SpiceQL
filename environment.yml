@@ -9,9 +9,9 @@ dependencies:
   - cspice 
   - cxx-compiler
   - doxygen
+  - fmt
   - h5py
   - highfive==2.10.1
-  - fmt==9.1.0
   - libhiredis
   - ninja
   - pip
@@ -32,3 +32,4 @@ dependencies:
     - mkdoxy
     - check-jsonschema
     - mkdocs-material
+
