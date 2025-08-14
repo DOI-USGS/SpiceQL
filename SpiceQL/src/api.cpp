@@ -118,7 +118,9 @@ namespace SpiceQL {
       {"Near Infrared Camera", "nir"},
       {"High Resolution Camera", "clementine1"},
       {"Long Wave Infrared Camera", "clementine1"},
-      {"Visual and Infrared Spectrometer", "vir"}
+      {"Visual and Infrared Spectrometer", "vir"},
+      {"CH2", "chandrayaan2"},
+      {"CH-2", "chandrayaan2"}
     };
     
     /**
