@@ -234,6 +234,10 @@ TEST_F(IsisDataDirectory, FunctionalTestsLroKernelList) {
 }
 
 
+TEST_F(IsisDataDirectory, FunctionalTestsCH2KernelList) { 
+  compareKernelSets("chandrayaan2", {});
+}
+
 TEST_F(IsisDataDirectory, FunctionalTestLroConf) {
   nlohmann::json conf = getMissionConfig("lro");
   
@@ -784,9 +788,6 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMsl) {
 
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
-
-
-  
 
   nlohmann::json res = listMissionKernels(tempDir, conf);
 
