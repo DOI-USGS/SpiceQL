@@ -30,6 +30,9 @@
         "iak" : { 
             "kernels" : ["^tmc2Addendum[0-9]{3}.ti$"]
         },
+	"ik" : { 
+	    "kernels" : ["^ch2_tmc_v[0-9]{2}.ti$"]
+	},
         "spk" : { 
             "reconstructed" : {
                 "kernels" : ["M3.*_V03_L1B_nadir-jig_2016-04-29.bsp$"]
