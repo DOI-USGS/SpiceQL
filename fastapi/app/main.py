@@ -35,15 +35,15 @@ class TargetStatesRequestModel(BaseModel):
     abcorr: str
     mission: str
     ets: Annotated[list[float], Query()] | float | str | None = None
-    startEts: Annotated[list[float], Query()] | float | str | None = None
-    stopEts: Annotated[list[float], Query()] | float | str | None = None
-    exposureDuration: Annotated[list[float], Query()] | float | str | None = None
+    startEt: float | None = None
+    stopEt: float | None = None
+    numRecords: int | None = None
     ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"]
     spkQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"]
     kernelList: Annotated[list[str], Query()] | str | None = []
     searchKernels: bool = True
     fullKernelPath: bool = False
-    limitCk: int = -1,
+    limitCk: int = -1
     limitSpk: int = 1
 
 # Create FastAPI instance
@@ -83,10 +83,10 @@ async def getTargetStates(
     frame: str,
     abcorr: str,
     mission: str,
-    ets: str = None,
-    startEts: Annotated[list[float], Query()] | float | str | None = None,
-    stopEts: Annotated[list[float], Query()] | float | str | None = None,
-    exposureDuration: Annotated[list[float], Query()] | float | str | None = None,
+    ets: Annotated[list[float], Query()] | float | str | None = None,
+    startEt: float | None = None,
+    stopEt: float | None = None,
+    numRecords: int | None = None,
     ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
     spkQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
     searchKernels: bool = True,
@@ -105,11 +105,10 @@ async def getTargetStates(
                 except TypeError:
                     ets = [ets]
         else:
-            ets = calculate_ets(startEts, stopEts, exposureDuration)
+            ets = calculate_ets(startEt, stopEt, numRecords)
         ckQualities = strToList(ckQualities)
         spkQualities = strToList(spkQualities)
         kernelList = strToList(kernelList)
-        print("getTargetStates")
         result, kernels = pyspiceql.getTargetStates(ets, target, observer, frame, abcorr, mission, ckQualities, spkQualities, False, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
         body = ResultModel(result=result, kernels=kernels)
         return ResponseModel(statusCode=200, body=body)
@@ -126,9 +125,9 @@ async def getTargetStates(params: TargetStatesRequestModel):
     abcorr = params.abcorr
     mission = params.mission
     ets = params.ets
-    startEts = params.startEts
-    stopEts = params.stopEts
-    exposureDuration = params.exposureDuration
+    startEt = params.startEt
+    stopEt = params.stopEt
+    numRecords = params.numRecords
     ckQualities = params.ckQualities
     spkQualities = params.spkQualities
     searchKernels = params.searchKernels
@@ -147,7 +146,7 @@ async def getTargetStates(params: TargetStatesRequestModel):
                 except TypeError:
                     ets = [ets]
         else:
-            ets = calculate_ets(startEts, stopEts, exposureDuration)
+            ets = calculate_ets(startEt, stopEt, numRecords)
         ckQualities = strToList(ckQualities)
         spkQualities = strToList(spkQualities)
         kernelList = strToList(kernelList)
@@ -164,10 +163,10 @@ async def getTargetOrientations(
     toFrame: int,
     refFrame: int,
     mission: str,
-    ets: Annotated[list[float], Query()] | float | str | None = [],
-    startEts: Annotated[list[float], Query()] | float | str | None = None,
-    stopEts: Annotated[list[float], Query()] | float | str | None = None,
-    exposureDuration: Annotated[list[float], Query()] | float | str | None = None,
+    ets: Annotated[list[float], Query()] | float | str | None = None,
+    startEt: float | None = None,
+    stopEt: float | None = None,
+    numRecords: int | None = None,
     ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
     searchKernels: bool = True,
     fullKernelPath: bool = False,
@@ -185,7 +184,7 @@ async def getTargetOrientations(
                 except TypeError:
                     ets = [ets]
         else:
-            ets = calculate_ets(startEts, stopEts, exposureDuration)
+            ets = calculate_ets(startEt, stopEt, numRecords)
         ckQualities = strToList(ckQualities)
         kernelList = strToList(kernelList)
         result, kernels = pyspiceql.getTargetOrientations(ets, toFrame, refFrame, mission, ckQualities, False, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
@@ -452,6 +451,7 @@ async def getExactTargetOrientations(
     stopEt: float,
     toFrame: int = 0,
     refFrame: int = 0,
+    exactCkFrame: int = 0,
     mission: str = "",
     ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
     searchKernels: bool = True,
@@ -462,8 +462,9 @@ async def getExactTargetOrientations(
     try:
         ckQualities = strToList(ckQualities)
         kernelList = strToList(kernelList)
-        result, kernels = pyspiceql.getExactTargetOrientations(startEt, stopEt, toFrame, refFrame, mission, ckQualities, False, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
+        result, kernels = pyspiceql.getExactTargetOrientations(startEt, stopEt, toFrame, refFrame, exactCkFrame, mission, ckQualities, False, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
         body = ResultModel(result=result, kernels=kernels)
+        print(body)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
         body = ErrorModel(error=str(e))
@@ -495,49 +496,14 @@ async def searchForKernelsets(
         return ResponseModel(statusCode=500, body=body)
 
 
-def calculate_ets(startEts, stopEts, exposureDuration) -> list:
-    ets = []
-    etsCalculationParams = [startEts, stopEts, exposureDuration]
-    if all(v is not None for v in etsCalculationParams):
-        if (all(isinstance(i, list) for i in etsCalculationParams)
-            and (len(startEts) == len (stopEts) == len(exposureDuration))):
-            ets = interpolate_times(startEts, stopEts, exposureDuration)
-        elif (all(isinstance(i, str) for i in etsCalculationParams)
-                or all(isinstance(i, float) for i in etsCalculationParams)):
-            startEts = literal_eval(startEts)
-            stopEts = literal_eval(stopEts)
-            exposureDuration = literal_eval(exposureDuration)
-            etsCalculationParams = [startEts, stopEts, exposureDuration]
-            if all(isinstance(i, float) for i in etsCalculationParams):
-                etsNpArray = np.arange(startEts, stopEts, exposureDuration)
-                # If ets is a single value, np.arange yields an empty array
-                ets = list(etsNpArray)
-            elif (all(isinstance(i, tuple) for i in etsCalculationParams)
-                    or all(isinstance(i, list) for i in etsCalculationParams)):
-                ets = interpolate_times(startEts, stopEts, exposureDuration)
-        else:
-            raise Exception("Params startEts, stopEts, and exposureDuration must be either all floats or lists of the same length.")
-    else:
-        raise Exception("Verify that either params ets or startEts, stopEts, and exposureDuration are being passed correctly.")
-    return ets
-
-def interpolate_times(start_times, stop_times, exposure_times) -> np.ndarray:
-    # Convert lists to numpy arrays for easy manipulation
-    start_times = np.asarray(start_times)
-    exposure_times = np.asarray(exposure_times)
-    stop_times = np.asarray(stop_times)
-    times = []
-    for start, stop, exposure_time in zip(start_times, stop_times, exposure_times):
-        interp_times = np.arange(start, stop, exposure_time, dtype=float)
-        times.extend(interp_times.tolist())
-    logging.info(f"interpolated times = {times}")
-    return np.asarray(times)
+def calculate_ets(startEt, stopEt, numRecords) -> list:
+    return np.linspace(startEt, stopEt, numRecords)
 
 def strToList(value: str) -> list:
     # Converts a string into a list or its literal value
     if value is not None:
         if isinstance(value, str):
-            value = value.replace("[", "").replace("]", "").split(",")
+            value = value.replace("[", "").replace("]", "").replace("\"", "").replace("\'", "").replace(" ", "").split(",")
         else:
             try:
                 iter(value)

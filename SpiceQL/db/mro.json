@@ -5,7 +5,13 @@
                 "kernels" : ["mro_psp.bsp$"]
             },
             "reconstructed" : {
-                "kernels": ["mro_cruise.bsp$", "mro_ab.bsp$", "mro_psp[0-9].bsp$", "mro_psp[0-9]{2}.bsp$", "mro_psp_rec.bsp$", "mro_psp.*_ssd_mro95a.bsp$", "mro_psp.*_ssd_mro110c.bsp$"]
+                "kernels": ["mro_cruise.bsp$", 
+                            "mro_ab.bsp$", 
+                            "mro_psp[0-9].bsp$", 
+                            "mro_psp[0-9]{2}.bsp$", 
+                            "mro_psp_rec.bsp$", 
+                            "mro_psp.*_ssd_mro95a.bsp$", 
+                            "mro_psp.*_ssd_mro110c.bsp$"]
             }
         },
         "ck" : {
@@ -13,11 +19,14 @@
             "kernels" : ["mro_sc_psp_[0-9]{6}_[0-9]{6}p.bc$"]
           },
           "reconstructed" : {
-            "kernels" : ["mro_sc_cru_[0-9]{6}_[0-9]{6}.bc$", "mro_sc_ab_[0-9]{6}_[0-9]{6}.bc$", "mro_sc_psp_[0-9]{6}_[0-9]{6}.bc$", "mro_sc_psp_[0-9]{6}_[0-9]{6}_v2.bc$"]
+            "kernels" : ["mro_sc_cru_[0-9]{6}_[0-9]{6}.bc$", 
+                         "mro_sc_ab_[0-9]{6}_[0-9]{6}.bc$", 
+                         "mro_sc_psp_[0-9]{6}_[0-9]{6}.bc$", 
+                         "mro_sc_psp_[0-9]{6}_[0-9]{6}_v2.bc$"]
           }
         },
         "sclk" : {
-          "kernels" : ["MRO_SCLKSCET.[0-9]{5}.65536.tsc", "MRO_SCLKSCET.[0-9]{5}.tsc"]
+          "kernels" : ["MRO_SCLKSCET.[0-9]{5}.tsc", "MRO_SCLKSCET.[0-9]{5}.65536.tsc"]
         },
         "fk" : {
           "kernels" : ["mro_v[0-9]{2}.tf"]
