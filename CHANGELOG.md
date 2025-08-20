@@ -34,6 +34,8 @@ release.
 -->
 ## [Unreleased]
 
+- Added CHandrayan2 support [#95](https://github.com/DOI-USGS/SpiceQL/pull/95)
+
 ## 1.2.4
 
 ### Changed
