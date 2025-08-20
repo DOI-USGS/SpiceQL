@@ -35,7 +35,7 @@ release.
 ## [Unreleased]
 
 ### Fixed
-- Added CHandrayan2 support [#95](https://github.com/DOI-USGS/SpiceQL/pull/95)
+- Added Chandrayaan2 support [#95](https://github.com/DOI-USGS/SpiceQL/pull/95)
 
 ### Changed
 - Refactored FastAPI models and added OpenAPI examples [#96](https://github.com/DOI-USGS/SpiceQL/pull/96)
