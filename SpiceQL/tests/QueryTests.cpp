@@ -2,6 +2,7 @@
 #include <algorithm>
 
 #include <fmt/format.h>
+#include <fmt/ranges.h>
 #include <gtest/gtest.h>
 #include <spdlog/spdlog.h>
 
