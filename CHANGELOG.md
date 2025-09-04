@@ -40,6 +40,9 @@ release.
 ### Changed
 - Refactored FastAPI models and added OpenAPI examples [#96](https://github.com/DOI-USGS/SpiceQL/pull/96)
 
+### Added
+- Added relative kernel path support for furnishing [#100](https://github.com/DOI-USGS/SpiceQL/pull/100)
+
 ## 1.2.4
 
 ### Changed
