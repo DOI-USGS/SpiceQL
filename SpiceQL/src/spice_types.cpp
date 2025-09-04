@@ -116,6 +116,12 @@ namespace SpiceQL {
   void load(string path, bool force_refurnsh) {
     SPDLOG_DEBUG("Furnishing {}, force refurnish? {}.", path, force_refurnsh); 
     checkNaifErrors();
+    if (fs::path(path).is_absolute()) {
+      SPDLOG_TRACE("path is absolute");
+    } else {
+      SPDLOG_TRACE("path is relative");
+      path = getDataDirectory() / fs::path(path);
+    }
     furnsh_c(path.c_str());
     checkNaifErrors();
   }
