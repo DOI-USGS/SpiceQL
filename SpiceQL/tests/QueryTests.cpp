@@ -46,7 +46,7 @@ TEST(QueryTests, UnitTestGetLatestKernelDuplicateFileNames) {
 
 
 TEST(QueryTests, getKernelStringValue){
-  unique_ptr<Kernel> k(new Kernel("data/msgr_mdis_v010.ti"));
+  unique_ptr<Kernel> k(new Kernel(fs::absolute("data/msgr_mdis_v010.ti")));
   // INS-236810_CCD_CENTER        =  (  511.5, 511.5 )
   string res = getKernelStringValue("INS-236810_FOV_SHAPE");
   EXPECT_EQ(res, "RECTANGLE");
@@ -68,7 +68,7 @@ TEST(QueryTests, getKernelStringValue){
 
 
 TEST(QueryTests, getKernelVectorValue){
-  unique_ptr<Kernel> k(new Kernel("data/msgr_mdis_v010.ti"));
+  unique_ptr<Kernel> k(new Kernel(fs::absolute("data/msgr_mdis_v010.ti")));
 
   vector<string> actualResultsOne = getKernelVectorValue("INS-236810_CCD_CENTER");
   std::vector<string> expectedResultsOne{"511.5", "511.5"};
