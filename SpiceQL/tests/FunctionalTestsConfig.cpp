@@ -23,40 +23,40 @@ TEST_F(IsisDataDirectory, FunctionalTestConfigEval) {
   int expected_number = 0;
   EXPECT_EQ(SpiceQL::getKernelsAsVector(config_eval_res["clementine1"][pointer]).size(), expected_number);
   EXPECT_EQ(SpiceQL::getKernelsAsVector(pointer_eval_res[pointer]).size(), expected_number);
-  EXPECT_EQ(testConfig["clementine1"][pointer].size(), 1);
+  EXPECT_EQ(testConfig["clementine1"][pointer.to_string()].size(), 1);
 
   pointer = "/ck/smithed/kernels"_json_pointer;
   expected_number = 1;
   EXPECT_EQ(SpiceQL::getKernelsAsVector(config_eval_res["clementine1"][pointer]).size(), expected_number);
   EXPECT_EQ(SpiceQL::getKernelsAsVector(pointer_eval_res[pointer]).size(), expected_number);
-  EXPECT_EQ(testConfig["clementine1"][pointer].size(), expected_number);
+  EXPECT_EQ(testConfig["clementine1"][pointer.to_string()].size(), expected_number);
 
   pointer = "/spk/reconstructed/kernels"_json_pointer;
   expected_number = 0;
   EXPECT_EQ(SpiceQL::getKernelsAsVector(config_eval_res["clementine1"][pointer]).size(), expected_number);
   EXPECT_EQ(SpiceQL::getKernelsAsVector(pointer_eval_res[pointer]).size(), expected_number);
-  EXPECT_EQ(testConfig["clementine1"][pointer].size(), 1);
+  EXPECT_EQ(testConfig["clementine1"][pointer.to_string()].size(), 1);
 
   pointer = "/fk/kernels"_json_pointer;
   expected_number = 3;
   EXPECT_EQ(SpiceQL::getKernelsAsVector(config_eval_res["clementine1"][pointer]).size(), expected_number);
   EXPECT_EQ(SpiceQL::getKernelsAsVector(pointer_eval_res[pointer]).size(), expected_number);
-  EXPECT_EQ(testConfig["clementine1"][pointer].size(), 1);
+  EXPECT_EQ(testConfig["clementine1"][pointer.to_string()].size(), 1);
 
   pointer = "/sclk/kernels"_json_pointer;
   expected_number = 1;
   EXPECT_EQ(SpiceQL::getKernelsAsVector(config_eval_res["clementine1"][pointer]).size(), expected_number);
   EXPECT_EQ(SpiceQL::getKernelsAsVector(pointer_eval_res[pointer]).size(), expected_number);
-  EXPECT_EQ(testConfig["clementine1"][pointer].size(), 1);
+  EXPECT_EQ(testConfig["clementine1"][pointer.to_string()].size(), 1);
 
   pointer = "/uvvis/ik/kernels"_json_pointer;
   expected_number = 1;
   EXPECT_EQ(SpiceQL::getKernelsAsVector(config_eval_res[pointer]).size(), expected_number);
-  EXPECT_EQ(testConfig[pointer].size(), expected_number);
+  EXPECT_EQ(testConfig[pointer.to_string()].size(), expected_number);
 
   pointer = "/uvvis/iak/kernels"_json_pointer;
   expected_number = 4;
   EXPECT_EQ(SpiceQL::getKernelsAsVector(config_eval_res[pointer]).size(), expected_number);
-  EXPECT_EQ(testConfig[pointer].size(), 1);
+  EXPECT_EQ(testConfig[pointer.to_string()].size(), 1);
 }
 
