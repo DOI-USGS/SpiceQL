@@ -39,6 +39,7 @@ release.
 
 ### Changed
 - Refactored FastAPI models and added OpenAPI examples [#96](https://github.com/DOI-USGS/SpiceQL/pull/96)
+- Update cmake files to accommodate new cspice package that uses the new cmake recipe [#103](https://github.com/DOI-USGS/SpiceQL/pull/103)
 
 ### Added
 - Added relative kernel path support for furnishing [#100](https://github.com/DOI-USGS/SpiceQL/pull/100)
