@@ -55,7 +55,7 @@ if(SPICEQL_BUILD_LIB)
   add_subdirectory("submodules/gularkfilesystem")
   add_subdirectory("submodules/json")
   
-  find_package(CSpice REQUIRED)
+  find_package(cspice REQUIRED)
   find_package(fmt REQUIRED)
   find_package(cereal REQUIRED)
   find_package(spdlog REQUIRED)
@@ -136,11 +136,14 @@ if(SPICEQL_BUILD_LIB)
 
   target_compile_definitions(SpiceQL PRIVATE SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE 
                                      PUBLIC -D_SOURCE_PREFIX="${CMAKE_CURRENT_SOURCE_DIR}")
-  
+
+get_target_property(CSPICE_INCLUDE_DIRS CSPICE::cspice INTERFACE_INCLUDE_DIRECTORIES)
+
 target_include_directories(SpiceQL
                             PUBLIC
                             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include>
                             $<INSTALL_INTERFACE:include>
+                            ${CSPICE_INCLUDE_DIRS}
                             PRIVATE
                             ${CMAKE_CURRENT_SOURCE_DIR}/submodules/BTree/include/
                             cereal
@@ -151,7 +154,7 @@ target_include_directories(SpiceQL
                         fmt::fmt-header-only
                         nlohmann_json::nlohmann_json
                         PRIVATE
-                        cspice
+                        CSPICE::cspice
                         spdlog::spdlog_header_only
                         HighFive
                         ${CURL_LIBRARIES}
