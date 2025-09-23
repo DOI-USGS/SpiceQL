@@ -143,10 +143,10 @@ target_include_directories(SpiceQL
                             PUBLIC
                             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include>
                             $<INSTALL_INTERFACE:include>
-                            ${CSPICE_INCLUDE_DIRS}
                             PRIVATE
                             ${CMAKE_CURRENT_SOURCE_DIR}/submodules/BTree/include/
                             cereal
+                            ${CSPICE_INCLUDE_DIRS}
                             )
 
   target_link_libraries(SpiceQL
