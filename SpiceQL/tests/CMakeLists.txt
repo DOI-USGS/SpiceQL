@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 # A lot of linux OSes do not support C++20
 set(CMAKE_CXX_STANDARD 20)
 
-find_package(CSpice REQUIRED)
+find_package(cspice REQUIRED)
 
 get_property(dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
 foreach(dir ${dirs})
@@ -30,7 +30,7 @@ target_compile_definitions(runSpiceQLTests PUBLIC SPDLOG_ACTIVE_LEVEL=SPDLOG_LEV
 target_link_libraries(runSpiceQLTests
                       PRIVATE
                       SpiceQL
-                      cspice
+                      CSPICE::cspice
                       gtest
                       gmock
                       Threads::Threads
@@ -40,6 +40,7 @@ target_link_libraries(runSpiceQLTests
 
 
 target_include_directories(runSpiceQLTests PRIVATE ${CMAKE_SOURCE_DIR}/submodules/hippomocks/ 
-                                                   ${CMAKE_SOURCE_DIR}/submodules/BTree/include/)
+                                                   ${CMAKE_SOURCE_DIR}/submodules/BTree/include/
+                                                   ${CSPICE_INCLUDE_DIRS})
 
 gtest_discover_tests(runSpiceQLTests WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/SpiceQL/tests/)
