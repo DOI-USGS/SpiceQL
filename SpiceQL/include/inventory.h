@@ -25,7 +25,8 @@ namespace SpiceQL {
         nlohmann::json search_for_kernelset_from_regex(std::vector<std::string> list, bool full_kernel_path=false);
 
         std::string getDbFilePath();
-
+        void setDbFilePath(std::string db_file_path, bool override=false);
+        
         void create_database(std::vector<std::string> mlist = {}); 
     }    
 }

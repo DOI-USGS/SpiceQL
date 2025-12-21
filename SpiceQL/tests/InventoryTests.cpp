@@ -13,6 +13,7 @@
 #include <spdlog/spdlog.h>
 #include <highfive/highfive.hpp>
 
+
 TEST_F(LroKernelSet, TestInventorySmithed) { 
   Inventory::create_database();
   nlohmann::json kernels = Inventory::search_for_kernelset("lroc", {"fk", "sclk", "spk", "ck"}, 110000000, 140000000, {"smithed", "reconstructed"}, {"smithed", "reconstructed"}, false);
@@ -139,4 +140,21 @@ TEST_F(LroKernelSet, TestInventorySearchSetFromRegex) {
   EXPECT_EQ(kernels["spk"].size(), 3);
   EXPECT_EQ(kernels["spk_quality"].get<string>(), "smithed"); 
   EXPECT_EQ(fs::path(kernels["pck"][0].get<string>()).filename(), "moon_080317.tf");
+}
+
+TEST_F(TempTestingFiles, TestInventorySetCacheDir) {
+  SpiceQL::Inventory::setDbFilePath(tempDir.string());
+  const char* cache_dir = getenv("SPICEQL_CACHE_DIR");
+  EXPECT_EQ(SpiceQL::Inventory::getDbFilePath(), fs::path(cache_dir)/"spiceqldb.hdf");
+}
+
+TEST_F(TempTestingFiles, TestInventorySetCacheDirOverride) { 
+  fs::path new_path = fs::path(tempDir.string())/"new_path";
+  SpiceQL::Inventory::setDbFilePath(new_path.string(), true);
+  EXPECT_EQ(SpiceQL::Inventory::getDbFilePath(), new_path/"spiceqldb.hdf");
+}
+
+TEST_F(TempTestingFiles, TestInventorySetCacheDirFail) { 
+  unsetenv("SPICEQL_CACHE_DIR");
+  EXPECT_THROW(SpiceQL::Inventory::getDbFilePath(), runtime_error);
 }

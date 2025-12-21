@@ -144,12 +144,29 @@ namespace SpiceQL {
             return kernels; 
         }
 
+        
+        /**
+         * @brief Get the file path to the database file
+         * 
+         * @return string 
+         */
         string getDbFilePath() { 
             static string db_path = fs::path(getCacheDir()) / DB_HDF_FILE;
             SPDLOG_TRACE("db_path: {}", db_path);
             return db_path;
         }
- 
+        
+
+        /**
+         * @brief Set the file path to the database file
+         * 
+         * @param db_file_path The path to the database file
+         * @param override If true, the database file path will be set to the provided path regardless of the environment variable
+         */
+        void setDbFilePath(string db_file_path, bool override) {
+            setCacheDir(db_file_path, override);
+        }
+
         void create_database(vector<string> mlist) { 
             // force generate the database
             InventoryImpl db(true, mlist);
