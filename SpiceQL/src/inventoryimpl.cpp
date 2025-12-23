@@ -85,7 +85,7 @@ namespace SpiceQL {
       
           std::string  cache_dir; 
       
-          if (cache_dir_char == NULL || (CACHE_DIRECTORY == "")) {
+          if (cache_dir_char == NULL && (CACHE_DIRECTORY == "")) {
             SPDLOG_DEBUG("Cache directory not set and not in environment variable " + CACHE_DIR_ENV_VAR + " and not overridden.");
             throw runtime_error("Cache directory not set and not in environment variable " + CACHE_DIR_ENV_VAR + " and not overridden.");
           }
