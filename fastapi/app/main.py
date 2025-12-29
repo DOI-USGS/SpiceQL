@@ -1,50 +1,16 @@
 """Module providing SpiceQL endpoints"""
 
-from ast import literal_eval
-from typing import Annotated, Any
-from fastapi import FastAPI, Query
-from pydantic import BaseModel, Field
-import numpy as np
+from .models import *
+
+from typing import Annotated
+from fastapi import FastAPI, Depends, Body
 import os
 import pyspiceql
 import logging
 import h5py
-import sys
 
-logger = logging.getLogger('uvicorn.error')
 
-# Models
-class MessageItem(BaseModel):
-    message: str
-
-class ResultModel(BaseModel):
-    result: Any = Field(serialization_alias='return')
-    kernels: Any = Field(serialization_alias='kernels')
-
-class ErrorModel(BaseModel):
-    error: str
-
-class ResponseModel(BaseModel):
-    statusCode: int
-    body: ResultModel | ErrorModel
-
-class TargetStatesRequestModel(BaseModel):
-    target: str
-    observer: str
-    frame: str
-    abcorr: str
-    mission: str
-    ets: Annotated[list[float], Query()] | float | str | None = None
-    startEt: float | None = None
-    stopEt: float | None = None
-    numRecords: int | None = None
-    ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"]
-    spkQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"]
-    kernelList: Annotated[list[str], Query()] | str | None = []
-    searchKernels: bool = True
-    fullKernelPath: bool = False
-    limitCk: int = -1
-    limitSpk: int = 1
+logger = logging.getLogger(__name__)
 
 # Create FastAPI instance
 app = FastAPI()
@@ -78,38 +44,32 @@ async def message():
 # SpiceQL endpoints
 @app.get("/getTargetStates")
 async def getTargetStates(
-    target: str,
-    observer: str,
-    frame: str,
-    abcorr: str,
-    mission: str,
-    ets: Annotated[list[float], Query()] | float | str | None = None,
-    startEt: float | None = None,
-    stopEt: float | None = None,
-    numRecords: int | None = None,
-    ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
-    spkQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
-    searchKernels: bool = True,
-    fullKernelPath: bool = False,
-    limitCk: int = -1,
-    limitSpk: int = 1,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    target: Annotated[TargetParam, Depends()],
+    observer: Annotated[ObserverParam, Depends()],
+    frame: Annotated[FrameStrParam, Depends()],
+    abcorr: Annotated[AbcorrParam, Depends()],
+    ets: Annotated[EtsParam, Depends()],
+    mission: Annotated[MissionParam, Depends()],
+    commonParams: Annotated[CommonParams, Depends()],
+    ckQualities: Annotated[CkQualitiesParam, Depends()],
+    spkQualities: Annotated[SpkQualitiesParam, Depends()],
+    ):
     try:
-        if ets is not None:
-            if isinstance(ets, str):
-                ets = literal_eval(ets)
-            else:
-                # getTargetStates requires an iterable ets.  If not iterable, make it a list.
-                try:
-                    iter(ets)
-                except TypeError:
-                    ets = [ets]
-        else:
-            ets = calculate_ets(startEt, stopEt, numRecords)
-        ckQualities = strToList(ckQualities)
-        spkQualities = strToList(spkQualities)
-        kernelList = strToList(kernelList)
-        result, kernels = pyspiceql.getTargetStates(ets, target, observer, frame, abcorr, mission, ckQualities, spkQualities, False, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
+        result, kernels = pyspiceql.getTargetStates(
+            ets.value,
+            target.value,
+            observer.value,
+            frame.value,
+            abcorr.value,
+            mission.value,
+            ckQualities.value,
+            spkQualities.value,
+            False,
+            commonParams.searchKernels,
+            commonParams.fullKernelPath,
+            commonParams.limitCk,
+            commonParams.limitSpk,
+            commonParams.kernelList)
         body = ResultModel(result=result, kernels=kernels)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -118,7 +78,15 @@ async def getTargetStates(
     
     
 @app.post("/getTargetStates")
-async def getTargetStates(params: TargetStatesRequestModel):
+async def getTargetStates(params: Annotated[TargetStatesRequestModel, Body(
+    openapi_examples={
+        "example": {
+            "summary": "LROC Payload",
+            "description": "Try getting target states using the POST endpoint with the LROC example body payload.",
+            "value": {"ets": "[302228504.36824864]", "target": "LUNAR RECONNAISSANCE ORBITER", "observer": "MOON", "frame": "J2000", "abcorr": "None", "mission": "lroc", "searchKernels": "True"}
+        }
+    }
+)]):
     target = params.target
     observer = params.observer
     frame =  params.frame
@@ -136,21 +104,21 @@ async def getTargetStates(params: TargetStatesRequestModel):
     limitSpk = params.limitSpk
     kernelList = params.kernelList
     try:
-        if ets is not None:
-            if isinstance(ets, str):
-                ets = literal_eval(ets)
-            else:
-                # getTargetStates requires an iterable ets.  If not iterable, make it a list.
-                try:
-                    iter(ets)
-                except TypeError:
-                    ets = [ets]
-        else:
-            ets = calculate_ets(startEt, stopEt, numRecords)
-        ckQualities = strToList(ckQualities)
-        spkQualities = strToList(spkQualities)
-        kernelList = strToList(kernelList)
-        result, kernels = pyspiceql.getTargetStates(ets, target, observer, frame, abcorr, mission, ckQualities, spkQualities, False, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
+        result, kernels = pyspiceql.getTargetStates(
+            ets,
+            target,
+            observer,
+            frame,
+            abcorr,
+            mission,
+            ckQualities,
+            spkQualities,
+            False,
+            searchKernels,
+            fullKernelPath,
+            limitCk,
+            limitSpk,
+            kernelList)
         body = ResultModel(result=result, kernels=kernels)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -160,34 +128,25 @@ async def getTargetStates(params: TargetStatesRequestModel):
     
 @app.get("/getTargetOrientations")
 async def getTargetOrientations(
-    toFrame: int,
-    refFrame: int,
-    mission: str,
-    ets: Annotated[list[float], Query()] | float | str | None = None,
-    startEt: float | None = None,
-    stopEt: float | None = None,
-    numRecords: int | None = None,
-    ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
-    searchKernels: bool = True,
-    fullKernelPath: bool = False,
-    limitCk: int = -1,
-    limitSpk: int = 1,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    toFrame: Annotated[ToFrameParam, Depends()],
+    refFrame: Annotated[RefFrameParam, Depends()],
+    mission: Annotated[MissionParam, Depends()],
+    ets: Annotated[EtsParam, Depends()],
+    commonParams: Annotated[CommonParams, Depends()],
+    ckQualities: Annotated[CkQualitiesParam, Depends()]):
     try:
-        if ets is not None:
-            if isinstance(ets, str):
-                ets = literal_eval(ets)
-            else:
-                # getTargetStates requires an iterable ets.  If not iterable, make it a list.
-                try:
-                    iter(ets)
-                except TypeError:
-                    ets = [ets]
-        else:
-            ets = calculate_ets(startEt, stopEt, numRecords)
-        ckQualities = strToList(ckQualities)
-        kernelList = strToList(kernelList)
-        result, kernels = pyspiceql.getTargetOrientations(ets, toFrame, refFrame, mission, ckQualities, False, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
+        result, kernels = pyspiceql.getTargetOrientations(
+            ets.value,
+            toFrame.value,
+            refFrame.value,
+            mission.value,
+            ckQualities.value,
+            False,
+            commonParams.searchKernels,
+            commonParams.fullKernelPath,
+            commonParams.limitCk,
+            commonParams.limitSpk,
+            commonParams.kernelList)
         body = ResultModel(result=result, kernels=kernels)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -197,17 +156,21 @@ async def getTargetOrientations(
 
 @app.get("/strSclkToEt")
 async def strSclkToEt(
-    frameCode: int,
-    sclk: str,
-    mission: str,
-    searchKernels: bool = True,
-    fullKernelPath: bool = False,
-    limitCk: int = -1,
-    limitSpk: int = 1,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    frameCode: Annotated[FrameCodeParam, Depends()],
+    sclk: Annotated[SclkStrParam, Depends()],
+    mission: Annotated[MissionParam, Depends()],
+    commonParams: Annotated[CommonParams, Depends()]):
     try:
-        kernelList = strToList(kernelList)
-        result, kernels = pyspiceql.strSclkToEt(frameCode, sclk, mission, False, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
+        result, kernels = pyspiceql.strSclkToEt(
+            frameCode.value,
+            sclk.value, 
+            mission.value, 
+            False, 
+            commonParams.searchKernels,
+            commonParams.fullKernelPath,
+            commonParams.limitCk,
+            commonParams.limitSpk,
+            commonParams.kernelList)
         body = ResultModel(result=result, kernels=kernels)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -217,17 +180,21 @@ async def strSclkToEt(
 
 @app.get("/doubleSclkToEt")
 async def doubleSclkToEt(
-    frameCode: int,
-    sclk: float,
-    mission: str,
-    searchKernels: bool = True,
-    fullKernelPath: bool = False,
-    limitCk: int = -1,
-    limitSpk: int = 1,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    frameCode: Annotated[FrameCodeParam, Depends()],
+    sclk: Annotated[SclkDblParam, Depends()],
+    mission: Annotated[MissionParam, Depends()],
+    commonParams: Annotated[CommonParams, Depends()]):
     try:
-        kernelList = strToList(kernelList)
-        result, kernels = pyspiceql.doubleSclkToEt(frameCode, sclk, mission, False, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
+        result, kernels = pyspiceql.doubleSclkToEt(
+            frameCode.value,
+            sclk.value,
+            mission.value,
+            False,
+            commonParams.searchKernels,
+            commonParams.fullKernelPath,
+            commonParams.limitCk,
+            commonParams.limitSpk,
+            commonParams.kernelList)
         body = ResultModel(result=result, kernels=kernels)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -237,35 +204,40 @@ async def doubleSclkToEt(
 
 @app.get("/doubleEtToSclk")
 async def doubleEtToSclk(
-    frameCode: int,
-    et: float,
-    mission: str,
-    searchKernels: bool = True,
-    fullKernelPath: bool = False,
-    limitCk: int = -1,
-    limitSpk: int = 1,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    frameCode: Annotated[FrameCodeParam, Depends()],
+    et: Annotated[EtParam, Depends()],
+    mission: Annotated[MissionParam, Depends()],
+    commonParams: Annotated[CommonParams, Depends()]):
     try:
-        kernelList = strToList(kernelList)
-        result, kernels = pyspiceql.doubleEtToSclk(frameCode, et, mission, False, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
+        result, kernels = pyspiceql.doubleEtToSclk(
+            frameCode.value,
+            et.value,
+            mission.value,
+            False,
+            commonParams.searchKernels,
+            commonParams.fullKernelPath,
+            commonParams.limitCk,
+            commonParams.limitSpk,
+            commonParams.kernelList)
         body = ResultModel(result=result, kernels=kernels)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
         body = ErrorModel(error=str(e))
         return ResponseModel(statusCode=500, body=body)
 
-
 @app.get("/utcToEt")
 async def utcToEt(
-    utc: str,
-    searchKernels: bool = True,
-    fullKernelPath: bool = False,
-    limitCk: int = -1,
-    limitSpk: int = 1,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    utc: Annotated[UtcParam, Depends()],
+    commonParams: Annotated[CommonParams, Depends()]):
     try:
-        kernelList = strToList(kernelList)
-        result, kernels = pyspiceql.utcToEt(utc, False, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
+        result, kernels = pyspiceql.utcToEt(
+            utc.value,
+            False,
+            commonParams.searchKernels,
+            commonParams.fullKernelPath,
+            commonParams.limitCk,
+            commonParams.limitSpk,
+            commonParams.kernelList)
         body = ResultModel(result=result, kernels=kernels)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -274,17 +246,21 @@ async def utcToEt(
 
 @app.get("/etToUtc")
 async def etToUtc(
-    et: float,
-    format: str,
-    precision: float,
-    searchKernels: bool = True,
-    fullKernelPath: bool = False,
-    limitCk: int = -1,
-    limitSpk: int = 1,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    et: Annotated[EtParam, Depends()],
+    format: Annotated[FormatParam, Depends()],
+    precision: Annotated[PrecisionParam, Depends()],
+    commonParams: Annotated[CommonParams, Depends()]):
     try:
-        kernelList = strToList(kernelList)
-        result, kernels = pyspiceql.etToUtc(et, format, precision, False, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
+        result, kernels = pyspiceql.etToUtc(
+            et.value,
+            format.value,
+            precision.value,
+            False,
+            commonParams.searchKernels,
+            commonParams.fullKernelPath,
+            commonParams.limitCk,
+            commonParams.limitSpk,
+            commonParams.kernelList)
         body = ResultModel(result=result, kernels=kernels)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -293,16 +269,19 @@ async def etToUtc(
 
 @app.get("/translateNameToCode")
 async def translateNameToCode(
-    frame: str,
-    mission: str,
-    searchKernels: bool = True,
-    fullKernelPath: bool = False,
-    limitCk: int = -1,
-    limitSpk: int = 1,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    frame: Annotated[FrameStrParam, Depends()],
+    mission: Annotated[MissionParam, Depends()],
+    commonParams: Annotated[CommonParams, Depends()]):
     try:
-        kernelList = strToList(kernelList)
-        result, kernels = pyspiceql.translateNameToCode(frame, mission, False, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
+        result, kernels = pyspiceql.translateNameToCode(
+            frame.value,
+            mission.value,
+            False,
+            commonParams.searchKernels,
+            commonParams.fullKernelPath,
+            commonParams.limitCk,
+            commonParams.limitSpk,
+            commonParams.kernelList)
         body = ResultModel(result=result, kernels=kernels)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -311,16 +290,19 @@ async def translateNameToCode(
 
 @app.get("/translateCodeToName")
 async def translateCodeToName(
-    frame: int,
-    mission: str,
-    searchKernels: bool = True,
-    fullKernelPath: bool = False,
-    limitCk: int = -1,
-    limitSpk: int = 1,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    frame: Annotated[FrameIntParam, Depends()],
+    mission: Annotated[MissionParam, Depends()],
+    commonParams: Annotated[CommonParams, Depends()]):
     try:
-        kernelList = strToList(kernelList)
-        result, kernels = pyspiceql.translateCodeToName(frame, mission, False, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
+        result, kernels = pyspiceql.translateCodeToName(
+            frame.value,
+            mission.value,
+            False,
+            commonParams.searchKernels,
+            commonParams.fullKernelPath,
+            commonParams.limitCk,
+            commonParams.limitSpk,
+            commonParams.kernelList)
         body = ResultModel(result=result, kernels=kernels)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -329,16 +311,19 @@ async def translateCodeToName(
 
 @app.get("/getFrameInfo")
 async def getFrameInfo(
-    frame: int,
-    mission: str,
-    searchKernels: bool = True,
-    fullKernelPath: bool = False,
-    limitCk: int = -1,
-    limitSpk: int = 1,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    frame: Annotated[FrameIntParam, Depends()],
+    mission: Annotated[MissionParam, Depends()],
+    commonParams: Annotated[CommonParams, Depends()]):
     try:
-        kernelList = strToList(kernelList)
-        result, kernels = pyspiceql.getFrameInfo(frame, mission, False, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
+        result, kernels = pyspiceql.getFrameInfo(
+            frame.value,
+            mission.value,
+            False,
+            commonParams.searchKernels,
+            commonParams.fullKernelPath,
+            commonParams.limitCk,
+            commonParams.limitSpk,
+            commonParams.kernelList)
         body = ResultModel(result=result, kernels=kernels)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -347,16 +332,19 @@ async def getFrameInfo(
 
 @app.get("/getTargetFrameInfo")
 async def getTargetFrameInfo(
-    targetId: int,
-    mission: str,
-    searchKernels: bool = True,
-    fullKernelPath: bool = False,
-    limitCk: int = -1,
-    limitSpk: int = 1,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    targetId: Annotated[TargetIdParam, Depends()],
+    mission: Annotated[MissionParam, Depends()],
+    commonParams: Annotated[CommonParams, Depends()]):
     try:
-        kernelList = strToList(kernelList)
-        result, kernels = pyspiceql.getTargetFrameInfo(targetId, mission, False, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
+        result, kernels = pyspiceql.getTargetFrameInfo(
+            targetId.value,
+            mission.value,
+            False,
+            commonParams.searchKernels,
+            commonParams.fullKernelPath,
+            commonParams.limitCk,
+            commonParams.limitSpk,
+            commonParams.kernelList)
         body = ResultModel(result=result, kernels=kernels)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -365,16 +353,19 @@ async def getTargetFrameInfo(
 
 @app.get("/findMissionKeywords")
 async def findMissionKeywords(
-    key: str,
-    mission: str,
-    searchKernels: bool = True,
-    fullKernelPath: bool = False,
-    limitCk: int = -1,
-    limitSpk: int = 1,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    key: Annotated[KeyParam, Depends()],
+    mission: Annotated[MissionParam, Depends()],
+    commonParams: Annotated[CommonParams, Depends()]):
     try:
-        kernelList = strToList(kernelList)
-        result, kernels = pyspiceql.findMissionKeywords(key, mission, False, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
+        result, kernels = pyspiceql.findMissionKeywords(
+            key.value,
+            mission.value,
+            False,
+            commonParams.searchKernels,
+            commonParams.fullKernelPath,
+            commonParams.limitCk,
+            commonParams.limitSpk,
+            commonParams.kernelList)
         body = ResultModel(result=result, kernels=kernels)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -383,16 +374,19 @@ async def findMissionKeywords(
 
 @app.get("/findTargetKeywords")
 async def findTargetKeywords(
-    key: str,
-    mission: str,
-    searchKernels: bool = True,
-    fullKernelPath: bool = False,
-    limitCk: int = -1,
-    limitSpk: int = 1,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    key: Annotated[KeyParam, Depends()],
+    mission: Annotated[MissionParam, Depends()],
+    commonParams: Annotated[CommonParams, Depends()]):
     try:
-        kernelList = strToList(kernelList)
-        result, kernels = pyspiceql.findTargetKeywords(key, mission, False, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
+        result, kernels = pyspiceql.findTargetKeywords(
+            key.value,
+            mission.value,
+            False,
+            commonParams.searchKernels,
+            commonParams.fullKernelPath,
+            commonParams.limitCk,
+            commonParams.limitSpk,
+            commonParams.kernelList)
         body = ResultModel(result=result, kernels=kernels)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -401,21 +395,25 @@ async def findTargetKeywords(
 
 @app.get("/frameTrace")
 async def frameTrace(
-    et: float,
-    initialFrame: int,
-    mission: str,
-    ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
-    spkQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
-    searchKernels: bool = True,
-    fullKernelPath: bool = False,
-    limitCk: int = -1,
-    limitSpk: int = 1,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    et: Annotated[EtParam, Depends()],
+    initialFrame: Annotated[InitialFrameParam, Depends()],
+    mission: Annotated[MissionParam, Depends()],
+    ckQualities: Annotated[CkQualitiesParam, Depends()],
+    spkQualities: Annotated[SpkQualitiesParam, Depends()],
+    commonParams: Annotated[CommonParams, Depends()]):
     try:
-        ckQualities = strToList(ckQualities)
-        spkQualities = strToList(spkQualities)
-        kernelList = strToList(kernelList)
-        result, kernels = pyspiceql.frameTrace(et, initialFrame, mission, ckQualities, spkQualities, False, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
+        result, kernels = pyspiceql.frameTrace(
+            et.value,
+            initialFrame.value, 
+            mission.value,
+            ckQualities.value,
+            spkQualities.value,
+            False,
+            commonParams.searchKernels,
+            commonParams.fullKernelPath,
+            commonParams.limitCk,
+            commonParams.limitSpk,
+            commonParams.kernelList)
         body = ResultModel(result=result, kernels=kernels)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -424,20 +422,27 @@ async def frameTrace(
     
 @app.get("/extractExactCkTimes")
 async def extractExactCkTimes(
-    observStart: float,
-    observEnd: float,
-    targetFrame: int,
-    mission: str,
-    ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
-    searchKernels: bool = True,
-    fullKernelPath: bool = False,
-    limitCk: int = 1,
-    limitSpk: int = 1,
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    observStart: Annotated[ObservStartParam, Depends()],
+    observEnd: Annotated[ObservEndParam, Depends()],
+    targetFrame: Annotated[TargetFrameParam, Depends()],
+    mission: Annotated[MissionParam, Depends()],
+    ckQualities: Annotated[CkQualitiesParam, Depends()],
+    limitCk: Annotated[LimitCkOneParam, Depends()],
+    commonParams: Annotated[CommonParams, Depends()]
+    ):
     try:
-        ckQualities = strToList(ckQualities)
-        kernelList = strToList(kernelList)
-        result, kernels = pyspiceql.extractExactCkTimes(observStart, observEnd, targetFrame, mission, ckQualities, False, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
+        result, kernels = pyspiceql.extractExactCkTimes(
+            observStart.value, 
+            observEnd.value, 
+            targetFrame.value, 
+            mission.value, 
+            ckQualities.value,
+            False,
+            commonParams.searchKernels,
+            commonParams.fullKernelPath, 
+            limitCk.value,
+            commonParams.limitSpk,
+            commonParams.kernelList)
         body = ResultModel(result=result, kernels=kernels)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
@@ -447,22 +452,29 @@ async def extractExactCkTimes(
 
 @app.get("/getExactTargetOrientations")
 async def getExactTargetOrientations(
-    startEt: float,
-    stopEt: float,
-    toFrame: int = 0,
-    refFrame: int = 0,
-    exactCkFrame: int = 0,
-    mission: str = "",
-    ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
-    searchKernels: bool = True,
-    fullKernelPath: bool = False,
-    limitCk: int = -1,
-    limitSpk: int = 1,    
-    kernelList: Annotated[list[str], Query()] | str | None = []):
+    startEt: Annotated[StartEtParam, Depends()],
+    stopEt: Annotated[StopEtParam, Depends()],
+    toFrame: Annotated[ToFrameParam, Depends()],
+    refFrame: Annotated[RefFrameParam, Depends()],
+    exactCkFrame: Annotated[ExactCkFrameParam, Depends()],
+    mission: Annotated[MissionParam, Depends()],
+    ckQualities: Annotated[CkQualitiesParam, Depends()],
+    commonParams: Annotated[CommonParams, Depends()]):
     try:
-        ckQualities = strToList(ckQualities)
-        kernelList = strToList(kernelList)
-        result, kernels = pyspiceql.getExactTargetOrientations(startEt, stopEt, toFrame, refFrame, exactCkFrame, mission, ckQualities, False, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
+        result, kernels = pyspiceql.getExactTargetOrientations(
+            startEt.value, 
+            stopEt.value, 
+            toFrame.value, 
+            refFrame.value, 
+            exactCkFrame.value,
+            mission.value, 
+            ckQualities.value, 
+            False, 
+            commonParams.searchKernels,
+            commonParams.fullKernelPath,
+            commonParams.limitCk,
+            commonParams.limitSpk,
+            commonParams.kernelList)
         body = ResultModel(result=result, kernels=kernels)
         print(body)
         return ResponseModel(statusCode=200, body=body)
@@ -473,41 +485,32 @@ async def getExactTargetOrientations(
 
 @app.get("/searchForKernelsets")
 async def searchForKernelsets(
-    spiceqlNames: Annotated[list[str], Query()] | str = [],
-    types: Annotated[list[str], Query()] | str | None = ["ck", "spk", "tspk", "lsk", "mk", "sclk", "iak", "ik", "fk", "dsk", "pck", "ek"],
-    startTime: float = -sys.float_info.max,
-    stopTime: float = sys.float_info.max,
-    ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
-    spkQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"],
-    fullKernelPath: bool = False,
-    limitCk: int = -1,
-    limitSpk: int = 1,
-    overwrite: bool = False):
+    spiceqlNames: Annotated[SpiceqlNamesParam, Depends()],
+    types: Annotated[TypesParam, Depends()],
+    startTime: Annotated[StartTimeParam, Depends()],
+    stopTime: Annotated[StopTimeParam, Depends()],
+    ckQualities: Annotated[CkQualitiesParam, Depends()],
+    spkQualities: Annotated[SpkQualitiesParam, Depends()],
+    commonParams: Annotated[CommonParams, Depends()],
+    overwrite: Annotated[OverwriteParam, Depends()]):
     try:
-        spiceqlNames = strToList(spiceqlNames)
-        types = strToList(types)
-        ckQualities = strToList(ckQualities)
-        spkQualities = strToList(spkQualities)
-        result, kernels = pyspiceql.searchForKernelsets(spiceqlNames, types, startTime, stopTime, ckQualities, spkQualities, False, fullKernelPath, limitCk, limitSpk, overwrite)
+        logger.debug("Calling searchForKernelsets ....")
+        result, kernels = pyspiceql.searchForKernelsets(
+            spiceqlNames.value,
+            types.value,
+            startTime.value,
+            stopTime.value,
+            ckQualities.value,
+            spkQualities.value,
+            False,
+            commonParams.fullKernelPath,
+            commonParams.limitCk,
+            commonParams.limitSpk,
+            overwrite.value)
         body = ResultModel(result=result, kernels=kernels)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:
         body = ErrorModel(error=str(e))
         return ResponseModel(statusCode=500, body=body)
 
-
-def calculate_ets(startEt, stopEt, numRecords) -> list:
-    return np.linspace(startEt, stopEt, numRecords)
-
-def strToList(value: str) -> list:
-    # Converts a string into a list or its literal value
-    if value is not None:
-        if isinstance(value, str):
-            value = value.replace("[", "").replace("]", "").replace("\"", "").replace("\'", "").replace(" ", "").split(",")
-        else:
-            try:
-                iter(value)
-            except TypeError:
-                value = [value]
-    return value
     

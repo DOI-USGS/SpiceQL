@@ -23,7 +23,7 @@ using namespace SpiceQL;
 
 
 TEST(UtilTests, findKeywords) {
-  Kernel k("data/msgr_mdis_v010.ti");
+  Kernel k(fs::absolute("data/msgr_mdis_v010.ti"));
 
   nlohmann::json res = findKeywords("*");
   EXPECT_EQ(res.at("INS-236810_FOV_SHAPE"), "RECTANGLE");

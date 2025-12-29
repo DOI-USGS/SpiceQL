@@ -34,6 +34,18 @@ release.
 -->
 ## [Unreleased]
 
+### Fixed
+- Added Chandrayaan2 support [#95](https://github.com/DOI-USGS/SpiceQL/pull/95)
+
+### Changed
+- Refactored FastAPI models and added OpenAPI examples [#96](https://github.com/DOI-USGS/SpiceQL/pull/96)
+- Pinned cspice to 67 [#102](https://github.com/DOI-USGS/SpiceQL/pull/102)
+- Update cmake files to accommodate new cspice package that uses the new cmake recipe [#103](https://github.com/DOI-USGS/SpiceQL/pull/103)
+
+### Added
+- Added relative kernel path support for furnishing [#100](https://github.com/DOI-USGS/SpiceQL/pull/100)
+- Added get/set cache dir functions [#104](https://github.com/DOI-USGS/SpiceQL/pull/104)
+
 ## 1.2.4
 
 ### Changed

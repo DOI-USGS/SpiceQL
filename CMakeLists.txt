@@ -55,7 +55,7 @@ if(SPICEQL_BUILD_LIB)
   add_subdirectory("submodules/gularkfilesystem")
   add_subdirectory("submodules/json")
   
-  find_package(CSpice REQUIRED)
+  find_package(cspice REQUIRED)
   find_package(fmt REQUIRED)
   find_package(cereal REQUIRED)
   find_package(spdlog REQUIRED)
@@ -95,6 +95,7 @@ if(SPICEQL_BUILD_LIB)
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/base.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/cassini.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/chandrayaan1.json
+                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/chandrayaan2.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/clem1.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/dawn.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/galileo.json
@@ -135,7 +136,9 @@ if(SPICEQL_BUILD_LIB)
 
   target_compile_definitions(SpiceQL PRIVATE SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE 
                                      PUBLIC -D_SOURCE_PREFIX="${CMAKE_CURRENT_SOURCE_DIR}")
-  
+
+get_target_property(CSPICE_INCLUDE_DIRS CSPICE::cspice INTERFACE_INCLUDE_DIRECTORIES)
+
 target_include_directories(SpiceQL
                             PUBLIC
                             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include>
@@ -143,6 +146,7 @@ target_include_directories(SpiceQL
                             PRIVATE
                             ${CMAKE_CURRENT_SOURCE_DIR}/submodules/BTree/include/
                             cereal
+                            ${CSPICE_INCLUDE_DIRS}
                             )
 
   target_link_libraries(SpiceQL
@@ -150,7 +154,7 @@ target_include_directories(SpiceQL
                         fmt::fmt-header-only
                         nlohmann_json::nlohmann_json
                         PRIVATE
-                        cspice
+                        CSPICE::cspice
                         spdlog::spdlog_header_only
                         HighFive
                         ${CURL_LIBRARIES}

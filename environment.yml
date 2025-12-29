@@ -4,9 +4,8 @@ channels:
  
 dependencies:
   - cmake
-  - cspice
   - cpp-filesystem
-  - cspice 
+  - cspice=67
   - cxx-compiler
   - doxygen
   - fmt

@@ -1002,7 +1002,7 @@ namespace SpiceQL {
     SPDLOG_TRACE("SpiceQL DB Path: {}", dbPath.string()); 
 
     if (!fs::is_directory(dbPath)) {
-      throw runtime_error("Config Directory Not Found.");
+      throw runtime_error("Config Directory " + dbPath.string() + " Not Found.");
     }
 
     return dbPath; 

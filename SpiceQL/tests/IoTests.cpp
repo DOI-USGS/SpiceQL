@@ -13,8 +13,8 @@ TEST_F(TempTestingFiles, UnitTestWriteCkTest) {
   fs::path path;
   path = static_cast<fs::path>(getenv("SPICEROOT")) / "test_ck.bsp";
 
-  fs::path lskPath = fs::path("data") / "naif0012.tls"; 
-  fs::path sclkPath = fs::path("data") / "lro_clkcor_2020184_v00.tsc";
+  fs::path lskPath = fs::absolute("data/naif0012.tls"); 
+  fs::path sclkPath = fs::absolute("data/lro_clkcor_2020184_v00.tsc");
 
   std::vector<std::vector<double>> orientations = {{0.2886751, 0.2886751, 0.5773503, 0.7071068 }, {0.4082483, 0.4082483, 0.8164966, 0 }};
   std::vector<std::vector<double>> av = {{1,1,1}, {1,2,3}};
