@@ -151,7 +151,7 @@ namespace SpiceQL {
         SPDLOG_TRACE("k is absolute");
       } else {
         SPDLOG_TRACE("k is relative");
-        k = data_dir / k;
+        k = fs::path(data_dir / k).string();
       }
       
       SPDLOG_TRACE("Creating shared kernel {}", k);

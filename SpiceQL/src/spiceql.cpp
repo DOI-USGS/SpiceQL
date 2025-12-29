@@ -41,7 +41,6 @@ namespace SpiceQL {
         // init with log level
         const char* log_level_char = getenv("SPICEQL_LOG_LEVEL");
         string log_level_string; 
-        spdlog::level::level_enum log_level;
 
         if (log_level_char != NULL) { 
           log_level_string = log_level_char; 
@@ -68,7 +67,7 @@ namespace SpiceQL {
           auto max_size = 1048576 * 10;
           auto max_files = 5;
           try {
-              auto logger = spdlog::rotating_logger_mt("spiceql_file_log", log_file, max_size, max_files);
+              auto logger = spdlog::rotating_logger_mt("spiceql_file_log", log_file.string(), max_size, max_files);
           }
           catch (const spdlog::spdlog_ex &ex) {
               SPDLOG_ERROR("file log init failed: {}", ex.what());
@@ -79,7 +78,6 @@ namespace SpiceQL {
         
         SPDLOG_DEBUG("Using log dir: {}", log_dir); 
         SPDLOG_DEBUG("Log level: {}", log_level_string); 
-        SPDLOG_DEBUG("Log level enum: {}", int(log_level));
         SPDLOG_TRACE("Log dir: {}", log_dir);
       } 
     }

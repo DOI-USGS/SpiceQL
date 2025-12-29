@@ -12,7 +12,7 @@
 #include <sstream>
 
 #include "utils.h"
-#include "io.h"
+#include "spiceql_io.h"
 #include "query.h"
 #include "inventory.h"
 
