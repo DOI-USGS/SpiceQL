@@ -12,3 +12,4 @@
 #include "io.h"
 #include "query.h"
 #include "api.h"
+#include "inventory.h"

@@ -44,6 +44,7 @@ release.
 
 ### Added
 - Added relative kernel path support for furnishing [#100](https://github.com/DOI-USGS/SpiceQL/pull/100)
+- Added get/set cache dir functions [#104](https://github.com/DOI-USGS/SpiceQL/pull/104)
 
 ## 1.2.4
 
