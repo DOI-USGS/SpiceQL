@@ -10,6 +10,7 @@
 #include <nlohmann/json.hpp>
 
 #include <ghc/fs_std.hpp>
+#include <fmt/ranges.h>
 
 #include <spdlog/spdlog.h>
 

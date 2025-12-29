@@ -91,7 +91,7 @@ namespace SpiceQL {
     json::json_pointer pathMod;
     vector<string> deconstructedPointer = {""};
 
-    while (pointer != "") {
+    while (pointer != json::json_pointer("")) {
       deconstructedPointer.push_back(pointer.back());
       pointer.pop_back();
     }
@@ -106,7 +106,7 @@ namespace SpiceQL {
     json::json_pointer fullPointer = pathMod;
 
   // If there is some dependency at the pointer requested, return that instead
-    string depPath = json::json_pointer(getRootDependency(config, fullPointer.to_string()));
+    string depPath = getRootDependency(config, fullPointer.to_string());
     if (depPath != "") {
       return depPath;
     }
@@ -139,11 +139,11 @@ namespace SpiceQL {
       json::json_pointer full_pointer = pointer / json_pointer;
 
       fs::path fsDataPath(dataPath);
-      json::json_pointer kernelPath(getParentPointer(full_pointer, 1));
+      json::json_pointer kernelPath(getParentPointer(full_pointer.to_string(), 1));
       if (fs::exists((string)fsDataPath + kernelPath.to_string())) {
         fsDataPath += kernelPath.to_string();
         kernelPath = json::json_pointer("/kernels");
-        string kernelType = json::json_pointer(getParentPointer(full_pointer, 2)).back();
+        string kernelType = json::json_pointer(getParentPointer(full_pointer.to_string(), 2)).back();
         kernelPath /= kernelType;
         if (fs::exists((string)fsDataPath + kernelPath.to_string())) {
           fsDataPath += kernelPath.to_string();
@@ -174,7 +174,7 @@ namespace SpiceQL {
         pointer = "/" + pointer;
       }
       json::json_pointer p(pointer);
-      res[p] = get(p);
+      res[p] = get(p.to_string());
     }
 
     return res;

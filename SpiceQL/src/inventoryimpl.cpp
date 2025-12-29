@@ -136,7 +136,7 @@ namespace SpiceQL {
       for(auto &subArr : arr) {
         for (auto &kernel : subArr) {
           pair<double, double> sstimes = getKernelStartStopTimes(kernel);
-          SPDLOG_TRACE("{} times: {}, {}", kernel, sstimes.first, sstimes.second); 
+          SPDLOG_TRACE("{} times: {}, {}", std::string(kernel), sstimes.first, sstimes.second); 
           // use start_time as index to the majority of kernels, then use stop time in the value 
           // to get the final list
           size_t index = 0;

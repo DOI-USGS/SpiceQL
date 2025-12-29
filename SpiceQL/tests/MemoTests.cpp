@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <fmt/format.h>
+#include <fmt/ranges.h>
 #include <ghc/fs_std.hpp>
 #include <chrono>
 
