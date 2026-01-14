@@ -34,6 +34,8 @@ release.
 -->
 ## [Unreleased]
 
+## [1.2.5]
+
 ### Fixed
 - Added Chandrayaan2 support [#95](https://github.com/DOI-USGS/SpiceQL/pull/95)
 
