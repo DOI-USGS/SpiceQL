@@ -1,6 +1,6 @@
 include(CMakeDependentOption)
 cmake_minimum_required(VERSION 3.10)
-project(SpiceQL VERSION 1.2.6 DESCRIPTION "Spice Query Library")
+project(SpiceQL VERSION 1.2.4 DESCRIPTION "Spice Query Library")
 
 set(PACKAGE_VERSION ${PROJECT_VERSION})
 
