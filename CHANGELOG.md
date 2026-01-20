@@ -34,6 +34,8 @@ release.
 -->
 ## [Unreleased]
 
+## 1.2.6
+
 ### Fixed
 - Fixed relative kernel path support [#105](https://github.com/DOI-USGS/SpiceQL/pull/105)
 
