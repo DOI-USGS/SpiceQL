@@ -877,7 +877,7 @@ namespace SpiceQL {
         json translationKernels = {};
 
         if (mission != "" && searchKernels) {
-            translationKernels = Inventory::search_for_kernelset(mission, {"iak", "fk", "ik", "iak"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk);
+            translationKernels = Inventory::search_for_kernelset(mission, {"iak", "fk", "ik"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk);
         }
 
         if (!kernelList.empty()) {
