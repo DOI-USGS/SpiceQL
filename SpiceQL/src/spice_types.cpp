@@ -10,6 +10,7 @@
 #include <nlohmann/json.hpp>
 
 #include <ghc/fs_std.hpp>
+#include <fmt/ranges.h>
 
 #include <spdlog/spdlog.h>
 
@@ -116,10 +117,10 @@ namespace SpiceQL {
   void load(string path, bool force_refurnsh) {
     SPDLOG_DEBUG("Furnishing {}, force refurnish? {}.", path, force_refurnsh); 
     checkNaifErrors();
-    if (fs::path(path).is_absolute()) {
-      SPDLOG_TRACE("path is absolute");
+    if (fs::exists(path)) {
+      SPDLOG_TRACE("path is valid");
     } else {
-      SPDLOG_TRACE("path is relative");
+      SPDLOG_TRACE("appending path to data_dir");
       path = getDataDirectory() / fs::path(path);
     }
     furnsh_c(path.c_str());
@@ -146,10 +147,10 @@ namespace SpiceQL {
     for (auto &k : kv) {
       SPDLOG_TRACE("Initial kernel {}", k);
 
-      if (fs::path(k).is_absolute()) {
-        SPDLOG_TRACE("k is absolute");
+      if (fs::exists(k)) {
+        SPDLOG_TRACE("k path is valid");
       } else {
-        SPDLOG_TRACE("k is relative");
+        SPDLOG_TRACE("appending k to data_dir");
         k = data_dir / k;
       }
       

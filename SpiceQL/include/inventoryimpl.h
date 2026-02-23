@@ -25,7 +25,8 @@ namespace SpiceQL {
   extern std::string DB_SS_TIME_INDICES_KEY; 
   extern std::string DB_SPICE_ROOT_KEY;
 
-  std::string getCacheDir(); 
+  std::string getCacheDir();
+  void setCacheDir(std::string cache_dir, bool override=false);
   std::string getHdfFile();
   
   class TimeIndexedKernels { 
