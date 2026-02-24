@@ -34,6 +34,8 @@ release.
 -->
 ## [Unreleased]
 
+- Added IAKs to kernel load lists in the API query functions [#107](https://github.com/DOI-USGS/SpiceQL/pull/107)
+
 ## 1.2.6
 
 ### Fixed
