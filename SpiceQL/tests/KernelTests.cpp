@@ -69,11 +69,18 @@ TEST_F(LroKernelSet, UnitTestStackedKernelSetConstructorDestructor) {
   // load all available kernels
   nlohmann::json kernels = Inventory::search_for_kernelset("lroc", {"lsk", "sclk", "ck", "spk", "ik", "fk"}, 110000000, 120000001);
   SPDLOG_DEBUG("Kernels after search: {} ", kernels.dump());
+  
+  int nkernels;
+  
+  ktotal_c("text", &nkernels);
+  EXPECT_EQ(nkernels, 0);
+  ktotal_c("ck", &nkernels);
+  EXPECT_EQ(nkernels, 0);
+  ktotal_c("spk", &nkernels);
+  EXPECT_EQ(nkernels, 0);
 
   // all the kernels in the group are now furnished.
   KernelSet ks(kernels);
-
-  int nkernels;
 
   // load kernels in a closed call stack
   {

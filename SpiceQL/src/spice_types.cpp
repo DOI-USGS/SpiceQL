@@ -99,7 +99,14 @@ namespace SpiceQL {
 
   Kernel::Kernel(string path) {
     this->path = path;
-    load(path, true);
+    if (fs::exists(this->path)) {
+      SPDLOG_TRACE("path is valid");
+    } else {
+      SPDLOG_TRACE("appending path to data_dir");
+      this->path = getDataDirectory() / fs::path(path);
+    }
+
+    load(this->path, true);
   }
 
 
@@ -117,17 +124,12 @@ namespace SpiceQL {
   void load(string path, bool force_refurnsh) {
     SPDLOG_DEBUG("Furnishing {}, force refurnish? {}.", path, force_refurnsh); 
     checkNaifErrors();
-    if (fs::exists(path)) {
-      SPDLOG_TRACE("path is valid");
-    } else {
-      SPDLOG_TRACE("appending path to data_dir");
-      path = getDataDirectory() / fs::path(path);
-    }
     furnsh_c(path.c_str());
     checkNaifErrors();
   }
 
   void unload(string path) {
+    SPDLOG_TRACE("Unloading kernel {}", path);
     checkNaifErrors();
     unload_c(path.c_str());
     checkNaifErrors();
@@ -163,6 +165,9 @@ namespace SpiceQL {
         throw runtime_error("something went wrong: " + string(e.what()));
       }
     }
+    
+    SPDLOG_TRACE("Loaded {} non IAK kernels", m_loadedKernels.size());
+    SPDLOG_TRACE("Loading {} IAKs", iaks.size());
 
     // load iaks last
     for (auto &iak : iaks) {
@@ -177,7 +182,7 @@ namespace SpiceQL {
 
 
   void KernelSet::unload() {
-    for(auto p : m_loadedKernels) { 
+    for(auto p : m_loadedKernels) {
       delete p;
     }
     m_loadedKernels.clear();
