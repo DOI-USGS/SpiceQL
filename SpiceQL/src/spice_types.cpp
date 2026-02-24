@@ -140,27 +140,34 @@ namespace SpiceQL {
   void KernelSet::load(json kernels) { 
     SPDLOG_TRACE("Creating Kernelset: {}", kernels.dump());
     this->m_kernels.merge_patch(kernels);
-    
+    vector<string> iaks = {};
+
+    // If kernels have "iak" key, pop it and load first
+    if (kernels.contains("iak")) {
+      auto iak_value = kernels["iak"];
+      iaks = jsonArrayToVector(iak_value);
+      // Remove the "iak" key from kernels
+      kernels.erase("iak");
+    }
+
     vector<string> kv = getKernelsAsVector(kernels);
     fs::path data_dir = getDataDirectory();
 
     for (auto &k : kv) {
       SPDLOG_TRACE("Initial kernel {}", k);
-
-      if (fs::exists(k)) {
-        SPDLOG_TRACE("k path is valid");
-      } else {
-        SPDLOG_TRACE("appending k to data_dir");
-        k = data_dir / k;
-      }
-      
-      SPDLOG_TRACE("Creating shared kernel {}", k);
-      if (!fs::exists(k)) { 
-        throw runtime_error("Kernel " + k + " does not exist");
-      }
       
       try { 
         Kernel *kp = new Kernel(k);
+        m_loadedKernels.emplace_back(kp);
+      } catch (exception &e) { 
+        throw runtime_error("something went wrong: " + string(e.what()));
+      }
+    }
+
+    // load iaks last
+    for (auto &iak : iaks) {
+      try { 
+        Kernel *kp = new Kernel(iak);
         m_loadedKernels.emplace_back(kp);
       } catch (exception &e) { 
         throw runtime_error("something went wrong: " + string(e.what()));
