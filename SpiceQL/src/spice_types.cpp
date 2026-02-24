@@ -154,6 +154,11 @@ namespace SpiceQL {
 
     vector<string> kv = getKernelsAsVector(kernels);
     fs::path data_dir = getDataDirectory();
+    
+    if(!iaks.empty()) {
+      // Add any kernels in the json object to the end of kv
+      kv.insert(kv.end(), iaks.begin(), iaks.end());
+    }
 
     for (auto &k : kv) {
       SPDLOG_TRACE("Initial kernel {}", k);
@@ -165,19 +170,7 @@ namespace SpiceQL {
         throw runtime_error("something went wrong: " + string(e.what()));
       }
     }
-    
-    SPDLOG_TRACE("Loaded {} non IAK kernels", m_loadedKernels.size());
-    SPDLOG_TRACE("Loading {} IAKs", iaks.size());
-
-    // load iaks last
-    for (auto &iak : iaks) {
-      try { 
-        Kernel *kp = new Kernel(iak);
-        m_loadedKernels.emplace_back(kp);
-      } catch (exception &e) { 
-        throw runtime_error("something went wrong: " + string(e.what()));
-      }
-    }
+    SPDLOG_TRACE("Loaded {} kernels", m_loadedKernels.size());
   }
 
 
