@@ -167,6 +167,7 @@ TEST_F(LroKernelSet, UnitTestGetTargetFrameInfo) {
   EXPECT_EQ(frameInfo, expectedResults);
 }
 
+
 TEST_F(TempTestingFiles, UnitTestIAKKernelSetConstructor) {
   nlohmann::json kernels;
   nlohmann::json iakData = {
@@ -189,9 +190,9 @@ TEST_F(TempTestingFiles, UnitTestIAKKernelSetConstructor) {
   KernelSet ks(kernels);
 
   EXPECT_EQ(ks.m_loadedKernels.size(), 2);
+
   // iak should be loaded second
   EXPECT_EQ(ks.m_loadedKernels[0]->path, ikPath.string());
   EXPECT_EQ(ks.m_loadedKernels[1]->path, iakPath.string());
-  
   EXPECT_EQ(findKeywords("IK_KEY")["IK_KEY"][1], 100);
 }
