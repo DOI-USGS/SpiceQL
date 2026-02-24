@@ -2,7 +2,7 @@
 #include <fstream>
 
 #include <fmt/format.h>
-
+#include <ghc/fs_std.hpp>
 #include <SpiceUsr.h>
 
 #include "spdlog/spdlog.h"
@@ -320,6 +320,12 @@ namespace SpiceQL {
     };
 
     static unsigned int MAX_TEXT_KERNEL_LINE_LEN = 132;
+    
+    fs::path kernelPath = fileName;
+    fs::path parentDir = kernelPath.parent_path();
+    if (!fs::exists(parentDir)) {
+      throw std::runtime_error(fmt::format("Parent directory '{}' does not exist for output file '{}'", parentDir.string(), fileName));
+    }
 
     ofstream textKernel;
     textKernel.open(fileName);
