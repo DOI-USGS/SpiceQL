@@ -7,6 +7,7 @@
 #include "query.h"
 #include "inventory.h"
 #include "api.h"
+#include "io.h"
 
 #include <SpiceUsr.h>
 
@@ -68,11 +69,18 @@ TEST_F(LroKernelSet, UnitTestStackedKernelSetConstructorDestructor) {
   // load all available kernels
   nlohmann::json kernels = Inventory::search_for_kernelset("lroc", {"lsk", "sclk", "ck", "spk", "ik", "fk"}, 110000000, 120000001);
   SPDLOG_DEBUG("Kernels after search: {} ", kernels.dump());
+  
+  int nkernels;
+  
+  ktotal_c("text", &nkernels);
+  EXPECT_EQ(nkernels, 0);
+  ktotal_c("ck", &nkernels);
+  EXPECT_EQ(nkernels, 0);
+  ktotal_c("spk", &nkernels);
+  EXPECT_EQ(nkernels, 0);
 
   // all the kernels in the group are now furnished.
   KernelSet ks(kernels);
-
-  int nkernels;
 
   // load kernels in a closed call stack
   {
@@ -157,4 +165,34 @@ TEST_F(LroKernelSet, UnitTestGetTargetFrameInfo) {
   expectedResults["frameName"] = "IAU_MARS";
 
   EXPECT_EQ(frameInfo, expectedResults);
+}
+
+
+TEST_F(TempTestingFiles, UnitTestIAKKernelSetConstructor) {
+  nlohmann::json kernels;
+  nlohmann::json iakData = {
+    {"IK_KEY", { 100 }},
+    {"INS-85600_CCD_CENTER", { 2531.5 , 0.5 }}
+  };
+  nlohmann::json ikData = {
+    {"IK_KEY", { 200 }},
+    {"INS-85600_CCD_CENTER", { 2531.5 , 0.5 }}
+  };
+  fs::path iakPath = tempDir / "iak.ti";
+  fs::path ikPath = tempDir / "ik.ti";
+
+  writeTextKernel(iakPath, "iak", iakData);
+  writeTextKernel(ikPath, "ik", ikData);
+
+  kernels["iak"] = {iakPath.string()};
+  kernels["ik"] = {ikPath.string()};
+
+  KernelSet ks(kernels);
+
+  EXPECT_EQ(ks.m_loadedKernels.size(), 2);
+
+  // iak should be loaded second
+  EXPECT_EQ(ks.m_loadedKernels[0]->path, ikPath.string());
+  EXPECT_EQ(ks.m_loadedKernels[1]->path, iakPath.string());
+  EXPECT_EQ(findKeywords("IK_KEY")["IK_KEY"][1], 100);
 }

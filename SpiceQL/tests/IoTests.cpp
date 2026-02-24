@@ -122,3 +122,21 @@ TEST_F(TempTestingFiles, WriteTextKernelArrayAppend) {
   EXPECT_EQ(translateNameToCode("instrument3", "lro").first, -90103);
 }
 
+TEST_F(TempTestingFiles, CreateTextKernelThrow) {
+  fs::path nonExistentDir = tempDir / "idontexist";
+  fs::path badPath = nonExistentDir / "bad_kernel.ti";
+
+  nlohmann::json j = {
+    {"A", 1}
+  };
+
+  EXPECT_THROW({
+    writeTextKernel(badPath, "ik", j, "Example kernel");
+  }, std::runtime_error);
+
+  fs::path goodPath = tempDir / "kern.ti";
+  EXPECT_THROW({
+    writeTextKernel(goodPath, "BADTYPE", j, "Example kernel");
+  }, std::invalid_argument);
+}
+

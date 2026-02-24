@@ -34,6 +34,16 @@ release.
 -->
 ## [Unreleased]
 
+### Fixed 
+- Added IAKs to kernel load lists in the API query functions [#107](https://github.com/DOI-USGS/SpiceQL/pull/107)
+
+## 1.2.6
+
+### Fixed
+- Fixed relative kernel path support [#105](https://github.com/DOI-USGS/SpiceQL/pull/105)
+
+## 1.2.5
+
 ### Fixed
 - Added Chandrayaan2 support [#95](https://github.com/DOI-USGS/SpiceQL/pull/95)
 
@@ -44,6 +54,7 @@ release.
 
 ### Added
 - Added relative kernel path support for furnishing [#100](https://github.com/DOI-USGS/SpiceQL/pull/100)
+- Added get/set cache dir functions [#104](https://github.com/DOI-USGS/SpiceQL/pull/104)
 
 ## 1.2.4
 
