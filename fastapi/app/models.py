@@ -1,6 +1,6 @@
 from ast import literal_eval
-from typing import Annotated, Any
-from fastapi import Query
+from typing import Annotated, Any, Union
+from fastapi import Query, HTTPException
 from pydantic import BaseModel, Field, field_validator, ValidationInfo
 import numpy as np
 import logging
@@ -13,6 +13,30 @@ logger = logging.getLogger(__name__)
 """
 Decorator that checks and validates any list-like inputs and ets calculations.
 """
+
+def convert_strictly_to_numeric_list(input_str):
+    clean_str = input_str.strip()
+    
+    if clean_str.startswith('[') and clean_str.endswith(']'):
+        clean_str = clean_str[1:-1].strip()
+    
+    if not clean_str:
+        return []
+
+    try:
+        result = []
+        for item in clean_str.split(','):
+            item = item.strip()
+            val = float(item)
+            result.append(int(val) if val.is_integer() else val)
+            
+        return result
+        
+    except ValueError:
+        raise HTTPException(
+                    status_code=400, 
+                    detail=f"Invalid numeric format. Alphanumerics or symbols detected in: '{input_str}'"
+                )
 
 def validate_params(init_func):
     @functools.wraps(init_func)
@@ -51,6 +75,7 @@ def calculate_ets(startEt, stopEt, numRecords) -> list:
     return np.linspace(startEt, stopEt, numRecords)
 
 def to_list(value: Any) -> list:
+    logger.debug(f"running to list on {value}")
     # Converts value type into a list or its literal value
     if value is not None:
         value = str(value)
@@ -58,11 +83,12 @@ def to_list(value: Any) -> list:
     return value
 
 def verify_ets(data: dict) -> float:
+    logger.debug(f"verifying ets: {data}")
     if "value" in data and data["value"] is not None:
         ets = data["value"]
         if ets is not None:
             if isinstance(ets, str):
-                ets = literal_eval(ets)
+                ets = convert_strictly_to_numeric_list(ets)
             else:
                 # getTargetStates requires an iterable ets.  If not iterable, make it a list.
                 try:
@@ -278,7 +304,7 @@ class EtsParam():
     @validate_params
     def __init__(
             self,
-            ets: Annotated[list[float], Query(
+            ets: Annotated[Any, Query(
                 description="Ephemeris times.",
                 openapi_examples={
                     "empty": {
