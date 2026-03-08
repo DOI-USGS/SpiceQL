@@ -15,3 +15,4 @@ def test_config():
 def test_exception():
     with pytest.raises(RuntimeError):
         getKernelStringValue("bad_terrible_no_good_key")
+
