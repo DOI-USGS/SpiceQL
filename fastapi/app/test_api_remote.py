@@ -1,10 +1,5 @@
 """
 Test suite for the SpiceQL REST API
-Based on examples from:
-https://astrogeology.usgs.gov/docs/getting-started/using-spiceql/exploring-spiceqls-rest-python-and-cpp-apis/
-
-These tests hit the USGS-hosted SpiceQL web service at:
-https://astrogeology.usgs.gov/apis/spiceql/latest/
 
 Run with:
     pip install pytest httpx fastapi
