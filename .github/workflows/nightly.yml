@@ -1,0 +1,26 @@
+name: Nightly SpiceQL API Tests
+
+on:
+  schedule:
+    - cron: "0 0 * * *"  # every day at midnight UTC
+  workflow_dispatch:       # allow manual runs from the Actions tab
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install httpx pytest
+
+      - name: Run tests
+        working-directory:  ${{github.workspace}}/fastapi/app
+        run: pytest test_api_remote.py -v

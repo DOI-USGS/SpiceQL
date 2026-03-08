@@ -7,7 +7,7 @@ Install:
     pip install fastapi httpx pytest
 
 Run:
-    pytest test_spiceql_api.py -v
+    pytest test_api_local.py -v
 """
 
 from unittest.mock import MagicMock, patch

@@ -3,7 +3,7 @@ Test suite for the SpiceQL REST API
 
 Run with:
     pip install pytest httpx fastapi
-    pytest remote_tests.py -v
+    pytest test_api_remote.py -v
 """
 
 import pytest
