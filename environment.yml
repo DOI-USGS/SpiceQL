@@ -31,4 +31,4 @@ dependencies:
     - mkdoxy
     - check-jsonschema
     - mkdocs-material
-
+    - httpx

@@ -26,11 +26,9 @@
 #include "memo.h"
 #include "version.h"
 
-
 using json = nlohmann::json;
 using namespace std; 
 namespace fc = frozenca;
-
 
 // enable SIMD for btree operations
 #ifdef FC_USE_SIMD 
@@ -220,7 +218,6 @@ namespace SpiceQL {
         json_kernels = getLatestKernels(config.get()); 
       }
       
-
       // load time kernels for creating the timed kernel DataBase 
       json lsk_json = getLatestKernels(config["base"].getRecursive("lsk")); 
 

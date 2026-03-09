@@ -56,7 +56,13 @@ jobs:
         # Execute the install.  You can specify a specific target with "--target <NAME>"
         run: |
           cmake --install . --config $BUILD_TYPE
-  
+
+      - name: Test FastAPI 
+        working-directory:  ${{github.workspace}}/fastapi/app
+        # run pytests 
+        run: | 
+          pytest test_api_local.py 
+
       - name: Check install
         working-directory: ${{github.workspace}}
         # Check that the library installed properly

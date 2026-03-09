@@ -1066,16 +1066,21 @@ namespace SpiceQL {
 
 
   string getRestUrl() {
-    char* spiceqlRestUrlEnvVar = std::getenv("SPICEQL_REST_URL");
+    char* rawEnv = std::getenv("SPICEQL_REST_URL");
     string spiceqlRestUrl;
-    if (spiceqlRestUrlEnvVar == NULL) {
+  
+    if (rawEnv == nullptr) {
       spiceqlRestUrl = "https://astrogeology.usgs.gov/apis/spiceql/latest/";
     } else {
-      spiceqlRestUrl = string(spiceqlRestUrlEnvVar);
+      string envVal(rawEnv);            
+      if (envVal.back() != '/') {
+        envVal += '/';    
+      }
+      spiceqlRestUrl = envVal;
     }
-    SPDLOG_TRACE("SpiceQL REST URL: {}", spiceqlRestUrl); 
+  
     return spiceqlRestUrl;
-  }  
+  }
 
 
   void resolveConfigDependencies(json &config, const json &dependencies) {
