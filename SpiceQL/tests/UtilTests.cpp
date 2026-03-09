@@ -434,3 +434,31 @@ TEST_F(LroKernelSet, UnitTestGetTargetOrientation) {
   EXPECT_NEAR(resOrientation[6], 0.0, 1e-14);
 }
 
+class GetRestUrlTest : public EnvVar {
+ protected:
+  static constexpr const char* kEnvKey = "SPICEQL_REST_URL";
+
+  void setEnvVar(const string& value) { set(kEnvKey, value); }
+  void clearEnvVar()                  { clear(kEnvKey); }
+};
+
+TEST_F(GetRestUrlTest, ReturnsDefaultUrlWhenEnvVarNotSet) {
+  clearEnvVar();
+  EXPECT_EQ(getRestUrl(),
+            "https://astrogeology.usgs.gov/apis/spiceql/latest/");
+}
+
+TEST_F(GetRestUrlTest, ReturnsEnvVarUnchangedWhenTrailingSlashPresent) {
+  setEnvVar("https://example.com/spiceql/");
+  EXPECT_EQ(getRestUrl(), "https://example.com/spiceql/");
+}
+
+TEST_F(GetRestUrlTest, AppendsTrailingSlashWhenMissing) {
+  setEnvVar("https://example.com/spiceql");
+  EXPECT_EQ(getRestUrl(), "https://example.com/spiceql/");
+}
+
+TEST_F(GetRestUrlTest, HandlesEmptyEnvVar) {
+  setEnvVar("");
+  EXPECT_EQ(getRestUrl(), "/");
+}

@@ -15,11 +15,18 @@ Decorator that checks and validates any list-like inputs and ets calculations.
 """
 
 def convert_strictly_to_numeric_list(input_str):
+    logger.debug("converting string: {input_str} to list")
     clean_str = input_str.strip()
     
     if clean_str.startswith('[') and clean_str.endswith(']'):
+        logger.debug("Stripping String of brackets")
         clean_str = clean_str[1:-1].strip()
-    
+    elif clean_str.startswith('[') or clean_str.endswith(']'): 
+       raise HTTPException(
+                    status_code=400, 
+                    detail=f"Invalid numeric format. Array brackets are not closed: '{input_str}'"
+                ) 
+
     if not clean_str:
         return []
 
@@ -32,7 +39,8 @@ def convert_strictly_to_numeric_list(input_str):
             
         return result
         
-    except ValueError:
+    except ValueError as e:
+        logger.error(e)
         raise HTTPException(
                     status_code=400, 
                     detail=f"Invalid numeric format. Alphanumerics or symbols detected in: '{input_str}'"

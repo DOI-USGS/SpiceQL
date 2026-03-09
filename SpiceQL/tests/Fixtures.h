@@ -87,3 +87,39 @@ class TestConfig : public KernelDataDirectories {
     void SetUp() override;
     void TearDown() override;
 };
+
+
+class EnvVar : public ::testing::Test {
+ protected:
+  void trackEnvVar(const string& name) {
+    if (saved_.count(name)) return;          
+    char* existing = std::getenv(name.c_str());
+    saved_[name] = existing
+                   ? SavedVar{string(existing), true}
+                   : SavedVar{"", false};
+  }
+
+  void set(const string& name, const string& value) {
+    trackEnvVar(name);
+    ::setenv(name.c_str(), value.c_str(), 1);
+  }
+
+  void clear(const string& name) {
+    trackEnvVar(name);
+    ::unsetenv(name.c_str());
+  }
+
+  void TearDown() override {
+    for (const auto& [name, var] : saved_) {
+      if (var.hadValue) {
+        ::setenv(name.c_str(), var.value.c_str(), 1);
+      } else {
+        ::unsetenv(name.c_str());
+      }
+    }
+  }
+
+ private:
+  struct SavedVar { string value; bool hadValue; };
+  std::unordered_map<string, SavedVar> saved_;
+};

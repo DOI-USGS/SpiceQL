@@ -24,3 +24,4 @@ jobs:
       - name: Run tests
         working-directory:  ${{github.workspace}}/fastapi/app
         run: pytest test_api_remote.py -v
+        

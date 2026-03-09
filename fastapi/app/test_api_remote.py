@@ -9,7 +9,7 @@ Run with:
 import pytest
 import httpx
 import math
-
+ 
 BASE_URL = "https://astrogeology.usgs.gov/apis/spiceql/latest"
 
 

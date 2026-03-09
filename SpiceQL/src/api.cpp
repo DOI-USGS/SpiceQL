@@ -224,7 +224,7 @@ namespace SpiceQL {
                     j = json::parse(result.body);
                 } catch (const json::parse_error& e) {
                     SPDLOG_ERROR("Error parsing JSON: {}", e.what());
-                    throw runtime_error("Got invalid JSON response from API: " + result.body);
+                    throw runtime_error("Got invalid JSON response from API");
                 }
             }).ExecuteSynchronous();
         } else {
@@ -252,9 +252,11 @@ namespace SpiceQL {
             throw runtime_error("REST API Response is not a valid JSON.");
         }
 
+        SPDLOG_DEBUG("Response: ", j.dump());
+        
         // Check for successful call
         if (!(j["statusCode"] == 200)) {
-            throw runtime_error("REST API Error Response: [" + j["body"].dump() + "]");
+            throw runtime_error("REST API Error Response: [" + j.dump() + "]");
         }
 
         return j;
