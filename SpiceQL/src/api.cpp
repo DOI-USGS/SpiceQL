@@ -286,7 +286,7 @@ namespace SpiceQL {
                 {"kernelList", kernelList}
                 });
             // @TODO check that json exists / contains what we're looking for
-            json out  = spiceAPIQuery("getTargetStates", args);
+            json out  = spiceAPIQuery("getTargetStates", args, "POST");
             vector<vector<double>> kvect = json2DFloatArrayTo2DVector(out["body"]["return"]);
             return make_pair(kvect, out["body"]["kernels"]);
         }
