@@ -286,7 +286,12 @@ namespace SpiceQL {
                 {"kernelList", kernelList}
                 });
             // @TODO check that json exists / contains what we're looking for
-            json out  = spiceAPIQuery("getTargetStates", args, "POST");
+
+            // Testing on Safari with the Cassini Notebook, 
+            // up to 180 ets could be sent, with a character limit slightly above 4000.
+            // To be safe, setting a more conservative 150 ET limit here.
+            int numEtsGetLimit = 150;
+            json out = ets.size() <= numEtsGetLimit ? spiceAPIQuery("getTargetStates", args) : spiceAPIQuery("getTargetStates", args, "POST");
             vector<vector<double>> kvect = json2DFloatArrayTo2DVector(out["body"]["return"]);
             return make_pair(kvect, out["body"]["kernels"]);
         }
