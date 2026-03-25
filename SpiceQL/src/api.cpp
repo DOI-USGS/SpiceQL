@@ -335,6 +335,81 @@ namespace SpiceQL {
         return {lt_stargs, ephemKernels};
     }
 
+    pair<vector<vector<double>>, json> getTargetStatesRanged(double startEt, double stopEt, int numRecords, string target, string observer, string frame, string abcorr, string mission, 
+                                                       vector<string> ckQualities, vector<string> spkQualities, bool useWeb, bool searchKernels, bool fullKernelPath, 
+                                                       int limitCk, int limitSpk, vector<string> kernelList) {
+        SPDLOG_TRACE("Calling getTargetStatesRanged with {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}", startEt, stopEt, numRecords, target, observer, frame, abcorr, mission, ckQualities.size(), spkQualities.size(), useWeb, searchKernels, kernelList.size());
+        // SPDLOG_TRACE("ets: [{}]", fmt::join(ets, ", "));
+        if (useWeb) {
+            // @TODO validity checks
+            json args = json::object({
+                {"target", target},
+                {"observer", observer},
+                {"frame", frame},
+                {"abcorr", abcorr},
+                {"startEt", startEt},
+                {"stopEt", stopEt},
+                {"numRecords", numRecords},
+                {"mission", mission},
+                {"ckQualities", ckQualities},
+                {"spkQualities", spkQualities},
+                {"searchKernels", searchKernels},
+                {"fullKernelPath", fullKernelPath},
+                {"limitCk", limitCk},
+                {"limitSpk", limitSpk},
+                {"kernelList", kernelList}
+                });
+            // @TODO check that json exists / contains what we're looking for
+            json out  = spiceAPIQuery("getTargetStates", args, "POST");
+            vector<vector<double>> kvect = json2DFloatArrayTo2DVector(out["body"]["return"]);
+            return make_pair(kvect, out["body"]["kernels"]);
+        }
+
+        if (numRecords < 1) {
+            throw invalid_argument("Number of Ephemeris Time Records was less than 1."); 
+        }
+
+        json ephemKernels = {};
+
+        if (searchKernels) {
+            ephemKernels = Inventory::search_for_kernelsets({mission, target, observer, "base"}, {"sclk", "ck", "spk", "pck", "tspk", "lsk", "fk", "iak",  "ik"}, startEt, stopEt, ckQualities, spkQualities, fullKernelPath, limitCk, limitSpk);
+            SPDLOG_DEBUG("{} Kernels : {}", mission, ephemKernels.dump(4));
+        }
+
+        if (!kernelList.empty()) {
+            json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
+            // merge them into the ephem kernels overwriting anything found in the query
+            merge_json(ephemKernels, regexk);
+        }
+
+        auto start = std::chrono::high_resolution_clock::now();
+        KernelSet ephemSet(ephemKernels);
+
+        auto stop = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+        SPDLOG_TRACE("Time in std::chrono::microseconds to furnish kernel sets: {}", duration.count());
+
+        double etInterval = (stopEt - startEt) / (double)numRecords;
+        double et;
+
+        start = std::chrono::high_resolution_clock::now();
+        vector<vector<double>> lt_stargs;
+        vector<double> lt_starg;
+        
+        for (int i = 0; i < numRecords; i++) {
+            et = startEt + i*etInterval;
+            lt_starg = getTargetState(et, target, observer, frame, abcorr);
+            lt_stargs.push_back(lt_starg);
+        }
+
+        stop = std::chrono::high_resolution_clock::now();
+        duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+        SPDLOG_TRACE("Time in std::chrono::microseconds to get data results: {}", duration.count());
+
+        return {lt_stargs, ephemKernels};
+    }
+
+
 
     pair<vector<vector<double>>, json> getTargetOrientations(vector<double> ets, int toFrame, int refFrame, string mission, 
                                                              vector<string> ckQualities, bool useWeb, bool searchKernels, bool fullKernelPath, 

@@ -89,6 +89,62 @@ namespace SpiceQL {
         int limitCk=-1, 
         int limitSpk=1,
         std::vector<std::string> kernelList={});
+
+    /**
+     * @brief Gives the positions and velocities for a given start and stop ephemeris times and number of records
+     *
+     * Mostly a C++ wrap for NAIF's spkezr_c
+     *
+     * @param startEt ephemeris times at which you want to obtain the target state
+     * @param stopEt ephemeris times at which you want to obtain the target state
+     * @param numRecords ephemeris times at which you want to obtain the target state
+     * @param target NAIF ID for the target frame
+     * @param observer NAIF ID for the observing frame
+     * @param frame The reference frame in which to get the positions in
+     * @param abcorr aborration correction flag, default it NONE.
+     *        This can set to:
+     *           "NONE" - No correction
+     *        For the "reception" case, i.e. photons from the target being recieved by the observer at the given time.
+     *           "LT"   - One way light time correction
+     *           "LT+S" - Correct for one-way light time and stellar aberration correction
+     *           "CN"   - Converging Newtonian light time correction
+     *           "CN+S" - Converged Newtonian light time correction and stellar aberration correction
+     *        For the "transmission" case, i.e. photons emitted from the oberver hitting at target at the given time
+     *           "XLT"   - One-way light time correction using a newtonian formulation
+     *           "XLT+S" - One-way light time and stellar aberration correction using a newtonian formulation
+     *           "XCN"   - converged Newtonian light time correction
+     *           "XCN+S" - converged Newtonian light time correction and stellar aberration correction.
+     * @param mission Config subset as it relates to the mission
+     * @param ckQualities vector of strings describing the quality of cks to try and obtain
+     * @param spkQualities string of strings describing the quality of spks to try and obtain
+     * @param searchKernels bool Whether to search the kernels for the user
+     * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
+     * @param limitCk int number of cks to limit to, default is -1 to retrieve all
+     * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
+     * @param kernelList vector<string> vector of additional kernels to load 
+     * 
+     * @see SpiceQL::getTargetState
+     * @see Kernel::Quality
+     *
+     * @return A vector of vectors with a Nx7 state vector of positions and velocities in x,y,z,vx,vy,vz format followed by the light time adjustment.
+     **/
+    std::pair<std::vector<std::vector<double>>, nlohmann::json> getTargetStatesRanged(
+        double startEt,
+        double stopEt,
+        int numRecords,
+        std::string target,
+        std::string observer,
+        std::string frame,
+        std::string abcorr,
+        std::string mission,
+        std::vector<std::string> ckQualities={"smithed", "reconstructed"},
+        std::vector<std::string> spkQualities={"smithed", "reconstructed"},
+        bool useWeb=false,
+        bool searchKernels=true,
+        bool fullKernelPath=false,
+        int limitCk=-1, 
+        int limitSpk=1,
+        std::vector<std::string> kernelList={});
     
     /**
      * @brief Gives quaternion and angular velocity for a given frame at a set of ephemeris times
@@ -335,7 +391,7 @@ namespace SpiceQL {
         int limitSpk=1,
         std::vector<std::string> kernelList={});
 
-     /**
+    /**
     * @brief returns frame name and frame code associated to the target ID.
     *
     *  Takes in a target id and returns the frame name and frame code in json format
