@@ -550,6 +550,20 @@ class MissionParam():
             )]):
         self.value = mission
 
+class NumRecordsParam():
+    @validate_params
+    def __init__(
+            self,
+            numRecords: Annotated[int, Query(
+                description="Number of Ephemeris Times.",
+                openapi_examples={
+                    "example": {
+                        "summary": "4000 Ephemeris Time Records.",
+                        "value": "4000"
+                    }
+                }
+            )]):
+        self.value = numRecords
 
 class ObserverParam():
     def __init__(

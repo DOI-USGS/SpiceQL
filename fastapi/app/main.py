@@ -93,6 +93,91 @@ async def getTargetStates(params: Annotated[TargetStatesRequestModel, Body(
     abcorr = params.abcorr
     mission = params.mission
     ets = params.ets
+    ckQualities = params.ckQualities
+    spkQualities = params.spkQualities
+    searchKernels = params.searchKernels
+    fullKernelPath = params.fullKernelPath
+    limitCk = params.limitCk
+    limitSpk = params.limitSpk
+    kernelList = params.kernelList
+    try:
+        result, kernels = pyspiceql.getTargetStates(
+            ets,
+            target,
+            observer,
+            frame,
+            abcorr,
+            mission,
+            ckQualities,
+            spkQualities,
+            False,
+            searchKernels,
+            fullKernelPath,
+            limitCk,
+            limitSpk,
+            kernelList)
+        body = ResultModel(result=result, kernels=kernels)
+        return ResponseModel(statusCode=200, body=body)
+    except Exception as e:
+        body = ErrorModel(error=str(e))
+        return ResponseModel(statusCode=500, body=body)
+    
+
+
+@app.get("/getTargetStatesRanged")
+async def getTargetStatesRanged(
+    target: Annotated[TargetParam, Depends()],
+    observer: Annotated[ObserverParam, Depends()],
+    frame: Annotated[FrameStrParam, Depends()],
+    abcorr: Annotated[AbcorrParam, Depends()],
+    startEt: Annotated[StartEtParam, Depends()],
+    stopEt: Annotated[StopEtParam, Depends()],
+    numRecords: Annotated[NumRecordsParam, Depends()],
+    mission: Annotated[MissionParam, Depends()],
+    commonParams: Annotated[CommonParams, Depends()],
+    ckQualities: Annotated[CkQualitiesParam, Depends()],
+    spkQualities: Annotated[SpkQualitiesParam, Depends()],
+    ):
+    try:
+        result, kernels = pyspiceql.getTargetStatesRanged(
+            startEt.value,
+            stopEt.value,
+            numRecords.value,
+            target.value,
+            observer.value,
+            frame.value,
+            abcorr.value,
+            mission.value,
+            ckQualities.value,
+            spkQualities.value,
+            False,
+            commonParams.searchKernels,
+            commonParams.fullKernelPath,
+            commonParams.limitCk,
+            commonParams.limitSpk,
+            commonParams.kernelList)
+        body = ResultModel(result=result, kernels=kernels)
+        return ResponseModel(statusCode=200, body=body)
+    except Exception as e:
+        body = ErrorModel(error=str(e))
+        return ResponseModel(statusCode=500, body=body)
+    
+    
+@app.post("/getTargetStatesRanged")
+async def getTargetStatesRanged(params: Annotated[TargetStatesRequestModel, Body(
+    openapi_examples={
+        "example": {
+            "summary": "LROC Payload",
+            "description": "Try getting target states using the POST endpoint with the LROC example body payload.",
+            "value": {"ets": "[302228504.36824864]", "target": "LUNAR RECONNAISSANCE ORBITER", "observer": "MOON", "frame": "J2000", "abcorr": "None", "mission": "lroc", "searchKernels": "True"}
+        }
+    }
+)]):
+    target = params.target
+    observer = params.observer
+    frame =  params.frame
+    abcorr = params.abcorr
+    mission = params.mission
     startEt = params.startEt
     stopEt = params.stopEt
     numRecords = params.numRecords
@@ -104,8 +189,10 @@ async def getTargetStates(params: Annotated[TargetStatesRequestModel, Body(
     limitSpk = params.limitSpk
     kernelList = params.kernelList
     try:
-        result, kernels = pyspiceql.getTargetStates(
-            ets,
+        result, kernels = pyspiceql.getTargetStatesRanged(
+            startEt,
+            stopEt,
+            numRecords,
             target,
             observer,
             frame,
