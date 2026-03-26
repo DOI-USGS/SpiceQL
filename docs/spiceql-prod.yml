@@ -263,6 +263,84 @@ paths:
             statusCode: '200'
             responseTemplates: 
               "application/json": "'$input.body'"
+  /getTargetStatesRanged:
+    get:
+      description: 'Get states of target relative to observer for a range of times'
+      parameters: 
+      - name: "startEt"
+        in: "query"
+        description: "First ephemeris time in range"
+        required: true
+        schema:
+          type: "number"
+          format: "double"
+      - name: "stopEt"
+        in: "query"
+        description: "Last ephemeris time in range"
+        required: true
+        schema:
+          type: "number"
+          format: "double"
+      - name: "numRecords"
+        in: "query"
+        description: "Number of ephemeris times within the range to get the state for."
+        required: true
+        schema:
+          type: "integer"
+      - name: "target"
+        in: "query"
+        description: "Target to get the state of"
+        required: true
+        schema:
+          type: "string"
+      - name: "observer"
+        in: "query"
+        description: "Observing body that the target state will be relative to"
+        required: true
+        schema:
+          type: "string"
+      - name: "frame"
+        in: "query"
+        description: "Output reference frame to be used"
+        required: true
+        schema:
+          type: "string"
+      - name: "abcorr"
+        in: "query"
+        description: "Aberration correction"
+        required: true
+        schema:
+          type: "string"
+      - name: "mission"
+        in: "query"
+        description: "Mission name as it relates to the config files"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '200':
+          description: OK
+      x-amazon-apigateway-integration:
+        type: aws
+        httpMethod: POST
+        uri : "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:950438895271:function:getTargetStatesRangedlambda-prod/invocations"
+        requestTemplates : 
+          "application/json": "{\"startEt\": $input.params('startEt'), \"stopEt\": $input.params('stopEt'), \"numRecords\": $input.params('numRecords') \"target\":\"$input.params('target')\", \"observer\":\"$input.params('observer')\", \"frame\":\"$input.params('frame')\", \"abcorr\":\"$input.params('abcorr')\", \"mission\":\"$input.params('mission')\"}"
+        requestParameters : {
+          integration.request.querystring.startEt: method.request.querystring.startEt,
+          integration.request.querystring.stopEt: method.request.querystring.stopEt,
+          integration.request.querystring.numRecords: method.request.querystring.numRecords,
+          integration.request.querystring.target: method.request.querystring.target,
+          integration.request.querystring.observer: method.request.querystring.observer,
+          integration.request.querystring.frame: method.request.querystring.frame,
+          integration.request.querystring.abcorr: method.request.querystring.abcorr,
+          integration.request.querystring.mission: method.request.querystring.mission
+        }
+        responses:
+          default:
+            statusCode: '200'
+            responseTemplates: 
+              "application/json": "'$input.body'"
   /findMissionKeywords:
     get:
       description: 'Takes in a kernel key and returns the value associated with the inputted mission as a json'
