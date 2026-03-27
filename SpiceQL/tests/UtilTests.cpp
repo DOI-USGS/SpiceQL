@@ -383,6 +383,20 @@ TEST_F(LroKernelSet, UnitTestGetTargetStates) {
   EXPECT_DOUBLE_EQ(resStates.at(0)[6], 0.0);
 }
 
+TEST_F(LroKernelSet, UnitTestGetTargetStatesRanged) {
+  vector<double> ets = {110000000, 110000001};
+  auto [resStates, kernels] = getTargetStatesRanged(110000000, 110000001, 2, "LRO", "LRO", "J2000", "NONE", "lroc", {"smithed"}, {"smithed"});
+
+  EXPECT_EQ(resStates.size(), 2);
+  ASSERT_EQ(resStates.at(0).size(), 7);
+  EXPECT_DOUBLE_EQ(resStates.at(0)[0], 0.0);
+  EXPECT_DOUBLE_EQ(resStates.at(0)[1], 0.0);
+  EXPECT_DOUBLE_EQ(resStates.at(0)[2], 0.0);
+  EXPECT_DOUBLE_EQ(resStates.at(0)[3], 0.0);
+  EXPECT_DOUBLE_EQ(resStates.at(0)[4], 0.0);
+  EXPECT_DOUBLE_EQ(resStates.at(0)[5], 0.0);
+  EXPECT_DOUBLE_EQ(resStates.at(0)[6], 0.0);
+}
 
 TEST_F(LroKernelSet, UnitTestGetTargetState) {
   nlohmann::json testKernelJson;

@@ -114,6 +114,85 @@ class TestGetTargetStates:
         body = assert_success(r)
         assert "spk" in body["kernels"], "Expected 'spk' kernel in response"
 
+# ---------------------------------------------------------------------------
+# getTargetStatesRanged
+# ---------------------------------------------------------------------------
+
+class TestGetTargetStatesRanged:
+    """
+    curl -XGET "https://astrogeology.usgs.gov/apis/spiceql/latest/getTargetStatesRanged
+        ?startEt=690201375.8323615
+        &stopEt=690201389.2866975
+        &numRecords=2
+        &target=SUN&observer=Mars&frame=IAU_MARS&mission=ctx&abcorr=LT%2BS
+        &searchKernels=true"
+    """
+
+    ENDPOINT = f"{BASE_URL}/getTargetStatesRanged"
+    PARAMS = {
+        "startEt": 690201375.8323615,
+        "stopEt": 690201389.2866975,
+        "numRecords": 2,
+        "target": "SUN",
+        "observer": "Mars",
+        "frame": "IAU_MARS",
+        "mission": "ctx",
+        "abcorr": "LT+S",
+        "searchKernels": "true",
+    }
+
+    def test_status_ok(self):
+        r = httpx.get(self.ENDPOINT, params=self.PARAMS)
+        assert_success(r)
+
+    def test_returns_two_state_vectors(self):
+        r = httpx.get(self.ENDPOINT, params=self.PARAMS)
+        body = assert_success(r)
+        result = body["return"]
+        assert isinstance(result, list)
+        assert len(result) == 2, "Expected 2 state vectors (one per ET)"
+
+    def test_each_state_vector_has_seven_elements(self):
+        r = httpx.get(self.ENDPOINT, params=self.PARAMS)
+        body = assert_success(r)
+        for vec in body["return"]:
+            assert len(vec) == 7, (
+                "Each state vector should have 7 elements (x,y,z,vx,vy,vz,lt)"
+            )
+
+    def test_first_state_vector_values(self):
+        r = httpx.get(self.ENDPOINT, params=self.PARAMS)
+        body = assert_success(r)
+        vec = body["return"][0]
+        expected = [
+            123515791.9195627,
+            187209003.7067195,
+            80611152.03610656,
+            13251.543112834495,
+            -8742.597438450646,
+            -6.575020419444353,
+            794.9856233875888,
+        ]
+        for got, exp in zip(vec, expected):
+            assert approx_equal(got, exp), f"Expected ~{exp}, got {got}"
+
+    def test_kernels_present(self):
+        r = httpx.get(self.ENDPOINT, params=self.PARAMS)
+        body = assert_success(r)
+        kernels = body["kernels"]
+        assert isinstance(kernels, dict)
+        assert len(kernels) > 0, "Expected at least one kernel type in response"
+
+    def test_kernels_include_ck(self):
+        r = httpx.get(self.ENDPOINT, params=self.PARAMS)
+        body = assert_success(r)
+        assert "ck" in body["kernels"], "Expected 'ck' kernel in response"
+
+    def test_kernels_include_spk(self):
+        r = httpx.get(self.ENDPOINT, params=self.PARAMS)
+        body = assert_success(r)
+        assert "spk" in body["kernels"], "Expected 'spk' kernel in response"
+
 
 # ---------------------------------------------------------------------------
 # getTargetOrientations

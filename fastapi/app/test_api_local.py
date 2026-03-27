@@ -79,6 +79,46 @@ def test_getTargetStates_returns_expected_state_vectors():
     assert response.status_code == 200
     assert response.json()["body"]["return"] == expected_return
 
+# ---------------------------------------------------------------------------
+# getTargetStatesRanged
+# ---------------------------------------------------------------------------
+
+def test_getTargetStatesRanged_returns_expected_state_vectors():
+    expected_return = [
+        [
+            123515791.9195627,
+            187209003.7067195,
+            80611152.03610656,
+            13251.543112834495,
+            -8742.597438450646,
+            -6.575020419444353,
+            794.9856233875888,
+        ],
+        [
+            123694026.59723282,
+            187091292.98278633,
+            80611063.57350075,
+            13243.211405493359,
+            -8755.21373709343,
+            -6.575031051390966,
+            794.985539001637,
+        ],
+    ]
+    with patch("pyspiceql.getTargetStatesRanged", return_value=(expected_return, CK_KERNELS)):
+        response = client.get("/getTargetStatesRanged", params={
+            "startEt": 690201375.8323615,
+            "stopEt": 690201389.2866975,
+            "numRecords": 2,
+            "target": "SUN",
+            "observer": "Mars",
+            "frame": "IAU_MARS",
+            "mission": "ctx",
+            "abcorr": "LT+S",
+            "searchKernels": "true",
+        })
+    assert response.status_code == 200
+    assert response.json()["body"]["return"] == expected_return
+
 
 # ---------------------------------------------------------------------------
 # getTargetOrientations
