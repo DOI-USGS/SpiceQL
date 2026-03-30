@@ -34,8 +34,14 @@ release.
 -->
 ### unreleased
 
+### Fixed
+
 - Fixed API list parsing when input is a string [#110](https://github.com/DOI-USGS/SpiceQL/pull/110)
 - Fixed getTargetStates failure when query was too long for a GET Request [#114](https://github.com/DOI-USGS/SpiceQL/pull/114)
+
+### Added
+
+- Added getTargetStatesRanged so a request can be made with start, end, and range of ETs instead of a list [#115](https://github.com/DOI-USGS/SpiceQL/pull/115)
 
 ### 1.2.7
 
