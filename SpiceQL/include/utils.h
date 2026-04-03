@@ -415,8 +415,8 @@ namespace SpiceQL {
     * @param arr input json arr
     *
     * @returns int vector containing arr data
-   **/
-   std::vector<std::vector<int>> json2DIntArrayTo2DVector(nlohmann::json arr);
+    **/
+  std::vector<std::vector<int>> json2DIntArrayTo2DVector(nlohmann::json arr, bool retainEmpty = false);
 
 
   /**

@@ -1025,7 +1025,7 @@ namespace SpiceQL {
                 {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("frameTrace", args);
-            vector<vector<int>> kvect = json2DIntArrayTo2DVector(out["body"]["return"]);
+            vector<vector<int>> kvect = json2DIntArrayTo2DVector(out["body"]["return"], true);
             return make_pair(kvect, out["body"]["kernels"]);
         }
 

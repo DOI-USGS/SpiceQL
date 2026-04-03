@@ -510,13 +510,16 @@ namespace SpiceQL {
     return res;
   }
 
-  vector<vector<int>> json2DIntArrayTo2DVector(json arr) {
+  vector<vector<int>> json2DIntArrayTo2DVector(json arr, bool retainEmpty) {
     vector<vector<int>> res;
 
     if (arr.is_array()) {
       for(auto &subarr : arr) {
-        if (subarr.empty() || subarr.is_null()) {
+        if (subarr.is_null()) {
           continue; 
+        }
+        else if (subarr.empty() && !retainEmpty) {
+          continue;
         }
         
         vector<int> subres; 
