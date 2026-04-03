@@ -54,6 +54,14 @@ namespace SpiceQL {
                                                        "reconstructed",
                                                        "smithed"};
 
+  const std::unordered_map<Kernel::Type, std::string> KERNEL_EXTS = { {Kernel::Type::CK,   ".bc"},
+                                                                      {Kernel::Type::SPK,  ".bsp"},
+                                                                      {Kernel::Type::FK,   ".tf"},
+                                                                      {Kernel::Type::IK,   ".ti"},
+                                                                      {Kernel::Type::LSK,  ".tls"},
+                                                                      {Kernel::Type::MK,   ".tm"},
+                                                                      {Kernel::Type::PCK,  ".tpc"},
+                                                                      {Kernel::Type::SCLK, ".tsc"}};
 
   string Kernel::translateType(Kernel::Type type) {
     return KERNEL_TYPES[static_cast<int>(type)];
@@ -61,14 +69,38 @@ namespace SpiceQL {
 
 
   Kernel::Type Kernel::translateType(string type) {
-    auto res = findInVector<string>(KERNEL_TYPES, type);
+    auto res = findInVector<string>(KERNEL_TYPES, toLower(type));
     if (res.first) {
       return static_cast<Kernel::Type>(res.second);
     }
 
     throw invalid_argument(fmt::format("{} is not a valid kernel type", type));
-  };
+  }
 
+  std::string Kernel::getExt(std::string type) {
+    Kernel::Type ktype = translateType(type);
+    auto it = KERNEL_EXTS.find(ktype);
+    if (it != KERNEL_EXTS.end()) {
+      return it->second;
+    }
+    throw invalid_argument(fmt::format("{} is not a valid kernel type", type));
+  }
+
+  bool Kernel::isBinary(std::string type) {
+    return (isCk(type) || isSpk(type)); 
+  }
+
+  bool Kernel::isText(std::string type) {
+    return !isBinary(type);
+  }
+
+  bool Kernel::isCk(std::string type) {
+    return translateType(type) == Kernel::Type::CK; 
+  }
+
+  bool Kernel::isSpk(std::string type) {
+    return translateType(type) == Kernel::Type::SPK; 
+  }
 
   string Kernel::translateQuality(Kernel::Quality qa) {
     return KERNEL_QUALITIES[static_cast<int>(qa)];

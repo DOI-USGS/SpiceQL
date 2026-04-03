@@ -111,6 +111,20 @@ namespace SpiceQL {
   }
 
 
+  vector<string> split(const string& s, char delim) {
+    vector<string> out;
+    istringstream ss(s);
+    string part;
+    while (std::getline(ss, part, delim)) {
+      auto start = part.find_first_not_of(" \t");
+      if (start == string::npos) continue;
+      auto end = part.find_last_not_of(" \t");
+      out.push_back(part.substr(start, end == string::npos ? part.size() : end - start + 1));
+    }
+    return out;
+  }
+
+
   vector<vector<string>> getPathsFromRegex(string root, vector<string> regexes) {
     vector<string> files_to_search = Memo::ls(root, true);
       

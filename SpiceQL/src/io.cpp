@@ -1,5 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include <memory>
+#include <sstream>
 
 #include <fmt/format.h>
 #include <ghc/fs_std.hpp>
@@ -9,6 +11,8 @@
 
 #include "io.h"
 #include "utils.h"
+
+#include <spdlog/spdlog.h>
 
 
 using namespace std;
@@ -74,7 +78,7 @@ namespace SpiceQL {
     this->angularVelocities  = angularVelocities;
     this->comment            = comment;
   }
-
+  
 
   void writeCk(string path,
                vector<vector<double>> quats,
@@ -90,9 +94,15 @@ namespace SpiceQL {
     SpiceInt handle;
     
     // convert times, but first, we need SCLK+LSK kernels
-    Kernel sclkKernel(sclk);
-    Kernel lskKernel(lsk);
 
+    // allow and furnish multiple sclks
+    std::vector<std::unique_ptr<Kernel>> sclkKernels;
+    if (!sclk.empty()) {
+      for (const std::string& sclkPath : split(sclk, ','))
+        sclkKernels.push_back(std::make_unique<Kernel>(sclkPath));
+    }
+    Kernel lskKernel(lsk);
+    
     for(auto &et : times) {
       double sclkdp;
       checkNaifErrors();
@@ -109,6 +119,33 @@ namespace SpiceQL {
     ckopn_c(path.c_str(), "CK", comment.size(), &handle);
     checkNaifErrors();
 
+    // Flatten the nested quaternions into a single contiguous array.
+    // CSPICE functions (like ckw03_c) are C-based and expect a pointer to a 
+    // contiguous block of memory (SpiceDouble quats[][4]). 
+    // A std::vector<std::vector<double>> stores inner vectors in fragmented 
+    // locations on the heap; we must "flatten" them into a single ribbon 
+    // of doubles so that pointer arithmetic works correctly inside SPICE.
+    vector<double> flatQuats;
+    flatQuats.reserve(quats.size() * 4);
+    for (const auto& q : quats) {
+        for (double d : q) {
+            flatQuats.push_back(d);
+        }
+    }
+
+    // Flatten angular velocities if they exist.
+    // Similar to quaternions, AV data must be contiguous (SpiceDouble av[][3]).
+    // We check if the input nested vector is non-empty before proceeding.
+    vector<double> flatAv;
+    if (!angularVelocities.empty()) {
+        flatAv.reserve(angularVelocities.size() * 3);
+        for (const auto& a : angularVelocities) {
+            for (double d : a) {
+                flatAv.push_back(d);
+            }
+        }
+    }
+
     ckw03_c (handle,
              times.at(0),
              times.at(times.size()-1),
@@ -118,8 +155,8 @@ namespace SpiceQL {
              segmentId.c_str(),
              times.size(),
              times.data(),
-             quats.data(),
-             (!angularVelocities.empty()) ? angularVelocities.data() : nullptr,
+             flatQuats.data(),
+            (!angularVelocities.empty()) ? flatAv.data() : nullptr,
              times.size(),
              times.data());
     checkNaifErrors();
@@ -140,6 +177,22 @@ namespace SpiceQL {
                  int polyDegree,
                  vector<vector<double>> stateVelocities,
                  string segmentComment) {
+
+    if (stateTimes.empty() || statePositions.empty()) {
+      throw runtime_error("writeSpk: stateTimes and statePositions must be non-empty.");
+    }
+
+    // NAIF spkw13_c requires segment start time < end time. Single-epoch (e.g. from ISD) has start == end.
+    if (stateTimes.size() == 1) {
+      stateTimes.push_back(stateTimes.front() + 1E-6);
+      statePositions.push_back(statePositions.front());
+      if (!stateVelocities.empty()) {
+        stateVelocities.push_back(stateVelocities.front());
+      }
+    } else if (stateTimes.front() >= stateTimes.back()) {
+      throw runtime_error(
+          "writeSpk: segment start time must be less than end time (got start == end or reversed order).");
+    }
 
     vector<vector<double>> states;
 

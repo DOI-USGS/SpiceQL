@@ -62,6 +62,16 @@ namespace SpiceQL {
 
 
   /**
+   * @brief turn a string into a vector with a deliminator
+   * 
+   * @param s input string
+   * @param delim char deliminator
+   * @return std::vector<std::string>
+   */
+  std::vector<std::string> split(const std::string& s, char delim);
+
+
+  /**
     * @brief glob, but with json
     *
     * Lambda for globbing files from a regular expression stored

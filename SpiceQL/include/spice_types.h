@@ -71,6 +71,45 @@ namespace SpiceQL {
        **/
       static Type translateType(std::string type);
 
+      /**
+       * @brief Get Kernel extension
+       * 
+       * @param type Kernel type string
+       * @return Kernel extension as string
+       */
+      static std::string getExt(std::string type);
+
+      /**
+       * @brief Check if kernel type is binary
+       * 
+       * @param type Kernel type string
+       * @return Whether kernel type is binary
+       */
+      static bool isBinary(std::string type);
+
+      /**
+       * @brief Check if kernel type is text-based
+       * 
+       * @param type Kernel type string
+       * @return Whether kernel type is text-based
+       */
+      static bool isText(std::string type);
+
+      /**
+       * @brief Check if kernel type is CK
+       * 
+       * @param type Kernel type string
+       * @return Whether kernel type is CK
+       */
+      static bool isCk(std::string type);
+
+      /**
+       * @brief Check if kernel type is SPK
+       * 
+       * @param type Kernel type string
+       * @return Whether kernel type is SPK
+       */
+      static bool isSpk(std::string type);
 
      /**
        * @brief Switch between Quality enum to string
