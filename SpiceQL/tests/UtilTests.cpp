@@ -385,7 +385,7 @@ TEST_F(LroKernelSet, UnitTestGetTargetStates) {
 
 TEST_F(LroKernelSet, UnitTestGetTargetStatesRanged) {
   vector<double> ets = {110000000, 110000001};
-  auto [resStates, kernels] = getTargetStatesRanged(110000000, 110000001, 2, "LRO", "LRO", "J2000", "NONE", "lroc", {"smithed"}, {"smithed"});
+  auto [resStates, kernels] = getTargetStatesRanged(ets[0], ets[1], 2, "LRO", "LRO", "J2000", "NONE", "lroc", {"smithed"}, {"smithed"});
 
   EXPECT_EQ(resStates.size(), 2);
   ASSERT_EQ(resStates.at(0).size(), 7);
@@ -416,6 +416,17 @@ TEST_F(LroKernelSet, UnitTestGetTargetState) {
   EXPECT_NEAR(resStates[6], 0.0, 1e-14);
 }
 
+TEST_F(LroKernelSet, UnitTestGetTargetOrientationsRanged) {
+  vector<double> ets = {110000000, 110000001};
+  auto [resOrientations, kernels] = getTargetOrientationsRanged(ets[0], ets[1], 2, 1, -85000, "lroc");
+
+  EXPECT_EQ(resOrientations.size(), 2);
+  ASSERT_EQ(resOrientations.at(0).size(), 7);
+  EXPECT_DOUBLE_EQ(resOrientations.at(0)[0], 1.0);
+  EXPECT_DOUBLE_EQ(resOrientations.at(0)[1], 0.0);
+  EXPECT_DOUBLE_EQ(resOrientations.at(0)[2], 0.0);
+  EXPECT_DOUBLE_EQ(resOrientations.at(0)[3], 0.0);
+}
 
 TEST_F(LroKernelSet, UnitTestGetTargetOrientations) {
   vector<double> ets = {110000000};

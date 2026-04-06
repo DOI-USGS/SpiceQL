@@ -57,7 +57,7 @@ namespace SpiceQL {
    * @param from substring to find
    * @param to substring to replace "from" instances to
    * @return std::string
-   */
+   **/
   std::string replaceAll(std::string str, const std::string &from, const std::string &to);
 
 
@@ -81,7 +81,7 @@ namespace SpiceQL {
     * @param root root path to search
     * @param r json list of regexes
     * @returns vector of paths
-   **/
+    **/
   std::vector<std::vector<std::string>> getPathsFromRegex (std::string root, std::vector<std::string> regexes);
 
 
@@ -93,7 +93,7 @@ namespace SpiceQL {
    *
    * @param baseConfig The config to merge into
    * @param mergingConfig The config to merge into the base config
-   */
+   **/
   void mergeConfigs(nlohmann::json &baseConfig, const nlohmann::json &mergingConfig);
 
 
@@ -106,7 +106,7 @@ namespace SpiceQL {
     * @param recursive recursively iterates through directories if true
     *
     * @returns list of paths
-   **/
+    **/
   std::vector<std::string> ls(std::string const & root, bool recursive);
 
 
@@ -120,7 +120,7 @@ namespace SpiceQL {
     * @param recursive recursively iterates through directories if true
     *
     * @returns list of paths matching regex
-   **/
+    **/
   std::vector<std::string> glob(std::string const & root,
                              std::string const & reg = ".*",
                              bool recursive=false);
@@ -136,7 +136,7 @@ namespace SpiceQL {
     *
     * @param kpath Path to the kernel
     * @returns std::vector of start and stop times
-   **/
+    **/
   std::vector<std::pair<double, double>> getTimeIntervals(std::string kpath);
 
 
@@ -148,49 +148,49 @@ namespace SpiceQL {
    * @brief Get start and stop times for all kernels
    * 
    * @return string json map of kernel names to list of time segments
-   */
+   **/
   std::string globTimeIntervals(std::string mission);
 
 
   /**
-   * @brief Gives the position and velocity for a given frame at some ephemeris time
-   *
-   * Mostly a C++ wrap for NAIF's spkezr_c
-   *
-   * @param et ephemeris time at which you want to optain the target state
-   * @param target NAIF ID for the target frame
-   * @param observer NAIF ID for the observing frame
-   * @param frame The reference frame in which to get the positions in
-   * @param abcorr aborration correction flag, default it NONE.
-   *        This can set to:
-   *           "NONE" - No correction
-   *        For the "reception" case, i.e. photons from the target being recieved by the observer at the given time.
-   *           "LT"   - One way light time correction
-   *           "LT+S" - Correct for one-way light time and stellar aberration correction
-   *           "CN"   - Converging Newtonian light time correction
-   *           "CN+S" - Converged Newtonian light time correction and stellar aberration correction
-   *        For the "transmission" case, i.e. photons emitted from the oberver hitting at target at the given time
-   *           "XLT"   - One-way light time correction using a newtonian formulation
-   *           "XLT+S" - One-way light time and stellar aberration correction using a newtonian formulation
-   *           "XCN"   - converged Newtonian light time correction
-   *           "XCN+S" - converged Newtonian light time correction and stellar aberration correction.
-   *  @return A vector of 7 elements with a 0 - 5 index state vector of position and velocity 
-   *          in x,y,z,vx,vy,vz format followed by the light time adjustment at the 6th index.
-  **/
+    * @brief Gives the position and velocity for a given frame at some ephemeris time
+    *
+    * Mostly a C++ wrap for NAIF's spkezr_c
+    *
+    * @param et ephemeris time at which you want to optain the target state
+    * @param target NAIF ID for the target frame
+    * @param observer NAIF ID for the observing frame
+    * @param frame The reference frame in which to get the positions in
+    * @param abcorr aborration correction flag, default it NONE.
+    *        This can set to:
+    *           "NONE" - No correction
+    *        For the "reception" case, i.e. photons from the target being recieved by the observer at the given time.
+    *           "LT"   - One way light time correction
+    *           "LT+S" - Correct for one-way light time and stellar aberration correction
+    *           "CN"   - Converging Newtonian light time correction
+    *           "CN+S" - Converged Newtonian light time correction and stellar aberration correction
+    *        For the "transmission" case, i.e. photons emitted from the oberver hitting at target at the given time
+    *           "XLT"   - One-way light time correction using a newtonian formulation
+    *           "XLT+S" - One-way light time and stellar aberration correction using a newtonian formulation
+    *           "XCN"   - converged Newtonian light time correction
+    *           "XCN+S" - converged Newtonian light time correction and stellar aberration correction.
+    *  @return A vector of 7 elements with a 0 - 5 index state vector of position and velocity 
+    *          in x,y,z,vx,vy,vz format followed by the light time adjustment at the 6th index.
+    **/
   std::vector<double> getTargetState(double et, std::string target, std::string observer, std::string frame="J2000", std::string abcorr="NONE"); // use j2000 for default reference frame
 
   /**
-   * @brief Gives quaternion and angular velocity for a given frame at a given ephemeris time
-   *
-   * Gets an orientation for an input frame in some reference frame.
-   * The orientations returned from this function can be used to transform a position
-   * in the source frame to the ref frame.
-   *
-   * @param et ephemeris time at which you want to optain the target pointing
-   * @param toframe the source frame's NAIF code.
-   * @param refframe the reference frame's NAIF code, orientations are relative to this reference frame
-   * @returns SPICE-style quaternions (w,x,y,z) and optional angular velocity (4 element without angular velocity, 7 element with)
-  **/
+    * @brief Gives quaternion and angular velocity for a given frame at a given ephemeris time
+    *
+    * Gets an orientation for an input frame in some reference frame.
+    * The orientations returned from this function can be used to transform a position
+    * in the source frame to the ref frame.
+    *
+    * @param et ephemeris time at which you want to optain the target pointing
+    * @param toframe the source frame's NAIF code.
+    * @param refframe the reference frame's NAIF code, orientations are relative to this reference frame
+    * @returns SPICE-style quaternions (w,x,y,z) and optional angular velocity (4 element without angular velocity, 7 element with)
+    **/
   std::vector<double> getTargetOrientation(double et, int toFrame, int refFrame=1); // use j2000 for default reference frame
 
 
@@ -203,7 +203,7 @@ namespace SpiceQL {
     * @param keytpl input key template to search for
     *
     * @returns json list of found key:values
-   **/
+    **/
   nlohmann::json findKeywords(std::string keytpl);
 
 
@@ -217,7 +217,7 @@ namespace SpiceQL {
     * @param recursive recursively iterates through objects if true
     *
     * @returns vector of refernces to matching json objects
-   **/
+    **/
   std::vector<nlohmann::json::json_pointer> findKeyInJson(nlohmann::json in, std::string key, bool recursive=true);
 
 
@@ -240,8 +240,8 @@ namespace SpiceQL {
    * _SOURCE_PREFIX/SpiceQL/db/ 
    * 
    * @return std::string directory containing db files
-   */
-   std::string getConfigDirectory();
+   **/
+  std::string getConfigDirectory();
   
 
   /**
@@ -253,7 +253,7 @@ namespace SpiceQL {
    * @see getConfigDirectory
    *
    * @return std::vector<std::string> 
-   */
+   **/
   std::vector<std::string> getAvailableConfigFiles();
 
 
@@ -265,7 +265,7 @@ namespace SpiceQL {
    * as vector of json obects and returns the vector. 
    *
    * @return std::vector<nlohmann::json> 
-   */
+   **/
   std::vector<nlohmann::json> getAvailableConfigs();
 
 
@@ -281,7 +281,7 @@ namespace SpiceQL {
     * @param mission mission name of the config file
     *
     * @returns path object of the condig file
-   **/
+    **/
    std::string getMissionConfigFile(std::string mission);
 
 
@@ -297,7 +297,7 @@ namespace SpiceQL {
     * @param mission mission name of the config file
     *
     * @returns path object of the config file
-   **/
+    **/
    nlohmann::json getMissionConfig(std::string mission);
 
 
@@ -307,19 +307,19 @@ namespace SpiceQL {
     * @param config JSON config file
     *
     * @returns string of mission keys
-   **/
+    **/
    std::string getMissionKeys(nlohmann::json config);
 
 
-   /**
+  /**
     * @brief Returns the REST URL
     *
     * @returns SpiceQL's REST URL as string
-   **/
-   std::string getRestUrl();
+    **/
+  std::string getRestUrl();
 
 
-   /**
+  /**
     * @brief resolve the dependencies in a config in place
     *
     * Given a config with "deps" keys in it and a second config to extract
@@ -331,18 +331,18 @@ namespace SpiceQL {
     *
     * @returns The full instrument config
     */
-   void resolveConfigDependencies(nlohmann::json &config, const nlohmann::json &dependencies);
+  void resolveConfigDependencies(nlohmann::json &config, const nlohmann::json &dependencies);
 
 
-   /**
+  /**
     * @brief erase a part of a json object based on a json pointer
     *
     * @param j The json object ot erase part of. Modified in place
     * @param ptr The object to erase
     *
     * @returns The number of objects removed
-    */
-   size_t eraseAtPointer(nlohmann::json &j, nlohmann::json::json_pointer ptr);
+    **/
+  size_t eraseAtPointer(nlohmann::json &j, nlohmann::json::json_pointer ptr);
 
 
   /**
@@ -355,8 +355,8 @@ namespace SpiceQL {
     * @param arr input json arr
     *
     * @returns string vector containing arr data
-   **/
-   std::vector<std::string> jsonArrayToVector(nlohmann::json arr);
+    **/
+  std::vector<std::string> jsonArrayToVector(nlohmann::json arr);
 
 
   /**
@@ -369,8 +369,8 @@ namespace SpiceQL {
     * @param arr input json arr
     *
     * @returns double containing arr data
-   **/
-   std::vector<double> jsonDoubleArrayToVector(nlohmann::json arr);
+    **/
+  std::vector<double> jsonDoubleArrayToVector(nlohmann::json arr);
 
 
   /**
@@ -383,8 +383,8 @@ namespace SpiceQL {
     * @param arr input json arr
     *
     * @returns int containing arr data
-   **/
-   std::vector<int> jsonIntArrayToVector(nlohmann::json arr);
+    **/
+  std::vector<int> jsonIntArrayToVector(nlohmann::json arr);
 
 
   /**
@@ -438,8 +438,8 @@ namespace SpiceQL {
     * @param arr input json arr
     *
     * @returns pair vector containing arr data
-   **/
-   std::vector<std::pair<double, double>> json2DArrayToDoublePair(nlohmann::json arr);
+    **/
+  std::vector<std::pair<double, double>> json2DArrayToDoublePair(nlohmann::json arr);
 
 
   /**
@@ -452,11 +452,11 @@ namespace SpiceQL {
     * @param arr input json arr
     *
     * @returns string vector containing arr data
-   **/
-   std::string getDataDirectory();
+    **/
+  std::string getDataDirectory();
 
 
-   /**
+  /**
     * @brief Merges the right json to the left json 
     *
     * @param j1 input json obj, this json is having it's values edited 
@@ -464,8 +464,8 @@ namespace SpiceQL {
     * @param overwrite if true, overwrites the keys in j1 in favors of those in j2. If overwrite=true, this is the same as nlohmann::json::merge_patch  
     * 
     * @returns j1 with j2 keys + values
-   **/ 
-   nlohmann::json merge_json(nlohmann::json &j1, nlohmann::json &j2, bool overwrite=false);
+    **/ 
+  nlohmann::json merge_json(nlohmann::json &j1, nlohmann::json &j2, bool overwrite=false);
 
 
   /**
@@ -479,30 +479,30 @@ namespace SpiceQL {
     * 
     *
     * @returns string vector containing arr data
-   **/
-   std::string getRootDependency(nlohmann::json config, std::string pointer);
+    **/
+  std::string getRootDependency(nlohmann::json config, std::string pointer);
 
 
   /**
-   * @brief raises a C++ exception if NAIF has an error buffered. 
-   * 
-   * @param reset true if NAIF status errors should be reset 
-   */
+    * @brief raises a C++ exception if NAIF has an error buffered. 
+    * 
+    * @param reset true if NAIF status errors should be reset 
+    **/
   bool checkNaifErrors(bool reset=true);
 
 
-   /**
-   * @brief Loads translation kernels (fk, ik, and iaks) associated to mission name.
-   * 
-   * @param mission mission name of the config file
-   */
+  /**
+    * @brief Loads translation kernels (fk, ik, and iaks) associated to mission name.
+    * 
+    * @param mission mission name of the config file
+    **/
   nlohmann::json loadTranslationKernels(std::string mission, bool loadFk=true, bool loadIk=true, bool loadIak=true);
 
   /**
-   * @brief Loads PCK kernels associated to mission name.
-   *
-   * @param kernelType kernelType to search for and load
-   * @param mission mission name of the config file
-   */
+    * @brief Loads PCK kernels associated to mission name.
+    *
+    * @param kernelType kernelType to search for and load
+    * @param mission mission name of the config file
+    **/
   nlohmann::json loadSelectKernels(std::string kernelType, std::string mission);
 }

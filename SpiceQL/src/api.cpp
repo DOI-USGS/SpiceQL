@@ -327,7 +327,8 @@ namespace SpiceQL {
             // up to 180 ets could be sent, with a character limit slightly above 4000.
             // To be safe, setting a more conservative 150 ET limit here.
             const int numEtsGetLimit = 150;
-            json out = ets.size() <= numEtsGetLimit ? spiceAPIQuery("getTargetStates", args) : spiceAPIQuery("getTargetStates", args, "POST");
+            std::string requestMethod = ets.size() <= numEtsGetLimit ? "GET" : "POST";
+            json out = spiceAPIQuery("getTargetStates", args, requestMethod);
             vector<vector<double>> kvect = json2DFloatArrayTo2DVector(out["body"]["return"]);
             return make_pair(kvect, out["body"]["kernels"]);
         }
@@ -371,11 +372,23 @@ namespace SpiceQL {
         return {lt_stargs, ephemKernels};
     }
 
-    pair<vector<vector<double>>, json> getTargetStatesRanged(double startEt, double stopEt, int numRecords, string target, string observer, string frame, string abcorr, string mission, 
-                                                       vector<string> ckQualities, vector<string> spkQualities, bool useWeb, bool searchKernels, bool fullKernelPath, 
-                                                       int limitCk, int limitSpk, vector<string> kernelList) {
-        SPDLOG_TRACE("Calling getTargetStatesRanged with {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}", startEt, stopEt, numRecords, target, observer, frame, abcorr, mission, ckQualities.size(), spkQualities.size(), useWeb, searchKernels, kernelList.size());
-        // SPDLOG_TRACE("ets: [{}]", fmt::join(ets, ", "));
+    pair<vector<vector<double>>, json> getTargetStatesRanged(double startEt, 
+                                                             double stopEt, 
+                                                             int numRecords, 
+                                                             string target, 
+                                                             string observer, 
+                                                             string frame, 
+                                                             string abcorr, string mission, 
+                                                             vector<string> ckQualities, 
+                                                             vector<string> spkQualities, 
+                                                             bool useWeb, 
+                                                             bool searchKernels, 
+                                                             bool fullKernelPath, 
+                                                             int limitCk, 
+                                                             int limitSpk, 
+                                                             vector<string> kernelList) 
+    {
+        SPDLOG_TRACE("Calling getTargetStatesRanged with {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}", startEt, stopEt, numRecords, target, observer, frame, abcorr, mission, ckQualities.size(), spkQualities.size(), useWeb, searchKernels, kernelList.size());
         if (useWeb) {
             // @TODO validity checks
             json args = json::object({
@@ -396,54 +409,46 @@ namespace SpiceQL {
                 {"kernelList", kernelList}
                 });
             // @TODO check that json exists / contains what we're looking for
-            const int numEtsGetLimit = 150;
-            json out = numRecords <= numEtsGetLimit ? spiceAPIQuery("getTargetStatesRanged", args) : spiceAPIQuery("getTargetStatesRanged", args, "POST");
+            json out = spiceAPIQuery("getTargetStatesRanged", args);
             vector<vector<double>> kvect = json2DFloatArrayTo2DVector(out["body"]["return"]);
             return make_pair(kvect, out["body"]["kernels"]);
         }
 
+        double etInterval = 0;
         if (numRecords < 1) {
             throw invalid_argument("Number of Ephemeris Time Records was less than 1."); 
         }
-
-        json ephemKernels = {};
-
-        if (searchKernels) {
-            ephemKernels = Inventory::search_for_kernelsets({mission, target, observer, "base"}, {"sclk", "ck", "spk", "pck", "tspk", "lsk", "fk", "iak",  "ik"}, startEt, stopEt, ckQualities, spkQualities, fullKernelPath, limitCk, limitSpk);
-            SPDLOG_DEBUG("{} Kernels : {}", mission, ephemKernels.dump(4));
-        }
-
-        if (!kernelList.empty()) {
-            json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
-            // merge them into the ephem kernels overwriting anything found in the query
-            merge_json(ephemKernels, regexk);
+        else if (numRecords > 1) {
+            etInterval = (stopEt - startEt) / ((double)numRecords - 1);
         }
 
         auto start = std::chrono::high_resolution_clock::now();
-        KernelSet ephemSet(ephemKernels);
+
+        vector<double> ets(numRecords, 0.0);
+        for (int i = 0; i < numRecords; i++) {
+            ets[i] = startEt + i*etInterval;
+        }
+
+        pair<vector<vector<double>>, json> results = getTargetStates(ets, 
+                                                                     target, 
+                                                                     observer, 
+                                                                     frame, 
+                                                                     abcorr, 
+                                                                     mission, 
+                                                                     ckQualities, 
+                                                                     spkQualities, 
+                                                                     false, 
+                                                                     searchKernels, 
+                                                                     fullKernelPath, 
+                                                                     limitCk, 
+                                                                     limitSpk, 
+                                                                     kernelList);
 
         auto stop = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-        SPDLOG_TRACE("Time in std::chrono::microseconds to furnish kernel sets: {}", duration.count());
-
-        double etInterval = (stopEt - startEt) / (double)numRecords;
-        double et;
-
-        start = std::chrono::high_resolution_clock::now();
-        vector<vector<double>> lt_stargs;
-        vector<double> lt_starg;
-        
-        for (int i = 0; i < numRecords; i++) {
-            et = startEt + i*etInterval;
-            lt_starg = getTargetState(et, target, observer, frame, abcorr);
-            lt_stargs.push_back(lt_starg);
-        }
-
-        stop = std::chrono::high_resolution_clock::now();
-        duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
         SPDLOG_TRACE("Time in std::chrono::microseconds to get data results: {}", duration.count());
 
-        return {lt_stargs, ephemKernels};
+        return results;
     }
 
 
@@ -466,7 +471,9 @@ namespace SpiceQL {
                 {"limitSpk", limitSpk},
                 {"kernelList", kernelList}
             });
-            json out = spiceAPIQuery("getTargetOrientations", args);
+            const int numEtsGetLimit = 150;
+            std::string requestMethod = ets.size() <= numEtsGetLimit ? "GET" : "POST";
+            json out = spiceAPIQuery("getTargetOrientations", args, requestMethod);
             vector<vector<double>> kvect = json2DFloatArrayTo2DVector(out["body"]["return"]);
             return make_pair(kvect, out["body"]["kernels"]);
         }
@@ -507,6 +514,86 @@ namespace SpiceQL {
         return {orientations, ephemKernels};
     }
 
+    pair<vector<vector<double>>, json> getTargetOrientationsRanged(double startEt, 
+                                                                   double stopEt, 
+                                                                   int numRecords, 
+                                                                   int toFrame, 
+                                                                   int refFrame, 
+                                                                   string mission, 
+                                                                   vector<string> ckQualities, 
+                                                                   bool useWeb, 
+                                                                   bool searchKernels, 
+                                                                   bool fullKernelPath, 
+                                                                   int limitCk, 
+                                                                   int limitSpk, 
+                                                                   vector<string> kernelList) 
+    {
+        SPDLOG_TRACE("Calling getTargetOrientationsRanged with {}, {}, {}, {}, {}, {}, {}, {}, {}, {}", startEt, 
+                                                                                                        stopEt, 
+                                                                                                        numRecords, 
+                                                                                                        toFrame, 
+                                                                                                        refFrame, 
+                                                                                                        mission, 
+                                                                                                        ckQualities.size(), 
+                                                                                                        useWeb, 
+                                                                                                        searchKernels, 
+                                                                                                        kernelList.size());
+
+        if (useWeb) {
+            // @TODO validity checks
+            json args = json::object({
+                {"startEt", startEt},
+                {"stopEt", stopEt},
+                {"numRecords", numRecords},
+                {"toFrame", toFrame},
+                {"refFrame", refFrame},
+                {"mission", mission},
+                {"ckQualities", ckQualities},
+                {"searchKernels", searchKernels},
+                {"fullKernelPath", fullKernelPath},
+                {"limitCk", limitCk},
+                {"limitSpk", limitSpk},
+                {"kernelList", kernelList}
+            });
+            // @TODO check that json exists / contains what we're looking for
+            json out = spiceAPIQuery("getTargetOrientationsRanged", args);
+            vector<vector<double>> kvect = json2DFloatArrayTo2DVector(out["body"]["return"]);
+            return make_pair(kvect, out["body"]["kernels"]);
+        }
+
+        double etInterval = 0;
+        if (numRecords < 1) {
+            throw invalid_argument("Number of Ephemeris Time Records was less than 1."); 
+        }
+        else if (numRecords > 1) {
+            etInterval = (stopEt - startEt) / ((double)numRecords - 1);
+        }
+
+        auto start = std::chrono::high_resolution_clock::now();
+
+        vector<double> ets(numRecords, 0.0);
+        for (int i = 0; i < numRecords; i++) {
+            ets[i] = startEt + i*etInterval;
+        }
+
+        pair<vector<vector<double>>, json> results = getTargetOrientations(ets, 
+                                                                           toFrame, 
+                                                                           refFrame, 
+                                                                           mission, 
+                                                                           ckQualities, 
+                                                                           false, 
+                                                                           searchKernels, 
+                                                                           fullKernelPath, 
+                                                                           limitCk, 
+                                                                           limitSpk, 
+                                                                           kernelList);
+
+        auto stop = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+        SPDLOG_TRACE("Time in std::chrono::microseconds to get data results: {}", duration.count());
+
+        return results;
+    }
 
     pair<vector<vector<double>>, json> getExactTargetOrientations(double startEt, double stopEt, int toFrame, int refFrame, int exactCkFrame, string mission, vector<string> ckQualities, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {
         SPDLOG_TRACE("Calling getExactTargetOrientations with startEt={}, stopEt={}, toFrame={}, refFrame={}, exactCkFrame={}, mission={}, ckQualities.size()={}, useWeb={}, searchKernels={}, kernelList.size()={}", 

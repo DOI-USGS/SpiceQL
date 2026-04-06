@@ -157,7 +157,7 @@ namespace SpiceQL {
              times.data(),
              flatQuats.data(),
             (!angularVelocities.empty()) ? flatAv.data() : nullptr,
-             times.size(),
+             1,
              times.data());
     checkNaifErrors();
     ckcls_c(handle);

@@ -97,7 +97,7 @@ namespace SpiceQL {
      *
      * @param startEt ephemeris times at which you want to obtain the target state
      * @param stopEt ephemeris times at which you want to obtain the target state
-     * @param numRecords ephemeris times at which you want to obtain the target state
+     * @param numRecords the number of states to obtain between startEt and stopEt
      * @param target NAIF ID for the target frame
      * @param observer NAIF ID for the observing frame
      * @param frame The reference frame in which to get the positions in
@@ -173,6 +173,45 @@ namespace SpiceQL {
         int toFrame,
         int refFrame,
         std::string mission,
+        std::vector<std::string> ckQualities={"smithed", "reconstructed"},
+        bool useWeb=false,
+        bool searchKernels=true,
+        bool fullKernelPath=false,
+        int limitCk=-1, 
+        int limitSpk=1,
+        std::vector<std::string> kernelList={});
+
+    /**
+     * @brief Gives quaternion and angular velocity for a given frame at a set of ephemeris times
+     *
+     * Gets orientations for an input frame in some reference frame.
+     * The orientations returned from this function can be used to transform a position
+     * in the source frame to the ref frame.
+     *
+     * @param startEt ephemeris times at which you want to obtain the target orientation
+     * @param stopEt ephemeris times at which you want to obtain the target orientation
+     * @param numRecords the number of orientations to obtain between startEt and stopEt
+     * @param toframe the source frame's NAIF code.
+     * @param refframe the reference frame's NAIF code, orientations are relative to this reference frame
+     * @param mission Config subset as it relates to the mission
+     * @param ckQualities vector of string describing the quality of cks to try and obtain
+     * @param searchKernels bool Whether to search the kernels for the user
+     * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
+     * @param limitCk int number of cks to limit to, default is -1 to retrieve all
+     * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
+     * @param kernelList vector<string> vector of additional kernels to load 
+     *
+     * @see SpiceQL::getTargetOrientation
+     *
+     * @returns Vector of SPICE-style quaternions (w,x,y,z) and optional angular velocity (4 element without angular velocity, 7 element with)
+     **/
+    std::pair<std::vector<std::vector<double>>, nlohmann::json> getTargetOrientationsRanged(
+        double startEt, 
+        double stopEt, 
+        int numRecords, 
+        int toFrame, 
+        int refFrame, 
+        std::string mission, 
         std::vector<std::string> ckQualities={"smithed", "reconstructed"},
         bool useWeb=false,
         bool searchKernels=true,
