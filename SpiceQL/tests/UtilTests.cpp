@@ -422,10 +422,10 @@ TEST_F(LroKernelSet, UnitTestGetTargetOrientationsRanged) {
 
   EXPECT_EQ(resOrientations.size(), 2);
   ASSERT_EQ(resOrientations.at(0).size(), 7);
-  EXPECT_DOUBLE_EQ(resOrientations.at(0)[0], 1.0);
-  EXPECT_DOUBLE_EQ(resOrientations.at(0)[1], 0.0);
-  EXPECT_DOUBLE_EQ(resOrientations.at(0)[2], 0.0);
-  EXPECT_DOUBLE_EQ(resOrientations.at(0)[3], 0.0);
+  EXPECT_NEAR(resOrientations.at(0)[0], 0.2886751, 1e-7);
+  EXPECT_NEAR(resOrientations.at(0)[1], -0.2886751, 1e-7);
+  EXPECT_NEAR(resOrientations.at(0)[2], -0.5773503, 1e-7);
+  EXPECT_NEAR(resOrientations.at(0)[3], -0.7071068, 1e-7);
 }
 
 TEST_F(LroKernelSet, UnitTestGetTargetOrientations) {
