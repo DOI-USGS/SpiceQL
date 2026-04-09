@@ -494,7 +494,6 @@ def test_getExactTargetOrientations_returns_expected_first_row():
     print(response)
     assert response.status_code == 200
     assert response.json()["body"]["return"][0] == expected_first_row
-    assert False
 
 
 # ---------------------------------------------------------------------------
