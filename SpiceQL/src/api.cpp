@@ -1459,9 +1459,19 @@ namespace SpiceQL {
         return {cacheTimes, ephemKernels};
     }
 
-    std::pair<string, nlohmann::json> searchForKernelsets(vector<string> spiceqlNames, vector<string> types, double startTime, double stopTime,
-                                  vector<string> ckQualities, vector<string> spkQualities, bool useWeb, bool fullKernelPath, int limitCk, int limitSpk,
-                                  bool overwrite) { 
+    std::pair<string, nlohmann::json> searchForKernelsets(vector<string> spiceqlNames, 
+                                                          vector<string> types, 
+                                                          double startTime, 
+                                                          double stopTime,
+                                                          vector<string> ckQualities, 
+                                                          vector<string> spkQualities, 
+                                                          bool useWeb, 
+                                                          bool fullKernelPath, 
+                                                          int limitCk, 
+                                                          int limitSpk,
+                                                          bool overwrite) {
+    SPDLOG_TRACE("Calling searchForKernelsets with {}, {}, {}, {}, {}, {}, {}", spiceqlNames, types, startTime, stopTime, ckQualities.size(), spkQualities.size(), useWeb);
+    
       if (useWeb){
         json args = json::object({
             {"spiceqlNames", spiceqlNames},

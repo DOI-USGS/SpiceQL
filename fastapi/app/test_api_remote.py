@@ -6,11 +6,15 @@ Run with:
     pytest test_api_remote.py -v
 """
 
+import os
+
 import pytest
 import httpx
 import math
  
 BASE_URL = "https://astrogeology.usgs.gov/apis/spiceql/latest"
+if ("SPICEQL_REST_URL" in os.environ):
+    BASE_URL = os.environ["SPICEQL_REST_URL"]
 
 
 # ---------------------------------------------------------------------------
@@ -259,6 +263,80 @@ class TestGetTargetOrientations:
         r = httpx.get(self.ENDPOINT, params=self.PARAMS)
         body = assert_success(r)
         assert "ck" in body["kernels"]
+
+# ---------------------------------------------------------------------------
+# getTargetOrientationsRanged
+# ---------------------------------------------------------------------------
+
+class TestGetTargetOrientationsRanged:
+    """
+    curl -XGET "https://astrogeology.usgs.gov/apis/spiceql/latest/getTargetOrientationsRanged
+        ?startEt=690201375.8323615
+        &stopEt=690201375.8323615
+        &numRecords=2
+        &toFrame=-74000
+        &refFrame=-74690
+        &mission=ctx
+        &searchKernels=True"
+    """
+
+    ENDPOINT = f"{BASE_URL}/getTargetOrientationsRanged"
+    PARAMS = {
+        "startEt": 690201375.8323615,
+        "stopEt": 690201375.8323615,
+        "numRecords": 2,
+        "toFrame": -74000,
+        "refFrame": -74690,
+        "mission": "ctx",
+        "searchKernels": "True",
+    }
+
+    def test_status_ok(self):
+        r = httpx.get(self.ENDPOINT, params=self.PARAMS)
+        assert_success(r)
+
+    def test_returns_two_quaternions(self):
+        r = httpx.get(self.ENDPOINT, params=self.PARAMS)
+        body = assert_success(r)
+        result = body["return"]
+        assert isinstance(result, list)
+        assert len(result) == 2, "Expected 2 quaternions (one per ET)"
+
+    def test_each_quaternion_has_seven_elements(self):
+        r = httpx.get(self.ENDPOINT, params=self.PARAMS)
+        body = assert_success(r)
+        for vec in body["return"]:
+            assert len(vec) == 7, (
+                "Each quaternion should have 7 elements (w, qx, qy, qz, av_x, av_y, av_z)"
+            )
+
+    def test_first_quaternion_values(self):
+        r = httpx.get(self.ENDPOINT, params=self.PARAMS)
+        body = assert_success(r)
+        q = body["return"][0]
+        expected = [
+            0.9999924134600601,
+            0.0005720078450331138,
+            0.003853027964066137,
+            -2.2039789431520754e-06,
+            0.0,
+            0.0,
+            0.0,
+        ]
+        for got, exp in zip(q, expected):
+            assert approx_equal(got, exp, rel=1e-5), f"Expected ~{exp}, got {got}"
+
+    def test_kernels_present(self):
+        r = httpx.get(self.ENDPOINT, params=self.PARAMS)
+        body = assert_success(r)
+        kernels = body["kernels"]
+        assert isinstance(kernels, dict)
+        assert len(kernels) > 0, "Expected at least one kernel type in response"
+
+    def test_kernels_include_ck(self):
+        r = httpx.get(self.ENDPOINT, params=self.PARAMS)
+        body = assert_success(r)
+        assert "ck" in body["kernels"], "Expected 'ck' kernel in response"
 
 
 # ---------------------------------------------------------------------------
@@ -874,8 +952,9 @@ class TestGetExactTargetOrientations:
         "stopEt": 690201389.2866975,
         "toFrame": -74000,
         "refFrame": -74690,
+        "exactCkFrame" : -74021,
         "mission": "ctx",
-        "searchKernels": "True",
+        "searchKernels": "true",
     }
 
     def test_status_ok(self):
@@ -941,8 +1020,8 @@ class TestSearchForKernelsets:
 
     ENDPOINT = f"{BASE_URL}/searchForKernelsets"
     PARAMS = {
-        "missions": '["odyssey","mars"]',
-        "kernelTypes": '["sclk","spk","tspk","ck"]',
+        "spiceqlNames": '["odyssey","mars"]',
+        "types": '["sclk","spk","tspk","ck"]',
         "startEt": 715662878.32324,
         "stopEt": 715663065.2303,
         "searchKernels": "true",
@@ -960,7 +1039,7 @@ class TestSearchForKernelsets:
         if r.status_code == 200:
             data = r.json()
             if data.get("statusCode") == 200:
-                result = data["body"]["return"]
+                result = data["body"]["kernels"]
                 assert isinstance(result, (dict, list)), (
                     "searchForKernelsets should return a dict or list of kernels"
                 )
