@@ -45,6 +45,7 @@ release.
 - Added getTargetOrientationsRanged so a request can be made with start, end, and range of ETs instead of a list [#115](https://github.com/DOI-USGS/SpiceQL/pull/118)
 - Added option to json2DIntArrayTo2DVector to retain empty subarrays rather than remove them [#117](https://github.com/DOI-USGS/SpiceQL/pull/117)
 - Added support for ISD to kernel generation [#116](https://github.com/DOI-USGS/SpiceQL/pull/116)
+- Added KPLO database for access to KPLO kernels [#121](https://github.com/DOI-USGS/SpiceQL/pull/121)
 
 ### 1.2.7
 
