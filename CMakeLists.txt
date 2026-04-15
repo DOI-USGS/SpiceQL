@@ -103,6 +103,7 @@ if(SPICEQL_BUILD_LIB)
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/hayabusa2.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/juno.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/kaguya.json
+                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/kplo.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/lro.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/lo.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/mariner10.json
