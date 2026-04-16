@@ -1,0 +1,221 @@
+{
+    "amica": [
+        "AMICA",
+        "HAYABUSA_AMICA"
+    ],
+    "apollo15_metric": [
+        "A15_METRIC"
+    ],
+    "apollo15_panoramic": [
+        "APOLLO15_APOLLO PANORAMIC CAMERA"
+    ],
+    "cassini": [
+        "CASSINI_ISS_NAC",
+        "CASSINI_ISS_WAC",
+        "CASSINI_VIMS_V",
+        "Cassini-Huygens"
+    ],
+    "cassis": [
+        "TGO_CASSIS",
+        "TGO_CASSIS_CRU"
+    ],
+    "chandrayaan2": [
+        "CH2",
+        "CH-2"
+    ],
+    "clementine1": [
+        "High Resolution Camera",
+        "Long Wave Infrared Camera",
+        "CLEM_HIRES",
+        "CLEM_LWIR"
+    ],
+    "crism": [
+        "MRO_CRISM_VNIR"
+    ],
+    "ctx": [
+        "CONTEXT CAMERA",
+        "MRO_CTX"
+    ],
+    "fc2": [
+        "DAWN_FC2_FILTER_1",
+        "DAWN_FC2_FILTER_2",
+        "DAWN_FC2_FILTER_3",
+        "DAWN_FC2_FILTER_4",
+        "DAWN_FC2_FILTER_5",
+        "DAWN_FC2_FILTER_6",
+        "DAWN_FC2_FILTER_7",
+        "DAWN_FC2_FILTER_8"
+    ],
+    "galileo": [
+        "GLL_SSI_PLATFORM"
+    ],
+    "hirise": [
+        "MRO_HIRISE",
+        "MRO_HIRISE_LOOK_DIRECTION"
+    ],
+    "hrsc": [
+        "MEX_HRSC_HEAD",
+        "MEX_HRSC_IR"
+    ],
+    "juno": [
+        "JUNO_JUNOCAM"
+    ],
+    "kaguya": [
+        "LISM_MI-VIS1",
+        "LISM_MI-VIS2",
+        "LISM_MI-VIS3",
+        "LISM_MI-VIS4",
+        "LISM_MI-VIS5",
+        "LISM_MI-NIR1",
+        "LISM_MI-NIR2",
+        "LISM_MI-NIR3",
+        "LISM_MI-NIR4",
+        "LISM_TC1_WDF",
+        "LISM_TC1_WTF",
+        "LISM_TC1_SDF",
+        "LISM_TC1_STF",
+        "LISM_TC1_WDN",
+        "LISM_TC1_WTN",
+        "LISM_TC1_SDN",
+        "LISM_TC1_STN",
+        "LISM_TC1_WDH",
+        "LISM_TC1_WTH",
+        "LISM_TC1_SDH",
+        "LISM_TC1_STH",
+        "LISM_TC1_SSH",
+        "SELENE",
+        "KAGUYA",
+        "SELENE MAIN ORBITER"
+    ],
+    "leisa": [
+        "NH_RALPH_LEISA",
+        "ISIS_NH_RALPH_LEISA"
+    ],
+    "lo": [
+        "LO1_HIGH_RESOLUTION_CAMERA",
+        "LO2_HIGH_RESOLUTION_CAMERA",
+        "LO3_HIGH_RESOLUTION_CAMERA",
+        "LO4_HIGH_RESOLUTION_CAMERA",
+        "LO5_HIGH_RESOLUTION_CAMERA",
+        "LO3_MED_RESOLUTION_CAMERA"
+    ],
+    "lorri": [
+        "NH_LORRI",
+        "NH_LORRI_1X1"
+    ],
+    "lroc": [
+        "LRO_LROCNACL",
+        "LRO_LROCNACR",
+        "LRO_LROCWAC_UV",
+        "LRO_LROCWAC_VIS"
+    ],
+    "m10_vidicon_a": [
+        "M10_VIDICON_A",
+        "VIDICON_A"
+    ],
+    "m10_vidicon_b": [
+        "M10_VIDICON_B"
+    ],
+    "m3": [
+        "CHANDRAYAAN-1_M3"
+    ],
+    "marci": [
+        "MRO_MARCI_VIS",
+        "MRO_MARCI_UV",
+        "MRO_MARCI_BASE"
+    ],
+    "mdis": [
+        "MSGR_MDIS_WAC",
+        "MSGR_MDIS_NAC",
+        "MERCURY DUAL IMAGING SYSTEM NARROW ANGLE CAMERA"
+    ],
+    "mgs": [
+        "MGS_MOC_NA",
+        "MGS_MOC_WA_RED",
+        "MGS_MOC_WA_BLUE"
+    ],
+    "minirf": [
+        "LRO_MINIRF"
+    ],
+    "mrffr": [
+        "CHANDRAYAAN-1_MRFFR"
+    ],
+    "mro": [
+        "MARS"
+    ],
+    "msi": [
+        "NEAR_MSI"
+    ],
+    "msl": [
+        "MSL_MASTCAM_LEFT"
+    ],
+    "mvic_framing": [
+        "ISIS_NH_RALPH_MVIC_METHANE",
+        "ISIS_NH_RALPH_MVIC_FT"
+    ],
+    "mvic_tdi": [
+        "NH_MVIC"
+    ],
+    "near": [
+        "NEAR EARTH ASTEROID RENDEZVOUS"
+    ],
+    "nir": [
+        "Near Infrared Camera",
+        "CLEM_NIR"
+    ],
+    "nirs": [
+        "HAYABUSA_NIRS"
+    ],
+    "odyssey": [
+        "M01_THEMIS_IR",
+        "M01_THEMIS_VIS",
+        "THEMIS_IR",
+        "THEMIS_VIS"
+    ],
+    "ohrc": [
+        "CH2_OHRC"
+    ],
+    "onc": [
+        "HAYABUSA2_ONC"
+    ],
+    "src": [
+        "MEX_HRSC_SRC"
+    ],
+    "tmc2": [
+        "CH2_TMC_NADIR"
+    ],
+    "uvvis": [
+        "ULTRAVIOLET/VISIBLE CAMERA",
+        "CLEM_UVVIS_A"
+    ],
+    "viking1": [
+        "VIKING ORBITER 1",
+        "VIKING_ORBITER_1",
+        "VO1_VISA",
+        "VO1_VISB"
+    ],
+    "viking2": [
+        "VIKING ORBITER 2",
+        "VIKING_ORBITER_2",
+        "VO2_VISB",
+        "VO2_VISA"
+    ],
+    "vir": [
+        "DAWN_VIR_IR",
+        "Visual and Infrared Spectrometer"
+    ],
+    "virtis": [
+        "ROS_VIRTIS-M_IR"
+    ],
+    "voyager1": [
+        "JUPITER",
+        "NEPTUNE",
+        "SATURN",
+        "VG1_ISSNA",
+        "VG1_ISSWA"
+    ],
+    "voyager2": [
+        "VG2_ISSNA",
+        "VG2_ISSWA"
+    ]
+}

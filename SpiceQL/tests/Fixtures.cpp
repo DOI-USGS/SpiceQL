@@ -397,3 +397,14 @@ void TestConfig::SetUp() {
 void TestConfig::TearDown() {
 
 }
+
+void AliasMapTest::SetUp() {
+  TempTestingFiles::SetUp();
+  root = getenv("SPICEROOT");
+
+  // default aliasMap.json in repo
+  defaultAliasMapFile = fs::path(_SOURCE_PREFIX) / "SpiceQL" / "aliasMap.json";
+
+  // test aliasMap JSON file
+  testAliasMapFile = fs::path("data") / "aliasMap.test.json";
+}

@@ -19,7 +19,8 @@ set(PYSPICEQL_SOURCES pyspiceql.i
                       query.i
                       spice_types.i
                       utils.i
-                      api.i)
+                      api.i
+                      alias_map.i)
 set_source_files_properties(${PYSPICEQL_SOURCES} PROPERTIES CPLUSPLUS ON)
 swig_add_library(pyspiceql
                  LANGUAGE python

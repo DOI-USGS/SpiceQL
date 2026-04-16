@@ -22,6 +22,7 @@
 #include "api.h"
 #include "restincurl.h"
 #include "config.h"
+#include "alias_map.h"
 
 using json = nlohmann::json;
 using namespace std;
@@ -31,173 +32,23 @@ namespace SpiceQL {
     double default_StartTime = -std::numeric_limits<double>::max();
     double default_StopTime = std::numeric_limits<double>::max();
     vector<string> default_KernelQualities = {"smithed", "reconstructed"};
-
-    json aliasMap = {
-      {"A15_METRIC", "apollo15_metric"},
-      {"APOLLO15_APOLLO PANORAMIC CAMERA", "apollo15_panoramic"},
-      {"AMICA", "amica"},
-      {"CHANDRAYAAN-1_M3", "m3"},
-      {"CHANDRAYAAN-1_MRFFR", "mrffr"},
-      {"CASSINI_ISS_NAC", "cassini"},
-      {"CASSINI_ISS_WAC", "cassini"},
-      {"CASSINI_VIMS_V", "cassini"},
-      {"Cassini-Huygens", "cassini"},
-      {"CONTEXT CAMERA", "ctx"},
-      {"DAWN_FC2_FILTER_1", "fc2"},
-      {"DAWN_FC2_FILTER_2", "fc2"},
-      {"DAWN_FC2_FILTER_3", "fc2"},
-      {"DAWN_FC2_FILTER_4", "fc2"},
-      {"DAWN_FC2_FILTER_5", "fc2"},
-      {"DAWN_FC2_FILTER_6", "fc2"},
-      {"DAWN_FC2_FILTER_7", "fc2"},
-      {"DAWN_FC2_FILTER_8", "fc2"},
-      {"DAWN_VIR_IR", "vir"},
-      {"GLL_SSI_PLATFORM", "galileo"},
-      {"HAYABUSA_AMICA", "amica"},
-      {"HAYABUSA_NIRS", "nirs"},
-      {"HAYABUSA2_ONC-W2", "onc"},
-      {"JUNO_JUNOCAM", "juno"},
-      {"JUPITER", "voyager1"},
-      {"LRO_LROCNACL", "lroc"},
-      {"LRO_LROCNACR", "lroc"},
-      {"LRO_LROCWAC_UV", "lroc"},
-      {"LRO_LROCWAC_VIS", "lroc"},
-      {"LRO_MINIRF", "minirf"},
-      {"M10_VIDICON_A", "m10_vidicon_a"},
-      {"M10_VIDICON_B", "m10_vidicon_b"},
-      {"VIDICON_A", "m10_vidicon_a"},
-      {"MARS", "mro"},
-      {"MSGR_MDIS_WAC", "mdis"},
-      {"MSGR_MDIS_NAC", "mdis"},
-      {"MERCURY DUAL IMAGING SYSTEM NARROW ANGLE CAMERA", "mdis"},
-      {"MEX_HRSC_HEAD", "hrsc"},
-      {"MEX_HRSC_SRC", "src"},
-      {"MEX_HRSC_IR", "hrsc"},
-      {"MGS_MOC_NA", "mgs"},
-      {"MGS_MOC_WA_RED", "mgs"},
-      {"MGS_MOC_WA_BLUE", "mgs"},
-      {"MRO_MARCI_VIS", "marci"},
-      {"MRO_MARCI_UV", "marci"},
-      {"MRO_MARCI_BASE", "marci"},
-      {"MRO_CTX", "ctx"},
-      {"MRO_HIRISE", "hirise"},
-      {"MRO_HIRISE_LOOK_DIRECTION", "hirise"},
-      {"MRO_CRISM_VNIR", "crism"},
-      {"NEAR EARTH ASTEROID RENDEZVOUS", "near"},
-      {"NEAR_MSI", "msi"},
-      {"NH_LORRI", "lorri"},
-      {"NH_LORRI_1X1", "lorri"},
-      {"NH_RALPH_LEISA", "leisa"},
-      {"NH_MVIC", "mvic_tdi"},
-      {"ISIS_NH_RALPH_LEISA", "leisa"},
-      {"ISIS_NH_RALPH_MVIC_METHANE", "mvic_framing"},
-      {"ISIS_NH_RALPH_MVIC_FT", "mvic_framing"},
-      {"M01_THEMIS_IR", "odyssey"},
-      {"M01_THEMIS_VIS", "odyssey"},
-      {"THEMIS_IR", "odyssey"},
-      {"THEMIS_VIS", "odyssey"},
-      {"LISM_MI-VIS1", "kaguya"},
-      {"LISM_MI-VIS2", "kaguya"},
-      {"LISM_MI-VIS3", "kaguya"},
-      {"LISM_MI-VIS4", "kaguya"},
-      {"LISM_MI-VIS5", "kaguya"},
-      {"LISM_MI-NIR1", "kaguya"},
-      {"LISM_MI-NIR2", "kaguya"},
-      {"LISM_MI-NIR3", "kaguya"},
-      {"LISM_MI-NIR4", "kaguya"},
-      {"LISM_TC1_WDF", "kaguya"},
-      {"LISM_TC1_WTF", "kaguya"},
-      {"LISM_TC1_SDF", "kaguya"},
-      {"LISM_TC1_STF", "kaguya"},
-      {"LISM_TC1_WDN", "kaguya"},
-      {"LISM_TC1_WTN", "kaguya"},
-      {"LISM_TC1_SDN", "kaguya"},
-      {"LISM_TC1_STN", "kaguya"},
-      {"LISM_TC1_WDH", "kaguya"},
-      {"LISM_TC1_WTH", "kaguya"},
-      {"LISM_TC1_SDH", "kaguya"},
-      {"LISM_TC1_STH", "kaguya"},
-      {"LISM_TC1_SSH", "kaguya"},
-      {"SELENE", "kaguya"},
-      {"KAGUYA", "kaguya"},
-      {"SELENE MAIN ORBITER", "kaguya"},
-      {"LO1_HIGH_RESOLUTION_CAMERA", "lo"},
-      {"LO2_HIGH_RESOLUTION_CAMERA", "lo"},
-      {"LO3_HIGH_RESOLUTION_CAMERA", "lo"},
-      {"LO4_HIGH_RESOLUTION_CAMERA", "lo"},
-      {"LO5_HIGH_RESOLUTION_CAMERA", "lo"},
-      {"LO3_MED_RESOLUTION_CAMERA", "lo"},
-      {"NEPTUNE", "voyager1"}, 
-      {"SATURN", "voyager1"},
-      {"TGO_CASSIS", "cassis"},
-      {"TGO_CASSIS_CRU", "cassis"},
-      {"VIKING ORBITER 1", "viking1"},
-      {"VIKING_ORBITER_1", "viking1"},
-      {"VIKING ORBITER 2", "viking2"},
-      {"VIKING_ORBITER_2", "viking2"},
-      {"VO2_VISB", "viking2"},
-      {"VO2_VISA", "viking2"},
-      {"VO1_VISA", "viking1"},
-      {"VO1_VISB", "viking1"},
-      {"VG1_ISSNA", "voyager1"},
-      {"VG1_ISSWA", "voyager1"},
-      {"VG2_ISSNA", "voyager2"},
-      {"VG2_ISSWA", "voyager2"},
-      {"ULTRAVIOLET/VISIBLE CAMERA", "uvvis"},
-      {"Near Infrared Camera", "nir"},
-      {"High Resolution Camera", "clementine1"},
-      {"Long Wave Infrared Camera", "clementine1"},
-      {"Visual and Infrared Spectrometer", "vir"},
-      {"CLEM_HIRES", "clementine1"},
-      {"CLEM_UVVIS_A", "uvvis"},
-      {"CLEM_LWIR", "clementine1"},
-      {"CLEM_NIR", "nir"},
-      {"CH2", "chandrayaan2"},
-      {"CH-2", "chandrayaan2"},
-      {"CH2_TMC_NADIR", "tmc2"},
-      {"CH2_OHRC", "ohrc"},
-      {"ROS_VIRTIS-M_IR", "virtis"},
-      {"MSL_MASTCAM_LEFT", "msl"}
-    };
     
-    /**
-     * @brief Translates a given name using the aliasMap and checks if the name is in the frameList.
-     * 
-     * If the name exists as a key in aliasMap, returns the mapped value.
-     * If the name exists in frameList, returns the name itself.
-     * Otherwise, returns an empty string.
-     * 
-     * @param name The name to translate.
-     * @param frameList The list of valid frame names.
-     * @return The translated name or an empty string if not found.
-     */
     std::string getSpiceqlName(const std::string& name) {
-        // Check if name is in aliasMap
-        if (aliasMap.contains(name)) {
-            return aliasMap[name].get<std::string>();
-        }
-        // Check if name is in frameList
-        for (const auto& frame : frameList()) {
-            if (frame == name) {
-                return name;
-            }
-        }
-        // Not found
-        return "";
+        return AliasMap::instance().getSpiceqlName(name);
     }
-
 
     void addAliasKey(const std::string& key, const std::string& value) {
-        aliasMap[key] = value;
+        AliasMap::instance().addAliasKey(key, value);
     }
 
+    nlohmann::json getAliasMap() {
+        return AliasMap::instance().getAliasMap();
+    }
+
+    void setAliasMap(const nlohmann::json& newAliasMap) {
+        AliasMap::instance().setAliasMap(newAliasMap);
+    }
     
-    /**
-     * @brief URL encodes a given string.
-     * 
-     * @param value The string to encode.
-     * @return The encoded string.
-     */
     std::string url_encode(const std::string &value) {
         std::ostringstream escaped;
         escaped.fill('0');

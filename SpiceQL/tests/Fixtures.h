@@ -6,6 +6,7 @@
 #include <ghc/fs_std.hpp>
 
 #include "spice_types.h"
+#include "alias_map.h"
 
 using namespace std;
 using namespace SpiceQL;
@@ -122,4 +123,13 @@ class EnvVar : public ::testing::Test {
  private:
   struct SavedVar { string value; bool hadValue; };
   std::unordered_map<string, SavedVar> saved_;
+};
+
+class AliasMapTest : public TempTestingFiles {
+ protected:
+  void SetUp() override;
+  AliasMap& aliasMap = AliasMap::instance();
+  fs::path defaultAliasMapFile;
+  fs::path testAliasMapFile;
+  fs::path root;
 };

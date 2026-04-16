@@ -6,36 +6,57 @@
 
 namespace SpiceQL {
 
-    extern nlohmann::json aliasMap;
-    
     /**
-     * @brief Accessor for the aliasMap.
-     * @return const reference to the aliasMap JSON object.
+     * @brief Translates a given name using the aliasMap and checks if the name is in the frameList.
+     * 
+     * If the name exists as a key in aliasMap, returns the mapped value.
+     * If the name exists in frameList, returns the name itself.
+     * Otherwise, returns an empty string.
+     * 
+     * @param name The name to translate.
+     * @param frameList The list of valid frame names.
+     * @return The translated name or an empty string if not found.
      */
-    inline const nlohmann::json& getAliasMap() {
-        return aliasMap;
-    }
-
+    std::string getSpiceqlName(const std::string& name);
 
     /**
      * @brief Adds or updates a key-value pair in the aliasMap.
+     * 
      * @param key The key to add or update.
      * @param value The value to associate with the key.
      */
     void addAliasKey(const std::string& key, const std::string& value);
 
-    
+    /**
+     * @brief Accessor for the aliasMap.
+     * 
+     * @return const reference to the aliasMap JSON object.
+     */
+    nlohmann::json getAliasMap();
+
     /**
      * @brief Setter for the aliasMap.
+     * 
      * @param newAliasMap The new JSON object to set as the aliasMap.
      */
-    inline void setAliasMap(const nlohmann::json& newAliasMap) {
-        aliasMap = newAliasMap;
-    }
-
-    std::string getSpiceqlName(const std::string& name);
+    void setAliasMap(const nlohmann::json& newAliasMap);
     
+    /**
+     * @brief URL encodes a given string.
+     * 
+     * @param value The string to encode.
+     * @return The encoded string.
+     */
     std::string url_encode(const std::string &value);
+
+    /**
+     * @brief Query implementation for SpiceQL's REST API
+     * 
+     * @param functionName SpiceQL's REST API endpoint name
+     * @param args Endpoint query params as json
+     * @param method REST HTTP method type as string
+     * @return Response payload as json
+     */
     nlohmann::json spiceAPIQuery(std::string functionName, nlohmann::json args, std::string method="GET");
     
     /**

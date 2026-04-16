@@ -72,7 +72,8 @@ if(SPICEQL_BUILD_LIB)
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/config.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/inventory.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/inventoryimpl.cpp
-                          ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/api.cpp)
+                          ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/api.cpp
+                          ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/alias_map.cpp)
 
 
   set(SPICEQL_HEADER_FILES ${SPICEQL_BUILD_INCLUDE_DIR}/spiceql.h
@@ -84,10 +85,13 @@ if(SPICEQL_BUILD_LIB)
                            ${SPICEQL_BUILD_INCLUDE_DIR}/config.h
                            ${SPICEQL_BUILD_INCLUDE_DIR}/inventory.h
                            ${SPICEQL_BUILD_INCLUDE_DIR}/inventoryimpl.h
-                           ${SPICEQL_BUILD_INCLUDE_DIR}/api.h)
+                           ${SPICEQL_BUILD_INCLUDE_DIR}/api.h
+                           ${SPICEQL_BUILD_INCLUDE_DIR}/alias_map.h)
 
   set(SPICEQL_PRIVATE_HEADER_FILES ${SPICEQL_BUILD_INCLUDE_DIR}/memo.h
                                    ${SPICEQL_BUILD_INCLUDE_DIR}/restincurl.h)
+
+  set(SPICEQL_ALIASMAP_FILE ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/aliasMap.json)
 
   set(SPICEQL_CONFIG_FILES ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/apollo15.json 
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/apollo16.json
@@ -103,6 +107,7 @@ if(SPICEQL_BUILD_LIB)
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/hayabusa2.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/juno.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/kaguya.json
+                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/kplo.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/lro.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/lo.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/mariner10.json
@@ -174,6 +179,9 @@ target_include_directories(SpiceQL
 
   # Install the headers
   install(FILES ${SPICEQL_HEADER_FILES} DESTINATION ${SPICEQL_INSTALL_INCLUDE_DIR})
+
+  # Install the json db files
+  install(FILES ${SPICEQL_ALIASMAP_FILE} DESTINATION "etc/SpiceQL")
 
   # Install the json db files
   install(FILES ${SPICEQL_CONFIG_FILES} DESTINATION "etc/SpiceQL/db")

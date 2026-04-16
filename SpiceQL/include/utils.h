@@ -505,4 +505,11 @@ namespace SpiceQL {
     * @param mission mission name of the config file
     **/
   nlohmann::json loadSelectKernels(std::string kernelType, std::string mission);
+
+  /**
+   * @brief Gets default path for JSON file of aliases
+   * 
+   * @returns string file path 
+   */
+  std::string getAliasMapJsonFile();
 }

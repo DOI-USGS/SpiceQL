@@ -1290,4 +1290,29 @@ namespace SpiceQL {
 
     return kernels;
   }
+
+  string getAliasMapJsonFile() {
+    // If running tests or debugging locally
+    char* condaPrefix = std::getenv("CONDA_PREFIX");
+    SPDLOG_TRACE("CONDA_PREFIX: {}", string(condaPrefix));
+    string aliasMapFilename = "aliasMap.json";
+
+    fs::path debugPath = fs::absolute(_SOURCE_PREFIX) / "SpiceQL" / aliasMapFilename;
+    fs::path installPath = fs::absolute(condaPrefix) / "etc" / "SpiceQL" / aliasMapFilename;
+
+    // Use installPath unless $SPICEQL_DEV_ALIAS is set
+    fs::path aliasMapPath;
+    if (std::getenv("SPICEQL_DEV_ALIAS") && toLower(string(std::getenv("SPICEQL_DEV_ALIAS"))) == "true") {
+      aliasMapPath = debugPath; 
+    } else {
+      aliasMapPath = installPath;
+    }
+
+    if (!fs::exists(aliasMapPath)) {
+      throw runtime_error("Alias map JSON file [" + aliasMapPath.string() + "] not found.");
+    }
+    SPDLOG_TRACE("SpiceQL alias map path: {}", aliasMapPath.string()); 
+
+    return aliasMapPath; 
+  }
 }
