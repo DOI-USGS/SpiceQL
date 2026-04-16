@@ -453,6 +453,66 @@ TEST_F(IsisDataDirectory, FunctionalTestOdysseyConf) {
   CompareKernelSets(getKernelsAsVector(res.at("odyssey").at("spk").at("smithed")), expected);  
 }
 
+TEST_F(IsisDataDirectory, FunctionalTestKploConf) {
+  fs::path dbPath = getMissionConfigFile("kplo");
+  
+  compareKernelSets("kplo");
+
+  ifstream i(dbPath);
+  nlohmann::json conf = nlohmann::json::parse(i);
+  nlohmann::json res = listMissionKernels(tempDir, conf);
+
+  set<string> kernels = getKernelsAsSet(res);
+  set<string> mission = missionMap.at("kplo");
+
+  vector<string> expected = {"kplo_sc_20220805_20220806_v00.bc",
+                             "kplo_sc_20220805_20220809_v01.bc",
+                             "kplo_sc_20220805_20220811_v03.bc",
+                             "kplo_sc_20220805_20220901_v05.bc",
+                             "kplo_sc_20220806_20220807_v00.bc",
+                             "kplo_sc_20220807_20220808_v02.bc",
+                             "kplo_sc_20220808_20220809_v00.bc",
+                             "kplo_sc_20220809_20220810_v00.bc",
+                             "kplo_sc_20220809_20220816_v01.bc"};
+  CompareKernelSets(getKernelsAsVector(res.at("kplo").at("ck").at("reconstructed")), expected);
+  
+  expected = {"kplo_d_20220805_20220806_v00.bsp",
+              "kplo_d_20220805_20220808_v00.bsp",
+              "kplo_d_20220805_20220901_v01.bsp",
+              "kplo_d_20220807_20220808_v00.bsp",
+              "kplo_d_20220808_20220809_v00.bsp",
+              "kplo_d_20220809_20220810_v00.bsp",
+              "kplo_d_20220809_20220813_v00.bsp",
+              "kplo_d_20220810_20220811_v00.bsp",
+              "kplo_d_20220812_20220815_v00.bsp",
+              "kplo_d_20220813_20220816_v00.bsp",
+              "kplo_d_20220814_20220817_v00.bsp"};
+  CompareKernelSets(getKernelsAsVector(res.at("kplo").at("spk").at("reconstructed")), expected);
+
+  expected = {"kplo_v00.tf",
+              "kplo_v01.tf"};
+  CompareKernelSets(getKernelsAsVector(res.at("kplo").at("fk")), expected);
+
+  expected = {"kplo_sclkscet_v000.tsc",
+              "kplo_sclkscet_v004.tsc",
+              "kplo_sclkscet_v005.tsc",
+              "kplo_sclkscet_v006.tsc",
+              "kplo_sclkscet_v007.tsc",
+              "kplo_sclkscet_v008.tsc",
+              "kplo_sclkscet_v010.tsc",
+              "kplo_sclkscet_v011.tsc",
+              "kplo_sclkscet_v012.tsc",
+              "kplo_sclkscet_v013.tsc"};
+  CompareKernelSets(getKernelsAsVector(res.at("kplo").at("sclk")), expected);
+
+  expected = {"kplo_shadowcam_v00.ti"};
+  CompareKernelSets(getKernelsAsVector(res.at("shadowcam").at("ik")), expected);
+
+  expected = {"kplo_instrumentAddendum_v01.ti",
+              "kplo_instrumentAddendum_v02.ti"};
+  CompareKernelSets(getKernelsAsVector(res.at("shadowcam").at("iak")), expected);
+}
+
 TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsKaguya) {
   fs::path dbPath = getMissionConfigFile("kaguya");
   
