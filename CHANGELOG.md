@@ -34,6 +34,8 @@ release.
 -->
 ### unreleased
 
+### 1.3.0
+
 ### Fixed
 
 - Fixed API list parsing when input is a string [#110](https://github.com/DOI-USGS/SpiceQL/pull/110)
