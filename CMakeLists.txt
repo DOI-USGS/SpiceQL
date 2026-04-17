@@ -151,6 +151,7 @@ target_include_directories(SpiceQL
                             $<INSTALL_INTERFACE:include>
                             PRIVATE
                             ${CMAKE_CURRENT_SOURCE_DIR}/submodules/BTree/include/
+                            ${CMAKE_CURRENT_SOURCE_DIR}/submodules/gularkfilesystem/include/
                             cereal
                             ${CSPICE_INCLUDE_DIRS}
                             )
@@ -191,15 +192,8 @@ target_include_directories(SpiceQL
   install(FILES ${SPICEQL_KERNELS} DESTINATION "etc/SpiceQL/db/kernels")
 
   # Install the library
-  install(TARGETS SpiceQL nlohmann_json ghc_filesystem
-          EXPORT spiceQLTargets
-          LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
-          INCLUDES DESTINATION ${SPICEQL_INSTALL_INCLUDE_DIR})
-
-  # Install the target
-  install(EXPORT spiceQLTargets
-          NAMESPACE spice::
-          DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
+  install(TARGETS SpiceQL
+          LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 else()
   message(STATUS "Skipping Library")
