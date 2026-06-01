@@ -23,6 +23,8 @@
  */
 namespace SpiceQL {
 
+  /** @brief Load the local LSK file that comes installed with SpiceQL */
+  std::string getDefaultLsk();
 
   /**
    * @brief generate a random string

@@ -68,6 +68,17 @@ template <> struct fmt::formatter<fs::path> {
 
 
 namespace SpiceQL {
+  
+  string getDefaultLsk() {
+      fs::path configDir = getConfigDirectory();
+      fs::path lskPath = configDir / "kernels" / "naif0012.tls";
+      if (fs::exists(lskPath)) {
+          return lskPath.string();
+      } else {
+          throw runtime_error(fmt::format("No LSK found at default path [{}]. Please either place an LSK there, or set searchKernels to true or provide a kernelList with an LSK.", lskPath.string()));
+      }
+  }
+
 
   string gen_random(const int len) {
       size_t seed = 0;

@@ -34,6 +34,9 @@ release.
 -->
 ### unreleased
 
+### Added 
+- Added feature to UTC conversion functions to load the installed LSK if no kernels are provided. [#126](https://github.com/DOI-USGS/SpiceQL/pull/126#pullrequestreview-4405351255)
+
 ### Fixed
 - Fixed LRO smithed kernels for north and south pole database by moving them from lroc to moc [#124](https://github.com/DOI-USGS/SpiceQL/pull/124)
 - Removed extraneous LROC_NPOLE kernels from isisKernelList.txt [#125](https://github.com/DOI-USGS/SpiceQL/pull/125)

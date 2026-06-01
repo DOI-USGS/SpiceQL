@@ -668,13 +668,7 @@ namespace SpiceQL {
         // if we're not searching for kernels and not using the web, we still need to load an lsk to do the conversion
         if(useWeb == false && searchKernels == false && kernelList.empty()) {
             SPDLOG_TRACE("No kernels provided, loading default LSK");
-            fs::path configDir = getConfigDirectory();
-            fs::path lskPath = configDir / "kernels" / "naif0012.tls";
-            if (fs::exists(lskPath)) {
-                lsks["lsk"] = json::array({lskPath.string()});
-            } else {
-                throw runtime_error(fmt::format("No LSK found at default path [{}]. Please either place an LSK there, or set searchKernels to true or provide a kernelList with an LSK.", lskPath.string()));
-            }
+            lsks["lsk"] = json::array({getDefaultLsk()});
         }
         
         KernelSet lsk(lsks);
@@ -721,13 +715,7 @@ namespace SpiceQL {
         // if we're not searching for kernels and not using the web, we still need to load an lsk to do the conversion
         if(useWeb == false && searchKernels == false && kernelList.empty()) {
             SPDLOG_TRACE("No kernels provided, loading default LSK");
-            fs::path configDir = getConfigDirectory();
-            fs::path lskPath = configDir / "kernels" / "naif0012.tls";
-            if (fs::exists(lskPath)) {
-                lsks["lsk"] = json::array({lskPath.string()});
-            } else {
-                throw runtime_error(fmt::format("No LSK found at default path [{}]. Please either place an LSK there, or set searchKernels to true or provide a kernelList with an LSK.", lskPath.string()));
-            }
+            lsks["lsk"] = json::array({getDefaultLsk()});
         }
 
         KernelSet lsk(lsks);
