@@ -130,7 +130,7 @@ if(SPICEQL_BUILD_LIB)
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/voyager2.json
                            )
 
-  set(SPICEQL_KERNELS ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/kernels/naif0011.tls)
+  set(SPICEQL_KERNELS ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/kernels/naif0012.tls)
 
   configure_file (${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include/version.h.in ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include/version.h @ONLY)
   add_library(SpiceQL SHARED ${SPICEQL_SRC_FILES})

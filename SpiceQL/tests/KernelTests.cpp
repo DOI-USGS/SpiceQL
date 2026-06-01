@@ -135,6 +135,17 @@ TEST_F(LroKernelSet, UnitTestUtcToEt) {
 }
 
 
+TEST_F(LroKernelSet, TestUtcToEtNoSearch) {
+  auto [et, kernels] = utcToEt("2016-11-26 22:32:14.582000", false, false);
+  EXPECT_DOUBLE_EQ(et, 533471602.76499087);
+}
+
+
+TEST_F(LroKernelSet, TestEtToUTCNoSearch) {
+  auto [utc, kernels] = etToUtc(533471602.76499087, "ISOC", 6, false, false);
+  EXPECT_STREQ(utc.c_str(), "2016-11-26T22:32:14.582000");
+}
+
 TEST_F(LroKernelSet, UnitTestGetFrameInfo) {
 
   nlohmann::json translationKernels;
