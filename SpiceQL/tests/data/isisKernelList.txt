@@ -15207,6 +15207,9 @@ chandrayaan2/kernels/spk/ch2_orb_31Jul2020_02Sep2020_v1.bsp
 chandrayaan2/kernels/spk/ch2_orb_31Mar2020_02May2020_v1.bsp
 chandrayaan2/kernels/spk/ch2_orb_31May2020_02Jul2020_v1.bsp
 chandrayaan2/kernels/spk/ch2_orb_31Oct2019_02Dec2019_v1.bsp
+chandrayaan2/kernels/spk/ch2_eph_30Mar2025_02May2025_v1.bsp
+chandrayaan2/kernels/spk/ch2_eph_30May2025_02Jul2025_v1.bsp
+chandrayaan2/kernels/spk/ch2_eph_30Sep2025_02Nov2025_v1.bsp
 chandrayaan2/kernels/iak/tmc2Addendum001.ti
 chandrayaan2/kernels/fk/ch2_v01.tf
 chandrayaan2/kernels/sclk/ch2_sclk_v1.tsc
