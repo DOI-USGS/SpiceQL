@@ -2,15 +2,15 @@
     "clipper": {
         "spk" : { 
             "predicted" : {
-                "kernels" : ["trj_[0-9]{6}-[0-9]{6}-dco[0-9]{10}-cruise[0-9]{3}-predict-OD[0-9]{3}-v1.bsp$"]
+                "kernels" : ["trj_[0-9]{6}-[0-9]{6}-dco[0-9]{10}-cruise[0-9]{3}-predict-OD[0-9]{3}-v[0-9].bsp$"]
             },
             "reconstructed" : {
-                "kernels" : ["trj_[0-9]{6}-[0-9]{6}-dco[0-9]{10}-cruise[0-9]{3}-reconstruct-OD[0-9]{3}-v1.bsp$"]
+                "kernels" : ["trj_[0-9]{6}-[0-9]{6}-dco[0-9]{10}-cruise[0-9]{3}-reconstruct-OD[0-9]{3}-v[0-9].bsp$"]
             }
         },
-        "ck" : { 
+        "ck" : {
             "predicted" : {
-                "kernels" : ["clipper_sc_pb_[0-9]{6}_[0-9]{6}_[0-9]{5}_v[0-9]{2}.bc$"]
+                "kernels" : ["clipper_sc_pb_[0-9]{6}_[0-9]{6}_v[0-9]{2}.bc$"]
             },
             "reconstructed" : {
                 "kernels" : ["clipper_sc_rq_[0-9]{6}_[0-9]{6}_[0-9]{5}_v[0-9]{2}.bc$",

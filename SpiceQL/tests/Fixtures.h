@@ -32,7 +32,7 @@ class IsisDataDirectory : public TempTestingFiles {
     void SetUp() override;
     void TearDown() override; 
     void compareKernelSets(string name, set<string> expectedDiff = {});
-    void CompareKernelSets(vector<string> kVector, vector<string> expectedSubSet);
+    void compareKernelVector(vector<string> kVector, vector<string> expectedSubSet);
 };
 
 class KernelDataDirectories : public TempTestingFiles  {
