@@ -36,6 +36,10 @@
         "CONTEXT CAMERA",
         "MRO_CTX"
     ],
+    "clipper_wac": [
+        "EUROPAM_EIS_WAC"
+        "EUROPAM_EIS_NAC"
+    ],
     "fc2": [
         "DAWN_FC2_FILTER_1",
         "DAWN_FC2_FILTER_2",

@@ -101,6 +101,7 @@ if(SPICEQL_BUILD_LIB)
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/chandrayaan1.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/chandrayaan2.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/clem1.json
+                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/clipper.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/dawn.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/galileo.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/hayabusa.json
