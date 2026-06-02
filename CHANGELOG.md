@@ -37,6 +37,7 @@ release.
 ### Added 
 - Added feature to UTC conversion functions to load the installed LSK if no kernels are provided. [#126](https://github.com/DOI-USGS/SpiceQL/pull/126#pullrequestreview-4405351255)
 - Added clipper kernel DB. [#127](https://github.com/DOI-USGS/SpiceQL/pull/127)
+- Added chandrayaan2 eph spks to chandrayaan2 db [#128](https://github.com/DOI-USGS/SpiceQL/pull/128)
 
 ### Fixed
 - Fixed LRO smithed kernels for north and south pole database by moving them from lroc to moc [#124](https://github.com/DOI-USGS/SpiceQL/pull/124)
