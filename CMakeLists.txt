@@ -58,7 +58,6 @@ if(SPICEQL_BUILD_LIB)
   find_package(cspice REQUIRED)
   find_package(fmt REQUIRED)
   find_package(cereal REQUIRED)
-  find_package(spdlog REQUIRED)
   find_package(HighFive REQUIRED)
   find_package(CURL REQUIRED)
 
@@ -140,8 +139,9 @@ if(SPICEQL_BUILD_LIB)
                                   VERSION ${PROJECT_VERSION}
                                   SOVERSION 0)
 
-  target_compile_definitions(SpiceQL PRIVATE SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE 
-                                     PUBLIC -D_SOURCE_PREFIX="${CMAKE_CURRENT_SOURCE_DIR}")
+  # spdlog dependency removed: see SpiceQL/include/spiceql_logging.h. The
+  # SPDLOG_* macros are now no-ops, so no SPDLOG_ACTIVE_LEVEL is needed.
+  target_compile_definitions(SpiceQL PUBLIC -D_SOURCE_PREFIX="${CMAKE_CURRENT_SOURCE_DIR}")
 
 get_target_property(CSPICE_INCLUDE_DIRS CSPICE::cspice INTERFACE_INCLUDE_DIRECTORIES)
 
@@ -162,7 +162,6 @@ target_include_directories(SpiceQL
                         nlohmann_json::nlohmann_json
                         PRIVATE
                         CSPICE::cspice
-                        spdlog::spdlog_header_only
                         HighFive
                         ${CURL_LIBRARIES}
                         )

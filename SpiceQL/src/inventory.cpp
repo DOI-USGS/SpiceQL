@@ -3,7 +3,7 @@
 #include <regex>
 
 #include <nlohmann/json.hpp>
-#include <spdlog/spdlog.h>
+#include "spiceql_logging.h"
 #include <ghc/fs_std.hpp>
 #include <highfive/H5Easy.hpp>
 #include <highfive/highfive.hpp>

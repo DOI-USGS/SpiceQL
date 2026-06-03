@@ -13,7 +13,7 @@
 #include <fmt/ranges.h>
 
 #include <nlohmann/json.hpp>
-#include <spdlog/spdlog.h>
+#include "spiceql_logging.h"
 
 #include "query.h"
 #include "spice_types.h"

@@ -9,6 +9,7 @@
 #include <regex>
 #include <chrono>
 #include <float.h>
+#include <unistd.h>  // getpid (previously pulled in transitively via spdlog)
 
 #include <SpiceUsr.h>
 #include <SpiceZfc.h>
@@ -22,7 +23,7 @@
 #include <fmt/ranges.h>
 
 #include <nlohmann/json.hpp>
-#include <spdlog/spdlog.h>
+#include "spiceql_logging.h"
 
 #include "config.h"
 #include "memo.h"

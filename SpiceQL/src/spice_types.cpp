@@ -12,7 +12,7 @@
 #include <ghc/fs_std.hpp>
 #include <fmt/ranges.h>
 
-#include <spdlog/spdlog.h>
+#include "spiceql_logging.h"
 
 #include "inventory.h"
 #include "spice_types.h"

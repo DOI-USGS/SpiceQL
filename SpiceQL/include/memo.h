@@ -17,7 +17,7 @@
 #include <iomanip>
 
 #include <ghc/fs_std.hpp>
-#include <spdlog/spdlog.h>
+#include "spiceql_logging.h"
 
 #include <cereal/archives/binary.hpp>
 #include <cereal/archives/portable_binary.hpp>

@@ -6,7 +6,7 @@
 
 #include <fstream>
 #include <sstream>
-#include <spdlog/spdlog.h>
+#include "spiceql_logging.h"
 
 #include <ghc/fs_std.hpp>
 

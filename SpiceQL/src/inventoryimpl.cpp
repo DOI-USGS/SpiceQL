@@ -6,7 +6,7 @@
 #include <nlohmann/json.hpp>
 #include <fc/btree.h>
 #include <fc/disk_btree.h>
-#include <spdlog/spdlog.h>
+#include "spiceql_logging.h"
 #include <queue>
 
 #include <cereal/archives/binary.hpp>

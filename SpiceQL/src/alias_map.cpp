@@ -4,7 +4,7 @@
 #include <mutex>
 #include <unordered_map>
 #include <fstream>
-#include <spdlog/spdlog.h>
+#include "spiceql_logging.h"
 
 using json = nlohmann::json;
 using namespace std;
