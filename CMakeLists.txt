@@ -28,7 +28,7 @@ list(APPEND CMAKE_FIND_ROOT_PATH /var/lang/)
 message(STATUS "find path: " ${CMAKE_FIND_ROOT_PATH})
 
 # Variables required by multiple build options
-set(SPICEQL_BUILD_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include/SpiceQL/")
+set(SPICEQL_BUILD_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include/SpiceQL")
 
 set(default_build_type "Release")
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -171,7 +171,6 @@ target_include_directories(SpiceQL
                         )
    
   install(TARGETS SpiceQL LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
-  install(DIRECTORY ${SPICEQL_INCLUDE_DIR} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
   # Generate the package config
   configure_file(cmake/config.cmake.in
