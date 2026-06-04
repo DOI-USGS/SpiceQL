@@ -3,7 +3,7 @@
 
 #include <fmt/format.h>
 #include <fmt/ranges.h>
-#include "spiceql_logging.h"
+#include <SpiceQL/spiceql_logging.h>
 
 #include <exception>
 #include <fstream>
@@ -11,10 +11,10 @@
 #include <random>
 #include <sstream>
 
-#include "utils.h"
-#include "io.h"
-#include "query.h"
-#include "inventory.h"
+#include <SpiceQL/utils.h>
+#include <SpiceQL/io.h>
+#include <SpiceQL/query.h>
+#include <SpiceQL/inventory.h>
 
 using namespace std;
 using namespace SpiceQL;

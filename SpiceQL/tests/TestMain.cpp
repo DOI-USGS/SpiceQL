@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "Fixtures.h"
 
-#include "spiceql_logging.h"
+#include <SpiceQL/spiceql_logging.h>
 
 #include <cstdlib>  // setenv
 

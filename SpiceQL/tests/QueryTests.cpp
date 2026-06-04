@@ -4,12 +4,12 @@
 #include <fmt/format.h>
 #include <fmt/ranges.h>
 #include <gtest/gtest.h>
-#include "spiceql_logging.h"
+#include <SpiceQL/spiceql_logging.h>
 
 #include "Fixtures.h"
 
-#include "query.h"
-#include "utils.h"
+#include <SpiceQL/query.h>
+#include <SpiceQL/utils.h>
 
 using namespace std;
 using namespace SpiceQL;

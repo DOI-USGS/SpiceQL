@@ -7,17 +7,17 @@ using namespace std::chrono;
 
 #include "TestUtilities.h"
 
-#include "utils.h"
+#include <SpiceQL/utils.h>
 #include "Fixtures.h"
-#include "spice_types.h"
-#include "config.h"
+#include <SpiceQL/spice_types.h>
+#include <SpiceQL/config.h>
 #include <SpiceUsr.h>
-#include "memo.h"
-#include "query.h"
-#include "inventory.h"
-#include "api.h"
+#include <SpiceQL/memo.h>
+#include <SpiceQL/query.h>
+#include <SpiceQL/inventory.h>
+#include <SpiceQL/api.h>
 
-#include "spiceql_logging.h"
+#include <SpiceQL/spiceql_logging.h>
 
 using namespace SpiceQL;
 

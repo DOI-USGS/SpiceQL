@@ -12,7 +12,7 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
 
-#include "spice_types.h"
+#include <SpiceQL/spice_types.h>
 
 
 namespace SpiceQL {

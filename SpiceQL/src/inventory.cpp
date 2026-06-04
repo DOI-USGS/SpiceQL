@@ -3,15 +3,15 @@
 #include <regex>
 
 #include <nlohmann/json.hpp>
-#include "spiceql_logging.h"
+#include <SpiceQL/spiceql_logging.h>
 #include <ghc/fs_std.hpp>
 #include <highfive/H5Easy.hpp>
 #include <highfive/highfive.hpp>
 
-#include "inventory.h"
-#include "inventoryimpl.h"
-#include "spice_types.h"
-#include "utils.h"
+#include <SpiceQL/inventory.h>
+#include <SpiceQL/inventoryimpl.h>
+#include <SpiceQL/spice_types.h>
+#include <SpiceQL/utils.h>
 
 using json = nlohmann::json;
 using namespace std; 

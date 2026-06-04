@@ -13,16 +13,16 @@
 #include <fmt/ranges.h>
 
 #include <nlohmann/json.hpp>
-#include "spiceql_logging.h"
+#include <SpiceQL/spiceql_logging.h>
 
-#include "query.h"
-#include "spice_types.h"
-#include "utils.h"
-#include "inventory.h"
-#include "api.h"
-#include "restincurl.h"
-#include "config.h"
-#include "alias_map.h"
+#include <SpiceQL/query.h>
+#include <SpiceQL/spice_types.h>
+#include <SpiceQL/utils.h>
+#include <SpiceQL/inventory.h>
+#include <SpiceQL/api.h>
+#include <SpiceQL/restincurl.h>
+#include <SpiceQL/config.h>
+#include <SpiceQL/alias_map.h>
 
 using json = nlohmann::json;
 using namespace std;

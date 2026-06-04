@@ -17,7 +17,7 @@
 #include <iomanip>
 
 #include <ghc/fs_std.hpp>
-#include "spiceql_logging.h"
+#include <SpiceQL/spiceql_logging.h>
 
 #include <cereal/archives/binary.hpp>
 #include <cereal/archives/portable_binary.hpp>
@@ -26,7 +26,7 @@
 #include <cereal/types/utility.hpp>
 #include <cereal/archives/json.hpp>
 
-#include "memoized_functions.h"
+#include <SpiceQL/memoized_functions.h>
 
 #define CACHED(cache, func, ...) cache(#func, func, __VA_ARGS__)
 

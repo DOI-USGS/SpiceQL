@@ -7,12 +7,12 @@
 #include <ghc/fs_std.hpp>
 #include <SpiceUsr.h>
 
-#include "spiceql_logging.h"
+#include <SpiceQL/spiceql_logging.h>
 
-#include "io.h"
-#include "utils.h"
+#include <SpiceQL/io.h>
+#include <SpiceQL/utils.h>
 
-#include "spiceql_logging.h"
+#include <SpiceQL/spiceql_logging.h>
 
 
 using namespace std;

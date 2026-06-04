@@ -4,10 +4,10 @@
 
 #include "Fixtures.h"
 
-#include "config.h"
-#include "utils.h"
-#include "query.h"
-#include "memo.h"
+#include <SpiceQL/config.h>
+#include <SpiceQL/utils.h>
+#include <SpiceQL/query.h>
+#include <SpiceQL/memo.h>
 
 using namespace std;
 using json = nlohmann::json;

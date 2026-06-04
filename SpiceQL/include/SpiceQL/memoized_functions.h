@@ -6,7 +6,7 @@
 
 #include <nlohmann/json.hpp>
 
-#include "utils.h"
+#include <SpiceQL/utils.h>
 
 namespace SpiceQL {
   namespace  Memo {

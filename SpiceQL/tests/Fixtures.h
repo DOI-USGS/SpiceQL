@@ -1,12 +1,12 @@
 #pragma once
 
-#include "config.h"
+#include <SpiceQL/config.h>
 
 #include "gtest/gtest.h"
 #include <ghc/fs_std.hpp>
 
-#include "spice_types.h"
-#include "alias_map.h"
+#include <SpiceQL/spice_types.h>
+#include <SpiceQL/alias_map.h>
 
 using namespace std;
 using namespace SpiceQL;

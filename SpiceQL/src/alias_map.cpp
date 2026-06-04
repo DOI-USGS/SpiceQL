@@ -1,10 +1,10 @@
-#include "alias_map.h"
-#include "config.h"
-#include "utils.h"
+#include <SpiceQL/alias_map.h>
+#include <SpiceQL/config.h>
+#include <SpiceQL/utils.h>
 #include <mutex>
 #include <unordered_map>
 #include <fstream>
-#include "spiceql_logging.h"
+#include <SpiceQL/spiceql_logging.h>
 
 using json = nlohmann::json;
 using namespace std;

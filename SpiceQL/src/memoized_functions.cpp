@@ -1,8 +1,8 @@
 
-#include "memo.h"
-#include "memoized_functions.h"
+#include <SpiceQL/memo.h>
+#include <SpiceQL/memoized_functions.h>
 
-#include "spice_types.h"
+#include <SpiceQL/spice_types.h>
 
 using json = nlohmann::json;
 using namespace std;

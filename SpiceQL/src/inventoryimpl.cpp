@@ -6,7 +6,7 @@
 #include <nlohmann/json.hpp>
 #include <fc/btree.h>
 #include <fc/disk_btree.h>
-#include "spiceql_logging.h"
+#include <SpiceQL/spiceql_logging.h>
 #include <queue>
 
 #include <cereal/archives/binary.hpp>
@@ -19,11 +19,11 @@
 #include <highfive/H5Easy.hpp>
 #include <highfive/highfive.hpp> 
 
-#include "config.h"
-#include "inventoryimpl.h"
-#include "utils.h"
-#include "query.h"
-#include "memo.h"
+#include <SpiceQL/config.h>
+#include <SpiceQL/inventoryimpl.h>
+#include <SpiceQL/utils.h>
+#include <SpiceQL/query.h>
+#include <SpiceQL/memo.h>
 #include <SpiceQL/spiceql_version.h>
 
 using json = nlohmann::json;

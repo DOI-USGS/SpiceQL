@@ -2,7 +2,7 @@
 #include <nlohmann/json.hpp>
 
 #include "Fixtures.h"
-#include "alias_map.h"
+#include <SpiceQL/alias_map.h>
 
 using namespace SpiceQL;
 using json = nlohmann::json;

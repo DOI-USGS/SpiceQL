@@ -28,7 +28,7 @@ list(APPEND CMAKE_FIND_ROOT_PATH /var/lang/)
 message(STATUS "find path: " ${CMAKE_FIND_ROOT_PATH})
 
 # Variables required by multiple build options
-set(SPICEQL_BUILD_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include/")
+set(SPICEQL_BUILD_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include/SpiceQL/")
 
 set(default_build_type "Release")
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -134,7 +134,7 @@ if(SPICEQL_BUILD_LIB)
 
   # Generate the version header into the build tree (not the source tree) and
   # reach it as <SpiceQL/spiceql_version.h> via the build-dir include path below.
-  configure_file (${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include/spiceql_version.h.in ${CMAKE_BINARY_DIR}/SpiceQL/spiceql_version.h @ONLY)
+  configure_file (${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include/SpiceQL/spiceql_version.h.in ${CMAKE_BINARY_DIR}/SpiceQL/spiceql_version.h @ONLY)
   add_library(SpiceQL SHARED ${SPICEQL_SRC_FILES})
 
   set_target_properties(SpiceQL PROPERTIES

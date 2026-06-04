@@ -1,12 +1,12 @@
-#include "config.h"
-#include "query.h"
-#include "memoized_functions.h"
+#include <SpiceQL/config.h>
+#include <SpiceQL/query.h>
+#include <SpiceQL/memoized_functions.h>
 
 #include <time.h>
 
 #include <fstream>
 #include <sstream>
-#include "spiceql_logging.h"
+#include <SpiceQL/spiceql_logging.h>
 
 #include <ghc/fs_std.hpp>
 
