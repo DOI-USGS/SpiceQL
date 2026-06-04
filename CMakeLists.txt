@@ -139,8 +139,9 @@ if(SPICEQL_BUILD_LIB)
                                   VERSION ${PROJECT_VERSION}
                                   SOVERSION 0)
 
-  # spdlog dependency removed: see SpiceQL/include/spiceql_logging.h. The
-  # SPDLOG_* macros are now no-ops, so no SPDLOG_ACTIVE_LEVEL is needed.
+  # spdlog dependency removed: see SpiceQL/include/spiceql_logging.h. Logging is
+  # now a small self-contained logger using fmt, so no SPDLOG_ACTIVE_LEVEL is
+  # needed.
   target_compile_definitions(SpiceQL PUBLIC -D_SOURCE_PREFIX="${CMAKE_CURRENT_SOURCE_DIR}")
 
 get_target_property(CSPICE_INCLUDE_DIRS CSPICE::cspice INTERFACE_INCLUDE_DIRECTORIES)
