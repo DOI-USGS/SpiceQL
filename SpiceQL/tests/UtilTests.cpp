@@ -17,7 +17,7 @@ using namespace std::chrono;
 #include "inventory.h"
 #include "api.h"
 
-#include <spdlog/spdlog.h>
+#include "spiceql_logging.h"
 
 using namespace SpiceQL;
 

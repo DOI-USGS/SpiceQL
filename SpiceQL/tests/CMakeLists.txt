@@ -26,8 +26,6 @@ set (SPICEQL_TEST_SOURCE    ${SPICEQL_TEST_DIRECTORY}/TestUtilities.cpp
 # setup test executable
 add_executable(runSpiceQLTests TestMain.cpp ${SPICEQL_TEST_SOURCE})
 
-target_compile_definitions(runSpiceQLTests PUBLIC SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE)
-
 target_link_libraries(runSpiceQLTests
                       PRIVATE
                       SpiceQL
@@ -35,7 +33,6 @@ target_link_libraries(runSpiceQLTests
                       gtest
                       gmock
                       Threads::Threads
-                      spdlog::spdlog_header_only
                       HighFive
                       )
 

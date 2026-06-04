@@ -11,7 +11,7 @@
 
 #include <SpiceUsr.h>
 
-#include "spdlog/spdlog.h"
+#include "spiceql_logging.h"
 
 using namespace SpiceQL;
 

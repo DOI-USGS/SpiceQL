@@ -17,7 +17,7 @@ using namespace std::chrono;
 #include "io.h"
 #include "Fixtures.h"
 
-#include <spdlog/spdlog.h>
+#include "spiceql_logging.h"
 
 using namespace SpiceQL;
 using namespace std;

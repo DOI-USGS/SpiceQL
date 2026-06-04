@@ -1,6 +1,6 @@
 #include <fstream>
 #include <gtest/gtest.h>
-#include <spdlog/spdlog.h>
+#include "spiceql_logging.h"
 
 #include <cstdlib>
 

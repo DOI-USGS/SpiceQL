@@ -132,7 +132,9 @@ if(SPICEQL_BUILD_LIB)
 
   set(SPICEQL_KERNELS ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/kernels/naif0012.tls)
 
-  configure_file (${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include/version.h.in ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include/version.h @ONLY)
+  # Generate the version header into the build tree (not the source tree) and
+  # reach it as <SpiceQL/spiceql_version.h> via the build-dir include path below.
+  configure_file (${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include/spiceql_version.h.in ${CMAKE_BINARY_DIR}/SpiceQL/spiceql_version.h @ONLY)
   add_library(SpiceQL SHARED ${SPICEQL_SRC_FILES})
 
   set_target_properties(SpiceQL PROPERTIES
@@ -149,6 +151,7 @@ get_target_property(CSPICE_INCLUDE_DIRS CSPICE::cspice INTERFACE_INCLUDE_DIRECTO
 target_include_directories(SpiceQL
                             PUBLIC
                             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include>
+                            $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}>
                             $<INSTALL_INTERFACE:include>
                             PRIVATE
                             ${CMAKE_CURRENT_SOURCE_DIR}/submodules/BTree/include/

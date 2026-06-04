@@ -9,7 +9,7 @@
 #include <regex>
 #include <chrono>
 #include <float.h>
-#include <unistd.h>  // getpid (previously pulled in transitively via spdlog)
+#include <unistd.h>  // getpid
 
 #include <SpiceUsr.h>
 #include <SpiceZfc.h>

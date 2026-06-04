@@ -10,7 +10,7 @@
 #include "api.h"
 
 #include <fstream>
-#include <spdlog/spdlog.h>
+#include "spiceql_logging.h"
 #include <highfive/highfive.hpp>
 
 

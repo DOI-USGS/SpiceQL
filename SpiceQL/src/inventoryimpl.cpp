@@ -24,7 +24,7 @@
 #include "utils.h"
 #include "query.h"
 #include "memo.h"
-#include "version.h"
+#include <SpiceQL/spiceql_version.h>
 
 using json = nlohmann::json;
 using namespace std; 
