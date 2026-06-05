@@ -9,7 +9,12 @@
 #include <regex>
 #include <chrono>
 #include <float.h>
+#ifdef _WIN32
+#include <process.h>  // _getpid
+#define getpid _getpid
+#else
 #include <unistd.h>  // getpid
+#endif
 
 #include <SpiceUsr.h>
 #include <SpiceZfc.h>
