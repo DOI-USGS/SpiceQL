@@ -39,6 +39,9 @@ release.
 - Added clipper kernel DB. [#127](https://github.com/DOI-USGS/SpiceQL/pull/127)
 - Added chandrayaan2 eph spks to chandrayaan2 db [#128](https://github.com/DOI-USGS/SpiceQL/pull/128)
 
+### Changed
+- Replaced spdlog with a small self-contained header-only logger to avoid ABI collisions when SpiceQL and another spdlog-using library are loaded in the same process [#129](https://github.com/DOI-USGS/SpiceQL/pull/129)
+
 ### Fixed
 - Fixed LRO smithed kernels for north and south pole database by moving them from lroc to moc [#124](https://github.com/DOI-USGS/SpiceQL/pull/124)
 - Removed extraneous LROC_NPOLE kernels from isisKernelList.txt [#125](https://github.com/DOI-USGS/SpiceQL/pull/125)
