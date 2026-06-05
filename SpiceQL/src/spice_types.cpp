@@ -135,7 +135,7 @@ namespace SpiceQL {
       SPDLOG_TRACE("path is valid");
     } else {
       SPDLOG_TRACE("appending path to data_dir");
-      this->path = getDataDirectory() / fs::path(path);
+      this->path = (getDataDirectory() / fs::path(path)).string();
     }
 
     load(this->path, true);

@@ -56,8 +56,8 @@ if(SPICEQL_BUILD_LIB)
   add_subdirectory("submodules/json")
   
   find_package(cspice REQUIRED)
-  find_package(fmt REQUIRED)
-  find_package(cereal REQUIRED)
+  find_package(fmt CONFIG REQUIRED)
+  find_package(cereal CONFIG REQUIRED)
   find_package(HighFive REQUIRED)
   find_package(CURL REQUIRED)
 
@@ -164,6 +164,7 @@ target_include_directories(SpiceQL
                         PUBLIC
                         fmt::fmt-header-only
                         nlohmann_json::nlohmann_json
+                        cereal::cereal
                         PRIVATE
                         CSPICE::cspice
                         HighFive
