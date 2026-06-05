@@ -692,7 +692,7 @@ namespace SpiceQL {
     if (fs::exists(root) && fs::is_directory(root)) {
       for (auto i = fs::recursive_directory_iterator(root); i != fs::recursive_directory_iterator(); ++i ) {
         if (fs::exists(*i)) {
-          paths.emplace_back(i->path());
+          paths.emplace_back(i->path().string());
         }
 
         if(!recursive) {

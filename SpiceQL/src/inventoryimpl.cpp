@@ -116,7 +116,7 @@ namespace SpiceQL {
 
 
   string getHdfFile() { 
-      static std::string db_path = fs::path(getCacheDir()) / DB_HDF_FILE;
+      static std::string db_path = (fs::path(getCacheDir()) / DB_HDF_FILE).string();
       return db_path;
   }
   
@@ -283,7 +283,7 @@ namespace SpiceQL {
 
   template<class T>
   T InventoryImpl::getKey(string key) { 
-    string hdf_file = fs::path(getCacheDir()) / DB_HDF_FILE;
+    string hdf_file = (fs::path(getCacheDir()) / DB_HDF_FILE).string();
 
     if (!fs::exists(hdf_file)) { 
       throw runtime_error("DB for kernels (" + hdf_file + ") does not exist");
