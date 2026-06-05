@@ -150,7 +150,7 @@ namespace SpiceQL {
       SPDLOG_INFO("Searching for kernels matching {} in {} files", regex, files_to_search.size());
       
       for (auto &f : files_to_search) {
-        temp = fs::path(f).filename();
+        temp = fs::path(f).filename().string();
         if (regex_search(temp.c_str(), basic_regex(regex, regex_constants::optimize|regex_constants::ECMAScript)) && temp.at(0) != '.' ) {
           paths.push_back(f);
         }
@@ -267,9 +267,13 @@ namespace SpiceQL {
 
     bool has_av = true;
     
-    // First try getting the entire state matrix (6x6), which includes CJ and the angular velocity
+    // First try getting the entire state matrix (6x6), which includes CJ and the angular velocity.
+    // frmchg_ and refchg_ take f2c integer* arguments. The f2c integer type is int on Linux
+    // and macOS but long on Windows, so pass integer-typed copies rather than reinterpreting
+    // the int parameters, whose width would not match on Windows.
     checkNaifErrors();
-    frmchg_((int *) &refFrame, (int *) &toFrame, &et, (doublereal *) stateCJ);
+    integer refFrameInt = refFrame, toFrameInt = toFrame;
+    frmchg_(&refFrameInt, &toFrameInt, &et, (doublereal *) stateCJ);
     SpiceBoolean ckfailure = failed_c();
     reset_c();                   // Reset Naif error system to allow caller to recover
 
@@ -287,7 +291,7 @@ namespace SpiceQL {
       // Recompute CJ_spice ignoring av
       reset_c(); // reset frmchg_ failure
 
-      refchg_((int *) &refFrame, (int *) &toFrame, &et, (doublereal *) CJ_spice);
+      refchg_(&refFrameInt, &toFrameInt, &et, (doublereal *) CJ_spice);
       xpose_c(CJ_spice, CJ_spice);
 
       has_av = false;
@@ -701,7 +705,7 @@ namespace SpiceQL {
     vector<string> paths;
     vector<string> files_to_search = Memo::ls(root, recursive);
     for (auto &f : files_to_search) {
-      if (regex_search(f.c_str(), basic_regex(reg, regex_constants::optimize|regex_constants::ECMAScript)) && string(fs::path(f).filename()).at(0) != '.') {
+      if (regex_search(f.c_str(), basic_regex(reg, regex_constants::optimize|regex_constants::ECMAScript)) && fs::path(f).filename().string().at(0) != '.') {
         paths.emplace_back(f);
       }
     }
@@ -999,15 +1003,15 @@ namespace SpiceQL {
       fs::path spiceDataDir = spiceroot_ptr == NULL ? "" : spiceroot_ptr;
  
       if (fs::is_directory(spiceDataDir)) {
-         return spiceDataDir;
+         return spiceDataDir.string();
       }
 
       if (fs::is_directory(aleDataDir)) {
-        return aleDataDir;
+        return aleDataDir.string();
       }
 
       if (fs::is_directory(isisDataDir)) {
-        return isisDataDir;
+        return isisDataDir.string();
       }
       throw runtime_error(fmt::format("Please set env var SPICEROOT, ISISDATA or ALESPICEROOT in order to proceed."));
   }
@@ -1034,14 +1038,14 @@ namespace SpiceQL {
       throw runtime_error("Config Directory " + dbPath.string() + " Not Found.");
     }
 
-    return dbPath; 
-  }  
+    return dbPath.string();
+  }
 
 
   vector<string> getAvailableConfigFiles() {
     vector<string> confs; 
     fs::path dbDir = getConfigDirectory();
-    return glob(dbDir, ".json", false);
+    return glob(dbDir.string(), ".json", false);
   }
 
   vector<json> getAvailableConfigs() {
@@ -1062,7 +1066,7 @@ namespace SpiceQL {
 
     for(const fs::path &p : paths) {
       if (p.filename() == fmt::format("{}.json", mission)) {
-        return p;
+        return p.string();
       }
     }
 
@@ -1323,8 +1327,8 @@ namespace SpiceQL {
     if (!fs::exists(aliasMapPath)) {
       throw runtime_error("Alias map JSON file [" + aliasMapPath.string() + "] not found.");
     }
-    SPDLOG_TRACE("SpiceQL alias map path: {}", aliasMapPath.string()); 
+    SPDLOG_TRACE("SpiceQL alias map path: {}", aliasMapPath.string());
 
-    return aliasMapPath; 
+    return aliasMapPath.string();
   }
 }

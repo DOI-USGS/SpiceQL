@@ -130,6 +130,13 @@ jobs:
 
   build-windows:
     runs-on: windows-2025
+    defaults:
+      run:
+        # Login shell so conda activate works and the conda environment (and its
+        # MSVC-built dependencies) are on PATH. Without this the build falls back
+        # to the runner's mingw toolchain, which is ABI-incompatible with the
+        # conda-forge libraries.
+        shell: bash -l {0}
     strategy:
       matrix:
         python-version: ["3.10", "3.11", "3.12"]
@@ -147,6 +154,10 @@ jobs:
           auto-activate-base: false
           auto-update-conda: true
           python-version: ${{ matrix.python-version }}
+      # Put the MSVC toolchain (cl.exe and the vcvars environment) on PATH so
+      # cmake builds with the same ABI as the conda-forge dependencies.
+      - name: Set up MSVC
+        uses: ilammy/msvc-dev-cmd@v1
       - name: Check build environment
         run: |
           conda list
@@ -154,13 +165,10 @@ jobs:
         run: |
           mkdir -p build
           cd build
-          cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON -DCMAKE_CXX_STANDARD=20 -G Ninja -DSPICEQL_BUILD_TESTS=OFF -DSPICEQL_BUILD_DOCS=OFF ..
-          cmake --build . --target install --config Release
-          ls ${{ github.workspace }}\build\Release
-      - uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
-        with:
-          name: SpiceQL-py${{ matrix.python-version }}
-          path: |
-            ${{ github.workspace }}\build\Release\SpiceQL.dll
-            ${{ github.workspace }}\build\Release\SpiceQL.lib
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON -DSPICEQL_BUILD_TESTS=OFF -DSPICEQL_BUILD_DOCS=OFF ..
+          cmake --build .
+      - name: Check build output
+        run: |
+          find build -name 'SpiceQL*.dll'
+          test -n "$(find build -name 'SpiceQL*.dll')"
 
