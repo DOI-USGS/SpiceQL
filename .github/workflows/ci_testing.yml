@@ -132,11 +132,10 @@ jobs:
     runs-on: windows-2025
     defaults:
       run:
-        # Login shell so conda activate works and the conda environment (and its
-        # MSVC-built dependencies) are on PATH. Without this the build falls back
-        # to the runner's mingw toolchain, which is ABI-incompatible with the
-        # conda-forge libraries.
-        shell: bash -l {0}
+        # Use cmd so conda activation runs the conda-forge vs2022_win-64 .bat
+        # activation scripts. git-bash does not execute those, so under bash the
+        # MSVC toolchain (cl.exe, INCLUDE, LIB) never lands on PATH.
+        shell: cmd /C call {0}
     strategy:
       matrix:
         python-version: ["3.10", "3.11", "3.12"]
@@ -157,19 +156,21 @@ jobs:
       # The conda vs2022_win-64 package (pulled in by cxx-compiler) sets up the
       # MSVC toolchain on activation: it puts cl.exe on PATH and sets CC/CXX and
       # the vcvars environment, so the build uses the same ABI as the conda-forge
-      # dependencies. No separate Developer Command Prompt action is needed.
+      # dependencies.
       - name: Check build environment
         run: |
+          call conda activate spiceql
           conda list
-          which cl || echo "cl not on PATH"
+          where cl
       - name: Build Package
         run: |
-          mkdir -p build
+          call conda activate spiceql
+          if not exist build mkdir build
           cd build
           cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON -DSPICEQL_BUILD_TESTS=OFF -DSPICEQL_BUILD_DOCS=OFF ..
           cmake --build .
       - name: Check build output
         run: |
-          find build -name 'SpiceQL*.dll'
-          test -n "$(find build -name 'SpiceQL*.dll')"
+          call conda activate spiceql
+          dir /s /b build\SpiceQL*.dll
 
