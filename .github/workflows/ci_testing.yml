@@ -154,13 +154,14 @@ jobs:
           auto-activate-base: false
           auto-update-conda: true
           python-version: ${{ matrix.python-version }}
-      # Put the MSVC toolchain (cl.exe and the vcvars environment) on PATH so
-      # cmake builds with the same ABI as the conda-forge dependencies.
-      - name: Set up MSVC
-        uses: ilammy/msvc-dev-cmd@v1
+      # The conda vs2022_win-64 package (pulled in by cxx-compiler) sets up the
+      # MSVC toolchain on activation: it puts cl.exe on PATH and sets CC/CXX and
+      # the vcvars environment, so the build uses the same ABI as the conda-forge
+      # dependencies. No separate Developer Command Prompt action is needed.
       - name: Check build environment
         run: |
           conda list
+          which cl || echo "cl not on PATH"
       - name: Build Package
         run: |
           mkdir -p build
