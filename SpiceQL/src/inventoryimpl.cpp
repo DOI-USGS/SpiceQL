@@ -4,6 +4,14 @@
 // we need to include this to overwrite and other std::fs imports
 #include <ghc/fs_std.hpp>
 #include <nlohmann/json.hpp>
+// The BTree submodule's disk_fixed_alloc.h only defines the stdpmr namespace
+// alias for clang and GCC. Provide it for MSVC so the BTree headers compile on
+// Windows.
+#if defined(_MSC_VER) && !defined(SPICEQL_STDPMR_DEFINED)
+#define SPICEQL_STDPMR_DEFINED
+#include <memory_resource>
+namespace stdpmr = std::pmr;
+#endif
 #include <fc/btree.h>
 #include <fc/disk_btree.h>
 #include <SpiceQL/spiceql_logging.h>
