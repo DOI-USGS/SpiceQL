@@ -1222,9 +1222,9 @@ namespace SpiceQL {
         SpiceInt handle;
 
         // Define some Naif constants
-        int FILESIZ = 128;
-        int TYPESIZ = 32;
-        int SOURCESIZ = 128;
+        const int FILESIZ = 128;
+        const int TYPESIZ = 32;
+        const int SOURCESIZ = 128;
         //      double DIRSIZ = 100;
 
         SpiceChar file[FILESIZ];

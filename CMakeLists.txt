@@ -146,6 +146,13 @@ if(SPICEQL_BUILD_LIB)
   # needed.
   target_compile_definitions(SpiceQL PUBLIC -D_SOURCE_PREFIX="${CMAKE_CURRENT_SOURCE_DIR}")
 
+  # On Windows, prevent <windows.h> (pulled in by HDF5/HighFive) from defining
+  # the min/max macros, which otherwise break std::min/std::max and headers
+  # such as HighFive that use them.
+  if(WIN32)
+    target_compile_definitions(SpiceQL PUBLIC NOMINMAX)
+  endif()
+
 get_target_property(CSPICE_INCLUDE_DIRS CSPICE::cspice INTERFACE_INCLUDE_DIRECTORIES)
 
 target_include_directories(SpiceQL
