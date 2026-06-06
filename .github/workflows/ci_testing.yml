@@ -163,11 +163,15 @@ jobs:
           conda list
           where cl
       - name: Build Package
+        # This job verifies the SpiceQL C++ library and DLL build on Windows.
+        # The SWIG Python bindings are left off here (like the tests and docs):
+        # they are a separate Python-ABI/packaging concern and are handled by the
+        # conda-forge feedstock rather than this build.
         run: |
           call conda activate spiceql
           if not exist build mkdir build
           cd build
-          cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON -DSPICEQL_BUILD_TESTS=OFF -DSPICEQL_BUILD_DOCS=OFF ..
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON -DSPICEQL_BUILD_TESTS=OFF -DSPICEQL_BUILD_DOCS=OFF -DSPICEQL_BUILD_BINDINGS=OFF ..
           cmake --build .
       - name: Check build output
         run: |
