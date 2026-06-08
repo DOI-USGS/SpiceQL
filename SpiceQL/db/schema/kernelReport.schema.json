@@ -1,0 +1,118 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SpiceQL Kernel Report Schema",
+  "description": "JSON schema for kernel reports returned by SpiceQL API functions. These reports document which SPICE kernels were loaded or found during API operations like getTargetStates, getTargetOrientations, etc.",
+  "type": "object",
+  "definitions": {
+    "quality_kernels": {
+      "description": "Kernel collection organized by quality level (reconstructed, predicted, smithed, noquality, deps), or directly with kernels array",
+      "type": "object",
+      "properties": {
+        "kernels": {
+          "description": "Array of kernel file paths, or a single kernel path as a string (used when no quality levels apply)",
+          "type": ["array", "string"],
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(reconstructed|predicted|smithed|noquality|deps)$": {
+          "type": "object",
+          "required": [
+            "kernels"
+          ],
+          "properties": {
+            "kernels": {
+              "description": "Array of kernel file paths, or a single kernel path as a string",
+              "type": ["array", "string"],
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "kernels": {
+      "description": "Simple kernel collection without quality levels",
+      "type": "object",
+      "required": [
+        "kernels"
+      ],
+      "properties": {
+        "kernels": {
+          "description": "Array of kernel file paths, or a single kernel path as a string",
+          "type": ["array", "string"],
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "mission_or_instrument": {
+      "description": "Kernel set for a specific mission or instrument identifier",
+      "type": "object",
+      "properties": {
+        "ck": {
+          "description": "C-kernel (Camera/pointing kernel) - spacecraft orientation and camera pointing data",
+          "$ref": "#/definitions/quality_kernels"
+        },
+        "spk": {
+          "description": "SPK (Spacecraft/planet kernel) - ephemeris data for spacecraft and celestial bodies",
+          "$ref": "#/definitions/quality_kernels"
+        },
+        "tspk": {
+          "description": "TSPK (Target SPK) - ephemeris data specific to target bodies",
+          "$ref": "#/definitions/quality_kernels"
+        },
+        "fk": {
+          "description": "FK (Frame kernel) - reference frame definitions",
+          "$ref": "#/definitions/kernels"
+        },
+        "sclk": {
+          "description": "SCLK (Spacecraft clock) - spacecraft clock correlation data",
+          "$ref": "#/definitions/kernels"
+        },
+        "lsk": {
+          "description": "LSK (Leapsecond kernel) - time system conversions",
+          "$ref": "#/definitions/kernels"
+        },
+        "ik": {
+          "description": "IK (Instrument kernel) - instrument-specific parameters",
+          "$ref": "#/definitions/kernels"
+        },
+        "iak": {
+          "description": "IAK (Instrument addendum kernel) - additional instrument parameters",
+          "$ref": "#/definitions/kernels"
+        },
+        "dsk": {
+          "description": "DSK (Digital shape kernel) - surface shape models",
+          "$ref": "#/definitions/kernels"
+        },
+        "pck": {
+          "description": "PCK (Planetary constants kernel) - planetary physical and orientation constants",
+          "$ref": "#/definitions/quality_kernels"
+        },
+        "deps": {
+          "description": "Dependencies - additional required kernels or data",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "patternProperties": {
+    "^[a-zA-Z][a-zA-Z0-9_-]*$": {
+      "description": "Mission or instrument identifier (e.g., 'messenger', 'mdis', 'base')",
+      "$ref": "#/definitions/mission_or_instrument"
+    }
+  },
+  "additionalProperties": false
+}
