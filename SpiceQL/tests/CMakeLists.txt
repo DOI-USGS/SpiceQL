@@ -19,9 +19,10 @@ set (SPICEQL_TEST_SOURCE    ${SPICEQL_TEST_DIRECTORY}/TestUtilities.cpp
                             ${SPICEQL_TEST_DIRECTORY}/IoTests.cpp
                             ${SPICEQL_TEST_DIRECTORY}/KernelTests.cpp
                             ${SPICEQL_TEST_DIRECTORY}/MemoTests.cpp
-                            ${SPICEQL_TEST_DIRECTORY}/InventoryTests.cpp 
+                            ${SPICEQL_TEST_DIRECTORY}/InventoryTests.cpp
                             ${SPICEQL_TEST_DIRECTORY}/FunctionalTestsConfig.cpp
-                            ${SPICEQL_TEST_DIRECTORY}/AliasMapTests.cpp)
+                            ${SPICEQL_TEST_DIRECTORY}/AliasMapTests.cpp
+                            ${SPICEQL_TEST_DIRECTORY}/KernelReportSchemaTests.cpp)
 
 # setup test executable
 add_executable(runSpiceQLTests TestMain.cpp ${SPICEQL_TEST_SOURCE})

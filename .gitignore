@@ -1,1 +1,4 @@
 .DS_Store
+build/
+cmake_test_discovery_*.json
+test_pyspiceql*

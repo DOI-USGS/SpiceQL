@@ -39,6 +39,7 @@ release.
 - Added clipper kernel DB. [#127](https://github.com/DOI-USGS/SpiceQL/pull/127)
 - Added chandrayaan2 eph spks to chandrayaan2 db [#128](https://github.com/DOI-USGS/SpiceQL/pull/128)
 - Added Windows build support: explicit filesystem path string conversions and a Windows CI job, reconciled on top of the new logger [#131](https://github.com/DOI-USGS/SpiceQL/pull/131)
+- Added JSON schema for kernel reports returned by SpiceQL API functions. [#81](https://github.com/DOI-USGS/SpiceQL/issues/81)
 
 ### Changed
 - Replaced spdlog with a small self-contained header-only logger to avoid ABI collisions when SpiceQL and another spdlog-using library are loaded in the same process [#129](https://github.com/DOI-USGS/SpiceQL/pull/129)
