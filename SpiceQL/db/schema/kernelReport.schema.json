@@ -1,95 +1,71 @@
 {
   "type": "object",
-  "definitions": {
-    "quality_kernels": {
-      "type": "object",
-      "properties": {
-        "kernels": {
-          "type": ["array", "string"],
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "patternProperties": {
-        "^(reconstructed|predicted|smithed|noquality|deps)$": {
-          "type": "object",
-          "required": [
-            "kernels"
-          ],
-          "properties": {
-            "kernels": {
-              "type": ["array", "string"],
-              "items": {
-                "type": "string"
-              }
-            }
-          },
-          "additionalProperties": false
-        }
-      },
-      "additionalProperties": false
+  "properties": {
+    "ck": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     },
-    "kernels": {
-      "type": "object",
-      "required": [
-        "kernels"
-      ],
-      "properties": {
-        "kernels": {
-          "type": ["array", "string"],
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "additionalProperties": false
+    "spk": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     },
-    "mission_or_instrument": {
-      "type": "object",
-      "properties": {
-        "ck": {
-          "$ref": "#/definitions/quality_kernels"
-        },
-        "spk": {
-        },
-        "tspk": {
-          "$ref": "#/definitions/quality_kernels"
-        },
-        "fk": {
-          "$ref": "#/definitions/kernels"
-        },
-        "sclk": {
-          "$ref": "#/definitions/kernels"
-        },
-        "lsk": {
-          "$ref": "#/definitions/kernels"
-        },
-        "ik": {
-          "$ref": "#/definitions/kernels"
-        },
-        "iak": {
-          "$ref": "#/definitions/kernels"
-        },
-        "dsk": {
-          "$ref": "#/definitions/kernels"
-        },
-        "pck": {
-          "$ref": "#/definitions/quality_kernels"
-        },
-        "deps": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "additionalProperties": false
+    "tspk": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "fk": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sclk": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "lsk": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ik": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "iak": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "dsk": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pck": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     }
   },
   "patternProperties": {
-    "^[a-zA-Z][a-zA-Z0-9_-]*$": {
-      "$ref": "#/definitions/mission_or_instrument"
+    "^[a-zA-Z][a-zA-Z0-9_-]*_(ck|spk)_quality$": {
+      "type": "string",
+      "enum": ["reconstructed", "predicted", "smithed", "noquality"]
     }
   },
   "additionalProperties": false

@@ -12,43 +12,34 @@ using namespace SpiceQL;
 static bool matchesSchema(const nlohmann::json& report) {
     if (!report.is_object()) return false;
 
-    for (const auto& [missionName, missionObj] : report.items()) {
-        if (!missionObj.is_object()) return false;
+    const std::set<std::string> validKernelTypes = {
+        "ck", "spk", "tspk", "fk", "sclk", "lsk", "ik", "iak", "dsk", "pck"
+    };
 
-        for (const auto& [kernelType, typeObj] : missionObj.items()) {
-            if (kernelType == "deps") {
-                if (!typeObj.is_array()) return false;
-                continue;
-            }
-
-            if (!typeObj.is_object()) {
+    for (const auto& [key, value] : report.items()) {
+        if (validKernelTypes.count(key)) {
+            if (!value.is_array()) {
                 return false;
             }
-
-            bool hasQuality = typeObj.contains("reconstructed") ||
-                                typeObj.contains("smithed") ||
-                                typeObj.contains("predicted") ||
-                                typeObj.contains("noquality");
-            bool hasDirectKernels = typeObj.contains("kernels");
-
-            if (!hasQuality && !hasDirectKernels) {
-                return false;
-            }
-            for (const auto& [key, val] : typeObj.items()) {
-                if (key == "kernels") {
-                    if (!val.is_array() && !val.is_string()) {
-                        return false;
-                    } 
-                } else {
-                    if (!val.is_object() || !val.contains("kernels")) {
-                        return false;
-                    }
-                    const auto& kernels = val["kernels"];
-                    if (!kernels.is_array() && !kernels.is_string()) {
-                        return false;
-                    }
+            for (const auto& item : value) {
+                if (!item.is_string()) {
+                    return false;
                 }
             }
+        }
+        else if (key.find("_ck_quality") != std::string::npos ||
+                 key.find("_spk_quality") != std::string::npos) {
+            if (!value.is_string()) {
+                return false;
+            }
+            std::string qualityStr = value.get<std::string>();
+            if (qualityStr != "reconstructed" && qualityStr != "predicted" &&
+                qualityStr != "smithed" && qualityStr != "noquality") {
+                return false;
+            }
+        }
+        else {
+            return false;
         }
     }
     return true;
@@ -56,23 +47,14 @@ static bool matchesSchema(const nlohmann::json& report) {
 
 TEST(KernelReportSchemaTest, ValidateMessengerExample) {
     nlohmann::json messengerReport = {
-        {"mdis", {
-            {"ck", {
-                {"reconstructed", {{"kernels", {"msgr_1234_v01.bc", "msgr_1235_v02.bc"}}}},
-                {"smithed", {{"kernels", {"msgr_mdis_sc0001_usgs_v3.bc"}}}}
-            }},
-            {"spk", {
-                {"reconstructed", {{"kernels", {"msgr_20040803_v1.bsp"}}}}
-            }},
-            {"fk", {{"kernels", {"msgr_v001.tf", "msgr_v002.tf"}}}},
-            {"ik", {{"kernels", {"msgr_mdis_v001.ti"}}}},
-            {"pck", {
-                {"noquality", {{"kernels", {"pck00010_msgr_v02.tpc"}}}}
-            }}
-        }},
-        {"messenger", {
-            {"sclk", {{"kernels", {"messenger_0001.tsc"}}}}
-        }}
+        {"ck", {"msgr_1234_v01.bc", "msgr_1235_v02.bc", "msgr_mdis_sc0001_usgs_v3.bc"}},
+        {"spk", {"msgr_20040803_v1.bsp"}},
+        {"fk", {"msgr_v001.tf", "msgr_v002.tf"}},
+        {"ik", {"msgr_mdis_v001.ti"}},
+        {"pck", {"pck00010_msgr_v02.tpc"}},
+        {"sclk", {"messenger_0001.tsc"}},
+        {"mdis_ck_quality", "smithed"},
+        {"mdis_spk_quality", "reconstructed"}
     };
 
     if (!matchesSchema(messengerReport)) {
@@ -88,47 +70,45 @@ TEST(KernelReportSchemaTest, ValidateEdgeCases) {
     }
 
     nlohmann::json emptyKernels = {
-        {"lroc", {{"fk", {{"kernels", nlohmann::json::array()}}}}}
+        {"fk", nlohmann::json::array()}
     };
     if (!matchesSchema(emptyKernels)) {
         FAIL() << "Empty kernels array doesn't match schema";
     }
 
-    nlohmann::json singleKernel = {
-        {"lroc", {{"fk", {{"kernels", "single.tf"}}}}}
+    nlohmann::json withQuality = {
+        {"fk", {"test.tf"}},
+        {"spk", {"test.bsp"}},
+        {"lroc_spk_quality", "smithed"}
     };
-    if (!matchesSchema(singleKernel)) {
-        FAIL() << "Single kernel string doesn't match schema";
-    }
-
-    nlohmann::json withDeps = {
-        {"mdis", {
-            {"fk", {{"kernels", {"test.tf"}}}},
-            {"deps", {"/messenger", "/base"}}
-        }}
-    };
-    if (!matchesSchema(withDeps)) {
-        FAIL() << "Report with deps array doesn't match schema";
+    if (!matchesSchema(withQuality)) {
+        FAIL() << "Report with quality field doesn't match schema";
     }
 }
 
 TEST(KernelReportSchemaTest, RejectInvalidStructures) {
     nlohmann::json notObject = nlohmann::json::array();
-    
+
     if (matchesSchema(notObject)) {
         FAIL() << "Array should not match schema (expected object)";
     }
 
-    nlohmann::json missingKernels = {{"lroc", {{"fk", {{"files", {"test.tf"}}}}}}
-};
-    if (matchesSchema(missingKernels)) {
-        FAIL() << "Report with 'files' instead of 'kernels' should not match schema";
+    nlohmann::json unknownKey = {{"unknown_key", {"test.tf"}}};
+    if (matchesSchema(unknownKey)) {
+        FAIL() << "Report with unknown key should not match schema";
     }
 
-    nlohmann::json badKernelsType = {{"lroc", {{"fk", {{"kernels", 123}}}}}};
-
+    nlohmann::json badKernelsType = {{"fk", 123}};
     if (matchesSchema(badKernelsType)) {
         FAIL() << "Report with numeric kernels value should not match schema";
+    }
+
+    nlohmann::json badQualityValue = {
+        {"spk", {"test.bsp"}},
+        {"lroc_spk_quality", "invalid_quality"}
+    };
+    if (matchesSchema(badQualityValue)) {
+        FAIL() << "Report with invalid quality value should not match schema";
     }
 }
 
