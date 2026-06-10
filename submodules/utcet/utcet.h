@@ -4,6 +4,13 @@
 #include <string>
 #include <vector>
 
+// Windows compatibility
+#ifdef _WIN32
+  #define timegm _mkgmtime
+  #include <iomanip>
+  #include <sstream>
+#endif
+
 // Leap-second table: UTC dates when TAI-UTC incremented.
 // Source: IERS Bulletin C / NAIF naif0012.tls.
 namespace {
@@ -44,6 +51,21 @@ namespace {
     }
     return leap;
   }
+
+#ifdef _WIN32
+  // Windows-compatible strptime replacement for ISO 8601 format
+  char* portable_strptime(const char* s, const char* format, struct tm* tm) {
+    std::istringstream input(s);
+    input.imbue(std::locale("C"));
+    input >> std::get_time(tm, format);
+    if (input.fail()) {
+      return nullptr;
+    }
+    // Return pointer to remaining string
+    return const_cast<char*>(s + input.tellg());
+  }
+  #define strptime portable_strptime
+#endif
 }
 
 double calendarTimeToEphemTime(std::string calendarTime) {
@@ -113,11 +135,12 @@ std::string ephemTimeToCalendarTime(double ephemTime, std::string format, int pr
                         "{" + std::to_string(required_size) + "}");
   }
 
-  char buffer[utclen];
-  strftime(buffer, 20, "%Y-%m-%dT%H:%M:%S", std::gmtime(&utc_unix));
+  // Use std::vector instead of VLA for Windows/MSVC compatibility
+  std::vector<char> buffer(utclen);
+  strftime(buffer.data(), 20, "%Y-%m-%dT%H:%M:%S", std::gmtime(&utc_unix));
 
   // Add fractional seconds (without 'Z' to match NAIF format)
   std::string precisionStr = ".%0" + std::to_string(prec) + "d";
-  snprintf(buffer + 19, prec + 2, precisionStr.c_str(), (int)frac);
-  return buffer;
+  snprintf(buffer.data() + 19, prec + 2, precisionStr.c_str(), (int)frac);
+  return buffer.data();
 }
