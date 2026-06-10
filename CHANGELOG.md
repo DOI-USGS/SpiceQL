@@ -34,12 +34,16 @@ release.
 -->
 ### unreleased
 
+## 1.4.0
+
 ### Added 
+- Integrated utcet library for kernel-free UTC/ET time conversions when no LSK kernels are provided
 - Added feature to UTC conversion functions to load the installed LSK if no kernels are provided. [#126](https://github.com/DOI-USGS/SpiceQL/pull/126#pullrequestreview-4405351255)
 - Added clipper kernel DB. [#127](https://github.com/DOI-USGS/SpiceQL/pull/127)
 - Added chandrayaan2 eph spks to chandrayaan2 db [#128](https://github.com/DOI-USGS/SpiceQL/pull/128)
 
 ### Changed
+- UTC/ET conversion functions (`utcToEt` and `etToUtc`) now use utcet library when no kernels are searched or provided, falling back to LSK kernels when explicitly requested
 - Replaced spdlog with a small self-contained header-only logger to avoid ABI collisions when SpiceQL and another spdlog-using library are loaded in the same process [#129](https://github.com/DOI-USGS/SpiceQL/pull/129)
 
 ### Fixed
@@ -47,7 +51,7 @@ release.
 - Removed extraneous LROC_NPOLE kernels from isisKernelList.txt [#125](https://github.com/DOI-USGS/SpiceQL/pull/125)
 - Fixed Chandrayaan2 OHRC IAK db regex [#109](https://github.com/DOI-USGS/SpiceQL/issues/109)
 
-### 1.3.0
+## 1.3.0
 
 ### Changed
 - Refactored the aliasMap variable into a JSON file that can be dynamically loaded and accessed [#120](https://github.com/DOI-USGS/SpiceQL/pull/120)
