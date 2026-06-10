@@ -20,7 +20,11 @@
 #include <SpiceQL/utils.h>
 #include <SpiceQL/inventory.h>
 #include <SpiceQL/api.h>
+#ifndef _WIN32
+// restincurl is the vendored HTTP client used for the remote REST web-service
+// mode. It is POSIX-only (select/pipe/unistd), so it is not compiled on Windows.
 #include <SpiceQL/restincurl.h>
+#endif
 #include <SpiceQL/config.h>
 #include <SpiceQL/alias_map.h>
 
@@ -79,6 +83,14 @@ namespace SpiceQL {
     }
 
     json spiceAPIQuery(std::string functionName, json args, std::string method){
+#ifdef _WIN32
+        // The remote REST web-service mode relies on restincurl, which is not
+        // yet ported to Windows (see the guarded include above). Local kernel
+        // access is unaffected.
+        // TODO(oalexan1): port restincurl to winsock to enable useWeb on Windows.
+        (void) functionName; (void) args; (void) method;
+        throw runtime_error("SpiceQL remote REST mode (useWeb) is not yet supported on Windows.");
+#else
         restincurl::Client client;
         // Need to be able to set URL externally
         std::string queryString = getRestUrl() + functionName + "?";
@@ -149,6 +161,7 @@ namespace SpiceQL {
         }
 
         return j;
+#endif
     }
 
 
@@ -1219,9 +1232,9 @@ namespace SpiceQL {
         SpiceInt handle;
 
         // Define some Naif constants
-        int FILESIZ = 128;
-        int TYPESIZ = 32;
-        int SOURCESIZ = 128;
+        const int FILESIZ = 128;
+        const int TYPESIZ = 32;
+        const int SOURCESIZ = 128;
         //      double DIRSIZ = 100;
 
         SpiceChar file[FILESIZ];

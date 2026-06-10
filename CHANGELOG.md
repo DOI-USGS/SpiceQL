@@ -41,6 +41,7 @@ release.
 - Added feature to UTC conversion functions to load the installed LSK if no kernels are provided. [#126](https://github.com/DOI-USGS/SpiceQL/pull/126#pullrequestreview-4405351255)
 - Added clipper kernel DB. [#127](https://github.com/DOI-USGS/SpiceQL/pull/127)
 - Added chandrayaan2 eph spks to chandrayaan2 db [#128](https://github.com/DOI-USGS/SpiceQL/pull/128)
+- Added Windows build support: explicit filesystem path string conversions and a Windows CI job, reconciled on top of the new logger [#131](https://github.com/DOI-USGS/SpiceQL/pull/131)
 
 ### Changed
 - UTC/ET conversion functions (`utcToEt` and `etToUtc`) now use utcet library when no kernels are searched or provided, falling back to LSK kernels when explicitly requested

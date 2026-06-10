@@ -11,6 +11,15 @@
 #include <tuple>
 #include <limits>
 
+// The BTree submodule's disk_fixed_alloc.h only defines the stdpmr namespace
+// alias for clang and GCC. Provide it for MSVC so the BTree headers compile on
+// Windows.
+#if defined(_MSC_VER) && !defined(SPICEQL_STDPMR_DEFINED)
+#define SPICEQL_STDPMR_DEFINED
+#include <memory_resource>
+namespace stdpmr = std::pmr;
+#endif
+
 #include <fc/btree.h>
 #include <nlohmann/json.hpp>
 

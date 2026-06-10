@@ -4,6 +4,14 @@
 // we need to include this to overwrite and other std::fs imports
 #include <ghc/fs_std.hpp>
 #include <nlohmann/json.hpp>
+// The BTree submodule's disk_fixed_alloc.h only defines the stdpmr namespace
+// alias for clang and GCC. Provide it for MSVC so the BTree headers compile on
+// Windows.
+#if defined(_MSC_VER) && !defined(SPICEQL_STDPMR_DEFINED)
+#define SPICEQL_STDPMR_DEFINED
+#include <memory_resource>
+namespace stdpmr = std::pmr;
+#endif
 #include <fc/btree.h>
 #include <fc/disk_btree.h>
 #include <SpiceQL/spiceql_logging.h>
@@ -64,7 +72,7 @@ namespace SpiceQL {
     else {
       SPDLOG_DEBUG("Cache directory not set and not in environment variable " + CACHE_DIR_ENV_VAR + " and not overridden.");
       std::string  tempname = "spiceql-cache-" + gen_random(10);
-      CACHE_DIRECTORY = fs::temp_directory_path() / tempname / "spiceql_cache"; 
+      CACHE_DIRECTORY = (fs::temp_directory_path() / tempname / "spiceql_cache").string();
     }
 
     if (!fs::is_directory(CACHE_DIRECTORY)) { 
@@ -116,7 +124,7 @@ namespace SpiceQL {
 
 
   string getHdfFile() { 
-      static std::string db_path = fs::path(getCacheDir()) / DB_HDF_FILE;
+      static std::string db_path = (fs::path(getCacheDir()) / DB_HDF_FILE).string();
       return db_path;
   }
   
@@ -162,7 +170,7 @@ namespace SpiceQL {
           // get relative path to make db portable 
           fs::path relative_path_kernel = fs::relative(kernel, fs::absolute(getDataDirectory()));
           SPDLOG_TRACE("Relative Kernel: {}", relative_path_kernel.generic_string()); 
-          kernel_times->file_paths.push_back(relative_path_kernel);
+          kernel_times->file_paths.push_back(relative_path_kernel.string());
         }
       }
     }
@@ -264,7 +272,7 @@ namespace SpiceQL {
                   string k = kernel.get<string>();
                   fs::path relative_path_kernel = fs::relative(k, fs::absolute(getDataDirectory()));
                   SPDLOG_TRACE("Relative Kernel: {}", relative_path_kernel.generic_string()); 
-                  kernel_vec.push_back(relative_path_kernel); 
+                  kernel_vec.push_back(relative_path_kernel.string());
                 } 
               m_nontimedep_kerns[btree_key] = kernel_vec; 
             } 
@@ -283,7 +291,7 @@ namespace SpiceQL {
 
   template<class T>
   T InventoryImpl::getKey(string key) { 
-    string hdf_file = fs::path(getCacheDir()) / DB_HDF_FILE;
+    string hdf_file = (fs::path(getCacheDir()) / DB_HDF_FILE).string();
 
     if (!fs::exists(hdf_file)) { 
       throw runtime_error("DB for kernels (" + hdf_file + ") does not exist");
@@ -458,7 +466,7 @@ namespace SpiceQL {
               int stop_idx = start_idx - limitQuality;
               for (auto i = start_idx; i > stop_idx; --i) {
                 if (full_kernel_path) {
-                  limitedKernels.push_back(data_dir / final_time_kernels[i]);
+                  limitedKernels.push_back((data_dir / final_time_kernels[i]).string());
                 } else {
                   limitedKernels.push_back(final_time_kernels[i]);
                 }
@@ -470,7 +478,7 @@ namespace SpiceQL {
               vector<string> allKernels;
               if (full_kernel_path) {
                 for(string &e : final_time_kernels) { 
-                  allKernels.push_back(data_dir / e);
+                  allKernels.push_back((data_dir / e).string());
                 }
               } else {
                 allKernels = final_time_kernels;
@@ -490,7 +498,7 @@ namespace SpiceQL {
         if (m_nontimedep_kerns.contains(key) && !m_nontimedep_kerns[key].empty()) {  
           vector<string> ks = m_nontimedep_kerns[key];
           if (full_kernel_path) {
-            for(auto &e : ks) e =  data_dir / e; // re-add the data dir 
+            for(auto &e : ks) e = (data_dir / e).string(); // re-add the data dir
           }
           kernels[Kernel::translateType(type)] = ks;
         
@@ -500,7 +508,7 @@ namespace SpiceQL {
           try { 
             vector<string> ks = getKey<vector<string>>(DB_SPICE_ROOT_KEY + "/"+key);
             if (full_kernel_path) {
-              for(auto &e : ks) e = data_dir / e; // re-add the data dir
+              for(auto &e : ks) e = (data_dir / e).string(); // re-add the data dir
             }
             kernels[Kernel::translateType(type)] = ks;
           } catch (runtime_error &e) { 
@@ -516,7 +524,7 @@ namespace SpiceQL {
 
   void InventoryImpl::write_database() { 
     fs::path db_root = getCacheDir(); 
-    string hdf_file = db_root / DB_HDF_FILE;
+    string hdf_file = (db_root / DB_HDF_FILE).string();
     
     // delete if exists
     fs::remove(hdf_file);

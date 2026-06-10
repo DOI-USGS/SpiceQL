@@ -76,22 +76,22 @@ namespace SpiceQL {
                 }
 
                 SPDLOG_TRACE("Searching for {}", e);
-                fs::path p = fs::path(e); 
-                string key = p.parent_path();
-                string quality = "NA"; 
-                string kernel_type; 
+                fs::path p = fs::path(e);
+                string key = p.parent_path().string();
+                string quality = "NA";
+                string kernel_type;
 
                 std::vector<std::string> components;
                 int i = 0;
                 for (const auto& part : p.parent_path()) {
-                    i++; 
+                    i++;
                     if (i == 3)
-                        kernel_type = part; 
-                    else if (i == 4) 
-                        quality = part; 
+                        kernel_type = part.string();
+                    else if (i == 4)
+                        quality = part.string();
                 }
 
-                string regex = p.filename();
+                string regex = p.filename().string();
 
                 string hdfkey = DB_SPICE_ROOT_KEY + key;
                 if (file.exist(hdfkey + "/" + DB_TIME_FILES_KEY)) {
@@ -120,7 +120,7 @@ namespace SpiceQL {
 
                 // iterate through files and filter 
                 for(auto &f : file_names) { 
-                    temp = fs::path(f).filename();
+                    temp = fs::path(f).filename().string();
                     SPDLOG_TRACE("Checking using regex \"{}\": {}", regex, temp);
                     if (regex_search(temp.c_str(), basic_regex(regex, regex_constants::optimize|regex_constants::ECMAScript)) && temp.at(0) != '.' ) {
                         SPDLOG_TRACE("{} matches; adding {} at {}", temp, f, key); 
@@ -151,7 +151,7 @@ namespace SpiceQL {
          * @return string 
          */
         string getDbFilePath() { 
-            static string db_path = fs::path(getCacheDir()) / DB_HDF_FILE;
+            static string db_path = (fs::path(getCacheDir()) / DB_HDF_FILE).string();
             SPDLOG_TRACE("db_path: {}", db_path);
             return db_path;
         }
