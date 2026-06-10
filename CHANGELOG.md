@@ -44,6 +44,7 @@ release.
 - Replaced spdlog with a small self-contained header-only logger to avoid ABI collisions when SpiceQL and another spdlog-using library are loaded in the same process [#129](https://github.com/DOI-USGS/SpiceQL/pull/129)
 
 ### Fixed
+- fixed utctoet for windows [#135](https://github.com/DOI-USGS/SpiceQL/pull/135)
 - Fixed LRO smithed kernels for north and south pole database by moving them from lroc to moc [#124](https://github.com/DOI-USGS/SpiceQL/pull/124)
 - Removed extraneous LROC_NPOLE kernels from isisKernelList.txt [#125](https://github.com/DOI-USGS/SpiceQL/pull/125)
 - Fixed Chandrayaan2 OHRC IAK db regex [#109](https://github.com/DOI-USGS/SpiceQL/issues/109)
