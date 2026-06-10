@@ -155,11 +155,8 @@ target_include_directories(SpiceQL
                             $<INSTALL_INTERFACE:include>
                             PRIVATE
                             ${CMAKE_CURRENT_SOURCE_DIR}/submodules/BTree/include/
-<<<<<<< Updated upstream
                             ${CMAKE_CURRENT_SOURCE_DIR}/submodules/gularkfilesystem/include/
-=======
                             ${CMAKE_CURRENT_SOURCE_DIR}/submodules/utcet/
->>>>>>> Stashed changes
                             cereal
                             ${CSPICE_INCLUDE_DIRS}
                             )
