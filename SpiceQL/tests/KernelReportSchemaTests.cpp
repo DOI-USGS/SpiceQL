@@ -13,7 +13,7 @@ static bool matchesSchema(const nlohmann::json& report) {
     if (!report.is_object()) return false;
 
     const std::set<std::string> validKernelTypes = {
-        "ck", "spk", "tspk", "fk", "sclk", "lsk", "ik", "iak", "dsk", "pck"
+        "ck", "spk", "tspk", "fk", "sclk", "lsk", "ik", "iak", "dsk", "pck", "ek"
     };
 
     for (const auto& [key, value] : report.items()) {

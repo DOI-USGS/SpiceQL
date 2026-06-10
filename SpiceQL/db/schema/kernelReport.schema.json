@@ -60,6 +60,12 @@
       "items": {
         "type": "string"
       }
+    },
+    "ek": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     }
   },
   "patternProperties": {
