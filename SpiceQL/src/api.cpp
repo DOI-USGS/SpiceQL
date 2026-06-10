@@ -24,6 +24,8 @@
 #include <SpiceQL/config.h>
 #include <SpiceQL/alias_map.h>
 
+#include "utcet.h"
+
 using json = nlohmann::json;
 using namespace std;
 
@@ -637,7 +639,7 @@ namespace SpiceQL {
 
 
     pair<double, json> utcToEt(string utc, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {
-        
+
         if (useWeb){
             json args = json::object({
                 {"utc", utc},
@@ -653,37 +655,38 @@ namespace SpiceQL {
         }
 
         json lsks = {};
-        
+
         // get lsk kernel
         if (searchKernels) {
             lsks = Inventory::search_for_kernelset("base", {"lsk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk);
         }
-        
+
         if (!kernelList.empty()) {
             json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(lsks, regexk);
         }
-        
-        // if we're not searching for kernels and not using the web, we still need to load an lsk to do the conversion
-        if(useWeb == false && searchKernels == false && kernelList.empty()) {
-            SPDLOG_TRACE("No kernels provided, loading default LSK");
-            lsks["lsk"] = json::array({getDefaultLsk()});
-        }
-        
-        KernelSet lsk(lsks);
 
-        SpiceDouble et;
-        checkNaifErrors();
-        str2et_c(utc.c_str(), &et);
-        checkNaifErrors();
+        double et;
+
+        // Use LSK kernel if available, otherwise fall back to utcet
+        if(searchKernels || !kernelList.empty()) {
+            SPDLOG_TRACE("Using LSK kernel for UTC to ET conversion");
+            KernelSet lsk(lsks);
+            checkNaifErrors();
+            str2et_c(utc.c_str(), &et);
+            checkNaifErrors();
+        } else {
+            SPDLOG_TRACE("No kernels provided, using utcet for UTC to ET conversion");
+            et = calendarTimeToEphemTime(utc);
+        }
 
         return {et, lsks};
     }
 
 
     pair<string, json> etToUtc(double et, string format, double precision, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {
-    
+
         if (useWeb){
             json args = json::object({
                 {"et", et},
@@ -698,10 +701,10 @@ namespace SpiceQL {
             json out = spiceAPIQuery("etToUtc", args);
             string result = out["body"]["return"].get<string>();
             return make_pair(result, out["body"]["kernels"]);
-        }   
-       
+        }
+
         json lsks = {};
-        
+
         // get lsk kernel
         if (searchKernels) {
             lsks = Inventory::search_for_kernelset("base", {"lsk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk);
@@ -712,19 +715,26 @@ namespace SpiceQL {
             merge_json(lsks, regexk);
         }
 
-        // if we're not searching for kernels and not using the web, we still need to load an lsk to do the conversion
-        if(useWeb == false && searchKernels == false && kernelList.empty()) {
-            SPDLOG_TRACE("No kernels provided, loading default LSK");
-            lsks["lsk"] = json::array({getDefaultLsk()});
+        string utc_string;
+
+        // Use LSK kernel if available, otherwise fall back to utcet
+        if(searchKernels || !kernelList.empty()) {
+            SPDLOG_TRACE("Using LSK kernel for ET to UTC conversion");
+            KernelSet lsk(lsks);
+            SpiceChar utc_spice[100];
+            checkNaifErrors();
+            et2utc_c(et, format.c_str(), precision, 100, utc_spice);
+            checkNaifErrors();
+            utc_string = string(utc_spice);
+        } else {
+            SPDLOG_TRACE("No kernels provided, using utcet for ET to UTC conversion");
+            // Note: format and precision parameters are used with utcet
+            // utcet always returns ISO 8601 format with Z suffix
+            int prec = static_cast<int>(precision);
+            int utclen = 19 + prec + 3;  // Fixed format size
+            utc_string = ephemTimeToCalendarTime(et, format, prec, utclen);
         }
 
-        KernelSet lsk(lsks);
-
-        SpiceChar utc_spice[100];
-        checkNaifErrors();
-        et2utc_c(et, format.c_str(), precision, 100, utc_spice);
-        checkNaifErrors();
-        string utc_string(utc_spice);
         return {utc_string, lsks};
     }
 
