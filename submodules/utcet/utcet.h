@@ -135,11 +135,12 @@ std::string ephemTimeToCalendarTime(double ephemTime, std::string format, int pr
                         "{" + std::to_string(required_size) + "}");
   }
 
-  char buffer[utclen];
-  strftime(buffer, 20, "%Y-%m-%dT%H:%M:%S", std::gmtime(&utc_unix));
+  // Use std::vector instead of VLA for Windows/MSVC compatibility
+  std::vector<char> buffer(utclen);
+  strftime(buffer.data(), 20, "%Y-%m-%dT%H:%M:%S", std::gmtime(&utc_unix));
 
   // Add fractional seconds (without 'Z' to match NAIF format)
   std::string precisionStr = ".%0" + std::to_string(prec) + "d";
-  snprintf(buffer + 19, prec + 2, precisionStr.c_str(), (int)frac);
-  return buffer;
+  snprintf(buffer.data() + 19, prec + 2, precisionStr.c_str(), (int)frac);
+  return buffer.data();
 }
