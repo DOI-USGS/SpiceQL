@@ -23,6 +23,7 @@
         },
         "iak" : { 
             "kernels" : ["msiAddendum[0-9]{3}.ti$"]
-        }
+        },
+        "deps": ["/near"]
     }
 }

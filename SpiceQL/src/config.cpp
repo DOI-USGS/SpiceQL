@@ -1,12 +1,12 @@
-#include "config.h"
-#include "query.h"
-#include "memoized_functions.h"
+#include <SpiceQL/config.h>
+#include <SpiceQL/query.h>
+#include <SpiceQL/memoized_functions.h>
 
 #include <time.h>
 
 #include <fstream>
 #include <sstream>
-#include <spdlog/spdlog.h>
+#include <SpiceQL/spiceql_logging.h>
 
 #include <ghc/fs_std.hpp>
 
@@ -140,17 +140,17 @@ namespace SpiceQL {
 
       fs::path fsDataPath(dataPath);
       json::json_pointer kernelPath(getParentPointer(full_pointer.to_string(), 1));
-      if (fs::exists((string)fsDataPath + kernelPath.to_string())) {
+      if (fs::exists(fsDataPath.string() + kernelPath.to_string())) {
         fsDataPath += kernelPath.to_string();
         kernelPath = json::json_pointer("/kernels");
         string kernelType = json::json_pointer(getParentPointer(full_pointer.to_string(), 2)).back();
         kernelPath /= kernelType;
-        if (fs::exists((string)fsDataPath + kernelPath.to_string())) {
+        if (fs::exists(fsDataPath.string() + kernelPath.to_string())) {
           fsDataPath += kernelPath.to_string();
         }
       }
 
-      vector<vector<string>> res = getPathsFromRegex(fsDataPath, jsonArrayToVector(eval_json[json_pointer]));
+      vector<vector<string>> res = getPathsFromRegex(fsDataPath.string(), jsonArrayToVector(eval_json[json_pointer]));
       eval_json[json_pointer] = res;
     }
     copyConfig[pointer] = eval_json;

@@ -1,14 +1,14 @@
 #include <fstream>
 #include <gtest/gtest.h>
-#include <spdlog/spdlog.h>
+#include <SpiceQL/spiceql_logging.h>
 
 #include <cstdlib>
 
 #include "Fixtures.h"
 
-#include "query.h"
-#include "utils.h"
-#include "inventory.h"
+#include <SpiceQL/query.h>
+#include <SpiceQL/utils.h>
+#include <SpiceQL/inventory.h>
 
 using namespace std;
 using namespace SpiceQL;

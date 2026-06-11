@@ -267,3 +267,4 @@ namespace std {
 %include "memoized_functions.i"
 %include "inventory.i"
 %include "api.i"
+%include "alias_map.i"

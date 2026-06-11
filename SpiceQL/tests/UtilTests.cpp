@@ -7,17 +7,17 @@ using namespace std::chrono;
 
 #include "TestUtilities.h"
 
-#include "utils.h"
+#include <SpiceQL/utils.h>
 #include "Fixtures.h"
-#include "spice_types.h"
-#include "config.h"
+#include <SpiceQL/spice_types.h>
+#include <SpiceQL/config.h>
 #include <SpiceUsr.h>
-#include "memo.h"
-#include "query.h"
-#include "inventory.h"
-#include "api.h"
+#include <SpiceQL/memo.h>
+#include <SpiceQL/query.h>
+#include <SpiceQL/inventory.h>
+#include <SpiceQL/api.h>
 
-#include <spdlog/spdlog.h>
+#include <SpiceQL/spiceql_logging.h>
 
 using namespace SpiceQL;
 
@@ -383,6 +383,20 @@ TEST_F(LroKernelSet, UnitTestGetTargetStates) {
   EXPECT_DOUBLE_EQ(resStates.at(0)[6], 0.0);
 }
 
+TEST_F(LroKernelSet, UnitTestGetTargetStatesRanged) {
+  vector<double> ets = {110000000, 110000001};
+  auto [resStates, kernels] = getTargetStatesRanged(ets[0], ets[1], 2, "LRO", "LRO", "J2000", "NONE", "lroc", {"smithed"}, {"smithed"});
+
+  EXPECT_EQ(resStates.size(), 2);
+  ASSERT_EQ(resStates.at(0).size(), 7);
+  EXPECT_DOUBLE_EQ(resStates.at(0)[0], 0.0);
+  EXPECT_DOUBLE_EQ(resStates.at(0)[1], 0.0);
+  EXPECT_DOUBLE_EQ(resStates.at(0)[2], 0.0);
+  EXPECT_DOUBLE_EQ(resStates.at(0)[3], 0.0);
+  EXPECT_DOUBLE_EQ(resStates.at(0)[4], 0.0);
+  EXPECT_DOUBLE_EQ(resStates.at(0)[5], 0.0);
+  EXPECT_DOUBLE_EQ(resStates.at(0)[6], 0.0);
+}
 
 TEST_F(LroKernelSet, UnitTestGetTargetState) {
   nlohmann::json testKernelJson;
@@ -402,6 +416,17 @@ TEST_F(LroKernelSet, UnitTestGetTargetState) {
   EXPECT_NEAR(resStates[6], 0.0, 1e-14);
 }
 
+TEST_F(LroKernelSet, UnitTestGetTargetOrientationsRanged) {
+  vector<double> ets = {110000000, 110000001};
+  auto [resOrientations, kernels] = getTargetOrientationsRanged(ets[0], ets[1], 2, 1, -85000, "lroc");
+
+  EXPECT_EQ(resOrientations.size(), 2);
+  ASSERT_EQ(resOrientations.at(0).size(), 7);
+  EXPECT_NEAR(resOrientations.at(0)[0], 0.2886751, 1e-7);
+  EXPECT_NEAR(resOrientations.at(0)[1], -0.2886751, 1e-7);
+  EXPECT_NEAR(resOrientations.at(0)[2], -0.5773503, 1e-7);
+  EXPECT_NEAR(resOrientations.at(0)[3], -0.7071068, 1e-7);
+}
 
 TEST_F(LroKernelSet, UnitTestGetTargetOrientations) {
   vector<double> ets = {110000000};
@@ -409,10 +434,10 @@ TEST_F(LroKernelSet, UnitTestGetTargetOrientations) {
 
   EXPECT_EQ(resOrientations.size(), 1);
   ASSERT_EQ(resOrientations.at(0).size(), 7);
-  EXPECT_DOUBLE_EQ(resOrientations.at(0)[0], 1.0);
-  EXPECT_DOUBLE_EQ(resOrientations.at(0)[1], 0.0);
-  EXPECT_DOUBLE_EQ(resOrientations.at(0)[2], 0.0);
-  EXPECT_DOUBLE_EQ(resOrientations.at(0)[3], 0.0);
+  EXPECT_NEAR(resOrientations.at(0)[0], 0.2886751, 1e-7);
+  EXPECT_NEAR(resOrientations.at(0)[1], -0.2886751, 1e-7);
+  EXPECT_NEAR(resOrientations.at(0)[2], -0.5773503, 1e-7);
+  EXPECT_NEAR(resOrientations.at(0)[3], -0.7071068, 1e-7);
 }
 
 
@@ -425,13 +450,13 @@ TEST_F(LroKernelSet, UnitTestGetTargetOrientation) {
   vector<double> resOrientation = getTargetOrientation(et, -85000, 1);
 
   EXPECT_EQ(resOrientation.size(), 7);
-  EXPECT_NEAR(resOrientation[0], 1.0, 1e-14);
-  EXPECT_NEAR(resOrientation[1], 0.0, 1e-14);
-  EXPECT_NEAR(resOrientation[2], 0.0, 1e-14);
-  EXPECT_NEAR(resOrientation[3], 0.0, 1e-14);
-  EXPECT_NEAR(resOrientation[4], 0.0, 1e-14);
-  EXPECT_NEAR(resOrientation[5], 0.0, 1e-14);
-  EXPECT_NEAR(resOrientation[6], 0.0, 1e-14);
+  EXPECT_NEAR(resOrientation[0], 0.2886751, 1e-7);
+  EXPECT_NEAR(resOrientation[1], 0.2886751, 1e-7);
+  EXPECT_NEAR(resOrientation[2], 0.5773503, 1e-7);
+  EXPECT_NEAR(resOrientation[3], 0.7071068, 1e-7);
+  EXPECT_NEAR(resOrientation[4], 1.0, 1e-7);
+  EXPECT_NEAR(resOrientation[5], 1.0, 1e-14);
+  EXPECT_NEAR(resOrientation[6], 1.0, 1e-14);
 }
 
 class GetRestUrlTest : public EnvVar {

@@ -17,7 +17,7 @@
 #include <iomanip>
 
 #include <ghc/fs_std.hpp>
-#include <spdlog/spdlog.h>
+#include <SpiceQL/spiceql_logging.h>
 
 #include <cereal/archives/binary.hpp>
 #include <cereal/archives/portable_binary.hpp>
@@ -26,7 +26,7 @@
 #include <cereal/types/utility.hpp>
 #include <cereal/archives/json.hpp>
 
-#include "memoized_functions.h"
+#include <SpiceQL/memoized_functions.h>
 
 #define CACHED(cache, func, ...) cache(#func, func, __VA_ARGS__)
 
@@ -101,11 +101,11 @@ namespace Memo {
         if (CACHE_DIRECTORY == "") { 
             const char* cache_dir_char = getenv("SPICEQL_CACHE_DIR");
         
-            std::string  cache_dir; 
-        
+            std::string cache_dir;
+
             if (cache_dir_char == NULL) {
                 std::string  tempname = "spiceql-cache-" + gen_random(10);
-                cache_dir = fs::temp_directory_path() / tempname / "spiceql_cache"; 
+                cache_dir = (fs::temp_directory_path() / tempname / "spiceql_cache").string();
             }
             else {
                 cache_dir = cache_dir_char;

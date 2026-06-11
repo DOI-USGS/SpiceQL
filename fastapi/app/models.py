@@ -158,6 +158,29 @@ class TargetStatesRequestModel(BaseModel):
         ets = verify_ets(info.data)
         return ets
 
+class TargetOrientationsRequestModel(BaseModel):
+    toFrame: int
+    refFrame: int
+    mission: str
+    ets: Annotated[list[float], Query()] | float | str | None = None
+    startEt: float  = None
+    stopEt: float = None
+    numRecords: int = None
+    ckQualities: Annotated[list[str], Query()] | str | None = ["smithed", "reconstructed"]
+    kernelList: Annotated[list[str], Query()] | str | None = []
+    searchKernels: bool = True
+    fullKernelPath: bool = False
+    limitCk: int = -1
+    limitSpk: int = 1
+
+    @field_validator('ets', mode='before')
+    @classmethod
+    def validate_ets(cls, ets: Any, info: ValidationInfo) -> str:
+        """Strips leading/trailing whitespace from the name."""
+        info.data["value"] = ets
+        ets = verify_ets(info.data)
+        return ets
+
 #endregion
 
 
@@ -550,6 +573,20 @@ class MissionParam():
             )]):
         self.value = mission
 
+class NumRecordsParam():
+    @validate_params
+    def __init__(
+            self,
+            numRecords: Annotated[int, Query(
+                description="Number of Ephemeris Times.",
+                openapi_examples={
+                    "example": {
+                        "summary": "4000 Ephemeris Time Records.",
+                        "value": "4000"
+                    }
+                }
+            )]):
+        self.value = numRecords
 
 class ObserverParam():
     def __init__(

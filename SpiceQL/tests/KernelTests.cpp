@@ -1,17 +1,17 @@
 #include <gtest/gtest.h>
 #include <fmt/format.h>
 
-#include "utils.h"
+#include <SpiceQL/utils.h>
 #include "Fixtures.h"
-#include "spice_types.h"
-#include "query.h"
-#include "inventory.h"
-#include "api.h"
-#include "io.h"
+#include <SpiceQL/spice_types.h>
+#include <SpiceQL/query.h>
+#include <SpiceQL/inventory.h>
+#include <SpiceQL/api.h>
+#include <SpiceQL/io.h>
 
 #include <SpiceUsr.h>
 
-#include "spdlog/spdlog.h"
+#include <SpiceQL/spiceql_logging.h>
 
 using namespace SpiceQL;
 
@@ -134,6 +134,41 @@ TEST_F(LroKernelSet, UnitTestUtcToEt) {
   EXPECT_DOUBLE_EQ(et, 533471602.76499087);
 }
 
+
+TEST_F(LroKernelSet, TestUtcToEtNoSearch) {
+  const std::string testUtc = "2016-11-26T22:32:14.582000";
+  const double expectedEt = 533471602.76499087;
+
+  // Test with no search (uses utcet)
+  auto [et_nosearch, kernels_nosearch] = utcToEt(testUtc, false, false);
+  EXPECT_DOUBLE_EQ(et_nosearch, expectedEt);
+
+  // Test with search (uses LSK kernel)
+  auto [et_search, kernels_search] = utcToEt(testUtc, false, true);
+
+  // Both methods should produce the same result
+  EXPECT_NEAR(et_nosearch, et_search, 1e-6);
+}
+
+
+TEST_F(LroKernelSet, TestEtToUTCNoSearch) {
+  const double testEt = 533471602.76499087;
+  const std::string expectedUtc = "2016-11-26T22:32:14.582000";
+  const std::string format = "ISOC";
+  const int precision = 6;
+
+  // Test with no search (uses utcet)
+  auto [utc_nosearch, kernels_nosearch] = etToUtc(testEt, format, precision, false, false);
+  EXPECT_STREQ(utc_nosearch.c_str(), (expectedUtc).c_str());
+
+  // Test with search (uses LSK kernel)
+  auto [utc_search, kernels_search] = etToUtc(testEt, format, precision, false, true);
+  EXPECT_STREQ(utc_search.c_str(), expectedUtc.c_str());
+
+  // Both should produce similar timestamps (utcet adds 'Z' suffix)
+  EXPECT_EQ(utc_nosearch, expectedUtc);
+  EXPECT_EQ(utc_search, expectedUtc);
+}
 
 TEST_F(LroKernelSet, UnitTestGetFrameInfo) {
 

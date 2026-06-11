@@ -2,9 +2,9 @@
 #include <vector>
 
 #include "Fixtures.h"
-#include "io.h"
-#include "utils.h"
-#include "api.h"
+#include <SpiceQL/io.h>
+#include <SpiceQL/utils.h>
+#include <SpiceQL/api.h>
 
 using namespace SpiceQL;
 

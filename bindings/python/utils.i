@@ -1,7 +1,7 @@
 %module(package="pyspiceql") utils
 
 %{
-  #include "utils.h"
+  #include <SpiceQL/utils.h>
 %}
 
-%include "utils.h"
+%include <SpiceQL/utils.h>

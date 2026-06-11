@@ -4,12 +4,12 @@
 #include <fmt/format.h>
 #include <fmt/ranges.h>
 #include <gtest/gtest.h>
-#include <spdlog/spdlog.h>
+#include <SpiceQL/spiceql_logging.h>
 
 #include "Fixtures.h"
 
-#include "query.h"
-#include "utils.h"
+#include <SpiceQL/query.h>
+#include <SpiceQL/utils.h>
 
 using namespace std;
 using namespace SpiceQL;
@@ -237,6 +237,75 @@ TEST_F(IsisDataDirectory, FunctionalTestsLroKernelList) {
 
 TEST_F(IsisDataDirectory, FunctionalTestsCH2KernelList) { 
   compareKernelSets("chandrayaan2", {});
+
+  nlohmann::json conf = getMissionConfig("chandrayaan2");
+  nlohmann::json res = listMissionKernels(tempDir, conf);
+  SPDLOG_DEBUG("Kernel Results: {}", res.dump(4));
+  // check a kernel from each regex exists in their quality groups
+  vector<string> kernelToCheck =  SpiceQL::getKernelsAsVector(res.at("chandrayaan2").at("spk").at("reconstructed").at("kernels"));
+  vector<string> expected = {
+    tempDir/"chandrayaan2"/"kernels"/ "spk" / "ch2_orb_31Mar2020_02May2020_v1.bsp",
+    tempDir/"chandrayaan2"/"kernels"/ "spk" / "ch2_eph_30Sep2025_02Nov2025_v1.bsp"};
+  SPDLOG_DEBUG("Checking TMC2 SPKs");
+  for (auto &e : expected) {
+    auto it = find(kernelToCheck.begin(), kernelToCheck.end(), e);
+    if (it == kernelToCheck.end()) {
+      throw runtime_error(e+" was not found in the kernel results");
+    }
+  }
+
+  kernelToCheck =  SpiceQL::getKernelsAsVector(res.at("chandrayaan2").at("ck").at("reconstructed").at("kernels"));
+  expected = {
+    tempDir/"chandrayaan2"/"kernels"/ "ck" / "ch2_att_01Sep2019_02Oct2019_v1.bc",
+    tempDir/"chandrayaan2"/"kernels"/ "ck" / "ch2_att_27Mar2021_04May2021_v1.bc",
+    tempDir/"chandrayaan2"/"kernels"/ "ck" / "ch2_att_29Nov2020_04Jan2021_v1.bc"};
+  SPDLOG_DEBUG("Checking OHRC CKs");
+  for (auto &e : expected) { 
+    auto it = find(kernelToCheck.begin(), kernelToCheck.end(), e);
+    if (it == kernelToCheck.end()) {
+      throw runtime_error(e+" was not found in the kernel results");
+    }
+  }
+
+  kernelToCheck =  SpiceQL::getKernelsAsVector(res.at("tmc2").at("iak").at("kernels"));
+  expected = {tempDir/"chandrayaan2"/"kernels"/ "iak" / "tmc2Addendum001.ti"};
+  SPDLOG_DEBUG("Checking TMC2 IAKs");
+  for (auto &e : expected) { 
+    auto it = find(kernelToCheck.begin(), kernelToCheck.end(), e);
+    if (it == kernelToCheck.end()) {
+      throw runtime_error(e+" was not found in the kernel results");
+    }
+  }
+
+  kernelToCheck =  SpiceQL::getKernelsAsVector(res.at("ohrc").at("iak").at("kernels"));
+  expected = {tempDir/"chandrayaan2"/"kernels"/ "iak" / "ohrcAddendum001.ti"};
+  SPDLOG_DEBUG("Checking OHRC IAKs");
+  for (auto &e : expected) { 
+    auto it = find(kernelToCheck.begin(), kernelToCheck.end(), e);
+    if (it == kernelToCheck.end()) {
+      throw runtime_error(e+" was not found in the kernel results");
+    }
+  }
+
+  kernelToCheck =  SpiceQL::getKernelsAsVector(res.at("chandrayaan2").at("fk").at("kernels"));
+  expected = {tempDir/"chandrayaan2"/"kernels"/ "fk" / "ch2_v01.tf"};
+  SPDLOG_DEBUG("Checking CH2 FKs");
+  for (auto &e : expected) { 
+    auto it = find(kernelToCheck.begin(), kernelToCheck.end(), e);
+    if (it == kernelToCheck.end()) {
+      throw runtime_error(e+" was not found in the kernel results");
+    }
+  }
+
+  kernelToCheck =  SpiceQL::getKernelsAsVector(res.at("chandrayaan2").at("sclk").at("kernels"));
+  expected = {tempDir/"chandrayaan2"/"kernels"/ "sclk" / "ch2_sclk_v1.tsc"};
+  SPDLOG_DEBUG("Checking CH2 SCLKs");
+  for (auto &e : expected) { 
+    auto it = find(kernelToCheck.begin(), kernelToCheck.end(), e);
+    if (it == kernelToCheck.end()) {
+      throw runtime_error(e+" was not found in the kernel results");
+    }
+  }
 }
 
 TEST_F(IsisDataDirectory, FunctionalTestLroConf) {
@@ -247,7 +316,19 @@ TEST_F(IsisDataDirectory, FunctionalTestLroConf) {
   // check a kernel from each regex exists in their quality groups
   vector<string> kernelToCheck =  SpiceQL::getKernelsAsVector(res.at("moc").at("ck").at("reconstructed").at("kernels"));
   vector<string> expected = {tempDir/"lro"/"kernels"/ "ck" / "moc42r_2016305_2016336_v01.bc"};
-  SPDLOG_DEBUG("Checking CKs");
+  SPDLOG_DEBUG("Checking Recon CKs");
+  for (auto &e : expected) { 
+    auto it = find(kernelToCheck.begin(), kernelToCheck.end(), e);
+    if (it == kernelToCheck.end()) {
+      throw runtime_error(e+" was not found in the kernel results");
+    }
+  }
+
+  SPDLOG_DEBUG("Checking Smithed CKs");
+  kernelToCheck =  SpiceQL::getKernelsAsVector(res.at("moc").at("ck").at("smithed").at("kernels"));
+  expected = {
+    tempDir/"lro"/"kernels"/ "ck" /"LRONAC_SPole_LE_2009_ck.bc"
+  };
   for (auto &e : expected) { 
     auto it = find(kernelToCheck.begin(), kernelToCheck.end(), e);
     if (it == kernelToCheck.end()) {
@@ -268,8 +349,9 @@ TEST_F(IsisDataDirectory, FunctionalTestLroConf) {
   SPDLOG_DEBUG("Checking Smithed SPKs");
   kernelToCheck = getKernelsAsVector(res.at("moc").at("spk").at("smithed")); 
   expected = {tempDir/"lro"/"kernels"/ "spk" /"LRO_ES_05_201308_GRGM660PRIMAT270.bsp", 
-              tempDir/"lro"/"kernels"/ "spk" /"LRO_ES_16_201406_GRGM900C_L600.BSP"};
-
+              tempDir/"lro"/"kernels"/ "spk" /"LRO_ES_16_201406_GRGM900C_L600.BSP",
+              tempDir/"lro"/"kernels"/ "spk" /"LRONAC_SPole_RE_2013_spk.bsp"
+  };
   for (auto &e : expected) { 
     auto it = find(kernelToCheck.begin(), kernelToCheck.end(), e);
     if (it == kernelToCheck.end()) {
@@ -431,14 +513,14 @@ TEST_F(IsisDataDirectory, FunctionalTestOdysseyConf) {
                              "m01_sc_ext22_rec_roto_v2.bc",
                              "m01_sc_ext7.bc",
                              "m01_sc_ext42.bc"};
-  CompareKernelSets(getKernelsAsVector(res.at("odyssey").at("ck").at("reconstructed")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("ck").at("reconstructed")), expected); 
 
   expected = {"themis_nightir_merged_2018Mar02_ck.bc", 
               "themis_dayir_merged_2018Jul13_ck.bc"};
-  CompareKernelSets(getKernelsAsVector(res.at("odyssey").at("ck").at("smithed")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("ck").at("smithed")), expected); 
   
   expected = {"m01_map.bsp"};
-  CompareKernelSets(getKernelsAsVector(res.at("odyssey").at("spk").at("predicted")), expected);  
+  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("spk").at("predicted")), expected);  
   
   expected = {"m01_ab_v2.bsp", 
               "m01_map1_v2.bsp",
@@ -446,11 +528,71 @@ TEST_F(IsisDataDirectory, FunctionalTestOdysseyConf) {
               "m01_ext8.bsp",
               "m01_ext23.bsp",
               "m01_map_rec.bsp"};
-  CompareKernelSets(getKernelsAsVector(res.at("odyssey").at("spk").at("reconstructed")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("spk").at("reconstructed")), expected); 
 
   expected = {"themis_nightir_merged_2018Mar02_spk.bsp", 
               "themis_dayir_merged_2018Jul13_spk.bsp"};
-  CompareKernelSets(getKernelsAsVector(res.at("odyssey").at("spk").at("smithed")), expected);  
+  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("spk").at("smithed")), expected);  
+}
+
+TEST_F(IsisDataDirectory, FunctionalTestKploConf) {
+  fs::path dbPath = getMissionConfigFile("kplo");
+  
+  compareKernelSets("kplo");
+
+  ifstream i(dbPath);
+  nlohmann::json conf = nlohmann::json::parse(i);
+  nlohmann::json res = listMissionKernels(tempDir, conf);
+
+  set<string> kernels = getKernelsAsSet(res);
+  set<string> mission = missionMap.at("kplo");
+
+  vector<string> expected = {"kplo_sc_20220805_20220806_v00.bc",
+                             "kplo_sc_20220805_20220809_v01.bc",
+                             "kplo_sc_20220805_20220811_v03.bc",
+                             "kplo_sc_20220805_20220901_v05.bc",
+                             "kplo_sc_20220806_20220807_v00.bc",
+                             "kplo_sc_20220807_20220808_v02.bc",
+                             "kplo_sc_20220808_20220809_v00.bc",
+                             "kplo_sc_20220809_20220810_v00.bc",
+                             "kplo_sc_20220809_20220816_v01.bc"};
+  compareKernelVector(getKernelsAsVector(res.at("kplo").at("ck").at("reconstructed")), expected);
+  
+  expected = {"kplo_d_20220805_20220806_v00.bsp",
+              "kplo_d_20220805_20220808_v00.bsp",
+              "kplo_d_20220805_20220901_v01.bsp",
+              "kplo_d_20220807_20220808_v00.bsp",
+              "kplo_d_20220808_20220809_v00.bsp",
+              "kplo_d_20220809_20220810_v00.bsp",
+              "kplo_d_20220809_20220813_v00.bsp",
+              "kplo_d_20220810_20220811_v00.bsp",
+              "kplo_d_20220812_20220815_v00.bsp",
+              "kplo_d_20220813_20220816_v00.bsp",
+              "kplo_d_20220814_20220817_v00.bsp"};
+  compareKernelVector(getKernelsAsVector(res.at("kplo").at("spk").at("reconstructed")), expected);
+
+  expected = {"kplo_v00.tf",
+              "kplo_v01.tf"};
+  compareKernelVector(getKernelsAsVector(res.at("kplo").at("fk")), expected);
+
+  expected = {"kplo_sclkscet_v000.tsc",
+              "kplo_sclkscet_v004.tsc",
+              "kplo_sclkscet_v005.tsc",
+              "kplo_sclkscet_v006.tsc",
+              "kplo_sclkscet_v007.tsc",
+              "kplo_sclkscet_v008.tsc",
+              "kplo_sclkscet_v010.tsc",
+              "kplo_sclkscet_v011.tsc",
+              "kplo_sclkscet_v012.tsc",
+              "kplo_sclkscet_v013.tsc"};
+  compareKernelVector(getKernelsAsVector(res.at("kplo").at("sclk")), expected);
+
+  expected = {"kplo_shadowcam_v00.ti"};
+  compareKernelVector(getKernelsAsVector(res.at("shadowcam").at("ik")), expected);
+
+  expected = {"kplo_instrumentAddendum_v01.ti",
+              "kplo_instrumentAddendum_v02.ti"};
+  compareKernelVector(getKernelsAsVector(res.at("shadowcam").at("iak")), expected);
 }
 
 TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsKaguya) {
@@ -470,12 +612,12 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsKaguya) {
   set<string> mission = missionMap.at("kaguya");
   
   vector<string> expected = {"SEL_M_ALL_D_V02.BC"};
-  CompareKernelSets(getKernelsAsVector(res.at("kaguya").at("ck").at("reconstructed")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("kaguya").at("ck").at("reconstructed")), expected); 
 
   expected = {"SEL_M_071020_081226_SGMI_05.BSP",
               "SELMAINGRGM900CL660DIRALT2008103020090610.bsp",
               "SEL_M_071020_090610_SGMH_02.BSP"};
-  CompareKernelSets(getKernelsAsVector(res.at("kaguya").at("spk").at("smithed")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("kaguya").at("spk").at("smithed")), expected); 
 }
 
 
@@ -493,20 +635,20 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsTgo) {
   set<string> mission = missionMap.at("tgo");
   
   vector<string> expected = {"em16_tgo_sc_fmp_026_01_20200321_20200418_f20180215_v01.bc"};
-  CompareKernelSets(getKernelsAsVector(res.at("tgo").at("ck").at("predicted")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("tgo").at("ck").at("predicted")), expected); 
 
   expected = {"em16_tgo_sc_ssm_20190210_20190303_s20190208_v01.bc"};
-  CompareKernelSets(getKernelsAsVector(res.at("tgo").at("ck").at("reconstructed")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("tgo").at("ck").at("reconstructed")), expected); 
 
   expected = {"em16_tgo_fap_167_01_20160314_20180203_v01.bsp"};
-  CompareKernelSets(getKernelsAsVector(res.at("tgo").at("spk").at("predicted")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("tgo").at("spk").at("predicted")), expected); 
 
   expected = {"em16_tgo_cassis_ipp_tel_20160407_20170309_s20170116_v01.bc"};
-  CompareKernelSets(getKernelsAsVector(res.at("cassis").at("ck").at("predicted")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("cassis").at("ck").at("predicted")), expected); 
 
   expected = {"cassis_ck_p_160312_181231_180609.bc",
               "em16_tgo_cassis_tel_20160407_20201231_s20200803_v04.bc"};
-  CompareKernelSets(getKernelsAsVector(res.at("cassis").at("ck").at("reconstructed")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("cassis").at("ck").at("reconstructed")), expected); 
 }
 
 
@@ -526,20 +668,20 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMex) {
   set<string> kernels = getKernelsAsSet(res);set<string> mission = missionMap.at("mex");
   
   vector<string> expected = {"ATNM_P060401000000_00780.BC"};
-  CompareKernelSets(getKernelsAsVector(res.at("mex").at("ck").at("predicted")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("mex").at("ck").at("predicted")), expected); 
 
   expected = {"ATNM_MEASURED_030602_040101_V03.BC",
               "ATNM_RECONSTITUTED_00004.BC"};
-  CompareKernelSets(getKernelsAsVector(res.at("mex").at("ck").at("reconstructed")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("mex").at("ck").at("reconstructed")), expected);
 
   expected = {"ATNM_P060401000000_00780.BC"};
-  CompareKernelSets(getKernelsAsVector(res.at("mex").at("ck").at("predicted")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("mex").at("ck").at("predicted")), expected); 
 
   expected = {"ORMF_______________00720.BSP"};
-  CompareKernelSets(getKernelsAsVector(res.at("mex").at("spk").at("predicted")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("mex").at("spk").at("predicted")), expected);
 
   expected = {"ORHM_______________00038.BSP"};
-  CompareKernelSets(getKernelsAsVector(res.at("mex").at("spk").at("reconstructed")), expected);  
+  compareKernelVector(getKernelsAsVector(res.at("mex").at("spk").at("reconstructed")), expected);  
 
 }
 
@@ -559,19 +701,19 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsLo) {
   set<string> kernels = getKernelsAsSet(res);set<string> mission = missionMap.at("lo");
   
   vector<string> expected = {"lo3_photo_support_ME.bsp", "lo4_photo_support_ME.bsp", "lo5_photo_support_ME.bsp"};
-  CompareKernelSets(getKernelsAsVector(res.at("lo").at("spk").at("reconstructed")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("lo").at("spk").at("reconstructed")), expected);
 
   expected = {"lo3_photo_support_ME.bc", "lo4_photo_support_ME.bc", "lo5_photo_support_ME.bc"};
-  CompareKernelSets(getKernelsAsVector(res.at("lo").at("ck").at("reconstructed")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("lo").at("ck").at("reconstructed")), expected); 
 
   expected = {"lo01.ti", "lo02.ti"};
-  CompareKernelSets(getKernelsAsVector(res.at("lo").at("ik")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("lo").at("ik")), expected);
 
   expected = {"lunarOrbiterAddendum001.ti", "lunarOrbiterAddendum002.ti"};
-  CompareKernelSets(getKernelsAsVector(res.at("lo").at("iak")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("lo").at("iak")), expected);
 
   expected = {"lo_fict.tsc", "lo_fict1.tsc","lo_fict2.tsc","lo_fict3.tsc","lo_fict4.tsc","lo_fict5.tsc"};
-  CompareKernelSets(getKernelsAsVector(res.at("lo").at("sclk")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("lo").at("sclk")), expected);
 
 }
 
@@ -592,28 +734,28 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsSmart1) {
   set<string> kernels = getKernelsAsSet(res);set<string> mission = missionMap.at("smart1");
   
   vector<string> expected = {"ATNS_P050930150947_00220.BC", "ATNS_P030929010023_00188.BC", "ATNS_P060301004212_00233.BC"};
-  CompareKernelSets(getKernelsAsVector(res.at("smart1").at("ck").at("reconstructed")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("smart1").at("ck").at("reconstructed")), expected); 
 
   expected = {"SMART1_070227_STEP.TSC"};
-  CompareKernelSets(getKernelsAsVector(res.at("smart1").at("sclk")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("smart1").at("sclk")), expected);
 
   expected = {""};
-  CompareKernelSets(getKernelsAsVector(res.at("smart1").at("sclk")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("smart1").at("sclk")), expected);
 
   expected = {"SMART1_AMIE_V01.TI"};
-  CompareKernelSets(getKernelsAsVector(res.at("smart1").at("ik")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("smart1").at("ik")), expected); 
 
   expected = {"ORMS_______________00233.BSP"};
-  CompareKernelSets(getKernelsAsVector(res.at("smart1").at("spk").at("predicted")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("smart1").at("spk").at("predicted")), expected);
 
   expected = {"ORMS__041111020517_00206.BSP"};
-  CompareKernelSets(getKernelsAsVector(res.at("smart1").at("spk").at("reconstructed")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("smart1").at("spk").at("reconstructed")), expected);
 
   expected = {"ORHM_______________00038.BSP"};
-  CompareKernelSets(getKernelsAsVector(res.at("smart1").at("spk").at("reconstructed")), expected);  
+  compareKernelVector(getKernelsAsVector(res.at("smart1").at("spk").at("reconstructed")), expected);  
 
   expected = {"SMART1_V1.TF"};
-  CompareKernelSets(getKernelsAsVector(res.at("smart1").at("fk")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("smart1").at("fk")), expected);
 }
 
 TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsHayabusa2) {
@@ -650,7 +792,7 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsHayabusa2) {
                               "hyb2_aocsc_2014_v02.bc",
                               "hyb2_aocsc_2014_v01.bc"
                             };
-  CompareKernelSets(getKernelsAsVector(res.at("hayabusa2").at("ck").at("reconstructed")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("hayabusa2").at("ck").at("reconstructed")), expected); 
 
   expected = {"hyb2_v06.tf",
               "hyb2_v14.tf",
@@ -659,7 +801,7 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsHayabusa2) {
               "hyb2_v09.tf",
               "hyb2_hp_v01.tf"
              };
-  CompareKernelSets(getKernelsAsVector(res.at("hayabusa2").at("fk")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("hayabusa2").at("fk")), expected); 
 
   expected = {"2162173_ryugu_20180601-20191230_0060_20181221.bsp",
               "sat375.bsp",
@@ -668,13 +810,13 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsHayabusa2) {
               "2162173_Ryugu.bsp"
              };
 
-  CompareKernelSets(getKernelsAsVector(res.at("hayabusa2").at("tspk")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("hayabusa2").at("tspk")), expected); 
 
   expected = {"hyb2_20141203-20161231_v01.tsc",
               "hyb2_20141203-20171231_v01.tsc",
               "hyb2_20141203-20191231_v01.tsc"
              };
-  CompareKernelSets(getKernelsAsVector(res.at("hayabusa2").at("sclk")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("hayabusa2").at("sclk")), expected); 
 
 //@TODO lidar derived?
   expected = { "lidar_derived_trj_20191114_20180630053224_20190213030000_v02.bsp",
@@ -685,15 +827,15 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsHayabusa2) {
                "hyb2_hpk_20180627_20190213_v01.bsp",
                "hyb2_approach_od_v20180811114238.bsp"
              };
-  CompareKernelSets(getKernelsAsVector(res.at("onc").at("spk").at("reconstructed")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("onc").at("spk").at("reconstructed")), expected); 
 
   expected = {"hyb2_onc_v00.ti",
               "hyb2_onc_v05.ti"
              };
-  CompareKernelSets(getKernelsAsVector(res.at("onc").at("ik")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("onc").at("ik")), expected); 
 
   expected = {"hyb2oncAddendum0001.ti"};
-  CompareKernelSets(getKernelsAsVector(res.at("onc").at("iak")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("onc").at("iak")), expected); 
 
 }
 
@@ -716,22 +858,22 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsVoyager1) {
   set<string> mission = missionMap.at("voyager1");
   
   vector<string> expected = {"vg1_jup_qmw_wa_fc-31100_t2.bc", "vg1_jup_qmw_na_fc-31100_t2.bc", "vg1_sat_qmw_wa_fc-31100_t2.bc", "vg1_sat_qmw_na_fc-31100_t2.bc"};
-  CompareKernelSets(getKernelsAsVector(res.at("voyager1").at("ck").at("reconstructed")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("voyager1").at("ck").at("reconstructed")), expected); 
 
   expected = {"vg1_eur_usgs2020.bc"};
-  CompareKernelSets(getKernelsAsVector(res.at("voyager1").at("ck").at("smithed")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("voyager1").at("ck").at("smithed")), expected); 
 
   expected = {"vg100010.tsc", "vg100008.tsc"};
-  CompareKernelSets(getKernelsAsVector(res.at("voyager1").at("sclk")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("voyager1").at("sclk")), expected);
 
   expected = {"vg1_issna_v02.ti", "vg1_isswa_v01.ti"};
-  CompareKernelSets(getKernelsAsVector(res.at("voyager1").at("ik")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("voyager1").at("ik")), expected); 
 
   expected = {"vg1_sat.bsp", "vgr1_jup230.bsp", "vg1_sat.bsp"};
-  CompareKernelSets(getKernelsAsVector(res.at("voyager1").at("spk").at("reconstructed")), expected);  
+  compareKernelVector(getKernelsAsVector(res.at("voyager1").at("spk").at("reconstructed")), expected);  
 
   expected = {"vg1_v02.tf"};
-  CompareKernelSets(getKernelsAsVector(res.at("voyager1").at("fk")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("voyager1").at("fk")), expected);
 }
 
 TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsVoyager2) {
@@ -763,22 +905,22 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsVoyager2) {
                               "vg2_sat_version1_type2_iss_sedr.bc",
                               "vg2_sat_qmw_wa_fc-32100_t2.bc",
                               "vg2_nep_version1_type2_iss_sedr.bc"};
-  CompareKernelSets(getKernelsAsVector(res.at("voyager2").at("ck").at("reconstructed")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("voyager2").at("ck").at("reconstructed")), expected); 
 
   expected = {"vg2_eur_usgs2020.bc"};
-  CompareKernelSets(getKernelsAsVector(res.at("voyager2").at("ck").at("smithed")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("voyager2").at("ck").at("smithed")), expected); 
 
   expected = {"vg200010.tsc", "vg200011.tsc" "vg200008.tsc"};
-  CompareKernelSets(getKernelsAsVector(res.at("voyager2").at("sclk")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("voyager2").at("sclk")), expected);
 
   expected = {"vg1_issna_v02.ti", "vg1_isswa_v01.ti"};
-  CompareKernelSets(getKernelsAsVector(res.at("voyager2").at("ik")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("voyager2").at("ik")), expected); 
 
   expected = {"vg2_sat.bsp", "vgr2_jup230.bsp", "vg2_sat.bsp", "vg2_nep.bsp", "vg2_ura.bsp" "vgr2_nep081.bsp", "vgr2_sat336.bsp"};
-  CompareKernelSets(getKernelsAsVector(res.at("voyager2").at("spk").at("reconstructed")), expected);  
+  compareKernelVector(getKernelsAsVector(res.at("voyager2").at("spk").at("reconstructed")), expected);  
 
   expected = {"vg2_v02.tf"};
-  CompareKernelSets(getKernelsAsVector(res.at("voyager2").at("fk")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("voyager2").at("fk")), expected);
 
 }
 
@@ -806,11 +948,11 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMsl) {
                              "msl_surf_rsm_tlmres.bc",
                              "msl_surf_rover_tlm.bc"};
 
-  CompareKernelSets(getKernelsAsVector(res.at("msl").at("ck").at("reconstructed")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("msl").at("ck").at("reconstructed")), expected); 
 
 
   expected = {"msl.tf"};
-  CompareKernelSets(getKernelsAsVector(res.at("msl").at("fk")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("msl").at("fk")), expected);
 
   expected = {"msl_aux_v00.ti",
               "msl_chrmi_20120731_c03.ti",
@@ -834,21 +976,21 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMsl) {
               "msl_nrb_20130530_c05.ti",
               "msl_struct_v01.ti"};
 
-  CompareKernelSets(getKernelsAsVector(res.at("msl").at("ik")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("msl").at("ik")), expected);
   
   expected = {"msl.tsl"};
-  CompareKernelSets(getKernelsAsVector(res.at("msl").at("lsk")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("msl").at("lsk")), expected);
 
   expected = {"msl.tsc",
               "msl_lmst_ops120808_v1.tsc"};
-  CompareKernelSets(getKernelsAsVector(res.at("msl").at("sclk")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("msl").at("sclk")), expected);
 
   expected = {"msl_struct_v02.bsp",
               "msl_cruise_v1.bsp",
               "msl_edl_v01.bsp",
               "msl_ls_ops120808_iau2000_v1.bsp",
               "msl_surf_rover_loc.bsp"};
-  CompareKernelSets(getKernelsAsVector(res.at("msl").at("spk")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("msl").at("spk")), expected);
 }
 
 
@@ -870,25 +1012,25 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMer1) {
   set<string> mission = missionMap.at("mer1");
 
   vector<string> expected = {"mer1_surf_hga_ext10_v1.bc", "mer1_cruise.bc", "mer1_hga_stowed.bc", "mer1_surf_rover_prim_v1.bc"};
-  CompareKernelSets(getKernelsAsVector(res.at("mer1").at("ck").at("reconstructed")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("mer1").at("ck").at("reconstructed")), expected); 
 
   expected = {"mar033_2000-2025.bsp", "mer1_cruise.bsp",
               "de410_de910.bsp","mer1_surf_iddg_ext11_v1.bsp",
               "mer1_struct_ver11.bsp", "mer1_edl_rcb_v1.bsp",
               "mer1_surf_iddg.bsp","mer1_surf_roverrl_0001_3240_v1.bsp"};
-  CompareKernelSets(getKernelsAsVector(res.at("mer1").at("spk").at("reconstructed")), expected);  
+  compareKernelVector(getKernelsAsVector(res.at("mer1").at("spk").at("reconstructed")), expected);  
 
   expected = {"mer1_tp_tm20b3_iau2000_v1.tf", "mer1.tf"};
-  CompareKernelSets(getKernelsAsVector(res.at("mer1").at("fk")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("mer1").at("fk")), expected);
   
   expected = {"mer1_nl_20040125_c196.ti"};
-  CompareKernelSets(getKernelsAsVector(res.at("mer1").at("ik")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("mer1").at("ik")), expected); 
 
   expected = {"MER_253_SCLKSCET.00001.tsc"};
-  CompareKernelSets(getKernelsAsVector(res.at("mer1").at("sclk")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("mer1").at("sclk")), expected);
 
   expected = {"mars_iau2000_v0.tpc"};
-  CompareKernelSets(getKernelsAsVector(res.at("mer1").at("pck")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("mer1").at("pck")), expected);
 
 }
 
@@ -910,24 +1052,67 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMer2) {
   set<string> mission = missionMap.at("mer2");
   
   vector<string> expected = {};
-  CompareKernelSets(getKernelsAsVector(res.at("mer2").at("ck").at("reconstructed")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("mer2").at("ck").at("reconstructed")), expected); 
 
   expected = {"spk_b_s_071029-160101_110624.bsp","mer2_surf_roverrl_ro_v01.bsp",
               "mer2_ls_040108_iau2000_v1.bsp", "de410_de910.bsp",
               "mer2_still_at_ls_v1.bsp", "mer2_struct_ver11.bsp",
               "mar033_2000-2025.bsp", "mer2_edl_rcb_v1.bsp",
               "mer2_surf_rover_all_v01.bsp"};
-  CompareKernelSets(getKernelsAsVector(res.at("mer2").at("spk").at("reconstructed")), expected);  
+  compareKernelVector(getKernelsAsVector(res.at("mer2").at("spk").at("reconstructed")), expected);  
 
   expected = {"mer2.tf","mer2_tp_ep78a3p_iau2000_v1.tf"};
-  CompareKernelSets(getKernelsAsVector(res.at("mer2").at("fk")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("mer2").at("fk")), expected);
   
   expected = {"mer2_rl_20031204_c60.ti"};
-  CompareKernelSets(getKernelsAsVector(res.at("mer2").at("ik")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("mer2").at("ik")), expected); 
 
   expected = {"MER_254_SCLKSCET.00032.tsc", "mer2.tsc"};
-  CompareKernelSets(getKernelsAsVector(res.at("mer2").at("sclk")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("mer2").at("sclk")), expected);
 
   expected = {"mars_iau2000_v0.tpc"};
-  CompareKernelSets(getKernelsAsVector(res.at("mer2").at("pck")), expected);
+  compareKernelVector(getKernelsAsVector(res.at("mer2").at("pck")), expected);
 }
+
+TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsClipper) {
+
+  fs::path dbPath = getMissionConfigFile("clipper");
+  
+  compareKernelSets("clipper");
+
+  ifstream i(dbPath);
+  nlohmann::json conf = nlohmann::json::parse(i);
+
+  nlohmann::json res = listMissionKernels(tempDir, conf);
+
+  set<string> kernels = getKernelsAsSet(res);
+  set<string> mission = missionMap.at("clipper");
+  
+  vector<string> expected = {"clipper_sc_rq_260510_260516_26130_v01.bc",
+                             "clipper_sc_rq_241215_241221_24day350_24day356_v01.bc"};
+  compareKernelVector(getKernelsAsVector(res.at("clipper").at("ck").at("reconstructed")), expected); 
+
+  expected = {"clipper_sc_pb_250918_251030_v01.bc",
+              "clipper_sc_pb_250807_250918_v03.bc",
+              "clipper_sc_pb_250807_250918_v02.bc"};
+  compareKernelVector(getKernelsAsVector(res.at("clipper").at("ck").at("predicted")), expected); 
+
+  expected = {"trj_250515-250626-dco2507090443-cruise006-reconstruct-OD067-v1.bsp"};
+  compareKernelVector(getKernelsAsVector(res.at("clipper").at("spk").at("reconstructed")), expected); 
+
+  expected = {"trj_250601-251129-dco2507310113-cruise009-predict-OD070-v1.bsp"};
+  compareKernelVector(getKernelsAsVector(res.at("clipper").at("spk").at("predicted")), expected);  
+
+  expected = {"clipper_v16.tf", "clipper_v17.tf"};
+  compareKernelVector(getKernelsAsVector(res.at("clipper").at("fk")), expected);
+  
+  expected = {"clipper_eis_v06.ti", "clipper_eis_v07.ti"};
+  compareKernelVector(getKernelsAsVector(res.at("clipper").at("ik")), expected); 
+
+  expected = {"clipperAddendum001.ti"};
+  compareKernelVector(getKernelsAsVector(res.at("clipper").at("iak")), expected); 
+
+  expected = {"europaclipper_00290.tsc", "europaclipper_00291.tsc"};
+  compareKernelVector(getKernelsAsVector(res.at("clipper").at("sclk")), expected);
+}
+

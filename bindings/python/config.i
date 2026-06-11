@@ -1,10 +1,10 @@
 %module(package="pyspiceql") config
 
 %{
-  #include "config.h"
+  #include <SpiceQL/config.h>
 %}
 
-%include "config.h"
+%include <SpiceQL/config.h>
 
 %extend SpiceQL::Config {
     SpiceQL::Config __getitem__(std::string ptr) {

@@ -11,13 +11,13 @@ using namespace std::chrono;
 
 #include "TestUtilities.h"
 
-#include "memo.h"
-#include "memoized_functions.h"
-#include "spiceql.h"
-#include "io.h"
+#include <SpiceQL/memo.h>
+#include <SpiceQL/memoized_functions.h>
+#include <SpiceQL/spiceql.h>
+#include <SpiceQL/io.h>
 #include "Fixtures.h"
 
-#include <spdlog/spdlog.h>
+#include <SpiceQL/spiceql_logging.h>
 
 using namespace SpiceQL;
 using namespace std;

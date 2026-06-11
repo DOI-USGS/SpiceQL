@@ -1,11 +1,12 @@
 #pragma once
 
-#include "config.h"
+#include <SpiceQL/config.h>
 
 #include "gtest/gtest.h"
 #include <ghc/fs_std.hpp>
 
-#include "spice_types.h"
+#include <SpiceQL/spice_types.h>
+#include <SpiceQL/alias_map.h>
 
 using namespace std;
 using namespace SpiceQL;
@@ -31,7 +32,7 @@ class IsisDataDirectory : public TempTestingFiles {
     void SetUp() override;
     void TearDown() override; 
     void compareKernelSets(string name, set<string> expectedDiff = {});
-    void CompareKernelSets(vector<string> kVector, vector<string> expectedSubSet);
+    void compareKernelVector(vector<string> kVector, vector<string> expectedSubSet);
 };
 
 class KernelDataDirectories : public TempTestingFiles  {
@@ -122,4 +123,13 @@ class EnvVar : public ::testing::Test {
  private:
   struct SavedVar { string value; bool hadValue; };
   std::unordered_map<string, SavedVar> saved_;
+};
+
+class AliasMapTest : public TempTestingFiles {
+ protected:
+  void SetUp() override;
+  AliasMap& aliasMap = AliasMap::instance();
+  fs::path defaultAliasMapFile;
+  fs::path testAliasMapFile;
+  fs::path root;
 };

@@ -34,7 +34,42 @@ release.
 -->
 ### unreleased
 
+## 1.4.0
+
+### Added 
+- Integrated utcet library for kernel-free UTC/ET time conversions when no LSK kernels are provided
+- Added feature to UTC conversion functions to load the installed LSK if no kernels are provided. [#126](https://github.com/DOI-USGS/SpiceQL/pull/126#pullrequestreview-4405351255)
+- Added clipper kernel DB. [#127](https://github.com/DOI-USGS/SpiceQL/pull/127)
+- Added chandrayaan2 eph spks to chandrayaan2 db [#128](https://github.com/DOI-USGS/SpiceQL/pull/128)
+- Added Windows build support: explicit filesystem path string conversions and a Windows CI job, reconciled on top of the new logger [#131](https://github.com/DOI-USGS/SpiceQL/pull/131)
+- Added JSON schema for kernel reports returned by SpiceQL API functions. [#81](https://github.com/DOI-USGS/SpiceQL/issues/81)
+
+### Changed
+- UTC/ET conversion functions (`utcToEt` and `etToUtc`) now use utcet library when no kernels are searched or provided, falling back to LSK kernels when explicitly requested
+- Replaced spdlog with a small self-contained header-only logger to avoid ABI collisions when SpiceQL and another spdlog-using library are loaded in the same process [#129](https://github.com/DOI-USGS/SpiceQL/pull/129)
+
+### Fixed
+- fixed utctoet for windows [#135](https://github.com/DOI-USGS/SpiceQL/pull/135)
+- Fixed LRO smithed kernels for north and south pole database by moving them from lroc to moc [#124](https://github.com/DOI-USGS/SpiceQL/pull/124)
+- Removed extraneous LROC_NPOLE kernels from isisKernelList.txt [#125](https://github.com/DOI-USGS/SpiceQL/pull/125)
+- Fixed Chandrayaan2 OHRC IAK db regex [#109](https://github.com/DOI-USGS/SpiceQL/issues/109)
+
+## 1.3.0
+
+### Changed
+- Refactored the aliasMap variable into a JSON file that can be dynamically loaded and accessed [#120](https://github.com/DOI-USGS/SpiceQL/pull/120)
+
+### Fixed
 - Fixed API list parsing when input is a string [#110](https://github.com/DOI-USGS/SpiceQL/pull/110)
+- Fixed getTargetStates failure when query was too long for a GET Request [#114](https://github.com/DOI-USGS/SpiceQL/pull/114)
+
+### Added
+- Added getTargetStatesRanged so a request can be made with start, end, and range of ETs instead of a list [#115](https://github.com/DOI-USGS/SpiceQL/pull/115)
+- Added getTargetOrientationsRanged so a request can be made with start, end, and range of ETs instead of a list [#115](https://github.com/DOI-USGS/SpiceQL/pull/118)
+- Added option to json2DIntArrayTo2DVector to retain empty subarrays rather than remove them [#117](https://github.com/DOI-USGS/SpiceQL/pull/117)
+- Added support for ISD to kernel generation [#116](https://github.com/DOI-USGS/SpiceQL/pull/116)
+- Added KPLO database for access to KPLO kernels [#121](https://github.com/DOI-USGS/SpiceQL/pull/121)
+- Added LRO smithed kernels for the north and south pole into the lro database file [#122](https://github.com/DOI-USGS/SpiceQL/pull/122)
 
 ### 1.2.7
 

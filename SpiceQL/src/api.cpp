@@ -13,15 +13,22 @@
 #include <fmt/ranges.h>
 
 #include <nlohmann/json.hpp>
-#include <spdlog/spdlog.h>
+#include <SpiceQL/spiceql_logging.h>
 
-#include "query.h"
-#include "spice_types.h"
-#include "utils.h"
-#include "inventory.h"
-#include "api.h"
-#include "restincurl.h"
-#include "config.h"
+#include <SpiceQL/query.h>
+#include <SpiceQL/spice_types.h>
+#include <SpiceQL/utils.h>
+#include <SpiceQL/inventory.h>
+#include <SpiceQL/api.h>
+#ifndef _WIN32
+// restincurl is the vendored HTTP client used for the remote REST web-service
+// mode. It is POSIX-only (select/pipe/unistd), so it is not compiled on Windows.
+#include <SpiceQL/restincurl.h>
+#endif
+#include <SpiceQL/config.h>
+#include <SpiceQL/alias_map.h>
+
+#include "utcet.h"
 
 using json = nlohmann::json;
 using namespace std;
@@ -31,137 +38,23 @@ namespace SpiceQL {
     double default_StartTime = -std::numeric_limits<double>::max();
     double default_StopTime = std::numeric_limits<double>::max();
     vector<string> default_KernelQualities = {"smithed", "reconstructed"};
-
-    json aliasMap = {
-      {"AMICA", "amica"},
-      {"CHANDRAYAAN-1_M3", "m3"},
-      {"CHANDRAYAAN-1_MRFFR", "mrffr"},
-      {"CASSINI_ISS_NAC", "cassini"},
-      {"CASSINI_ISS_WAC", "cassini"},
-      {"DAWN_FC2_FILTER_1", "fc2"},
-      {"DAWN_FC2_FILTER_2", "fc2"},
-      {"DAWN_FC2_FILTER_3", "fc2"},
-      {"DAWN_FC2_FILTER_4", "fc2"},
-      {"DAWN_FC2_FILTER_5", "fc2"},
-      {"DAWN_FC2_FILTER_6", "fc2"},
-      {"DAWN_FC2_FILTER_7", "fc2"},
-      {"DAWN_FC2_FILTER_8", "fc2"},
-      {"GLL_SSI_PLATFORM", "galileo"},
-      {"HAYABUSA_AMICA", "amica"},
-      {"HAYABUSA_NIRS", "nirs"},
-      {"HAYABUSA2_ONC-W2", "onc"},
-      {"JUNO_JUNOCAM", "juno"},
-      {"JUPITER", "voyager1"},
-      {"LRO_LROCNACL", "lroc"},
-      {"LRO_LROCNACR", "lroc"},
-      {"LRO_LROCWAC_UV", "lroc"},
-      {"LRO_LROCWAC_VIS", "lroc"},
-      {"LRO_MINIRF", "minirf"},
-      {"M10_VIDICON_A", "m10_vidicon_a"},
-      {"M10_VIDICON_B", "m10_vidicon_b"},
-      {"MARS", "mro"},
-      {"MSGR_MDIS_WAC", "mdis"},
-      {"MSGR_MDIS_NAC", "mdis"},
-      {"MEX_HRSC_SRC", "src"},
-      {"MEX_HRSC_IR", "hrsc"},
-      {"MGS_MOC_NA", "mgs"},
-      {"MGS_MOC_WA_RED", "mgs"},
-      {"MGS_MOC_WA_BLUE", "mgs"},
-      {"MRO_MARCI_VIS", "marci"},
-      {"MRO_MARCI_UV", "marci"},
-      {"MRO_CTX", "ctx"},
-      {"MRO_HIRISE", "hirise"},
-      {"MRO_CRISM_VNIR", "crism"},
-      {"NEAR EARTH ASTEROID RENDEZVOUS", ""},
-      {"NH_LORRI", "lorri"},
-      {"NH_RALPH_LEISA", "leisa"},
-      {"NH_MVIC", "mvic_tdi"},
-      {"ISIS_NH_RALPH_MVIC_METHANE", "mvic_framing"},
-      {"THEMIS_IR", "odyssey"},
-      {"THEMIS_VIS", "odyssey"},
-      {"LISM_MI-VIS1", "kaguya"},
-      {"LISM_MI-VIS2", "kaguya"},
-      {"LISM_MI-VIS3", "kaguya"},
-      {"LISM_MI-VIS4", "kaguya"},
-      {"LISM_MI-VIS5", "kaguya"},
-      {"LISM_MI-NIR1", "kaguya"},
-      {"LISM_MI-NIR2", "kaguya"},
-      {"LISM_MI-NIR3", "kaguya"},
-      {"LISM_MI-NIR4", "kaguya"},
-      {"LISM_TC1_WDF", "kaguya"},
-      {"LISM_TC1_WTF", "kaguya"},
-      {"LISM_TC1_SDF", "kaguya"},
-      {"LISM_TC1_STF", "kaguya"},
-      {"LISM_TC1_WDN", "kaguya"},
-      {"LISM_TC1_WTN", "kaguya"},
-      {"LISM_TC1_SDN", "kaguya"},
-      {"LISM_TC1_STN", "kaguya"},
-      {"LISM_TC1_WDH", "kaguya"},
-      {"LISM_TC1_WTH", "kaguya"},
-      {"LISM_TC1_SDH", "kaguya"},
-      {"LISM_TC1_STH", "kaguya"},
-      {"LISM_TC1_SSH", "kaguya"},
-      {"LO1_HIGH_RESOLUTION_CAMERA", "lo"},
-      {"LO2_HIGH_RESOLUTION_CAMERA", "lo"},
-      {"LO3_HIGH_RESOLUTION_CAMERA", "lo"},
-      {"LO4_HIGH_RESOLUTION_CAMERA", "lo"},
-      {"LO5_HIGH_RESOLUTION_CAMERA", "lo"},
-      {"NEPTUNE", "voyager1"}, 
-      {"SATURN", "voyager1"},
-      {"TGO_CASSIS", "cassis"},
-      {"VIKING ORBITER 1", "viking1"},
-      {"VIKING ORBITER 2", "viking2"},
-      {"VG1_ISSNA", "voyager1"},
-      {"VG1_ISSWA", "voyager1"},
-      {"VG2_ISSNA", "voyager2"},
-      {"VG2_ISSWA", "voyager2"},
-      {"ULTRAVIOLET/VISIBLE CAMERA", "uvvis"},
-      {"Near Infrared Camera", "nir"},
-      {"High Resolution Camera", "clementine1"},
-      {"Long Wave Infrared Camera", "clementine1"},
-      {"Visual and Infrared Spectrometer", "vir"},
-      {"CH2", "chandrayaan2"},
-      {"CH-2", "chandrayaan2"}
-    };
     
-    /**
-     * @brief Translates a given name using the aliasMap and checks if the name is in the frameList.
-     * 
-     * If the name exists as a key in aliasMap, returns the mapped value.
-     * If the name exists in frameList, returns the name itself.
-     * Otherwise, returns an empty string.
-     * 
-     * @param name The name to translate.
-     * @param frameList The list of valid frame names.
-     * @return The translated name or an empty string if not found.
-     */
     std::string getSpiceqlName(const std::string& name) {
-        // Check if name is in aliasMap
-        if (aliasMap.contains(name)) {
-            return aliasMap[name].get<std::string>();
-        }
-        // Check if name is in frameList
-        for (const auto& frame : frameList()) {
-            if (frame == name) {
-                return name;
-            }
-        }
-        // Not found
-        return "";
+        return AliasMap::instance().getSpiceqlName(name);
     }
-
 
     void addAliasKey(const std::string& key, const std::string& value) {
-        aliasMap[key] = value;
+        AliasMap::instance().addAliasKey(key, value);
     }
 
+    nlohmann::json getAliasMap() {
+        return AliasMap::instance().getAliasMap();
+    }
+
+    void setAliasMap(const nlohmann::json& newAliasMap) {
+        AliasMap::instance().setAliasMap(newAliasMap);
+    }
     
-    /**
-     * @brief URL encodes a given string.
-     * 
-     * @param value The string to encode.
-     * @return The encoded string.
-     */
     std::string url_encode(const std::string &value) {
         std::ostringstream escaped;
         escaped.fill('0');
@@ -190,6 +83,14 @@ namespace SpiceQL {
     }
 
     json spiceAPIQuery(std::string functionName, json args, std::string method){
+#ifdef _WIN32
+        // The remote REST web-service mode relies on restincurl, which is not
+        // yet ported to Windows (see the guarded include above). Local kernel
+        // access is unaffected.
+        // TODO(oalexan1): port restincurl to winsock to enable useWeb on Windows.
+        (void) functionName; (void) args; (void) method;
+        throw runtime_error("SpiceQL remote REST mode (useWeb) is not yet supported on Windows.");
+#else
         restincurl::Client client;
         // Need to be able to set URL externally
         std::string queryString = getRestUrl() + functionName + "?";
@@ -260,6 +161,7 @@ namespace SpiceQL {
         }
 
         return j;
+#endif
     }
 
 
@@ -286,7 +188,13 @@ namespace SpiceQL {
                 {"kernelList", kernelList}
                 });
             // @TODO check that json exists / contains what we're looking for
-            json out  = spiceAPIQuery("getTargetStates", args);
+
+            // Testing on Safari with the Cassini Notebook, 
+            // up to 180 ets could be sent, with a character limit slightly above 4000.
+            // To be safe, setting a more conservative 150 ET limit here.
+            const int numEtsGetLimit = 150;
+            std::string requestMethod = ets.size() <= numEtsGetLimit ? "GET" : "POST";
+            json out = spiceAPIQuery("getTargetStates", args, requestMethod);
             vector<vector<double>> kvect = json2DFloatArrayTo2DVector(out["body"]["return"]);
             return make_pair(kvect, out["body"]["kernels"]);
         }
@@ -330,6 +238,86 @@ namespace SpiceQL {
         return {lt_stargs, ephemKernels};
     }
 
+    pair<vector<vector<double>>, json> getTargetStatesRanged(double startEt, 
+                                                             double stopEt, 
+                                                             int numRecords, 
+                                                             string target, 
+                                                             string observer, 
+                                                             string frame, 
+                                                             string abcorr, string mission, 
+                                                             vector<string> ckQualities, 
+                                                             vector<string> spkQualities, 
+                                                             bool useWeb, 
+                                                             bool searchKernels, 
+                                                             bool fullKernelPath, 
+                                                             int limitCk, 
+                                                             int limitSpk, 
+                                                             vector<string> kernelList) 
+    {
+        SPDLOG_TRACE("Calling getTargetStatesRanged with {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}", startEt, stopEt, numRecords, target, observer, frame, abcorr, mission, ckQualities.size(), spkQualities.size(), useWeb, searchKernels, kernelList.size());
+        if (useWeb) {
+            // @TODO validity checks
+            json args = json::object({
+                {"target", target},
+                {"observer", observer},
+                {"frame", frame},
+                {"abcorr", abcorr},
+                {"startEt", startEt},
+                {"stopEt", stopEt},
+                {"numRecords", numRecords},
+                {"mission", mission},
+                {"ckQualities", ckQualities},
+                {"spkQualities", spkQualities},
+                {"searchKernels", searchKernels},
+                {"fullKernelPath", fullKernelPath},
+                {"limitCk", limitCk},
+                {"limitSpk", limitSpk},
+                {"kernelList", kernelList}
+                });
+            // @TODO check that json exists / contains what we're looking for
+            json out = spiceAPIQuery("getTargetStatesRanged", args);
+            vector<vector<double>> kvect = json2DFloatArrayTo2DVector(out["body"]["return"]);
+            return make_pair(kvect, out["body"]["kernels"]);
+        }
+
+        double etInterval = 0;
+        if (numRecords < 1) {
+            throw invalid_argument("Number of Ephemeris Time Records was less than 1."); 
+        }
+        else if (numRecords > 1) {
+            etInterval = (stopEt - startEt) / ((double)numRecords - 1);
+        }
+
+        auto start = std::chrono::high_resolution_clock::now();
+
+        vector<double> ets(numRecords, 0.0);
+        for (int i = 0; i < numRecords; i++) {
+            ets[i] = startEt + i*etInterval;
+        }
+
+        pair<vector<vector<double>>, json> results = getTargetStates(ets, 
+                                                                     target, 
+                                                                     observer, 
+                                                                     frame, 
+                                                                     abcorr, 
+                                                                     mission, 
+                                                                     ckQualities, 
+                                                                     spkQualities, 
+                                                                     false, 
+                                                                     searchKernels, 
+                                                                     fullKernelPath, 
+                                                                     limitCk, 
+                                                                     limitSpk, 
+                                                                     kernelList);
+
+        auto stop = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+        SPDLOG_TRACE("Time in std::chrono::microseconds to get data results: {}", duration.count());
+
+        return results;
+    }
+
+
 
     pair<vector<vector<double>>, json> getTargetOrientations(vector<double> ets, int toFrame, int refFrame, string mission, 
                                                              vector<string> ckQualities, bool useWeb, bool searchKernels, bool fullKernelPath, 
@@ -349,7 +337,9 @@ namespace SpiceQL {
                 {"limitSpk", limitSpk},
                 {"kernelList", kernelList}
             });
-            json out = spiceAPIQuery("getTargetOrientations", args);
+            const int numEtsGetLimit = 150;
+            std::string requestMethod = ets.size() <= numEtsGetLimit ? "GET" : "POST";
+            json out = spiceAPIQuery("getTargetOrientations", args, requestMethod);
             vector<vector<double>> kvect = json2DFloatArrayTo2DVector(out["body"]["return"]);
             return make_pair(kvect, out["body"]["kernels"]);
         }
@@ -390,6 +380,86 @@ namespace SpiceQL {
         return {orientations, ephemKernels};
     }
 
+    pair<vector<vector<double>>, json> getTargetOrientationsRanged(double startEt, 
+                                                                   double stopEt, 
+                                                                   int numRecords, 
+                                                                   int toFrame, 
+                                                                   int refFrame, 
+                                                                   string mission, 
+                                                                   vector<string> ckQualities, 
+                                                                   bool useWeb, 
+                                                                   bool searchKernels, 
+                                                                   bool fullKernelPath, 
+                                                                   int limitCk, 
+                                                                   int limitSpk, 
+                                                                   vector<string> kernelList) 
+    {
+        SPDLOG_TRACE("Calling getTargetOrientationsRanged with {}, {}, {}, {}, {}, {}, {}, {}, {}, {}", startEt, 
+                                                                                                        stopEt, 
+                                                                                                        numRecords, 
+                                                                                                        toFrame, 
+                                                                                                        refFrame, 
+                                                                                                        mission, 
+                                                                                                        ckQualities.size(), 
+                                                                                                        useWeb, 
+                                                                                                        searchKernels, 
+                                                                                                        kernelList.size());
+
+        if (useWeb) {
+            // @TODO validity checks
+            json args = json::object({
+                {"startEt", startEt},
+                {"stopEt", stopEt},
+                {"numRecords", numRecords},
+                {"toFrame", toFrame},
+                {"refFrame", refFrame},
+                {"mission", mission},
+                {"ckQualities", ckQualities},
+                {"searchKernels", searchKernels},
+                {"fullKernelPath", fullKernelPath},
+                {"limitCk", limitCk},
+                {"limitSpk", limitSpk},
+                {"kernelList", kernelList}
+            });
+            // @TODO check that json exists / contains what we're looking for
+            json out = spiceAPIQuery("getTargetOrientationsRanged", args);
+            vector<vector<double>> kvect = json2DFloatArrayTo2DVector(out["body"]["return"]);
+            return make_pair(kvect, out["body"]["kernels"]);
+        }
+
+        double etInterval = 0;
+        if (numRecords < 1) {
+            throw invalid_argument("Number of Ephemeris Time Records was less than 1."); 
+        }
+        else if (numRecords > 1) {
+            etInterval = (stopEt - startEt) / ((double)numRecords - 1);
+        }
+
+        auto start = std::chrono::high_resolution_clock::now();
+
+        vector<double> ets(numRecords, 0.0);
+        for (int i = 0; i < numRecords; i++) {
+            ets[i] = startEt + i*etInterval;
+        }
+
+        pair<vector<vector<double>>, json> results = getTargetOrientations(ets, 
+                                                                           toFrame, 
+                                                                           refFrame, 
+                                                                           mission, 
+                                                                           ckQualities, 
+                                                                           false, 
+                                                                           searchKernels, 
+                                                                           fullKernelPath, 
+                                                                           limitCk, 
+                                                                           limitSpk, 
+                                                                           kernelList);
+
+        auto stop = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+        SPDLOG_TRACE("Time in std::chrono::microseconds to get data results: {}", duration.count());
+
+        return results;
+    }
 
     pair<vector<vector<double>>, json> getExactTargetOrientations(double startEt, double stopEt, int toFrame, int refFrame, int exactCkFrame, string mission, vector<string> ckQualities, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {
         SPDLOG_TRACE("Calling getExactTargetOrientations with startEt={}, stopEt={}, toFrame={}, refFrame={}, exactCkFrame={}, mission={}, ckQualities.size()={}, useWeb={}, searchKernels={}, kernelList.size()={}", 
@@ -582,7 +652,7 @@ namespace SpiceQL {
 
 
     pair<double, json> utcToEt(string utc, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {
-        
+
         if (useWeb){
             json args = json::object({
                 {"utc", utc},
@@ -603,25 +673,33 @@ namespace SpiceQL {
         if (searchKernels) {
             lsks = Inventory::search_for_kernelset("base", {"lsk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk);
         }
+
         if (!kernelList.empty()) {
             json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
             // merge them into the ephem kernels overwriting anything found in the query
             merge_json(lsks, regexk);
         }
-        
-        KernelSet lsk(lsks);
 
-        SpiceDouble et;
-        checkNaifErrors();
-        str2et_c(utc.c_str(), &et);
-        checkNaifErrors();
+        double et;
+
+        // Use LSK kernel if available, otherwise fall back to utcet
+        if(searchKernels || !kernelList.empty()) {
+            SPDLOG_TRACE("Using LSK kernel for UTC to ET conversion");
+            KernelSet lsk(lsks);
+            checkNaifErrors();
+            str2et_c(utc.c_str(), &et);
+            checkNaifErrors();
+        } else {
+            SPDLOG_TRACE("No kernels provided, using utcet for UTC to ET conversion");
+            et = calendarTimeToEphemTime(utc);
+        }
 
         return {et, lsks};
     }
 
 
     pair<string, json> etToUtc(double et, string format, double precision, bool useWeb, bool searchKernels, bool fullKernelPath, int limitCk, int limitSpk, vector<string> kernelList) {
-    
+
         if (useWeb){
             json args = json::object({
                 {"et", et},
@@ -636,8 +714,8 @@ namespace SpiceQL {
             json out = spiceAPIQuery("etToUtc", args);
             string result = out["body"]["return"].get<string>();
             return make_pair(result, out["body"]["kernels"]);
-        }   
-       
+        }
+
         json lsks = {};
 
         // get lsk kernel
@@ -650,13 +728,26 @@ namespace SpiceQL {
             merge_json(lsks, regexk);
         }
 
-        KernelSet lsk(lsks);
+        string utc_string;
 
-        SpiceChar utc_spice[100];
-        checkNaifErrors();
-        et2utc_c(et, format.c_str(), precision, 100, utc_spice);
-        checkNaifErrors();
-        string utc_string(utc_spice);
+        // Use LSK kernel if available, otherwise fall back to utcet
+        if(searchKernels || !kernelList.empty()) {
+            SPDLOG_TRACE("Using LSK kernel for ET to UTC conversion");
+            KernelSet lsk(lsks);
+            SpiceChar utc_spice[100];
+            checkNaifErrors();
+            et2utc_c(et, format.c_str(), precision, 100, utc_spice);
+            checkNaifErrors();
+            utc_string = string(utc_spice);
+        } else {
+            SPDLOG_TRACE("No kernels provided, using utcet for ET to UTC conversion");
+            // Note: format and precision parameters are used with utcet
+            // utcet always returns ISO 8601 format with Z suffix
+            int prec = static_cast<int>(precision);
+            int utclen = 19 + prec + 3;  // Fixed format size
+            utc_string = ephemTimeToCalendarTime(et, format, prec, utclen);
+        }
+
         return {utc_string, lsks};
     }
 
@@ -733,7 +824,7 @@ namespace SpiceQL {
         json kernelsToLoad = {};
 
         if (mission != "" && searchKernels){
-            kernelsToLoad = Inventory::search_for_kernelset(mission, {"fk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk);
+            kernelsToLoad = Inventory::search_for_kernelset(mission, {"fk", "ik", "iak"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk);
         }
         if (!kernelList.empty()) {
             json regexk = Inventory::search_for_kernelset_from_regex(kernelList, fullKernelPath);
@@ -944,7 +1035,7 @@ namespace SpiceQL {
                 {"kernelList", kernelList}
             });
             json out = spiceAPIQuery("frameTrace", args);
-            vector<vector<int>> kvect = json2DIntArrayTo2DVector(out["body"]["return"]);
+            vector<vector<int>> kvect = json2DIntArrayTo2DVector(out["body"]["return"], true);
             return make_pair(kvect, out["body"]["kernels"]);
         }
 
@@ -1141,9 +1232,9 @@ namespace SpiceQL {
         SpiceInt handle;
 
         // Define some Naif constants
-        int FILESIZ = 128;
-        int TYPESIZ = 32;
-        int SOURCESIZ = 128;
+        const int FILESIZ = 128;
+        const int TYPESIZ = 32;
+        const int SOURCESIZ = 128;
         //      double DIRSIZ = 100;
 
         SpiceChar file[FILESIZ];
@@ -1255,9 +1346,19 @@ namespace SpiceQL {
         return {cacheTimes, ephemKernels};
     }
 
-    std::pair<string, nlohmann::json> searchForKernelsets(vector<string> spiceqlNames, vector<string> types, double startTime, double stopTime,
-                                  vector<string> ckQualities, vector<string> spkQualities, bool useWeb, bool fullKernelPath, int limitCk, int limitSpk,
-                                  bool overwrite) { 
+    std::pair<string, nlohmann::json> searchForKernelsets(vector<string> spiceqlNames, 
+                                                          vector<string> types, 
+                                                          double startTime, 
+                                                          double stopTime,
+                                                          vector<string> ckQualities, 
+                                                          vector<string> spkQualities, 
+                                                          bool useWeb, 
+                                                          bool fullKernelPath, 
+                                                          int limitCk, 
+                                                          int limitSpk,
+                                                          bool overwrite) {
+    SPDLOG_TRACE("Calling searchForKernelsets with {}, {}, {}, {}, {}, {}, {}", spiceqlNames, types, startTime, stopTime, ckQualities.size(), spkQualities.size(), useWeb);
+    
       if (useWeb){
         json args = json::object({
             {"spiceqlNames", spiceqlNames},

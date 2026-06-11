@@ -1,11 +1,11 @@
 %module(package="pyspiceql") spice_types
 
 %{
-  #include "spice_types.h"
+  #include <SpiceQL/spice_types.h>
 %}
 
 
-%include "spice_types.h"
+%include <SpiceQL/spice_types.h>
 
 
 %extend SpiceQL::KernelSet {

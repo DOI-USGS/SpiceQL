@@ -6,36 +6,57 @@
 
 namespace SpiceQL {
 
-    extern nlohmann::json aliasMap;
-    
     /**
-     * @brief Accessor for the aliasMap.
-     * @return const reference to the aliasMap JSON object.
+     * @brief Translates a given name using the aliasMap and checks if the name is in the frameList.
+     * 
+     * If the name exists as a key in aliasMap, returns the mapped value.
+     * If the name exists in frameList, returns the name itself.
+     * Otherwise, returns an empty string.
+     * 
+     * @param name The name to translate.
+     * @param frameList The list of valid frame names.
+     * @return The translated name or an empty string if not found.
      */
-    inline const nlohmann::json& getAliasMap() {
-        return aliasMap;
-    }
-
+    std::string getSpiceqlName(const std::string& name);
 
     /**
      * @brief Adds or updates a key-value pair in the aliasMap.
+     * 
      * @param key The key to add or update.
      * @param value The value to associate with the key.
      */
     void addAliasKey(const std::string& key, const std::string& value);
 
-    
+    /**
+     * @brief Accessor for the aliasMap.
+     * 
+     * @return const reference to the aliasMap JSON object.
+     */
+    nlohmann::json getAliasMap();
+
     /**
      * @brief Setter for the aliasMap.
+     * 
      * @param newAliasMap The new JSON object to set as the aliasMap.
      */
-    inline void setAliasMap(const nlohmann::json& newAliasMap) {
-        aliasMap = newAliasMap;
-    }
-
-    std::string getSpiceqlName(const std::string& name);
+    void setAliasMap(const nlohmann::json& newAliasMap);
     
+    /**
+     * @brief URL encodes a given string.
+     * 
+     * @param value The string to encode.
+     * @return The encoded string.
+     */
     std::string url_encode(const std::string &value);
+
+    /**
+     * @brief Query implementation for SpiceQL's REST API
+     * 
+     * @param functionName SpiceQL's REST API endpoint name
+     * @param args Endpoint query params as json
+     * @param method REST HTTP method type as string
+     * @return Response payload as json
+     */
     nlohmann::json spiceAPIQuery(std::string functionName, nlohmann::json args, std::string method="GET");
     
     /**
@@ -89,6 +110,62 @@ namespace SpiceQL {
         int limitCk=-1, 
         int limitSpk=1,
         std::vector<std::string> kernelList={});
+
+    /**
+     * @brief Gives the positions and velocities for a given start and stop ephemeris times and number of records
+     *
+     * Mostly a C++ wrap for NAIF's spkezr_c
+     *
+     * @param startEt ephemeris times at which you want to obtain the target state
+     * @param stopEt ephemeris times at which you want to obtain the target state
+     * @param numRecords the number of states to obtain between startEt and stopEt
+     * @param target NAIF ID for the target frame
+     * @param observer NAIF ID for the observing frame
+     * @param frame The reference frame in which to get the positions in
+     * @param abcorr aborration correction flag, default it NONE.
+     *        This can set to:
+     *           "NONE" - No correction
+     *        For the "reception" case, i.e. photons from the target being recieved by the observer at the given time.
+     *           "LT"   - One way light time correction
+     *           "LT+S" - Correct for one-way light time and stellar aberration correction
+     *           "CN"   - Converging Newtonian light time correction
+     *           "CN+S" - Converged Newtonian light time correction and stellar aberration correction
+     *        For the "transmission" case, i.e. photons emitted from the oberver hitting at target at the given time
+     *           "XLT"   - One-way light time correction using a newtonian formulation
+     *           "XLT+S" - One-way light time and stellar aberration correction using a newtonian formulation
+     *           "XCN"   - converged Newtonian light time correction
+     *           "XCN+S" - converged Newtonian light time correction and stellar aberration correction.
+     * @param mission Config subset as it relates to the mission
+     * @param ckQualities vector of strings describing the quality of cks to try and obtain
+     * @param spkQualities string of strings describing the quality of spks to try and obtain
+     * @param searchKernels bool Whether to search the kernels for the user
+     * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
+     * @param limitCk int number of cks to limit to, default is -1 to retrieve all
+     * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
+     * @param kernelList vector<string> vector of additional kernels to load 
+     * 
+     * @see SpiceQL::getTargetState
+     * @see Kernel::Quality
+     *
+     * @return A vector of vectors with a Nx7 state vector of positions and velocities in x,y,z,vx,vy,vz format followed by the light time adjustment.
+     **/
+    std::pair<std::vector<std::vector<double>>, nlohmann::json> getTargetStatesRanged(
+        double startEt,
+        double stopEt,
+        int numRecords,
+        std::string target,
+        std::string observer,
+        std::string frame,
+        std::string abcorr,
+        std::string mission,
+        std::vector<std::string> ckQualities={"smithed", "reconstructed"},
+        std::vector<std::string> spkQualities={"smithed", "reconstructed"},
+        bool useWeb=false,
+        bool searchKernels=true,
+        bool fullKernelPath=false,
+        int limitCk=-1, 
+        int limitSpk=1,
+        std::vector<std::string> kernelList={});
     
     /**
      * @brief Gives quaternion and angular velocity for a given frame at a set of ephemeris times
@@ -117,6 +194,45 @@ namespace SpiceQL {
         int toFrame,
         int refFrame,
         std::string mission,
+        std::vector<std::string> ckQualities={"smithed", "reconstructed"},
+        bool useWeb=false,
+        bool searchKernels=true,
+        bool fullKernelPath=false,
+        int limitCk=-1, 
+        int limitSpk=1,
+        std::vector<std::string> kernelList={});
+
+    /**
+     * @brief Gives quaternion and angular velocity for a given frame at a set of ephemeris times
+     *
+     * Gets orientations for an input frame in some reference frame.
+     * The orientations returned from this function can be used to transform a position
+     * in the source frame to the ref frame.
+     *
+     * @param startEt ephemeris times at which you want to obtain the target orientation
+     * @param stopEt ephemeris times at which you want to obtain the target orientation
+     * @param numRecords the number of orientations to obtain between startEt and stopEt
+     * @param toframe the source frame's NAIF code.
+     * @param refframe the reference frame's NAIF code, orientations are relative to this reference frame
+     * @param mission Config subset as it relates to the mission
+     * @param ckQualities vector of string describing the quality of cks to try and obtain
+     * @param searchKernels bool Whether to search the kernels for the user
+     * @param fullKernelPath bool if true returns full kernel paths, default returns relative paths
+     * @param limitCk int number of cks to limit to, default is -1 to retrieve all
+     * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
+     * @param kernelList vector<string> vector of additional kernels to load 
+     *
+     * @see SpiceQL::getTargetOrientation
+     *
+     * @returns Vector of SPICE-style quaternions (w,x,y,z) and optional angular velocity (4 element without angular velocity, 7 element with)
+     **/
+    std::pair<std::vector<std::vector<double>>, nlohmann::json> getTargetOrientationsRanged(
+        double startEt, 
+        double stopEt, 
+        int numRecords, 
+        int toFrame, 
+        int refFrame, 
+        std::string mission, 
         std::vector<std::string> ckQualities={"smithed", "reconstructed"},
         bool useWeb=false,
         bool searchKernels=true,
@@ -335,7 +451,7 @@ namespace SpiceQL {
         int limitSpk=1,
         std::vector<std::string> kernelList={});
 
-     /**
+    /**
     * @brief returns frame name and frame code associated to the target ID.
     *
     *  Takes in a target id and returns the frame name and frame code in json format

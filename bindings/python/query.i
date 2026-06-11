@@ -2,7 +2,7 @@
 
 
 %{
-  #include "query.h"
+  #include <SpiceQL/query.h>
 %}
 
-%include "query.h"
+%include <SpiceQL/query.h>

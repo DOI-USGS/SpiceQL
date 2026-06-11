@@ -3,7 +3,7 @@
 
 #include <fmt/format.h>
 #include <fmt/ranges.h>
-#include <spdlog/spdlog.h>
+#include <SpiceQL/spiceql_logging.h>
 
 #include <exception>
 #include <fstream>
@@ -11,10 +11,10 @@
 #include <random>
 #include <sstream>
 
-#include "utils.h"
-#include "io.h"
-#include "query.h"
-#include "inventory.h"
+#include <SpiceQL/utils.h>
+#include <SpiceQL/io.h>
+#include <SpiceQL/query.h>
+#include <SpiceQL/inventory.h>
 
 using namespace std;
 using namespace SpiceQL;
@@ -175,7 +175,7 @@ void IsisDataDirectory::compareKernelSets(string name, set<string> expectedDiff)
 }
 
 
-void IsisDataDirectory::CompareKernelSets(vector<string> kVector, vector<string> expectedSubSet) {
+void IsisDataDirectory::compareKernelVector(vector<string> kVector, vector<string> expectedSubSet) {
   for (auto &e : kVector) { 
     auto it = find(kVector.begin(), kVector.end(), e);
     if (it == kVector.end()) {
@@ -355,7 +355,11 @@ void LroKernelSet::SetUp() {
     "moc" : {
         "ck" : {
             "reconstructed" : {
-                "kernels": ["soc31.*.bc", "lrolc.*.bc"]
+                "kernels": [
+                "soc31.*.bc", 
+                "lrolc.*.bc", 
+                "LROC_NPOLE_.*_ck.bc",
+                "LRONAC_SPole_.*_ck.bc"]
             },
             "deps" : {
             "sclk" : ["lro_clkcor_[0-9]{7}_v[0-9]{2}.tsc"],
@@ -363,25 +367,29 @@ void LroKernelSet::SetUp() {
             }
         },
         "spk" : {
-        "reconstructed" : {
-            "kernels" : ["fdf29_[0-9]{7}_[0-9]{7}_[0-9]{3}.bsp", "fdf29r_[0-9]{7}_[0-9]{7}_[0-9]{3}.bsp"]
-        },
-        "smithed" : {
-            "kernels" : ["LRO_.*_GRGM660.*.bsp", "LRO_.*_GRGM900C.*.BSP"]
-        },
-        "deps" : {
-            "sclk" : ["lro_clkcor_[0-9]{7}_v[0-9]{2}.tsc"],
-            "objs" : ["/base/lsk", "/moc/sclk"]
-        }
+          "reconstructed" : {
+              "kernels" : ["fdf29_[0-9]{7}_[0-9]{7}_[0-9]{3}.bsp", "fdf29r_[0-9]{7}_[0-9]{7}_[0-9]{3}.bsp"]
+          },
+          "smithed" : {
+              "kernels" : [
+                "LRO_.*_GRGM660.*.bsp",
+                "LRO_.*_GRGM900C.*.BSP",
+                "LROC_NPOLE_.*_spk.bsp",
+                "LRONAC_SPole_.*_spk.bsp"]
+          },
+          "deps" : {
+              "sclk" : ["lro_clkcor_[0-9]{7}_v[0-9]{2}.tsc"],
+              "objs" : ["/base/lsk", "/moc/sclk"]
+          }
         },
         "sclk" : {
-        "kernels" : ["lro_clkcor_[0-9]{7}_v[0-9]{2}.tsc"]
+          "kernels" : ["lro_clkcor_[0-9]{7}_v[0-9]{2}.tsc"]
         },
         "fk" : {
-        "kernels" : ["lro_frames_[0-9]{7}_v[0-9]{2}.tf"]
+          "kernels" : ["lro_frames_[0-9]{7}_v[0-9]{2}.tf"]
         },
         "ik" : {
-        "kernels" : ["lro_instruments_v[0-9]{2}.ti"]
+          "kernels" : ["lro_instruments_v[0-9]{2}.ti"]
         }
     }
 })"_json;
@@ -396,4 +404,15 @@ void TestConfig::SetUp() {
 
 void TestConfig::TearDown() {
 
+}
+
+void AliasMapTest::SetUp() {
+  TempTestingFiles::SetUp();
+  root = getenv("SPICEROOT");
+
+  // default aliasMap.json in repo
+  defaultAliasMapFile = fs::path(_SOURCE_PREFIX) / "SpiceQL" / "aliasMap.json";
+
+  // test aliasMap JSON file
+  testAliasMapFile = fs::path("data") / "aliasMap.test.json";
 }

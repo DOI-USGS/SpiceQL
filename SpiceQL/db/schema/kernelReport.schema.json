@@ -1,0 +1,78 @@
+{
+  "type": "object",
+  "properties": {
+    "ck": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "spk": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tspk": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "fk": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sclk": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "lsk": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ik": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "iak": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "dsk": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pck": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ek": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "patternProperties": {
+    "^[a-zA-Z][a-zA-Z0-9_-]*_(ck|spk)_quality$": {
+      "type": "string",
+      "enum": ["reconstructed", "predicted", "smithed", "noquality"]
+    }
+  },
+  "additionalProperties": false
+}

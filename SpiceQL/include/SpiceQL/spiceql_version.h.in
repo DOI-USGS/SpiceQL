@@ -1,0 +1,8 @@
+#ifndef SPICEQL_VERSION_H
+#define SPICEQL_VERSION_H
+
+#include <string>
+
+const std::string SPICEQL_VERSION = "@PROJECT_VERSION@";
+
+#endif // SPICEQL_VERSION_H

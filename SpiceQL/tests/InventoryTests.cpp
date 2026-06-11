@@ -5,12 +5,12 @@
 #include "TestUtilities.h"
 #include "Fixtures.h"
 
-#include "inventory.h"
-#include "inventoryimpl.h"
-#include "api.h"
+#include <SpiceQL/inventory.h>
+#include <SpiceQL/inventoryimpl.h>
+#include <SpiceQL/api.h>
 
 #include <fstream>
-#include <spdlog/spdlog.h>
+#include <SpiceQL/spiceql_logging.h>
 #include <highfive/highfive.hpp>
 
 

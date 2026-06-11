@@ -1,7 +1,7 @@
 %module(package="pyspiceql") io
 
 %{
-  #include "inventory.h"
+  #include <SpiceQL/inventory.h>
 %}
 
-%include "inventory.h"
+%include <SpiceQL/inventory.h>

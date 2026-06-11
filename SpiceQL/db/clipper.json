@@ -1,0 +1,33 @@
+{
+    "clipper": {
+        "spk" : { 
+            "predicted" : {
+                "kernels" : ["trj_[0-9]{6}-[0-9]{6}-dco[0-9]{10}-cruise[0-9]{3}-predict-OD[0-9]{3}-v[0-9].bsp$"]
+            },
+            "reconstructed" : {
+                "kernels" : ["trj_[0-9]{6}-[0-9]{6}-dco[0-9]{10}-cruise[0-9]{3}-reconstruct-OD[0-9]{3}-v[0-9].bsp$"]
+            }
+        },
+        "ck" : {
+            "predicted" : {
+                "kernels" : ["clipper_sc_pb_[0-9]{6}_[0-9]{6}_v[0-9]{2}.bc$"]
+            },
+            "reconstructed" : {
+                "kernels" : ["clipper_sc_rq_[0-9]{6}_[0-9]{6}_[0-9]{5}_v[0-9]{2}.bc$",
+                             "clipper_sc_rq_[0-9]{6}_[0-9]{6}_[0-9]{2}day[0-9]{3}_[0-9]{2}day[0-9]{3}_v[0-9]{2}.bc$"]
+            }
+        },
+        "fk": {
+            "kernels": ["clipper_v[0-9]{2}.tf$"]
+        },
+        "sclk": {
+            "kernels": ["europaclipper_[0-9]{5}.tsc$"]
+        },
+        "ik": {
+            "kernels" : ["clipper_eis_v[0-9]{2}.ti$"]
+        },
+        "iak": {
+            "kernels" : ["clipperAddendum[0-9]{3}.ti$"]
+        }
+    }
+}

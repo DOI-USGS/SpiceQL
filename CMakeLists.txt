@@ -1,6 +1,6 @@
 include(CMakeDependentOption)
 cmake_minimum_required(VERSION 3.10)
-project(SpiceQL VERSION 1.2.7 DESCRIPTION "Spice Query Library")
+project(SpiceQL VERSION 1.4.0 DESCRIPTION "Spice Query Library")
 
 set(PACKAGE_VERSION ${PROJECT_VERSION})
 
@@ -28,7 +28,7 @@ list(APPEND CMAKE_FIND_ROOT_PATH /var/lang/)
 message(STATUS "find path: " ${CMAKE_FIND_ROOT_PATH})
 
 # Variables required by multiple build options
-set(SPICEQL_BUILD_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include/")
+set(SPICEQL_BUILD_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include/SpiceQL")
 
 set(default_build_type "Release")
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -56,9 +56,8 @@ if(SPICEQL_BUILD_LIB)
   add_subdirectory("submodules/json")
   
   find_package(cspice REQUIRED)
-  find_package(fmt REQUIRED)
-  find_package(cereal REQUIRED)
-  find_package(spdlog REQUIRED)
+  find_package(fmt CONFIG REQUIRED)
+  find_package(cereal CONFIG REQUIRED)
   find_package(HighFive REQUIRED)
   find_package(CURL REQUIRED)
 
@@ -72,7 +71,8 @@ if(SPICEQL_BUILD_LIB)
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/config.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/inventory.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/inventoryimpl.cpp
-                          ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/api.cpp)
+                          ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/api.cpp
+                          ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/alias_map.cpp)
 
 
   set(SPICEQL_HEADER_FILES ${SPICEQL_BUILD_INCLUDE_DIR}/spiceql.h
@@ -84,10 +84,13 @@ if(SPICEQL_BUILD_LIB)
                            ${SPICEQL_BUILD_INCLUDE_DIR}/config.h
                            ${SPICEQL_BUILD_INCLUDE_DIR}/inventory.h
                            ${SPICEQL_BUILD_INCLUDE_DIR}/inventoryimpl.h
-                           ${SPICEQL_BUILD_INCLUDE_DIR}/api.h)
+                           ${SPICEQL_BUILD_INCLUDE_DIR}/api.h
+                           ${SPICEQL_BUILD_INCLUDE_DIR}/alias_map.h)
 
   set(SPICEQL_PRIVATE_HEADER_FILES ${SPICEQL_BUILD_INCLUDE_DIR}/memo.h
                                    ${SPICEQL_BUILD_INCLUDE_DIR}/restincurl.h)
+
+  set(SPICEQL_ALIASMAP_FILE ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/aliasMap.json)
 
   set(SPICEQL_CONFIG_FILES ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/apollo15.json 
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/apollo16.json
@@ -97,12 +100,14 @@ if(SPICEQL_BUILD_LIB)
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/chandrayaan1.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/chandrayaan2.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/clem1.json
+                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/clipper.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/dawn.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/galileo.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/hayabusa.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/hayabusa2.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/juno.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/kaguya.json
+                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/kplo.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/lro.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/lo.json
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/mariner10.json
@@ -125,26 +130,40 @@ if(SPICEQL_BUILD_LIB)
                            ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/voyager2.json
                            )
 
-  set(SPICEQL_KERNELS ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/kernels/naif0011.tls)
+  set(SPICEQL_KERNELS ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/db/kernels/naif0012.tls)
 
-  configure_file (${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include/version.h.in ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include/version.h @ONLY)
+  # Generate the version header into the build tree (not the source tree) and
+  # reach it as <SpiceQL/spiceql_version.h> via the build-dir include path below.
+  configure_file (${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include/SpiceQL/spiceql_version.h.in ${CMAKE_BINARY_DIR}/SpiceQL/spiceql_version.h @ONLY)
   add_library(SpiceQL SHARED ${SPICEQL_SRC_FILES})
 
   set_target_properties(SpiceQL PROPERTIES
                                   VERSION ${PROJECT_VERSION}
                                   SOVERSION 0)
 
-  target_compile_definitions(SpiceQL PRIVATE SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE 
-                                     PUBLIC -D_SOURCE_PREFIX="${CMAKE_CURRENT_SOURCE_DIR}")
+  # spdlog dependency removed: see SpiceQL/include/spiceql_logging.h. Logging is
+  # now a small self-contained logger using fmt, so no SPDLOG_ACTIVE_LEVEL is
+  # needed.
+  target_compile_definitions(SpiceQL PUBLIC -D_SOURCE_PREFIX="${CMAKE_CURRENT_SOURCE_DIR}")
+
+  # On Windows, prevent <windows.h> (pulled in by HDF5/HighFive) from defining
+  # the min/max macros, which otherwise break std::min/std::max and headers
+  # such as HighFive that use them.
+  if(WIN32)
+    target_compile_definitions(SpiceQL PUBLIC NOMINMAX)
+  endif()
 
 get_target_property(CSPICE_INCLUDE_DIRS CSPICE::cspice INTERFACE_INCLUDE_DIRECTORIES)
 
 target_include_directories(SpiceQL
                             PUBLIC
                             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include>
+                            $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}>
                             $<INSTALL_INTERFACE:include>
                             PRIVATE
                             ${CMAKE_CURRENT_SOURCE_DIR}/submodules/BTree/include/
+                            ${CMAKE_CURRENT_SOURCE_DIR}/submodules/gularkfilesystem/include/
+                            ${CMAKE_CURRENT_SOURCE_DIR}/submodules/utcet/
                             cereal
                             ${CSPICE_INCLUDE_DIRS}
                             )
@@ -153,15 +172,14 @@ target_include_directories(SpiceQL
                         PUBLIC
                         fmt::fmt-header-only
                         nlohmann_json::nlohmann_json
+                        cereal::cereal
                         PRIVATE
                         CSPICE::cspice
-                        spdlog::spdlog_header_only
                         HighFive
                         ${CURL_LIBRARIES}
                         )
    
   install(TARGETS SpiceQL LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
-  install(DIRECTORY ${SPICEQL_INCLUDE_DIR} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
   # Generate the package config
   configure_file(cmake/config.cmake.in
@@ -176,21 +194,17 @@ target_include_directories(SpiceQL
   install(FILES ${SPICEQL_HEADER_FILES} DESTINATION ${SPICEQL_INSTALL_INCLUDE_DIR})
 
   # Install the json db files
+  install(FILES ${SPICEQL_ALIASMAP_FILE} DESTINATION "etc/SpiceQL")
+
+  # Install the json db files
   install(FILES ${SPICEQL_CONFIG_FILES} DESTINATION "etc/SpiceQL/db")
 
   # Install the shipped kernels
   install(FILES ${SPICEQL_KERNELS} DESTINATION "etc/SpiceQL/db/kernels")
 
   # Install the library
-  install(TARGETS SpiceQL nlohmann_json ghc_filesystem
-          EXPORT spiceQLTargets
-          LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
-          INCLUDES DESTINATION ${SPICEQL_INSTALL_INCLUDE_DIR})
-
-  # Install the target
-  install(EXPORT spiceQLTargets
-          NAMESPACE spice::
-          DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
+  install(TARGETS SpiceQL
+          LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 else()
   message(STATUS "Skipping Library")
