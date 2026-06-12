@@ -165,7 +165,7 @@ TEST_F(LroKernelSet, TestEtToUTCNoSearch) {
   auto [utc_search, kernels_search] = etToUtc(testEt, format, precision, false, true);
   EXPECT_STREQ(utc_search.c_str(), expectedUtc.c_str());
 
-  // Both should produce similar timestamps (utcet adds 'Z' suffix)
+  // Both paths must produce byte-identical output.
   EXPECT_EQ(utc_nosearch, expectedUtc);
   EXPECT_EQ(utc_search, expectedUtc);
 }

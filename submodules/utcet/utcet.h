@@ -397,18 +397,17 @@ std::string ephemTimeToCalendarTime(double ephemTime, std::string format, int pr
   };
 
   // Fractional-seconds suffix. prec == 0 omits the decimal point entirely, as
-  // CSPICE's et2utc does. Trailing zeros are trimmed from the fraction (e.g.
-  // ".1234000" -> ".1234"); an all-zero fraction drops the decimal point too.
+  // CSPICE's et2utc does. For prec > 0 the fraction is zero-padded to exactly
+  // prec digits with no trailing-zero trimming -- matching et2utc_c, which
+  // emits a fixed-width fraction for every calendar format (C, D, ISOC, ISOD),
+  // e.g. ".582000" at prec 6 and ".000000" on a whole second. (The J format
+  // uses %f above and is unaffected by this.)
   std::string fracStr;
   if (prec > 0) {
     std::vector<char> fbuf(prec + 2);
     std::string fracFmt = ".%0" + std::to_string(prec) + "ld";
     snprintf(fbuf.data(), fbuf.size(), fracFmt.c_str(), fracDigits);
     fracStr = fbuf.data();
-    fracStr.erase(fracStr.find_last_not_of('0') + 1);
-    if (fracStr == ".") {
-      fracStr.clear();
-    }
   }
 
   // Assemble the date/time portion per the requested format code. Defaults to
