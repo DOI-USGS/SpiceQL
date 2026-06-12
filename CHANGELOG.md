@@ -34,6 +34,8 @@ release.
 -->
 ### unreleased
 
+- fixed formatting errors when using et2UTc without kernels [#137](https://github.com/DOI-USGS/SpiceQL/pull/137)
+
 ## 1.4.0
 
 ### Added 
