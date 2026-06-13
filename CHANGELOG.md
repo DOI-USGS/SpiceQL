@@ -34,6 +34,11 @@ release.
 -->
 ### unreleased
 
+## 1.4.1
+
+### Fixed
+- Fixed utcet leap-second extrapolation for dates before 1972 so pre-1972 epochs (e.g. Apollo) match CSPICE, and broadened UTC string parsing to support the calendar formats CSPICE's str2et accepts [#137](https://github.com/DOI-USGS/SpiceQL/pull/137)
+
 ## 1.4.0
 
 ### Added 
