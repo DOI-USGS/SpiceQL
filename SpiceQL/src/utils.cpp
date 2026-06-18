@@ -1385,5 +1385,85 @@ namespace SpiceQL {
       }
     }
     return "";
+  json formatKernels(vector<string> kernelPaths) {
+    SPDLOG_TRACE("formatKernels with {} paths", kernelPaths.size());
+
+    const unordered_map<string, string> spiceTypeToKey = {
+      {"CK", "ck"},
+      {"SPK", "spk"},
+      {"TEXT", "text"}
+    };
+
+    const unordered_map<string, string> extToType = {
+      {".bc", "ck"},
+      {".bsp", "spk"},
+      {".tf", "fk"},
+      {".ti", "ik"},
+      {".tls", "lsk"},
+      {".tm", "mk"},
+      {".tpc", "pck"},
+      {".bpc", "pck"},
+      {".tsc", "sclk"},
+      {".iak", "iak"},
+      {".bds", "dsk"},
+      {".bes", "ek"}
+    };
+
+    json result = json::object();
+
+    for (const string& kernelPath : kernelPaths) {
+      string kernelType;
+      bool typeFound = false;
+
+      if (fs::exists(kernelPath)) {
+        try {
+          string spiceType = getKernelType(kernelPath);
+
+          unordered_map<string, string>::const_iterator it = spiceTypeToKey.find(spiceType);
+          if (it != spiceTypeToKey.end()) {
+            if (spiceType == "TEXT") {
+              fs::path path(kernelPath);
+              string ext = toLower(path.extension().string());
+              unordered_map<string, string>::const_iterator extIt = extToType.find(ext);
+              if (extIt != extToType.end()) {
+                kernelType = extIt->second;
+                typeFound = true;
+              } else {
+                SPDLOG_WARN("Unknown TEXT kernel extension '{}' for file: {}", ext, kernelPath);
+              }
+            } else {
+              kernelType = it->second;
+              typeFound = true;
+            }
+          } else {
+            kernelType = toLower(spiceType);
+            typeFound = true;
+          }
+        } catch (const exception& e) {
+          SPDLOG_DEBUG("Could not read kernel type for '{}': {}. Falling back to extension.", kernelPath, e.what());
+        }
+      }
+
+      if (!typeFound) {
+        fs::path path(kernelPath);
+        string ext = toLower(path.extension().string());
+        unordered_map<string, string>::const_iterator extIt = extToType.find(ext);
+        if (extIt != extToType.end()) {
+          kernelType = extIt->second;
+          typeFound = true;
+        } else {
+          SPDLOG_WARN("Unknown kernel extension '{}' for file: {}", ext, kernelPath);
+        }
+      }
+
+      if (typeFound) {
+        if (!result.contains(kernelType)) {
+          result[kernelType] = json::array();
+        }
+        result[kernelType].push_back(kernelPath);
+      }
+    }
+
+    return result;
   }
 }

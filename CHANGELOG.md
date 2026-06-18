@@ -32,7 +32,10 @@ When preparing for a bug fix release create a new 2nd heading above the Fixed
 heading to indicate that only the bug fixes and security fixes are in the bug fix
 release.
 -->
-### unreleased
+### Unreleased
+
+### Added
+- Added `formatKernels()` utility function to organize a list of kernel file paths into a JSON object grouped by kernel type. [#101](https://github.com/DOI-USGS/SpiceQL/issues/101)
 
 ## 1.5.0 - 2026-06-27
 

@@ -531,4 +531,13 @@ namespace SpiceQL {
    */
   std::string inferMission(const std::vector<std::string>& nameCandidates,
                            const std::vector<int>& codeCandidates);
+
+  /**
+   * @brief Format a list of kernel paths into a kernels JSON object organized by type
+   *
+   * @param kernelPaths vector of kernel file paths
+   * @return nlohmann::json object with kernels organized by type
+   *
+   */
+  nlohmann::json formatKernels(std::vector<std::string> kernelPaths);
 }

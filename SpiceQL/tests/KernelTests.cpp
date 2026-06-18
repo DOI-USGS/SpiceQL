@@ -323,3 +323,128 @@ TEST_F(TempTestingFiles, UnitTestIAKKernelSetConstructor) {
   EXPECT_EQ(ks.m_loadedKernels[1]->path, iakPath.string());
   EXPECT_EQ(findKeywords("IK_KEY")["IK_KEY"][1], 100);
 }
+
+
+TEST(FormatKernelsTest, FormatKernelsBasicTypes) {
+  std::vector<std::string> kernels = {
+    "k1.tf",
+    "k2.ti",
+    "k3.bsp"
+  };
+
+  nlohmann::json result = formatKernels(kernels);
+
+  EXPECT_TRUE(result.contains("fk"));
+  EXPECT_TRUE(result.contains("ik"));
+  EXPECT_TRUE(result.contains("spk"));
+
+  EXPECT_EQ(result["fk"].size(), 1);
+  EXPECT_EQ(result["ik"].size(), 1);
+  EXPECT_EQ(result["spk"].size(), 1);
+
+  EXPECT_EQ(result["fk"][0], "k1.tf");
+  EXPECT_EQ(result["ik"][0], "k2.ti");
+  EXPECT_EQ(result["spk"][0], "k3.bsp");
+}
+
+
+TEST(FormatKernelsTest, FormatKernelsMultipleSameType) {
+  std::vector<std::string> kernels = {
+    "k1.tf",
+    "k2.tf",
+    "k3.bsp",
+    "k4.bsp"
+  };
+
+  nlohmann::json result = formatKernels(kernels);
+
+  EXPECT_TRUE(result.contains("fk"));
+  EXPECT_TRUE(result.contains("spk"));
+
+  EXPECT_EQ(result["fk"].size(), 2);
+  EXPECT_EQ(result["spk"].size(), 2);
+
+  EXPECT_EQ(result["fk"][0], "k1.tf");
+  EXPECT_EQ(result["fk"][1], "k2.tf");
+  EXPECT_EQ(result["spk"][0], "k3.bsp");
+  EXPECT_EQ(result["spk"][1], "k4.bsp");
+}
+
+
+TEST(FormatKernelsTest, FormatKernelsAllTypes) {
+  std::vector<std::string> kernels = {
+    "attitude.bc",
+    "ephemeris.bsp",
+    "frames.tf",
+    "instrument.ti",
+    "leapsec.tls",
+    "metakernel.tm",
+    "constants.tpc",
+    "clock.tsc",
+    "addendum.iak",
+    "shape.bds",
+    "events.bes"
+  };
+
+  nlohmann::json result = formatKernels(kernels);
+
+  EXPECT_TRUE(result.contains("ck"));
+  EXPECT_TRUE(result.contains("spk"));
+  EXPECT_TRUE(result.contains("fk"));
+  EXPECT_TRUE(result.contains("ik"));
+  EXPECT_TRUE(result.contains("lsk"));
+  EXPECT_TRUE(result.contains("mk"));
+  EXPECT_TRUE(result.contains("pck"));
+  EXPECT_TRUE(result.contains("sclk"));
+  EXPECT_TRUE(result.contains("iak"));
+  EXPECT_TRUE(result.contains("dsk"));
+  EXPECT_TRUE(result.contains("ek"));
+
+  EXPECT_EQ(result["ck"][0], "attitude.bc");
+  EXPECT_EQ(result["spk"][0], "ephemeris.bsp");
+  EXPECT_EQ(result["fk"][0], "frames.tf");
+}
+
+
+TEST(FormatKernelsTest, FormatKernelsEmptyInput) {
+  std::vector<std::string> kernels = {};
+
+  nlohmann::json result = formatKernels(kernels);
+
+  EXPECT_TRUE(result.is_object());
+  EXPECT_EQ(result.size(), 0);
+}
+
+
+TEST(FormatKernelsTest, FormatKernelsMixedCase) {
+  std::vector<std::string> kernels = {
+    "kernel.TF",
+    "KERNEL.BSP",
+    "Kernel.Ti"
+  };
+
+  nlohmann::json result = formatKernels(kernels);
+
+  EXPECT_TRUE(result.contains("fk"));
+  EXPECT_TRUE(result.contains("spk"));
+  EXPECT_TRUE(result.contains("ik"));
+}
+
+
+TEST_F(LroKernelSet, FormatKernelsWithRealFiles) {
+  std::vector<std::string> kernels = {
+    lskPath,
+    fkPath,
+    ikPath1
+  };
+
+  nlohmann::json result = formatKernels(kernels);
+
+  EXPECT_TRUE(result.contains("lsk"));
+  EXPECT_TRUE(result.contains("fk"));
+  EXPECT_TRUE(result.contains("ik"));
+
+  EXPECT_EQ(result["lsk"][0], lskPath);
+  EXPECT_EQ(result["fk"][0], fkPath);
+  EXPECT_EQ(result["ik"][0], ikPath1);
+}
