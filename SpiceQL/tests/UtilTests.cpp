@@ -494,23 +494,9 @@ TEST_F(GetRestUrlTest, HandlesEmptyEnvVar) {
 }
 
 
-// ---------------------------------------------------------------------------
-// inferMission
-// ---------------------------------------------------------------------------
-
-// Build the (input -> expected mission) pairs the parameterized suite checks:
-//  - every alias from the shipped aliasMap.json -> its mission
-//  - every SpiceQL config name -> itself (resolved via the frameList fallback)
-// Config names come from the config (frameList), not the aliasMap, because some
-// aliasMap keys (e.g. "clipper_wac") are not actual config keys and so cannot
-// resolve to themselves.
 static vector<std::pair<string, string>> loadAliasPairs() {
   vector<std::pair<string, string>> pairs;
 
-  // alias -> mission. Track every alias (upper-cased) so we don't also assert a
-  // config name resolves to itself when it is registered as an alias of a
-  // different mission (e.g. "mars" is a config key but also an alias of "mro",
-  // and the alias mapping takes precedence).
   std::set<string> aliasKeys;
   std::ifstream ifs((fs::path(_SOURCE_PREFIX) / "SpiceQL" / "aliasMap.json").string());
   nlohmann::json j;
@@ -522,11 +508,6 @@ static vector<std::pair<string, string>> loadAliasPairs() {
     }
   }
 
-  // config name -> itself. Read config keys straight from the db json files
-  // (not frameList(), which needs a cache dir that isn't set during test
-  // discovery). deps only merge into existing keys, so top-level keys are the
-  // authoritative config-name set. Skip names that are aliases of another
-  // mission, since the alias map wins over the frameList fallback.
   fs::path dbDir = fs::path(_SOURCE_PREFIX) / "SpiceQL" / "db";
   for (const auto &entry : fs::directory_iterator(dbDir)) {
     if (entry.path().extension() != ".json") continue;
@@ -543,9 +524,6 @@ static vector<std::pair<string, string>> loadAliasPairs() {
 }
 
 
-// Exercises string inference against the shared frame-cache database (built
-// once by FrameCacheEnvironment), so config-name -> itself resolves via the
-// real frameList path without each test rebuilding the database.
 class InferMissionAlias : public ::testing::TestWithParam<std::pair<string, string>> {
   protected:
     void SetUp() override {
@@ -560,8 +538,6 @@ class InferMissionAlias : public ::testing::TestWithParam<std::pair<string, stri
 };
 
 
-// Every alias (and every config name) must infer to its SpiceQL config name
-// from a string candidate.
 TEST_P(InferMissionAlias, ResolvesToMission) {
   const auto &[alias, expectedMission] = GetParam();
   EXPECT_EQ(inferMission({alias}, {}), expectedMission)
@@ -569,7 +545,6 @@ TEST_P(InferMissionAlias, ResolvesToMission) {
 }
 
 
-// Aliases are matched case-insensitively, so an upper-cased alias resolves too.
 TEST_P(InferMissionAlias, ResolvesCaseInsensitively) {
   const auto &[alias, expectedMission] = GetParam();
   string upper = toUpper(alias);
@@ -582,12 +557,9 @@ INSTANTIATE_TEST_SUITE_P(AllMissions, InferMissionAlias,
                          ::testing::ValuesIn(loadAliasPairs()));
 
 
-// Verify create_database produced a correct frame cache: the frame list covers
-// all config names, and the synthetic FK's code<->name pairs round-trip.
 TEST_F(InferMissionAlias, FrameCacheGeneratedCorrectly) {
   vector<string> frames = Inventory::getFrameList();
   EXPECT_FALSE(frames.empty());
-  // A few representative config keys must be present.
   for (const string &expected : {string("base"), string("mro"), string("ctx"), string("lroc")}) {
     EXPECT_NE(std::find(frames.begin(), frames.end(), expected), frames.end())
         << "frame list missing config key '" << expected << "'";
@@ -624,8 +596,6 @@ TEST_F(LroKernelSet, FirstMatchingNameCandidateWins) {
 }
 
 
-// Code-based inference relies on the precomputed frame cache built once by
-// FrameCacheEnvironment (synthetic LRO/MRO FKs).
 class InferMissionFromCode : public ::testing::Test {
   protected:
     void SetUp() override {

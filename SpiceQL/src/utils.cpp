@@ -1341,9 +1341,6 @@ namespace SpiceQL {
   }
 
 
-  // Resolve a NAIF code to a name without furnishing kernels: first the
-  // precomputed frame cache in the DB (covers FK-defined names like
-  // -85620 -> "LRO_LROCNACL"), then NAIF's built-in bodc2n_c.
   static string codeToNameNoKernels(int code) {
     SPDLOG_DEBUG("Resolving code {} to name without furnishing kernels", code);
     string name = Inventory::getFrameNameFromCache(code);

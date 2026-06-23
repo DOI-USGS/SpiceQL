@@ -19,8 +19,6 @@ TEST_F(AliasMapTest, LoadFromSpecificPath) {
 			<< "Test data file not found at: " << testAliasMapFile;
 	EXPECT_NO_THROW(load_aliases(testAliasMapFile.string()));
 	EXPECT_EQ(aliasMap.getSpiceqlName("Fake"), "test_mission");
-	// "MRO" is not in the test alias map, but the frameList() fallback now
-	// resolves it case-insensitively to the "mro" config key.
 	EXPECT_EQ(aliasMap.getSpiceqlName("MRO"), "mro");
 	EXPECT_EQ(aliasMap.getAliasMap().size(), 1);
 }

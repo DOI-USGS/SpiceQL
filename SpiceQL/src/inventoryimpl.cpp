@@ -185,8 +185,6 @@ namespace SpiceQL {
   }
 
 
-  // Insert a (code, name) pair into the aligned bidirectional arrays, skipping
-  // duplicates so the stored map carries no redundant entries.
   static void insertFramePair(int code, const string &name,
                               vector<int> &codes, vector<string> &names,
                               unordered_set<int> &seen_codes) {
@@ -701,9 +699,6 @@ namespace SpiceQL {
   }
 
 
-  // Lazy cache of the frame code<->name lookup maps, loaded from the DB and
-  // keyed on the DB file (path + last write time) so it transparently reloads
-  // when the database is regenerated (e.g. between tests).
   namespace {
     std::mutex g_frame_cache_mutex;
     std::string g_frame_cache_key;  // "<path>@<write-time>" of the loaded DB

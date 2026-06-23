@@ -65,14 +65,9 @@ TEST_F(IsisDataDirectory, FunctionalTestConfigEval) {
 }
 
 
-// The frame list and the bidirectional frame code<->name map are precomputed
-// into the kernel database during create_database, so runtime resolution never
-// needs to furnish FKs.
 TEST_F(LroKernelSet, FrameListCacheMatchesConfig) {
   Inventory::create_database();
 
-  // Authoritative set: top-level keys of the merged global config.
-  // (Bind to a named json so .items() doesn't iterate a destroyed temporary.)
   vector<string> fromConfig;
   json globalConf = Config().globalConf();
   for (auto& f : globalConf.items()) {
@@ -80,7 +75,6 @@ TEST_F(LroKernelSet, FrameListCacheMatchesConfig) {
   }
   sort(fromConfig.begin(), fromConfig.end());
 
-  // frameList() reads the cached list from the DB.
   vector<string> fromCache = frameList();
   sort(fromCache.begin(), fromCache.end());
 
@@ -92,18 +86,14 @@ TEST_F(LroKernelSet, FrameListCacheMatchesConfig) {
 TEST_F(LroKernelSet, FrameCodeNameCacheBidirectional) {
   Inventory::create_database();
 
-  // The LRO FK defines these; resolution comes from the cache with no FKs
-  // furnished at call time.
   EXPECT_EQ(Inventory::getFrameNameFromCache(-85), "LRO");
   EXPECT_EQ(Inventory::getFrameCodeFromCache("LRO"), -85);
 
   EXPECT_EQ(Inventory::getFrameNameFromCache(-85600), "LRO_LROCNACL");
   EXPECT_EQ(Inventory::getFrameCodeFromCache("LRO_LROCNACL"), -85600);
 
-  // Lookups are case-insensitive on the name side.
   EXPECT_EQ(Inventory::getFrameCodeFromCache("lro"), -85);
 
-  // Misses return sentinels rather than throwing.
   EXPECT_EQ(Inventory::getFrameNameFromCache(0), "");
   EXPECT_EQ(Inventory::getFrameCodeFromCache("NOT_A_FRAME"), 0);
 }

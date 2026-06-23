@@ -17,9 +17,6 @@ using json = nlohmann::json;
 namespace SpiceQL {
 
   vector<string> frameList() {
-    // Served from the precomputed cache in the kernel database (built during
-    // create_database). Inventory::getFrameList falls back to the live config
-    // computation if the cache is unavailable, so this is always correct.
     return Inventory::getFrameList();
   }
 

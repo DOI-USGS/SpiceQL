@@ -21,8 +21,6 @@ using namespace SpiceQL;
 
 
 fs::path frameCacheDir() {
-  // Stable (non-random) location so the database survives across the separate
-  // processes ctest spawns for each discovered test.
   return fs::temp_directory_path() / "SQTESTS_frame_cache";
 }
 
@@ -35,8 +33,6 @@ void FrameCacheEnvironment::SetUp() {
   setenv("SPICEQL_CACHE_DIR", dir.c_str(), true);
   setenv("SPICEQL_DEV_DB", "TRUE", true);
 
-  // If the database already exists (built by an earlier test process), reuse it
-  // rather than paying the expensive create_database cost again.
   if (fs::exists(dir / "spiceqldb.hdf")) {
     return;
   }
@@ -45,10 +41,6 @@ void FrameCacheEnvironment::SetUp() {
   fs::copy_file(fs::path("data") / "naif0012.tls", dir / "naif0012.tls",
                 fs::copy_options::overwrite_existing);
 
-  // Synthetic FKs whose names match config fk regexes so create_database
-  // furnishes them and caches their frame/body code<->name pairs. This lets
-  // code-based inference resolve real NAIF codes without shipping kernels.
-  //   mro_v[0-9]{2}.tf  -> MRO_CTX (-74021), MRO (-74)
   nlohmann::json mroFk = {
     {"FRAME_MRO_CTX", -74021},
     {"FRAME_-74021_NAME", "MRO_CTX"},
@@ -61,8 +53,6 @@ void FrameCacheEnvironment::SetUp() {
     {"FRAME_-74000_CLASS", 3},
     {"FRAME_-74000_CLASS_ID", -74000},
     {"FRAME_-74000_CENTER", -74},
-    // Short mnemonic first so it is the canonical name cached for -74 (CSPICE
-    // returns the first-defined name); "MRO" maps to the "mro" config.
     {"NAIF_BODY_NAME", {"MRO", "MARS RECONNAISSANCE ORBITER", "MRO_CTX", "MRO_SPACECRAFT"}},
     {"NAIF_BODY_CODE", {-74, -74, -74021, -74000}}
   };
@@ -81,7 +71,6 @@ void FrameCacheEnvironment::SetUp() {
     {"FRAME_-85000_CLASS", 3},
     {"FRAME_-85000_CLASS_ID", -85000},
     {"FRAME_-85000_CENTER", -85},
-    // Short mnemonic first so "LRO" is the canonical name cached for -85.
     {"NAIF_BODY_NAME", {"LRO", "LUNAR RECONNAISSANCE ORBITER", "LRO_LROCNACL", "LRO_SC_BUS"}},
     {"NAIF_BODY_CODE", {-85, -85, -85600, -85000}}
   };
@@ -105,7 +94,6 @@ void TempTestingFiles::SetUp() {
     ss << "SQTESTS" << hex << rand(prng);
     tpath = tmp_dir / ss.str();
 
-    // true if the directory was created.
     if (fs::create_directory(tpath)) {
         SPDLOG_DEBUG("SPICEROOT = {}", tpath.generic_string());
         break;
