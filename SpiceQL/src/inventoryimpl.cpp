@@ -1,5 +1,7 @@
 #include <iostream>
 #include <regex>
+#include <mutex>
+#include <unordered_map>
 
 // we need to include this to overwrite and other std::fs imports
 #include <ghc/fs_std.hpp>
@@ -25,7 +27,9 @@ namespace stdpmr = std::pmr;
 #include <cereal/types/utility.hpp>
 
 #include <highfive/H5Easy.hpp>
-#include <highfive/highfive.hpp> 
+#include <highfive/highfive.hpp>
+
+#include <SpiceUsr.h>
 
 #include <SpiceQL/config.h>
 #include <SpiceQL/inventoryimpl.h>
@@ -49,11 +53,15 @@ namespace SpiceQL {
 
   string DB_SPICE_ROOT_KEY = "spice";
   string DB_HDF_FILE = "spiceqldb.hdf";
-  string DB_START_TIME_KEY = "starttime"; 
-  string DB_STOP_TIME_KEY = "stoptime"; 
-  string DB_TIME_FILES_KEY = "path_index"; 
-  string DB_START_TIME_INDICES_KEY = "start_kindex"; 
+  string DB_START_TIME_KEY = "starttime";
+  string DB_STOP_TIME_KEY = "stoptime";
+  string DB_TIME_FILES_KEY = "path_index";
+  string DB_START_TIME_INDICES_KEY = "start_kindex";
   string DB_STOP_TIME_INDICES_KEY = "stop_kindex";
+  string DB_FRAME_CACHE_KEY = "spql_cache";
+  string DB_FRAME_LIST_KEY = "spql_cache/frame_list";
+  string DB_FRAME_CODES_KEY = "spql_cache/frame_codes";
+  string DB_FRAME_NAMES_KEY = "spql_cache/frame_names";
   string CACHE_DIR_ENV_VAR = "SPICEQL_CACHE_DIR";
   static std::string  CACHE_DIRECTORY = "";
 
@@ -177,7 +185,103 @@ namespace SpiceQL {
   }
 
 
-  InventoryImpl::InventoryImpl(bool force_regen, vector<string> mlist) : m_required_kernels() { 
+  // Insert a (code, name) pair into the aligned bidirectional arrays, skipping
+  // duplicates so the stored map carries no redundant entries.
+  static void insertFramePair(int code, const string &name,
+                              vector<int> &codes, vector<string> &names,
+                              unordered_set<int> &seen_codes) {
+    if (name.empty()) return;
+    if (seen_codes.count(code)) return;
+    seen_codes.insert(code);
+    codes.push_back(code);
+    names.push_back(name);
+  }
+
+
+  void InventoryImpl::collectFrameInfo() {
+    Config config;
+
+    // Frame list = the top-level config keys (deps only merge into existing
+    // keys, so this is the authoritative set).
+    json globalConf = config.globalConf();
+    for (auto &el : globalConf.items()) {
+      m_frame_list.push_back(el.key());
+    }
+    sort(m_frame_list.begin(), m_frame_list.end());
+
+    unordered_set<int> seen_codes;
+
+    // Furnish every mission's frame-defining text kernels, then read the NAIF
+    // body code<->name associations and enumerate kernel-defined frames. This
+    // is the slow, one-time work that runtime resolution then avoids.
+    for (auto &el : globalConf.items()) {
+      string mission = el.key();
+      json textKernels;
+      try {
+        textKernels = getLatestKernels(config[mission].getRecursive("fk"));
+        json iks = getLatestKernels(config[mission].getRecursive("ik"));
+        merge_json(textKernels, iks);
+      }
+      catch (exception &e) {
+        SPDLOG_TRACE("collectFrameInfo: no fk/ik for {}: {}", mission, e.what());
+      }
+
+      if (textKernels.is_null() || textKernels.empty()) {
+        continue;
+      }
+
+      KernelSet ks(textKernels);
+      checkNaifErrors();
+
+      // NAIF_BODY_CODE / NAIF_BODY_NAME define bodies, spacecraft, and
+      // instruments (e.g. -85 -> "LRO", -85600 -> "LRO_LROCNACL"). These do not
+      // come back from kplfrm_c, so read the pool directly.
+      const SpiceInt ROOM = 5000;
+      const SpiceInt LENOUT = 128;
+      {
+        SpiceInt n = 0;
+        SpiceBoolean found = SPICEFALSE;
+        vector<SpiceInt> bodyCodes(ROOM);
+        gipool_c("NAIF_BODY_CODE", 0, ROOM, &n, bodyCodes.data(), &found);
+        if (found && n > 0) {
+          SpiceInt nNames = 0;
+          SpiceBoolean foundNames = SPICEFALSE;
+          vector<SpiceChar> bodyNames(static_cast<size_t>(ROOM) * LENOUT);
+          gcpool_c("NAIF_BODY_NAME", 0, ROOM, LENOUT, &nNames, (void *)bodyNames.data(), &foundNames);
+          if (foundNames) {
+            SpiceInt count = std::min(n, nNames);
+            for (SpiceInt i = 0; i < count; i++) {
+              string name(&bodyNames[static_cast<size_t>(i) * LENOUT]);
+              insertFramePair((int)bodyCodes[i], name, m_frame_codes, m_frame_names, seen_codes);
+            }
+          }
+        }
+      }
+
+      // Kernel-defined and built-in frames (FK TKFRAMEs etc.).
+      SPICEINT_CELL(idset, 10000);
+      scard_c(0, &idset);
+      bltfrm_c(SPICE_FRMTYP_ALL, &idset);
+      kplfrm_c(SPICE_FRMTYP_ALL, &idset);
+      checkNaifErrors();
+      SpiceInt nframes = card_c(&idset);
+      for (SpiceInt i = 0; i < nframes; i++) {
+        SpiceInt fcode = SPICE_CELL_ELEM_I(&idset, i);
+        SpiceChar fname[128];
+        frmnam_c(fcode, 128, fname);
+        if (strlen(fname) > 0) {
+          insertFramePair((int)fcode, string(fname), m_frame_codes, m_frame_names, seen_codes);
+        }
+      }
+      checkNaifErrors();
+    }
+
+    SPDLOG_DEBUG("collectFrameInfo: {} frames in list, {} code<->name pairs",
+                 m_frame_list.size(), m_frame_codes.size());
+  }
+
+
+  InventoryImpl::InventoryImpl(bool force_regen, vector<string> mlist) : m_required_kernels() {
     fs::path db_root = getCacheDir();
     fs::path db_file = db_root / DB_HDF_FILE; 
 
@@ -280,11 +384,15 @@ namespace SpiceQL {
         } 
       }
 
+      // Precompute frame caches (frame list + bidirectional code<->name map)
+      // so runtime resolution never needs to furnish slow FKs.
+      collectFrameInfo();
+
       // write everything out
       write_database();
     }
-    else { // load the database 
-      // read_database(); 
+    else { // load the database
+      // read_database();
     }
   }
 
@@ -534,6 +642,16 @@ namespace SpiceQL {
     HighFive::Group group = file.getGroup("/");
     group.createAttribute<std::string>("SPICEQL_VERSION", SPICEQL_VERSION);
 
+    // Write the precomputed frame caches: the frame list and the bidirectional
+    // code<->name map (two aligned arrays, no redundant storage).
+    if (!m_frame_list.empty()) {
+      H5Easy::dump(file, "/" + DB_FRAME_LIST_KEY, m_frame_list, H5Easy::DumpMode::Overwrite);
+    }
+    if (!m_frame_codes.empty()) {
+      H5Easy::dump(file, "/" + DB_FRAME_CODES_KEY, m_frame_codes, H5Easy::DumpMode::Overwrite);
+      H5Easy::dump(file, "/" + DB_FRAME_NAMES_KEY, m_frame_names, H5Easy::DumpMode::Overwrite);
+    }
+
     for (auto it=m_timedep_kerns.begin(); it!=m_timedep_kerns.end(); ++it) {
       string kernel_key = it->first; 
       TimeIndexedKernels *kernels = m_timedep_kerns[kernel_key];       
@@ -572,14 +690,94 @@ namespace SpiceQL {
 
     /* Save HDF file */
     {
-      for(auto &e : m_nontimedep_kerns) { 
+      for(auto &e : m_nontimedep_kerns) {
         if(e.second.size() > 0) {
           SPDLOG_DEBUG("Writing {} with {} kernels.", DB_SPICE_ROOT_KEY + "/"+e.first, e.second.size());
           H5Easy::dump(file, DB_SPICE_ROOT_KEY + "/"+e.first, e.second, H5Easy::DumpMode::Overwrite);
         }
       }
     }
-    
+
+  }
+
+
+  // Lazy cache of the frame code<->name lookup maps, loaded from the DB and
+  // keyed on the DB file (path + last write time) so it transparently reloads
+  // when the database is regenerated (e.g. between tests).
+  namespace {
+    std::mutex g_frame_cache_mutex;
+    std::string g_frame_cache_key;  // "<path>@<write-time>" of the loaded DB
+    std::unordered_map<int, std::string> g_code_to_name;
+    std::unordered_map<std::string, int> g_name_to_code;  // keyed on UPPER name
+
+    void loadFrameCache(InventoryImpl *impl) {
+      std::lock_guard<std::mutex> lock(g_frame_cache_mutex);
+
+      string hdf_file = (fs::path(getCacheDir()) / DB_HDF_FILE).string();
+      string key = hdf_file;
+      try {
+        if (fs::exists(hdf_file)) {
+          key += "@" + std::to_string(
+              static_cast<long long>(fs::last_write_time(hdf_file).time_since_epoch().count()));
+        }
+      } catch (...) { /* fall through with path-only key */ }
+
+      if (key == g_frame_cache_key) {
+        return;  // already loaded for this exact DB state
+      }
+
+      g_code_to_name.clear();
+      g_name_to_code.clear();
+      try {
+        vector<int> codes = impl->getKey<vector<int>>(DB_FRAME_CODES_KEY);
+        vector<string> names = impl->getKey<vector<string>>(DB_FRAME_NAMES_KEY);
+        size_t n = std::min(codes.size(), names.size());
+        g_code_to_name.reserve(n);
+        g_name_to_code.reserve(n);
+        for (size_t i = 0; i < n; i++) {
+          g_code_to_name[codes[i]] = names[i];
+          g_name_to_code[toUpper(names[i])] = codes[i];
+        }
+      }
+      catch (exception &e) {
+        SPDLOG_DEBUG("Frame code<->name cache unavailable: {}", e.what());
+      }
+      g_frame_cache_key = key;
+    }
+  }
+
+
+  vector<string> InventoryImpl::getFrameList() {
+    try {
+      return getKey<vector<string>>(DB_FRAME_LIST_KEY);
+    }
+    catch (exception &e) {
+      SPDLOG_DEBUG("Frame list cache unavailable ({}), computing from config", e.what());
+      vector<string> frames;
+      // Bind to a named json so .items() doesn't iterate a destroyed temporary.
+      json globalConf = Config().globalConf();
+      for (auto &el : globalConf.items()) {
+        frames.push_back(el.key());
+      }
+      sort(frames.begin(), frames.end());
+      return frames;
+    }
+  }
+
+
+  string InventoryImpl::getFrameName(int code) {
+    loadFrameCache(this);
+    auto it = g_code_to_name.find(code);
+    if (it != g_code_to_name.end()) return it->second;
+    return "";
+  }
+
+
+  int InventoryImpl::getFrameCode(string name) {
+    loadFrameCache(this);
+    auto it = g_name_to_code.find(toUpper(name));
+    if (it != g_name_to_code.end()) return it->second;
+    return 0;
   }
 
 };

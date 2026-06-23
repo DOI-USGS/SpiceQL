@@ -26,7 +26,33 @@ namespace SpiceQL {
 
         std::string getDbFilePath();
         void setDbFilePath(std::string db_file_path, bool override=false);
-        
-        void create_database(std::vector<std::string> mlist = {}); 
-    }    
+
+        void create_database(std::vector<std::string> mlist = {});
+
+        /**
+         * @brief Get the cached list of frame/config names from the database.
+         *
+         * @return std::vector<std::string> list of frame names
+         */
+        std::vector<std::string> getFrameList();
+
+        /**
+         * @brief Resolve a frame/body code to its name using the cached map.
+         *
+         * Uses the precomputed code<->name map built during create_database, so
+         * no FKs need to be furnished at runtime.
+         *
+         * @param code NAIF frame/body code
+         * @return the name, or "" if not in the cache
+         */
+        std::string getFrameNameFromCache(int code);
+
+        /**
+         * @brief Resolve a frame/body name to its code using the cached map.
+         *
+         * @param name frame/body name
+         * @return the code, or 0 if not in the cache
+         */
+        int getFrameCodeFromCache(std::string name);
+    }
 }

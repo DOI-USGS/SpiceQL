@@ -144,9 +144,6 @@
     "mrffr": [
         "CHANDRAYAAN-1_MRFFR"
     ],
-    "mro": [
-        "MARS"
-    ],
     "msi": [
         "NEAR_MSI"
     ],
@@ -212,9 +209,6 @@
         "ROS_VIRTIS-M_IR"
     ],
     "voyager1": [
-        "JUPITER",
-        "NEPTUNE",
-        "SATURN",
         "VG1_ISSNA",
         "VG1_ISSWA"
     ],

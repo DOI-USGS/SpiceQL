@@ -510,8 +510,25 @@ namespace SpiceQL {
 
   /**
    * @brief Gets default path for JSON file of aliases
-   * 
-   * @returns string file path 
+   *
+   * @returns string file path
    */
   std::string getAliasMapJsonFile();
+
+  /**
+   * @brief Infer the SpiceQL config (mission) name from identifying inputs.
+   *
+   * Used to make the @c mission parameter of the API optional. String
+   * candidates (e.g. frame/instrument/target names) are resolved via the alias
+   * map. Integer candidates (NAIF frame/body codes) are resolved to a name
+   * without furnishing kernels (via the precomputed frame cache, then NAIF's
+   * built-in mappings), trying both the code and its bus code (code / 1000),
+   * then mapped via the alias map.
+   *
+   * @param nameCandidates Ordered string candidates to resolve.
+   * @param codeCandidates Ordered NAIF code candidates to resolve.
+   * @return The first SpiceQL config name found, or an empty string.
+   */
+  std::string inferMission(const std::vector<std::string>& nameCandidates,
+                           const std::vector<int>& codeCandidates);
 }

@@ -11,5 +11,10 @@ int main(int argc, char **argv) {
    setenv("SPICEQL_LOG_LEVEL", "trace", 1);
 
    ::testing::InitGoogleTest(&argc, argv);
+
+   // Builds the shared frame-cache database once (reused across test
+   // processes); see FrameCacheEnvironment.
+   ::testing::AddGlobalTestEnvironment(new FrameCacheEnvironment());
+
    return RUN_ALL_TESTS();
 }

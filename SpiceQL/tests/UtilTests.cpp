@@ -2,6 +2,10 @@
 
 #include <ghc/fs_std.hpp>
 #include <chrono>
+#include <fstream>
+#include <utility>
+#include <algorithm>
+#include <set>
 
 using namespace std::chrono;
 
@@ -15,6 +19,7 @@ using namespace std::chrono;
 #include <SpiceQL/memo.h>
 #include <SpiceQL/query.h>
 #include <SpiceQL/inventory.h>
+#include <SpiceQL/io.h>
 #include <SpiceQL/api.h>
 
 #include <SpiceQL/spiceql_logging.h>
@@ -486,4 +491,177 @@ TEST_F(GetRestUrlTest, AppendsTrailingSlashWhenMissing) {
 TEST_F(GetRestUrlTest, HandlesEmptyEnvVar) {
   setEnvVar("");
   EXPECT_EQ(getRestUrl(), "/");
+}
+
+
+// ---------------------------------------------------------------------------
+// inferMission
+// ---------------------------------------------------------------------------
+
+// Build the (input -> expected mission) pairs the parameterized suite checks:
+//  - every alias from the shipped aliasMap.json -> its mission
+//  - every SpiceQL config name -> itself (resolved via the frameList fallback)
+// Config names come from the config (frameList), not the aliasMap, because some
+// aliasMap keys (e.g. "clipper_wac") are not actual config keys and so cannot
+// resolve to themselves.
+static vector<std::pair<string, string>> loadAliasPairs() {
+  vector<std::pair<string, string>> pairs;
+
+  // alias -> mission. Track every alias (upper-cased) so we don't also assert a
+  // config name resolves to itself when it is registered as an alias of a
+  // different mission (e.g. "mars" is a config key but also an alias of "mro",
+  // and the alias mapping takes precedence).
+  std::set<string> aliasKeys;
+  std::ifstream ifs((fs::path(_SOURCE_PREFIX) / "SpiceQL" / "aliasMap.json").string());
+  nlohmann::json j;
+  ifs >> j;
+  for (auto &[mission, aliases] : j.items()) {
+    for (auto &alias : aliases) {
+      pairs.emplace_back(alias.get<string>(), mission);
+      aliasKeys.insert(toUpper(alias.get<string>()));
+    }
+  }
+
+  // config name -> itself. Read config keys straight from the db json files
+  // (not frameList(), which needs a cache dir that isn't set during test
+  // discovery). deps only merge into existing keys, so top-level keys are the
+  // authoritative config-name set. Skip names that are aliases of another
+  // mission, since the alias map wins over the frameList fallback.
+  fs::path dbDir = fs::path(_SOURCE_PREFIX) / "SpiceQL" / "db";
+  for (const auto &entry : fs::directory_iterator(dbDir)) {
+    if (entry.path().extension() != ".json") continue;
+    std::ifstream dbifs(entry.path().string());
+    nlohmann::json dbj;
+    dbifs >> dbj;
+    for (auto &[key, val] : dbj.items()) {
+      if (aliasKeys.count(toUpper(key))) continue;
+      pairs.emplace_back(key, key);
+    }
+  }
+
+  return pairs;
+}
+
+
+// Exercises string inference against the shared frame-cache database (built
+// once by FrameCacheEnvironment), so config-name -> itself resolves via the
+// real frameList path without each test rebuilding the database.
+class InferMissionAlias : public ::testing::TestWithParam<std::pair<string, string>> {
+  protected:
+    void SetUp() override {
+      // Point at the shared cache dir (other suites may have changed the env)
+      // and load the real alias map so alias resolution covers all missions.
+      fs::path dir = frameCacheDir();
+      setenv("SPICEROOT", dir.c_str(), true);
+      setenv("SPICEQL_CACHE_DIR", dir.c_str(), true);
+      setenv("SPICEQL_DEV_DB", "TRUE", true);
+      load_aliases((fs::path(_SOURCE_PREFIX) / "SpiceQL" / "aliasMap.json").string());
+    }
+};
+
+
+// Every alias (and every config name) must infer to its SpiceQL config name
+// from a string candidate.
+TEST_P(InferMissionAlias, ResolvesToMission) {
+  const auto &[alias, expectedMission] = GetParam();
+  EXPECT_EQ(inferMission({alias}, {}), expectedMission)
+      << "alias '" << alias << "' should infer mission '" << expectedMission << "'";
+}
+
+
+// Aliases are matched case-insensitively, so an upper-cased alias resolves too.
+TEST_P(InferMissionAlias, ResolvesCaseInsensitively) {
+  const auto &[alias, expectedMission] = GetParam();
+  string upper = toUpper(alias);
+  EXPECT_EQ(inferMission({upper}, {}), expectedMission)
+      << "upper-cased alias '" << upper << "' should infer mission '" << expectedMission << "'";
+}
+
+
+INSTANTIATE_TEST_SUITE_P(AllMissions, InferMissionAlias,
+                         ::testing::ValuesIn(loadAliasPairs()));
+
+
+// Verify create_database produced a correct frame cache: the frame list covers
+// all config names, and the synthetic FK's code<->name pairs round-trip.
+TEST_F(InferMissionAlias, FrameCacheGeneratedCorrectly) {
+  vector<string> frames = Inventory::getFrameList();
+  EXPECT_FALSE(frames.empty());
+  // A few representative config keys must be present.
+  for (const string &expected : {string("base"), string("mro"), string("ctx"), string("lroc")}) {
+    EXPECT_NE(std::find(frames.begin(), frames.end(), expected), frames.end())
+        << "frame list missing config key '" << expected << "'";
+  }
+
+  // Synthetic FK frames cached and bidirectional.
+  EXPECT_EQ(Inventory::getFrameNameFromCache(-74021), "MRO_CTX");
+  EXPECT_EQ(Inventory::getFrameCodeFromCache("MRO_CTX"), -74021);
+  EXPECT_EQ(Inventory::getFrameNameFromCache(-74), "MRO");
+  EXPECT_EQ(Inventory::getFrameCodeFromCache("MRO"), -74);
+}
+
+
+TEST_F(LroKernelSet, EmptyInputsReturnEmpty) {
+  EXPECT_EQ(inferMission({}, {}), "");
+  EXPECT_EQ(inferMission({""}, {}), "");
+  EXPECT_EQ(inferMission({""}, {0}), "");
+}
+
+
+TEST_F(LroKernelSet, UnknownInputsReturnEmpty) {
+  EXPECT_EQ(inferMission({"NOT_A_REAL_INSTRUMENT"}, {}), "");
+  EXPECT_EQ(inferMission({"NOT_A_REAL_INSTRUMENT"}, {-999}), "");
+}
+
+
+TEST_F(LroKernelSet, FirstMatchingNameCandidateWins) {
+  // Unresolvable first, resolvable second -> second is used.
+  EXPECT_EQ(inferMission({"NOT_A_REAL_INSTRUMENT", "MRO_CTX"}, {}), "ctx");
+  // Resolvable first short-circuits regardless of later candidates.
+  EXPECT_EQ(inferMission({"MRO_CTX", "CASSINI_ISS_NAC"}, {}), "ctx");
+  // Empty candidates are skipped.
+  EXPECT_EQ(inferMission({"", "MRO_CTX"}, {}), "ctx");
+}
+
+
+// Code-based inference relies on the precomputed frame cache built once by
+// FrameCacheEnvironment (synthetic LRO/MRO FKs).
+class InferMissionFromCode : public ::testing::Test {
+  protected:
+    void SetUp() override {
+      fs::path dir = frameCacheDir();
+      setenv("SPICEROOT", dir.c_str(), true);
+      setenv("SPICEQL_CACHE_DIR", dir.c_str(), true);
+      setenv("SPICEQL_DEV_DB", "TRUE", true);
+      load_aliases((fs::path(_SOURCE_PREFIX) / "SpiceQL" / "aliasMap.json").string());
+    }
+};
+
+
+TEST_F(InferMissionFromCode, SpacecraftCodeResolves) {
+  // -85 -> "LRO" -> "lro"
+  EXPECT_EQ(inferMission({}, {-85}), "lro");
+}
+
+
+TEST_F(InferMissionFromCode, InstrumentCodeResolvesViaName) {
+  // -85600 -> "LRO_LROCNACL" (cache) -> alias -> "lroc"
+  EXPECT_EQ(inferMission({}, {-85600}), "lroc");
+}
+
+
+TEST_F(InferMissionFromCode, InstrumentCodeFallsBackToBusCode) {
+  // No direct name, but the bus code resolves: -85999 / 1000 = -85 -> "lro"
+  EXPECT_EQ(inferMission({}, {-85999}), "lro");
+}
+
+
+TEST_F(InferMissionFromCode, ZeroCodeSkipped) {
+  EXPECT_EQ(inferMission({}, {0}), "");
+}
+
+
+TEST_F(InferMissionFromCode, NameCandidateTakesPrecedenceOverCode) {
+  // String candidates are tried before codes.
+  EXPECT_EQ(inferMission({"MRO_CTX"}, {-85}), "ctx");
 }

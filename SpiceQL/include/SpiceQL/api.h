@@ -36,11 +36,11 @@ namespace SpiceQL {
 
     /**
      * @brief Setter for the aliasMap.
-     * 
+     *
      * @param newAliasMap The new JSON object to set as the aliasMap.
      */
     void setAliasMap(const nlohmann::json& newAliasMap);
-    
+
     /**
      * @brief URL encodes a given string.
      * 
@@ -101,7 +101,7 @@ namespace SpiceQL {
         std::string observer,
         std::string frame,
         std::string abcorr,
-        std::string mission,
+        std::string mission="",
         std::vector<std::string> ckQualities={"smithed", "reconstructed"},
         std::vector<std::string> spkQualities={"smithed", "reconstructed"},
         bool useWeb=false,
@@ -157,7 +157,7 @@ namespace SpiceQL {
         std::string observer,
         std::string frame,
         std::string abcorr,
-        std::string mission,
+        std::string mission="",
         std::vector<std::string> ckQualities={"smithed", "reconstructed"},
         std::vector<std::string> spkQualities={"smithed", "reconstructed"},
         bool useWeb=false,
@@ -193,7 +193,7 @@ namespace SpiceQL {
         std::vector<double> ets,
         int toFrame,
         int refFrame,
-        std::string mission,
+        std::string mission="",
         std::vector<std::string> ckQualities={"smithed", "reconstructed"},
         bool useWeb=false,
         bool searchKernels=true,
@@ -232,7 +232,7 @@ namespace SpiceQL {
         int numRecords, 
         int toFrame, 
         int refFrame, 
-        std::string mission, 
+        std::string mission="", 
         std::vector<std::string> ckQualities={"smithed", "reconstructed"},
         bool useWeb=false,
         bool searchKernels=true,
@@ -261,7 +261,7 @@ namespace SpiceQL {
     std::pair<double, nlohmann::json> strSclkToEt(
         int frameCode,
         std::string sclk,
-        std::string mission,
+        std::string mission="",
         bool useWeb=false,
         bool searchKernels=true,
         bool fullKernelPath=false,
@@ -289,7 +289,7 @@ namespace SpiceQL {
     std::pair<double, nlohmann::json> doubleSclkToEt(
         int frameCode,
         double sclk,
-        std::string mission,
+        std::string mission="",
         bool useWeb=false,
         bool searchKernels=true,
         bool fullKernelPath=false,
@@ -318,7 +318,7 @@ namespace SpiceQL {
     std::pair<std::string, nlohmann::json> doubleEtToSclk(
         int frameCode,
         double et,
-        std::string mission,
+        std::string mission="",
         bool useWeb=false,
         bool searchKernels=true,
         bool fullKernelPath=false,
@@ -393,7 +393,7 @@ namespace SpiceQL {
      **/
     std::pair<int, nlohmann::json> translateNameToCode(
         std::string frame, 
-        std::string mission, 
+        std::string mission="", 
         bool useWeb=false, 
         bool searchKernels=true, 
         bool fullKernelPath=false, 
@@ -418,7 +418,7 @@ namespace SpiceQL {
      **/
     std::pair<std::string, nlohmann::json> translateCodeToName(
         int frame, 
-        std::string mission, 
+        std::string mission="", 
         bool useWeb=false, 
         bool searchKernels=true, 
         bool fullKernelPath=false, 
@@ -443,7 +443,7 @@ namespace SpiceQL {
      **/
     std::pair<std::vector<int>, nlohmann::json> getFrameInfo(
         int frame, 
-        std::string mission, 
+        std::string mission="", 
         bool useWeb=false, 
         bool searchKernels=true, 
         bool fullKernelPath=false, 
@@ -468,7 +468,7 @@ namespace SpiceQL {
     **/
     std::pair<nlohmann::json, nlohmann::json> getTargetFrameInfo(
         int targetId, 
-        std::string mission, 
+        std::string mission="", 
         bool useWeb=false, 
         bool searchKernels=true, 
         bool fullKernelPath=false, 
@@ -495,7 +495,7 @@ namespace SpiceQL {
     **/
     std::pair<nlohmann::json, nlohmann::json> findMissionKeywords(
         std::string key, 
-        std::string mission, 
+        std::string mission="", 
         bool useWeb=false, 
         bool searchKernels=true, 
         bool fullKernelPath=false, 
@@ -523,7 +523,7 @@ namespace SpiceQL {
     **/
     std::pair<nlohmann::json, nlohmann::json> findTargetKeywords(
         std::string key, 
-        std::string mission, 
+        std::string mission="", 
         bool useWeb=false, 
         bool searchKernels=true, 
         bool fullKernelPath=false, 
@@ -555,7 +555,7 @@ namespace SpiceQL {
     std::pair<std::vector<std::vector<int>>, nlohmann::json> frameTrace(
         double et, 
         int initialFrame, 
-        std::string mission, 
+        std::string mission="", 
         std::vector<std::string> ckQualities={"smithed", "reconstructed"}, 
         std::vector<std::string> spkQualities={"smithed", "reconstructed"}, 
         bool useWeb=false, 
@@ -589,7 +589,7 @@ namespace SpiceQL {
         double observStart, 
         double observEnd, 
         int targetFrame, 
-        std::string mission, 
+        std::string mission="", 
         std::vector<std::string> ckQualities={"smithed", "reconstructed"}, 
         bool useWeb=false, 
         bool searchKernels=true, 
@@ -626,7 +626,7 @@ namespace SpiceQL {
         int toFrame, 
         int refFrame, 
         int exactCkFrame, 
-        std::string mission, 
+        std::string mission="", 
         std::vector<std::string> ckQualities={"smithed", "reconstructed"}, 
         bool useWeb=false, 
         bool searchKernels=true, 

@@ -1,6 +1,8 @@
 #include <exception>
 #include <fstream>
 #include <sstream>
+#include <cmath>
+#include <cstring>
 
 #include <SpiceUsr.h>
 #include <SpiceZfc.h>
@@ -54,7 +56,7 @@ namespace SpiceQL {
     void setAliasMap(const nlohmann::json& newAliasMap) {
         AliasMap::instance().setAliasMap(newAliasMap);
     }
-    
+
     std::string url_encode(const std::string &value) {
         std::ostringstream escaped;
         escaped.fill('0');
@@ -205,6 +207,8 @@ namespace SpiceQL {
 
         json ephemKernels = {};
 
+        if (mission.empty()) mission = inferMission({target, observer, frame}, {});
+
         if (searchKernels) {
             ephemKernels = Inventory::search_for_kernelsets({mission, target, observer, "base"}, {"sclk", "ck", "spk", "pck", "tspk", "lsk", "fk", "iak",  "ik"}, ets.front(), ets.back(), ckQualities, spkQualities, fullKernelPath, limitCk, limitSpk);
             SPDLOG_DEBUG("{} Kernels : {}", mission, ephemKernels.dump(4));
@@ -349,6 +353,8 @@ namespace SpiceQL {
         }
 
         json ephemKernels = {};
+
+        if (mission.empty()) mission = inferMission({}, {toFrame, refFrame});
 
         if (searchKernels) {
             ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"sclk", "ck", "pck", "fk", "ik", "iak", "lsk", "tspk"}, ets.front(), ets.back(), ckQualities, {"noquality"}, fullKernelPath, limitCk, limitSpk);
@@ -533,8 +539,10 @@ namespace SpiceQL {
         }
 
         json ephemKernels;
+        if (mission.empty()) mission = inferMission({}, {frameCode});
+
         if (searchKernels) {
-            ephemKernels = Inventory::search_for_kernelsets({"base", mission}, {"lsk", "fk", "sclk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk); 
+            ephemKernels = Inventory::search_for_kernelsets({"base", mission}, {"lsk", "fk", "sclk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk);
         }
 
         if (!kernelList.empty()) {
@@ -584,8 +592,10 @@ namespace SpiceQL {
             return make_pair(result, out["body"]["kernels"]);
         }
 
+        if (mission.empty()) mission = inferMission({}, {frameCode});
+
         if (searchKernels) {
-          ephemKernels = Inventory::search_for_kernelsets({"base", mission}, {"fk", "lsk", "sclk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk); 
+          ephemKernels = Inventory::search_for_kernelsets({"base", mission}, {"fk", "lsk", "sclk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk);
         }
 
         if (!kernelList.empty()) {
@@ -625,6 +635,8 @@ namespace SpiceQL {
         }
         
         json sclks;
+
+        if (mission.empty()) mission = inferMission({}, {frameCode});
 
         if (searchKernels) {
             sclks = Inventory::search_for_kernelsets({"base", mission}, {"lsk", "fk", "sclk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk);
@@ -773,6 +785,8 @@ namespace SpiceQL {
         SpiceBoolean found;
         json kernelsToLoad = {};
 
+        if (mission.empty()) mission = inferMission({frame}, {});
+
         if (mission != "" && searchKernels) {
             kernelsToLoad = Inventory::search_for_kernelset(mission, {"fk", "ik", "iak"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk);
         }
@@ -822,6 +836,8 @@ namespace SpiceQL {
         SpiceChar name[128];
         SpiceBoolean found;
         json kernelsToLoad = {};
+
+        if (mission.empty()) mission = inferMission({}, {frame});
 
         if (mission != "" && searchKernels){
             kernelsToLoad = Inventory::search_for_kernelset(mission, {"fk", "ik", "iak"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk);
@@ -875,6 +891,8 @@ namespace SpiceQL {
 
         json kernelsToLoad = {};
 
+        if (mission.empty()) mission = inferMission({}, {frame});
+
         if (mission != "" && searchKernels) {
             // Load only the FKs
             kernelsToLoad = Inventory::search_for_kernelset(mission, {"fk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk);
@@ -922,6 +940,8 @@ namespace SpiceQL {
 
         json frameInfo;
         json kernelsToLoad = {};
+
+        if (mission.empty()) mission = inferMission({}, {targetId});
 
         if (mission != "" && searchKernels) {
             kernelsToLoad = Inventory::search_for_kernelsets({mission, "base"}, {"fk"}, default_StartTime, default_StopTime, default_KernelQualities, default_KernelQualities, fullKernelPath, limitCk, limitSpk);
@@ -1040,6 +1060,8 @@ namespace SpiceQL {
         }
 
         json ephemKernels;
+
+        if (mission.empty()) mission = inferMission({}, {initialFrame});
 
         if (searchKernels) {
             ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"sclk", "ck", "pck", "fk", "ik", "iak", "lsk", "spk", "tspk"}, et, et, ckQualities, spkQualities, fullKernelPath, limitCk, limitSpk);
@@ -1194,6 +1216,8 @@ namespace SpiceQL {
 
         json missionJson;
         json ephemKernels = {};
+
+        if (mission.empty()) mission = inferMission({}, {targetFrame});
 
         if (searchKernels) {
             ephemKernels = Inventory::search_for_kernelsets({mission, "base"}, {"ck", "sclk", "lsk"}, observStart, observEnd, ckQualities, {"noquality"}, fullKernelPath, limitCk, limitSpk);

@@ -15,12 +15,21 @@ TEST_F(AliasMapTest, DefaultLoad) {
 
 TEST_F(AliasMapTest, LoadFromSpecificPath) {
 	// Verify test file exists
-	ASSERT_TRUE(fs::exists(testAliasMapFile)) 
+	ASSERT_TRUE(fs::exists(testAliasMapFile))
 			<< "Test data file not found at: " << testAliasMapFile;
 	EXPECT_NO_THROW(load_aliases(testAliasMapFile.string()));
 	EXPECT_EQ(aliasMap.getSpiceqlName("Fake"), "test_mission");
-	EXPECT_EQ(aliasMap.getSpiceqlName("MRO"), "");
+	// "MRO" is not in the test alias map, but the frameList() fallback now
+	// resolves it case-insensitively to the "mro" config key.
+	EXPECT_EQ(aliasMap.getSpiceqlName("MRO"), "mro");
 	EXPECT_EQ(aliasMap.getAliasMap().size(), 1);
+}
+
+TEST_F(AliasMapTest, CaseInsensitiveFrameListFallback) {
+	EXPECT_EQ(aliasMap.getSpiceqlName("LRO"), "lro");
+	EXPECT_EQ(aliasMap.getSpiceqlName("LROC"), "lroc");
+	// Existing lowercase behavior is preserved.
+	EXPECT_EQ(aliasMap.getSpiceqlName("lro"), "lro");
 }
 
 TEST_F(AliasMapTest, InvalidAlias) {
@@ -31,12 +40,10 @@ TEST_F(AliasMapTest, InvalidAlias) {
 
 TEST_F(AliasMapTest, EnsureInit) {
 	// Get mission without explicit loading, will load default automatically
-	setenv("SPICEQL_DEV_ALIAS", "true", 1);
 	EXPECT_EQ(aliasMap.getSpiceqlName("CH2_OHRC"), "ohrc");
 }
 
 TEST_F(AliasMapTest, PathParamOverridesEnvironment) {
-	setenv("SPICEQL_DEV_ALIAS", "true", 1);
 	EXPECT_EQ(aliasMap.getSpiceqlName("CH2_TMC_NADIR"), "tmc2");
 
 	// load test alias map
@@ -59,7 +66,6 @@ TEST_F(AliasMapTest, SetAliases) {
 
 TEST_F(AliasMapTest, GetAliases) {
 	// Verify dev alias map is valid
-	setenv("SPICEQL_DEV_ALIAS", "true", 1);
 	json aliasMapJson = aliasMap.getAliasMap();
 	
 	EXPECT_FALSE(aliasMapJson.empty());

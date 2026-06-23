@@ -15,7 +15,7 @@ namespace SpiceQL {
 
   /**
    * @brief Get a list of all frames in the supported by the library
-   * 
+   *
    * @return std::vector<std::string> list of frames
    */
   std::vector<std::string> frameList();

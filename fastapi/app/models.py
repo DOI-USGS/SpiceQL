@@ -137,7 +137,7 @@ class TargetStatesRequestModel(BaseModel):
     observer: str
     frame: str
     abcorr: str
-    mission: str
+    mission: str = ""
     ets: Annotated[list[float], Query()] | float | str | None = None
     startEt: float  = None
     stopEt: float = None
@@ -161,7 +161,7 @@ class TargetStatesRequestModel(BaseModel):
 class TargetOrientationsRequestModel(BaseModel):
     toFrame: int
     refFrame: int
-    mission: str
+    mission: str = ""
     ets: Annotated[list[float], Query()] | float | str | None = None
     startEt: float  = None
     stopEt: float = None
@@ -555,7 +555,7 @@ class MissionParam():
     def __init__(
             self,
             mission: Annotated[str, Query(
-                description="Mission name.",
+                description="Mission name. Optional; if omitted, it is inferred from the other parameters (e.g. frame/body codes or names).",
                 openapi_examples={
                     "empty": {
                         "summary": "Default",
@@ -570,7 +570,7 @@ class MissionParam():
                         "value": "lroc"
                     }
                 }
-            )]):
+            )] = ""):
         self.value = mission
 
 class NumRecordsParam():

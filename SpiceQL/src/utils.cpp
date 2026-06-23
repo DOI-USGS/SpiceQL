@@ -8,6 +8,8 @@
 #include <fstream>
 #include <regex>
 #include <chrono>
+#include <cmath>
+#include <cstring>
 #include <float.h>
 #ifdef _WIN32
 #include <process.h>  // _getpid
@@ -37,6 +39,7 @@
 #include <SpiceQL/spice_types.h>
 #include <SpiceQL/utils.h>
 #include <SpiceQL/inventory.h>
+#include <SpiceQL/alias_map.h>
 
 using json = nlohmann::json;
 using namespace std;
@@ -1321,9 +1324,9 @@ namespace SpiceQL {
     fs::path debugPath = fs::absolute(_SOURCE_PREFIX) / "SpiceQL" / aliasMapFilename;
     fs::path installPath = fs::absolute(condaPrefix) / "etc" / "SpiceQL" / aliasMapFilename;
 
-    // Use installPath unless $SPICEQL_DEV_ALIAS is set
+    // Use installPath unless $SPICEQL_DEV_DB is set
     fs::path aliasMapPath;
-    if (std::getenv("SPICEQL_DEV_ALIAS") && toLower(string(std::getenv("SPICEQL_DEV_ALIAS"))) == "true") {
+    if (std::getenv("SPICEQL_DEV_DB") && toLower(string(std::getenv("SPICEQL_DEV_DB"))) == "true") {
       aliasMapPath = debugPath; 
     } else {
       aliasMapPath = installPath;
@@ -1335,5 +1338,55 @@ namespace SpiceQL {
     SPDLOG_TRACE("SpiceQL alias map path: {}", aliasMapPath.string());
 
     return aliasMapPath.string();
+  }
+
+
+  // Resolve a NAIF code to a name without furnishing kernels: first the
+  // precomputed frame cache in the DB (covers FK-defined names like
+  // -85620 -> "LRO_LROCNACL"), then NAIF's built-in bodc2n_c.
+  static string codeToNameNoKernels(int code) {
+    SPDLOG_DEBUG("Resolving code {} to name without furnishing kernels", code);
+    string name = Inventory::getFrameNameFromCache(code);
+    SPDLOG_DEBUG("Resolved code {} to name '{}' from cache", code, name);
+    if (!name.empty()) return name;
+    SPDLOG_DEBUG("Code {} not found in cache, trying NAIF bodc2n_c", code);
+    SpiceChar buf[128];
+    SpiceBoolean found = SPICEFALSE;
+    bodc2n_c(code, 128, buf, &found);
+    if (found && strlen(buf) > 0) {
+      SPDLOG_DEBUG("Resolved code {} to name {} from NAIF", code, string(buf));
+      return string(buf);
+    }
+    return "";
+  }
+
+
+  string inferMission(const vector<string>& nameCandidates,
+                      const vector<int>& codeCandidates) {
+    SPDLOG_DEBUG("Inferring mission from name candidates: [{}] and code candidates: [{}]",
+                 fmt::join(nameCandidates, ", "), fmt::join(codeCandidates, ", "));
+    for (const auto& cand : nameCandidates) {
+      if (cand.empty()) continue;
+      string m = AliasMap::instance().getSpiceqlName(cand);
+      if (!m.empty()) {
+        SPDLOG_DEBUG("Found mission {} from name candidate {}", m, cand);
+        return m;
+      }
+    }
+    for (int code : codeCandidates) {
+      if (code == 0) continue;
+      int bus = (std::abs(code) / 1000 != 0) ? code / 1000 : code;
+      for (int c : {code, bus}) {
+        string name = codeToNameNoKernels(c);
+        if (!name.empty()) {
+          string m = AliasMap::instance().getSpiceqlName(name);
+          if (!m.empty()) {
+            SPDLOG_DEBUG("Found mission {} from code candidate {}", m, code);
+            return m;
+          }
+        }
+      }
+    }
+    return "";
   }
 }

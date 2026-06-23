@@ -12,6 +12,21 @@ using namespace std;
 using namespace SpiceQL;
 
 
+// Path to the shared, stable frame-cache database directory. Stable (not
+// randomized) so that under gtest_discover_tests -- where ctest runs each test
+// in its own process -- the database built by the first process is reused by
+// all the others instead of being rebuilt per test.
+fs::path frameCacheDir();
+
+// gtest global environment that builds the frame-cache database (synthetic FK +
+// LSK + create_database) exactly once. It skips the (expensive) build if the
+// database already exists, so the cost is paid only by the first test process.
+class FrameCacheEnvironment : public ::testing::Environment {
+  public:
+    void SetUp() override;
+};
+
+
 class TempTestingFiles : public ::testing::Test {
   public:
     fs::path tempDir;
@@ -68,16 +83,18 @@ class LroKernelSet : public TempTestingFiles  {
     void TearDown() override;
 };
 
-class KernelsWithQualities : public TempTestingFiles  {
+class KernelsWithQualities : public ::testing::Test  {
   protected:
-    fs::path root;
-    string spkPathPredict; 
-    string spkPathRecon; 
-    string spkPathRecon2; 
-    string spkPathSmithed; 
+    // Suite-scoped so the (expensive) database is generated once for all tests
+    // in this fixture rather than per test.
+    static fs::path root;
+    static string spkPathPredict;
+    static string spkPathRecon;
+    static string spkPathRecon2;
+    static string spkPathSmithed;
 
-    void SetUp() override;
-    void TearDown() override;
+    static void SetUpTestSuite();
+    static void TearDownTestSuite();
 };
 
 class TestConfig : public KernelDataDirectories {

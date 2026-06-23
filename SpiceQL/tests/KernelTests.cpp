@@ -182,6 +182,48 @@ TEST_F(LroKernelSet, UnitTestGetFrameInfo) {
 }
 
 
+TEST_F(LroKernelSet, InferMissionGetFrameInfo) {
+  // Regenerate the DB so the frame code<->name cache (e.g. -85 -> "LRO") is
+  // available without furnishing FKs at runtime.
+  Inventory::create_database();
+
+  // mission inferred from the frame code: -85620 -> bus -85 -> "LRO" -> "lro"
+  auto [resInferred, kernelsInferred] = getFrameInfo(-85620, "");
+  auto [resExplicit, kernelsExplicit] = getFrameInfo(-85620, "lroc");
+  EXPECT_EQ(resInferred, resExplicit);
+  EXPECT_EQ(resInferred[0], -85);
+  EXPECT_EQ(resInferred[1], 3);
+  EXPECT_EQ(resInferred[2], -85620);
+}
+
+
+TEST_F(LroKernelSet, InferMissionStrSclkToEt) {
+  Inventory::create_database();
+
+  // Furnish the kernels directly (mirrors UnitTestStrSclkToEt) so the test
+  // isolates mission inference: -85 -> "LRO" -> "lro" must match explicit "lro".
+  nlohmann::json testKernelJson;
+  testKernelJson["kernels"] = {{ckPath1}, {ckPath2}, {spkPath1}, {spkPath2}, {spkPath3}, {ikPath2}, {fkPath}, {sclkPath}, {lskPath}};
+  KernelSet testSet(testKernelJson);
+
+  auto [etInferred, kernelsInferred] = strSclkToEt(-85, "1/281199081:48971", "");
+  auto [etExplicit, kernelsExplicit] = strSclkToEt(-85, "1/281199081:48971", "lro");
+  EXPECT_DOUBLE_EQ(etInferred, etExplicit);
+  EXPECT_DOUBLE_EQ(etInferred, 312778347.97478431);
+}
+
+
+TEST_F(LroKernelSet, InferMissionFromFrameName) {
+  Inventory::create_database();
+
+  // mission inferred from the frame name "LRO_LROCNACL" -> alias -> "lroc"
+  auto [codeInferred, kernelsInferred] = translateNameToCode("LRO_LROCNACL", "");
+  auto [codeExplicit, kernelsExplicit] = translateNameToCode("LRO_LROCNACL", "lroc");
+  EXPECT_EQ(codeInferred, codeExplicit);
+  EXPECT_EQ(codeInferred, -85600);
+}
+
+
 TEST_F(LroKernelSet, UnitTestFindMissionKeywords) {
   auto [keywords, kernels] = findMissionKeywords("INS-85600_CCD_CENTER", "lro");
 

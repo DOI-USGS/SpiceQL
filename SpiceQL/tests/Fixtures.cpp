@@ -20,6 +20,77 @@ using namespace std;
 using namespace SpiceQL;
 
 
+fs::path frameCacheDir() {
+  // Stable (non-random) location so the database survives across the separate
+  // processes ctest spawns for each discovered test.
+  return fs::temp_directory_path() / "SQTESTS_frame_cache";
+}
+
+
+void FrameCacheEnvironment::SetUp() {
+  fs::path dir = frameCacheDir();
+  fs::create_directories(dir / "fk");
+
+  setenv("SPICEROOT", dir.c_str(), true);
+  setenv("SPICEQL_CACHE_DIR", dir.c_str(), true);
+  setenv("SPICEQL_DEV_DB", "TRUE", true);
+
+  // If the database already exists (built by an earlier test process), reuse it
+  // rather than paying the expensive create_database cost again.
+  if (fs::exists(dir / "spiceqldb.hdf")) {
+    return;
+  }
+
+  // LSK is required by create_database (base/lsk).
+  fs::copy_file(fs::path("data") / "naif0012.tls", dir / "naif0012.tls",
+                fs::copy_options::overwrite_existing);
+
+  // Synthetic FKs whose names match config fk regexes so create_database
+  // furnishes them and caches their frame/body code<->name pairs. This lets
+  // code-based inference resolve real NAIF codes without shipping kernels.
+  //   mro_v[0-9]{2}.tf  -> MRO_CTX (-74021), MRO (-74)
+  nlohmann::json mroFk = {
+    {"FRAME_MRO_CTX", -74021},
+    {"FRAME_-74021_NAME", "MRO_CTX"},
+    {"FRAME_-74021_CLASS", 3},
+    {"FRAME_-74021_CLASS_ID", -74021},
+    {"FRAME_-74021_CENTER", -74},
+    {"TKFRAME_-74021_RELATIVE", "MRO_SPACECRAFT"},
+    {"FRAME_MRO_SPACECRAFT", -74000},
+    {"FRAME_-74000_NAME", "MRO_SPACECRAFT"},
+    {"FRAME_-74000_CLASS", 3},
+    {"FRAME_-74000_CLASS_ID", -74000},
+    {"FRAME_-74000_CENTER", -74},
+    // Short mnemonic first so it is the canonical name cached for -74 (CSPICE
+    // returns the first-defined name); "MRO" maps to the "mro" config.
+    {"NAIF_BODY_NAME", {"MRO", "MARS RECONNAISSANCE ORBITER", "MRO_CTX", "MRO_SPACECRAFT"}},
+    {"NAIF_BODY_CODE", {-74, -74, -74021, -74000}}
+  };
+  writeTextKernel((dir / "fk" / "mro_v01.tf").string(), "fk", mroFk);
+
+  //   lro_frames...tf -> LRO_LROCNACL (-85600), LRO (-85)
+  nlohmann::json lroFk = {
+    {"FRAME_LRO_LROCNACL", -85600},
+    {"FRAME_-85600_NAME", "LRO_LROCNACL"},
+    {"FRAME_-85600_CLASS", 3},
+    {"FRAME_-85600_CLASS_ID", -85600},
+    {"FRAME_-85600_CENTER", -85},
+    {"TKFRAME_-85600_RELATIVE", "LRO_SC_BUS"},
+    {"FRAME_LRO_SC_BUS", -85000},
+    {"FRAME_-85000_NAME", "LRO_SC_BUS"},
+    {"FRAME_-85000_CLASS", 3},
+    {"FRAME_-85000_CLASS_ID", -85000},
+    {"FRAME_-85000_CENTER", -85},
+    // Short mnemonic first so "LRO" is the canonical name cached for -85.
+    {"NAIF_BODY_NAME", {"LRO", "LUNAR RECONNAISSANCE ORBITER", "LRO_LROCNACL", "LRO_SC_BUS"}},
+    {"NAIF_BODY_CODE", {-85, -85, -85600, -85000}}
+  };
+  writeTextKernel((dir / "fk" / "lro_frames_1111111_v01.tf").string(), "fk", lroFk);
+
+  Inventory::create_database();
+}
+
+
 void TempTestingFiles::SetUp() {
   int max_tries = 10;
   auto tmp_dir = fs::temp_directory_path();
@@ -184,44 +255,54 @@ void IsisDataDirectory::compareKernelVector(vector<string> kVector, vector<strin
   }
 }
 
-void KernelsWithQualities::SetUp() {
-  TempTestingFiles::SetUp();
-  root = tempDir;
+fs::path KernelsWithQualities::root;
+string KernelsWithQualities::spkPathPredict;
+string KernelsWithQualities::spkPathRecon;
+string KernelsWithQualities::spkPathRecon2;
+string KernelsWithQualities::spkPathSmithed;
 
-  fs::create_directory(root / "spk");
+void KernelsWithQualities::SetUpTestSuite() {
+  // Build the kernels + database once for the whole fixture. create_database
+  // is expensive, so doing it per test (the old SetUp behavior) was wasteful.
+  root = fs::temp_directory_path() / ("SQTESTS_kwq_" + gen_random(10));
+  fs::create_directories(root / "spk");
 
-  // we are using Mars odyssey here 
+  setenv("SPICEROOT", root.c_str(), true);
+  setenv("SPICEQL_CACHE_DIR", root.c_str(), true);
+
+  // we are using Mars odyssey here
   int bodyCode = -83000;
-  std::string referenceFrame = "j2000"; 
+  std::string referenceFrame = "j2000";
 
   std::vector<double> times1 = {110000000, 120000000};
   std::vector<double> times2 = {130000000, 140000000};
 
-  // create predicted SPK 
+  // create predicted SPK
 
   std::vector<std::vector<double>> velocities = {{1,1,1}, {2,2,2}};
   std::vector<std::vector<double>> positions = {{1, 1, 1}, {2, 2, 2}};
   spkPathPredict = root / "spk" / "m01_map.bsp";
   writeSpk(spkPathPredict, positions, times1, bodyCode, 1, referenceFrame, "SPK ID 1", 1, velocities, "SPK 1");
 
-  // create reconstructed SPK  
+  // create reconstructed SPK
   spkPathRecon = root / "spk" / "m01_ab_v2.bsp";
 
-  writeSpk(spkPathRecon, positions, times1, bodyCode, 1, referenceFrame, "SPK ID 1", 1, velocities, "SPK 1"); 
+  writeSpk(spkPathRecon, positions, times1, bodyCode, 1, referenceFrame, "SPK ID 1", 1, velocities, "SPK 1");
 
-  // create another reconstructed SPK with different times 
+  // create another reconstructed SPK with different times
   spkPathRecon2 = root / "spk" / "m01_map_rec.bsp";
 
-  writeSpk(spkPathRecon2, positions, times2, bodyCode, 1, referenceFrame, "SPK ID 1", 1, velocities, "SPK 1"); 
+  writeSpk(spkPathRecon2, positions, times2, bodyCode, 1, referenceFrame, "SPK ID 1", 1, velocities, "SPK 1");
 
   spkPathSmithed = root / "spk" / "themis_dayir_merged_2018Jul13_spk.bsp";
-  writeSpk(spkPathSmithed, positions, times1, bodyCode, 1, referenceFrame, "SPK ID 1", 1, velocities, "SPK 1"); 
-  Inventory::create_database(); 
+  writeSpk(spkPathSmithed, positions, times1, bodyCode, 1, referenceFrame, "SPK ID 1", 1, velocities, "SPK 1");
+  Inventory::create_database();
 }
 
 
-void KernelsWithQualities::TearDown() {
-
+void KernelsWithQualities::TearDownTestSuite() {
+  std::error_code ec;
+  fs::remove_all(root, ec);
 }
 
 

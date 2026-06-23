@@ -1,6 +1,7 @@
 #include <SpiceQL/config.h>
 #include <SpiceQL/query.h>
 #include <SpiceQL/memoized_functions.h>
+#include <SpiceQL/inventory.h>
 
 #include <time.h>
 
@@ -14,15 +15,12 @@ using namespace std;
 using json = nlohmann::json;
 
 namespace SpiceQL {
-  
-  vector<string> frameList() { 
-    vector<string> frames;
-    auto conf = Config().globalConf();
-    for (auto &frame : conf.items()) {
-      SPDLOG_TRACE("Adding Frame: {}", frame.key());
-      frames.push_back(frame.key());
-    }
-    return frames;
+
+  vector<string> frameList() {
+    // Served from the precomputed cache in the kernel database (built during
+    // create_database). Inventory::getFrameList falls back to the live config
+    // computation if the cache is unavailable, so this is always correct.
+    return Inventory::getFrameList();
   }
 
 

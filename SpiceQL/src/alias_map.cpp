@@ -66,11 +66,16 @@ namespace SpiceQL {
         return it->second;
     }
 
-    // Fallback: check frameList()
+    // Fallback: match frameList() case-insensitively, returning the canonical
+    // config key (e.g. NAIF's "LRO" -> "lro"). Indexed by uppercased key for
+    // O(1) lookup.
+    unordered_map<string, string> frames;
     for (const auto& frame : frameList()) {
-        if (frame == name) return name;
+        frames.emplace(toUpper(frame), frame);
     }
-    
+    auto fit = frames.find(upperAlias);
+    if (fit != frames.end()) return fit->second;
+
     return "";
   }
 

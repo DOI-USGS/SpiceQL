@@ -167,9 +167,24 @@ namespace SpiceQL {
             setCacheDir(db_file_path, override);
         }
 
-        void create_database(vector<string> mlist) { 
+        void create_database(vector<string> mlist) {
             // force generate the database
             InventoryImpl db(true, mlist);
+        }
+
+        vector<string> getFrameList() {
+            InventoryImpl impl;
+            return impl.getFrameList();
+        }
+
+        string getFrameNameFromCache(int code) {
+            InventoryImpl impl;
+            return impl.getFrameName(code);
+        }
+
+        int getFrameCodeFromCache(string name) {
+            InventoryImpl impl;
+            return impl.getFrameCode(name);
         }
     }
 }
