@@ -41,6 +41,20 @@ namespace {
   static const std::time_t J2000_UTC_UNIX = 946728000;  // 2000-01-01 12:00:00 UTC
   static const double J2000_TAI_UTC = 32.0;  // TAI-UTC at J2000 epoch
 
+  // Time system a calendar string is expressed in, as designated by a trailing
+  // token (e.g. "... TDB"). Absent a token, CSPICE's str2et defaults to UTC.
+  enum class TimeSystem { UTC, TDB, TT };
+
+  // Recognize a time-system designator token (case already upper-cased by the
+  // normalizer). TDT is CSPICE's spelling of Terrestrial Time; "TT" is accepted
+  // as the common alias. Returns true and sets ts when matched.
+  bool timeSystemFromToken(const std::string &token, TimeSystem &ts) {
+    if (token == "UTC") { ts = TimeSystem::UTC; return true; }
+    if (token == "TDB") { ts = TimeSystem::TDB; return true; }
+    if (token == "TDT" || token == "TT") { ts = TimeSystem::TT; return true; }
+    return false;
+  }
+
   // Helper function to get leap second count for a given date
   int getLeapSeconds(int y, int m, int d) {
     // For dates before the first tabulated leap second (1972-01-01), CSPICE
@@ -94,9 +108,14 @@ namespace {
   //
   // The day-of-year case relies on timegm normalizing an out-of-range tm_mday,
   // so callers must read the calendar date back out of struct tm afterwards.
-  void parseUtcString(const std::string &utc, struct tm &t, double &fractional_seconds) {
+  //
+  // A trailing time-system designator (UTC/TDB/TDT/TT) is honored and reported
+  // via ts; when absent, ts is left as UTC, matching CSPICE's str2et default.
+  void parseUtcString(const std::string &utc, struct tm &t, double &fractional_seconds,
+                      TimeSystem &ts) {
     t = {};
     fractional_seconds = 0.0;
+    ts = TimeSystem::UTC;
 
     // Normalize separators into spaces so the string can be tokenized. Date
     // field separators ('-', '/', ','), the date/time 'T' separator, and a
@@ -166,6 +185,10 @@ namespace {
       if (month != 0) {
         monthName = token;
         t.tm_mon = month - 1;
+        continue;
+      }
+      // Trailing time-system designator (UTC/TDB/TDT/TT).
+      if (timeSystemFromToken(token, ts)) {
         continue;
       }
       // Pure integer date field.
@@ -263,35 +286,56 @@ double calendarTimeToEphemTime(std::string calendarTime) {
 
   struct tm t = {};
   double fractional_seconds = 0.0;
-  parseUtcString(calendarTime, t, fractional_seconds);
+  TimeSystem ts = TimeSystem::UTC;
+  parseUtcString(calendarTime, t, fractional_seconds, ts);
 
-  std::time_t utc_unix = timegm(&t);
+  std::time_t cal_unix = timegm(&t);
 
-  // Look up the correct leap-second count for this UTC date. Read the date back
-  // out of t so day-of-year inputs (normalized by timegm) are handled.
-  int y = t.tm_year + 1900, m = t.tm_mon + 1, d = t.tm_mday;
-  int leap = getLeapSeconds(y, m, d);
+  // Seconds past the J2000 epoch with the calendar fields read literally. Every
+  // supported time system uses a uniform 86400 s/day calendar (the leap-second
+  // adjustment is what distinguishes UTC), so this is the common starting point.
+  double seconds_since_j2000 = (double)cal_unix - J2000_UTC_UNIX + fractional_seconds;
 
-  // Convert UTC Unix time to seconds since J2000 epoch (UTC)
-  double seconds_since_j2000_utc = (double)utc_unix - J2000_UTC_UNIX + fractional_seconds;
+  // A TDB calendar string already names an instant on the ephemeris (TDB) time
+  // scale, so its seconds-past-J2000 are ET directly -- no leap-second or
+  // TDB-TAI correction is applied (this matches CSPICE's str2et, which returns
+  // the parsed value unchanged for a "... TDB" input).
+  if (ts == TimeSystem::TDB) {
+    return seconds_since_j2000;
+  }
+
+  // For UTC, shift onto the TAI scale with the leap-second count for this date;
+  // for TT (== TDT), TT is already 32.184 s ahead of TAI so it sits at the same
+  // offset as TAI + DELTA_T_A. Read the date back out of t so day-of-year inputs
+  // (normalized by timegm) are handled.
+  double tai_past_j2000;
+  if (ts == TimeSystem::TT) {
+    // TT - TAI = DELTA_T_A, so TAI = TT - DELTA_T_A; adding DELTA_T_A back below
+    // recovers TT. Equivalently, seed the iteration at TT past J2000.
+    tai_past_j2000 = seconds_since_j2000 - DELTA_T_A;
+  }
+  else {
+    int y = t.tm_year + 1900, m = t.tm_mon + 1, d = t.tm_mday;
+    int leap = getLeapSeconds(y, m, d);
+    tai_past_j2000 = seconds_since_j2000 + leap;
+  }
 
   // Calculate the TDB-TAI periodic correction. The mean-anomaly argument is ET
-  // (TDB) seconds past J2000, but we only have UTC here, so solve the implicit
-  // relation ET = (UTC seconds) + leap + TDB_TAI(ET) by fixed-point iteration.
-  // Seeding with TAI (UTC + leap) and iterating converges to machine precision
-  // in a couple of steps because |d(TDB_TAI)/dET| = K*M[1] ~ 3e-10.
-  // (The inverse, ephemTimeToCalendarTime, already uses ET directly; iterating
-  // here keeps the round-trip consistent and matches CSPICE's str2et.)
-  double et = seconds_since_j2000_utc + leap;  // initial guess: TAI past J2000
-  double tdb_tai = DELTA_T_A;
+  // (TDB) seconds past J2000, but we only have TAI here, so solve the implicit
+  // relation ET = TAI + TDB_TAI(ET) by fixed-point iteration. Seeding with TAI
+  // and iterating converges to machine precision in a couple of steps because
+  // |d(TDB_TAI)/dET| = K*M[1] ~ 3e-10. (The inverse, ephemTimeToCalendarTime,
+  // already uses ET directly; iterating here keeps the round-trip consistent
+  // and matches CSPICE's str2et.)
+  double et = tai_past_j2000 + DELTA_T_A;  // initial guess: TT past J2000
   for (int i = 0; i < 3; i++) {
     double mean_m = M[0] + M[1] * et;
     double E = mean_m + EB * sin(mean_m);
-    tdb_tai = DELTA_T_A + K * sin(E);
-    et = seconds_since_j2000_utc + leap + tdb_tai;
+    double tdb_tai = DELTA_T_A + K * sin(E);
+    et = tai_past_j2000 + tdb_tai;
   }
 
-  // ET (TDB) = seconds since J2000 (UTC) + leap seconds + TDB-TAI offset
+  // ET (TDB) = TAI past J2000 + TDB-TAI offset
   return et;
 }
 
@@ -347,21 +391,29 @@ std::string ephemTimeToCalendarTime(double ephemTime, std::string format, int pr
     return result;
   }
 
-  double etTime = seconds_since_j2000_utc + J2000_UTC_UNIX;
-  std::time_t utc_unix = (std::time_t)std::floor(etTime);
-  // Fractional part relative to the floored second. Subtracting the time_t
-  // (rather than an (int) cast) avoids overflow for dates beyond 2038 and
-  // keeps frac in [0, 1).
-  double frac = etTime - (double)utc_unix;
+  // Split into the integer second and fraction at the seconds-past-J2000
+  // magnitude, *before* shifting onto the Unix epoch. The J2000-to-1970 offset
+  // (~9.5e8 s) would push the value to ~1.2e9, where a double resolves only ~6
+  // fractional decimals; keeping the split at the smaller seconds-past-J2000
+  // magnitude preserves the extra decimal CSPICE's et2utc reports (e.g. a 2008
+  // epoch at ~2.6e8 resolves 7). The offset is a whole number of seconds, so
+  // shifting the floored second onto the Unix epoch is an exact integer add
+  // that cannot perturb the fraction.
+  double floor_j2000 = std::floor(seconds_since_j2000_utc);
+  double frac = seconds_since_j2000_utc - floor_j2000;
+  std::time_t utc_unix = (std::time_t)floor_j2000 + J2000_UTC_UNIX;
 
   // Strip sub-resolution noise before rounding. A double holds ~15-16
   // significant digits, so at this epoch's magnitude the fractional second is
-  // only meaningful to ulp(etTime) = |etTime| * 2^-52 seconds. Asking for more
-  // decimals than that surfaces floating-point dust (e.g. .1234 stored as
-  // .12339997). Snap the fraction to the resolvable number of decimals first so
-  // those trailing digits round cleanly instead of leaking noise.
-  if (etTime != 0.0) {
-    double ulp = std::fabs(etTime) * 2.220446049250313e-16;  // 2^-52
+  // only meaningful to ulp = |seconds_since_j2000_utc| * 2^-52 seconds. Asking
+  // for more decimals than that surfaces floating-point dust (e.g. .1234 stored
+  // as .12339997). Snap the fraction to the resolvable number of decimals first
+  // so those trailing digits round cleanly instead of leaking noise. The
+  // resolvable count is taken at the seconds-past-J2000 magnitude actually
+  // carried, not the inflated Unix value, so it does not under-report by a
+  // decimal.
+  if (seconds_since_j2000_utc != 0.0) {
+    double ulp = std::fabs(seconds_since_j2000_utc) * 2.220446049250313e-16;  // 2^-52
     int resolvable = (int)std::floor(-std::log10(ulp));
     if (resolvable < 0) resolvable = 0;
     if (resolvable < prec) {
