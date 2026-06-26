@@ -154,7 +154,7 @@ TEST_F(TempTestingFiles, TestInventorySetCacheDirOverride) {
   EXPECT_EQ(SpiceQL::Inventory::getDbFilePath(), new_path/"spiceqldb.hdf");
 }
 
-TEST_F(TempTestingFiles, TestInventorySetCacheDirFail) { 
+TEST(TestInventory, SetCacheDirFail) { 
   unsetenv("SPICEQL_CACHE_DIR");
   EXPECT_THROW(SpiceQL::Inventory::getDbFilePath(), runtime_error);
 }
