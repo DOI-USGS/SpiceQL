@@ -34,6 +34,9 @@ release.
 -->
 ### unreleased
 
+## Fixed 
+- Made updates to utcet to match cspice imeplementation [#141](https://github.com/DOI-USGS/SpiceQL/pull/141)
+
 ## 1.4.1
 
 ### Fixed
