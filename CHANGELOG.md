@@ -36,6 +36,7 @@ release.
 
 ### Added 
 - Added kernel introspection functions [#142](https://github.com/DOI-USGS/SpiceQL/pull/142)
+- made Mission parameter optional [#140](https://github.com/DOI-USGS/SpiceQL/pull/140)
 
 ## Fixed 
 - Made updates to utcet to match cspice imeplementation [#141](https://github.com/DOI-USGS/SpiceQL/pull/141)
