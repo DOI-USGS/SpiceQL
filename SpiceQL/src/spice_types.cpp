@@ -167,6 +167,47 @@ namespace SpiceQL {
     checkNaifErrors();
   }
 
+  vector<string> getLoadedKernels() {
+    const SpiceInt FILESIZ = 256;
+    const SpiceInt TYPESIZ = 32;
+    const SpiceInt SOURCESIZ = 256;
+
+    SpiceInt count = 0;
+    checkNaifErrors();
+    ktotal_c("all", &count);
+    checkNaifErrors();
+
+    vector<string> kernels;
+    kernels.reserve(count);
+
+    for (SpiceInt i = 0; i < count; i++) {
+      SpiceChar file[FILESIZ];
+      SpiceChar filtyp[TYPESIZ];
+      SpiceChar source[SOURCESIZ];
+      SpiceInt handle;
+      SpiceBoolean found = SPICEFALSE;
+
+      kdata_c(i, "all", FILESIZ, TYPESIZ, SOURCESIZ, file, filtyp, source, &handle, &found);
+      checkNaifErrors();
+
+      if (found) {
+        kernels.push_back(string(file));
+      }
+    }
+
+    return kernels;
+  }
+
+  bool isLskLoaded() {
+    SpiceBoolean found = SPICEFALSE;
+    SpiceInt n = 0;
+    SpiceChar type[2];
+    checkNaifErrors();
+    dtpool_c("DELTET/DELTA_T_A", &found, &n, type);
+    checkNaifErrors();
+    return found == SPICETRUE;
+  }
+
   KernelSet::KernelSet(json kernels) {
     load(kernels);
   }

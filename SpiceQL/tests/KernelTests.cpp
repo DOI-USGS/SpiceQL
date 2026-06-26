@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include <gtest/gtest.h>
 #include <fmt/format.h>
 
@@ -169,6 +171,58 @@ TEST_F(LroKernelSet, TestEtToUTCNoSearch) {
   EXPECT_EQ(utc_nosearch, expectedUtc);
   EXPECT_EQ(utc_search, expectedUtc);
 }
+
+TEST_F(LroKernelSet, UnitTestGetLoadedKernels) {
+  // Nothing furnished yet, so the pool reports no kernels.
+  EXPECT_TRUE(getLoadedKernels().empty());
+
+  nlohmann::json testKernelJson;
+  testKernelJson["kernels"] = {{ckPath1}, {ckPath2}, {spkPath1}, {lskPath}, {sclkPath}};
+  std::vector<std::string> expected = {ckPath1, ckPath2, spkPath1, lskPath, sclkPath};
+
+  {
+    KernelSet testSet(testKernelJson);
+
+    std::vector<std::string> loaded = getLoadedKernels();
+    for (const auto &path : loaded) {
+      SPDLOG_DEBUG("Got Loaded kernel: {}", path);
+    }
+    
+    // Every kernel that was furnished is reported as loaded, regardless of type.
+    EXPECT_EQ(loaded.size(), expected.size());
+    for (const auto &path : expected) {
+      EXPECT_NE(std::find(loaded.begin(), loaded.end(), path), loaded.end())
+          << "expected " << path << " to be reported as loaded";
+    }
+  }
+
+  // Once the set is unfurnished the pool is empty again.
+  EXPECT_TRUE(getLoadedKernels().empty());
+}
+
+
+TEST_F(LroKernelSet, UnitTestIsLskLoaded) {
+  // No LSK furnished yet, so the leapseconds variable is absent from the pool.
+  EXPECT_FALSE(isLskLoaded());
+
+  {
+    // Furnishing a kernel set that has no LSK must not flip the result.
+    nlohmann::json noLskJson;
+    noLskJson["kernels"] = {{ckPath1}, {spkPath1}, {sclkPath}};
+    KernelSet noLskSet(noLskJson);
+    EXPECT_FALSE(isLskLoaded());
+  }
+
+  {
+    // Furnishing an LSK loads DELTET/DELTA_T_A into the pool.
+    Kernel lsk(lskPath);
+    EXPECT_TRUE(isLskLoaded());
+  }
+
+  // Once the LSK is unfurnished the pool no longer reports it.
+  EXPECT_FALSE(isLskLoaded());
+}
+
 
 TEST_F(LroKernelSet, UnitTestGetFrameInfo) {
 

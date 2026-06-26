@@ -6,7 +6,9 @@
  **/
 
 #include <iostream>
+#include <string>
 #include <unordered_map>
+#include <vector>
 
 #include <nlohmann/json.hpp>
 
@@ -18,8 +20,27 @@ namespace SpiceQL {
   extern const std::vector<std::string> KERNEL_TYPES;
   extern const std::vector<std::string> KERNEL_QUALITIES;
   
-  void load(std::string path, bool force_refurnsh=true); 
+  void load(std::string path, bool force_refurnsh=true);
   void unload(std::string path);
+
+  /**
+   * @brief Returns the file paths of all kernels currently loaded in the CSPICE pool.
+   *
+   * Reflects every kernel in the pool regardless of type or how it was loaded,
+   * including kernels furnished outside of SpiceQL (e.g. by a host application
+   * such as ISIS).
+   */
+  std::vector<std::string> getLoadedKernels();
+
+  /**
+   * @brief Returns true if a leapseconds kernel (LSK) is loaded in the CSPICE pool.
+   *
+   * Detects an LSK by checking the kernel pool for the DELTET/DELTA_T_A
+   * leapseconds variable that every LSK defines. This catches LSKs loaded
+   * outside of SpiceQL (e.g. furnished into the shared pool by a host
+   * application such as ISIS).
+   */
+  bool isLskLoaded();
 
   /**
    * @brief Base Kernel class
