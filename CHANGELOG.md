@@ -34,6 +34,9 @@ release.
 -->
 ### unreleased
 
+### Added 
+- Added kernel introspection functions [#142](https://github.com/DOI-USGS/SpiceQL/pull/142)
+
 ## 1.4.1
 
 ### Fixed

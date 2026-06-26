@@ -168,10 +168,6 @@ namespace SpiceQL {
   }
 
   vector<string> getLoadedKernels() {
-    // Walk every kernel currently in the CSPICE pool (all kernel types) and
-    // return their file paths. ktotal_c("all") gives the count; kdata_c returns
-    // the file name for each index. This reflects everything loaded, including
-    // kernels furnished outside of SpiceQL (e.g. by a host application).
     const SpiceInt FILESIZ = 256;
     const SpiceInt TYPESIZ = 32;
     const SpiceInt SOURCESIZ = 256;
@@ -203,11 +199,6 @@ namespace SpiceQL {
   }
 
   bool isLskLoaded() {
-    // An LSK defines the DELTET/DELTA_T_A leapseconds variable, so its presence
-    // in the kernel pool is a reliable signal that an LSK is loaded -- including
-    // when a host application such as ISIS has furnished one into the shared pool
-    // without going through SpiceQL's own kernel search. dtpool_c reports whether
-    // the variable exists without raising a CSPICE error when it is absent.
     SpiceBoolean found = SPICEFALSE;
     SpiceInt n = 0;
     SpiceChar type[2];
