@@ -34,11 +34,15 @@ release.
 -->
 ### unreleased
 
+## 1.5.0 - 2026-06-27
+
 ### Added 
 - Added kernel introspection functions [#142](https://github.com/DOI-USGS/SpiceQL/pull/142)
 - made Mission parameter optional [#140](https://github.com/DOI-USGS/SpiceQL/pull/140)
+- Added `getLoadedKernels` and `isLskLoaded` to inspect the CSPICE kernel pool
 
-## Fixed 
+
+### Fixed 
 - Made updates to utcet to match cspice imeplementation [#141](https://github.com/DOI-USGS/SpiceQL/pull/141)
 
 ## 1.4.1

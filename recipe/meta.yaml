@@ -48,10 +48,10 @@ requirements:
     - highfive
     - cspice
     - hdf5
-    - fmt >9,<10
-    - spdlog =1.12
+    - fmt >=12.1.0,<12.2.0
+    - hdf5 >=1.14,<1.15
     - openssl
-    - python
+    - python >=3.13,<3.14
     - libcurl
 
   run:
