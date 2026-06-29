@@ -1385,6 +1385,8 @@ namespace SpiceQL {
       }
     }
     return "";
+  }
+
   json formatKernels(vector<string> kernelPaths) {
     SPDLOG_TRACE("formatKernels with {} paths", kernelPaths.size());
 
