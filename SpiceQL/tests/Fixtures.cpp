@@ -21,7 +21,12 @@ using namespace SpiceQL;
 
 
 fs::path frameCacheDir() {
-  return fs::temp_directory_path() / "SQTESTS_frame_cache";
+  static fs::path cached_dir;
+  if (cached_dir.empty()) {
+    // Generate a unique directory name to avoid conflicts when running tests in parallel
+    cached_dir = fs::temp_directory_path() / ("SQTESTS_frame_cache_" + gen_random(10));
+  }
+  return cached_dir;
 }
 
 
