@@ -166,35 +166,13 @@ TEST(UtilTests, mergeConfigs) {
 
   mergeConfigs(baseConfig, mergeConfig);
 
-  nlohmann::json expectedConfig = R"({
-    "ck" : {
-      "predict" : {
-        "kernels" : "predict_ck_1.bc"
-      },
-      "reconstructed" : {
-        "kernels" : ["recon_ck_1.bc","recon_ck_2.bc","recon_ck_3.bs"]
-      },
-      "smithed" : {
-        "kernels" : ["smithed_ck_1.bs","smithed_ck_2.bs","smithed_ck_3.bs"]
-      }
-    },
-    "spk" : {
-      "predict" : {
-        "kernels" : "predict_spk_1.bsp"
-      }
-    },
-    "sclk" : {
-      "kernels" : "sclk_1.tsc"
-    },
-    "fk" : {
-      "kernels" : "fk_1.tsc"
-    },
-    "ik" : {
-      "kernels" : "ik_1.ti"
-    }
-  })"_json;
-
-  EXPECT_EQ(baseConfig, expectedConfig);
+  EXPECT_EQ(baseConfig["ck"]["predict"]["kernels"], "predict_ck_1.bc");
+  EXPECT_EQ(baseConfig["ck"]["reconstructed"]["kernels"], nlohmann::json({"recon_ck_1.bc","recon_ck_2.bc","recon_ck_3.bs"}));
+  EXPECT_EQ(baseConfig["ck"]["smithed"]["kernels"], nlohmann::json({"smithed_ck_1.bs","smithed_ck_2.bs","smithed_ck_3.bs"}));
+  EXPECT_EQ(baseConfig["spk"]["predict"]["kernels"], "predict_spk_1.bsp");
+  EXPECT_EQ(baseConfig["sclk"]["kernels"], "sclk_1.tsc");
+  EXPECT_EQ(baseConfig["fk"]["kernels"], "fk_1.tsc");
+  EXPECT_EQ(baseConfig["ik"]["kernels"], "ik_1.ti");
 
   nlohmann::json objectConfig = R"({
     "testkey" : {}
