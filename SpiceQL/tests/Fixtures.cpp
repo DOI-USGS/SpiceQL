@@ -43,7 +43,7 @@ void FrameCacheEnvironment::SetUp() {
   }
 
   // LSK is required by create_database (base/lsk).
-  fs::copy_file(fs::path("data") / "naif0012.tls", dir / "naif0012.tls",
+  fs::copy_file(fs::path(_SOURCE_PREFIX) / "SpiceQL" / "tests" / "data" / "naif0012.tls", dir / "naif0012.tls",
                 fs::copy_options::overwrite_existing);
 
   nlohmann::json mroFk = {
@@ -305,18 +305,17 @@ void LroKernelSet::SetUp() {
 
   // Move Clock kernels
   // TODO: Programmatic clock kernels
-  lskPath = fs::path("data") / "naif0012.tls";
-  sclkPath = fs::path("data") / "lro_clkcor_2020184_v00.tsc";
-  tspkPath = fs::path("data") / "moon_pa_de421_1900-2050.bpc";
-  spqldbPath = fs::path("data") / "lrokernels.hdf";
+  lskPath = fs::path(_SOURCE_PREFIX) / "SpiceQL" / "tests" / "data" / "naif0012.tls";
+  sclkPath = fs::path(_SOURCE_PREFIX) / "SpiceQL" / "tests" / "data" / "lro_clkcor_2020184_v00.tsc";
+  tspkPath = fs::path(_SOURCE_PREFIX) / "SpiceQL" / "tests" / "data" / "moon_pa_de421_1900-2050.bpc";
 
   create_directory(root / "clocks");
   create_directory(root / "tspk");
 
+  fs::copy_file(lskPath, root / "naif0012.tls");
   fs::copy_file(lskPath, root / "clocks" / "naif0012.tls");
   fs::copy_file(sclkPath, root / "clocks" / "lro_clkcor_2020184_v00.tsc");
   fs::copy_file(tspkPath, root / "tspk" / "moon_pa_de421_1900-2050.bpc");
-  fs::copy_file(spqldbPath, root / "spiceqldb.hdf");
 
   // reassign member vars to temp dir
   lskPath = root / "clocks" / "naif0012.tls";
@@ -430,8 +429,8 @@ void LroKernelSet::SetUp() {
         "ck" : {
             "reconstructed" : {
                 "kernels": [
-                "soc31.*.bc", 
-                "lrolc.*.bc", 
+                "soc31.*.bc",
+                "lrolc.*.bc",
                 "LROC_NPOLE_.*_ck.bc",
                 "LRONAC_SPole_.*_ck.bc"]
             },
@@ -467,7 +466,8 @@ void LroKernelSet::SetUp() {
         }
     }
 })"_json;
-// should be created in the existing directory
+  // Generate the database for the temp directory
+  Inventory::create_database();
 }
 
 void LroKernelSet::TearDown() {

@@ -74,8 +74,7 @@ class LroKernelSet : public TempTestingFiles  {
     string ikPath2;
     string fkPath;
     string moonPckPath;
-    string basePckPath;  
-    string spqldbPath;
+    string basePckPath;
 
     nlohmann::json conf;
 
