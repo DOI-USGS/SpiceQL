@@ -164,25 +164,89 @@ TEST_F(TempTestingFiles, TestInventorySetCacheDirOverride) {
   EXPECT_EQ(SpiceQL::Inventory::getDbFilePath(), new_path/"spiceqldb.hdf");
 }
 
-TEST(TestInventory, SetCacheDirFail) {
-  // With the global FrameCacheEnvironment, SPICEQL_CACHE_DIR is always set
-  // and getDbFilePath() caches the value. This test verifies that the
-  // cached value persists even if the environment variable is unset.
-  const char* original = getenv("SPICEQL_CACHE_DIR");
-  std::string saved = original ? original : "";
+TEST(TestInventory, GetCacheDirAutoInitialize) {
+  // Test getCacheDir auto-initialization
+  
+  // Save original state
+  const char* original_cache_dir = getenv("SPICEQL_CACHE_DIR");
 
-  // Get the cached path
-  std::string cached_path = SpiceQL::Inventory::getDbFilePath();
-  EXPECT_FALSE(cached_path.empty());
-
-  // Unset the environment variable
+  // Clear the environment variable and reset internal state
   unsetenv("SPICEQL_CACHE_DIR");
 
-  // The cached path should still be returned
-  EXPECT_EQ(SpiceQL::Inventory::getDbFilePath(), cached_path);
+  // getCacheDir should auto-initialize with a temp directory instead of throwing
+  std::string cache_dir;
+  EXPECT_NO_THROW({
+    cache_dir = SpiceQL::getCacheDir();
+  });
 
-  // Restore the original value
-  if (!saved.empty()) {
-    setenv("SPICEQL_CACHE_DIR", saved.c_str(), 1);
+  // Verify auto-initialized directory is not empty
+  EXPECT_FALSE(cache_dir.empty());
+
+  // Verify it contains "spiceql-cache" in the path
+  EXPECT_TRUE(cache_dir.find("spiceql-cache") != std::string::npos);
+
+  // Verify the directory was created
+  EXPECT_TRUE(fs::exists(cache_dir));
+  EXPECT_TRUE(fs::is_directory(cache_dir));
+
+  // Verify subsequent calls return the same cached value
+  std::string cache_dir2 = SpiceQL::getCacheDir();
+  EXPECT_EQ(cache_dir, cache_dir2);
+
+  // Restore original environment
+  if (original_cache_dir != nullptr) {
+    setenv("SPICEQL_CACHE_DIR", original_cache_dir, 1);
+  }
+}
+
+TEST(TestInventory, SetCacheDirPriority) {
+  // Test setCacheDir priority order: override > env var > provided value > auto-generate
+
+  // Save original state
+  const char* original_cache_dir = getenv("SPICEQL_CACHE_DIR");
+
+  fs::path env_dir = fs::temp_directory_path() / "spiceql-env-test";
+  fs::path provided_dir = fs::temp_directory_path() / "spiceql-provided-test";
+
+  // Test 1: env var takes precedence over provided value when override=false
+  setenv("SPICEQL_CACHE_DIR", env_dir.string().c_str(), 1);
+  SpiceQL::setCacheDir(provided_dir.string(), false);
+  EXPECT_EQ(SpiceQL::getCacheDir(), env_dir.string());
+
+  // Test 2: override=true forces provided value even with env var set
+  SpiceQL::setCacheDir(provided_dir.string(), true);
+  EXPECT_EQ(SpiceQL::getCacheDir(), provided_dir.string());
+
+  // Restore original environment
+  if (original_cache_dir != nullptr) {
+    setenv("SPICEQL_CACHE_DIR", original_cache_dir, 1);
+  } else {
+    unsetenv("SPICEQL_CACHE_DIR");
+  }
+}
+
+TEST_F(LroKernelSet, InferMissionInitCache) {
+  // Test inferMission triggers cache auto-init
+  // Save original state
+  const char* original_cache_dir = getenv("SPICEQL_CACHE_DIR");
+
+  // Clear environment to force auto-initialization
+  unsetenv("SPICEQL_CACHE_DIR");
+
+  // Empty mission triggers: inferMission() → frameList() → getCacheDir() → auto-init
+  // Auto-initializes with temp directory
+  std::pair<nlohmann::json, nlohmann::json> result;
+  EXPECT_NO_THROW({
+    result = SpiceQL::getTargetFrameInfo(301, "");
+  });
+
+  // Verify cache was auto-initialized
+  std::string cache_dir = SpiceQL::getCacheDir();
+  EXPECT_FALSE(cache_dir.empty());
+  EXPECT_TRUE(fs::exists(cache_dir));
+
+  // Restore original environment
+  if (original_cache_dir != nullptr) {
+    setenv("SPICEQL_CACHE_DIR", original_cache_dir, 1);
   }
 }

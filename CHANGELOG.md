@@ -37,6 +37,9 @@ release.
 ### Added
 - Added `formatKernels()` utility function to organize a list of kernel file paths into a JSON object grouped by kernel type. [#101](https://github.com/DOI-USGS/SpiceQL/issues/101)
 
+### Fixed
+- Fixed empty mission param bug so getCacheDir() will auto-initialize [#144](https://github.com/DOI-USGS/SpiceQL/pull/144)
+
 ## 1.5.0 - 2026-06-27
 
 ### Added 

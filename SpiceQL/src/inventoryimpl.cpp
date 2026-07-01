@@ -67,61 +67,40 @@ namespace SpiceQL {
 
 
   void setCacheDir(string cache_dir, bool override) {
-    
     const char* cache_dir_char = getenv(CACHE_DIR_ENV_VAR.c_str());
-    if (cache_dir_char == NULL || override) {
-      SPDLOG_DEBUG("Setting cache directory to: {}", cache_dir);
+
+    // Priority order: override > env var > provided cache_dir > auto-generate
+    if (override && cache_dir != "") {
+      SPDLOG_DEBUG("Setting cache directory (override): {}", cache_dir);
       CACHE_DIRECTORY = cache_dir;
     }
     else if (cache_dir_char != NULL) {
       SPDLOG_DEBUG("Cache directory set in environment variable " + CACHE_DIR_ENV_VAR + ": " + cache_dir_char);
       CACHE_DIRECTORY = cache_dir_char;
     }
+    else if (cache_dir != "") {
+      SPDLOG_DEBUG("Setting cache directory to: {}", cache_dir);
+      CACHE_DIRECTORY = cache_dir;
+    }
     else {
       SPDLOG_DEBUG("Cache directory not set and not in environment variable " + CACHE_DIR_ENV_VAR + " and not overridden.");
-      std::string  tempname = "spiceql-cache-" + gen_random(10);
+      std::string tempname = "spiceql-cache-" + gen_random(10);
       CACHE_DIRECTORY = (fs::temp_directory_path() / tempname / "spiceql_cache").string();
     }
 
-    if (!fs::is_directory(CACHE_DIRECTORY)) { 
+    if (!fs::is_directory(CACHE_DIRECTORY)) {
       SPDLOG_DEBUG("{} does not exist, attempting to create the directory", CACHE_DIRECTORY);
-      fs::create_directories(CACHE_DIRECTORY); 
+      fs::create_directories(CACHE_DIRECTORY);
     }
-    
-    SPDLOG_DEBUG("Setting cache directory to: {}", CACHE_DIRECTORY);  
+
+    SPDLOG_DEBUG("Setting cache directory to: {}", CACHE_DIRECTORY);
   }
 
 
-  string getCacheDir() { 
-
-      if (CACHE_DIRECTORY == "") { 
-          const char* cache_dir_char = getenv(CACHE_DIR_ENV_VAR.c_str());
-      
-          std::string  cache_dir; 
-      
-          if (cache_dir_char == NULL && (CACHE_DIRECTORY == "")) {
-            SPDLOG_DEBUG("Cache directory not set and not in environment variable " + CACHE_DIR_ENV_VAR + " and not overridden.");
-            throw runtime_error("Cache directory not set and not in environment variable " + CACHE_DIR_ENV_VAR + " and not overridden.");
-          }
-          else if (CACHE_DIRECTORY != "") {
-            SPDLOG_DEBUG("Cache directory set in CACHE_DIRECTORY: " + CACHE_DIRECTORY);
-            cache_dir = CACHE_DIRECTORY;
-          }
-          else if (cache_dir_char != NULL) {
-            SPDLOG_DEBUG("Cache directory set in environment variable " + CACHE_DIR_ENV_VAR + ": " + cache_dir_char);
-            cache_dir = cache_dir_char;
-          }
-          else {
-            throw runtime_error("Cache directory not set and not in environment variable " + CACHE_DIR_ENV_VAR + " and not overridden.");
-          }
-
-          if (!fs::is_directory(cache_dir)) { 
-              SPDLOG_DEBUG("{} does not exist, attempting to create the directory", cache_dir);
-              fs::create_directories(cache_dir); 
-          }
-      
-          CACHE_DIRECTORY = cache_dir;
-          SPDLOG_DEBUG("Setting cache directory to: {}", CACHE_DIRECTORY);  
+  string getCacheDir() {
+      if (CACHE_DIRECTORY == "") {
+          // Auto-initialize cache directory using setCacheDir logic
+          setCacheDir("");
       } 
       else { 
           SPDLOG_TRACE("Cache Directory Already Set: {}", CACHE_DIRECTORY);  
