@@ -115,11 +115,11 @@ TEST_F(TempTestingFiles, WriteTextKernelArrayAppend) {
   Kernel k1(tpath1);
   Kernel k2(tpath2);
 
-  EXPECT_EQ(translateNameToCode("body", "lro").first, -90);
-  EXPECT_EQ(translateNameToCode("planet", "lro").first, 10);
-  EXPECT_EQ(translateNameToCode("instrument1", "lro").first, -90101);
-  EXPECT_EQ(translateNameToCode("instrument2", "lro").first, -90102);
-  EXPECT_EQ(translateNameToCode("instrument3", "lro").first, -90103);
+  EXPECT_EQ(translateNameToCode("body", "lro", false, false).first, -90);
+  EXPECT_EQ(translateNameToCode("planet", "lro", false, false).first, 10);
+  EXPECT_EQ(translateNameToCode("instrument1", "lro", false, false).first, -90101);
+  EXPECT_EQ(translateNameToCode("instrument2", "lro", false, false).first, -90102);
+  EXPECT_EQ(translateNameToCode("instrument3", "lro", false, false).first, -90103);
 }
 
 TEST_F(TempTestingFiles, CreateTextKernelThrow) {
