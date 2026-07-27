@@ -1,0 +1,105 @@
+name: Release WASM Artifact
+
+# Build the WebAssembly module and attach it to the GitHub Release when one is
+# published. Consumers who don't want to build locally can download the archive
+# from the Releases page (there is no CDN/npm package yet).
+on:
+  release:
+    types: [published]
+  # Allow attaching the artifact to an existing release by hand, or a dry run.
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing release tag to attach the artifact to (optional)"
+        required: false
+
+permissions:
+  contents: write  # required to upload release assets
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+        with:
+          submodules: recursive
+
+      # emcc/emcmake and Node come from the `emscripten` conda package
+      # (depends on nodejs>=20), the same env used by the build/test jobs.
+      - uses: conda-incubator/setup-miniconda@505e6394dae86d6a5c7fbb6e3fb8938e3e863830
+        with:
+          miniforge-version: latest
+          use-mamba: true
+          channels: conda-forge
+          activate-environment: spiceql
+          environment-file: environment.yml
+          auto-activate-base: false
+          auto-update-conda: true
+
+      - name: Build WASM module
+        run: |
+          emcc --version
+          # Clear the conda host compiler flags: they are invalid for the
+          # Emscripten cross-compile and break wasm-ld.
+          unset CFLAGS CXXFLAGS CPPFLAGS LDFLAGS
+          emcmake cmake -S . -B build-wasm \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DSPICEQL_WASM=ON \
+            -DSPICEQL_BUILD_TESTS=OFF \
+            -DSPICEQL_BUILD_BINDINGS=ON
+          cmake --build build-wasm -j"$(getconf _NPROCESSORS_ONLN)"
+
+      - name: Run JS binding tests
+        run: npm test
+
+      - name: Package artifact
+        id: package
+        run: |
+          # Resolve the release tag: the release event provides it, workflow_dispatch
+          # takes it from the input.
+          TAG="${{ github.event.release.tag_name || github.event.inputs.tag }}"
+          if [ -z "$TAG" ]; then
+            echo "No release tag available; cannot name the artifact." >&2
+            exit 1
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+          PKG="spiceql-wasm-${TAG}"
+          mkdir -p "dist/${PKG}"
+
+          # The three Emscripten outputs plus the hand-written wrappers that
+          # consumers import (spiceql.js imports naifspice.js). All must stay
+          # co-located.
+          cp build-wasm/bindings/wasm/spiceql_wasm.js   "dist/${PKG}/"
+          cp build-wasm/bindings/wasm/spiceql_wasm.wasm "dist/${PKG}/"
+          cp build-wasm/bindings/wasm/spiceql_wasm.data "dist/${PKG}/"
+          cp bindings/wasm/spiceql.js                   "dist/${PKG}/"
+          cp bindings/wasm/naifspice.js                 "dist/${PKG}/"
+
+          cat > "dist/${PKG}/README.md" <<EOF
+          # SpiceQL WASM ${TAG}
+
+          Prebuilt WebAssembly build of SpiceQL. Keep all five files together and
+          import spiceql.js:
+
+              import { loadSpiceQL } from './spiceql.js';
+              const spiceql = await loadSpiceQL();
+
+          Kernel search is unavailable in the WASM build: furnish kernels with
+          spiceql.mountKernel(path, bytes) and pass them via kernelList with
+          searchKernels:false. See the SpiceQL README for a full example.
+          EOF
+
+          ( cd dist && zip -r "${PKG}.zip" "${PKG}" )
+          echo "asset=dist/${PKG}.zip" >> "$GITHUB_OUTPUT"
+          ls -la "dist/${PKG}.zip"
+
+      - name: Upload to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "${{ steps.package.outputs.tag }}" \
+            "${{ steps.package.outputs.asset }}" --clobber

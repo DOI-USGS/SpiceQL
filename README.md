@@ -83,24 +83,46 @@ SpiceQL can be compiled to WebAssembly with [Emscripten](https://emscripten.org/
 
 The `emscripten` dependency in `environment.yml` provides `emcc`/`emcmake` (and Node), so the conda env from [Building The Library](#building-the-library) already has everything needed.
 
+Configure with `emcmake` (which injects the Emscripten toolchain file) and build:
+
 ```bash
 conda activate ssdev            # the env you created above
 
-# Configures with -DSPICEQL_WASM=ON and builds into ./build-wasm
-scripts/build_wasm.sh
+# A conda env exports host (macOS/Linux) CFLAGS/CXXFLAGS/CPPFLAGS/LDFLAGS that are
+# invalid for the Emscripten cross-compile and break wasm-ld. Clear them first.
+unset CFLAGS CXXFLAGS CPPFLAGS LDFLAGS
+
+emcmake cmake -S . -B build-wasm \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DSPICEQL_WASM=ON \
+  -DSPICEQL_BUILD_TESTS=OFF \
+  -DSPICEQL_BUILD_BINDINGS=ON
+
+cmake --build build-wasm -j"$(getconf _NPROCESSORS_ONLN)"
 ```
+
+The CMake options are:
+
+| Option | Value | Why |
+| --- | --- | --- |
+| `SPICEQL_WASM` | `ON` | Selects the WASM build: excludes HDF5/HighFive and libcurl, builds CSPICE from source (patched for wasm-ld), and links everything static. Auto-forced `ON` under `emcmake` anyway. |
+| `SPICEQL_BUILD_BINDINGS` | `ON` | Builds `bindings/wasm` (the Embind module + `naifspice` namespace) instead of the native language bindings. |
+| `SPICEQL_BUILD_TESTS` | `OFF` | The C++ gtests are native-only; the WASM surface is exercised by the JS suite (`npm test`) instead. |
+| `CMAKE_BUILD_TYPE` | `Release` | Optimized module. |
 
 This produces the module in `build-wasm/bindings/wasm/`:
 
 - `spiceql_wasm.js`   — the Emscripten loader (ES module)
 - `spiceql_wasm.wasm` — the compiled WebAssembly
-- `spiceql_wasm.data` — preloaded config DB + bundled leap-second kernel
+- `spiceql_wasm.data` — preloaded config DB, bundled leap-second kernel, and the
+  `naifspice` signature table
 
-The small hand-written wrapper `bindings/wasm/spiceql.js` sits on top of those and is what you import.
+The small hand-written wrappers `bindings/wasm/spiceql.js` (which you import) and
+`bindings/wasm/naifspice.js` (the raw-CSPICE marshaller it uses) sit on top of those.
 
 ### Using it (minimal example)
 
-Copy the three `spiceql_wasm.*` artifacts and `bindings/wasm/spiceql.js` next to each other (they must be co-located), then import `spiceql.js` locally:
+Copy the three `spiceql_wasm.*` artifacts and both wrappers (`bindings/wasm/spiceql.js` and `bindings/wasm/naifspice.js`) next to each other (they must be co-located — `spiceql.js` imports the other two), then import `spiceql.js` locally:
 
 ```js
 // example.mjs — run with: node example.mjs
@@ -124,9 +146,9 @@ console.log(kernels);  // { lsk: ['/kernels/naif0012.tls'] }
 
 In a browser it works the same way — `import` `spiceql.js` locally from a
 `<script type="module">` and use `fetch()` to get kernel bytes for `mountKernel`.
-The four files (`spiceql.js`, `spiceql_wasm.js`, `spiceql_wasm.wasm`,
-`spiceql_wasm.data`) and your kernels just need to be served over HTTP from the
-same folder (any static host works; opening the page from `file://` does not,
+The five files (`spiceql.js`, `naifspice.js`, `spiceql_wasm.js`,
+`spiceql_wasm.wasm`, `spiceql_wasm.data`) and your kernels just need to be
+served over HTTP from the same folder (any static host works; opening the page from `file://` does not,
 because the browser blocks `fetch()` of local files):
 
 ```html
@@ -154,6 +176,69 @@ because the browser blocks `fetch()` of local files):
 # serve the folder over HTTP, then open http://localhost:8000
 python -m http.server
 ```
+
+#### Raw CSPICE toolkit (`naifspice`)
+
+Every CSPICE `*_c` function can be exposed as a JS function so you can call the
+toolkit directly instead of going through the higher-level `api.h` helpers. These
+wrappers are **generated at build time** by parsing CSPICE's headers.
+
+The namespace is **opt-in**: `loadSpiceQL()` does not build it, so the ~650
+wrappers are only generated when you actually want the raw toolkit. Import
+`naifspice.js` and call `loadNaifspice()` with the object `loadSpiceQL()`
+returned (it also attaches the result as `spiceql.naifspice`). Here is the whole
+flow — load, furnish a kernel, and convert a UTC string to ET with `str2et`:
+
+```js
+import { loadSpiceQL } from './spiceql.js';
+import { loadNaifspice } from './naifspice.js';
+import { readFileSync } from 'node:fs';
+
+const spiceql = await loadSpiceQL();
+const nspice = loadNaifspice(spiceql);               // build + attach spiceql.naifspice
+
+// Furnish a leap-second kernel, then convert a UTC string to ET.
+spiceql.mountKernel('/kernels/naif0012.tls', readFileSync('naif0012.tls'));
+nspice.furnsh('/kernels/naif0012.tls');
+const et = nspice.str2et('2000 JAN 01 12:00:00');    // 64.18... ET seconds past J2000
+```
+
+Most functions get an *ergonomic* wrapper: pass the CSPICE **input** arguments in
+order as plain JS values (numbers, strings, and arrays for vectors/matrices), and
+the **outputs** are returned. A single output is returned directly; several are
+returned as an object keyed by the CSPICE parameter name; a non-`void` C return
+value joins that object under `return`. 
+
+```js
+nspice.et2utc(et, 'ISOC', 3, 32);                    // '2000-01-01T12:00:00.000'
+
+const { radius, longitude, latitude } = ns.reclat([1, 1, 0]); // several outputs -> object
+const R = ns.pxform('J2000', 'J2000', et);       // matrix output -> nested array (identity)
+const { name, found } = ns.bodc2n(399, 32);      // { name: 'EARTH', found: true }
+```
+
+A signalled SPICE error is thrown as a JS `Error` carrying the SPICE short and
+long messages, and the toolkit is reset so the module stays usable afterward.
+
+A minority of functions (those using CSPICE aggregate types like `SpiceCell`,
+callbacks, or output buffers whose size is only known at runtime) cannot be
+marshalled automatically. They are still callable in **raw** form under their
+literal CSPICE name (with the `_c` suffix) at `spiceql.naifspice.raw.<fn>_c`,
+where every argument is passed straight through as a number (pointers are
+addresses). Manage memory yourself with the helpers on the namespace — `malloc`,
+`free`, `getValue`, `setValue`, `toCString`, `fromCString`:
+
+```js
+const { malloc, free, setValue, getValue } = ns;
+const vin = malloc(3 * 8), vout = malloc(3 * 8);
+for (let i = 0; i < 3; i++) setValue(vin + i * 8, i + 1, 'double');
+ns.raw.vsclg_c(2.0, vin, 3, vout);               // scale [1,2,3] by 2 (ndim=3)
+const scaled = [0, 1, 2].map((i) => getValue(vout + i * 8, 'double')); // [2, 4, 6]
+free(vin); free(vout);
+```
+
+The suffix-dropped top-level name of a raw-only function forwards to its raw
+form, so `ns.bodvrd === ns.raw.bodvrd_c`.
 
 #### Managing kernels manually (KernelSet / load / unload)
 

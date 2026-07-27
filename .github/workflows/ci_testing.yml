@@ -112,7 +112,15 @@ jobs:
           node --version
       - name: Build WASM module
         run: |
-          bash scripts/build_wasm.sh
+          # Clear the conda host compiler flags: they are invalid for the
+          # Emscripten cross-compile and break wasm-ld.
+          unset CFLAGS CXXFLAGS CPPFLAGS LDFLAGS
+          emcmake cmake -S . -B build-wasm \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DSPICEQL_WASM=ON \
+            -DSPICEQL_BUILD_TESTS=OFF \
+            -DSPICEQL_BUILD_BINDINGS=ON
+          cmake --build build-wasm -j"$(getconf _NPROCESSORS_ONLN)"
       - name: Check build output
         run: |
           test -e build-wasm/bindings/wasm/spiceql_wasm.js
