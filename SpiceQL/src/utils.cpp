@@ -1021,25 +1021,41 @@ namespace SpiceQL {
       if (fs::is_directory(isisDataDir)) {
         return isisDataDir.string();
       }
+#ifdef SPICEQL_WASM
+      // In the WASM build there is no host filesystem and env vars may be
+      // unset. Kernels are furnished from the Emscripten virtual FS via
+      // explicit paths, so fall back to the FS root instead of throwing.
+      return "/";
+#else
       throw runtime_error(fmt::format("Please set env var SPICEROOT, ISISDATA or ALESPICEROOT in order to proceed."));
+#endif
   }
 
 
   string getConfigDirectory() {
+    fs::path debugDbPath = fs::absolute(_SOURCE_PREFIX) / "SpiceQL" / "db";
+
+#ifdef SPICEQL_WASM
+    // In the WASM build there is no conda/install prefix and Emscripten's ENV is
+    // not reliably visible to getenv() (environ is snapshotted at startup, before
+    // the JS wrapper can set it). The configs are always preloaded into the
+    // virtual FS at _SOURCE_PREFIX ("/spiceql"), so use that path unconditionally.
+    fs::path dbPath = debugDbPath;
+#else
     // If running tests or debugging locally
     char* condaPrefix = std::getenv("CONDA_PREFIX");
     SPDLOG_TRACE("CONDA_PREFIX: {}", string(condaPrefix));
 
-    fs::path debugDbPath = fs::absolute(_SOURCE_PREFIX) / "SpiceQL" / "db";
     fs::path installDbPath = fs::absolute(condaPrefix) / "etc" / "SpiceQL" / "db";
 
     // Use installDbPath unless $SPICEQL_DEV_DB is set
     fs::path dbPath;
     if (std::getenv("SPICEQL_DEV_DB") && toLower(string(std::getenv("SPICEQL_DEV_DB"))) == "true") {
-      dbPath = debugDbPath; 
+      dbPath = debugDbPath;
     } else {
       dbPath = installDbPath;
     }
+#endif
     SPDLOG_TRACE("SpiceQL DB Path: {}", dbPath.string()); 
 
     if (!fs::is_directory(dbPath)) {
@@ -1316,21 +1332,28 @@ namespace SpiceQL {
   }
 
   string getAliasMapJsonFile() {
+    string aliasMapFilename = "aliasMap.json";
+    fs::path debugPath = fs::absolute(_SOURCE_PREFIX) / "SpiceQL" / aliasMapFilename;
+
+#ifdef SPICEQL_WASM
+    // As in getConfigDirectory(): no install prefix in the browser and ENV is
+    // unreliable, so use the preloaded _SOURCE_PREFIX copy unconditionally.
+    fs::path aliasMapPath = debugPath;
+#else
     // If running tests or debugging locally
     char* condaPrefix = std::getenv("CONDA_PREFIX");
     SPDLOG_TRACE("CONDA_PREFIX: {}", string(condaPrefix));
-    string aliasMapFilename = "aliasMap.json";
 
-    fs::path debugPath = fs::absolute(_SOURCE_PREFIX) / "SpiceQL" / aliasMapFilename;
     fs::path installPath = fs::absolute(condaPrefix) / "etc" / "SpiceQL" / aliasMapFilename;
 
     // Use installPath unless $SPICEQL_DEV_DB is set
     fs::path aliasMapPath;
     if (std::getenv("SPICEQL_DEV_DB") && toLower(string(std::getenv("SPICEQL_DEV_DB"))) == "true") {
-      aliasMapPath = debugPath; 
+      aliasMapPath = debugPath;
     } else {
       aliasMapPath = installPath;
     }
+#endif
 
     if (!fs::exists(aliasMapPath)) {
       throw runtime_error("Alias map JSON file [" + aliasMapPath.string() + "] not found.");

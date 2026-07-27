@@ -48,31 +48,80 @@ message(STATUS "Using install prefix: ${CMAKE_INSTALL_PREFIX}")
 
 option (SPICEQL_BUILD_LIB "Build the SpiceQL Library" ON)
 
+# WebAssembly (Emscripten) build. Auto-enable when configured through emcmake,
+# which sets the EMSCRIPTEN variable. In this mode HDF5/HighFive and libcurl are
+# excluded, cspice is built from source, and the library is built STATIC.
+option (SPICEQL_WASM "Build SpiceQL for WebAssembly via Emscripten" OFF)
+if(EMSCRIPTEN)
+  set(SPICEQL_WASM ON CACHE BOOL "Build SpiceQL for WebAssembly via Emscripten" FORCE)
+endif()
+
+# Note: the WASM build does not support the remote REST transport (useWeb=true).
+# Awaiting the async fetch() would require suspending the wasm stack (JSPI), which
+# through Embind forces the whole JS API to become async, and ASYNCIFY=1 conflicts
+# with the -fwasm-exceptions ABI CSPICE needs. useWeb=true therefore throws in the
+# WASM build (see spiceAPIQuery in SpiceQL/src/api.cpp); call the SpiceQL REST
+# service directly from JavaScript if you need it.
+
 if(SPICEQL_BUILD_LIB)
 
   set(JSON_BuildTests OFF CACHE INTERNAL "")
 
   add_subdirectory("submodules/gularkfilesystem")
   add_subdirectory("submodules/json")
-  
-  find_package(cspice REQUIRED)
-  find_package(fmt CONFIG REQUIRED)
-  find_package(cereal CONFIG REQUIRED)
-  find_package(HighFive REQUIRED)
-  find_package(CURL REQUIRED)
+
+  if(SPICEQL_WASM)
+    # No conda under emcmake: build cspice from source and fetch the header-only
+    # deps. HDF5/HighFive and CURL are intentionally excluded from this build.
+    include(FetchContent)
+    include(BuildCspiceWasm)
+
+    find_package(fmt CONFIG QUIET)
+    if(NOT fmt_FOUND)
+      FetchContent_Declare(fmt
+        GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+        GIT_TAG 11.0.2)
+      FetchContent_MakeAvailable(fmt)
+    endif()
+
+    find_package(cereal CONFIG QUIET)
+    if(NOT cereal_FOUND)
+      set(BUILD_DOC OFF CACHE INTERNAL "")
+      set(BUILD_SANDBOX OFF CACHE INTERNAL "")
+      set(SKIP_PERFORMANCE_COMPARISON ON CACHE INTERNAL "")
+      FetchContent_Declare(cereal
+        GIT_REPOSITORY https://github.com/USCiLab/cereal.git
+        GIT_TAG v1.3.2)
+      FetchContent_MakeAvailable(cereal)
+    endif()
+  else()
+    find_package(cspice REQUIRED)
+    find_package(fmt CONFIG REQUIRED)
+    find_package(cereal CONFIG REQUIRED)
+    find_package(HighFive REQUIRED)
+    find_package(CURL REQUIRED)
+  endif()
 
   set(SPICEQL_INSTALL_INCLUDE_DIR "include/SpiceQL")
-  set(SPICEQL_SRC_FILES   ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/spiceql.cpp 
+  set(SPICEQL_SRC_FILES   ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/spiceql.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/utils.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/io.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/query.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/spice_types.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/memoized_functions.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/config.cpp
-                          ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/inventory.cpp
-                          ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/inventoryimpl.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/api.cpp
                           ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/alias_map.cpp)
+
+  if(SPICEQL_WASM)
+    # HDF5-backed inventory is excluded; inventory_wasm.cpp provides the same
+    # Inventory:: symbols (kernel search throws; explicit kernelLists resolve
+    # by extension). See SpiceQL/src/inventory_wasm.cpp.
+    list(APPEND SPICEQL_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/inventory_wasm.cpp)
+  else()
+    list(APPEND SPICEQL_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/inventory.cpp
+                                  ${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/src/inventoryimpl.cpp)
+  endif()
 
 
   set(SPICEQL_HEADER_FILES ${SPICEQL_BUILD_INCLUDE_DIR}/spiceql.h
@@ -135,7 +184,12 @@ if(SPICEQL_BUILD_LIB)
   # Generate the version header into the build tree (not the source tree) and
   # reach it as <SpiceQL/spiceql_version.h> via the build-dir include path below.
   configure_file (${CMAKE_CURRENT_SOURCE_DIR}/SpiceQL/include/SpiceQL/spiceql_version.h.in ${CMAKE_BINARY_DIR}/SpiceQL/spiceql_version.h @ONLY)
-  add_library(SpiceQL SHARED ${SPICEQL_SRC_FILES})
+  # Emscripten links archives, so build STATIC for the WASM target; SHARED otherwise.
+  if(SPICEQL_WASM)
+    add_library(SpiceQL STATIC ${SPICEQL_SRC_FILES})
+  else()
+    add_library(SpiceQL SHARED ${SPICEQL_SRC_FILES})
+  endif()
 
   set_target_properties(SpiceQL PROPERTIES
                                   VERSION ${PROJECT_VERSION}
@@ -144,7 +198,15 @@ if(SPICEQL_BUILD_LIB)
   # spdlog dependency removed: see SpiceQL/include/spiceql_logging.h. Logging is
   # now a small self-contained logger using fmt, so no SPDLOG_ACTIVE_LEVEL is
   # needed.
-  target_compile_definitions(SpiceQL PUBLIC -D_SOURCE_PREFIX="${CMAKE_CURRENT_SOURCE_DIR}")
+  if(SPICEQL_WASM)
+    target_compile_definitions(SpiceQL PUBLIC -D_SOURCE_PREFIX="/spiceql")
+    target_compile_definitions(SpiceQL PUBLIC SPICEQL_WASM)
+    target_compile_options(SpiceQL PUBLIC -fPIC)
+    target_compile_options(SpiceQL PUBLIC -fwasm-exceptions)
+    target_link_options(SpiceQL PUBLIC -fwasm-exceptions)
+  else()
+    target_compile_definitions(SpiceQL PUBLIC -D_SOURCE_PREFIX="${CMAKE_CURRENT_SOURCE_DIR}")
+  endif()
 
   # On Windows, prevent <windows.h> (pulled in by HDF5/HighFive) from defining
   # the min/max macros, which otherwise break std::min/std::max and headers
@@ -168,16 +230,28 @@ target_include_directories(SpiceQL
                             ${CSPICE_INCLUDE_DIRS}
                             )
 
-  target_link_libraries(SpiceQL
-                        PUBLIC
-                        fmt::fmt-header-only
-                        nlohmann_json::nlohmann_json
-                        cereal::cereal
-                        PRIVATE
-                        CSPICE::cspice
-                        HighFive
-                        ${CURL_LIBRARIES}
-                        )
+  if(SPICEQL_WASM)
+    # WASM: no HighFive/HDF5, no libcurl (REST goes through JS fetch).
+    target_link_libraries(SpiceQL
+                          PUBLIC
+                          fmt::fmt-header-only
+                          nlohmann_json::nlohmann_json
+                          cereal::cereal
+                          PRIVATE
+                          CSPICE::cspice
+                          )
+  else()
+    target_link_libraries(SpiceQL
+                          PUBLIC
+                          fmt::fmt-header-only
+                          nlohmann_json::nlohmann_json
+                          cereal::cereal
+                          PRIVATE
+                          CSPICE::cspice
+                          HighFive
+                          ${CURL_LIBRARIES}
+                          )
+  endif()
    
   install(TARGETS SpiceQL LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
@@ -214,7 +288,13 @@ endif()
 # Tests Build #
 ###############
 
-cmake_dependent_option (SPICEQL_BUILD_TESTS "Build the SpiceQL Tests" ON SPICEQL_BUILD_LIB OFF)
+# The gtest suite is not built for WASM (default OFF there); native default ON.
+if(SPICEQL_WASM)
+  set(SPICEQL_TESTS_DEFAULT OFF)
+else()
+  set(SPICEQL_TESTS_DEFAULT ON)
+endif()
+cmake_dependent_option (SPICEQL_BUILD_TESTS "Build the SpiceQL Tests" ${SPICEQL_TESTS_DEFAULT} SPICEQL_BUILD_LIB OFF)
 
 if(SPICEQL_BUILD_TESTS)
   include(GoogleTest)
@@ -235,7 +315,12 @@ endif()
 cmake_dependent_option (SPICEQL_BUILD_BINDINGS "Build the SpiceQL Bindings in Other Languages" ON SPICEQL_BUILD_LIB OFF)
 
 if(SPICEQL_BUILD_BINDINGS)
-  add_subdirectory(bindings)
+  if(SPICEQL_WASM)
+    # WASM: build the Emscripten/Embind JS bindings instead of the SWIG Python ones.
+    add_subdirectory(bindings/wasm)
+  else()
+    add_subdirectory(bindings)
+  endif()
 else()
   message(STATUS "Skipping Bindings")
 endif()

@@ -1,4 +1,6 @@
 .DS_Store
 build/
+build-wasm/
+node_modules/
 cmake_test_discovery_*.json
 test_pyspiceql*

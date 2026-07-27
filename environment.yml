@@ -8,6 +8,7 @@ dependencies:
   - cspice=67
   - cxx-compiler
   - doxygen
+  - emscripten  # provides emcc/emcmake/em++ for the WASM build (scripts/build_wasm.sh)
   - fmt
   - h5py
   - highfive==2.10.1

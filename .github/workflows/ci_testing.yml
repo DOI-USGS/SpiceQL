@@ -85,6 +85,43 @@ jobs:
               check-jsonschema $file --schemafile schema/spiceMissionSchmea.schema.json 
           done;
   
+  build-wasm:
+    # Build the WebAssembly module and run the JavaScript binding tests. emcc/
+    # emcmake and Node both come from the `emscripten` conda package (it depends
+    # on nodejs>=20), so no extra toolchain setup is needed.
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+        with:
+          submodules: recursive
+      - uses: conda-incubator/setup-miniconda@505e6394dae86d6a5c7fbb6e3fb8938e3e863830
+        with:
+          miniforge-version: latest
+          use-mamba: true
+          channels: conda-forge
+          activate-environment: spiceql
+          environment-file: environment.yml
+          auto-activate-base: false
+          auto-update-conda: true
+      - name: Check build environment
+        run: |
+          emcc --version
+          node --version
+      - name: Build WASM module
+        run: |
+          bash scripts/build_wasm.sh
+      - name: Check build output
+        run: |
+          test -e build-wasm/bindings/wasm/spiceql_wasm.js
+          test -e build-wasm/bindings/wasm/spiceql_wasm.wasm
+          test -e build-wasm/bindings/wasm/spiceql_wasm.data
+      - name: Test JS bindings
+        run: |
+          npm test
+
   build-docs:
     runs-on: ubuntu-latest
     defaults:

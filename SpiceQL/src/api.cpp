@@ -3,6 +3,7 @@
 #include <sstream>
 #include <cmath>
 #include <cstring>
+#include <cstdlib>
 
 #include <SpiceUsr.h>
 #include <SpiceZfc.h>
@@ -22,9 +23,11 @@
 #include <SpiceQL/utils.h>
 #include <SpiceQL/inventory.h>
 #include <SpiceQL/api.h>
-#ifndef _WIN32
+#if !defined(_WIN32) && !defined(SPICEQL_WASM)
 // restincurl is the vendored HTTP client used for the remote REST web-service
 // mode. It is POSIX-only (select/pipe/unistd), so it is not compiled on Windows.
+// The WASM build does not support the remote REST transport (useWeb=true throws;
+// see spiceAPIQuery below), so libcurl/restincurl is excluded entirely.
 #include <SpiceQL/restincurl.h>
 #endif
 #include <SpiceQL/config.h>
@@ -85,7 +88,26 @@ namespace SpiceQL {
     }
 
     json spiceAPIQuery(std::string functionName, json args, std::string method){
-#ifdef _WIN32
+#if defined(SPICEQL_WASM)
+        // useWeb=true is not supported in the WASM build. Routing the in-process
+        // REST call through the browser's fetch() would require suspending the
+        // wasm stack to await the async response (JSPI/Asyncify). JSPI can only
+        // suspend through Embind functions tagged with the emscripten::async
+        // policy, which forces every such function to return a Promise -- that
+        // would make the entire synchronous JS API async. ASYNCIFY=1 (which needs
+        // no per-function wrapper) is incompatible with the -fwasm-exceptions ABI
+        // CSPICE requires. So there is no way to offer useWeb=true here without
+        // breaking the synchronous API.
+        //
+        // Workaround: call the SpiceQL REST service directly from JavaScript
+        // (fetch(getRestUrl() + functionName + "?" + params)) and use the WASM
+        // module only for local-kernel work with useWeb=false.
+        (void) functionName; (void) args; (void) method;
+        throw runtime_error(
+            "SpiceQL useWeb=true is not supported in the WASM build. Use local "
+            "kernels (useWeb=false), or call the SpiceQL REST service directly "
+            "from JavaScript (fetch()) instead.");
+#elif defined(_WIN32)
         // The remote REST web-service mode relies on restincurl, which is not
         // yet ported to Windows (see the guarded include above). Local kernel
         // access is unaffected.
