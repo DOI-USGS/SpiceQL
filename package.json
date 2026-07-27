@@ -1,0 +1,24 @@
+{
+  "name": "spiceql-wasm",
+  "version": "1.6.0",
+  "description": "WebAssembly/JS bindings for SpiceQL (Emscripten). See bindings/wasm.",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./bindings/wasm/spiceql.js"
+  },
+  "files": [
+    "bindings/wasm/spiceql.js"
+  ],
+  "scripts": {
+    "test": "node --test \"bindings/wasm/tests/*.test.mjs\""
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "CC0-1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DOI-USGS/SpiceQL.git"
+  }
+}
