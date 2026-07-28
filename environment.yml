@@ -8,7 +8,16 @@ dependencies:
   - cspice=67
   - cxx-compiler
   - doxygen
-  - emscripten  # provides emcc/emcmake/em++ for the WASM build (see README.md, WebAssembly section)
+  # emscripten provides emcc/emcmake/em++ for the WASM build (see README.md,
+  # WebAssembly section). Pin emscripten together with a matching binaryen:
+  # emscripten drives wasm-opt (binaryen) with version-specific flags, and the
+  # conda-forge emscripten package's binaryen dependency is loose enough that an
+  # unpinned solve can pair a newer emscripten with an older binaryen (e.g.
+  # emscripten 4.0.9 calls `wasm-opt --no-stack-ir`, which binaryen 117 rejects,
+  # failing the link). 3.1.58 + binaryen 117 is the combination this build is
+  # validated against.
+  - emscripten=3.1.58
+  - binaryen=117
   - fmt
   - h5py
   - highfive==2.10.1
