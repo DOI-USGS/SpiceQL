@@ -75,9 +75,32 @@ The SpiceQL API is available via Python bindings in the module `pyspiceql`. The 
 
 ## WebAssembly / JavaScript
 
-SpiceQL can be compiled to WebAssembly with [Emscripten](https://emscripten.org/), exposing the `api.h` surface to JavaScript so it runs in the browser or Node. This is a separate build from the native library and its Python bindings.
+### Setup/Installation Options
 
-> **NOTE**: There is no CDN/npm package yet. You must either build the module locally or download the prebuilt artifact from the [GitHub Releases](https://github.com/DOI-USGS/SpiceQL/releases) page.
+#### [GitHub Releases (Manual Download) ↗](https://github.com/DOI-USGS/SpiceQL/releases)
+
+#### NPM Installation
+
+```sh
+# In your terminal in your project directory:
+npm install @usgs-astrogeology/spiceql
+```
+
+```js
+// In your javascript:
+import { loadSpiceQL } from '@usgs-astrogeology/spiceql'
+```
+
+*A Module Bundler, like Vite, is required for this kind of import.*
+
+
+#### Import from CDN (jsDelivr)
+
+```js
+// In your javascript:
+import { loadSpiceQL } from 'https://cdn.jsdelivr.net/npm/@usgs-astrogeology/spiceql/dist/spiceql.js';
+```
+
 
 ### Building locally
 
@@ -100,8 +123,9 @@ emcmake cmake -S . -B build-wasm \
 
 cmake --build build-wasm -j"$(getconf _NPROCESSORS_ONLN)"
 ```
+*If you get a permission denied error, use a lower number of cores in the last command: `-j4` or `-j1` instead of `-j"$(getconf _NPROCESSORS_ONLN)"`*
 
-The CMake options are:
+#### CMake Options:
 
 | Option | Value | Why |
 | --- | --- | --- |
@@ -126,6 +150,7 @@ Copy the three `spiceql_wasm.*` artifacts and both wrappers (`bindings/wasm/spic
 
 ```js
 // example.mjs — run with: node example.mjs
+
 import { loadSpiceQL } from './spiceql.js';
 
 const spiceql = await loadSpiceQL();
@@ -144,31 +169,32 @@ console.log(result);   // ET seconds past J2000
 console.log(kernels);  // { lsk: ['/kernels/naif0012.tls'] }
 ```
 
-In a browser it works the same way — `import` `spiceql.js` locally from a
+In a browser it works the same way — `import` `spiceql.js` in a
 `<script type="module">` and use `fetch()` to get kernel bytes for `mountKernel`.
 The five files (`spiceql.js`, `naifspice.js`, `spiceql_wasm.js`,
 `spiceql_wasm.wasm`, `spiceql_wasm.data`) and your kernels just need to be
 served over HTTP from the same folder (any static host works; opening the page from `file://` does not,
-because the browser blocks `fetch()` of local files):
+because the browser blocks `fetch()`):
 
 ```html
 <!doctype html>
-<!-- index.html — served next to spiceql.js and the spiceql_wasm.* files -->
 <script type="module">
-  import { loadSpiceQL } from './spiceql.js';
+  import { loadSpiceQL } from 'https://cdn.jsdelivr.net/npm/@usgs-astrogeology/spiceql/dist/spiceql.js';
 
   const spiceql = await loadSpiceQL();
 
-  // No kernel search in WASM — fetch your own kernel and write it into the
+  // No kernel search in WASM — fetch the kernel and write it into the
   // virtual filesystem before calling.
-  const bytes = new Uint8Array(await (await fetch('naif0012.tls')).arrayBuffer());
+  const bytes = new Uint8Array(await (await fetch('https://cdn.jsdelivr.net/gh/DOI-USGS/SpiceQL/SpiceQL/db/kernels/naif0012.tls')).arrayBuffer());
   spiceql.mountKernel('/kernels/naif0012.tls', bytes);
 
-  const { result } = spiceql.utcToEt('2000-01-01T00:00:00', {
+  const { result, kernels } = spiceql.utcToEt('2000-01-01T00:00:00', {
     searchKernels: false,
     kernelList: ['/kernels/naif0012.tls'],
   });
-  document.body.textContent = `ET = ${result}`;   // ET seconds past J2000
+
+  console.log(result);   // ET seconds past J2000
+  console.log(kernels);  // { lsk: ['/kernels/naif0012.tls'] }
 </script>
 ```
 
