@@ -1,16 +1,22 @@
 {
-  "name": "spiceql-wasm",
+  "name": "@usgs-astrogeology/spiceql",
   "version": "1.7.0",
   "description": "WebAssembly/JS bindings for SpiceQL (Emscripten). See bindings/wasm.",
   "type": "module",
-  "private": true,
   "exports": {
-    ".": "./bindings/wasm/spiceql.js"
+    ".": "./dist/spiceql.js"
   },
   "files": [
-    "bindings/wasm/spiceql.js"
+    "dist/spiceql.js",
+    "dist/naifspice.js",
+    "dist/spiceql_wasm.data",
+    "dist/spiceql_wasm.js",
+    "dist/spiceql_wasm.wasm",
+    "README.md",
+    "LICENSE.md"
   ],
   "scripts": {
+    "prepack": "rm -rf dist && mkdir -p dist && cp bindings/wasm/spiceql.js bindings/wasm/naifspice.js build-wasm/bindings/wasm/spiceql_wasm.js build-wasm/bindings/wasm/spiceql_wasm.data build-wasm/bindings/wasm/spiceql_wasm.wasm dist/",
     "test": "node --test \"bindings/wasm/tests/*.test.mjs\""
   },
   "engines": {
@@ -20,5 +26,30 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/DOI-USGS/SpiceQL.git"
+  },
+  "homepage": "https://github.com/DOI-USGS/SpiceQL#readme",
+  "bugs": {
+    "url": "https://github.com/DOI-USGS/SpiceQL/issues"
+  },
+  "keywords": [
+    "spice-query-language",
+    "spiceql",
+    "planetary",
+    "webassembly",
+    "wasm",
+    "astrogeology",
+    "kernels",
+    "remote-sensing",
+    "mars",
+    "moon",
+    "planetary-science",
+    "spice-kernels",
+    "spice",
+    "naif",
+    "naif-spice"
+  ],
+  "author": "USGS Astrogeology Science Center",
+  "publishConfig": {
+    "access": "public"
   }
 }
