@@ -93,7 +93,7 @@
   for (size_t i = 0; i < $1.first.size(); ++i) {
     _inner = PyList_New($1.first[i].size());
     for (size_t j = 0; j < $1.first[i].size(); ++j){
-      PyList_SetItem(_inner,j,PyInt_FromLong($1.first[i][j]));
+      PyList_SetItem(_inner,j,PyLong_FromLong($1.first[i][j]));
     }
     PyList_SetItem(_outer,i,_inner);
   }
@@ -131,7 +131,7 @@
 %typemap(out) std::pair<std::vector<int>, nlohmann::json> {
   PyObject* vec_list = PyList_New($1.first.size());
   for (size_t i = 0; i < $1.first.size(); ++i) {
-      PyList_SetItem(vec_list, i, PyInt_FromLong($1.first[i]));
+      PyList_SetItem(vec_list, i, PyLong_FromLong($1.first[i]));
   }
 
   PyObject* module = PyImport_ImportModule("json");
@@ -162,7 +162,7 @@
 
 // pair<int, json>
 %typemap(out) std::pair<int, nlohmann::json> {
-  PyObject* intOut = PyInt_FromLong($1.first);
+  PyObject* intOut = PyLong_FromLong($1.first);
 
   PyObject* module = PyImport_ImportModule("json");
   PyObject* jsonLoads = PyUnicode_FromString("loads");
@@ -177,7 +177,7 @@
 
 // pair<string, json>
 %typemap(out) std::pair<std::string, nlohmann::json> {
-  PyObject* strOut = PyString_FromString($1.first.c_str());
+  PyObject* strOut = PyUnicode_FromString($1.first.c_str());
 
   PyObject* module = PyImport_ImportModule("json");
   PyObject* jsonLoads = PyUnicode_FromString("loads");

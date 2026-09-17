@@ -38,8 +38,7 @@ nav:
       - 'Namespaces':
           - 'Namespace List': 'SpiceQLCPPAPI/namespaces.md'
           - 'Functions': 'SpiceQLCPPAPI/namespace_member_functions.md'
-  - "[ RESTful API ]": 
-      - 'OpenAPI Docs': 'RestAPI.md' 
+  - "[ RESTful API ]": "https://astrogeology.usgs.gov/apis/spiceql/latest/docs"
   - "[ USGS Astrogeology Docs ]" : https://astrogeology.usgs.gov/docs/
 
 markdown_extensions:
@@ -60,7 +59,7 @@ plugins:
   - mkdoxy:
       projects:
         SpiceQLCPPAPI: 
-          src-dirs: SpiceQL/include/
+          src-dirs: SpiceQL/include/SpiceQL
           FILE_PATTERNS: 'api.h inventory.h'  
           full-doc: True # if you want to generate full documentation
           doxy-cfg: # standard doxygen configuration (key: value)

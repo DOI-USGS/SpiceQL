@@ -4,6 +4,7 @@ from .models import *
 
 from typing import Annotated
 from fastapi import FastAPI, Depends, Body
+from importlib.metadata import version, PackageNotFoundError
 import os
 import pyspiceql
 import logging
@@ -12,8 +13,29 @@ import h5py
 
 logger = logging.getLogger(__name__)
 
+try:
+    spiceql_version = version("pyspiceql")
+except PackageNotFoundError:
+    spiceql_version = "unknown"
+
 # Create FastAPI instance
-app = FastAPI()
+app = FastAPI(
+    title="SpiceQL API",
+    version=spiceql_version,
+    summary="RESTful API for USGS Astrogeology's SPICE Query Library (SpiceQL)",
+    description=(
+        "**Source Code**: [github.com/DOI-USGS/SpiceQL](https://github.com/DOI-USGS/SpiceQL)\n\n"
+        "### Links to SpiceQL docs:\n\n"
+        "- [Manual](https://astrogeology.usgs.gov/docs/manuals/spiceql/) — "
+        "Installation setup and the C++ API reference\n\n"
+        "- [Guide](https://astrogeology.usgs.gov/docs/getting-started/using-spiceql/exploring-spiceqls-rest-python-and-cpp-apis/) — "
+        "Exploring SpiceQL's REST, Python, and C++ APIs with examples\n\n"
+    ),
+    license_info={
+        "name": "Public Domain (CC0 1.0)",
+        "url": "https://github.com/DOI-USGS/SpiceQL/blob/main/LICENSE.md",
+    },
+)
 
 @app.get("/")
 async def message():

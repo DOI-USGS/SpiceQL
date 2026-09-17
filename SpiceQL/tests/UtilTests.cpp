@@ -613,3 +613,36 @@ TEST_F(InferMissionFromCode, NameCandidateTakesPrecedenceOverCode) {
   // String candidates are tried before codes.
   EXPECT_EQ(inferMission({"MRO_CTX"}, {-85}), "ctx");
 }
+
+TEST_F(ConfigDirectoryTest, EnvVarResolvesConfigAndAliasMap) {
+  set("CONDA_PREFIX", emptyPrefix.string());
+  set("SPICEQL_CONFIG_DIR", dbDir.string());
+
+  EXPECT_EQ(getConfigDirectory(), dbDir.string());
+  EXPECT_EQ(getAliasMapJsonFile(), aliasMapFile.string());
+}
+
+TEST_F(ConfigDirectoryTest, SetConfigDirectoryOverridesEnvVar) {
+  set("SPICEQL_CONFIG_DIR", (emptyPrefix / "override_dir").string());
+  setConfigDirectory(dbDir.string());
+
+  EXPECT_EQ(getConfigDirectory(), dbDir.string());
+  EXPECT_EQ(getAliasMapJsonFile(), aliasMapFile.string());
+}
+
+TEST_F(ConfigDirectoryTest, ThrowsWhenNoConfigLocationResolves) {
+  // CONDA_PREFIX does not contain db and alias map
+  set("CONDA_PREFIX", emptyPrefix.string());
+
+  EXPECT_THROW(getConfigDirectory(), std::runtime_error);
+  EXPECT_THROW(getAliasMapJsonFile(), std::runtime_error);
+}
+
+TEST_F(ConfigDirectoryTest, EmptyOverrideRestoresFallback) {
+  setConfigDirectory(dbDir.string());
+  EXPECT_EQ(getConfigDirectory(), dbDir.string());
+
+  setConfigDirectory("");
+  set("CONDA_PREFIX", emptyPrefix.string());
+  EXPECT_THROW(getConfigDirectory(), std::runtime_error);
+}

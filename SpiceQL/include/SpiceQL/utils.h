@@ -235,16 +235,32 @@ namespace SpiceQL {
 
   /**
    * @brief Get the directory pointing to the db files
-   * 
-   * Default behavior returns the installed DB files in $CONDA_PREFIX/etc/SpiceQL/db.
    *
-   * If the env var $SPICEQL_DEV_DB is set, this returns the local source path of 
-   * _SOURCE_PREFIX/SpiceQL/db/ 
-   * 
+   * The directory is resolved in the following order of precedence:
+   *   1. A directory previously set via setConfigDirectory().
+   *   2. The env var $SPICEQL_CONFIG_DIR, if set and non-empty.
+   *   3. The local source path _SOURCE_PREFIX/SpiceQL/db/, if $SPICEQL_DEV_DB is set.
+   *   4. The installed DB files in $CONDA_PREFIX/etc/SpiceQL/db.
+   *
    * @return std::string directory containing db files
    **/
   std::string getConfigDirectory();
-  
+
+
+  /**
+   * @brief Override the directory pointing to the db files
+   *
+   * Sets an explicit config directory that takes precedence over the
+   * $SPICEQL_CONFIG_DIR env var and the default install/dev locations. This lets
+   * callers point SpiceQL at its configs independent of the active conda
+   * environment. Pass an empty string to clear the override and fall back to the
+   * default resolution.
+   *
+   * @param configDir directory containing db files
+   * @see getConfigDirectory
+   **/
+  void setConfigDirectory(std::string configDir);
+
 
   /**
    * @brief Returns a vector of all the available configs

@@ -149,3 +149,14 @@ class AliasMapTest : public TempTestingFiles {
   fs::path testAliasMapFile;
   fs::path root;
 };
+
+class ConfigDirectoryTest : public EnvVar {
+ protected:
+  fs::path root;
+  fs::path dbDir;
+  fs::path aliasMapFile;
+  fs::path emptyPrefix;
+
+  void SetUp() override;
+  void TearDown() override;
+};

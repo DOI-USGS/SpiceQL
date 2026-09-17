@@ -494,3 +494,29 @@ void AliasMapTest::SetUp() {
   // test aliasMap JSON file
   testAliasMapFile = fs::path("data") / "aliasMap.test.json";
 }
+
+void ConfigDirectoryTest::SetUp() {
+  root = fs::temp_directory_path() / ("SQTESTS_cfgdir_" + gen_random(10));
+  dbDir = root / "etc" / "SpiceQL" / "db";
+  aliasMapFile = root / "etc" / "SpiceQL" / "aliasMap.json";
+  fs::create_directories(dbDir);
+  std::ofstream(aliasMapFile.string()) << "{}";
+
+  // empty prefix that has no db or alias map
+  emptyPrefix = fs::temp_directory_path() / ("SQTESTS_empty_" + gen_random(10));
+  fs::create_directories(emptyPrefix);
+
+  // Start from a clean slate: the test suite (and CI) set SPICEQL_DEV_DB,
+  // which would otherwise mask the branch under test. EnvVar restores these.
+  clear("SPICEQL_DEV_DB");
+  clear("SPICEQL_CONFIG_DIR");
+  setConfigDirectory("");
+}
+
+
+void ConfigDirectoryTest::TearDown() {
+  setConfigDirectory("");
+  EnvVar::TearDown();
+  fs::remove_all(root);
+  fs::remove_all(emptyPrefix);
+}
