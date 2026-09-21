@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classSpiceQL_1_1KernelSet" kind="class" language="C++" prot="public">
+    <compoundname>SpiceQL::KernelSet</compoundname>
+    <includes refid="spice__types_8h" local="no">spice_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classSpiceQL_1_1KernelSet_1a4d993043cd76734a109a45cfea3167ed" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classSpiceQL_1_1Kernel" kindref="compound">Kernel</ref> * &gt;</type>
+        <definition>std::vector&lt;Kernel*&gt; SpiceQL::KernelSet::m_loadedKernels</definition>
+        <argsstring></argsstring>
+        <name>m_loadedKernels</name>
+        <qualifiedname>SpiceQL::KernelSet::m_loadedKernels</qualifiedname>
+        <briefdescription>
+<para>map of path to kernel pointers </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="228" column="17" bodyfile="SpiceQL/include/SpiceQL/spice_types.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1KernelSet_1a1054d3111296628856bdf338dca10779" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json SpiceQL::KernelSet::m_kernels</definition>
+        <argsstring></argsstring>
+        <name>m_kernels</name>
+        <qualifiedname>SpiceQL::KernelSet::m_kernels</qualifiedname>
+        <briefdescription>
+<para>json used to populate the loadedKernels </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="231" column="20" bodyfile="SpiceQL/include/SpiceQL/spice_types.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classSpiceQL_1_1KernelSet_1a01af146cdbcdc70c3cb1a4231196ddf3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SpiceQL::KernelSet::KernelSet</definition>
+        <argsstring>(nlohmann::json kernels)</argsstring>
+        <name>KernelSet</name>
+        <qualifiedname>SpiceQL::KernelSet::KernelSet</qualifiedname>
+        <param>
+          <type>nlohmann::json</type>
+          <declname>kernels</declname>
+        </param>
+        <briefdescription>
+<para>Construct a new <ref refid="classSpiceQL_1_1Kernel" kindref="compound">Kernel</ref> Set object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>kernels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="220" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1KernelSet_1acbec4f1799bb339e346e36e3dbb9450b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SpiceQL::KernelSet::KernelSet</definition>
+        <argsstring>()=default</argsstring>
+        <name>KernelSet</name>
+        <qualifiedname>SpiceQL::KernelSet::KernelSet</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="221" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1KernelSet_1ada012d1e714230860d4c7bf0705048f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SpiceQL::KernelSet::~KernelSet</definition>
+        <argsstring>()</argsstring>
+        <name>~KernelSet</name>
+        <qualifiedname>SpiceQL::KernelSet::~KernelSet</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="222" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1KernelSet_1ae3945127e6918885b543961b0cb074e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SpiceQL::KernelSet::load</definition>
+        <argsstring>(nlohmann::json kernels)</argsstring>
+        <name>load</name>
+        <qualifiedname>SpiceQL::KernelSet::load</qualifiedname>
+        <param>
+          <type>nlohmann::json</type>
+          <declname>kernels</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="224" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1KernelSet_1a71a642b1307c07828b31edb815c2a119" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SpiceQL::KernelSet::unload</definition>
+        <argsstring>()</argsstring>
+        <name>unload</name>
+        <qualifiedname>SpiceQL::KernelSet::unload</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="225" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Class for furnishing kernels in bulk. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Given a json object, furnish every kernel under a &quot;kernels&quot; key. The kernels are unloaded as soon as the object goes out of scope.</para>
+<para>Generally used on results from a kernel query. </para>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/spice_types.h" line="212" column="3" bodyfile="SpiceQL/include/SpiceQL/spice_types.h" bodystart="212" bodyend="232"/>
+    <listofallmembers>
+      <member refid="classSpiceQL_1_1KernelSet_1a01af146cdbcdc70c3cb1a4231196ddf3" prot="public" virt="non-virtual"><scope>SpiceQL::KernelSet</scope><name>KernelSet</name></member>
+      <member refid="classSpiceQL_1_1KernelSet_1acbec4f1799bb339e346e36e3dbb9450b" prot="public" virt="non-virtual"><scope>SpiceQL::KernelSet</scope><name>KernelSet</name></member>
+      <member refid="classSpiceQL_1_1KernelSet_1ae3945127e6918885b543961b0cb074e8" prot="public" virt="non-virtual"><scope>SpiceQL::KernelSet</scope><name>load</name></member>
+      <member refid="classSpiceQL_1_1KernelSet_1a1054d3111296628856bdf338dca10779" prot="public" virt="non-virtual"><scope>SpiceQL::KernelSet</scope><name>m_kernels</name></member>
+      <member refid="classSpiceQL_1_1KernelSet_1a4d993043cd76734a109a45cfea3167ed" prot="public" virt="non-virtual"><scope>SpiceQL::KernelSet</scope><name>m_loadedKernels</name></member>
+      <member refid="classSpiceQL_1_1KernelSet_1a71a642b1307c07828b31edb815c2a119" prot="public" virt="non-virtual"><scope>SpiceQL::KernelSet</scope><name>unload</name></member>
+      <member refid="classSpiceQL_1_1KernelSet_1ada012d1e714230860d4c7bf0705048f5" prot="public" virt="non-virtual"><scope>SpiceQL::KernelSet</scope><name>~KernelSet</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

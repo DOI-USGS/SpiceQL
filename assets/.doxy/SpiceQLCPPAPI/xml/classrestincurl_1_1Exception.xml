@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classrestincurl_1_1Exception" kind="class" language="C++" prot="public">
+    <compoundname>restincurl::Exception</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <derivedcompoundref refid="classrestincurl_1_1CurlException" prot="public" virt="non-virtual">restincurl::CurlException</derivedcompoundref>
+    <derivedcompoundref refid="classrestincurl_1_1SystemException" prot="public" virt="non-virtual">restincurl::SystemException</derivedcompoundref>
+    <includes refid="restincurl_8h" local="no">restincurl.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrestincurl_1_1Exception_1a4b4981187d83b56fc7872cbfd5265804" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>restincurl::Exception::Exception</definition>
+        <argsstring>(const std::string &amp;msg)</argsstring>
+        <name>Exception</name>
+        <qualifiedname>restincurl::Exception::Exception</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="291" column="9" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="291" bodyend="291"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Base class for RESTinCurl exceptions </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>restincurl::CurlException</label>
+        <link refid="classrestincurl_1_1CurlException"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>restincurl::Exception</label>
+        <link refid="classrestincurl_1_1Exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>restincurl::SystemException</label>
+        <link refid="classrestincurl_1_1SystemException"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>restincurl::Exception</label>
+        <link refid="classrestincurl_1_1Exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+    </collaborationgraph>
+    <location file="SpiceQL/include/SpiceQL/restincurl.h" line="289" column="5" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="289" bodyend="292"/>
+    <listofallmembers>
+      <member refid="classrestincurl_1_1Exception_1a4b4981187d83b56fc7872cbfd5265804" prot="public" virt="non-virtual"><scope>restincurl::Exception</scope><name>Exception</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

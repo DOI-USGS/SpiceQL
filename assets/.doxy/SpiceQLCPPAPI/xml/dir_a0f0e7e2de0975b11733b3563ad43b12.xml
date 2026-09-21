@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="dir_a0f0e7e2de0975b11733b3563ad43b12" kind="dir">
+    <compoundname>SpiceQL/include/SpiceQL</compoundname>
+    <innerfile refid="alias__map_8h">alias_map.h</innerfile>
+    <innerfile refid="api_8h">api.h</innerfile>
+    <innerfile refid="config_8h">config.h</innerfile>
+    <innerfile refid="inventory_8h">inventory.h</innerfile>
+    <innerfile refid="inventoryimpl_8h">inventoryimpl.h</innerfile>
+    <innerfile refid="io_8h">io.h</innerfile>
+    <innerfile refid="memo_8h">memo.h</innerfile>
+    <innerfile refid="memoized__functions_8h">memoized_functions.h</innerfile>
+    <innerfile refid="query_8h">query.h</innerfile>
+    <innerfile refid="restincurl_8h">restincurl.h</innerfile>
+    <innerfile refid="spice__types_8h">spice_types.h</innerfile>
+    <innerfile refid="spiceql_8h">spiceql.h</innerfile>
+    <innerfile refid="spiceql__logging_8h">spiceql_logging.h</innerfile>
+    <innerfile refid="utils_8h">utils.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/"/>
+  </compounddef>
+</doxygen>

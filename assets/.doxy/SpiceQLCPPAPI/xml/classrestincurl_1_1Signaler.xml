@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classrestincurl_1_1Signaler" kind="class" language="C++" prot="public">
+    <compoundname>restincurl::Signaler</compoundname>
+    <sectiondef kind="private-type">
+      <memberdef kind="enum" id="classrestincurl_1_1Signaler_1ae9b1679230474afe07d2ab18e050e981" prot="private" static="no" strong="no">
+        <type></type>
+        <name>FdUsage</name>
+        <qualifiedname>restincurl::Signaler::FdUsage</qualifiedname>
+        <enumvalue id="classrestincurl_1_1Signaler_1ae9b1679230474afe07d2ab18e050e981ad116e50a9ef8aea32b8219e019a7576e" prot="private">
+          <name>FD_READ</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classrestincurl_1_1Signaler_1ae9b1679230474afe07d2ab18e050e981aefc93f74133d72b15f7d705962e18c5f" prot="private">
+          <name>FD_WRITE</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="618" column="9" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="618" bodyend="618"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classrestincurl_1_1Signaler_1ac45d9162c5c517b85bfb8e4b1a95e59a" prot="public" static="no">
+        <type>std::array&lt; int, 2 &gt;</type>
+        <definition>using restincurl::Signaler::pipefd_t = std::array&lt;int, 2&gt;</definition>
+        <argsstring></argsstring>
+        <name>pipefd_t</name>
+        <qualifiedname>restincurl::Signaler::pipefd_t</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="621" column="9" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="621" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classrestincurl_1_1Signaler_1acf06a7e1ba5b67aefcccf3e9362caac6" prot="private" static="no" mutable="no">
+        <type>pipefd_t</type>
+        <definition>pipefd_t restincurl::Signaler::pipefd_</definition>
+        <argsstring></argsstring>
+        <name>pipefd_</name>
+        <qualifiedname>restincurl::Signaler::pipefd_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="664" column="18" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="664" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrestincurl_1_1Signaler_1a3ee74bb79c55958e92e4f27894db65d1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>restincurl::Signaler::Signaler</definition>
+        <argsstring>()</argsstring>
+        <name>Signaler</name>
+        <qualifiedname>restincurl::Signaler::Signaler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="623" column="9" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="623" bodyend="634"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Signaler_1a107454460f69dc499c9cc86ed71e8883" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>restincurl::Signaler::~Signaler</definition>
+        <argsstring>()</argsstring>
+        <name>~Signaler</name>
+        <qualifiedname>restincurl::Signaler::~Signaler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="636" column="9" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="636" bodyend="640"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Signaler_1a33b039b48ed72fcb8153a241a4259391" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void restincurl::Signaler::Signal</definition>
+        <argsstring>()</argsstring>
+        <name>Signal</name>
+        <qualifiedname>restincurl::Signaler::Signal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="642" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="642" bodyend="648"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Signaler_1abdf07e41c318c6735d319a69b5097f71" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int restincurl::Signaler::GetReadFd</definition>
+        <argsstring>()</argsstring>
+        <name>GetReadFd</name>
+        <qualifiedname>restincurl::Signaler::GetReadFd</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="650" column="13" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="650" bodyend="650"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Signaler_1ad5e17d477a6002eada395dc9db5b7f15" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool restincurl::Signaler::WasSignalled</definition>
+        <argsstring>()</argsstring>
+        <name>WasSignalled</name>
+        <qualifiedname>restincurl::Signaler::WasSignalled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="652" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="652" bodyend="661"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/restincurl.h" line="617" column="5" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="617" bodyend="665"/>
+    <listofallmembers>
+      <member refid="classrestincurl_1_1Signaler_1ae9b1679230474afe07d2ab18e050e981ad116e50a9ef8aea32b8219e019a7576e" prot="private" virt="non-virtual"><scope>restincurl::Signaler</scope><name>FD_READ</name></member>
+      <member refid="classrestincurl_1_1Signaler_1ae9b1679230474afe07d2ab18e050e981aefc93f74133d72b15f7d705962e18c5f" prot="private" virt="non-virtual"><scope>restincurl::Signaler</scope><name>FD_WRITE</name></member>
+      <member refid="classrestincurl_1_1Signaler_1ae9b1679230474afe07d2ab18e050e981" prot="private" virt="non-virtual"><scope>restincurl::Signaler</scope><name>FdUsage</name></member>
+      <member refid="classrestincurl_1_1Signaler_1abdf07e41c318c6735d319a69b5097f71" prot="public" virt="non-virtual"><scope>restincurl::Signaler</scope><name>GetReadFd</name></member>
+      <member refid="classrestincurl_1_1Signaler_1acf06a7e1ba5b67aefcccf3e9362caac6" prot="private" virt="non-virtual"><scope>restincurl::Signaler</scope><name>pipefd_</name></member>
+      <member refid="classrestincurl_1_1Signaler_1ac45d9162c5c517b85bfb8e4b1a95e59a" prot="public" virt="non-virtual"><scope>restincurl::Signaler</scope><name>pipefd_t</name></member>
+      <member refid="classrestincurl_1_1Signaler_1a33b039b48ed72fcb8153a241a4259391" prot="public" virt="non-virtual"><scope>restincurl::Signaler</scope><name>Signal</name></member>
+      <member refid="classrestincurl_1_1Signaler_1a3ee74bb79c55958e92e4f27894db65d1" prot="public" virt="non-virtual"><scope>restincurl::Signaler</scope><name>Signaler</name></member>
+      <member refid="classrestincurl_1_1Signaler_1ad5e17d477a6002eada395dc9db5b7f15" prot="public" virt="non-virtual"><scope>restincurl::Signaler</scope><name>WasSignalled</name></member>
+      <member refid="classrestincurl_1_1Signaler_1a107454460f69dc499c9cc86ed71e8883" prot="public" virt="non-virtual"><scope>restincurl::Signaler</scope><name>~Signaler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

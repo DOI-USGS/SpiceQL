@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classrestincurl_1_1EasyHandle" kind="class" language="C++" prot="public">
+    <compoundname>restincurl::EasyHandle</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classrestincurl_1_1EasyHandle_1a97e559262d9b2f56a411924526de01c6" prot="public" static="no">
+        <type>std::unique_ptr&lt; EasyHandle &gt;</type>
+        <definition>using restincurl::EasyHandle::ptr_t = std::unique_ptr&lt;EasyHandle&gt;</definition>
+        <argsstring></argsstring>
+        <name>ptr_t</name>
+        <qualifiedname>restincurl::EasyHandle::ptr_t</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="326" column="9" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classrestincurl_1_1EasyHandle_1ab935ab7067da343abc3902aac368b1ff" prot="public" static="no">
+        <type>decltype(curl_easy_init())</type>
+        <definition>using restincurl::EasyHandle::handle_t = decltype(curl_easy_init())</definition>
+        <argsstring></argsstring>
+        <name>handle_t</name>
+        <qualifiedname>restincurl::EasyHandle::handle_t</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="327" column="9" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classrestincurl_1_1EasyHandle_1aa879de15dc252e3efd52e85c514898a2" prot="private" static="no" mutable="no">
+        <type>handle_t</type>
+        <definition>handle_t restincurl::EasyHandle::handle_</definition>
+        <argsstring></argsstring>
+        <name>handle_</name>
+        <qualifiedname>restincurl::EasyHandle::handle_</qualifiedname>
+        <initializer>= curl_easy_init()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="348" column="18" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrestincurl_1_1EasyHandle_1a6881ec0646cc663dbf135ea4f0be8927" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>restincurl::EasyHandle::EasyHandle</definition>
+        <argsstring>()</argsstring>
+        <name>EasyHandle</name>
+        <qualifiedname>restincurl::EasyHandle::EasyHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="329" column="9" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="329" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1EasyHandle_1ac904331692ba1ca28fa704c5b6b3c053" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>restincurl::EasyHandle::~EasyHandle</definition>
+        <argsstring>()</argsstring>
+        <name>~EasyHandle</name>
+        <qualifiedname>restincurl::EasyHandle::~EasyHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="333" column="9" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="333" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1EasyHandle_1a4804fafec4346856d9ca9de79ac7a259" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void restincurl::EasyHandle::Close</definition>
+        <argsstring>()</argsstring>
+        <name>Close</name>
+        <qualifiedname>restincurl::EasyHandle::Close</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="337" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="337" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1EasyHandle_1a38f227ca96e41b6ec4d4e33f7a93b37c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>restincurl::EasyHandle::operator handle_t</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator handle_t</name>
+        <qualifiedname>restincurl::EasyHandle::operator handle_t</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="345" column="9" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="345" bodyend="345"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/restincurl.h" line="324" column="5" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="324" bodyend="349"/>
+    <listofallmembers>
+      <member refid="classrestincurl_1_1EasyHandle_1a4804fafec4346856d9ca9de79ac7a259" prot="public" virt="non-virtual"><scope>restincurl::EasyHandle</scope><name>Close</name></member>
+      <member refid="classrestincurl_1_1EasyHandle_1a6881ec0646cc663dbf135ea4f0be8927" prot="public" virt="non-virtual"><scope>restincurl::EasyHandle</scope><name>EasyHandle</name></member>
+      <member refid="classrestincurl_1_1EasyHandle_1aa879de15dc252e3efd52e85c514898a2" prot="private" virt="non-virtual"><scope>restincurl::EasyHandle</scope><name>handle_</name></member>
+      <member refid="classrestincurl_1_1EasyHandle_1ab935ab7067da343abc3902aac368b1ff" prot="public" virt="non-virtual"><scope>restincurl::EasyHandle</scope><name>handle_t</name></member>
+      <member refid="classrestincurl_1_1EasyHandle_1a38f227ca96e41b6ec4d4e33f7a93b37c" prot="public" virt="non-virtual"><scope>restincurl::EasyHandle</scope><name>operator handle_t</name></member>
+      <member refid="classrestincurl_1_1EasyHandle_1a97e559262d9b2f56a411924526de01c6" prot="public" virt="non-virtual"><scope>restincurl::EasyHandle</scope><name>ptr_t</name></member>
+      <member refid="classrestincurl_1_1EasyHandle_1ac904331692ba1ca28fa704c5b6b3c053" prot="public" virt="non-virtual"><scope>restincurl::EasyHandle</scope><name>~EasyHandle</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

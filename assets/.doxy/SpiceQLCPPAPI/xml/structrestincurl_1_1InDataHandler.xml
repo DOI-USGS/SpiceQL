@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="structrestincurl_1_1InDataHandler" kind="struct" language="C++" prot="public">
+    <compoundname>restincurl::InDataHandler</compoundname>
+    <basecompoundref refid="structrestincurl_1_1DataHandlerBase" prot="public" virt="non-virtual">restincurl::DataHandlerBase</basecompoundref>
+    <includes refid="restincurl_8h" local="no">restincurl.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structrestincurl_1_1InDataHandler_1a8d83d310cae5580c12d1397cb3f7a65b" prot="public" static="no" mutable="no">
+        <type>T &amp;</type>
+        <definition>T&amp; restincurl::InDataHandler&lt; T &gt;::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>restincurl::InDataHandler::data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="420" column="11" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="420" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structrestincurl_1_1InDataHandler_1a8f11a55b81910967a8fefae200934098" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>restincurl::InDataHandler&lt; T &gt;::InDataHandler</definition>
+        <argsstring>(T &amp;data)</argsstring>
+        <name>InDataHandler</name>
+        <qualifiedname>restincurl::InDataHandler::InDataHandler</qualifiedname>
+        <param>
+          <type>T &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="406" column="9" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="406" bodyend="408"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structrestincurl_1_1InDataHandler_1a1730373ecb5858d8e08f4f1ddfcf1b4c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t restincurl::InDataHandler&lt; T &gt;::write_callback</definition>
+        <argsstring>(char *ptr, size_t size, size_t nitems, void *userdata)</argsstring>
+        <name>write_callback</name>
+        <qualifiedname>restincurl::InDataHandler::write_callback</qualifiedname>
+        <param>
+          <type>char *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>nitems</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>userdata</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="410" column="23" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="410" bodyend="418"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Template implementation for input data to curl during a request.</para>
+<para>This handler deals with the data received from the HTTP server during a request. This implementation will typically use T=std::string and just store the received data in a string. For json/XML payloads that&apos;s probably all you need. But if you receive binary data, you may want to use a container like std::vector or std::deque in stead. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>restincurl::DataHandlerBase</label>
+        <link refid="structrestincurl_1_1DataHandlerBase"/>
+      </node>
+      <node id="1">
+        <label>restincurl::InDataHandler&lt; T &gt;</label>
+        <link refid="structrestincurl_1_1InDataHandler"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>restincurl::DataHandlerBase</label>
+        <link refid="structrestincurl_1_1DataHandlerBase"/>
+      </node>
+      <node id="1">
+        <label>restincurl::InDataHandler&lt; T &gt;</label>
+        <link refid="structrestincurl_1_1InDataHandler"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="SpiceQL/include/SpiceQL/restincurl.h" line="405" column="5" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="405" bodyend="421"/>
+    <listofallmembers>
+      <member refid="structrestincurl_1_1InDataHandler_1a8d83d310cae5580c12d1397cb3f7a65b" prot="public" virt="non-virtual"><scope>restincurl::InDataHandler</scope><name>data_</name></member>
+      <member refid="structrestincurl_1_1InDataHandler_1a8f11a55b81910967a8fefae200934098" prot="public" virt="non-virtual"><scope>restincurl::InDataHandler</scope><name>InDataHandler</name></member>
+      <member refid="structrestincurl_1_1InDataHandler_1a1730373ecb5858d8e08f4f1ddfcf1b4c" prot="public" virt="non-virtual"><scope>restincurl::InDataHandler</scope><name>write_callback</name></member>
+      <member refid="structrestincurl_1_1DataHandlerBase_1a40f7124bacda89242178fd28ac8c7db0" prot="public" virt="virtual"><scope>restincurl::InDataHandler</scope><name>~DataHandlerBase</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

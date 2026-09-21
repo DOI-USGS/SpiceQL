@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classrestincurl_1_1SystemException" kind="class" language="C++" prot="public">
+    <compoundname>restincurl::SystemException</compoundname>
+    <basecompoundref refid="classrestincurl_1_1Exception" prot="public" virt="non-virtual">restincurl::Exception</basecompoundref>
+    <includes refid="restincurl_8h" local="no">restincurl.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classrestincurl_1_1SystemException_1aca0e9eabab55846d781b98f5b5b71b71" prot="private" static="no" mutable="no">
+        <type>const int</type>
+        <definition>const int restincurl::SystemException::err_</definition>
+        <argsstring></argsstring>
+        <name>err_</name>
+        <qualifiedname>restincurl::SystemException::err_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="302" column="19" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrestincurl_1_1SystemException_1a71b367995ae834d26a479ed468a89227" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>restincurl::SystemException::SystemException</definition>
+        <argsstring>(const std::string &amp;msg, const int e)</argsstring>
+        <name>SystemException</name>
+        <qualifiedname>restincurl::SystemException::SystemException</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <param>
+          <type>const int</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="297" column="9" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="297" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1SystemException_1a40d9e964ee8e88d7e98b71f16233b152" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int restincurl::SystemException::getErrorCode</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getErrorCode</name>
+        <qualifiedname>restincurl::SystemException::getErrorCode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="299" column="13" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="299" bodyend="299"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classrestincurl_1_1Exception" kindref="compound">Exception</ref> thrown when some system function, like <computeroutput>pipe()</computeroutput> failed. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>restincurl::Exception</label>
+        <link refid="classrestincurl_1_1Exception"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>restincurl::SystemException</label>
+        <link refid="classrestincurl_1_1SystemException"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>std::runtime_error</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>restincurl::Exception</label>
+        <link refid="classrestincurl_1_1Exception"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>restincurl::SystemException</label>
+        <link refid="classrestincurl_1_1SystemException"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>std::runtime_error</label>
+      </node>
+    </collaborationgraph>
+    <location file="SpiceQL/include/SpiceQL/restincurl.h" line="295" column="5" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="295" bodyend="303"/>
+    <listofallmembers>
+      <member refid="classrestincurl_1_1SystemException_1aca0e9eabab55846d781b98f5b5b71b71" prot="private" virt="non-virtual"><scope>restincurl::SystemException</scope><name>err_</name></member>
+      <member refid="classrestincurl_1_1Exception_1a4b4981187d83b56fc7872cbfd5265804" prot="public" virt="non-virtual"><scope>restincurl::SystemException</scope><name>Exception</name></member>
+      <member refid="classrestincurl_1_1SystemException_1a40d9e964ee8e88d7e98b71f16233b152" prot="public" virt="non-virtual"><scope>restincurl::SystemException</scope><name>getErrorCode</name></member>
+      <member refid="classrestincurl_1_1SystemException_1a71b367995ae834d26a479ed468a89227" prot="public" virt="non-virtual"><scope>restincurl::SystemException</scope><name>SystemException</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

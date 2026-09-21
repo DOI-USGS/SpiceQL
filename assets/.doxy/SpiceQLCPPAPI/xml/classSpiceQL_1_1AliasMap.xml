@@ -1,0 +1,300 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classSpiceQL_1_1AliasMap" kind="class" language="C++" prot="public">
+    <compoundname>SpiceQL::AliasMap</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classSpiceQL_1_1AliasMap_1a61394cf60bf6f92d9fed768c7ed01fd1" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; SpiceQL::AliasMap::m_lookupTable</definition>
+        <argsstring></argsstring>
+        <name>m_lookupTable</name>
+        <qualifiedname>SpiceQL::AliasMap::m_lookupTable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/alias_map.h" line="71" column="26" bodyfile="SpiceQL/include/SpiceQL/alias_map.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1AliasMap_1aaaa3ad95d9ed7cad5443b7975397edcc" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex SpiceQL::AliasMap::m_mutex</definition>
+        <argsstring></argsstring>
+        <name>m_mutex</name>
+        <qualifiedname>SpiceQL::AliasMap::m_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/alias_map.h" line="72" column="18" bodyfile="SpiceQL/include/SpiceQL/alias_map.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1AliasMap_1a7212c262ec596df3eca0c75faabba416" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool SpiceQL::AliasMap::m_initialized</definition>
+        <argsstring></argsstring>
+        <name>m_initialized</name>
+        <qualifiedname>SpiceQL::AliasMap::m_initialized</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/alias_map.h" line="73" column="12" bodyfile="SpiceQL/include/SpiceQL/alias_map.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classSpiceQL_1_1AliasMap_1ae802f5d364acd94a48740d110796740c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>AliasMap &amp;</type>
+        <definition>static AliasMap &amp; SpiceQL::AliasMap::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>SpiceQL::AliasMap::instance</qualifiedname>
+        <briefdescription>
+<para>Accessor for <ref refid="classSpiceQL_1_1AliasMap" kindref="compound">AliasMap</ref> instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A reference to the global <ref refid="classSpiceQL_1_1AliasMap" kindref="compound">AliasMap</ref> instance </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/alias_map.h" line="16" column="23"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classSpiceQL_1_1AliasMap_1a4f68b47b43324a338bddcac36e28c27f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SpiceQL::AliasMap::load</definition>
+        <argsstring>(std::string path)</argsstring>
+        <name>load</name>
+        <qualifiedname>SpiceQL::AliasMap::load</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Loads an alias map from a JSON file path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filesystem path to the JSON file </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/alias_map.h" line="23" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1AliasMap_1aa8b3dd77990039b9d5158a9bd9db0782" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string SpiceQL::AliasMap::getSpiceqlName</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>getSpiceqlName</name>
+        <qualifiedname>SpiceQL::AliasMap::getSpiceqlName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Gets <ref refid="namespaceSpiceQL" kindref="compound">SpiceQL</ref> name given alias or frame name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Given string name to look up </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <ref refid="namespaceSpiceQL" kindref="compound">SpiceQL</ref> name or empty string if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/alias_map.h" line="31" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1AliasMap_1ae54c61336d5d30b72bf7a5a674903c14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SpiceQL::AliasMap::addAliasKey</definition>
+        <argsstring>(const std::string &amp;alias, const std::string &amp;spiceqlName)</argsstring>
+        <name>addAliasKey</name>
+        <qualifiedname>SpiceQL::AliasMap::addAliasKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>alias</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>spiceqlName</declname>
+        </param>
+        <briefdescription>
+<para>Adds an alias to the lookup table for the given <ref refid="namespaceSpiceQL" kindref="compound">SpiceQL</ref> name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alias</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Alias string for <ref refid="namespaceSpiceQL" kindref="compound">SpiceQL</ref> name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>spiceqlName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The target <ref refid="namespaceSpiceQL" kindref="compound">SpiceQL</ref> name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/alias_map.h" line="39" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1AliasMap_1ac833b2c65dc6d6b0cf17baa19f1e7433" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json SpiceQL::AliasMap::getAliasMap</definition>
+        <argsstring>()</argsstring>
+        <name>getAliasMap</name>
+        <qualifiedname>SpiceQL::AliasMap::getAliasMap</qualifiedname>
+        <briefdescription>
+<para>Retrieves the alias map lookup table as JSON object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A JSON object where keys are <ref refid="namespaceSpiceQL" kindref="compound">SpiceQL</ref> names and the values are an array of aliases </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/alias_map.h" line="46" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1AliasMap_1a06da504592d32641bbc2261a92265548" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SpiceQL::AliasMap::setAliasMap</definition>
+        <argsstring>(const nlohmann::json &amp;newAliasMap)</argsstring>
+        <name>setAliasMap</name>
+        <qualifiedname>SpiceQL::AliasMap::setAliasMap</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>newAliasMap</declname>
+        </param>
+        <briefdescription>
+<para>Overwrites the current lookup table with a user-provided JSON object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newAliasMap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The alias map as a JSON object </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/alias_map.h" line="53" column="12"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classSpiceQL_1_1AliasMap_1a2791605f42be3a9cf5f0e5c7f79509c2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SpiceQL::AliasMap::AliasMap</definition>
+        <argsstring>()=default</argsstring>
+        <name>AliasMap</name>
+        <qualifiedname>SpiceQL::AliasMap::AliasMap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/alias_map.h" line="56" column="7"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1AliasMap_1aacbc7c48c36b4744fc2e2500e0ee5586" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SpiceQL::AliasMap::ensure_init</definition>
+        <argsstring>()</argsstring>
+        <name>ensure_init</name>
+        <qualifiedname>SpiceQL::AliasMap::ensure_init</qualifiedname>
+        <briefdescription>
+<para>Checks initialization status and loads default aliases if necessary. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/alias_map.h" line="61" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1AliasMap_1a367d14ab841ddd3122c095d4f2ee319a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SpiceQL::AliasMap::load_internal</definition>
+        <argsstring>(std::string path)</argsstring>
+        <name>load_internal</name>
+        <qualifiedname>SpiceQL::AliasMap::load_internal</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Internal logic for parsing JSON and populating the lookup table without locking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the JSON file to load </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/alias_map.h" line="68" column="12"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/alias_map.h" line="9" column="3" bodyfile="SpiceQL/include/SpiceQL/alias_map.h" bodystart="9" bodyend="74"/>
+    <listofallmembers>
+      <member refid="classSpiceQL_1_1AliasMap_1ae54c61336d5d30b72bf7a5a674903c14" prot="public" virt="non-virtual"><scope>SpiceQL::AliasMap</scope><name>addAliasKey</name></member>
+      <member refid="classSpiceQL_1_1AliasMap_1a2791605f42be3a9cf5f0e5c7f79509c2" prot="private" virt="non-virtual"><scope>SpiceQL::AliasMap</scope><name>AliasMap</name></member>
+      <member refid="classSpiceQL_1_1AliasMap_1aacbc7c48c36b4744fc2e2500e0ee5586" prot="private" virt="non-virtual"><scope>SpiceQL::AliasMap</scope><name>ensure_init</name></member>
+      <member refid="classSpiceQL_1_1AliasMap_1ac833b2c65dc6d6b0cf17baa19f1e7433" prot="public" virt="non-virtual"><scope>SpiceQL::AliasMap</scope><name>getAliasMap</name></member>
+      <member refid="classSpiceQL_1_1AliasMap_1aa8b3dd77990039b9d5158a9bd9db0782" prot="public" virt="non-virtual"><scope>SpiceQL::AliasMap</scope><name>getSpiceqlName</name></member>
+      <member refid="classSpiceQL_1_1AliasMap_1ae802f5d364acd94a48740d110796740c" prot="public" virt="non-virtual"><scope>SpiceQL::AliasMap</scope><name>instance</name></member>
+      <member refid="classSpiceQL_1_1AliasMap_1a4f68b47b43324a338bddcac36e28c27f" prot="public" virt="non-virtual"><scope>SpiceQL::AliasMap</scope><name>load</name></member>
+      <member refid="classSpiceQL_1_1AliasMap_1a367d14ab841ddd3122c095d4f2ee319a" prot="private" virt="non-virtual"><scope>SpiceQL::AliasMap</scope><name>load_internal</name></member>
+      <member refid="classSpiceQL_1_1AliasMap_1a7212c262ec596df3eca0c75faabba416" prot="private" virt="non-virtual"><scope>SpiceQL::AliasMap</scope><name>m_initialized</name></member>
+      <member refid="classSpiceQL_1_1AliasMap_1a61394cf60bf6f92d9fed768c7ed01fd1" prot="private" virt="non-virtual"><scope>SpiceQL::AliasMap</scope><name>m_lookupTable</name></member>
+      <member refid="classSpiceQL_1_1AliasMap_1aaaa3ad95d9ed7cad5443b7975397edcc" prot="private" virt="non-virtual"><scope>SpiceQL::AliasMap</scope><name>m_mutex</name></member>
+      <member refid="classSpiceQL_1_1AliasMap_1a06da504592d32641bbc2261a92265548" prot="public" virt="non-virtual"><scope>SpiceQL::AliasMap</scope><name>setAliasMap</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

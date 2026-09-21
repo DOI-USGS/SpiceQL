@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classSpiceQL_1_1Memo_1_1Memory" kind="class" language="C++" prot="public">
+    <compoundname>SpiceQL::Memo::Memory</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classSpiceQL_1_1Memo_1_1Memory_1afe988d901e3ad544fdc298c32a8c7a86" prot="public" static="no" mutable="yes">
+        <type>std::map&lt; std::size_t, std::any &gt;</type>
+        <definition>std::map&lt;std::size_t, std::any&gt; SpiceQL::Memo::Memory::m_data</definition>
+        <argsstring></argsstring>
+        <name>m_data</name>
+        <qualifiedname>SpiceQL::Memo::Memory::m_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/memo.h" line="204" column="26" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classSpiceQL_1_1Memo_1_1Memory_1a01ddfe8808605ad8dd1eb4930284ccb8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Params</declname>
+            <defname>Params</defname>
+          </param>
+        </templateparamlist>
+        <type>decltype(f(params...)) const</type>
+        <definition>decltype(f(params...)) const SpiceQL::Memo::Memory::operator()</definition>
+        <argsstring>(const Func &amp;f, Params &amp;&amp;... params)</argsstring>
+        <name>operator()</name>
+        <qualifiedname>SpiceQL::Memo::Memory::operator()</qualifiedname>
+        <param>
+          <type>const Func &amp;</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>Params &amp;&amp;...</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/memo.h" line="207" column="18" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="207" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Memo_1_1Memory_1a82d929b2e3684a944e97ad769784d729" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Params</declname>
+            <defname>Params</defname>
+          </param>
+        </templateparamlist>
+        <type>decltype(f(params...)) const</type>
+        <definition>decltype(f(params...)) const SpiceQL::Memo::Memory::operator()</definition>
+        <argsstring>(std::string descr, const Func &amp;f, Params &amp;&amp;... params)</argsstring>
+        <name>operator()</name>
+        <qualifiedname>SpiceQL::Memo::Memory::operator()</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>descr</declname>
+        </param>
+        <param>
+          <type>const Func &amp;</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>Params &amp;&amp;...</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/memo.h" line="211" column="18" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="211" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Memo_1_1Memory_1af4e1c9f7da585b71ccf7bc3e54e8c111" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Params</declname>
+            <defname>Params</defname>
+          </param>
+        </templateparamlist>
+        <type>decltype(f(params...)) const</type>
+        <definition>decltype(f(params...)) const SpiceQL::Memo::Memory::operator()</definition>
+        <argsstring>(const std::string &amp;descr, std::size_t seed, const Func &amp;f, Params &amp;&amp;... params)</argsstring>
+        <name>operator()</name>
+        <qualifiedname>SpiceQL::Memo::Memory::operator()</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>descr</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>seed</declname>
+        </param>
+        <param>
+          <type>const Func &amp;</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>Params &amp;&amp;...</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/memo.h" line="217" column="18" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="217" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Memo_1_1Memory_1aef155ae1f75d30d7da6b53b9416361ec" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Params</declname>
+            <defname>Params</defname>
+          </param>
+        </templateparamlist>
+        <type>decltype(f(params...)) const</type>
+        <definition>decltype(f(params...)) const SpiceQL::Memo::Memory::operator()</definition>
+        <argsstring>(std::size_t seed, const Func &amp;f, Params &amp;&amp;... params)</argsstring>
+        <name>operator()</name>
+        <qualifiedname>SpiceQL::Memo::Memory::operator()</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>seed</declname>
+        </param>
+        <param>
+          <type>const Func &amp;</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>Params &amp;&amp;...</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/memo.h" line="222" column="18" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="222" bodyend="233"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/memo.h" line="202" column="5" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="202" bodyend="234"/>
+    <listofallmembers>
+      <member refid="classSpiceQL_1_1Memo_1_1Memory_1afe988d901e3ad544fdc298c32a8c7a86" prot="public" virt="non-virtual"><scope>SpiceQL::Memo::Memory</scope><name>m_data</name></member>
+      <member refid="classSpiceQL_1_1Memo_1_1Memory_1a01ddfe8808605ad8dd1eb4930284ccb8" prot="public" virt="non-virtual"><scope>SpiceQL::Memo::Memory</scope><name>operator()</name></member>
+      <member refid="classSpiceQL_1_1Memo_1_1Memory_1a82d929b2e3684a944e97ad769784d729" prot="public" virt="non-virtual"><scope>SpiceQL::Memo::Memory</scope><name>operator()</name></member>
+      <member refid="classSpiceQL_1_1Memo_1_1Memory_1af4e1c9f7da585b71ccf7bc3e54e8c111" prot="public" virt="non-virtual"><scope>SpiceQL::Memo::Memory</scope><name>operator()</name></member>
+      <member refid="classSpiceQL_1_1Memo_1_1Memory_1aef155ae1f75d30d7da6b53b9416361ec" prot="public" virt="non-virtual"><scope>SpiceQL::Memo::Memory</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

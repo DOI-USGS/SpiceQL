@@ -1,0 +1,2393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mars — SpiceQL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" href="ephemeris-cache.msgpack" as="fetch" crossorigin>
+
+  <!--
+    The hero chrome is sized in rem to match StarDS, whose type scales with
+    Material's root font-size (125% → 137.5% above 100em). A media query here
+    would resolve against the IFRAME's width, not the viewport's, so the
+    breakpoint would land at the wrong place; inherit the real value from the
+    embedding page instead. Runs before body paint, so nothing reflows.
+  -->
+  <script>
+    try {
+      const fs = parent.getComputedStyle(parent.document.documentElement).fontSize;
+      if (fs) document.documentElement.style.fontSize = fs;
+    } catch (e) { /* not embedded, or cross-origin: the CSS default stands */ }
+  </script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* Material's base root size; overridden above to the host page's actual one */
+    html { font-size: 125%; }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background: #1e1e1e;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, system-ui, Helvetica, Arial, sans-serif;
+    }
+
+    #banner {
+      position: relative;
+      width: 100%; height: 100%;
+    }
+
+    #mars-canvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: block;
+    }
+
+    /* ── Left text overlay ──
+       Padding matches the StarDS hero's (3.5rem top / 3.75rem bottom /
+       1.5rem side), which is what leaves room for the caption strip along
+       the bottom.
+
+       ┌─ TITLE SIZE: where to change it ──────────────────────────────────────┐
+       │ The three big words are sized by two custom properties, and every     │
+       │ layout sets --title-vw to its own number. To make the title bigger or │
+       │ smaller, change the one belonging to the layout you are looking at —   │
+       │ they are all named --title-vw and all live in a rule right below here: │
+       │                                                                       │
+       │   --title-size  96px    hard cap, banded hero only (the StarDS match). │
+       │                         Raise it and the banded title can grow past    │
+       │                         96px; the two full-screen layouts ignore it.   │
+       │   --title-vw    8.6vw   banded hero, landscape        (this rule)      │
+       │                28vw     banded hero, portrait/phone   (the 17/20 rule) │
+       │                18vw     FULL SCREEN, landscape        (the 45em rule)  │
+       │                34vw     FULL SCREEN, portrait         (the last rule)  │
+       │                                                                       │
+       │ Each is a percentage of the frame WIDTH, and in every case it is the   │
+       │ ceiling on the longest word, LIBRARY, which is 2.665x the font size    │
+       │ and set nowrap: push --title-vw past ~37vw (less the side padding) and │
+       │ it runs off the edge. The full-screen rules pair it with a 100vh term  │
+       │ that wins on short frames, so raising vw alone cannot overflow the     │
+       │ height — see each rule's comment for that half.                       │
+       └───────────────────────────────────────────────────────────────────────┘ */
+    #text-overlay {
+      --title-size: 96px;
+      --title-vw: 8.6vw;
+      position: absolute;
+      top: 0; left: 0;
+      width: 48%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 3.5rem 1rem 3.75rem 1.5rem;
+      pointer-events: none;
+      z-index: 20;                     /* chrome tier: above the CRT glass (16) */
+    }
+
+    #text-overlay::before {
+      content: '';
+      position: absolute;
+      top: 8%; left: 0;
+      width: 4px;
+      height: 84%;
+      background: #E84826;
+      border-radius: 0 2px 2px 0;
+    }
+
+    /* Agency eyebrow — the pill StarDS uses, same metrics */
+    #text-overlay .eyebrow {
+      display: inline-block;
+      margin-bottom: 1rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.18);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      line-height: 1.6;
+      text-transform: uppercase;
+      white-space: nowrap;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    }
+
+    #text-overlay .eyebrow .eb-short { display: none; }
+
+    #text-overlay .word {
+      display: block;
+      font-family: 'Bebas Neue', 'Impact', 'Arial Black', sans-serif;
+      font-weight: 400;
+      color: #FFFFFF;
+      line-height: 0.78;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      /* Held below --title-size so the eyebrow and buttons fit the same box */
+      font-size: clamp(30px, var(--title-vw), var(--title-size));
+      text-shadow:
+        0 2px 24px rgba(0,0,0,0.8),
+        0 0 60px rgba(0,0,0,0.5);
+    }
+
+    /* ── Call-to-action buttons (Material .md-button metrics) ── */
+    #text-overlay .cta { display: flex; flex-wrap: wrap; }
+
+    #text-overlay .btn {
+      pointer-events: auto;                /* the overlay itself is inert */
+      display: inline-block;
+      margin: 1.2rem 0.6rem 0 0;
+      padding: 0.625em 2em;
+      border: 0.1rem solid rgba(255,255,255,0.85);
+      border-radius: 2px;
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.6;
+      white-space: nowrap;                 /* never break "Get started" in two */
+      text-decoration: none;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    #text-overlay .btn:hover,
+    #text-overlay .btn:focus-visible {
+      background: rgba(255,255,255,0.16);
+      border-color: #fff;
+    }
+
+    /* StarDS fills its primary with white and inks it in the site's own
+       colour; here that colour is the library's red-orange. */
+    #text-overlay .btn--primary {
+      background: #fff;
+      border-color: #fff;
+      color: #E84826;
+    }
+
+    #text-overlay .btn--primary:hover,
+    #text-overlay .btn--primary:focus-visible {
+      background: #FFF1EE;
+      color: #C93A1D;
+    }
+
+    /* ── Provenance caption (bottom-left, in the padding strip) ── */
+    #caption {
+      position: absolute;
+      left: 1.5rem;                        /* aligns with the title column */
+      bottom: 0.85rem;
+      z-index: 20;                         /* chrome tier, above the CRT glass */
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      max-width: 26rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      line-height: 1.4;
+      color: rgba(255,255,255,0.6);
+      pointer-events: none;
+      user-select: none;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+    }
+
+    /* Only true while the API answered, so it is revealed with the green dot */
+    #caption .live-only { display: none; color: rgba(255,255,255,0.45); }
+    #banner.is-live #caption .live-only { display: block; }
+
+    /* ── Labels that track their body ── */
+    #labels {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 15;
+    }
+
+    .sc-label {
+      position: absolute;
+      top: 0; left: 0;
+      font-family: 'Roboto Mono', 'Courier New', monospace;
+      font-size: 9px;
+      line-height: 1.35;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      /* nudge clear of the dot; will-change keeps the per-frame transform cheap */
+      margin: -7px 0 0 9px;
+      will-change: transform;
+      /* The readouts' half of the bloom. They are DOM, so the shader pass cannot
+         reach them; a halo in the glyph's own colour is the same effect by the only
+         means available, and currentColor means each line glows as what it is —
+         the craft's colour on the name, dim white on the numbers. It is listed
+         first so it paints nearest the text, leaving the two dark shadows to do
+         their separating job further out; reversed, the 0.95 black would swallow
+         it. Both halves come from BLOOM.glow via applyBloom(), the colour because
+         a zero radius is not an off switch — see there. The fallbacks matter for
+         the same reason the properties are two: an unset custom property would
+         otherwise invalidate the whole declaration and take the dark halo with it. */
+      text-shadow: 0 0 var(--bloom-glow, 0) var(--bloom-glow-color, transparent),
+                   0 1px 4px rgba(0,0,0,0.95), 0 0 8px rgba(0,0,0,0.7);
+    }
+
+    .sc-label .nm {
+      display: block;
+      font-weight: 700;
+      opacity: 0.92;
+    }
+
+    /* .rd is a second readout line, for the one label with four things to say.
+       It is empty on every other, and an empty block box has no line and so no
+       height — it costs them nothing. */
+    .sc-label .st,
+    .sc-label .rd {
+      display: block;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* Epoch line sits quietest of the three — it is reference, not readout */
+    .sc-label .ut {
+      display: block;
+      font-size: 8px;
+      color: rgba(255,255,255,0.30);
+    }
+
+    .pl-label { margin: -6px 0 0 8px; }
+    .pl-label .nm { font-size: 8px; letter-spacing: 0.10em; opacity: 0.75; }
+
+    /* ── Mars' label, close in ──
+       Pulled back Mars is one tag among eight and uses the rules above. Close in
+       it is the subject of the frame, so the same element moves onto the globe's
+       centre and opens up to four lines. The centring itself is the one part that
+       cannot live here: the offset is half the box, a number only the measured
+       text knows, so the script writes it as an inline margin — see centerLabel().
+       The name comes back up to the spacecraft labels' weight, no longer tagging
+       a 3 px dot. */
+    .sc-label.centered {
+      text-align: center;
+      /* Deeper halo than the shared one, because this is the only label that sits
+         on the graticule instead of on empty sky: at the globe's centre every line
+         of it crosses lit wireframe. */
+      text-shadow: 0 0 var(--bloom-glow, 0) var(--bloom-glow-color, transparent),
+                   0 1px 4px rgba(0,0,0,0.95), 0 0 6px rgba(0,0,0,0.95),
+                   0 0 12px rgba(0,0,0,0.85);
+    }
+    .sc-label.centered .nm { font-size: 9px; opacity: 0.92; }
+    /* Here the epoch is a reading rather than a footnote, so it comes up to the
+       other lines instead of staying at the 0.30 the distant tags use. */
+    .sc-label.centered .ut { color: rgba(255,255,255,0.45); }
+
+    /* ── Zoom slider (right edge) ──
+       The StarDS treatment: a bare vertical range, nearly invisible at rest so
+       it never competes with the globe, opaque once the hero is hovered. */
+    #zoom-wrap {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 150px; width: 26px;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 20;
+      opacity: 0.28;
+      transition: opacity 0.2s ease;
+    }
+
+    #banner:hover #zoom-wrap,
+    #zoom-wrap:focus-within { opacity: 1; }
+
+    /* The one affordance on a bare track: a small glass at the TOP end, which is
+       where the minimum camera distance lives and so the zoomed-in end. It is
+       absolutely positioned rather than a flex sibling because the input's layout
+       box is its pre-rotation 150px width, and adding an item to the row would
+       shift the track off centre. Opacity is inherited from #zoom-wrap, so it
+       fades up with the slider instead of advertising itself over the globe. */
+    #zoom-wrap .zoom-icon {
+      position: absolute;
+      top: -17px; left: 50%;
+      transform: translateX(-50%);
+      width: 13px; height: 13px;
+      color: rgba(255,255,255,0.7);
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.6));   /* legible over the globe */
+      pointer-events: none;                             /* never steals the drag */
+    }
+
+    #zoom-wrap input[type=range] {
+      -webkit-appearance: none; appearance: none;
+      width: 150px;              /* becomes the vertical travel after rotating */
+      height: 2px;
+      /* +90deg where StarDS uses -90: this value is camera DISTANCE, so the
+         minimum belongs at the top for dragging up to mean zooming in. */
+      transform: rotate(90deg);
+      background: rgba(255,255,255,0.25);
+      border-radius: 2px;
+      outline: none;
+      cursor: ns-resize;
+    }
+
+    #zoom-wrap input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 12px; height: 12px;
+      border: none; border-radius: 50%;
+      background: rgba(255,255,255,0.75);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+
+    #zoom-wrap input[type=range]::-moz-range-thumb {
+      width: 12px; height: 12px;
+      border: none; border-radius: 50%;
+      background: rgba(255,255,255,0.75);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+
+    #zoom-wrap input[type=range]::-moz-range-track {
+      height: 2px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 2px;
+    }
+
+    /* ── Data-source status dot (top-left) ── */
+    #status {
+      position: absolute;
+      top: 14px; left: 14px;
+      z-index: 20;
+      display: flex; align-items: center; gap: 6px;
+      font-family: 'Roboto Mono', 'Courier New', monospace;
+      font-size: 8px;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.30);
+      cursor: default;
+    }
+
+    #status .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.30);
+      box-shadow: 0 0 6px rgba(255,255,255,0.22);
+      transition: background 0.6s, box-shadow 0.6s;
+    }
+
+    #status.probing .dot { animation: statusPulse 1.4s ease-in-out infinite; }
+
+    #status.live .dot {
+      background: #3FD97F;
+      box-shadow: 0 0 7px rgba(63,217,127,0.85), 0 0 15px rgba(63,217,127,0.35);
+    }
+
+    /* Fallback uses the library's own red-orange */
+    #status.cache .dot {
+      background: #E84826;
+      box-shadow: 0 0 7px rgba(232,72,38,0.85), 0 0 15px rgba(232,72,38,0.35);
+    }
+
+    /* The dot alone is the ambient signal; wording appears only on hover */
+    #status .txt { opacity: 0; transition: opacity 0.35s; }
+    #status:hover .txt { opacity: 1; }
+
+    @keyframes statusPulse { 0%, 100% { opacity: 0.25 } 50% { opacity: 0.95 } }
+
+    /* ── CRT overlay ──
+       The half of the CRT treatment that cannot live in the shader: these three
+       are a flat multiply over the image, which is exactly what stacked black
+       gradients do, while the RGB split and grain have to resample it and so stay
+       in the shader. Every number comes from the CRT group in the script, which
+       writes them in as custom properties — nothing is duplicated here.
+
+       The whole treatment is glass laid over the visualization: the render and
+       the tracking readouts, which are DOM but belong to the scene, both sit
+       under it. Everything in the chrome tier — title, buttons, eyebrow, caption,
+       status dot, zoom slider — sits above it and so stays untouched. That is the
+       only thing separating the two groups, so the three layers have to stay in
+       this order: readouts 15, this 16, chrome 20. */
+    #crt {
+      position: absolute;
+      inset: 0;
+      z-index: 16;                     /* over the readouts (15), under chrome (20) */
+      pointer-events: none;
+      background:
+        /* dark row first, then the gap, so height is one light+dark pair */
+        repeating-linear-gradient(
+          to bottom,
+          rgba(0,0,0,var(--crt-scanline-opacity)) 0 1px,
+          transparent 1px var(--crt-scanline-height)),
+        /* clear well past halfway, so it only ever touches the corners */
+        radial-gradient(
+          ellipse at center,
+          transparent 45%,
+          rgba(0,0,0,var(--crt-vignette)) 100%);
+    }
+
+    /* Mains hum: a black veil breathing over the render. Separate from the
+       gradients above because it is the only part that animates. */
+    #crt::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #000;
+      opacity: 0;
+      animation: crtFlicker var(--crt-flicker-period) ease-in-out infinite;
+    }
+
+    @keyframes crtFlicker {
+      0%, 100% { opacity: 0 }
+      50%      { opacity: var(--crt-flicker-depth) }
+    }
+
+    /* A pulsing screen is exactly what this setting is asking us not to do */
+    @media (prefers-reduced-motion: reduce) {
+      #crt::after { animation: none; }
+    }
+
+    /* Between a phone and a full desktop the column is too narrow to seat both
+       buttons on one row, so they stacked — and around 1000px of frame that was
+       enough to push "API reference" down onto the provenance caption. Trimming
+       the horizontal padding buys the row back. Ahead of the narrower queries
+       below, which override it at equal specificity. */
+    @media screen and (max-width: 72em) {
+      #text-overlay .btn { margin-right: 0.5rem; padding: 0.625em 1.4em; }
+    }
+
+    /* Narrow frames: the eyebrow is a nowrap pill and the buttons are wide, so
+       both need trimming before they reach the edge. Mirrors the equivalent
+       breakpoint in StarDS. (em here is the 16px initial size, not the root
+       override, so this is ~719px of iframe width.) */
+    @media screen and (max-width: 44.9em) {
+      #text-overlay { width: 62%; padding: 2rem 0.75rem 3rem 1rem; }
+      #text-overlay .eyebrow { font-size: 0.56rem; letter-spacing: 0.10em; }
+      #text-overlay .btn { font-size: 0.85rem; padding: 0.55em 1.3em; }
+      /* Bounded on both sides here: it wraps to two lines at this width and
+         would otherwise run to the very edge of the frame. */
+      #caption { left: 1rem; right: 1rem; font-size: 0.6rem; }
+      #zoom-wrap { display: none; }
+    }
+
+    /* ── Phone-shaped frames ──
+       The hero box is a fixed 26.3rem tall, so a narrow frame is a portrait one,
+       and at this width the side-by-side column stops working: it squeezed the
+       title down to its 30px clamp floor while the spelled-out agency pill ran
+       clean off the right edge. So the overlay takes the whole width, the pill
+       drops to its initialism, SPICE and QUERY share a line, and the buttons
+       shrink to a single row — and all of the width that frees up goes to the
+       title, which is the one thing that has to read at arm's length.
+       (em is the 16px initial size, not the root override, so ~480px of frame.)
+
+       Two triggers, because width alone misses the case this layout was written
+       for. The banded hero is a fixed 26.3rem tall, so there a narrow frame IS a
+       portrait one and 480px is the whole test. The full-screen hero is as tall as
+       the viewport, and a browser window reshaped to a phone's proportions rarely
+       gets under 480px wide — most desktop browsers will not let it — so it stayed
+       on the landscape layout at 600x850 while the camera, which keys off aspect,
+       had already gone portrait. The second branch closes that gap: a frame past
+       the fold (40rem) and at most 0.85 wide per unit tall is a portrait frame at
+       any width. 17/20 is that 0.85, which is where portraitness() in the script
+       already calls a frame fully portrait, and the middle of the domeness() ramp
+       beside it — so the type, the camera distance and the globe's seat all change
+       over together. A lower threshold left a band of tall-ish windows between
+       481px and 45em on the landscape layout, where the title falls to its 8.6vw
+       size: 60px on a 700x950 window, against 238px here. */
+    @media screen and (max-width: 30em),
+           screen and (min-height: 40rem) and (max-aspect-ratio: 17/20) {
+      #text-overlay {
+        --title-vw: 28vw;          /* see the knob box at the top of the sheet */
+        width: 100%;
+        /* Text stacks above the globe rather than beside it, so it starts at the
+           top; updateCameraTarget() seats the globe low to meet it. */
+        justify-content: flex-start;
+        padding: 1.4rem 1rem 2.6rem 1.1rem;
+      }
+
+      #text-overlay .eyebrow {
+        margin-bottom: 0.5rem;
+        padding: 0.25rem 0.6rem;
+        font-size: 0.52rem;
+        letter-spacing: 0.1em;
+      }
+      #text-overlay .eyebrow .eb-long  { display: none; }
+      #text-overlay .eyebrow .eb-short { display: inline; }
+
+      /* Driven by the frame width, not the base rule's 8.6vw, which was tuned
+         against the desktop cap and left the title at its 30px clamp floor here.
+         28vw keeps the longest word, LIBRARY, at ~90% of the available width at
+         every phone size; three lines of it still clear the buttons easily now
+         that the overlay has the full width. Capped at the desktop size. */
+      #text-overlay .word { font-size: min(var(--title-vw), var(--title-size)); }
+
+      #text-overlay .cta { flex-wrap: nowrap; }
+      #text-overlay .btn {
+        margin: 0.85rem 0.35rem 0 0;
+        padding: 0.5em 1em;
+        border-width: 0.075rem;
+        font-size: 0.62rem;
+      }
+
+      /* Five readouts in a frame this narrow is a lot of ink; they are not
+         decluttered, by design, so the only lever is to make them quieter. */
+      .sc-label { font-size: 7.5px; margin-top: -6px; }
+      .sc-label .ut { font-size: 6.5px; }
+    }
+
+    /* ── Tall frames: the full-screen hero ──
+       Orthogonal to the width queries above rather than another step in that
+       ladder — min-width 45em cannot co-match any of them, so source order does
+       not matter here. It fires when the host page turns on .sq-hero--full (see
+       extra.css), which roughly doubles the frame height: the banded hero is
+       26.3rem, 526px at Material's 125% root and 578px at 137.5%, and both sit
+       under this 640px threshold, while every full-screen frame clears it.
+
+       The 96px cap is a StarDS match, and it has nothing to say about a frame
+       this tall — held to it, the title floats in the middle of a mostly empty
+       column. So the size is solved from the box instead, as the smaller of what
+       the height allows and what the column allows:
+
+         height: three lines at line-height 0.78 measure exactly 2.34x the font
+           size, and the fixed chrome around them — 3.5rem + 3.75rem of padding,
+           the eyebrow with its margin, the buttons with theirs — measures
+           15.5rem. What is left over, divided by 2.34, is the size that lands
+           the block flush against both padding edges.
+         width: LIBRARY, the longest word, measures 2.665x the font size and must
+           fit the column's 48vw less its 2.5rem of side padding. That works out
+           to 18vw, less a rem to keep a hair of slack, since the word is set
+           nowrap and would otherwise run under the globe.
+
+       Both terms scale with the frame, so the composition holds at any size —
+       there is deliberately no cap. Which term wins depends on the aspect: a
+       16:9 screen is height-bound and fills; a narrow, tall frame is width-bound
+       and will still leave some height over, because the only way to spend it
+       would be to widen the 48% column. */
+    @media screen and (min-width: 45em) and (min-height: 40rem) {
+      #text-overlay { --title-vw: 18vw; }
+      #text-overlay .word {
+        font-size: min(calc((100vh - 15.5rem) / 2.34), calc(var(--title-vw) - 1rem));
+      }
+    }
+
+    /* ── Tall phone frames: the full-screen hero, portrait ──
+       The portrait rule above, restricted to frames past the fold — so it is the
+       full-screen hero in portrait and never the banded one, whose 26.3rem box
+       cannot clear 40rem. Same two branches as above for the same reason: narrow,
+       or merely tall for its width. Only this layout changes; the full-screen
+       DESKTOP frame keeps the banded composition and only resizes (see the 45em
+       rule above, which cannot co-match the width branch here — and where the two
+       DO overlap, a wide-but-very-tall frame, this one is later and wins).
+
+       The composition is diagonal: the title at the TOP LEFT, reading as normal,
+       and the buttons alone at the BOTTOM RIGHT, which on a phone held in one hand
+       is the corner the thumb actually reaches. Between them is the globe — the
+       dome's centre is sunk off the bottom of the frame (domeness() in the script),
+       so what fills the lower half is the limb curving away, and the buttons sit on
+       it rather than on the middle of the planet. The provenance caption keeps the
+       bottom LEFT corner, so the two no longer share a line.
+
+       Width is the binding constraint on the size, not height: LIBRARY is set
+       nowrap at 2.665x the font size, so the frame less the side padding is the
+       whole budget. 34vw against 1.2rem of total padding leaves ~13px of slack at
+       390px wide, which is as large as the longest word goes without breaking —
+       hence the reduced padding here, which is what buys the last 2vw. Vertical
+       space is then taken by the leading instead; see line-height below. The height
+       term is only a guard for a narrow frame that is short despite clearing the
+       fold test: 9rem is the measured chrome, 5.2rem of padding plus the eyebrow and
+       the buttons with their margins, and 2.76 is the opened-up block. */
+    @media screen and (max-width: 30em) and (min-height: 40rem),
+           screen and (max-aspect-ratio: 17/20) and (min-height: 40rem) {
+      #text-overlay {
+        --title-vw: 28vw;          /* see the knob box at the top of the sheet */
+        /* Top-aligned and left-ragged — the portrait rule above already sets both,
+           and they are restated here because this rule is read as the layout and
+           because a previous version of it did the opposite. The buttons get to the
+           other corner on their own; see .cta below. */
+        justify-content: flex-start;
+        align-items: flex-start;
+        text-align: left;
+        /* Bottom clears the provenance caption, which is still bottom-LEFT and
+           two lines tall here: at the 2.6rem the shorter frames use, the buttons
+           land 1.4px above it. Sides are trimmed to 0.6rem to spend the width on
+           the type — see above; nothing in this layout needs the gutter, since the
+           red accent bar is a 4px overlay rather than something text sits beside. */
+        padding: 2rem 0.6rem 3.2rem;
+      }
+      #text-overlay .word {
+        font-size: min(var(--title-vw), calc((100vh - 9rem) / 2.76));
+        /* The other half of "bigger". The font size is pinned by the width — the
+           longest word is already within ~13px of the side padding — so the only
+           vertical space left to take is between the lines, and opening 0.78 to
+           0.92 turns three lines from 2.34x the font size into 2.76x. It also
+           reads better here than on the banded hero, where the tight stack is
+           doing the work of filling a short box. */
+        line-height: 0.92;
+      }
+      /* The buttons leave the type's corner for the opposite one, which takes two
+         properties doing two different jobs:
+           margin-top: auto  — the only free space in a flex column is wherever an
+             auto margin is, so this drops the row to the bottom without giving the
+             three words a stretch each, which justify-content: space-between would.
+           align-self       — the per-child override of the container's align-items,
+             so the row alone packs right while the title stays left. justify-content
+             would not do it: that moves the buttons INSIDE a box already shrink-
+             wrapped around them over on the left.
+         The margins flip to the left side so the last button lands flush on the
+         same 0.6rem of padding the type is set against, rather than 0.35rem short. */
+      #text-overlay .cta {
+        margin-top: auto;
+        align-self: flex-end;
+      }
+      #text-overlay .btn { margin: 0.85rem 0 0 0.35rem; }
+
+      /* Bigger than the portrait rule's 0.62rem: this is the full-screen hero, the
+         buttons are the only thing on screen to press, and there is width for it —
+         measured, the pair comes to 309px of a 390px frame, leaving 57px before the
+         row would have to wrap, and each button 49.6px tall against 34px. Scaled by
+         font-size, so the border and the padding, which are in em, come up too. */
+      #text-overlay .btn {
+        font-size: 0.85rem;
+        padding: 0.6em 1.35em;
+        border-width: 0.09rem;
+      }
+    }
+  </style>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div id="banner">
+    <canvas id="mars-canvas"></canvas>
+
+    <!-- Glass over the visualization. Which elements it covers is decided purely
+         by z-index, not by where it sits here: the scene and its readouts are
+         below it, the chrome above. -->
+    <div id="crt" aria-hidden="true"></div>
+
+    <div id="text-overlay">
+      <!-- The pill is nowrap, and spelled out it is wider than a phone frame, so
+           it carries both forms and the breakpoint picks one -->
+      <span class="eyebrow"><span class="eb-long">U.S. Geological Survey</span><span
+        class="eb-short">USGS</span> &middot; Astrogeology</span>
+
+      <h1 class="title">
+        <span class="word">SPICE</span>
+        <span class="word">QUERY</span>
+        <span class="word">LIBRARY</span>
+      </h1>
+
+      <!-- target="_top" so the links drive the host page, not this frame -->
+      <p class="cta">
+        <a class="btn btn--primary" href="../#getting-started" target="_top">Get started</a>
+        <a class="btn" href="../SpiceQLCPPAPI/namespaces/" target="_top">API reference</a>
+      </p>
+    </div>
+
+    <div id="labels"></div>
+
+    <div id="status" class="probing" title="Contacting the SpiceQL API…">
+      <span class="dot"></span><span class="txt">SpiceQL</span>
+    </div>
+
+    <div id="caption">
+      <span>Orbits derived from real NAIF SPICE kernel data obtained via SpiceQL.</span>
+      <span class="live-only">Rendered in real time from the SpiceQL REST API.</span>
+    </div>
+
+    <div id="zoom-wrap">
+      <!-- Decorative: the input already carries the accessible name, so this is
+           hidden from assistive tech rather than read out a second time. -->
+      <svg class="zoom-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="6.75" cy="6.75" r="4.25" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M10 10 L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <!-- max comes from ZOOM_MAX: the radial compression is solved against it -->
+      <input type="range" id="zoom" min="1.5" step="0.1"
+             aria-label="Camera distance from Mars">
+    </div>
+  </div>
+
+  <script type="module">
+    import * as THREE from 'three';
+
+    // ═══════════════════════════════════════════════════════════
+    // Constants
+    // ═══════════════════════════════════════════════════════════
+
+    const SPICEQL   = 'https://astrogeology.usgs.gov/apis/spiceql/latest';
+    const CACHE_URL = 'ephemeris-cache.msgpack';
+
+    // ── Hero tunables ──────────────────────────────────────────
+    // Graticule density, and where the camera rests. CAMERA_DIST is in Mars
+    // equatorial radii and also seeds the zoom slider, so this is the single
+    // place the opening framing is set.
+    const LNG_SEGMENTS = 24;    // meridians
+    const LAT_SEGMENTS = 16;    // parallels
+    // Graticule line opacity. It doubles as the density knob's partner: the far
+    // side of the sphere is drawn too — nothing occludes a wireframe — so every
+    // crossing reads as roughly twice this, and lowering it is how you keep a
+    // high segment count from turning the limb into a solid mass. Raise it toward
+    // 1 and the globe hardens; it also drives what the bloom has to work with,
+    // since the bright pass thresholds on what this paints.
+    let GLOBE_OPACITY = 0.72;
+    const CAMERA_DIST  = 2.4;
+    const ZOOM_MAX     = 120;   // far end of the slider; LOG_K is solved against
+                                // it, so the two move together
+
+    const MARS_EQ_R = 3396.19;       // km — NAIF PCK pck00011
+    const MARS_PO_R = 3376.20;       // km
+    const SCALE     = 1 / MARS_EQ_R; // world units per km
+    const AU        = 1.495978707e8; // km
+
+    const TRAIL_LEN = 22;      // comet tail length, in buffer samples
+    const TRAIL_FALLOFF = 1.8; // >1 concentrates brightness near the head
+
+    // ── CRT filter tunables ────────────────────────────────────
+    // Ported from https://github.com/daenavan/crt-threejs (MIT). The one group to
+    // edit: applyCrt() pushes the top half into shader uniforms and the bottom
+    // half into CSS custom properties, so no value below is written down twice.
+    // It is also on `window`, so the whole thing can be dialled in live from the
+    // console — set a field, call applyCrt().
+    const CRT = {
+      // The master switch. False takes the whole treatment out rather than
+      // zeroing it: the overlay stops being painted and the shader pass stops
+      // running, so nothing below is read and nothing costs anything. Bloom is
+      // independent of it — see BLOOM.strength — and with both off the frame
+      // skips the offscreen target entirely and draws straight to the canvas.
+      enabled: false,
+
+      // ── shader, canvas only: these resample the rendered image ──
+      aberration: 0.002, // RGB split in UV units — red samples left, blue right
+      noise:      0.1,  // grain amplitude, re-randomised every frame
+      curvature:  0.0,    // barrel distortion. 0 is flat; the reference uses 0.4.
+                          // Note the DOM labels are positioned by projecting
+                          // world coordinates, so they do NOT follow a warp —
+                          // turning this up walks them off their dots.
+
+      // ── CSS, over the 3D render only: flat multiplies on top of the canvas ──
+      // None of these reach the chrome or the readouts, so they are free to be
+      // heavy — legibility of the text is no longer what caps them.
+      scanlineOpacity: 0.8,  // darkness of each dark row
+      scanlineHeight:  4,    // px per light+dark pair, at CSS pixel scale
+      vignette:        0.35, // corner darkening, clear of the middle 45%
+      flickerDepth:    0.0,// peak dimming of the mains-hum pulse
+      flickerPeriod:   100,    // seconds per pulse — slow enough to read as drift
+    };
+
+    // ── Bloom tunables ─────────────────────────────────────────
+    // Splits the same way the CRT group does, and for the same reason: a shader
+    // pass can only reach what is in the canvas, so the render blooms in the
+    // pipeline while the tracking readouts — DOM, under the same glass — bloom as
+    // a halo on the glyphs. applyBloom() is the only place this is read.
+    //
+    // It runs BEFORE the CRT filter, not after: the glow is folded into the image
+    // the CRT pass samples, so the split, the curvature and the grain all treat it
+    // as part of the picture. That is the order the thing being imitated works in
+    // — the phosphor spills, then the glass and the gun act on the spill too.
+    const BLOOM = {
+      // The master switch, matching CRT.enabled. False takes both halves out
+      // rather than zeroing them: the three extra passes stop running, the glyph
+      // halo stops being painted, and nothing below is read. Independent of the
+      // CRT flag — and with both off the frame skips the offscreen target
+      // entirely and draws straight to the canvas. See animate().
+      //
+      // Distinct from strength: 0, which also costs nothing on the canvas but
+      // leaves the readouts glowing. This is the one that means "no bloom".
+      enabled: true,
+
+      // ── shader, canvas only ──
+      // Thresholds are LINEAR luminance, which is a much lower number than the
+      // hex suggests: the wireframe red #e84826 is 0.22, and the #1e1e1e panel is
+      // 0.013. So the usable window is narrow and sits low — a sensible-looking
+      // 0.5 would bloom the Sun and nothing else, least of all the globe.
+      //
+      // These four were picked by measuring the failure mode rather than by eye:
+      // over a graticule-dense window, the 99th percentile of the light added
+      // should be worth seeing while the median stays at zero. Here that is +16
+      // and 0 — a halo on the lines with the black between them still black. At
+      // spread 3 the same threshold gives a median of +5 and lifts the empty
+      // corners of the panel by 6, which is haze, not glow.
+      threshold: 0.0011,
+      knee:      0.3,  // fade-in width above it, so a line core does not switch
+                        // on as a hard edge as it drifts through the threshold
+      strength:  0.85,  // how much of the blurred bright pass is added back
+      spread:    10,     // the blur runs at 1/spread resolution, so this is the
+                        // radius knob: the kernel is fixed and the divisor scales
+                        // it. It is also the cost knob, quadratically. Wide is the
+                        // wrong answer here — the graticule's gaps are 15-30 px, so
+                        // a halo reaching further than that stops being a glow on
+                        // the lines and becomes a haze between them.
+
+      // ── CSS, over the readouts only ──
+      glow:      2,     // px radius of the glyphs' own-colour halo
+    };
+
+    // Seconds past the cache's sync epoch to open on. The epoch the buffers were
+    // sampled at is not a framing decision — it is just where the kernels were
+    // read — and at t=0 it puts MRO and Odyssey at NDC -1.96 and -2.06, i.e. a
+    // full frame-height below the bottom edge, so two of the three craft load as
+    // dimmed labels pinned to the rim. Measured across the whole 21 h buffer,
+    // this is the instant where the worst of the three is closest to the middle:
+    // NDC (-0.24, -0.91), (0.11, -0.53), (0.53, 0.91) — all three inside, spread
+    // around the globe. 2023-06-01 11:26:48Z.
+    //
+    // It buys the opening frame and not much more, and that limit is the camera's
+    // rather than the clock's: at CAMERA_DIST 1.6 the frame is ±0.66 world units
+    // tall while Mars Express orbits at 3.1, so the three are co-visible for 0.15%
+    // of the buffer. This is that window — the only one, 114 s wide, which at 600x
+    // is a fifth of a second of wall clock. Widening it means pulling back:
+    // measured with the same scan, CAMERA_DIST 3.2 holds all three in frame 89% of
+    // the time and 3.6 holds them permanently, at the cost of a smaller globe.
+    // Re-measure this offset if the resting framing changes — it is solved against
+    // it, and against this cache's buffers.
+    const START_OFFSET_SEC = 41208;
+
+    // One clock for the whole scene. Every body — the globe's craft and all
+    // eight planets — is evaluated at the same simMs on every frame, so the UTC
+    // on any one label is the UTC on all of them. Positions are derived FROM
+    // that instant rather than accumulated per body, which is what makes the
+    // guarantee hold: nothing can drift out of step, and a live buffer swapping
+    // in mid-flight lands at the epoch it is already showing.
+    //
+    // The playhead is seeded from the cache's syncEpochUtc, the one epoch every
+    // bundled craft was sampled at, so the scene opens with all three already
+    // on the same instant. Set in loadCache().
+    let simMs = 0;
+
+    // Mission seconds per wall-clock second — one rate, everywhere, at every
+    // zoom. It is set for the spacecraft, which are the subject: MRO laps its
+    // 1.86 h orbit in eleven seconds, and each craft keeps its true speed
+    // relative to the others because they are all read from the same clock.
+    //
+    // The planets are slow at this rate, and deliberately left that way. A rate
+    // that made Neptune's 165 years watchable would spin MRO thousands of times
+    // a second, and the alternative — varying the rate with the framing — buys
+    // the outer system some motion at the cost of a clock whose speed depends on
+    // where the camera is. One constant is the honest version: the solar layer
+    // drifts, which is what a solar system does.
+    const TIME_RATE = 600;
+    const OBLIQUITY = 23.4392911; // deg, ECLIPJ2000 → J2000 equatorial
+
+    // True scale is impossible in one view: at 1 unit = 1 Mars radius Neptune
+    // lands 1.3 million units out. Directions come straight from SPICE; only
+    // the radius is compressed, logarithmically, so every orbit fits one frame.
+    // Wider than a tight fit on purpose — the inner four sit within a couple of
+    // AU of each other, so the whole system has to be stretched for them to
+    // separate on screen at all.
+    //
+    // LOG_K is the scale: it sets the layout against the frame's right edge at
+    // the far end of the zoom slider. Neptune at aphelion, with Mars at ITS
+    // aphelion on the far side (the view is Mars-centred, so that offset counts),
+    // sits 112.2 u out — and the hero box is 2.259 wide by 1 tall, so a 45° FOV
+    // at z = ZOOM_MAX puts the right edge at tan(22.5°)·120·2.259 = 112.3 u.
+    // Change ZOOM_MAX or the box aspect and this wants re-solving.
+    // LOG_C sets how much of that budget the inner system gets; it is what pries
+    // Mercury/Venus/Earth/Mars apart, so it is left alone when rescaling.
+    const LOG_K = 40.1, LOG_C = 0.31;   // Mercury → 14.1 u, Neptune → 79.9 u
+    const compressAu = rAu => LOG_K * Math.log10(1 + rAu / LOG_C);
+
+    // Equatorial radius (km) and polar/equatorial ratio from NAIF pck00011, the
+    // axial tilt the graticule and rings are drawn at (deg, from the orbit
+    // plane), and ring edges in body radii where there are rings worth drawing.
+    //   Saturn:  C-ring inner, B-ring outer, A-ring outer
+    //   Uranus:  ring 6 inner, epsilon ring
+    // Jupiter and Neptune have rings too, but they are faint strands that would
+    // only add noise at the size these bodies draw.
+    const PLANET_BODY = {
+      MERCURY: { r:  2439.7, flat: 0.99907, tilt:   0.03 },
+      VENUS:   { r:  6051.8, flat: 1.00000, tilt: 177.36 },
+      EARTH:   { r:  6378.14, flat: 0.99665, tilt:  23.44 },
+      MARS:    { r:  3396.19, flat: 0.99411, tilt:  25.19 },
+      JUPITER: { r: 71492.0, flat: 0.93513, tilt:   3.13 },
+      SATURN:  { r: 60268.0, flat: 0.90204, tilt:  26.73, rings: [1.24, 1.95, 2.27] },
+      URANUS:  { r: 25559.0, flat: 0.97707, tilt:  97.77, rings: [1.64, 2.00] },
+      NEPTUNE: { r: 24764.0, flat: 0.98292, tilt:  28.32 },
+    };
+
+    // Body radii get the same treatment as the orbits, and for the same reason:
+    // Jupiter is 21 Mars radii, as wide as the entire compressed system. The
+    // ordering is honest, the ratios are not. The hero globe is the yardstick —
+    // 1 unit = 1 Mars equatorial radius, as everywhere else in this scene — so
+    // Mars comes out at exactly 1 and the giants stay a couple of units across.
+    const PLANET_R_BASE = 1.0, PLANET_R_EXP = 0.25;
+    const displayRadius = rKm =>
+      PLANET_R_BASE * Math.pow(rKm / MARS_EQ_R, PLANET_R_EXP);
+
+    // Graticule density for the planets: the hero globe's, so they read as the
+    // same kind of object. Tunable apart from it if the count ever gets costly.
+    const PLANET_LNG = LNG_SEGMENTS, PLANET_LAT = LAT_SEGMENTS;
+
+    // Comet trail behind each planet. Budgeted in world units rather than
+    // samples: every buffer holds one full orbit, so a fixed sample count would
+    // be a fixed ANGLE, and Neptune's would stretch into something that reads
+    // like the orbit ring this replaces.
+    const PLANET_TRAIL_LEN = 12.0;   // world units of arc — scales with LOG_K
+    const PLANET_TRAIL_PTS = 22;     // cap: keeps Mercury's tail from closing
+                                     // the loop, since its whole orbit is 89 u
+
+    const smoothstep = (a, b, x) => {
+      const t = Math.min(1, Math.max(0, (x - a) / (b - a)));
+      return t * t * (3 - 2 * t);
+    };
+
+    // ═══════════════════════════════════════════════════════════
+    // MessagePack reader — only the types the cache emits.
+    // Coordinates arrive as float32 blobs, so a 220×3 buffer becomes a
+    // Float32Array view with no per-number parsing at all.
+    // ═══════════════════════════════════════════════════════════
+
+    function mpDecode(buf) {
+      const dv = new DataView(buf), td = new TextDecoder();
+      let o = 0;
+      const str = n => { const s = td.decode(new Uint8Array(buf, o, n)); o += n; return s; };
+      const bin = n => { const b = buf.slice(o, o + n); o += n; return b; }; // copy ⇒ 4-byte aligned
+      const arr = n => { const a = new Array(n); for (let i = 0; i < n; i++) a[i] = rd(); return a; };
+      const map = n => { const m = {}; for (let i = 0; i < n; i++) m[rd()] = rd(); return m; };
+      function rd() {
+        const t = dv.getUint8(o++);
+        if (t < 0x80) return t;                        // positive fixint
+        if (t >= 0xe0) return t - 256;                 // negative fixint
+        if ((t & 0xf0) === 0x80) return map(t & 0x0f); // fixmap
+        if ((t & 0xf0) === 0x90) return arr(t & 0x0f); // fixarray
+        if ((t & 0xe0) === 0xa0) return str(t & 0x1f); // fixstr
+        let n;
+        switch (t) {
+          case 0xc0: return null;
+          case 0xc2: return false;
+          case 0xc3: return true;
+          case 0xc4: return bin(dv.getUint8(o++));
+          case 0xc5: n = dv.getUint16(o); o += 2; return bin(n);
+          case 0xc6: n = dv.getUint32(o); o += 4; return bin(n);
+          case 0xca: n = dv.getFloat32(o); o += 4; return n;
+          case 0xcb: n = dv.getFloat64(o); o += 8; return n;
+          case 0xcc: return dv.getUint8(o++);
+          case 0xcd: n = dv.getUint16(o); o += 2; return n;
+          case 0xce: n = dv.getUint32(o); o += 4; return n;
+          case 0xd0: return dv.getInt8(o++);
+          case 0xd1: n = dv.getInt16(o); o += 2; return n;
+          case 0xd2: n = dv.getInt32(o); o += 4; return n;
+          case 0xd9: return str(dv.getUint8(o++));
+          case 0xda: n = dv.getUint16(o); o += 2; return str(n);
+          case 0xdc: n = dv.getUint16(o); o += 2; return arr(n);
+          case 0xde: n = dv.getUint16(o); o += 2; return map(n);
+        }
+        throw new Error('msgpack: unsupported byte 0x' + t.toString(16));
+      }
+      return rd();
+    }
+
+    // Float32Array adopts host byte order; the blobs are little-endian.
+    const HOST_LE = new Uint8Array(new Uint32Array([1]).buffer)[0] === 1;
+
+    function floats(blob) {
+      if (!HOST_LE) {
+        const b = new Uint8Array(blob);
+        for (let i = 0; i < b.length; i += 4) {
+          [b[i], b[i + 3]] = [b[i + 3], b[i]];
+          [b[i + 1], b[i + 2]] = [b[i + 2], b[i + 1]];
+        }
+      }
+      return new Float32Array(blob);
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // Three.js renderer + scene
+    // ═══════════════════════════════════════════════════════════
+
+    const canvas   = document.getElementById('mars-canvas');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    const PR = Math.min(window.devicePixelRatio, 2);
+    renderer.setPixelRatio(PR);
+    renderer.setClearColor(0x1e1e1e, 1);
+
+    const scene = new THREE.Scene();
+
+    let W = canvas.parentElement.clientWidth  || window.innerWidth;
+    let H = canvas.parentElement.clientHeight || window.innerHeight;
+    renderer.setSize(W, H, false);
+
+    // ═══════════════════════════════════════════════════════════
+    // Post chain
+    //
+    // The scene renders into an offscreen target; then bright pass, blur, blur,
+    // CRT. The first three are the bloom, the last resamples the result with the
+    // RGB split and grain. Hand-rolled rather than EffectComposer and
+    // UnrealBloomPass, which would pull half a dozen more modules off the CDN and
+    // spend five mip levels on a banner. Scanlines, vignette and flicker are not
+    // here — see the #crt rules.
+    // ═══════════════════════════════════════════════════════════
+
+    // Sized here as well as on resize: the ResizeObserver fires at the end of a
+    // frame, so the first rendered frame would otherwise sample a 1x1 target.
+    const crtTarget = new THREE.WebGLRenderTarget(
+      Math.round(W * PR), Math.round(H * PR));
+    // sRGB storage, for precision: this is an 8-bit intermediate and the banner
+    // is nearly all darks — stars, faint trails — which is exactly where a linear
+    // 8-bit buffer bands. What the shader *receives* is linear either way, so the
+    // pass has to encode on the way out; see the end of the fragment shader.
+    crtTarget.texture.colorSpace = THREE.SRGBColorSpace;
+    // Mipmapped for the bright pass, which reads this at 1/BLOOM.spread and would
+    // otherwise be point-sampling it: at spread 10 that is one texel kept out of
+    // every hundred, so a 1px wireframe line drifts in and out of the sampled
+    // positions as the globe turns and its halo flickers in ~10px blocks. Measured,
+    // the glow's p99 changed by 30 levels between adjacent frames against a p99
+    // magnitude of 40 — the halo was being redrawn every frame. With a mip chain
+    // the hardware averages the whole footprint instead, and no shader knows: the
+    // implicit LOD for a fetch into a target 1/spread the size is already
+    // log2(spread), it simply had no level to fetch. three.js regenerates this at
+    // the end of every render() into the target, given both of these — see
+    // textureNeedsGenerateMipmaps. The levels are averaged in sRGB storage rather
+    // than in light, which biases the glow slightly bright in the darks — for a
+    // halo that is a wash, and the alternative is a second full-res linear target.
+    crtTarget.texture.minFilter      = THREE.LinearMipmapLinearFilter;
+    crtTarget.texture.generateMipmaps = true;
+
+    // Reduced resolution, which is the whole reason the bloom is cheap: three
+    // extra draws over a fraction of the pixels. The blur kernel below is in
+    // texels of THIS target, so its reach in screen terms scales with BLOOM.spread.
+    // Half float rather than bytes because a blurred glow spends most of its range
+    // near zero, where an 8-bit linear buffer bands — the same problem crtTarget
+    // solves by storing sRGB, which is not an option here: this one holds light to
+    // be added to a linear value.
+    const bloomTargets = [0, 1].map(() => {
+      const t = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType });
+      t.texture.colorSpace = THREE.LinearSRGBColorSpace;
+      return t;
+    });
+    const bloomTexel = new THREE.Vector2();
+
+    function resizeBloom() {
+      const w = Math.max(1, Math.round(W * PR / BLOOM.spread));
+      const h = Math.max(1, Math.round(H * PR / BLOOM.spread));
+      for (const t of bloomTargets) t.setSize(w, h);
+      bloomTexel.set(1 / w, 1 / h);
+    }
+
+    // ── Fullscreen passes ──
+    // One quad, redrawn with its material swapped, rather than a scene per pass:
+    // the chain then reads as a list of four lines at the bottom of the frame.
+    const postScene  = new THREE.Scene();
+    const postCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    const postQuad   = new THREE.Mesh(new THREE.PlaneGeometry(2, 2));
+    postQuad.frustumCulled = false;      // vertices bypass the camera entirely
+    postScene.add(postQuad);
+
+    // The quad's vertices are already in clip space, so no matrices needed
+    const POST_VERT = `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = vec4(position.xy, 0.0, 1.0);
+      }
+    `;
+
+    function pass(mat, target) {
+      postQuad.material = mat;
+      renderer.setRenderTarget(target);
+      renderer.render(postScene, postCamera);
+    }
+
+    // Pass 1 of the bloom: keep what is bright enough to spill, drop the rest.
+    const brightMat = new THREE.ShaderMaterial({
+      depthTest: false,
+      depthWrite: false,
+      uniforms: {
+        uScene:     { value: crtTarget.texture },
+        uThreshold: { value: BLOOM.threshold },
+        uKnee:      { value: BLOOM.knee },
+      },
+      vertexShader: POST_VERT,
+      fragmentShader: `
+        precision highp float;
+        varying vec2 vUv;
+        uniform sampler2D uScene;
+        uniform float uThreshold, uKnee;
+
+        void main() {
+          // Linear values: crtTarget is sRGB *storage*, so the sampler decodes on
+          // the way in. This luminance and the threshold it is measured against
+          // are therefore both light, not pixel values — see the BLOOM comment.
+          vec3 c = texture2D(uScene, vUv).rgb;
+          float lum = dot(c, vec3(0.2126, 0.7152, 0.0722));
+          gl_FragColor = vec4(c * smoothstep(uThreshold, uThreshold + uKnee, lum), 1.0);
+        }
+      `,
+    });
+
+    // Passes 2 and 3: the same material run twice, once per axis. A 9-tap
+    // Gaussian folded into 5 fetches — the offsets land between texels on
+    // purpose, so bilinear filtering averages each pair at no cost.
+    const blurMat = new THREE.ShaderMaterial({
+      depthTest: false,
+      depthWrite: false,
+      uniforms: {
+        uTex:  { value: null },
+        uStep: { value: new THREE.Vector2() },   // one texel along the axis
+      },
+      vertexShader: POST_VERT,
+      fragmentShader: `
+        precision highp float;
+        varying vec2 vUv;
+        uniform sampler2D uTex;
+        uniform vec2 uStep;
+
+        void main() {
+          vec3 c = texture2D(uTex, vUv).rgb * 0.2270270270;
+          c += (texture2D(uTex, vUv + uStep * 1.3846153846).rgb
+              + texture2D(uTex, vUv - uStep * 1.3846153846).rgb) * 0.3162162162;
+          c += (texture2D(uTex, vUv + uStep * 3.2307692308).rgb
+              + texture2D(uTex, vUv - uStep * 3.2307692308).rgb) * 0.0702702703;
+          gl_FragColor = vec4(c, 1.0);
+        }
+      `,
+    });
+
+    // ── Shared by both final passes ──
+    // Whichever quad ends the chain has the same two jobs before its own: read
+    // the image the chain produced, and encode it for the canvas. Shared as a
+    // string because the two materials are separate programs, so there is no
+    // other way for them to hold one copy of this.
+    const POST_IMAGE = `
+      uniform sampler2D uScene, uBloom;
+      uniform float uBloomStrength;
+
+      // The image the final pass operates on: the render with its own light
+      // spilled back in. Bloom is folded in HERE, before anything else, so
+      // everything downstream — aberration, curvature, grain — treats the glow as
+      // part of the picture rather than as something laid over the finished
+      // frame. Added in linear, which is the space the scene was blended in and
+      // the space the spill physically belongs to; the encode comes after.
+      // The negative LOD bias pins this to mip level 0. uScene carries a mip chain
+      // now, for the bright pass's sake, and this pass wants none of it: at 1:1 the
+      // hardware would pick level 0 anyway, but curvature stretches the UVs, so a
+      // warped frame would start fetching blurred levels at the edges — softening
+      // the picture as a side effect of a setting that has nothing to do with it.
+      // The bias costs nothing and takes that away.
+      vec3 lit(vec2 uv) {
+        return texture2D(uScene, uv, -16.0).rgb
+             + texture2D(uBloom, uv).rgb * uBloomStrength;
+      }
+
+      // three.js forces outputColorSpace to linear for anything that is not the
+      // canvas, so the bright pass hands these shaders LINEAR values, and a
+      // ShaderMaterial gets no conversion appended on the way out — so the encode
+      // the canvas expects has to happen here. Without it the whole banner renders
+      // about 3x dark: #1e1e1e came out as rgb(3,3,3) and the wireframe red as
+      // 149,13,4. Written out rather than using <colorspace_fragment>, whose
+      // linearToOutputTexel() is only the sRGB encode as long as the program
+      // happens to have been compiled against the canvas. The one path that does
+      // NOT need it is the direct render in animate(), where three.js is drawing
+      // to the canvas itself and so does this conversion on its own.
+      vec3 linearToSRGB(vec3 c) {
+        return mix(c * 12.92,
+                   pow(c, vec3(1.0 / 2.4)) * 1.055 - 0.055,
+                   step(vec3(0.0031308), c));
+      }
+    `;
+
+    // The uniforms both final passes share, built per material because a
+    // ShaderMaterial owns its uniform objects — applyBloom() writes to both.
+    const imageUniforms = () => ({
+      uScene:         { value: crtTarget.texture },
+      // The vertical blur is the last bloom pass and always lands back in [0]
+      uBloom:         { value: bloomTargets[0].texture },
+      uBloomStrength: { value: BLOOM.strength },
+    });
+
+    const crtMat = new THREE.ShaderMaterial({
+      depthTest: false,
+      depthWrite: false,
+      uniforms: {
+        ...imageUniforms(),
+        uTime:       { value: 0 },
+        uAberration: { value: CRT.aberration },
+        uNoise:      { value: CRT.noise },
+        uCurvature:  { value: CRT.curvature },
+      },
+      vertexShader: POST_VERT,
+      fragmentShader: `
+        precision highp float;
+        varying vec2 vUv;
+        uniform float uTime, uAberration, uNoise, uCurvature;
+        ${POST_IMAGE}
+
+        // Barrel distortion, as the reference has it. Identity at 0.
+        vec2 distort(vec2 uv) {
+          vec2 c = uv - 0.5;
+          return c * (1.0 + dot(c, c) * uCurvature) + 0.5;
+        }
+
+        float rand(vec2 co) {
+          return fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453);
+        }
+
+        void main() {
+          vec2 uv = distort(vUv);
+          // Only reachable once curvature is dialled up: the warp pulls the
+          // sample point off the edge of the target.
+          if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) {
+            gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+            return;
+          }
+          vec2 off = vec2(uAberration, 0.0);
+          vec3 c = vec3(
+            lit(distort(vUv - off)).r,
+            lit(uv).g,
+            lit(distort(vUv + off)).b
+          );
+          c = linearToSRGB(c);
+          // After the encode, so the amplitude means what it says in 0-255 terms
+          // and the grain reads evenly instead of vanishing in the darks. Centred
+          // on zero, unlike the reference's one-sided version, which would lift
+          // the whole panel off the #1e1e1e the page is set to.
+          c += (rand(vUv + fract(uTime)) - 0.5) * uNoise;
+          gl_FragColor = vec4(c, 1.0);
+        }
+      `,
+    });
+
+    // What ends the chain with CRT.enabled false but something still to bloom:
+    // the same image, resolved to the canvas with none of the filter applied. It
+    // exists because the glow lives in a separate target that has to be added
+    // back somewhere, so "no CRT" cannot simply mean "no final pass" — that is
+    // only true when there is no bloom either, which animate() handles by
+    // rendering straight to the canvas instead.
+    const flatMat = new THREE.ShaderMaterial({
+      depthTest: false,
+      depthWrite: false,
+      uniforms: imageUniforms(),
+      vertexShader: POST_VERT,
+      fragmentShader: `
+        precision highp float;
+        varying vec2 vUv;
+        ${POST_IMAGE}
+
+        void main() {
+          gl_FragColor = vec4(linearToSRGB(lit(vUv)), 1.0);
+        }
+      `,
+    });
+
+    const crtEl = document.getElementById('crt');
+
+    // The single place the CRT group is read, so the two halves cannot drift.
+    function applyCrt() {
+      // The CSS half's switch. display:none rather than opacity or a visibility
+      // flag, so the three gradient layers and the flicker animation stop being
+      // composited at all. The shader half's switch is in animate(), which picks
+      // the final pass — there is nothing to write here for it.
+      crtEl.style.display = CRT.enabled ? '' : 'none';
+      crtMat.uniforms.uAberration.value = CRT.aberration;
+      crtMat.uniforms.uNoise.value      = CRT.noise;
+      crtMat.uniforms.uCurvature.value  = CRT.curvature;
+      crtEl.style.setProperty('--crt-scanline-opacity', CRT.scanlineOpacity);
+      crtEl.style.setProperty('--crt-scanline-height', `${CRT.scanlineHeight}px`);
+      crtEl.style.setProperty('--crt-vignette',        CRT.vignette);
+      crtEl.style.setProperty('--crt-flicker-depth',   CRT.flickerDepth);
+      crtEl.style.setProperty('--crt-flicker-period',  `${CRT.flickerPeriod}s`);
+    }
+    applyCrt();
+
+    // Same shape as applyCrt: shader half into uniforms, CSS half into a custom
+    // property. It goes on the root rather than on #labels because the labels do
+    // not exist yet — they are built once the ephemeris cache lands.
+    function applyBloom() {
+      brightMat.uniforms.uThreshold.value  = BLOOM.threshold;
+      brightMat.uniforms.uKnee.value       = BLOOM.knee;
+      // The shader half's switch lands here rather than in animate(): the blur
+      // passes are skipped there on the same condition, but the strength the
+      // final pass adds the target back with has to be zeroed too, or an off
+      // bloom would still show whatever frame was left in that target.
+      // Both final passes, because which one runs depends on CRT.enabled.
+      const strength = BLOOM.enabled ? BLOOM.strength : 0;
+      crtMat.uniforms.uBloomStrength.value  = strength;
+      flatMat.uniforms.uBloomStrength.value = strength;
+      resizeBloom();                        // spread is a resolution, so it resizes
+      const root = document.documentElement;
+      const glow = BLOOM.enabled ? BLOOM.glow : 0;
+      root.style.setProperty('--bloom-glow', `${glow}px`);
+      // A zero-radius text-shadow is not "no shadow" — it is a hard copy of the
+      // glyph in its own colour, which thickens the translucent lines. So the off
+      // state has to be carried by the colour, not the radius.
+      root.style.setProperty('--bloom-glow-color', glow > 0 ? 'currentColor' : 'transparent');
+    }
+    applyBloom();
+
+    // For dialling them in from the console without a rebuild
+    Object.assign(window, { CRT, applyCrt, BLOOM, applyBloom });
+
+    // Far plane must clear the outer star shell at full zoom-out
+    const camera = new THREE.PerspectiveCamera(45, W / H, 0.1, 1200);
+    camera.position.set(0, 0.4, CAMERA_DIST);
+
+    // 0 on a landscape frame, 1 on a portrait one. The resting distance and both
+    // lookAt offsets are keyed to it, so the phone framing blends in rather than
+    // switching at a threshold the CSS breakpoint would never exactly match.
+    const portraitness = () => 1 - smoothstep(0.85, 1.25, W / H);
+
+    // 1 on a portrait frame tall enough to be the full-screen hero, 0 on the
+    // banded one — the same two tests as the portrait queries in the stylesheet,
+    // in the same order, because the type and the camera have to change over
+    // together or a reshaped window gets a domed globe under a landscape title.
+    // Aspect ramps across 17/20 = 0.85, the CSS threshold, narrowly enough that
+    // the blend is over before either side is far from it; the fold test is the
+    // 40rem one, in px, ramped just as narrowly. The banded hero on a phone is
+    // 390x526 — aspect 0.74, so close to the threshold that it is the height test
+    // doing the work there, exactly as in the stylesheet.
+    //
+    // In this framing there is no room to put the title beside the globe and no
+    // reason to put it below, so it goes in the bottom-right corner and the globe
+    // becomes the horizon behind it: centre sunk past the bottom edge, only the
+    // cap in frame.
+    const domeness = () =>
+      (1 - smoothstep(0.83, 0.87, W / H)) * smoothstep(620, 660, H);
+
+    // Mars radii per half-frame-height: how tall the cap stands. It is the dome's
+    // one size knob — the distance is solved from it below — and it trades against
+    // the orbits, since everything the cap does not fill is sky the craft fly
+    // through. Measured on a 390x796 frame: 0.7 leaves a band of empty sky between
+    // the buttons and the limb, 1.0 runs the limb up through the buttons, and this
+    // lands it just under them with the dome filling the bottom ~38%.
+    const DOME_CAP  = 0.85;
+    // Half-heights from the frame centre down to the globe's centre. Just past 1,
+    // so the centre sits a hair below the bottom edge and the horizon reads as a
+    // limb rather than as a circle resting on the rim.
+    const DOME_SINK = 1.05;
+
+    // The 45° FOV is vertical, so how much world fits ACROSS the frame is purely
+    // a matter of aspect. Landscape wants CAMERA_DIST untouched — that is what
+    // lands Mars' limb on the right edge, and the crop is the hero look. Portrait
+    // cannot afford it: at 0.68 the limb falls outside the frame on both sides at
+    // once and the wireframe reads as a mesh of lines rather than a planet. So
+    // pull back toward fitting the globe across the frame, in proportion.
+    // 2.78 = 1.15 globe radii of half-width divided by tan(22.5°).
+    const restingDist = () => {
+      const p = portraitness();
+      const wide = CAMERA_DIST * (1 - p) + Math.max(CAMERA_DIST, 2.78 / (W / H)) * p;
+      // The dome's distance is the one framing here that ignores aspect: it is
+      // solved from the cap height alone, which is a vertical measure, so a
+      // narrower phone gets the same dome standing the same height and simply
+      // crops more of its sides. Inverting DOME_CAP through the half-FOV is all
+      // that takes — one Mars radius across DOME_CAP of the half-height.
+      const dome = 1 / (DOME_CAP * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)));
+      const d = domeness();
+      return wide * (1 - d) + dome * d;
+    };
+
+    function updateCameraTarget() {
+      const z       = Math.abs(camera.position.z);
+      const fovHalf = THREE.MathUtils.degToRad(camera.fov / 2);
+      const halfH   = Math.tan(fovHalf) * z;
+      const halfW   = halfH * (W / H);
+      // Globe sits at ~2/3 from the left for the hero framing, but that offset
+      // is released as you pull back so the solar system ends up centred.
+      const release  = smoothstep(9, 30, z);
+      const portrait = portraitness();
+      const dome     = domeness();
+      // A portrait frame has no room beside the globe, so the text stacks above
+      // it instead: aim high, which seats the globe in the lower part of the
+      // frame, and give up the sideways offset, which has nothing left to buy.
+      // Both fade out with `release` so a full zoom-out still centres on Mars.
+      //
+      // The tall phone frame is the same move taken to its end: 0.22 of a
+      // half-height seats the globe low, DOME_SINK puts its centre off the bottom
+      // edge entirely and leaves only the cap. Blended rather than switched, for
+      // the same reason portraitness() is — a frame can be dragged between the two.
+      const lift = 0.22 * (1 - dome) + DOME_SINK * dome;
+      camera.lookAt(
+        -(halfW / 3) * (1 - release) * (1 - portrait),
+        halfH * lift * (1 - release) * portrait,
+        0);
+    }
+    camera.position.z = restingDist();
+    updateCameraTarget();
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+    const dLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    dLight.position.set(3, 2, 4);
+    scene.add(dLight);
+
+    // ═══════════════════════════════════════════════════════════
+    // Volumetric starfield, with per-star brightness and flicker
+    // ═══════════════════════════════════════════════════════════
+
+    const starField = new THREE.Group();
+    scene.add(starField);
+    const starMats = [];
+
+    const STAR_VERT = `
+      attribute vec3  aColor;
+      attribute float aPhase;
+      attribute float aSpeed;
+      attribute float aSize;
+      uniform   float uTime;
+      uniform   float uPR;
+      varying   vec3  vColor;
+      varying   float vTw;
+      void main() {
+        vec4 mv = modelViewMatrix * vec4(position, 1.0);
+        // Two detuned sines: the beat keeps the twinkle from looking metronomic
+        float tw = 0.70
+                 + 0.22 * sin(uTime * aSpeed + aPhase)
+                 + 0.08 * sin(uTime * aSpeed * 2.37 + aPhase * 1.7);
+        vTw = tw;
+        vColor = aColor;
+        // aSize is px at 300 units out, so stars hold size across the zoom range.
+        // Capped at 2.5x: pulled all the way back the camera sits close to the
+        // near wall of the shell, and an uncapped star there would swell into a
+        // blob. At the hero zoom nothing reaches the cap, so it costs nothing.
+        gl_PointSize = aSize * uPR * min(300.0 / -mv.z, 2.5) * (0.85 + 0.15 * tw);
+        gl_Position = projectionMatrix * mv;
+      }`;
+
+    const STAR_FRAG = `
+      varying vec3  vColor;
+      varying float vTw;
+      void main() {
+        float r = length(gl_PointCoord - vec2(0.5));
+        if (r > 0.5) discard;
+        float a = smoothstep(0.5, 0.0, r);
+        gl_FragColor = vec4(vColor * vTw, a * vTw);
+      }`;
+
+    // Stars are scattered through a spherical shell rather than painted on a
+    // skybox, so there is real parallax as the zoom slider moves. The shell sits
+    // well outside the compressed solar system so nothing intersects it.
+    function makeStarLayer(count, rMin, rMax, sizePx, minBright, maxBright) {
+      const pos   = new Float32Array(count * 3);
+      const col   = new Float32Array(count * 3);
+      const phase = new Float32Array(count);
+      const speed = new Float32Array(count);
+      const size  = new Float32Array(count);
+      const c     = new THREE.Color();
+
+      for (let i = 0; i < count; i++) {
+        // Uniform direction on the sphere
+        const z   = 1 - 2 * Math.random();
+        const rxy = Math.sqrt(Math.max(0, 1 - z * z));
+        const th  = Math.random() * 2 * Math.PI;
+        // Cube-root radius keeps density even through the shell's volume
+        const r = Math.cbrt(rMin ** 3 + Math.random() * (rMax ** 3 - rMin ** 3));
+
+        pos[i * 3]     = r * rxy * Math.cos(th);
+        pos[i * 3 + 1] = r * rxy * Math.sin(th);
+        pos[i * 3 + 2] = r * z;
+
+        // Brightness is skewed dim: a few standouts read better than an even field
+        const t      = Math.pow(Math.random(), 1.7);
+        const bright = minBright + t * (maxBright - minBright);
+        // Slight colour temperature spread: cool blue-white through warm amber
+        c.setHSL(0.08 + Math.random() * 0.55, 0.22 * Math.random(), bright);
+        col[i * 3]     = c.r;
+        col[i * 3 + 1] = c.g;
+        col[i * 3 + 2] = c.b;
+
+        phase[i] = Math.random() * Math.PI * 2;
+        speed[i] = 0.25 + Math.random() * 1.9;     // rad/s — slow enough to feel ambient
+        size[i]  = sizePx * (0.75 + 0.5 * t);      // brighter stars read slightly larger
+      }
+
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+      geo.setAttribute('aColor',   new THREE.Float32BufferAttribute(col, 3));
+      geo.setAttribute('aPhase',   new THREE.Float32BufferAttribute(phase, 1));
+      geo.setAttribute('aSpeed',   new THREE.Float32BufferAttribute(speed, 1));
+      geo.setAttribute('aSize',    new THREE.Float32BufferAttribute(size, 1));
+
+      const mat = new THREE.ShaderMaterial({
+        uniforms: { uTime: { value: 0 }, uPR: { value: PR } },
+        vertexShader: STAR_VERT,
+        fragmentShader: STAR_FRAG,
+        transparent: true,
+        depthWrite: false,                  // never occlude orbits or graticule
+        blending: THREE.AdditiveBlending,
+      });
+      starMats.push(mat);
+      starField.add(new THREE.Points(geo, mat));
+    }
+
+    // Counts and sizes are tuned for the shell sitting 150–500 u out, well
+    // clear of Neptune's compressed orbit at ~25 u.
+    makeStarLayer(2800, 150, 500, 1.35, 0.34, 0.66); // distant haze
+    makeStarLayer(480,  140, 420, 2.20, 0.58, 0.88); // nearer, brighter
+    makeStarLayer(80,   130, 380, 3.40, 0.80, 1.00); // a few standouts
+
+    // ═══════════════════════════════════════════════════════════
+    // Wireframe bodies
+    // ═══════════════════════════════════════════════════════════
+
+    // Graticule of parallels and meridians only, on a unit sphere squashed by
+    // `flat`. A WireframeGeometry over a SphereGeometry would also emit each
+    // triangle's hypotenuse, so the arcs are built directly instead.
+    function graticule(wSeg, hSeg, flat) {
+      const pts = [];
+
+      const push = (lat, lon) => pts.push(
+        Math.cos(lat) * Math.cos(lon),
+        Math.sin(lat) * flat,
+        Math.cos(lat) * Math.sin(lon),
+      );
+
+      // Parallels — poles excluded, they degenerate to a point
+      for (let i = 1; i < hSeg; i++) {
+        const lat = -Math.PI / 2 + (i / hSeg) * Math.PI;
+        for (let j = 0; j < wSeg; j++) {
+          push(lat, (j / wSeg) * 2 * Math.PI);
+          push(lat, ((j + 1) / wSeg) * 2 * Math.PI);
+        }
+      }
+
+      // Meridians — full pole-to-pole arcs
+      for (let j = 0; j < wSeg; j++) {
+        const lon = (j / wSeg) * 2 * Math.PI;
+        for (let i = 0; i < hSeg; i++) {
+          push(-Math.PI / 2 + (i / hSeg) * Math.PI, lon);
+          push(-Math.PI / 2 + ((i + 1) / hSeg) * Math.PI, lon);
+        }
+      }
+
+      return new Float32Array(pts);
+    }
+
+    // Flat circle of `segs` points at radius 1 in the body's equatorial plane,
+    // for the ring systems. Closed by LineLoop.
+    function ringLoop(segs) {
+      const pts = new Float32Array(segs * 3);
+      for (let i = 0; i < segs; i++) {
+        const a = (i / segs) * Math.PI * 2;
+        pts[i * 3]     = Math.cos(a);
+        pts[i * 3 + 1] = 0;
+        pts[i * 3 + 2] = Math.sin(a);
+      }
+      return pts;
+    }
+
+    const marsGroup = new THREE.Group();
+    marsGroup.rotation.z = THREE.MathUtils.degToRad(PLANET_BODY.MARS.tilt);
+    scene.add(marsGroup);
+
+    let globeMesh = null;
+
+    function buildGlobe(wSeg, hSeg) {
+      if (globeMesh) {
+        marsGroup.remove(globeMesh);
+        globeMesh.geometry.dispose();
+        globeMesh.material.dispose();
+      }
+
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.BufferAttribute(
+        graticule(wSeg, hSeg, MARS_PO_R / MARS_EQ_R), 3));
+
+      globeMesh = new THREE.LineSegments(geo, new THREE.LineBasicMaterial({
+        color: 0xE84826, opacity: GLOBE_OPACITY, transparent: true,
+      }));
+      marsGroup.add(globeMesh);
+    }
+
+    // Live knob for the console. It writes the tunable as well as the material,
+    // because buildGlobe() builds a new material on every density change and
+    // would otherwise reset the globe to the value compiled into the page.
+    const setGlobeOpacity = o => {
+      GLOBE_OPACITY = o;
+      globeMesh.material.opacity = o;
+    };
+    window.setGlobeOpacity = setGlobeOpacity;   // alongside applyCrt/applyBloom
+
+    buildGlobe(LNG_SEGMENTS, LAT_SEGMENTS);
+
+    // ═══════════════════════════════════════════════════════════
+    // Solar system layer
+    //
+    // Mars is the hero and holds the origin, so this is a Mars-centred view:
+    // the Sun is parked at −compress(Mars) and every planet at
+    // compress(planet) − compress(Mars). Mars therefore lands exactly on the
+    // origin at all times, and the Sun's slow drift is what Mars' own orbit
+    // looks like from Mars.
+    // ═══════════════════════════════════════════════════════════
+
+    const solarFrame = new THREE.Group();          // ECLIPJ2000 → J2000 equatorial
+    solarFrame.rotation.x = THREE.MathUtils.degToRad(OBLIQUITY);
+    scene.add(solarFrame);
+
+    const solarGroup = new THREE.Group();          // translated to keep Mars at origin
+    solarFrame.add(solarGroup);
+
+    const PLANET_VERT = `
+      attribute vec3  aColor;
+      attribute float aSize;
+      uniform   float uPR;
+      varying   vec3  vColor;
+      void main() {
+        vColor = aColor;
+        // No size attenuation: the Sun holds its size across the zoom range
+        gl_PointSize = aSize * uPR;
+        gl_Position  = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }`;
+
+    const SUN_FRAG = `
+      uniform float uOpacity;
+      varying vec3  vColor;
+      void main() {
+        float r = length(gl_PointCoord - vec2(0.5));
+        if (r > 0.5) discard;
+        float core = smoothstep(0.30, 0.0, r);
+        float halo = smoothstep(0.50, 0.10, r);
+        gl_FragColor = vec4(vColor * (0.45 + core), (halo * 0.5 + core) * uOpacity);
+      }`;
+
+    let planets = [];          // [{ name, cpos, body, trail, label, ... }]
+    let sunMat = null;
+    let planetStartMs = 0;
+    const solarMats = [];      // every line material that fades with solarFade
+
+    function buildSolarSystem(recs) {
+      for (const rec of recs) {
+        const spec = PLANET_BODY[rec.name] ?? { r: MARS_EQ_R, flat: 1, tilt: 0 };
+        const raw  = floats(rec.xyz);
+
+        // Compress the path once, up front; the animation and the trail both
+        // read from it and it never changes.
+        const cpos = new Float32Array(raw.length);
+        for (let k = 0; k < rec.n; k++) {
+          const x = raw[k * 3], y = raw[k * 3 + 1], z = raw[k * 3 + 2];
+          const rKm = Math.hypot(x, y, z);
+          const s   = compressAu(rKm / AU) / rKm;   // compressed radius ÷ true radius
+          cpos[k * 3]     = x * s;
+          cpos[k * 3 + 1] = y * s;
+          cpos[k * 3 + 2] = z * s;
+        }
+
+        // Mars holds the origin and is already drawn, at full size, as the hero
+        // globe — so it gets no body of its own, just the position to centre on
+        // and a trail, which lands at the origin and reads as the hero globe's.
+        const isHero = rec.name === 'MARS';
+        let body = null;
+
+        if (!isHero) {
+          body = new THREE.Group();
+          // Obliquity is measured from the orbit plane, and this group's parent
+          // frame IS the ecliptic, so it applies directly. The node the tilt
+          // points toward is not modelled — only its magnitude shows here.
+          body.rotation.z = THREE.MathUtils.degToRad(spec.tilt);
+          solarGroup.add(body);
+
+          const r    = displayRadius(spec.r);
+          const wire = new THREE.BufferGeometry();
+          wire.setAttribute('position', new THREE.BufferAttribute(
+            graticule(PLANET_LNG, PLANET_LAT, spec.flat), 3));
+          const wireMat = new THREE.LineBasicMaterial({
+            color: rec.color, transparent: true, opacity: 0, depthWrite: false,
+          });
+          solarMats.push({ mat: wireMat, peak: 0.85 });
+          const globe = new THREE.LineSegments(wire, wireMat);
+          globe.scale.setScalar(r);
+          body.add(globe);
+
+          for (const edge of spec.rings ?? []) {
+            const rg = new THREE.BufferGeometry();
+            rg.setAttribute('position', new THREE.BufferAttribute(ringLoop(64), 3));
+            const rm = new THREE.LineBasicMaterial({
+              color: rec.color, transparent: true, opacity: 0, depthWrite: false,
+            });
+            solarMats.push({ mat: rm, peak: 0.55 });
+            const loop = new THREE.LineLoop(rg, rm);
+            loop.scale.setScalar(r * edge);
+            body.add(loop);
+          }
+        }
+
+        // Trail length in samples, from the arc budget. Every buffer spans one
+        // period, so the mean step is the orbit's circumference / spans.
+        const spans = rec.n - 1;
+        let arc = 0;
+        for (let k = 0; k < spans; k++) {
+          arc += Math.hypot(cpos[(k + 1) * 3]     - cpos[k * 3],
+                            cpos[(k + 1) * 3 + 1] - cpos[k * 3 + 1],
+                            cpos[(k + 1) * 3 + 2] - cpos[k * 3 + 2]);
+        }
+        const trailPts = Math.max(3, Math.min(PLANET_TRAIL_PTS,
+          Math.round(PLANET_TRAIL_LEN / (arc / spans)) + 1));
+
+        let trail;
+        {
+          const tg  = new THREE.BufferGeometry();
+          const tp  = new THREE.BufferAttribute(new Float32Array(trailPts * 3), 3);
+          tp.setUsage(THREE.DynamicDrawUsage);
+          tg.setAttribute('position', tp);
+
+          // Same fade-to-black ramp as the spacecraft tails: vertex 0 is always
+          // the head, so it is fixed in index space and built once.
+          const base = new THREE.Color(rec.color);
+          const cols = new Float32Array(trailPts * 3);
+          for (let i = 0; i < trailPts; i++) {
+            const f = Math.pow(1 - i / (trailPts - 1), TRAIL_FALLOFF);
+            cols[i * 3]     = base.r * f;
+            cols[i * 3 + 1] = base.g * f;
+            cols[i * 3 + 2] = base.b * f;
+          }
+          tg.setAttribute('color', new THREE.BufferAttribute(cols, 3));
+
+          const tm = new THREE.LineBasicMaterial({
+            vertexColors: true, transparent: true, opacity: 0, depthWrite: false,
+          });
+          solarMats.push({ mat: tm, peak: 0.9 });
+          trail = new THREE.Line(tg, tm);
+          trail.frustumCulled = false;      // rewritten every frame
+          solarGroup.add(trail);
+        }
+
+        planets.push({
+          name: rec.name, cpos, n: rec.n, periodDays: rec.periodDays,
+          label: makeLabel(rec.label, rec.color, 'pl-label'),
+          body, trail, trailPts, isHero,
+          spin: 0.06 + Math.random() * 0.05,   // decorative, see the loop
+        });
+      }
+
+      // Sun at the solar-system origin, inside solarGroup so the Mars-centring
+      // translation carries it along.
+      const sunGeo = new THREE.BufferGeometry();
+      sunGeo.setAttribute('position', new THREE.Float32BufferAttribute([0, 0, 0], 3));
+      sunGeo.setAttribute('aColor',   new THREE.Float32BufferAttribute([1.0, 0.95, 0.80], 3));
+      sunGeo.setAttribute('aSize',    new THREE.Float32BufferAttribute([16], 1));
+      sunMat = new THREE.ShaderMaterial({
+        uniforms: { uPR: { value: PR }, uOpacity: { value: 0 } },
+        vertexShader: PLANET_VERT, fragmentShader: SUN_FRAG,
+        transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+      });
+      solarGroup.add(new THREE.Points(sunGeo, sunMat));
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // Labels
+    // ═══════════════════════════════════════════════════════════
+
+    const labelHost = document.getElementById('labels');
+
+    function makeLabel(text, color, extraClass) {
+      const hex = '#' + color.toString(16).padStart(6, '0');
+      const el  = document.createElement('div');
+      el.className = 'sc-label' + (extraClass ? ' ' + extraClass : '');
+      el.style.visibility = 'hidden';
+      el.innerHTML = `<span class="nm" style="color:${hex}">${text}</span>`
+                   + `<span class="rd"></span>`
+                   + `<span class="st"></span><span class="ut"></span>`;
+      labelHost.appendChild(el);
+      // The CSS margin offsets the box from the transform origin, so edge
+      // clamping has to know it. Read it once here rather than per frame.
+      const cs = getComputedStyle(el);
+      const mx = parseFloat(cs.marginLeft) || 0;
+      const my = parseFloat(cs.marginTop)  || 0;
+      return {
+        el, rd: el.querySelector('.rd'),
+        st: el.querySelector('.st'), ut: el.querySelector('.ut'),
+        // mx/my are live: centerLabel() swaps in half the measured box. mx0/my0
+        // keep what the stylesheet asked for, so the offset form restores exactly.
+        mx, my, mx0: mx, my0: my,
+        w: 0, h: 0,   // measured lazily, refreshed only when the text changes
+      };
+    }
+
+    // Reading offsetWidth forces layout, so do it only on the ~4 Hz text tick
+    // and not on the 60 Hz transform update.
+    function measureLabel(label) {
+      label.w = label.el.offsetWidth;
+      label.h = label.el.offsetHeight;
+    }
+
+    // A centred label sits on its body rather than beside it, so what places it
+    // is half its own box — which changes with the text, hence here and not in
+    // the stylesheet. It goes through the same channel the stylesheet margins
+    // use, so placeLabel's edge clamp keeps working and the 60 Hz path stays a
+    // single transform. Call it after measureLabel, which supplies the box.
+    function centerLabel(label, on) {
+      if (on) {
+        label.mx = -label.w / 2;
+        // Vertically it straddles the anchor on a landscape frame and hangs below
+        // it on a portrait one, blended by the same portraitness() the framing
+        // uses. On a phone the title takes three lines, which pushes the buttons
+        // down to within a few pixels of Mars' centre — straddling put the radii
+        // line straight through the API reference button's lower border, and that
+        // button is transparent, so the text read through it rather than behind
+        // it. Hanging below clears the whole chrome column while keeping the
+        // anchor where it belongs: on the globe's centre.
+        label.my = -label.h / 2 + (label.h / 2 + 3) * portraitness();
+        label.el.style.margin = `${label.my.toFixed(1)}px 0 0 ${label.mx.toFixed(1)}px`;
+      } else {
+        label.mx = label.mx0;
+        label.my = label.my0;
+        label.el.style.margin = '';
+      }
+    }
+
+    const pad2 = n => String(n).padStart(2, '0');
+
+    function fmtUtc(ms, withTime) {
+      const d = new Date(ms);
+      const date = `${d.getUTCFullYear()}-${pad2(d.getUTCMonth() + 1)}-${pad2(d.getUTCDate())}`;
+      if (!withTime) return date;
+      return `${date} ${pad2(d.getUTCHours())}:${pad2(d.getUTCMinutes())}:${pad2(d.getUTCSeconds())}Z`;
+    }
+
+    // Mars' two forms. Constant text, so it is built once; the radii are the
+    // same PCK figures the hero globe's own shape comes from, which is the whole
+    // reason this label can state them.
+    const MARS_RADII = `Re ${MARS_EQ_R.toFixed(2)} km · Rp ${MARS_PO_R.toFixed(2)} km`;
+
+    // Guarded on the form already showing, because the swap writes text, toggles
+    // a class and forces a measure. It happens once per crossing, at a zoom where
+    // both fades are under a tenth, rather than every frame.
+    function setMarsForm(label, hero) {
+      if (label.hero === hero) return;
+      label.hero = hero;
+      label.el.classList.toggle('centered', hero);
+      label.rd.textContent = hero ? MARS_RADII : '';
+      measureLabel(label);
+      centerLabel(label, hero);
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // Spacecraft
+    // ═══════════════════════════════════════════════════════════
+
+    const craft = [];   // [{ rec, pos, n, index, frac, dot, trail, label }]
+
+    function buildCraft(recs) {
+      for (const rec of recs) {
+        const dot = new THREE.Mesh(
+          new THREE.SphereGeometry(0.013, 10, 8),
+          new THREE.MeshBasicMaterial({ color: rec.color }),
+        );
+        scene.add(dot);
+
+        const trailGeo = new THREE.BufferGeometry();
+        const posAttr  = new THREE.BufferAttribute(new Float32Array(TRAIL_LEN * 3), 3);
+        posAttr.setUsage(THREE.DynamicDrawUsage);
+        trailGeo.setAttribute('position', posAttr);
+
+        // Vertex 0 is always the head, so the brightness ramp is fixed in index
+        // space and only needs building once. Fading toward black reads as a
+        // fade to transparent against the dark backdrop.
+        const base = new THREE.Color(rec.color);
+        const cols = new Float32Array(TRAIL_LEN * 3);
+        for (let i = 0; i < TRAIL_LEN; i++) {
+          const fade = Math.pow(1 - i / (TRAIL_LEN - 1), TRAIL_FALLOFF);
+          cols[i * 3]     = base.r * fade;
+          cols[i * 3 + 1] = base.g * fade;
+          cols[i * 3 + 2] = base.b * fade;
+        }
+        trailGeo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
+        trailGeo.setDrawRange(0, 0);
+
+        const trail = new THREE.Line(trailGeo, new THREE.LineBasicMaterial({
+          vertexColors: true, transparent: true, opacity: 0.95,
+        }));
+        trail.frustumCulled = false;
+        scene.add(trail);
+
+        craft.push({
+          name: rec.name, target: rec.target, mission: rec.mission,
+          startMs: Date.parse(rec.startUtc), startEt: rec.startEt, stepSec: rec.stepSec,
+          windowSec: rec.windowSec, nRecords: rec.n,
+          pos: scaleToWorld(floats(rec.xyz)), n: rec.n,
+          index: 0, frac: 0, live: false,
+          dot, trail, label: makeLabel(rec.label, rec.color),
+        });
+      }
+    }
+
+    // km → world units, in place
+    function scaleToWorld(f) {
+      for (let i = 0; i < f.length; i++) f[i] *= SCALE;
+      return f;
+    }
+
+    // Radius of the reference spheroid at a given planetocentric latitude, so the
+    // reported altitude accounts for Mars' polar flattening.
+    function spheroidRadius(sinLat) {
+      const a2 = MARS_EQ_R * MARS_EQ_R;
+      const b2 = MARS_PO_R * MARS_PO_R;
+      const s2 = sinLat * sinLat;
+      return (MARS_EQ_R * MARS_PO_R) / Math.sqrt(b2 * (1 - s2) + a2 * s2);
+    }
+
+    // Mars' north pole as a unit vector in J2000, which is the frame the
+    // spacecraft vectors arrive in. Latitude is the angle out of Mars' equator,
+    // so it is this direction the position has to be projected onto — NOT a
+    // coordinate axis, since the pole is 37° off J2000 +z.
+    // RA 317.68143°, Dec 52.88650°: the values the REST API's own kernels use.
+    // Recovered by querying MRO in both IAU_MARS and J2000 over the same 300
+    // epochs and least-squares solving p from p · r_J2000 = z_IAU_MARS; the
+    // result lands 0.02° from these constants, and reproduces SPICE's own
+    // planetocentric latitude to within 13 m of altitude for all five craft.
+    // (Note this is the older IAU-2000 pole, not pck00011's 317.269/54.433 —
+    // that one is off by 1.6° in Dec here and would put the altitude out by km.)
+    const MARS_POLE = (() => {
+      const ra = 317.68143 * Math.PI / 180, dec = 52.88650 * Math.PI / 180;
+      return {
+        x: Math.cos(dec) * Math.cos(ra),
+        y: Math.cos(dec) * Math.sin(ra),
+        z: Math.sin(dec),
+      };
+    })();
+
+    // ═══════════════════════════════════════════════════════════
+    // Data loading — cached SpiceQL first, live SpiceQL on top
+    // ═══════════════════════════════════════════════════════════
+
+    const statusEl = document.getElementById('status');
+    const bannerEl = document.getElementById('banner');
+
+    function setStatus(state, title) {
+      statusEl.className = state;
+      statusEl.title = title;
+      statusEl.querySelector('.txt').textContent =
+        state === 'live' ? 'SpiceQL live' : state === 'cache' ? 'SpiceQL cached' : 'SpiceQL';
+      // The caption's second line claims the render is live, so it is tied to
+      // the same verdict as the green dot rather than set independently.
+      bannerEl.classList.toggle('is-live', state === 'live');
+    }
+
+    let cacheMeta = null;
+
+    async function loadCache() {
+      const r = await fetch(CACHE_URL, { cache: 'force-cache' });
+      if (!r.ok) throw new Error(`cache ${r.status}`);
+      const doc = mpDecode(await r.arrayBuffer());
+      cacheMeta = doc;
+
+      // One epoch or nothing: the scene shows a single instant, so a craft whose
+      // buffer starts anywhere else cannot be on it and is dropped rather than
+      // drawn at a date the rest of the frame is not showing. That rules out the
+      // early missions — MGS and Viking 1 ended before Odyssey's kernels begin,
+      // so no epoch exists that covers them alongside the current three. The
+      // check is on the cache's own field rather than a name list so the page
+      // stays correct whatever a regenerated cache happens to hold.
+      const syncMs = Date.parse(doc.syncEpochUtc);
+      buildCraft(doc.spacecraft.filter(r => Date.parse(r.startUtc) === syncMs));
+
+      // Seed the clock where the craft buffers begin, so the opening frame is
+      // already in sync rather than winding up to it — offset to the instant that
+      // frames all three craft. See START_OFFSET_SEC.
+      simMs = syncMs + START_OFFSET_SEC * 1000;
+      planetStartMs = Date.parse(doc.planets[0].startUtc);
+      buildSolarSystem(doc.planets);
+    }
+
+    async function fetchStatesRanged(c) {
+      const url = new URL(`${SPICEQL}/getTargetStatesRanged`);
+      // Re-query the cache's own epoch and window: that epoch is known to be
+      // covered by the server's kernels, where "now" is not for most of these
+      // missions, and matching the window keeps stepSec — and therefore the
+      // playback rate — identical when the live buffer swaps in.
+      url.searchParams.set('startEt',       String(c.startEt));
+      url.searchParams.set('stopEt',        String(c.startEt + c.windowSec));
+      url.searchParams.set('numRecords',    String(c.nRecords));
+      url.searchParams.set('target',        c.target);
+      url.searchParams.set('observer',      'MARS');
+      url.searchParams.set('frame',         'J2000');
+      url.searchParams.set('mission',       c.mission);
+      url.searchParams.set('abcorr',        'NONE');
+      url.searchParams.set('searchKernels', 'true');
+      const r = await fetch(url, { signal: AbortSignal.timeout(20000) });
+      if (!r.ok) throw new Error(`getTargetStatesRanged ${r.status}`);
+      // Each element: [x, y, z, vx, vy, vz, lt] in km
+      const rows = (await r.json()).body.return;
+      if (!Array.isArray(rows) || rows.length < 2) throw new Error('empty response');
+      const out = new Float32Array(rows.length * 3);
+      for (let i = 0; i < rows.length; i++) {
+        out[i * 3]     = rows[i][0] * SCALE;
+        out[i * 3 + 1] = rows[i][1] * SCALE;
+        out[i * 3 + 2] = rows[i][2] * SCALE;
+      }
+      return { pos: out, n: rows.length };
+    }
+
+    // Planets are deliberately not re-fetched: planetary ephemerides are
+    // deterministic, so a live call would return exactly the cached values at
+    // the cost of eight long-span queries on every page load.
+    async function trySpiceQL() {
+      const results = await Promise.allSettled(craft.map(async c => {
+        const { pos, n } = await fetchStatesRanged(c);
+        // No playhead to rescale: the craft loop derives its index from the clock
+        // and the buffer's own epoch, so the swap only has to leave those two
+        // consistent. stepSec is recomputed because the server is free to return
+        // a different row count than it was asked for, and the step is what turns
+        // an epoch into an index — take the cached one with a shorter buffer and
+        // the craft would fly at the wrong speed.
+        c.pos     = pos;
+        c.n       = n;
+        c.stepSec = c.windowSec / (n - 1);
+        c.live    = true;
+      }));
+
+      const ok = results.filter(r => r.status === 'fulfilled').length;
+      const sync = cacheMeta?.syncEpochUtc?.slice(0, 10) ?? '';
+      if (ok === craft.length) {
+        setStatus('live',
+          `Live SpiceQL: all ${ok} orbits fetched from the REST API.\n` +
+          `Every body shown at one epoch, ${sync}.`);
+      } else {
+        setStatus('cache',
+          `SpiceQL API unreachable for ${craft.length - ok} of ${craft.length} orbits — ` +
+          `showing cached SPICE data bundled with the docs.`);
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // Per-frame label placement
+    // ═══════════════════════════════════════════════════════════
+
+    const projected = new THREE.Vector3();
+
+    const hideLabel = label => { label.el.style.visibility = 'hidden'; };
+
+    // Labels are placed at their body and left free to overlap. Nudging them
+    // apart was worse: it moved text away from the dot it annotates, so a
+    // reader could not tell which label belonged to which craft.
+    //
+    // A body that leaves the frame keeps its label, pinned to the edge it went
+    // out of, so its direction relative to the current view stays readable.
+    // Pinned labels are dimmed, because at the edge they no longer sit on the
+    // thing they describe and should not look like they annotate what is there.
+    const EDGE_PAD = 6, PINNED_DIM = 0.55;
+
+    function placeLabel(label, v, fade) {
+      if (fade <= 0.02) { hideLabel(label); return false; }
+      projected.copy(v).project(camera);
+
+      let nx = projected.x, ny = projected.y;
+      // Behind the camera the perspective divide mirrors x and y, so a body
+      // over your shoulder projects to the opposite side of the frame. Flip it
+      // back and push it onto the unit square so the clamp drives it to the
+      // edge it actually lies past.
+      if (projected.z > 1) {
+        const s = Math.max(Math.abs(nx), Math.abs(ny)) || 1;
+        nx = -nx / s;
+        ny = -ny / s;
+      }
+
+      if (!label.w) measureLabel(label);
+      // Transform origin, then the box the margin puts it in
+      let sx = (nx * 0.5 + 0.5) * W;
+      let sy = (-ny * 0.5 + 0.5) * H;
+      const maxX = Math.max(EDGE_PAD, W - label.w - EDGE_PAD);
+      const maxY = Math.max(EDGE_PAD, H - label.h - EDGE_PAD);
+      const cx = Math.min(Math.max(sx + label.mx, EDGE_PAD), maxX) - label.mx;
+      const cy = Math.min(Math.max(sy + label.my, EDGE_PAD), maxY) - label.my;
+      const pinned = cx !== sx || cy !== sy;
+
+      label.el.style.transform  = `translate(${cx.toFixed(1)}px, ${cy.toFixed(1)}px)`;
+      label.el.style.opacity    = (pinned ? fade * PINNED_DIM : fade).toFixed(2);
+      label.el.style.visibility = 'visible';
+      return true;
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // Animation loop
+    // ═══════════════════════════════════════════════════════════
+
+    const clock  = new THREE.Clock();
+    const marsC  = new THREE.Vector3();   // compressed Mars, i.e. the Sun's offset
+    const bodyW  = new THREE.Vector3();
+    let textTimer = 0, elapsed = 0;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const dt = Math.min(clock.getDelta(), 0.1);
+      elapsed += dt;
+
+      for (const m of starMats) m.uniforms.uTime.value = elapsed;
+
+      marsGroup.rotation.y += dt * 0.021;
+      starField.rotation.y += dt * 0.0016; // barely-there drift so it feels alive
+
+      // The solar layer only earns screen space once you pull back, so the hero
+      // framing at the default zoom is untouched. The fade-in window tracks
+      // LOG_K: the layout now runs out to 112 u, so arriving any earlier just
+      // means a frame of empty space with every label pinned to an edge.
+      const z         = Math.abs(camera.position.z);
+      const solarFade = smoothstep(21, 42, z);
+      const craftFade = 1 - smoothstep(14, 24, z);
+      updateCameraTarget();
+
+      // The one clock, advanced once per frame. Both layers read simMs below
+      // rather than stepping themselves.
+      simMs += dt * 1000 * TIME_RATE;
+      const simDays = (simMs - planetStartMs) / 86400000;
+
+      textTimer += dt;
+      const refreshText = textTimer >= 0.25;   // ~4×/s keeps the digits legible
+      if (refreshText) textTimer = 0;
+
+      // ── Planets ──
+      if (planets.length) {
+        sunMat.uniforms.uOpacity.value = solarFade;
+        for (const s of solarMats) s.mat.opacity = solarFade * s.peak;
+        const solarVisible = solarFade > 0.02;
+
+        for (const p of planets) {
+          // Every buffer spans exactly one period from the same start epoch, so
+          // an absolute epoch indexes them all at a single consistent instant —
+          // and since it is a phase into a periodic buffer rather than a walk
+          // along it, simMs can sit anywhere, including years after the epoch the
+          // planets were sampled at. That is what lets the craft's 2023 sync
+          // epoch drive these 2020-based buffers with no regeneration.
+          const spans = p.n - 1;
+          const phase = ((simDays % p.periodDays) + p.periodDays) % p.periodDays;
+          const u  = (phase / p.periodDays) * spans;
+          const i0 = Math.floor(u) % spans;
+          const i1 = (i0 + 1) % spans;
+          const f  = u - Math.floor(u);
+          const x = p.cpos[i0 * 3]     + (p.cpos[i1 * 3]     - p.cpos[i0 * 3])     * f;
+          const y = p.cpos[i0 * 3 + 1] + (p.cpos[i1 * 3 + 1] - p.cpos[i0 * 3 + 1]) * f;
+          const zc = p.cpos[i0 * 3 + 2] + (p.cpos[i1 * 3 + 2] - p.cpos[i0 * 3 + 2]) * f;
+          p.x = x; p.y = y; p.z = zc;
+
+          if (p.isHero) marsC.set(x, y, zc);
+
+          // At the resting zoom this layer is invisible, and that is the frame
+          // almost everyone sees — so stop before the per-frame buffer writes.
+          if (!solarVisible) {
+            if (p.body) p.body.visible = false;
+            p.trail.visible = false;
+            continue;
+          }
+
+          // Mars has no body of its own — the hero globe is standing in for it,
+          // and the centring translation parks this trail's head right on it.
+          if (p.body) {
+            p.body.position.set(x, y, zc);
+            p.body.visible = true;
+            // Decorative, like the hero globe's own spin. The real rotation rates
+            // are not what this clock is for — at 600x Earth would take two and a
+            // half minutes to turn once, on a sphere a few pixels across.
+            p.body.rotation.y += dt * p.spin;
+          }
+
+          // Trail: interpolated head, then the samples behind it
+          const arr = p.trail.geometry.attributes.position.array;
+          arr[0] = x; arr[1] = y; arr[2] = zc;
+          for (let i = 1; i < p.trailPts; i++) {
+            const k = ((i0 - i + 1) % spans + spans) % spans;
+            arr[i * 3]     = p.cpos[k * 3];
+            arr[i * 3 + 1] = p.cpos[k * 3 + 1];
+            arr[i * 3 + 2] = p.cpos[k * 3 + 2];
+          }
+          p.trail.geometry.attributes.position.needsUpdate = true;
+          p.trail.visible = true;
+        }
+
+        // Mars sits at the world origin at every zoom level, so the camera has
+        // something fixed to hold centre on however far back it pulls.
+        solarGroup.position.set(-marsC.x, -marsC.y, -marsC.z);
+        solarFrame.updateMatrixWorld(true);
+
+        for (const p of planets) {
+          bodyW.set(p.x, p.y, p.z).applyMatrix4(solarGroup.matrixWorld);
+
+          // Mars reads as one of the eight when you are pulled back, and this is
+          // the one place it stops: once it fills the frame the other labels are
+          // gone and it is the subject, so the same element moves onto the globe's
+          // centre and opens up. The anchor needs no special case — Mars holds the
+          // world origin, so bodyW already projects to the centre of the globe.
+          // The handover rides the two fades that gate the layers either side of
+          // it, crossing at z = 24 where both are still under a tenth, so it is
+          // not a swap you can catch.
+          const hero = p.isHero && craftFade > 0.02;
+          if (p.isHero) setMarsForm(p.label, hero);
+
+          if (!placeLabel(p.label, bodyW, hero ? craftFade : solarFade)) continue;
+          if (refreshText) {
+            // Report the true radius, not the compressed one drawn on screen:
+            // invert rw = K·log10(1 + rAu/C)
+            const rw  = Math.hypot(p.x, p.y, p.z);
+            const rAu = (Math.pow(10, rw / LOG_K) - 1) * LOG_C;
+            p.label.st.textContent = `${rAu.toFixed(2)} AU`;
+            // The same simMs, in the same form, as every spacecraft label below:
+            // one instant, reported one way, so the two layers can be read
+            // against each other rather than compared. The time of day stays on
+            // even pulled back, where the planets are barely moving — it is the
+            // line that says the whole frame is one epoch.
+            p.label.ut.textContent = fmtUtc(simMs, true);
+            measureLabel(p.label);
+            if (hero) centerLabel(p.label, true);
+          }
+        }
+      }
+
+      // ── Spacecraft ──
+      for (const c of craft) {
+        if (c.n < 2) continue;
+        const len = c.n;
+        // Derived from the clock, not accumulated against it. Every craft was
+        // sampled at the same epoch, so they all sit at the same offset into
+        // their own buffer and stay locked to each other and to the planets
+        // whatever the rate does. It also means a buffer swap needs no playhead
+        // rescale — the epoch decides where the head lands.
+        //
+        // The buffer holds a whole number of orbits, so wrapping the offset back
+        // to its start is very nearly continuous: the craft returns to the same
+        // point in its orbit, a few orbits' worth of precession short.
+        const u = ((((simMs - c.startMs) / 1000 / c.stepSec) % len) + len) % len;
+        c.index = Math.floor(u);
+        c.frac  = u - c.index;
+
+        // Lerp between the current sampled position and the next
+        const i0 = c.index * 3;
+        const i1 = ((c.index + 1) % len) * 3;
+        const f  = c.frac;
+        const hx = c.pos[i0]     + (c.pos[i1]     - c.pos[i0])     * f;
+        const hy = c.pos[i0 + 1] + (c.pos[i1 + 1] - c.pos[i0 + 1]) * f;
+        const hz = c.pos[i0 + 2] + (c.pos[i1 + 2] - c.pos[i0 + 2]) * f;
+        c.dot.position.set(hx, hy, hz);
+        c.dot.visible   = craftFade > 0.02;
+        c.trail.visible = craftFade > 0.02;
+
+        // Trail: interpolated head first, then previous sampled positions
+        const arr   = c.trail.geometry.attributes.position.array;
+        const count = Math.min(TRAIL_LEN, len);
+        arr[0] = hx; arr[1] = hy; arr[2] = hz;
+        for (let i = 1; i < count; i++) {
+          const k = (((c.index - i + 1) % len) + len) % len;
+          arr[i * 3]     = c.pos[k * 3];
+          arr[i * 3 + 1] = c.pos[k * 3 + 1];
+          arr[i * 3 + 2] = c.pos[k * 3 + 2];
+        }
+        c.trail.geometry.attributes.position.needsUpdate = true;
+        c.trail.geometry.setDrawRange(0, count);
+        c.trail.material.opacity = 0.95 * craftFade;
+
+        const shown = placeLabel(c.label, c.dot.position, craftFade);
+
+        if (shown && refreshText) {
+          const r    = Math.hypot(hx, hy, hz);
+          const rKm  = r * MARS_EQ_R;
+          // sin(latitude) is the position's component ALONG MARS' POLE, not along
+          // any J2000 axis. Getting this wrong reads low by up to 18 km, since it
+          // under-applies the flattening: MRO's polar orbit came out 234–302 km
+          // instead of SPICE's own 251–317 km.
+          const sinLat = (hx * MARS_POLE.x + hy * MARS_POLE.y + hz * MARS_POLE.z) / r;
+          const alt  = rKm - spheroidRadius(sinLat);
+          const lat  = THREE.MathUtils.radToDeg(Math.asin(sinLat));
+          c.label.st.textContent =
+            `ALT ${alt.toFixed(0).padStart(5)} km  LAT ${lat >= 0 ? '+' : ''}${lat.toFixed(1)}°`;
+          // The scene's one epoch, not a per-craft one: every craft on screen was
+          // sampled at the same sync epoch, so this is the same value the planet
+          // labels show, to the second.
+          c.label.ut.textContent = fmtUtc(simMs, true);
+          measureLabel(c.label);
+        }
+      }
+
+      // Scene offscreen, then the chain: bright pass, the two blur axes, and a
+      // final quad to the canvas. The blurs ping-pong between the two small
+      // targets so the vertical one ends where uBloom is already pointed.
+      //
+      // Both effects can be switched off, and with neither left there is no chain
+      // to run: the scene draws straight to the canvas and the frame costs one
+      // pass instead of five. That is also the only path where three.js does the
+      // sRGB encode itself, because it is the only one where it is the thing
+      // drawing to the canvas.
+      //
+      // It is the only path with antialiasing, too, and that is visible: the
+      // canvas was asked for it, crtTarget has no multisampling, so the wireframe
+      // comes out smoother here than under either filtered path. Measured, the
+      // difference is confined to line edges — the flat background is identical to
+      // a level. Fixable with `samples: 4` on crtTarget, at the cost of a
+      // multisampled full-resolution target on every frame including the normal
+      // one; left alone because the scanlines are sitting on those same edges
+      // whenever the filter is on.
+      const bloomOn = BLOOM.enabled && BLOOM.strength > 0;
+      if (!CRT.enabled && !bloomOn) {
+        renderer.setRenderTarget(null);
+        renderer.render(scene, camera);
+        return;
+      }
+
+      renderer.setRenderTarget(crtTarget);
+      renderer.render(scene, camera);
+
+      // Skipped at strength 0 rather than run and multiplied away. It leaves a
+      // stale frame in the target, which is why the guard is on the strength the
+      // final pass scales by: zero of a stale glow is still zero.
+      if (bloomOn) {
+        pass(brightMat, bloomTargets[0]);
+        blurMat.uniforms.uTex.value = bloomTargets[0].texture;
+        blurMat.uniforms.uStep.value.set(bloomTexel.x, 0);
+        pass(blurMat, bloomTargets[1]);
+        blurMat.uniforms.uTex.value = bloomTargets[1].texture;
+        blurMat.uniforms.uStep.value.set(0, bloomTexel.y);
+        pass(blurMat, bloomTargets[0]);
+      }
+
+      crtMat.uniforms.uTime.value = elapsed;
+      pass(CRT.enabled ? crtMat : flatMat, null);
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // Zoom
+    // ═══════════════════════════════════════════════════════════
+
+    const zoomInput = document.getElementById('zoom');
+    zoomInput.max   = ZOOM_MAX;             // set before value, or it clamps
+    zoomInput.value = camera.position.z;     // restingDist() owns the framing
+
+    // Once the slider has been dragged, the resting distance stops being ours to
+    // change, so a later resize leaves the chosen zoom alone.
+    let zoomTouched = false;
+
+    zoomInput.addEventListener('input', function () {
+      zoomTouched = true;
+      camera.position.z = parseFloat(this.value);
+      updateCameraTarget();
+    });
+
+    // ═══════════════════════════════════════════════════════════
+    // Resize
+    // ═══════════════════════════════════════════════════════════
+
+    const resizeObs = new ResizeObserver(() => {
+      W = canvas.parentElement.clientWidth  || window.innerWidth;
+      H = canvas.parentElement.clientHeight || window.innerHeight;
+      renderer.setSize(W, H, false);
+      // Drawing-buffer pixels, not CSS pixels, or the pass resamples at the
+      // wrong scale on a retina display.
+      crtTarget.setSize(Math.round(W * PR), Math.round(H * PR));
+      resizeBloom();
+      camera.aspect = W / H;
+      camera.updateProjectionMatrix();
+      // Rotating a phone changes the aspect, and with it how far back the globe
+      // has to sit to fit the frame.
+      if (!zoomTouched) {
+        camera.position.z = restingDist();
+        zoomInput.value   = camera.position.z;
+      }
+      updateCameraTarget();
+    });
+    resizeObs.observe(document.getElementById('banner'));
+
+    // ═══════════════════════════════════════════════════════════
+    // Bootstrap: cached SPICE renders immediately, live SpiceQL layers on top
+    // ═══════════════════════════════════════════════════════════
+
+    animate();
+
+    loadCache()
+      .then(() => {
+        // Stay on the neutral pulse until the API verdict is in, so the dot
+        // never flashes "failed" during a request that is about to succeed.
+        setStatus('probing', 'Cached SPICE data rendering — contacting the SpiceQL API…');
+        return trySpiceQL();
+      })
+      .catch(err => {
+        setStatus('cache', `Ephemeris cache failed to load: ${err.message}`);
+        console.error('[mars-banner]', err);
+      });
+  </script>
+</body>
+</html>

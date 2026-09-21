@@ -1,0 +1,1804 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://doi-usgs.github.io/SpiceQL/SpiceQLCPPAPI/classrestincurl_1_1RequestBuilder/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Class restincurl::RequestBuilder - SpiceQL Manual</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+  
+  
+  
+  
+  <style>:root{--md-annotation-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M22%2012a10%2010%200%200%201-10%2010A10%2010%200%200%201%202%2012%2010%2010%200%200%201%2012%202a10%2010%200%200%201%2010%2010m-12%206%206-6-6-6-1.4%201.4%204.6%204.6-4.6%204.6z%22/%3E%3C/svg%3E');}</style>
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#class-restincurlrequestbuilder" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="SpiceQL Manual" class="md-header__button md-logo" aria-label="SpiceQL Manual" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SpiceQL Manual
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Class restincurl::RequestBuilder
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../namespaces/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  [ C++ API ]
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="https://astrogeology.usgs.gov/apis/spiceql/latest/docs" class="md-tabs__link">
+        
+  
+  
+    
+  
+  [ RESTful API ]
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="https://astrogeology.usgs.gov/docs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  [ USGS Astrogeology Docs ]
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="SpiceQL Manual" class="md-nav__button md-logo" aria-label="SpiceQL Manual" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    SpiceQL Manual
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    [ C++ API ]
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    [ C++ API ]
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Namespaces
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Namespaces
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespaces/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Namespace List
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespace_member_functions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Functions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://astrogeology.usgs.gov/apis/spiceql/latest/docs" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    [ RESTful API ]
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://astrogeology.usgs.gov/docs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    [ USGS Astrogeology Docs ]
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#public-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Public Types
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Public Functions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#protected-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protected Functions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detailed-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detailed Description
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-types-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Public Types Documentation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Public Types Documentation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#typedef-ptr_t" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        typedef ptr_t
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-functions-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Public Functions Documentation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Public Functions Documentation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#function-acceptjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function AcceptJson
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-basicauthentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function BasicAuthentication
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function Build
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-cansendfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function CanSendFile
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-connecttimeout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function ConnectTimeout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function Delete
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-execute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function Execute
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-executesynchronous" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function ExecuteSynchronous
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-get" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function Get
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-head" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function Head
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-header-12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function Header [1/2]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-header-22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function Header [2/2]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-ignoreincomingdata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function IgnoreIncomingData
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-option" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function Option
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function Options
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-patch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function Patch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-post" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function Post
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-postmime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function PostMime
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-put" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function Put
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-requestbuilder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function RequestBuilder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-requesttimeout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function RequestTimeout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-senddata-12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function SendData [1/2]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-senddata-22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function SendData [2/2]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-sendfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function SendFile
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-sendfileasform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function SendFileAsForm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-sendfileasmimedata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function SendFileAsMimeData
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-setreadhandler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function SetReadHandler
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-setwritehandler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function SetWriteHandler
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-storedata-12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function StoreData [1/2]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-storedata-22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function StoreData [2/2]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-trace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function Trace
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-withcompletion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function WithCompletion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-withjson-12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function WithJson [1/2]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-withjson-22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function WithJson [2/2]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-requestbuilder_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function ~RequestBuilder
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#protected-functions-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protected Functions Documentation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Protected Functions Documentation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#function-prepare" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function Prepare
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="class-restincurlrequestbuilder">Class restincurl::RequestBuilder</h1>
+<p><a href="../annotated/"><strong>ClassList</strong></a> <strong>&gt;</strong> <a href="../namespacerestincurl/"><strong>restincurl</strong></a> <strong>&gt;</strong> <a href="./"><strong>RequestBuilder</strong></a></p>
+<p><a href="#detailed-description">More...</a></p>
+<ul>
+<li><code>#include &lt;restincurl.h&gt;</code></li>
+</ul>
+<h2 id="public-types">Public Types</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Type</th>
+<th style="text-align: left;">Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">typedef std::unique_ptr&lt; RequestBuilder &gt;</td>
+<td style="text-align: left;"><a href="#typedef-ptr_t"><strong>ptr_t</strong></a>  <br></td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Type</th>
+<th style="text-align: left;">Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-acceptjson"><strong>AcceptJson</strong></a> () <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-basicauthentication"><strong>BasicAuthentication</strong></a> (const std::string &amp; name, const std::string &amp; passwd) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">void</td>
+<td style="text-align: left;"><a href="#function-build"><strong>Build</strong></a> () <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">bool</td>
+<td style="text-align: left;"><a href="#function-cansendfile"><strong>CanSendFile</strong></a> () noexcept const<br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-connecttimeout"><strong>ConnectTimeout</strong></a> (const long timeout) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-delete"><strong>Delete</strong></a> (const std::string &amp; url) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">void</td>
+<td style="text-align: left;"><a href="#function-execute"><strong>Execute</strong></a> () <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">void</td>
+<td style="text-align: left;"><a href="#function-executesynchronous"><strong>ExecuteSynchronous</strong></a> () <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-get"><strong>Get</strong></a> (const std::string &amp; url) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-head"><strong>Head</strong></a> (const std::string &amp; url) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-header-12"><strong>Header</strong></a> (const char * value) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-header-22"><strong>Header</strong></a> (const std::string &amp; name, const std::string &amp; value) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-ignoreincomingdata"><strong>IgnoreIncomingData</strong></a> () <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-option"><strong>Option</strong></a> (const CURLoption &amp; opt, const T &amp; value) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-options"><strong>Options</strong></a> (const std::string &amp; url) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-patch"><strong>Patch</strong></a> (const std::string &amp; url) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-post"><strong>Post</strong></a> (const std::string &amp; url) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-postmime"><strong>PostMime</strong></a> (const std::string &amp; url) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-put"><strong>Put</strong></a> (const std::string &amp; url) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;"></td>
+<td style="text-align: left;"><a href="#function-requestbuilder"><strong>RequestBuilder</strong></a> (<a href="../classrestincurl_1_1Worker/"><strong>Worker</strong></a> &amp; worker) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-requesttimeout"><strong>RequestTimeout</strong></a> (const long timeout) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-senddata-12"><strong>SendData</strong></a> (<a href="../structrestincurl_1_1OutDataHandler/"><strong>OutDataHandler</strong></a>&lt; T &gt; &amp; dh) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-senddata-22"><strong>SendData</strong></a> (T data) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-sendfile"><strong>SendFile</strong></a> (const std::string &amp; path) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-sendfileasform"><strong>SendFileAsForm</strong></a> (const std::string &amp; path) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-sendfileasmimedata"><strong>SendFileAsMimeData</strong></a> (const std::string &amp; path, const std::string &amp; name={}, const std::string &amp; remoteName={}, const std::string &amp; mimeType={}) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-setreadhandler"><strong>SetReadHandler</strong></a> (size_t(*)(char *, size_t, size_t, void *) handler, void * userdata) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-setwritehandler"><strong>SetWriteHandler</strong></a> (size_t(*)(char *, size_t, size_t, void *) handler, void * userdata) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-storedata-12"><strong>StoreData</strong></a> (<a href="../structrestincurl_1_1InDataHandler/"><strong>InDataHandler</strong></a>&lt; T &gt; &amp; dh) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-storedata-22"><strong>StoreData</strong></a> (T &amp; data) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-trace"><strong>Trace</strong></a> (bool enable=true) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-withcompletion"><strong>WithCompletion</strong></a> (<a href="../namespacerestincurl/#typedef-completion_fn_t"><strong>completion_fn_t</strong></a> fn) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-withjson-12"><strong>WithJson</strong></a> () <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-withjson-22"><strong>WithJson</strong></a> (std::string body) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;"></td>
+<td style="text-align: left;"><a href="#function-requestbuilder"><strong>~RequestBuilder</strong></a> () <br></td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-functions">Protected Functions</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Type</th>
+<th style="text-align: left;">Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">RequestBuilder &amp;</td>
+<td style="text-align: left;"><a href="#function-prepare"><strong>Prepare</strong></a> (RequestType rt, const std::string &amp; url) <br></td>
+</tr>
+</tbody>
+</table>
+<h2 id="detailed-description">Detailed Description</h2>
+<p>Convenient interface to build requests.</p>
+<p>Even if this is a light-weight wrapper around libcurl, we have a simple and modern way to define our requests that contains convenience-methods for the most common use-cases. </p>
+<h2 id="public-types-documentation">Public Types Documentation</h2>
+<h3 id="typedef-ptr_t">typedef ptr_t</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">using</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">ptr_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">RequestBuilder</span><span class="o">&gt;</span><span class="p">;</span>
+</code></pre></div>
+<hr>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-acceptjson">function AcceptJson</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">AcceptJson</span><span class="w"> </span><span class="p">()</span><span class="w"> </span>
+</code></pre></div>
+<p>Sets the accept header to "Application/json" </p>
+<hr>
+
+<h3 id="function-basicauthentication">function BasicAuthentication</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">BasicAuthentication</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">name</span><span class="p">,</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">passwd</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>HTTP Basic Authentication</p>
+<p>Authenticate the request with HTTP Basic Authentication.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>name</code> Name to authenticate with </li>
+<li><code>passwd</code> Password to authenticate with</li>
+</ul>
+<p>Note that if name or password is empty, authentication is ignored. This makes it simple to add optional authentication to your project, by simply assigning values to the strings you pass here, or not. </p>
+<hr>
+
+<h3 id="function-build">function Build</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">Build</span><span class="w"> </span><span class="p">()</span><span class="w"> </span>
+</code></pre></div>
+<hr>
+
+<h3 id="function-cansendfile">function CanSendFile</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kr">inline</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">CanSendFile</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="k">noexcept</span><span class="w"> </span><span class="k">const</span>
+</code></pre></div>
+<hr>
+
+<h3 id="function-connecttimeout">function ConnectTimeout</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">ConnectTimeout</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">timeout</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Set the connect timeout for a request</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>timeout</code> Timeout in milliseconds. Set to -1 to use the default. </li>
+</ul>
+<hr>
+
+<h3 id="function-delete">function Delete</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">Delete</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">url</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Use a HTTP DELETE request </p>
+<hr>
+
+<h3 id="function-execute">function Execute</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">Execute</span><span class="w"> </span><span class="p">()</span><span class="w"> </span>
+</code></pre></div>
+<p>Execute the request asynchronously</p>
+<p>This will queue the request for processing. If the number of active requests are less than <code>RESTINCURL_MAX_CONNECTIONS</code>, the request will start executing almost immediately.</p>
+<p>The method returns immediately.</p>
+<p><strong>Exception:</strong></p>
+<ul>
+<li><a href="../classrestincurl_1_1Exception/"><strong>restincurl::Exception</strong></a> derived exceptions on error</li>
+</ul>
+<p>This method is only available when <code>RESTINCURL_ENABLE_ASYNC</code> is nonzero. </p>
+<hr>
+
+<h3 id="function-executesynchronous">function ExecuteSynchronous</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">ExecuteSynchronous</span><span class="w"> </span><span class="p">()</span><span class="w"> </span>
+</code></pre></div>
+<p>Execute the request synchronously</p>
+<p>This will execute the request and call the callback (if you declared one) in the current thread before the method returns.</p>
+<p><strong>Exception:</strong></p>
+<ul>
+<li><a href="../classrestincurl_1_1Exception/"><strong>restincurl::Exception</strong></a> derived exceptions on error</li>
+</ul>
+<p>This method is available even when <code>RESTINCURL_ENABLE_ASYNC</code> is enabled ( != 0). </p>
+<hr>
+
+<h3 id="function-get">function Get</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">Get</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">url</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Use a HTTP GET request </p>
+<hr>
+
+<h3 id="function-head">function Head</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">Head</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">url</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Use a HTTP HEAD request </p>
+<hr>
+
+<h3 id="function-header-12">function Header [1/2]</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">Header</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">value</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Specify a HTTP header for the request.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>value</code> The value of the header-line, properly formatted according to the relevant HTTP specifications. </li>
+</ul>
+<hr>
+
+<h3 id="function-header-22">function Header [2/2]</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">Header</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">name</span><span class="p">,</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">value</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Specify a HTTP header for the request.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>name</code> Name of the header </li>
+<li><code>value</code> The value of the header</li>
+</ul>
+<p>This is a convenience method that will build the appropriate header for you. </p>
+<hr>
+
+<h3 id="function-ignoreincomingdata">function IgnoreIncomingData</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">IgnoreIncomingData</span><span class="w"> </span><span class="p">()</span><span class="w"> </span>
+</code></pre></div>
+<p>Do not process incoming data</p>
+<p>The response body will be read from the network, but not buffered and not available for later inspection. </p>
+<hr>
+
+<h3 id="function-option">function Option</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">Option</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">CURLoption</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">opt</span><span class="p">,</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">value</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Sets a Curl options.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>opt</code> CURLoption enum specifying the option </li>
+<li><code>value</code> Value to set.</li>
+</ul>
+<p>It is critical that the type of the value is of the same type that libcurl is expecting for the option. RESTinCurl makes no attempt to validate or cast the values.</p>
+<p>Please refer to the libcurl documentation for curl_easy_setopt() </p>
+<hr>
+
+<h3 id="function-options">function Options</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">Options</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">url</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Use a HTTP OPTIONS request </p>
+<hr>
+
+<h3 id="function-patch">function Patch</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">Patch</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">url</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Use a HTTP PATCH request </p>
+<hr>
+
+<h3 id="function-post">function Post</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">Post</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">url</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Use a HTTP POST request </p>
+<hr>
+
+<h3 id="function-postmime">function PostMime</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">PostMime</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">url</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Use a HTTP POST request </p>
+<hr>
+
+<h3 id="function-put">function Put</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">Put</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">url</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Use a HTTP PUT request </p>
+<hr>
+
+<h3 id="function-requestbuilder">function RequestBuilder</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">    </span><span class="n">Worker</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">worker</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<hr>
+
+<h3 id="function-requesttimeout">function RequestTimeout</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">RequestTimeout</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">timeout</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Set request timeout</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>timeout</code> Timeout in milliseconds. Set to -1 to use the default. </li>
+</ul>
+<hr>
+
+<h3 id="function-senddata-12">function SendData [1/2]</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">SendData</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">    </span><span class="n">OutDataHandler</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">dh</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Specify Data Handler for outbound data</p>
+<p>You can use this method when you need to use a Data Handler, rather than a simple string, to provide the data for a POST, PUT etc. request.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>dh</code> Data Handler instance.</li>
+</ul>
+<p>Note that the Data Handler is passed by reference. It is your responsibility that the instance is present at least until the request has finished (your code owns the Data Handler instance). </p>
+<hr>
+
+<h3 id="function-senddata-22">function SendData [2/2]</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">SendData</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="w">    </span><span class="n">T</span><span class="w"> </span><span class="n">data</span>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Convenience method to specify a object that contains the data to send during a request.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>data</code> Data to send. Typically this will be a std::string, std::vector&lt;char&gt; or a similar object.</li>
+</ul>
+<p>RESTinCurl takes ownership of this data (by moving it). </p>
+<hr>
+
+<h3 id="function-sendfile">function SendFile</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">SendFile</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">path</span>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Send a file</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>path</code> Full path to the file to send.</li>
+</ul>
+<p><strong>Exception:</strong></p>
+<ul>
+<li><a href="../classrestincurl_1_1SystemException/"><strong>SystemException</strong></a> if the file cannot be opened. </li>
+<li><a href="../classrestincurl_1_1Exception/"><strong>Exception</strong></a> if the method is called for a non-send operation </li>
+</ul>
+<hr>
+
+<h3 id="function-sendfileasform">function SendFileAsForm</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">SendFileAsForm</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">path</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Send a file</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>path</code> Full path to the file to send.</li>
+</ul>
+<p><strong>Exception:</strong></p>
+<ul>
+<li><a href="../classrestincurl_1_1SystemException/"><strong>SystemException</strong></a> if the file cannot be opened. </li>
+<li><a href="../classrestincurl_1_1Exception/"><strong>Exception</strong></a> if the method is called for a non-send operation </li>
+</ul>
+<hr>
+
+<h3 id="function-sendfileasmimedata">function SendFileAsMimeData</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">SendFileAsMimeData</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">path</span><span class="p">,</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="p">{},</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">remoteName</span><span class="o">=</span><span class="p">{},</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">mimeType</span><span class="o">=</span><span class="p">{}</span>
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Send a file as a multipart/form mime segment</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>path</code> Full path to the file tro send </li>
+<li><code>name</code> Otional name to use for the file in the mime segment </li>
+<li><code>remoteName</code> Optional name to label the file as for the remote end </li>
+<li><code>mimeType</code> Optional mime-type for the file</li>
+</ul>
+<p><strong>Exception:</strong></p>
+<ul>
+<li><a href="../classrestincurl_1_1Exception/"><strong>Exception</strong></a> if the method is called for a non-mime-post operation </li>
+</ul>
+<hr>
+
+<h3 id="function-setreadhandler">function SetReadHandler</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">SetReadHandler</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="w">    </span><span class="kt">size_t</span><span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">handler</span><span class="p">,</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">userdata</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Set a Curl compatible read handler.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>handler</code> Curl C API read handler</li>
+</ul>
+<p>You probably don't need to call this directly. </p>
+<hr>
+
+<h3 id="function-setwritehandler">function SetWriteHandler</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">SetWriteHandler</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="w">    </span><span class="kt">size_t</span><span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">handler</span><span class="p">,</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">userdata</span>
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Set a Curl compatible write handler.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>handler</code> Curl C API write handler</li>
+</ul>
+<p>You probably don't need to call this directly. </p>
+<hr>
+
+<h3 id="function-storedata-12">function StoreData [1/2]</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">StoreData</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="w">    </span><span class="n">InDataHandler</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">dh</span>
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Specify Data Handler for inbound data</p>
+<p>You can use this method when you need to use a Data Handler, rather than a simple string, to receive data during the request.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>dh</code> Data Handler instance.</li>
+</ul>
+<p>Note that the Data Handler is passed by reference. It is your responsibility that the instance is present at least until the request has finished (your code owns the Data Handler instance). </p>
+<hr>
+
+<h3 id="function-storedata-22">function StoreData [2/2]</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">StoreData</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="w">    </span><span class="n">T</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">data</span>
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Convenience method to specify a object that receives incoming data during a request.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>data</code> Buffer to hold incoming data. Typically this will be a std::string, std::vector&lt;char&gt; or a similar object.</li>
+</ul>
+<p>Note that data is passed by reference. It is your responsibility that the instance is present at least until the request has finished (your code owns the object). </p>
+<hr>
+
+<h3 id="function-trace">function Trace</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">Trace</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">enable</span><span class="o">=</span><span class="nb">true</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Enables or disables trace logging for requests.</p>
+<p>The trace logging will show detailed information about what libcurl does and data sent and received during a request.</p>
+<p>Basically it sets <code>CURLOPT_DEBUGFUNCTION</code> and <code>CURLOPT_VERBOSE</code>. </p>
+<hr>
+
+<h3 id="function-withcompletion">function WithCompletion</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">WithCompletion</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="w">    </span><span class="n">completion_fn_t</span><span class="w"> </span><span class="n">fn</span>
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Specify a callback that will be called when the request is complete (or failed).</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>fn</code> Callback to be called</li>
+</ul>
+<p>For asynchronous requests, the callback will be called from the worker-thread shared by all requests and timers for the client instance. It is imperative that you return immediately, and don't keep the thread busy more than strictly required. If you need do do some computing or IO in response to the information you receive, you should do that in another thread. </p>
+<hr>
+
+<h3 id="function-withjson-12">function WithJson [1/2]</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">WithJson</span><span class="w"> </span><span class="p">()</span><span class="w"> </span>
+</code></pre></div>
+<p>Sets the content-type to "Application/json; charset=utf-8" </p>
+<hr>
+
+<h3 id="function-withjson-22">function WithJson [2/2]</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">WithJson</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">body</span>
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<p>Sets the content-type to "Application/json; charset=utf-8"</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>body</code> Json payload to send with the request. </li>
+</ul>
+<hr>
+
+<h3 id="function-requestbuilder_1">function ~RequestBuilder</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::~</span><span class="n">RequestBuilder</span><span class="w"> </span><span class="p">()</span><span class="w"> </span>
+</code></pre></div>
+<hr>
+<h2 id="protected-functions-documentation">Protected Functions Documentation</h2>
+<h3 id="function-prepare">function Prepare</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">RequestBuilder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">restincurl</span><span class="o">::</span><span class="n">RequestBuilder</span><span class="o">::</span><span class="n">Prepare</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="w">    </span><span class="n">RequestType</span><span class="w"> </span><span class="n">rt</span><span class="p">,</span>
+<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">url</span>
+<a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+<hr>
+
+<hr />
+<p>The documentation for this class was generated from the following file <code>SpiceQL/include/SpiceQL/restincurl.h</code></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.path", "navigation.indexes", "search.suggest", "search.suggest", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

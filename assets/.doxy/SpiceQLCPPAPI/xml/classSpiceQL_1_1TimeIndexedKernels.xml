@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classSpiceQL_1_1TimeIndexedKernels" kind="class" language="C++" prot="public">
+    <compoundname>SpiceQL::TimeIndexedKernels</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classSpiceQL_1_1TimeIndexedKernels_1a924bfb92490ba324395dafecace8b832" prot="public" static="no" mutable="no">
+        <type>frozenca::BTreeMap&lt; double, size_t &gt;</type>
+        <definition>frozenca::BTreeMap&lt;double, size_t&gt; SpiceQL::TimeIndexedKernels::start_times</definition>
+        <argsstring></argsstring>
+        <name>start_times</name>
+        <qualifiedname>SpiceQL::TimeIndexedKernels::start_times</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="49" column="24" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1TimeIndexedKernels_1a79235f4061658d3170fae34bde5f296a" prot="public" static="no" mutable="no">
+        <type>frozenca::BTreeMap&lt; double, size_t &gt;</type>
+        <definition>frozenca::BTreeMap&lt;double, size_t&gt; SpiceQL::TimeIndexedKernels::stop_times</definition>
+        <argsstring></argsstring>
+        <name>stop_times</name>
+        <qualifiedname>SpiceQL::TimeIndexedKernels::stop_times</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="50" column="24" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1TimeIndexedKernels_1a566b782428785681552cf0e351798c6e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; SpiceQL::TimeIndexedKernels::file_paths</definition>
+        <argsstring></argsstring>
+        <name>file_paths</name>
+        <qualifiedname>SpiceQL::TimeIndexedKernels::file_paths</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="51" column="17" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="47" column="3" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="47" bodyend="52"/>
+    <listofallmembers>
+      <member refid="classSpiceQL_1_1TimeIndexedKernels_1a566b782428785681552cf0e351798c6e" prot="public" virt="non-virtual"><scope>SpiceQL::TimeIndexedKernels</scope><name>file_paths</name></member>
+      <member refid="classSpiceQL_1_1TimeIndexedKernels_1a924bfb92490ba324395dafecace8b832" prot="public" virt="non-virtual"><scope>SpiceQL::TimeIndexedKernels</scope><name>start_times</name></member>
+      <member refid="classSpiceQL_1_1TimeIndexedKernels_1a79235f4061658d3170fae34bde5f296a" prot="public" virt="non-virtual"><scope>SpiceQL::TimeIndexedKernels</scope><name>stop_times</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

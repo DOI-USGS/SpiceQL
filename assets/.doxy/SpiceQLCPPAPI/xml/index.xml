@@ -1,0 +1,555 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.18.0" xml:lang="en-US">
+  <compound refid="classSpiceQL_1_1AliasMap" kind="class"><name>SpiceQL::AliasMap</name>
+    <member refid="classSpiceQL_1_1AliasMap_1a61394cf60bf6f92d9fed768c7ed01fd1" kind="variable"><name>m_lookupTable</name></member>
+    <member refid="classSpiceQL_1_1AliasMap_1aaaa3ad95d9ed7cad5443b7975397edcc" kind="variable"><name>m_mutex</name></member>
+    <member refid="classSpiceQL_1_1AliasMap_1a7212c262ec596df3eca0c75faabba416" kind="variable"><name>m_initialized</name></member>
+    <member refid="classSpiceQL_1_1AliasMap_1ae802f5d364acd94a48740d110796740c" kind="function"><name>instance</name></member>
+    <member refid="classSpiceQL_1_1AliasMap_1a4f68b47b43324a338bddcac36e28c27f" kind="function"><name>load</name></member>
+    <member refid="classSpiceQL_1_1AliasMap_1aa8b3dd77990039b9d5158a9bd9db0782" kind="function"><name>getSpiceqlName</name></member>
+    <member refid="classSpiceQL_1_1AliasMap_1ae54c61336d5d30b72bf7a5a674903c14" kind="function"><name>addAliasKey</name></member>
+    <member refid="classSpiceQL_1_1AliasMap_1ac833b2c65dc6d6b0cf17baa19f1e7433" kind="function"><name>getAliasMap</name></member>
+    <member refid="classSpiceQL_1_1AliasMap_1a06da504592d32641bbc2261a92265548" kind="function"><name>setAliasMap</name></member>
+    <member refid="classSpiceQL_1_1AliasMap_1a2791605f42be3a9cf5f0e5c7f79509c2" kind="function"><name>AliasMap</name></member>
+    <member refid="classSpiceQL_1_1AliasMap_1aacbc7c48c36b4744fc2e2500e0ee5586" kind="function"><name>ensure_init</name></member>
+    <member refid="classSpiceQL_1_1AliasMap_1a367d14ab841ddd3122c095d4f2ee319a" kind="function"><name>load_internal</name></member>
+  </compound>
+  <compound refid="classSpiceQL_1_1Memo_1_1Cache" kind="class"><name>SpiceQL::Memo::Cache</name>
+    <member refid="classSpiceQL_1_1Memo_1_1Cache_1a1a0570a5cafb83b1480e94fac47583fa" kind="variable"><name>m_dependants</name></member>
+    <member refid="classSpiceQL_1_1Memo_1_1Cache_1a2b5519554b2fd619eb275e60695d9797" kind="function"><name>Cache</name></member>
+    <member refid="classSpiceQL_1_1Memo_1_1Cache_1a9aa5a5026871aa150ae3acb64f1c7dc8" kind="function"><name>operator()</name></member>
+    <member refid="classSpiceQL_1_1Memo_1_1Cache_1a67fd9dc0fb6adf0f147b7f670e6a7a94" kind="function"><name>operator()</name></member>
+    <member refid="classSpiceQL_1_1Memo_1_1Cache_1a4a6e3f584ec37005a9ca0b601b044c88" kind="function"><name>operator()</name></member>
+    <member refid="classSpiceQL_1_1Memo_1_1Cache_1a8e347d024685645454625fea82776fdd" kind="function"><name>use_disk_cache</name></member>
+  </compound>
+  <compound refid="classSpiceQL_1_1CkSegment" kind="class"><name>SpiceQL::CkSegment</name>
+    <member refid="classSpiceQL_1_1CkSegment_1af9e7b7458addd63dd2f74c1f6af4755c" kind="function"><name>CkSegment</name></member>
+  </compound>
+  <compound refid="classrestincurl_1_1Client" kind="class"><name>restincurl::Client</name>
+    <member refid="classrestincurl_1_1Client_1a1487d111dc8878f080521ad60dcd1875" kind="variable"><name>worker_</name></member>
+    <member refid="classrestincurl_1_1Client_1aa319ce9d68abfa431c6c99d6f8780b5d" kind="function"><name>Client</name></member>
+    <member refid="classrestincurl_1_1Client_1a75820f3a175d242bc7d33083101b4d7e" kind="function"><name>~Client</name></member>
+    <member refid="classrestincurl_1_1Client_1a1228a6b60698528f698b1a9b85b495ba" kind="function"><name>Build</name></member>
+    <member refid="classrestincurl_1_1Client_1a8ee00d7efc785fffa2513628406f2b9c" kind="function"><name>CloseWhenFinished</name></member>
+    <member refid="classrestincurl_1_1Client_1af8a333a32f93c429e5f2a56fa060e314" kind="function"><name>Close</name></member>
+    <member refid="classrestincurl_1_1Client_1afdbfa209efc55eb5d4f9ad162baf0f92" kind="function"><name>WaitForFinish</name></member>
+    <member refid="classrestincurl_1_1Client_1af2aea21e1d4da2ef7b59d77e14920986" kind="function"><name>HaveWorker</name></member>
+    <member refid="classrestincurl_1_1Client_1a9e0694d1dbefd9df3f992166daffed7d" kind="function"><name>GetNumActiveRequests</name></member>
+  </compound>
+  <compound refid="classSpiceQL_1_1Config" kind="class"><name>SpiceQL::Config</name>
+    <member refid="classSpiceQL_1_1Config_1af5076ec5f469bd98e63c4096d9300286" kind="variable"><name>config</name></member>
+    <member refid="classSpiceQL_1_1Config_1a6dc12c390578c84b0b11000946ff835f" kind="variable"><name>confPointer</name></member>
+    <member refid="classSpiceQL_1_1Config_1a333946e1a6843e02452bc563cf67fdac" kind="function"><name>Config</name></member>
+    <member refid="classSpiceQL_1_1Config_1ae8765e0d9ca47d062a1b1fff9cc21079" kind="function"><name>Config</name></member>
+    <member refid="classSpiceQL_1_1Config_1a11530650edfa2626bda3532232db3549" kind="function"><name>operator[]</name></member>
+    <member refid="classSpiceQL_1_1Config_1a6556b9ce37a6b8b21781793408bfbc7f" kind="function"><name>operator[]</name></member>
+    <member refid="classSpiceQL_1_1Config_1a7b577385957b389bb99bbb334ec5f164" kind="function"><name>size</name></member>
+    <member refid="classSpiceQL_1_1Config_1a9232c2f79e7ed82acb4d592a5887185e" kind="function"><name>get</name></member>
+    <member refid="classSpiceQL_1_1Config_1a5d47b429505cc8b2172dc1f80930b990" kind="function"><name>get</name></member>
+    <member refid="classSpiceQL_1_1Config_1a9ce19a7df47e8ed42d91b21fc122d2e3" kind="function"><name>getRecursive</name></member>
+    <member refid="classSpiceQL_1_1Config_1aafcfbc7ea7a748838bd92bf143778b82" kind="function"><name>getLatestRecursive</name></member>
+    <member refid="classSpiceQL_1_1Config_1a60ade2f5b5698fac4b0f6709d123691f" kind="function"><name>getLatest</name></member>
+    <member refid="classSpiceQL_1_1Config_1a93d4293df4715a97e835ecfdea6b2174" kind="function"><name>globalConf</name></member>
+    <member refid="classSpiceQL_1_1Config_1adcfe111f3c512bfee5a38ea18128638f" kind="function"><name>findKey</name></member>
+    <member refid="classSpiceQL_1_1Config_1ac6d781839e4ead8567bc4c48ce5d8baa" kind="function"><name>contains</name></member>
+    <member refid="classSpiceQL_1_1Config_1aadecf549a46ec7367d9789a92f7c17c2" kind="function"><name>getParentPointer</name></member>
+    <member refid="classSpiceQL_1_1Config_1af0b1f8ff8f3ef39bc3f3c3835e5cd074" kind="function"><name>Config</name></member>
+    <member refid="classSpiceQL_1_1Config_1a42f336d7f26818349ea56c1c96dd7613" kind="function"><name>evaluateConfig</name></member>
+  </compound>
+  <compound refid="classrestincurl_1_1CurlException" kind="class"><name>restincurl::CurlException</name>
+  </compound>
+  <compound refid="structrestincurl_1_1DataHandlerBase" kind="struct"><name>restincurl::DataHandlerBase</name>
+    <member refid="structrestincurl_1_1DataHandlerBase_1a40f7124bacda89242178fd28ac8c7db0" kind="function"><name>~DataHandlerBase</name></member>
+  </compound>
+  <compound refid="classrestincurl_1_1EasyHandle" kind="class"><name>restincurl::EasyHandle</name>
+    <member refid="classrestincurl_1_1EasyHandle_1a97e559262d9b2f56a411924526de01c6" kind="typedef"><name>ptr_t</name></member>
+    <member refid="classrestincurl_1_1EasyHandle_1ab935ab7067da343abc3902aac368b1ff" kind="typedef"><name>handle_t</name></member>
+    <member refid="classrestincurl_1_1EasyHandle_1aa879de15dc252e3efd52e85c514898a2" kind="variable"><name>handle_</name></member>
+    <member refid="classrestincurl_1_1EasyHandle_1a6881ec0646cc663dbf135ea4f0be8927" kind="function"><name>EasyHandle</name></member>
+    <member refid="classrestincurl_1_1EasyHandle_1ac904331692ba1ca28fa704c5b6b3c053" kind="function"><name>~EasyHandle</name></member>
+    <member refid="classrestincurl_1_1EasyHandle_1a4804fafec4346856d9ca9de79ac7a259" kind="function"><name>Close</name></member>
+    <member refid="classrestincurl_1_1EasyHandle_1a38f227ca96e41b6ec4d4e33f7a93b37c" kind="function"><name>operator handle_t</name></member>
+  </compound>
+  <compound refid="classrestincurl_1_1Exception" kind="class"><name>restincurl::Exception</name>
+    <member refid="classrestincurl_1_1Exception_1a4b4981187d83b56fc7872cbfd5265804" kind="function"><name>Exception</name></member>
+  </compound>
+  <compound refid="structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_01_4" kind="struct"><name>std::hash&lt; std::vector&lt; std::string &gt; &gt;</name>
+    <member refid="structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_01_4_1afd05e2761c39d74393c9b0360054c3c1" kind="function"><name>operator()</name></member>
+  </compound>
+  <compound refid="structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_07const_01std_1_1string_01_6_00_01bool_08_4" kind="struct"><name>std::hash&lt; std::vector&lt; std::string &gt;(const std::string &amp;, bool)&gt;</name>
+    <member refid="structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_07const_01std_1_1string_01_6_00_01bool_08_4_1adc616244c1b8a9602d837cbe360baaf8" kind="function"><name>operator()</name></member>
+  </compound>
+  <compound refid="structrestincurl_1_1InDataHandler" kind="struct"><name>restincurl::InDataHandler</name>
+    <member refid="structrestincurl_1_1InDataHandler_1a8d83d310cae5580c12d1397cb3f7a65b" kind="variable"><name>data_</name></member>
+    <member refid="structrestincurl_1_1InDataHandler_1a8f11a55b81910967a8fefae200934098" kind="function"><name>InDataHandler</name></member>
+    <member refid="structrestincurl_1_1InDataHandler_1a1730373ecb5858d8e08f4f1ddfcf1b4c" kind="function"><name>write_callback</name></member>
+  </compound>
+  <compound refid="classSpiceQL_1_1InventoryImpl" kind="class"><name>SpiceQL::InventoryImpl</name>
+    <member refid="classSpiceQL_1_1InventoryImpl_1aa5bb4a2aa3bd271f0ecbd5213285d694" kind="variable"><name>m_json_inventory</name></member>
+    <member refid="classSpiceQL_1_1InventoryImpl_1a460bca1f53f978c35f2be42c0f6cb9f5" kind="variable"><name>m_nontimedep_kerns</name></member>
+    <member refid="classSpiceQL_1_1InventoryImpl_1a8581910adf1374c4bd9ea920c1959f3c" kind="variable"><name>m_timedep_kerns</name></member>
+    <member refid="classSpiceQL_1_1InventoryImpl_1a4fab4e505882f481d34eba71dc308f89" kind="variable"><name>m_frame_list</name></member>
+    <member refid="classSpiceQL_1_1InventoryImpl_1a220cf22a3598e889c14d8d1b46029a16" kind="variable"><name>m_frame_codes</name></member>
+    <member refid="classSpiceQL_1_1InventoryImpl_1ad8c0191e7d557da17c00f6caa6cdc8bc" kind="variable"><name>m_frame_names</name></member>
+    <member refid="classSpiceQL_1_1InventoryImpl_1aa97c144798a37877991557608f6ee032" kind="variable"><name>m_required_kernels</name></member>
+    <member refid="classSpiceQL_1_1InventoryImpl_1a78bfef65e4bf5d7d6f3d1ea68edf254c" kind="function"><name>InventoryImpl</name></member>
+    <member refid="classSpiceQL_1_1InventoryImpl_1adaa269226c17d74a90106e09180b3d60" kind="function"><name>getKey</name></member>
+    <member refid="classSpiceQL_1_1InventoryImpl_1a1b41f79d60f6a0b78dee93154a4b09cf" kind="function"><name>write_database</name></member>
+    <member refid="classSpiceQL_1_1InventoryImpl_1aa14c5cfa8b44e09c6afbe58482a3fe84" kind="function"><name>getFrameList</name></member>
+    <member refid="classSpiceQL_1_1InventoryImpl_1a9c9ccd0b69cfbdef835fc0a908286dd9" kind="function"><name>getFrameName</name></member>
+    <member refid="classSpiceQL_1_1InventoryImpl_1a8462c13732439314457583c847313d10" kind="function"><name>getFrameCode</name></member>
+    <member refid="classSpiceQL_1_1InventoryImpl_1ac24ecce09e10ec8cfd647750d2d98b4b" kind="function"><name>search_for_kernelset</name></member>
+    <member refid="classSpiceQL_1_1InventoryImpl_1a31ca958c1868cf9de65691516d49ec3c" kind="function"><name>search_for_kernelsets</name></member>
+    <member refid="classSpiceQL_1_1InventoryImpl_1a7221cc6b2d2939b2d168b735210c6ff6" kind="function"><name>collectFrameInfo</name></member>
+  </compound>
+  <compound refid="classSpiceQL_1_1Kernel" kind="class"><name>SpiceQL::Kernel</name>
+    <member refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80" kind="enum"><name>Type</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80ad4cd0dabcf4caa22ad92fab40844c786" kind="enumvalue"><name>NA</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80a534ac75c2e8ac3e3fe7bc32bb8c6e34a" kind="enumvalue"><name>CK</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80aa77fe9806504467c944718a3ce1ed5cb" kind="enumvalue"><name>SPK</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80a93a4c15e61be7721fedeac1d9514ace5" kind="enumvalue"><name>TSPK</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80a1352b10452a6331f4858173133cad49d" kind="enumvalue"><name>LSK</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80afbd1e7ba9564863b88d5c43cb833afaf" kind="enumvalue"><name>MK</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80ae5ebe7b9d4b13b67cb85ac2febe4aca2" kind="enumvalue"><name>SCLK</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80af3bda9eed8e5d59e7fe8c1d8b71fe8e7" kind="enumvalue"><name>IAK</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80a7ab2200d24b19f1824cef3f53b5b69ca" kind="enumvalue"><name>IK</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80a8c8ba29dafd95af91e280d1e80b81773" kind="enumvalue"><name>FK</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80a528170157cebbb58bf8b833ba36c486c" kind="enumvalue"><name>DSK</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80abed028f19aa93adb7f45e064155e5278" kind="enumvalue"><name>PCK</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80a6aa451b53d492a8f5a2fa1fa2855be8b" kind="enumvalue"><name>EK</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2e" kind="enum"><name>Quality</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2eae82b4f8a31140f606b743e69ec31e0df" kind="enumvalue"><name>NOQUALITY</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2eaecaf9f483c05bfdd9fcfa988025d429a" kind="enumvalue"><name>NADIR</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2ea7a9f39f686079bcf05cbbe5079dbc3a1" kind="enumvalue"><name>PREDICTED</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2ead5a1c6c305f5146fd2eeaa289ff4ad11" kind="enumvalue"><name>RECONSTRUCTED</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2ea16094fc345ae32c484c89a071f2d4538" kind="enumvalue"><name>SMITHED</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a4abf1ab52e828411f45a48856e549617" kind="variable"><name>path</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a59ed7196228b9a90973095a3c9a842cb" kind="variable"><name>type</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a286d54a21991d3bde189cfd72635440d" kind="variable"><name>quality</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a8b14667e640d4c21f95ed22f975b8c79" kind="function"><name>translateType</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a2f01b6088fda894f05b8062fc5c291c0" kind="function"><name>translateType</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1ab1871b7504fec483b6012cce09a42afe" kind="function"><name>getExt</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a5431dbad1a4447093e917b7ce3c2a10f" kind="function"><name>isBinary</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a1f0c2e4f3070ebe0d6762d9ce80802df" kind="function"><name>isText</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1ace782dcf1f7949ab9e23db5503f6ee69" kind="function"><name>isCk</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a7e1ea1a434514723078af5464542512c" kind="function"><name>isSpk</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1acd051e014c9ca261f6953db09d137f89" kind="function"><name>translateQuality</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a281c1a677105d6ca77d7baa9976cd223" kind="function"><name>translateQuality</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a83e7d238391a8a297a06f7c917e60f1b" kind="function"><name>translateQualities</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1af1a0f3dde4e6312ccfd01cb4a9a4796a" kind="function"><name>Kernel</name></member>
+    <member refid="classSpiceQL_1_1Kernel_1a86250d06432fecfcece2fccc42aa049c" kind="function"><name>~Kernel</name></member>
+  </compound>
+  <compound refid="classSpiceQL_1_1KernelSet" kind="class"><name>SpiceQL::KernelSet</name>
+    <member refid="classSpiceQL_1_1KernelSet_1a4d993043cd76734a109a45cfea3167ed" kind="variable"><name>m_loadedKernels</name></member>
+    <member refid="classSpiceQL_1_1KernelSet_1a1054d3111296628856bdf338dca10779" kind="variable"><name>m_kernels</name></member>
+    <member refid="classSpiceQL_1_1KernelSet_1a01af146cdbcdc70c3cb1a4231196ddf3" kind="function"><name>KernelSet</name></member>
+    <member refid="classSpiceQL_1_1KernelSet_1acbec4f1799bb339e346e36e3dbb9450b" kind="function"><name>KernelSet</name></member>
+    <member refid="classSpiceQL_1_1KernelSet_1ada012d1e714230860d4c7bf0705048f5" kind="function"><name>~KernelSet</name></member>
+    <member refid="classSpiceQL_1_1KernelSet_1ae3945127e6918885b543961b0cb074e8" kind="function"><name>load</name></member>
+    <member refid="classSpiceQL_1_1KernelSet_1a71a642b1307c07828b31edb815c2a119" kind="function"><name>unload</name></member>
+  </compound>
+  <compound refid="structSpiceQL_1_1Memo_1_1memoize" kind="struct"><name>SpiceQL::Memo::memoize</name>
+    <member refid="structSpiceQL_1_1Memo_1_1memoize_1a1784e6a731d533a2417fe271b2aace74" kind="variable"><name>m_func</name></member>
+    <member refid="structSpiceQL_1_1Memo_1_1memoize_1ab1baf6e55e7462f8949e92a7e85d1f92" kind="variable"><name>m_id</name></member>
+    <member refid="structSpiceQL_1_1Memo_1_1memoize_1a4deb72ab844a99863ac4ca99b6cdccfd" kind="variable"><name>m_fc</name></member>
+    <member refid="structSpiceQL_1_1Memo_1_1memoize_1a314fe34ef79af7db24c453e34b24d16e" kind="function"><name>memoize</name></member>
+    <member refid="structSpiceQL_1_1Memo_1_1memoize_1a164c761cf696e24f7fabcf3536f0dd7d" kind="function"><name>operator()</name></member>
+  </compound>
+  <compound refid="classSpiceQL_1_1Memo_1_1Memory" kind="class"><name>SpiceQL::Memo::Memory</name>
+    <member refid="classSpiceQL_1_1Memo_1_1Memory_1afe988d901e3ad544fdc298c32a8c7a86" kind="variable"><name>m_data</name></member>
+    <member refid="classSpiceQL_1_1Memo_1_1Memory_1a01ddfe8808605ad8dd1eb4930284ccb8" kind="function"><name>operator()</name></member>
+    <member refid="classSpiceQL_1_1Memo_1_1Memory_1a82d929b2e3684a944e97ad769784d729" kind="function"><name>operator()</name></member>
+    <member refid="classSpiceQL_1_1Memo_1_1Memory_1af4e1c9f7da585b71ccf7bc3e54e8c111" kind="function"><name>operator()</name></member>
+    <member refid="classSpiceQL_1_1Memo_1_1Memory_1aef155ae1f75d30d7da6b53b9416361ec" kind="function"><name>operator()</name></member>
+  </compound>
+  <compound refid="classrestincurl_1_1Options" kind="class"><name>restincurl::Options</name>
+    <member refid="classrestincurl_1_1Options_1adbac1997d3832dc62f9c649525b3c4cf" kind="variable"><name>eh_</name></member>
+    <member refid="classrestincurl_1_1Options_1a290b86c8e82548c2c8dcad0e5efaa413" kind="function"><name>Options</name></member>
+    <member refid="classrestincurl_1_1Options_1a0c349f867de530c83712440287fbc620" kind="function"><name>Set</name></member>
+    <member refid="classrestincurl_1_1Options_1a061175be26c50d62f701e21ca49eb35f" kind="function"><name>Set</name></member>
+  </compound>
+  <compound refid="structrestincurl_1_1OutDataHandler" kind="struct"><name>restincurl::OutDataHandler</name>
+    <member refid="structrestincurl_1_1OutDataHandler_1abb910b7792e4a9358e9720ca86075883" kind="variable"><name>data_</name></member>
+    <member refid="structrestincurl_1_1OutDataHandler_1a1e8c7a456798543f8cc14ea90d7894fc" kind="variable"><name>sendt_bytes_</name></member>
+    <member refid="structrestincurl_1_1OutDataHandler_1a8cd2775713fd6d1841f9eb6253942c44" kind="function"><name>OutDataHandler</name></member>
+    <member refid="structrestincurl_1_1OutDataHandler_1abc545ac9feb2972486bd7f51f134ae82" kind="function"><name>OutDataHandler</name></member>
+    <member refid="structrestincurl_1_1OutDataHandler_1a2958882919785fda92395179d03e81fa" kind="function"><name>OutDataHandler</name></member>
+    <member refid="structrestincurl_1_1OutDataHandler_1ab013ab25f3b32c7c99849187e8ed7e84" kind="function"><name>read_callback</name></member>
+  </compound>
+  <compound refid="classrestincurl_1_1Request" kind="class"><name>restincurl::Request</name>
+    <member refid="classrestincurl_1_1Request_1acd567450c2454ca44af9f568bc7ca011" kind="typedef"><name>ptr_t</name></member>
+    <member refid="classrestincurl_1_1Request_1aad4a8fbd194bdf4da51cd55f90726cbc" kind="typedef"><name>headers_t</name></member>
+    <member refid="classrestincurl_1_1Request_1a9a330f321aeb0e711d89471c0e7c2a94" kind="variable"><name>eh_</name></member>
+    <member refid="classrestincurl_1_1Request_1a694ea38b0dfe1d6d9f983448d8a0a9a9" kind="variable"><name>request_type_</name></member>
+    <member refid="classrestincurl_1_1Request_1a0ef9b751bb35b8d9b01b023b731f1af1" kind="variable"><name>completion_</name></member>
+    <member refid="classrestincurl_1_1Request_1a30a37e469bf7af40d254b077ab629d65" kind="variable"><name>default_out_handler_</name></member>
+    <member refid="classrestincurl_1_1Request_1a59586a7823e60654c833d59c887f7436" kind="variable"><name>default_in_handler_</name></member>
+    <member refid="classrestincurl_1_1Request_1aa556c4e8788c5d09a733a7967f237c56" kind="variable"><name>headers_</name></member>
+    <member refid="classrestincurl_1_1Request_1ad3596c109678f589bb09f6e49378a01f" kind="variable"><name>default_data_buffer_</name></member>
+    <member refid="classrestincurl_1_1Request_1a090d8251c0aa3701aad28c59c082c4df" kind="variable"><name>fp_</name></member>
+    <member refid="classrestincurl_1_1Request_1a90d32472b1e245577aa63ef5cae4ac46" kind="variable"><name>mime_</name></member>
+    <member refid="classrestincurl_1_1Request_1ab629ca4372b122ab0969800946559d8e" kind="function"><name>Request</name></member>
+    <member refid="classrestincurl_1_1Request_1a3b97ec3a5cc68d694a208d8fc5929a7b" kind="function"><name>Request</name></member>
+    <member refid="classrestincurl_1_1Request_1a1707d28969c551a470373578f2e15a1d" kind="function"><name>~Request</name></member>
+    <member refid="classrestincurl_1_1Request_1a8d8c17777f0a4b9be4c257963161de05" kind="function"><name>Prepare</name></member>
+    <member refid="classrestincurl_1_1Request_1afd6dd6530ae9ca8237b4d54ed3c13e63" kind="function"><name>OpenSourceFile</name></member>
+    <member refid="classrestincurl_1_1Request_1abd4ed8d7581d0d991f62da63b8e40f1f" kind="function"><name>GetSourceFp</name></member>
+    <member refid="classrestincurl_1_1Request_1a415b64b241551c1b58ea374828ad03b7" kind="function"><name>Execute</name></member>
+    <member refid="classrestincurl_1_1Request_1ab18f4fa6c064eec3b5b131aad94d665b" kind="function"><name>Complete</name></member>
+    <member refid="classrestincurl_1_1Request_1a603043da64b544381064ad0aa8c84e0b" kind="function"><name>GetEasyHandle</name></member>
+    <member refid="classrestincurl_1_1Request_1abcba2fe7067ff899cc64829c10c79416" kind="function"><name>GetRequestType</name></member>
+    <member refid="classrestincurl_1_1Request_1a78adac4d30023f4e0e64e81296b968a9" kind="function"><name>SetDefaultInHandler</name></member>
+    <member refid="classrestincurl_1_1Request_1a2d3ebcf6f6e8257b9c2f39d067795002" kind="function"><name>SetDefaultOutHandler</name></member>
+    <member refid="classrestincurl_1_1Request_1acc654135c8cd638fa8cb5e6a16833bdf" kind="function"><name>GetHeaders</name></member>
+    <member refid="classrestincurl_1_1Request_1ae83d81531703d175d3fa3dc56f157990" kind="function"><name>getDefaultInBuffer</name></member>
+    <member refid="classrestincurl_1_1Request_1a699d64cc43cc3f81d910bb4925ad4d13" kind="function"><name>InitMime</name></member>
+    <member refid="classrestincurl_1_1Request_1af58513c00d0441c374864a4610e60b3e" kind="function"><name>AddFileAsMimeData</name></member>
+    <member refid="classrestincurl_1_1Request_1a84626c0100b8f9cd2f69c6e2a1950e17" kind="function"><name>CallCompletion</name></member>
+    <member refid="classrestincurl_1_1Request_1a5edd1ba2e79b167a8c8c3a429a18c198" kind="function"><name>SetRequestType</name></member>
+  </compound>
+  <compound refid="classrestincurl_1_1RequestBuilder" kind="class"><name>restincurl::RequestBuilder</name>
+    <member refid="classrestincurl_1_1RequestBuilder_1aad5ca9fdd9e86de0029383554e8f57eb" kind="variable"><name>request_</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a60b82c4187110ae1cf9094f67bc8612d" kind="variable"><name>options_</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1ac311116bad59e734ca2dd4459cedd8e6" kind="variable"><name>url_</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1ad0df786a7fcc549c1b959a2ecafca1d2" kind="variable"><name>request_type_</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1aed13c0af6cd9b41d5896ba20a1400bec" kind="variable"><name>have_data_in_</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1ae30bad978cc7b8d1216751e7d08f7b5b" kind="variable"><name>have_data_out_</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1ad386a3921597e58728b8da90eceee1ec" kind="variable"><name>is_built_</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a8ae8142f7d122162daee287c24f70d6f" kind="variable"><name>completion_</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1ac9755b2677201961fb13270dd4a806a8" kind="variable"><name>request_timeout_</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a88577d76128c40d4be731b5096f361f3" kind="variable"><name>connect_timeout_</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a854af0a73bae2fe51da12473d67ad84e" kind="variable"><name>worker_</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a5cbac8987d264d9cf371f9c91d16df1e" kind="function"><name>Get</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1aba7f714eff8332472a7fb3d9ae94e339" kind="function"><name>Head</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a3f25898a452e134e76df018749050d21" kind="function"><name>Post</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a464f296cef584af31b46c27ffa0c60f9" kind="function"><name>PostMime</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a5b8435cc56bdbf756b7926d08762e26a" kind="function"><name>Put</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a17f93cc71d8ca0e515bc67f974772b37" kind="function"><name>Patch</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a05edcb16e73301324a1f95ddc1d337e2" kind="function"><name>Delete</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1ad70c8dc748d834f130992e0c9bb7aff2" kind="function"><name>Options</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1add62816dc28da9af6eeb816df3b73921" kind="function"><name>Header</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1abaac9e745ef0ca5542f8c9964b96d43d" kind="function"><name>Header</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a4cca54acb078ca506b5e13bf9bfd58b6" kind="function"><name>WithJson</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a154dcf3294adb5db7a979cc4b74edbe2" kind="function"><name>WithJson</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a4b20cdf84a30a5db85bbdc5384e3b479" kind="function"><name>AcceptJson</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1af523030884ce8651b3349054442a3ac3" kind="function"><name>Option</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a079a51bc5f0f9e90e6d3827320a867e5" kind="function"><name>Trace</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a233a022daf841142b526f992bb3de163" kind="function"><name>RequestTimeout</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1ab7f56503f8566783c1c479a7ba5fff41" kind="function"><name>ConnectTimeout</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a53567764b4d0ab4c8caa3a81ef2e2d8e" kind="function"><name>SendFile</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a9b517ff2ee9660899286ef0350de71ce" kind="function"><name>SendFileAsMimeData</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1ae9e53f3aa05b4062240f690922d590e2" kind="function"><name>SendFileAsForm</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1ac8312374b1de8a121770d0c43217b521" kind="function"><name>SendData</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1adf2b1d5c2acde6bb5fca993c4d259bcc" kind="function"><name>SendData</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a9864e65dab59dd5b778aad9cc2a328a5" kind="function"><name>StoreData</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a650986510d08db8858230016974296cf" kind="function"><name>StoreData</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a1eb673cf6098b97cf84391c42773f8c9" kind="function"><name>IgnoreIncomingData</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1ac3831f90e66d0b23b0393a8d054195cc" kind="function"><name>WithCompletion</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a073c7998d563f1678d7cc4858d391923" kind="function"><name>BasicAuthentication</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a6e7047a7bd7b18e3aadd870f8e3b3c57" kind="function"><name>SetReadHandler</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a83b9859898a2647a1499547dfb2b750e" kind="function"><name>SetWriteHandler</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a6e4a577d7920ad29cd2a17bea7e44263" kind="function"><name>Build</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a29235e60b08f0c0d9bad30773ec3db91" kind="function"><name>ExecuteSynchronous</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a7abeb0355369d00916265560cbfd3750" kind="function"><name>Execute</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a4075e11fed2330743268447f55b054ae" kind="typedef"><name>ptr_t</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a4f459222bd930ac6f467f440c7370b5e" kind="function"><name>write_callback</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a933332a354cd0ec809d726c0ee3bddb3" kind="function"><name>debug_callback</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a6fad12861f5252dbc4b78e694fd149f7" kind="function"><name>RequestBuilder</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1ac6e8b693773991b3309ffc25daae9df5" kind="function"><name>~RequestBuilder</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a1a3a494787fc916413785f029fd04b51" kind="function"><name>CanSendFile</name></member>
+    <member refid="classrestincurl_1_1RequestBuilder_1a795de3af684e5aaee71097c2d577c2be" kind="function"><name>Prepare</name></member>
+  </compound>
+  <compound refid="structrestincurl_1_1Result" kind="struct"><name>restincurl::Result</name>
+    <member refid="structrestincurl_1_1Result_1a0343e655d11096f592f8a6cbe002fa46" kind="variable"><name>curl_code</name></member>
+    <member refid="structrestincurl_1_1Result_1a388afbb892787a9a96a43e409d8793fb" kind="variable"><name>http_response_code</name></member>
+    <member refid="structrestincurl_1_1Result_1a7ac3c42994606c353e4240b8fefa9f8f" kind="variable"><name>msg</name></member>
+    <member refid="structrestincurl_1_1Result_1aa2ff6c683bc3ff8ad7c511b9df8d69d5" kind="variable"><name>body</name></member>
+    <member refid="structrestincurl_1_1Result_1a3f6007c00b9cd6bc49f92a09cc980850" kind="function"><name>Result</name></member>
+    <member refid="structrestincurl_1_1Result_1a3e107cd9125e8611a223d3f5f66fa9ef" kind="function"><name>Result</name></member>
+    <member refid="structrestincurl_1_1Result_1af9d6726f54224c82ee9c634e8c5f8c19" kind="function"><name>isOk</name></member>
+  </compound>
+  <compound refid="classrestincurl_1_1Signaler" kind="class"><name>restincurl::Signaler</name>
+    <member refid="classrestincurl_1_1Signaler_1ae9b1679230474afe07d2ab18e050e981" kind="enum"><name>FdUsage</name></member>
+    <member refid="classrestincurl_1_1Signaler_1ae9b1679230474afe07d2ab18e050e981ad116e50a9ef8aea32b8219e019a7576e" kind="enumvalue"><name>FD_READ</name></member>
+    <member refid="classrestincurl_1_1Signaler_1ae9b1679230474afe07d2ab18e050e981aefc93f74133d72b15f7d705962e18c5f" kind="enumvalue"><name>FD_WRITE</name></member>
+    <member refid="classrestincurl_1_1Signaler_1ac45d9162c5c517b85bfb8e4b1a95e59a" kind="typedef"><name>pipefd_t</name></member>
+    <member refid="classrestincurl_1_1Signaler_1acf06a7e1ba5b67aefcccf3e9362caac6" kind="variable"><name>pipefd_</name></member>
+    <member refid="classrestincurl_1_1Signaler_1a3ee74bb79c55958e92e4f27894db65d1" kind="function"><name>Signaler</name></member>
+    <member refid="classrestincurl_1_1Signaler_1a107454460f69dc499c9cc86ed71e8883" kind="function"><name>~Signaler</name></member>
+    <member refid="classrestincurl_1_1Signaler_1a33b039b48ed72fcb8153a241a4259391" kind="function"><name>Signal</name></member>
+    <member refid="classrestincurl_1_1Signaler_1abdf07e41c318c6735d319a69b5097f71" kind="function"><name>GetReadFd</name></member>
+    <member refid="classrestincurl_1_1Signaler_1ad5e17d477a6002eada395dc9db5b7f15" kind="function"><name>WasSignalled</name></member>
+  </compound>
+  <compound refid="classSpiceQL_1_1SpkSegment" kind="class"><name>SpiceQL::SpkSegment</name>
+    <member refid="classSpiceQL_1_1SpkSegment_1afcd6836c5d4e08de590f33c236273a2d" kind="function"><name>SpkSegment</name></member>
+  </compound>
+  <compound refid="classrestincurl_1_1SystemException" kind="class"><name>restincurl::SystemException</name>
+    <member refid="classrestincurl_1_1SystemException_1aca0e9eabab55846d781b98f5b5b71b71" kind="variable"><name>err_</name></member>
+    <member refid="classrestincurl_1_1SystemException_1a71b367995ae834d26a479ed468a89227" kind="function"><name>SystemException</name></member>
+    <member refid="classrestincurl_1_1SystemException_1a40d9e964ee8e88d7e98b71f16233b152" kind="function"><name>getErrorCode</name></member>
+  </compound>
+  <compound refid="classSpiceQL_1_1TimeIndexedKernels" kind="class"><name>SpiceQL::TimeIndexedKernels</name>
+    <member refid="classSpiceQL_1_1TimeIndexedKernels_1a924bfb92490ba324395dafecace8b832" kind="variable"><name>start_times</name></member>
+    <member refid="classSpiceQL_1_1TimeIndexedKernels_1a79235f4061658d3170fae34bde5f296a" kind="variable"><name>stop_times</name></member>
+    <member refid="classSpiceQL_1_1TimeIndexedKernels_1a566b782428785681552cf0e351798c6e" kind="variable"><name>file_paths</name></member>
+  </compound>
+  <compound refid="classrestincurl_1_1TlsLocker" kind="class"><name>restincurl::TlsLocker</name>
+    <member refid="classrestincurl_1_1TlsLocker_1a6a1ffcf6906da5e5523a151bd5349fc1" kind="variable"><name>mutex_</name></member>
+    <member refid="classrestincurl_1_1TlsLocker_1aff79e6f4c1c94eadfb961636be563808" kind="function"><name>tlsLOckInit</name></member>
+    <member refid="classrestincurl_1_1TlsLocker_1a4b3f7600df1c0a3a28c0bf4b16e5130b" kind="function"><name>tlsLockKill</name></member>
+    <member refid="classrestincurl_1_1TlsLocker_1a6a4d0dbd1b21e0ef1c9647c5138e7197" kind="function"><name>lock</name></member>
+    <member refid="classrestincurl_1_1TlsLocker_1a8161712b83b3da4bb9604a4a91e4dff4" kind="function"><name>unlock</name></member>
+  </compound>
+  <compound refid="classrestincurl_1_1Worker" kind="class"><name>restincurl::Worker</name>
+    <member refid="classrestincurl_1_1Worker_1a6068042a70c7a1824aca1605170ae6ba" kind="variable"><name>close_pending_</name></member>
+    <member refid="classrestincurl_1_1Worker_1a1a0100c1276ca7db2cfb9455c8b59b2c" kind="variable"><name>abort_</name></member>
+    <member refid="classrestincurl_1_1Worker_1a3beebe8a79004cc7f488ce7c7a59d840" kind="variable"><name>done_</name></member>
+    <member refid="classrestincurl_1_1Worker_1acd826ba2006f472656e67a52869d5fa1" kind="variable"><name>pending_entries_in_queue_</name></member>
+    <member refid="classrestincurl_1_1Worker_1a7caa7d1753f0cb81db8259cd4986382f" kind="variable"><name>handle_</name></member>
+    <member refid="classrestincurl_1_1Worker_1a2a9ef53998ec4c19a2827483ff7638b3" kind="variable"><name>mutex_</name></member>
+    <member refid="classrestincurl_1_1Worker_1a7a6c69eb2b0018b5eda7f923bdb8318c" kind="variable"><name>thread_</name></member>
+    <member refid="classrestincurl_1_1Worker_1a3f4b546172988bc3e45642f008db2935" kind="variable"><name>queue_</name></member>
+    <member refid="classrestincurl_1_1Worker_1aae455193e0862ab7c431be4acf7dd7f1" kind="variable"><name>ongoing_</name></member>
+    <member refid="classrestincurl_1_1Worker_1a484397d4128a26e527ce548220b1c9a9" kind="variable"><name>signal_</name></member>
+    <member refid="classrestincurl_1_1Worker_1a0b62775fa042ff7b17451d85492a84b8" kind="function"><name>Worker</name></member>
+    <member refid="classrestincurl_1_1Worker_1a1e4c95f539f0be88b0cb2ceae350c468" kind="function"><name>~Worker</name></member>
+    <member refid="classrestincurl_1_1Worker_1ab155f22a6d2d1746de533624f43d82a4" kind="function"><name>PrepareThread</name></member>
+    <member refid="classrestincurl_1_1Worker_1a60664383a238cf928a40b4b30794b6b1" kind="function"><name>Enqueue</name></member>
+    <member refid="classrestincurl_1_1Worker_1a6bc1e1992aae91c9210623ba741d1e45" kind="function"><name>Join</name></member>
+    <member refid="classrestincurl_1_1Worker_1a30d31e3addb2bc7ac760b006126e8ccb" kind="function"><name>CloseWhenFinished</name></member>
+    <member refid="classrestincurl_1_1Worker_1a09dc306f084f2906a1223269a2480dfd" kind="function"><name>Close</name></member>
+    <member refid="classrestincurl_1_1Worker_1aeac4b7b72a23ee5d5648bca4bac63ba7" kind="function"><name>IsDone</name></member>
+    <member refid="classrestincurl_1_1Worker_1aa6616a18e834e031e9aa085e59efb7dc" kind="function"><name>HaveThread</name></member>
+    <member refid="classrestincurl_1_1Worker_1a1423c8b41c845918aeeb420423e0a749" kind="function"><name>GetNumActiveRequests</name></member>
+    <member refid="classrestincurl_1_1Worker_1a1b579a62fc7c9ab5ce01d319239cf965" kind="function"><name>Create</name></member>
+    <member refid="classrestincurl_1_1Worker_1a41ba796522d0b5e863fa95fe2092c9ee" kind="function"><name>Signal</name></member>
+    <member refid="classrestincurl_1_1Worker_1ae1c57bc96f5e8478769e138f2ab84983" kind="function"><name>Dequeue</name></member>
+    <member refid="classrestincurl_1_1Worker_1ac2ca1ec21e0483590662e4e41efcfc91" kind="function"><name>Init</name></member>
+    <member refid="classrestincurl_1_1Worker_1ad905c2a64a6cb91b84ca214c346b307b" kind="function"><name>Clean</name></member>
+    <member refid="classrestincurl_1_1Worker_1ab353d72225123d94804ca62ff776c1f2" kind="function"><name>EvaluateState</name></member>
+    <member refid="classrestincurl_1_1Worker_1a28528015247c2fdf01663fd7d82e915c" kind="function"><name>GetNextTimeout</name></member>
+    <member refid="classrestincurl_1_1Worker_1a22028db1bfdc2562a2244d68a77cf324" kind="function"><name>Run</name></member>
+  </compound>
+  <compound refid="classrestincurl_1_1Worker_1_1WorkerThread" kind="class"><name>restincurl::Worker::WorkerThread</name>
+    <member refid="classrestincurl_1_1Worker_1_1WorkerThread_1a62be96b1ec2d2488415e5f99bc25dbff" kind="variable"><name>thread_</name></member>
+    <member refid="classrestincurl_1_1Worker_1_1WorkerThread_1a6c3bc76f48963ceaeefd5e9867be9e87" kind="variable"><name>joined_</name></member>
+    <member refid="classrestincurl_1_1Worker_1_1WorkerThread_1a95f0a5f34ceb22ecd17322eb67d3051f" kind="function"><name>WorkerThread</name></member>
+    <member refid="classrestincurl_1_1Worker_1_1WorkerThread_1a0dfda59888c3be1e2837f57074c712dd" kind="function"><name>~WorkerThread</name></member>
+    <member refid="classrestincurl_1_1Worker_1_1WorkerThread_1a60951a8a5e59088313c104ae4f3df81c" kind="function"><name>Join</name></member>
+    <member refid="classrestincurl_1_1Worker_1_1WorkerThread_1a147be26e18482b4662731fe03baf61d3" kind="function"><name>Joinable</name></member>
+    <member refid="classrestincurl_1_1Worker_1_1WorkerThread_1aba23fff575b8ce8cf38e420cb508d5af" kind="function"><name>operator std::thread &amp;</name></member>
+  </compound>
+  <compound refid="namespacerestincurl" kind="namespace"><name>restincurl</name>
+    <member refid="restincurl_8h_1a83e558e1356e2e9c96a955fcac64b3e8" kind="enum"><name>RequestType</name></member>
+    <member refid="restincurl_8h_1a83e558e1356e2e9c96a955fcac64b3e8a7528035a93ee69cedb1dbddb2f0bfcc8" kind="enumvalue"><name>GET</name></member>
+    <member refid="restincurl_8h_1a83e558e1356e2e9c96a955fcac64b3e8a3e75383a5992a6d15fb81e872e46e256" kind="enumvalue"><name>PUT</name></member>
+    <member refid="restincurl_8h_1a83e558e1356e2e9c96a955fcac64b3e8aa02439ec229d8be0e74b0c1602392310" kind="enumvalue"><name>POST</name></member>
+    <member refid="restincurl_8h_1a83e558e1356e2e9c96a955fcac64b3e8ae15e216fc1c639f787b1231ecdfa1bf8" kind="enumvalue"><name>HEAD</name></member>
+    <member refid="restincurl_8h_1a83e558e1356e2e9c96a955fcac64b3e8a32f68a60cef40faedbc6af20298c1a1e" kind="enumvalue"><name>DELETE</name></member>
+    <member refid="restincurl_8h_1a83e558e1356e2e9c96a955fcac64b3e8a63bc9a3997d66d835d9f3ec29451407d" kind="enumvalue"><name>PATCH</name></member>
+    <member refid="restincurl_8h_1a83e558e1356e2e9c96a955fcac64b3e8a164dd62adb30ca051b5289672a572f9b" kind="enumvalue"><name>OPTIONS</name></member>
+    <member refid="restincurl_8h_1a83e558e1356e2e9c96a955fcac64b3e8abd0c3fc859e1b1b28e15d4c705b2e6c8" kind="enumvalue"><name>POST_MIME</name></member>
+    <member refid="restincurl_8h_1a83e558e1356e2e9c96a955fcac64b3e8accc0377a8afbf50e7094f5c23a8af223" kind="enumvalue"><name>INVALID</name></member>
+    <member refid="restincurl_8h_1aa3f7a421cd6d92b4cc847e87a4b4b50f" kind="typedef"><name>lock_t</name></member>
+    <member refid="restincurl_8h_1abefa90cbb340ddfe8752aaa0a5b5b8dc" kind="typedef"><name>completion_fn_t</name></member>
+  </compound>
+  <compound refid="namespacespdlog" kind="namespace"><name>spdlog</name>
+    <member refid="spiceql__logging_8h_1aad741395adadf7e0fea688ed84de0e67" kind="function"><name>dump_backtrace</name></member>
+  </compound>
+  <compound refid="namespaceSpiceQL" kind="namespace"><name>SpiceQL</name>
+    <member refid="namespaceSpiceQL_1acc0c136c0655be4effd9384b1d500596" kind="enum"><name>LogLevel</name></member>
+    <member refid="namespaceSpiceQL_1acc0c136c0655be4effd9384b1d500596add4ec0ac4e58f7c32a01244ae91150b1" kind="enumvalue"><name>Trace</name></member>
+    <member refid="namespaceSpiceQL_1acc0c136c0655be4effd9384b1d500596aa603905470e2a5b8c13e96b579ef0dba" kind="enumvalue"><name>Debug</name></member>
+    <member refid="namespaceSpiceQL_1acc0c136c0655be4effd9384b1d500596a4059b0251f66a18cb56f544728796875" kind="enumvalue"><name>Info</name></member>
+    <member refid="namespaceSpiceQL_1acc0c136c0655be4effd9384b1d500596a56525ae64d370c0b448ac0d60710ef17" kind="enumvalue"><name>Warn</name></member>
+    <member refid="namespaceSpiceQL_1acc0c136c0655be4effd9384b1d500596a902b0d55fddef6f8d651fe1035b7d4bd" kind="enumvalue"><name>Error</name></member>
+    <member refid="namespaceSpiceQL_1acc0c136c0655be4effd9384b1d500596a278d01e5af56273bae1bb99a98b370cd" kind="enumvalue"><name>Critical</name></member>
+    <member refid="namespaceSpiceQL_1acc0c136c0655be4effd9384b1d500596ad15305d7a4e34e02489c74a5ef542f36" kind="enumvalue"><name>Off</name></member>
+    <member refid="namespaceSpiceQL_1a81fae3dfb5ae55e6593cdc897aa4e34f" kind="variable"><name>DB_HDF_FILE</name></member>
+    <member refid="namespaceSpiceQL_1af28f5ab3a0ffd9f84d60bccaa626a7af" kind="variable"><name>DB_START_TIME_KEY</name></member>
+    <member refid="namespaceSpiceQL_1a3b9df28add7523b9e50bd5601743c923" kind="variable"><name>DB_STOP_TIME_KEY</name></member>
+    <member refid="namespaceSpiceQL_1a365947f0a2fab003e0b82b01fafce93f" kind="variable"><name>DB_TIME_FILES_KEY</name></member>
+    <member refid="namespaceSpiceQL_1a9ecdcc51bb31590c8493dc4ebfb366f6" kind="variable"><name>DB_SS_TIME_INDICES_KEY</name></member>
+    <member refid="namespaceSpiceQL_1a6b5e1ab25fccd38716796a383a1f8ea3" kind="variable"><name>DB_SPICE_ROOT_KEY</name></member>
+    <member refid="namespaceSpiceQL_1aa8c9648255e51a6da65775c2f16ea78c" kind="variable"><name>DB_FRAME_CACHE_KEY</name></member>
+    <member refid="namespaceSpiceQL_1a6586927ae6934eea325f6691b5c1d58c" kind="variable"><name>DB_FRAME_LIST_KEY</name></member>
+    <member refid="namespaceSpiceQL_1ad997a7e2fd62ea9305824bd3a4ad998d" kind="variable"><name>DB_FRAME_CODES_KEY</name></member>
+    <member refid="namespaceSpiceQL_1aa14c733b7b20a520dfa46b8dc389590e" kind="variable"><name>DB_FRAME_NAMES_KEY</name></member>
+    <member refid="namespaceSpiceQL_1adeae61d3af8aafdb8cab7822540f1f91" kind="variable"><name>KERNEL_TYPES</name></member>
+    <member refid="namespaceSpiceQL_1af2e25c8606377f01a33c25b6e2e077bc" kind="variable"><name>KERNEL_QUALITIES</name></member>
+    <member refid="namespaceSpiceQL_1a5b095894847fa28a98bb6700c0078f28" kind="function"><name>load_aliases</name></member>
+    <member refid="namespaceSpiceQL_1a3ac6a8ddbfdd953c73c629c98e0fa749" kind="function"><name>getSpiceqlName</name></member>
+    <member refid="namespaceSpiceQL_1a066e881180eccba8b666407c53c86453" kind="function"><name>addAliasKey</name></member>
+    <member refid="namespaceSpiceQL_1a3346b7d3f0fdbc3d8d11a46cf3318bdf" kind="function"><name>getAliasMap</name></member>
+    <member refid="namespaceSpiceQL_1a0fe7c5f09ccae7721529af65bf8c2c7e" kind="function"><name>setAliasMap</name></member>
+    <member refid="namespaceSpiceQL_1a842f732d1f35fa731b767fc0216b9252" kind="function"><name>url_encode</name></member>
+    <member refid="namespaceSpiceQL_1a2eceaaa7abd05e38cb7fe9673631cb10" kind="function"><name>spiceAPIQuery</name></member>
+    <member refid="namespaceSpiceQL_1aa651b006f466bfd2e8ac64299acff9da" kind="function"><name>getTargetStates</name></member>
+    <member refid="namespaceSpiceQL_1afe53c41f71779ce184894d60c20faeb2" kind="function"><name>getTargetStatesRanged</name></member>
+    <member refid="namespaceSpiceQL_1a2416320aba044845d05be10e8e2d0afa" kind="function"><name>getTargetOrientations</name></member>
+    <member refid="namespaceSpiceQL_1a706e0352bb4de2e2197d792639a35cdb" kind="function"><name>getTargetOrientationsRanged</name></member>
+    <member refid="namespaceSpiceQL_1a9309d1dafcbe76b40d0c6a69b507fd72" kind="function"><name>strSclkToEt</name></member>
+    <member refid="namespaceSpiceQL_1aa516bdf2f0ae6e187c8fa1c667386229" kind="function"><name>doubleSclkToEt</name></member>
+    <member refid="namespaceSpiceQL_1a381d98a1ed1d9572c17702adc34677ae" kind="function"><name>doubleEtToSclk</name></member>
+    <member refid="namespaceSpiceQL_1a9a5adcac4ab3aa3ee142941f276847ee" kind="function"><name>utcToEt</name></member>
+    <member refid="namespaceSpiceQL_1a28d8e627ead0d1517c823312f200507d" kind="function"><name>etToUtc</name></member>
+    <member refid="namespaceSpiceQL_1a9778693b69a2a01a12e565d26ee54adb" kind="function"><name>doubleEtsToSclkTicks</name></member>
+    <member refid="namespaceSpiceQL_1a3e41fd6549a5feb56a22b518b725d6c3" kind="function"><name>translateNameToCode</name></member>
+    <member refid="namespaceSpiceQL_1ad9e41f5838b81eb2abbcf58383e17975" kind="function"><name>translateCodeToName</name></member>
+    <member refid="namespaceSpiceQL_1a6ce8b0a9900d49c2e3d3252a15c2c963" kind="function"><name>getFrameInfo</name></member>
+    <member refid="namespaceSpiceQL_1a330c2c11c6a1f6cd30dd3e0dfa9bff69" kind="function"><name>getTargetFrameInfo</name></member>
+    <member refid="namespaceSpiceQL_1af82de645f1db6f1d7ea6c59b751712e4" kind="function"><name>findMissionKeywords</name></member>
+    <member refid="namespaceSpiceQL_1a04bef83aacaca767cf2bd5c54569d9eb" kind="function"><name>findTargetKeywords</name></member>
+    <member refid="namespaceSpiceQL_1a46206d5ba8d51fe94962609648ad0071" kind="function"><name>frameTrace</name></member>
+    <member refid="namespaceSpiceQL_1a473560f5e4520e4b8b33bc7868d4aa48" kind="function"><name>extractExactCkTimes</name></member>
+    <member refid="namespaceSpiceQL_1a642bed2b185c1ab4918b7b2b590c8b92" kind="function"><name>getExactTargetOrientations</name></member>
+    <member refid="namespaceSpiceQL_1ad60e81fa1c117c04d6ca0f0be4ac9fae" kind="function"><name>searchForKernelsets</name></member>
+    <member refid="namespaceSpiceQL_1acc164cee9dfc3835d1bbbbbcd82e98e6" kind="function"><name>frameList</name></member>
+    <member refid="namespaceSpiceQL_1a7a28db0f738f7177b30da226bd8bfadf" kind="function"><name>getCacheDir</name></member>
+    <member refid="namespaceSpiceQL_1a049a3be95c770f076220af1c5dd82dac" kind="function"><name>setCacheDir</name></member>
+    <member refid="namespaceSpiceQL_1a059350c6de364c6b9f17e52209b99aa3" kind="function"><name>getHdfFile</name></member>
+    <member refid="namespaceSpiceQL_1a88c4ee3ab0f88872044268f8bb0737f2" kind="function"><name>concatStates</name></member>
+    <member refid="namespaceSpiceQL_1af4f7bef909563a99ad15420cb80bf967" kind="function"><name>writeSpk</name></member>
+    <member refid="namespaceSpiceQL_1a5eecb6e7bedb6c1ccb8cfdd0a0fc20b3" kind="function"><name>writeSpk</name></member>
+    <member refid="namespaceSpiceQL_1a53b408a9d62cdee190631214944518f9" kind="function"><name>writeCk</name></member>
+    <member refid="namespaceSpiceQL_1ae04be050755ba61181f733d0a4c8a833" kind="function"><name>writeCk</name></member>
+    <member refid="namespaceSpiceQL_1a77f6fa34604a88303ec3a80e60b2cafa" kind="function"><name>writeComment</name></member>
+    <member refid="namespaceSpiceQL_1a2815c165746e654d6a2fdc6204f6a9ae" kind="function"><name>writeTextKernel</name></member>
+    <member refid="namespaceSpiceQL_1ad6e663750a3131d26a5d4ed4d132c6ee" kind="function"><name>getLatestKernel</name></member>
+    <member refid="namespaceSpiceQL_1af7f890edca38f33c230e1cec65ee8446" kind="function"><name>getLatestKernels</name></member>
+    <member refid="namespaceSpiceQL_1afbd27af7a4f56c0d48f53338c53f37d6" kind="function"><name>getKernelVectorValue</name></member>
+    <member refid="namespaceSpiceQL_1a9622f5d50929ce7ebd6a7453bd145494" kind="function"><name>getKernelStringValue</name></member>
+    <member refid="namespaceSpiceQL_1a0d000c8da37a38a4e640265450965af7" kind="function"><name>listMissionKernels</name></member>
+    <member refid="namespaceSpiceQL_1a972d31edaa745c1b26755e2a193c1c28" kind="function"><name>globKernels</name></member>
+    <member refid="namespaceSpiceQL_1a757f368f94006799275856c221466ddd" kind="function"><name>getKernelsAsVector</name></member>
+    <member refid="namespaceSpiceQL_1a2ba08982eed0aca546784b38e488eff6" kind="function"><name>getKernelsAsSet</name></member>
+    <member refid="namespaceSpiceQL_1ae647a5645189a84ba886a127ffc050b1" kind="function"><name>load</name></member>
+    <member refid="namespaceSpiceQL_1a2e3161ab4a88fd84c0f207bb588076c6" kind="function"><name>unload</name></member>
+    <member refid="namespaceSpiceQL_1aafadc8e776b1e35eca491d4631987791" kind="function"><name>getLoadedKernels</name></member>
+    <member refid="namespaceSpiceQL_1abcd89cefdcb25db7fe2c0dbd13e17958" kind="function"><name>isLskLoaded</name></member>
+    <member refid="namespaceSpiceQL_1a0722341af5b0df6dfb64e33aae410128" kind="function"><name>parseLogLevel</name></member>
+    <member refid="namespaceSpiceQL_1a4ee0c975c9a49a7433b2394436d0bdf6" kind="function"><name>currentLogLevel</name></member>
+    <member refid="namespaceSpiceQL_1a15b90fce5d34b825ed92aab4cd486c84" kind="function"><name>logLevelName</name></member>
+    <member refid="namespaceSpiceQL_1ad7383321ed153b89408f6029176df8b0" kind="function"><name>logMessage</name></member>
+    <member refid="namespaceSpiceQL_1a2bdeedaf73ddc24d4d5723ba109c086e" kind="function"><name>getDefaultLsk</name></member>
+    <member refid="namespaceSpiceQL_1afaf462adbca261febe779ccae54363be" kind="function"><name>gen_random</name></member>
+    <member refid="namespaceSpiceQL_1ad773e2f55bbf5ae0f44c3f50286b2cf6" kind="function"><name>toUpper</name></member>
+    <member refid="namespaceSpiceQL_1a47a61063848f40ded2d26921bc4341d6" kind="function"><name>toLower</name></member>
+    <member refid="namespaceSpiceQL_1ad90a6a891cf91012f0410bcddc749e9b" kind="function"><name>replaceAll</name></member>
+    <member refid="namespaceSpiceQL_1a21a90903c0bfc2266917e18e1c2344af" kind="function"><name>split</name></member>
+    <member refid="namespaceSpiceQL_1a54e89a6f9c52ea997eaf60911a74d5f5" kind="function"><name>getPathsFromRegex</name></member>
+    <member refid="namespaceSpiceQL_1aca507224dbf33c5cf973e1378da3d0a3" kind="function"><name>mergeConfigs</name></member>
+    <member refid="namespaceSpiceQL_1aa06098708a27ef3be68f26e6f363ade9" kind="function"><name>ls</name></member>
+    <member refid="namespaceSpiceQL_1aa3c4425e671dc71e45ccd79d9c5ddab6" kind="function"><name>glob</name></member>
+    <member refid="namespaceSpiceQL_1affe26681b1a4ad0b3b1ebf80b274b676" kind="function"><name>getTimeIntervals</name></member>
+    <member refid="namespaceSpiceQL_1a63eb7288ba06ed4c2c4ab1b0bd7200db" kind="function"><name>getKernelStartStopTimes</name></member>
+    <member refid="namespaceSpiceQL_1a030335f42b6f30d3d8c650bc14ac0fc2" kind="function"><name>globKernelStartStopTimes</name></member>
+    <member refid="namespaceSpiceQL_1abfda2826c58279e0c372b1b237510e77" kind="function"><name>globTimeIntervals</name></member>
+    <member refid="namespaceSpiceQL_1af0c5bde4439eeb9bfdfd81b97f3ed798" kind="function"><name>getTargetState</name></member>
+    <member refid="namespaceSpiceQL_1a45135cff47533d249527686a38a0a2f2" kind="function"><name>getTargetOrientation</name></member>
+    <member refid="namespaceSpiceQL_1aef69da1d5136aee0efbbfd221636092d" kind="function"><name>findKeywords</name></member>
+    <member refid="namespaceSpiceQL_1a431579760e41219cc4843cd6f27c2815" kind="function"><name>findKeyInJson</name></member>
+    <member refid="namespaceSpiceQL_1a791ef7d697039112747bd93f7df447be" kind="function"><name>getKernelType</name></member>
+    <member refid="namespaceSpiceQL_1afe3ed3291d04694807cc798927192ee7" kind="function"><name>getConfigDirectory</name></member>
+    <member refid="namespaceSpiceQL_1aeede6843bb64cc2bde5fc1f3bc85adf5" kind="function"><name>setConfigDirectory</name></member>
+    <member refid="namespaceSpiceQL_1a1caf685b9e2449fb11f8ef94cf6a2703" kind="function"><name>getAvailableConfigFiles</name></member>
+    <member refid="namespaceSpiceQL_1a0d91efc1fe52ecee948f4e647587f53a" kind="function"><name>getAvailableConfigs</name></member>
+    <member refid="namespaceSpiceQL_1a00c5d7f1d32190f0fca485ad94a38b52" kind="function"><name>getMissionConfigFile</name></member>
+    <member refid="namespaceSpiceQL_1a2a2f66a58c19a79f8abb15be0eb7e3b7" kind="function"><name>getMissionConfig</name></member>
+    <member refid="namespaceSpiceQL_1a657d90b6062abf19e2adea9baa0a8795" kind="function"><name>getMissionKeys</name></member>
+    <member refid="namespaceSpiceQL_1a05053164b19d08d8ca3201339b24be45" kind="function"><name>getRestUrl</name></member>
+    <member refid="namespaceSpiceQL_1a57b5a1e68e6ae00e55321c6a7dd0f658" kind="function"><name>resolveConfigDependencies</name></member>
+    <member refid="namespaceSpiceQL_1afc4fb6482a1b7b7d6624e99ce7e902cd" kind="function"><name>eraseAtPointer</name></member>
+    <member refid="namespaceSpiceQL_1a7ebb31bbe8c61d6626c5e6a7c2d359d1" kind="function"><name>jsonArrayToVector</name></member>
+    <member refid="namespaceSpiceQL_1abd44b87ad2574a25534b7177f8deb8eb" kind="function"><name>jsonDoubleArrayToVector</name></member>
+    <member refid="namespaceSpiceQL_1affbafb7e4244ea2482904e40056d1749" kind="function"><name>jsonIntArrayToVector</name></member>
+    <member refid="namespaceSpiceQL_1a73fd89483952f40198cf356e847a7c70" kind="function"><name>json2DArrayTo2DVector</name></member>
+    <member refid="namespaceSpiceQL_1ae811df69e9e8ca4eac3ac320da9163d8" kind="function"><name>json2DFloatArrayTo2DVector</name></member>
+    <member refid="namespaceSpiceQL_1a62ebc6c34da174a3309c08ad8c5f9cf3" kind="function"><name>json2DIntArrayTo2DVector</name></member>
+    <member refid="namespaceSpiceQL_1a0709e6ee0256d7f0de8cbff4df26636a" kind="function"><name>json2DArrayToDoublePair</name></member>
+    <member refid="namespaceSpiceQL_1a1c19d0b3bef476d54b476f4ca24666cb" kind="function"><name>getDataDirectory</name></member>
+    <member refid="namespaceSpiceQL_1accb337bee3240fd0638129101caec9e8" kind="function"><name>merge_json</name></member>
+    <member refid="namespaceSpiceQL_1ad749507d0f2b776b015d3fd3e34e8ba3" kind="function"><name>getRootDependency</name></member>
+    <member refid="namespaceSpiceQL_1a4e713c1623c47bd9b1584f9b495778b7" kind="function"><name>checkNaifErrors</name></member>
+    <member refid="namespaceSpiceQL_1add51987193477ff3a8947e6292023573" kind="function"><name>loadTranslationKernels</name></member>
+    <member refid="namespaceSpiceQL_1af361b8c07c559467f3fa4d080eaa8130" kind="function"><name>loadSelectKernels</name></member>
+    <member refid="namespaceSpiceQL_1a5578217cd60143edc876453d6b20f25c" kind="function"><name>getAliasMapJsonFile</name></member>
+    <member refid="namespaceSpiceQL_1a6d98e444ca0be017bca8008b2da374ed" kind="function"><name>inferMission</name></member>
+    <member refid="namespaceSpiceQL_1aeea115736d0b9e54c022304107f46b1c" kind="function"><name>formatKernels</name></member>
+  </compound>
+  <compound refid="namespaceSpiceQL_1_1Inventory" kind="namespace"><name>SpiceQL::Inventory</name>
+    <member refid="inventory_8h_1ac6270a0bb41f6cc4aa3ee02400598580" kind="function"><name>search_for_kernelset</name></member>
+    <member refid="inventory_8h_1a22fe21916e2f0cdc0da5b13ab89dafae" kind="function"><name>search_for_kernelsets</name></member>
+    <member refid="inventory_8h_1ae3b6d543679cf850c74404b3b818fd94" kind="function"><name>search_for_kernelset_from_regex</name></member>
+    <member refid="inventory_8h_1af8b012cf96f359e1e4fbe57893fdac69" kind="function"><name>getDbFilePath</name></member>
+    <member refid="inventory_8h_1a7dc2e06061f3cabc3ed32702dcb84e6f" kind="function"><name>setDbFilePath</name></member>
+    <member refid="inventory_8h_1a6b4bcce50e0c08e6580d9570edcfb30e" kind="function"><name>create_database</name></member>
+    <member refid="inventory_8h_1a74f3dbfad34a987e7671af046d3ad32f" kind="function"><name>getFrameList</name></member>
+    <member refid="inventory_8h_1acf1b5c25278e6952d990e83091bac060" kind="function"><name>getFrameNameFromCache</name></member>
+    <member refid="inventory_8h_1af8a4342e2f8e81665c9b844c68097462" kind="function"><name>getFrameCodeFromCache</name></member>
+  </compound>
+  <compound refid="namespaceSpiceQL_1_1Memo" kind="namespace"><name>SpiceQL::Memo</name>
+    <member refid="memo_8h_1a20c1663bd3502faebacea47bb545ba3d" kind="function"><name>_hash_combine</name></member>
+    <member refid="memo_8h_1a21657908eba7604106a80459145bf916" kind="function"><name>hash_combine</name></member>
+    <member refid="memo_8h_1ae739f9aeb36f39672e4f5c6a2c1ca48a" kind="function"><name>hash_combine</name></member>
+    <member refid="memo_8h_1ae1a9dbee2744940c32c45044828cffcb" kind="function"><name>to_time_t</name></member>
+    <member refid="memo_8h_1a3382a06d971aa3b688cc6ed2409a5856" kind="function"><name>time_from_str</name></member>
+    <member refid="memo_8h_1a6fba3c0612165e55489418e3bf645bd8" kind="function"><name>has_cache_expired</name></member>
+    <member refid="memo_8h_1a33542cf6280b29d0983964d58cae3929" kind="function"><name>getCacheDir</name></member>
+    <member refid="memo_8h_1ab43c19f54a43e747785199b8785ce7b4" kind="function"><name>make_memoized</name></member>
+    <member refid="memoized__functions_8h_1aa5ecdc36ec05130c577f31c6e74e8ec9" kind="function"><name>ls</name></member>
+    <member refid="memoized__functions_8h_1a5ce80ef09273cb04584e78ca2deb17be" kind="function"><name>getPathsFromRegex</name></member>
+    <member refid="memoized__functions_8h_1a8f6ab7874dd2018996abe94e2d2d7e7d" kind="function"><name>getTimeIntervals</name></member>
+    <member refid="memoized__functions_8h_1af8c711fd6608c6dba603d74684fcf343" kind="function"><name>globTimeIntervals</name></member>
+  </compound>
+  <compound refid="namespacestd" kind="namespace"><name>std</name>
+  </compound>
+  <compound refid="alias__map_8h" kind="file"><name>alias_map.h</name>
+  </compound>
+  <compound refid="api_8h" kind="file"><name>api.h</name>
+  </compound>
+  <compound refid="config_8h" kind="file"><name>config.h</name>
+  </compound>
+  <compound refid="inventory_8h" kind="file"><name>inventory.h</name>
+  </compound>
+  <compound refid="inventoryimpl_8h" kind="file"><name>inventoryimpl.h</name>
+  </compound>
+  <compound refid="io_8h" kind="file"><name>io.h</name>
+  </compound>
+  <compound refid="memo_8h" kind="file"><name>memo.h</name>
+    <member refid="memo_8h_1a333c49c2e1a48eca3965ef135b286bf9" kind="define"><name>CACHED</name></member>
+  </compound>
+  <compound refid="memoized__functions_8h" kind="file"><name>memoized_functions.h</name>
+  </compound>
+  <compound refid="query_8h" kind="file"><name>query.h</name>
+  </compound>
+  <compound refid="restincurl_8h" kind="file"><name>restincurl.h</name>
+    <member refid="restincurl_8h_1abe35ed231c42ba3ff292ac7424ee99fd" kind="define"><name>RESTINCURL_MAX_CONNECTIONS</name></member>
+    <member refid="restincurl_8h_1afd0e7fa196a2032a330b69cab346b463" kind="define"><name>RESTINCURL_ENABLE_ASYNC</name></member>
+    <member refid="restincurl_8h_1a8825cd70ceed8a39aab9c32e9d68754a" kind="define"><name>RESTINCURL_IDLE_TIMEOUT_SEC</name></member>
+    <member refid="restincurl_8h_1ad07d51a0fed369586afaa0dc53a65a83" kind="define"><name>RESTINCURL_LOG_VERBOSE_ENABLE</name></member>
+    <member refid="restincurl_8h_1aa47b5534555d0dcef48df54f4fb13ddf" kind="define"><name>RESTINCURL_ENABLE_DEFAULT_LOGGER</name></member>
+    <member refid="restincurl_8h_1a86f880ce2defa32a42c9da6a0d1dccb6" kind="define"><name>RESTINCURL_LOG</name></member>
+    <member refid="restincurl_8h_1ad2f8ea3d27270813f14c7adec4913345" kind="define"><name>RESTINCURL_LOG_TRACE</name></member>
+  </compound>
+  <compound refid="spice__types_8h" kind="file"><name>spice_types.h</name>
+  </compound>
+  <compound refid="spiceql_8h" kind="file"><name>spiceql.h</name>
+  </compound>
+  <compound refid="spiceql__logging_8h" kind="file"><name>spiceql_logging.h</name>
+    <member refid="spiceql__logging_8h_1aac4c18fd6ad8f9a6d9b9793220ab9e92" kind="define"><name>SPDLOG_TRACE</name></member>
+    <member refid="spiceql__logging_8h_1a10a205c2dfdb91688e85c3f49bc671cd" kind="define"><name>SPDLOG_DEBUG</name></member>
+    <member refid="spiceql__logging_8h_1ac123bf94c2532584c1f53a4cde7a27e2" kind="define"><name>SPDLOG_INFO</name></member>
+    <member refid="spiceql__logging_8h_1a4bf5ff0686233c37d6bf2233d766d3c8" kind="define"><name>SPDLOG_WARN</name></member>
+    <member refid="spiceql__logging_8h_1a80b7c8b92e366f68d13143165b6ce271" kind="define"><name>SPDLOG_ERROR</name></member>
+    <member refid="spiceql__logging_8h_1ae91dad63ce8e0f912ff58cdd62f60981" kind="define"><name>SPDLOG_CRITICAL</name></member>
+  </compound>
+  <compound refid="utils_8h" kind="file"><name>utils.h</name>
+  </compound>
+  <compound refid="dir_e40c79f4f542c4f82d8820babbacb572" kind="dir"><name>SpiceQL/include</name>
+  </compound>
+  <compound refid="dir_cc120b4ae31b5f0fa5dca546483b1a7b" kind="dir"><name>SpiceQL</name>
+  </compound>
+  <compound refid="dir_a0f0e7e2de0975b11733b3563ad43b12" kind="dir"><name>SpiceQL/include/SpiceQL</name>
+  </compound>
+</doxygenindex>

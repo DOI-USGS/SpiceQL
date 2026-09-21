@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="structSpiceQL_1_1Memo_1_1memoize" kind="struct" language="C++" prot="public">
+    <compoundname>SpiceQL::Memo::memoize</compoundname>
+    <templateparamlist>
+      <param>
+        <type>typename <ref refid="classSpiceQL_1_1Memo_1_1Cache" kindref="compound">Cache</ref></type>
+      </param>
+      <param>
+        <type>typename Function</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structSpiceQL_1_1Memo_1_1memoize_1a1784e6a731d533a2417fe271b2aace74" prot="public" static="no" mutable="no">
+        <type>const Function</type>
+        <definition>const Function SpiceQL::Memo::memoize&lt; Cache, Function &gt;::m_func</definition>
+        <argsstring></argsstring>
+        <name>m_func</name>
+        <qualifiedname>SpiceQL::Memo::memoize::m_func</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/memo.h" line="239" column="24" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSpiceQL_1_1Memo_1_1memoize_1ab1baf6e55e7462f8949e92a7e85d1f92" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string SpiceQL::Memo::memoize&lt; Cache, Function &gt;::m_id</definition>
+        <argsstring></argsstring>
+        <name>m_id</name>
+        <qualifiedname>SpiceQL::Memo::memoize::m_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/memo.h" line="240" column="21" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSpiceQL_1_1Memo_1_1memoize_1a4deb72ab844a99863ac4ca99b6cdccfd" prot="public" static="no" mutable="no">
+        <type><ref refid="classSpiceQL_1_1Memo_1_1Cache" kindref="compound">Cache</ref></type>
+        <definition>Cache SpiceQL::Memo::memoize&lt; Cache, Function &gt;::m_fc</definition>
+        <argsstring></argsstring>
+        <name>m_fc</name>
+        <qualifiedname>SpiceQL::Memo::memoize::m_fc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/memo.h" line="241" column="15" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structSpiceQL_1_1Memo_1_1memoize_1a314fe34ef79af7db24c453e34b24d16e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>SpiceQL::Memo::memoize&lt; Cache, Function &gt;::memoize</definition>
+        <argsstring>(Cache &amp;fc, std::string id, const Function &amp;f)</argsstring>
+        <name>memoize</name>
+        <qualifiedname>SpiceQL::Memo::memoize::memoize</qualifiedname>
+        <param>
+          <type><ref refid="classSpiceQL_1_1Memo_1_1Cache" kindref="compound">Cache</ref> &amp;</type>
+          <declname>fc</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const Function &amp;</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/memo.h" line="242" column="9" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="242" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="structSpiceQL_1_1Memo_1_1memoize_1a164c761cf696e24f7fabcf3536f0dd7d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename...</type>
+            <declname>Params</declname>
+            <defname>Params</defname>
+          </param>
+        </templateparamlist>
+        <type>decltype(std::bind(m_func, args...)())</type>
+        <definition>decltype(std::bind(m_func, args...)()) SpiceQL::Memo::memoize&lt; Cache, Function &gt;::operator()</definition>
+        <argsstring>(Params &amp;&amp;... args)</argsstring>
+        <name>operator()</name>
+        <qualifiedname>SpiceQL::Memo::memoize::operator()</qualifiedname>
+        <param>
+          <type>Params &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/memo.h" line="245" column="14" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="245" bodyend="249"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>SpiceQL::Memo::Cache</label>
+        <link refid="classSpiceQL_1_1Memo_1_1Cache"/>
+      </node>
+      <node id="1">
+        <label>SpiceQL::Memo::memoize&lt; Cache, Function &gt;</label>
+        <link refid="structSpiceQL_1_1Memo_1_1memoize"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>m_fc</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="SpiceQL/include/SpiceQL/memo.h" line="238" column="5" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="238" bodyend="250"/>
+    <listofallmembers>
+      <member refid="structSpiceQL_1_1Memo_1_1memoize_1a4deb72ab844a99863ac4ca99b6cdccfd" prot="public" virt="non-virtual"><scope>SpiceQL::Memo::memoize</scope><name>m_fc</name></member>
+      <member refid="structSpiceQL_1_1Memo_1_1memoize_1a1784e6a731d533a2417fe271b2aace74" prot="public" virt="non-virtual"><scope>SpiceQL::Memo::memoize</scope><name>m_func</name></member>
+      <member refid="structSpiceQL_1_1Memo_1_1memoize_1ab1baf6e55e7462f8949e92a7e85d1f92" prot="public" virt="non-virtual"><scope>SpiceQL::Memo::memoize</scope><name>m_id</name></member>
+      <member refid="structSpiceQL_1_1Memo_1_1memoize_1a314fe34ef79af7db24c453e34b24d16e" prot="public" virt="non-virtual"><scope>SpiceQL::Memo::memoize</scope><name>memoize</name></member>
+      <member refid="structSpiceQL_1_1Memo_1_1memoize_1a164c761cf696e24f7fabcf3536f0dd7d" prot="public" virt="non-virtual"><scope>SpiceQL::Memo::memoize</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

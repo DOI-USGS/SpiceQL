@@ -1,0 +1,1330 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classrestincurl_1_1RequestBuilder" kind="class" language="C++" prot="public">
+    <compoundname>restincurl::RequestBuilder</compoundname>
+    <includes refid="restincurl_8h" local="no">restincurl.h</includes>
+    <sectiondef kind="user-defined">
+      <header>Type of request</header>
+      <description><para>Use one of these functions to declare what HTTP request you want to use.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Url to call. Must be a complete URL, starting with &quot;http://&quot; or &quot;https://&quot;</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Note that you must use only only one of these methods in one request. </para>
+</description>
+      <memberdef kind="variable" id="classrestincurl_1_1RequestBuilder_1aad5ca9fdd9e86de0029383554e8f57eb" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classrestincurl_1_1Request" kindref="compound">Request</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Request&gt; restincurl::RequestBuilder::request_</definition>
+        <argsstring></argsstring>
+        <name>request_</name>
+        <qualifiedname>restincurl::RequestBuilder::request_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1630" column="25" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1630" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrestincurl_1_1RequestBuilder_1a60b82c4187110ae1cf9094f67bc8612d" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; class <ref refid="classrestincurl_1_1RequestBuilder_1ad70c8dc748d834f130992e0c9bb7aff2" kindref="member">Options</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;class Options&gt; restincurl::RequestBuilder::options_</definition>
+        <argsstring></argsstring>
+        <name>options_</name>
+        <qualifiedname>restincurl::RequestBuilder::options_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1631" column="25" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1631" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrestincurl_1_1RequestBuilder_1ac311116bad59e734ca2dd4459cedd8e6" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string restincurl::RequestBuilder::url_</definition>
+        <argsstring></argsstring>
+        <name>url_</name>
+        <qualifiedname>restincurl::RequestBuilder::url_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1632" column="21" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1632" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrestincurl_1_1RequestBuilder_1ad0df786a7fcc549c1b959a2ecafca1d2" prot="private" static="no" mutable="no">
+        <type>RequestType</type>
+        <definition>RequestType restincurl::RequestBuilder::request_type_</definition>
+        <argsstring></argsstring>
+        <name>request_type_</name>
+        <qualifiedname>restincurl::RequestBuilder::request_type_</qualifiedname>
+        <initializer>= RequestType::INVALID</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1633" column="21" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1633" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrestincurl_1_1RequestBuilder_1aed13c0af6cd9b41d5896ba20a1400bec" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool restincurl::RequestBuilder::have_data_in_</definition>
+        <argsstring></argsstring>
+        <name>have_data_in_</name>
+        <qualifiedname>restincurl::RequestBuilder::have_data_in_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1634" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1634" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrestincurl_1_1RequestBuilder_1ae30bad978cc7b8d1216751e7d08f7b5b" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool restincurl::RequestBuilder::have_data_out_</definition>
+        <argsstring></argsstring>
+        <name>have_data_out_</name>
+        <qualifiedname>restincurl::RequestBuilder::have_data_out_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1635" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1635" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrestincurl_1_1RequestBuilder_1ad386a3921597e58728b8da90eceee1ec" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool restincurl::RequestBuilder::is_built_</definition>
+        <argsstring></argsstring>
+        <name>is_built_</name>
+        <qualifiedname>restincurl::RequestBuilder::is_built_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1636" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1636" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrestincurl_1_1RequestBuilder_1a8ae8142f7d122162daee287c24f70d6f" prot="private" static="no" mutable="no">
+        <type><ref refid="restincurl_8h_1abefa90cbb340ddfe8752aaa0a5b5b8dc" kindref="member">completion_fn_t</ref></type>
+        <definition>completion_fn_t restincurl::RequestBuilder::completion_</definition>
+        <argsstring></argsstring>
+        <name>completion_</name>
+        <qualifiedname>restincurl::RequestBuilder::completion_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1637" column="25" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1637" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrestincurl_1_1RequestBuilder_1ac9755b2677201961fb13270dd4a806a8" prot="private" static="no" mutable="no">
+        <type>long</type>
+        <definition>long restincurl::RequestBuilder::request_timeout_</definition>
+        <argsstring></argsstring>
+        <name>request_timeout_</name>
+        <qualifiedname>restincurl::RequestBuilder::request_timeout_</qualifiedname>
+        <initializer>= 10000L</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1638" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1638" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrestincurl_1_1RequestBuilder_1a88577d76128c40d4be731b5096f361f3" prot="private" static="no" mutable="no">
+        <type>long</type>
+        <definition>long restincurl::RequestBuilder::connect_timeout_</definition>
+        <argsstring></argsstring>
+        <name>connect_timeout_</name>
+        <qualifiedname>restincurl::RequestBuilder::connect_timeout_</qualifiedname>
+        <initializer>= 3000L</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1639" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1639" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrestincurl_1_1RequestBuilder_1a854af0a73bae2fe51da12473d67ad84e" prot="private" static="no" mutable="no">
+        <type><ref refid="classrestincurl_1_1Worker" kindref="compound">Worker</ref> &amp;</type>
+        <definition>Worker&amp; restincurl::RequestBuilder::worker_</definition>
+        <argsstring></argsstring>
+        <name>worker_</name>
+        <qualifiedname>restincurl::RequestBuilder::worker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1641" column="16" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1641" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a5cbac8987d264d9cf371f9c91d16df1e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::Get</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>Get</name>
+        <qualifiedname>restincurl::RequestBuilder::Get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Use a HTTP GET request </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1193" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1193" bodyend="1195"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1aba7f714eff8332472a7fb3d9ae94e339" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::Head</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>Head</name>
+        <qualifiedname>restincurl::RequestBuilder::Head</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Use a HTTP HEAD request </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1198" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1198" bodyend="1200"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a3f25898a452e134e76df018749050d21" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::Post</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>Post</name>
+        <qualifiedname>restincurl::RequestBuilder::Post</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Use a HTTP POST request </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1203" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1203" bodyend="1205"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a464f296cef584af31b46c27ffa0c60f9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::PostMime</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>PostMime</name>
+        <qualifiedname>restincurl::RequestBuilder::PostMime</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Use a HTTP POST request </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1208" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1208" bodyend="1210"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a5b8435cc56bdbf756b7926d08762e26a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::Put</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>Put</name>
+        <qualifiedname>restincurl::RequestBuilder::Put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Use a HTTP PUT request </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1213" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1213" bodyend="1215"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a17f93cc71d8ca0e515bc67f974772b37" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::Patch</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>Patch</name>
+        <qualifiedname>restincurl::RequestBuilder::Patch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Use a HTTP PATCH request </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1218" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1218" bodyend="1220"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a05edcb16e73301324a1f95ddc1d337e2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::Delete</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>Delete</name>
+        <qualifiedname>restincurl::RequestBuilder::Delete</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Use a HTTP DELETE request </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1223" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1223" bodyend="1225"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1ad70c8dc748d834f130992e0c9bb7aff2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::Options</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>Options</name>
+        <qualifiedname>restincurl::RequestBuilder::Options</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Use a HTTP OPTIONS request </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1228" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1228" bodyend="1230"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1add62816dc28da9af6eeb816df3b73921" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::Header</definition>
+        <argsstring>(const char *value)</argsstring>
+        <name>Header</name>
+        <qualifiedname>restincurl::RequestBuilder::Header</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Specify a HTTP header for the request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value of the header-line, properly formatted according to the relevant HTTP specifications. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1237" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1237" bodyend="1242"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1abaac9e745ef0ca5542f8c9964b96d43d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::Header</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;value)</argsstring>
+        <name>Header</name>
+        <qualifiedname>restincurl::RequestBuilder::Header</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Specify a HTTP header for the request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the header </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value of the header</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+This is a convenience method that will build the appropriate header for you. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1251" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1251" bodyend="1255"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a4cca54acb078ca506b5e13bf9bfd58b6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::WithJson</definition>
+        <argsstring>()</argsstring>
+        <name>WithJson</name>
+        <qualifiedname>restincurl::RequestBuilder::WithJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets the content-type to &quot;Application/json; charset=utf-8&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1258" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1258" bodyend="1260"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a154dcf3294adb5db7a979cc4b74edbe2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::WithJson</definition>
+        <argsstring>(std::string body)</argsstring>
+        <name>WithJson</name>
+        <qualifiedname>restincurl::RequestBuilder::WithJson</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets the content-type to &quot;Application/json; charset=utf-8&quot;</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Json payload to send with the request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1266" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1266" bodyend="1269"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a4b20cdf84a30a5db85bbdc5384e3b479" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::AcceptJson</definition>
+        <argsstring>()</argsstring>
+        <name>AcceptJson</name>
+        <qualifiedname>restincurl::RequestBuilder::AcceptJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets the accept header to &quot;Application/json&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1272" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1272" bodyend="1274"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1af523030884ce8651b3349054442a3ac3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::Option</definition>
+        <argsstring>(const CURLoption &amp;opt, const T &amp;value)</argsstring>
+        <name>Option</name>
+        <qualifiedname>restincurl::RequestBuilder::Option</qualifiedname>
+        <param>
+          <type>const CURLoption &amp;</type>
+          <declname>opt</declname>
+        </param>
+        <param>
+          <type>const T &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets a Curl options.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>opt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CURLoption enum specifying the option </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value to set.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+It is critical that the type of the value is of the same type that libcurl is expecting for the option. RESTinCurl makes no attempt to validate or cast the values.</para>
+<para>Please refer to the libcurl documentation for curl_easy_setopt() </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1288" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1288" bodyend="1292"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a079a51bc5f0f9e90e6d3827320a867e5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::Trace</definition>
+        <argsstring>(bool enable=true)</argsstring>
+        <name>Trace</name>
+        <qualifiedname>restincurl::RequestBuilder::Trace</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enable</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enables or disables trace logging for requests.</para>
+<para>The trace logging will show detailed information about what libcurl does and data sent and received during a request.</para>
+<para>Basically it sets <computeroutput>CURLOPT_DEBUGFUNCTION</computeroutput> and <computeroutput>CURLOPT_VERBOSE</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1301" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1301" bodyend="1310"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a233a022daf841142b526f992bb3de163" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::RequestTimeout</definition>
+        <argsstring>(const long timeout)</argsstring>
+        <name>RequestTimeout</name>
+        <qualifiedname>restincurl::RequestBuilder::RequestTimeout</qualifiedname>
+        <param>
+          <type>const long</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set request timeout</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Timeout in milliseconds. Set to -1 to use the default. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1316" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1316" bodyend="1319"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1ab7f56503f8566783c1c479a7ba5fff41" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::ConnectTimeout</definition>
+        <argsstring>(const long timeout)</argsstring>
+        <name>ConnectTimeout</name>
+        <qualifiedname>restincurl::RequestBuilder::ConnectTimeout</qualifiedname>
+        <param>
+          <type>const long</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the connect timeout for a request</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Timeout in milliseconds. Set to -1 to use the default. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1325" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1325" bodyend="1328"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a53567764b4d0ab4c8caa3a81ef2e2d8e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::SendFile</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>SendFile</name>
+        <qualifiedname>restincurl::RequestBuilder::SendFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Send a file</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full path to the file to send.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername><ref refid="classrestincurl_1_1SystemException" kindref="compound">SystemException</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the file cannot be opened. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername><ref refid="classrestincurl_1_1Exception" kindref="compound">Exception</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the method is called for a non-send operation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1337" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1337" bodyend="1357"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a9b517ff2ee9660899286ef0350de71ce" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::SendFileAsMimeData</definition>
+        <argsstring>(const std::string &amp;path, const std::string &amp;name={}, const std::string &amp;remoteName={}, const std::string &amp;mimeType={})</argsstring>
+        <name>SendFileAsMimeData</name>
+        <qualifiedname>restincurl::RequestBuilder::SendFileAsMimeData</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>remoteName</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mimeType</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Send a file as a multipart/form mime segment</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full path to the file tro send </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Otional name to use for the file in the mime segment </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remoteName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional name to label the file as for the remote end </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mimeType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional mime-type for the file</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername><ref refid="classrestincurl_1_1Exception" kindref="compound">Exception</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the method is called for a non-mime-post operation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1370" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1370" bodyend="1381"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1ae9e53f3aa05b4062240f690922d590e2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::SendFileAsForm</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>SendFileAsForm</name>
+        <qualifiedname>restincurl::RequestBuilder::SendFileAsForm</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Send a file</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full path to the file to send.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername><ref refid="classrestincurl_1_1SystemException" kindref="compound">SystemException</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the file cannot be opened. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername><ref refid="classrestincurl_1_1Exception" kindref="compound">Exception</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the method is called for a non-send operation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1390" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1390" bodyend="1410"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1ac8312374b1de8a121770d0c43217b521" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::SendData</definition>
+        <argsstring>(OutDataHandler&lt; T &gt; &amp;dh)</argsstring>
+        <name>SendData</name>
+        <qualifiedname>restincurl::RequestBuilder::SendData</qualifiedname>
+        <param>
+          <type><ref refid="structrestincurl_1_1OutDataHandler" kindref="compound">OutDataHandler</ref>&lt; T &gt; &amp;</type>
+          <declname>dh</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Specify Data Handler for outbound data</para>
+<para>You can use this method when you need to use a Data Handler, rather than a simple string, to provide the data for a POST, PUT etc. request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dh</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data Handler instance.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Note that the Data Handler is passed by reference. It is your responsibility that the instance is present at least until the request has finished (your code owns the Data Handler instance). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1423" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1423" bodyend="1429"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1adf2b1d5c2acde6bb5fca993c4d259bcc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::SendData</definition>
+        <argsstring>(T data)</argsstring>
+        <name>SendData</name>
+        <qualifiedname>restincurl::RequestBuilder::SendData</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Convenience method to specify a object that contains the data to send during a request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data to send. Typically this will be a std::string, std::vector&lt;char&gt; or a similar object.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+RESTinCurl takes ownership of this data (by moving it). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1439" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1439" bodyend="1445"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a9864e65dab59dd5b778aad9cc2a328a5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::StoreData</definition>
+        <argsstring>(InDataHandler&lt; T &gt; &amp;dh)</argsstring>
+        <name>StoreData</name>
+        <qualifiedname>restincurl::RequestBuilder::StoreData</qualifiedname>
+        <param>
+          <type><ref refid="structrestincurl_1_1InDataHandler" kindref="compound">InDataHandler</ref>&lt; T &gt; &amp;</type>
+          <declname>dh</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Specify Data Handler for inbound data</para>
+<para>You can use this method when you need to use a Data Handler, rather than a simple string, to receive data during the request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dh</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data Handler instance.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Note that the Data Handler is passed by reference. It is your responsibility that the instance is present at least until the request has finished (your code owns the Data Handler instance). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1458" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1458" bodyend="1464"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a650986510d08db8858230016974296cf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::StoreData</definition>
+        <argsstring>(T &amp;data)</argsstring>
+        <name>StoreData</name>
+        <qualifiedname>restincurl::RequestBuilder::StoreData</qualifiedname>
+        <param>
+          <type>T &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Convenience method to specify a object that receives incoming data during a request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer to hold incoming data. Typically this will be a std::string, std::vector&lt;char&gt; or a similar object.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Note that data is passed by reference. It is your responsibility that the instance is present at least until the request has finished (your code owns the object). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1475" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1475" bodyend="1481"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a1eb673cf6098b97cf84391c42773f8c9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::IgnoreIncomingData</definition>
+        <argsstring>()</argsstring>
+        <name>IgnoreIncomingData</name>
+        <qualifiedname>restincurl::RequestBuilder::IgnoreIncomingData</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Do not process incoming data</para>
+<para>The response body will be read from the network, but not buffered and not available for later inspection. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1489" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1489" bodyend="1493"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1ac3831f90e66d0b23b0393a8d054195cc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::WithCompletion</definition>
+        <argsstring>(completion_fn_t fn)</argsstring>
+        <name>WithCompletion</name>
+        <qualifiedname>restincurl::RequestBuilder::WithCompletion</qualifiedname>
+        <param>
+          <type><ref refid="restincurl_8h_1abefa90cbb340ddfe8752aaa0a5b5b8dc" kindref="member">completion_fn_t</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Specify a callback that will be called when the request is complete (or failed).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback to be called</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+For asynchronous requests, the callback will be called from the worker-thread shared by all requests and timers for the client instance. It is imperative that you return immediately, and don&apos;t keep the thread busy more than strictly required. If you need do do some computing or IO in response to the information you receive, you should do that in another thread. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1505" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1505" bodyend="1509"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a073c7998d563f1678d7cc4858d391923" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::BasicAuthentication</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;passwd)</argsstring>
+        <name>BasicAuthentication</name>
+        <qualifiedname>restincurl::RequestBuilder::BasicAuthentication</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>passwd</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>HTTP Basic Authentication</para>
+<para>Authenticate the request with HTTP Basic Authentication.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name to authenticate with </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>passwd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Password to authenticate with</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Note that if name or password is empty, authentication is ignored. This makes it simple to add optional authentication to your project, by simply assigning values to the strings you pass here, or not. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1523" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1523" bodyend="1533"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a6e7047a7bd7b18e3aadd870f8e3b3c57" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::SetReadHandler</definition>
+        <argsstring>(size_t(*handler)(char *, size_t, size_t, void *), void *userdata)</argsstring>
+        <name>SetReadHandler</name>
+        <qualifiedname>restincurl::RequestBuilder::SetReadHandler</qualifiedname>
+        <param>
+          <type>size_t(*)(char *, size_t, size_t, void *)</type>
+          <declname>handler</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>userdata</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set a Curl compatible read handler.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Curl C API read handler</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+You probably don&apos;t need to call this directly. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1541" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1541" bodyend="1546"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a83b9859898a2647a1499547dfb2b750e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::SetWriteHandler</definition>
+        <argsstring>(size_t(*handler)(char *, size_t, size_t, void *), void *userdata)</argsstring>
+        <name>SetWriteHandler</name>
+        <qualifiedname>restincurl::RequestBuilder::SetWriteHandler</qualifiedname>
+        <param>
+          <type>size_t(*)(char *, size_t, size_t, void *)</type>
+          <declname>handler</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>userdata</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set a Curl compatible write handler.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Curl C API write handler</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+You probably don&apos;t need to call this directly. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1554" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1554" bodyend="1559"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a6e4a577d7920ad29cd2a17bea7e44263" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void restincurl::RequestBuilder::Build</definition>
+        <argsstring>()</argsstring>
+        <name>Build</name>
+        <qualifiedname>restincurl::RequestBuilder::Build</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1561" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1561" bodyend="1594"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a29235e60b08f0c0d9bad30773ec3db91" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void restincurl::RequestBuilder::ExecuteSynchronous</definition>
+        <argsstring>()</argsstring>
+        <name>ExecuteSynchronous</name>
+        <qualifiedname>restincurl::RequestBuilder::ExecuteSynchronous</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute the request synchronously</para>
+<para>This will execute the request and call the callback (if you declared one) in the current thread before the method returns.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername><ref refid="classrestincurl_1_1Exception" kindref="compound">restincurl::Exception</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>derived exceptions on error</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+This method is available even when <computeroutput><ref refid="restincurl_8h_1afd0e7fa196a2032a330b69cab346b463" kindref="member">RESTINCURL_ENABLE_ASYNC</ref></computeroutput> is enabled ( != 0). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1605" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1605" bodyend="1608"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a7abeb0355369d00916265560cbfd3750" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void restincurl::RequestBuilder::Execute</definition>
+        <argsstring>()</argsstring>
+        <name>Execute</name>
+        <qualifiedname>restincurl::RequestBuilder::Execute</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute the request asynchronously</para>
+<para>This will queue the request for processing. If the number of active requests are less than <computeroutput><ref refid="restincurl_8h_1abe35ed231c42ba3ff292ac7424ee99fd" kindref="member">RESTINCURL_MAX_CONNECTIONS</ref></computeroutput>, the request will start executing almost immediately.</para>
+<para>The method returns immediately.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername><ref refid="classrestincurl_1_1Exception" kindref="compound">restincurl::Exception</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>derived exceptions on error</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+This method is only available when <computeroutput><ref refid="restincurl_8h_1afd0e7fa196a2032a330b69cab346b463" kindref="member">RESTINCURL_ENABLE_ASYNC</ref></computeroutput> is nonzero. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1623" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1623" bodyend="1626"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classrestincurl_1_1RequestBuilder_1a4075e11fed2330743268447f55b054ae" prot="public" static="no">
+        <type>std::unique_ptr&lt; RequestBuilder &gt;</type>
+        <definition>using restincurl::RequestBuilder::ptr_t = std::unique_ptr&lt;RequestBuilder&gt;</definition>
+        <argsstring></argsstring>
+        <name>ptr_t</name>
+        <qualifiedname>restincurl::RequestBuilder::ptr_t</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1148" column="9" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1148" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a4f459222bd930ac6f467f440c7370b5e" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t restincurl::RequestBuilder::write_callback</definition>
+        <argsstring>(char *ptr, size_t size, size_t nitems, void *userdata)</argsstring>
+        <name>write_callback</name>
+        <qualifiedname>restincurl::RequestBuilder::write_callback</qualifiedname>
+        <param>
+          <type>char *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>nitems</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>userdata</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1105" column="23" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1105" bodyend="1108"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a933332a354cd0ec809d726c0ee3bddb3" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>static int restincurl::RequestBuilder::debug_callback</definition>
+        <argsstring>(CURL *handle, curl_infotype type, char *data, size_t size, void *userp)</argsstring>
+        <name>debug_callback</name>
+        <qualifiedname>restincurl::RequestBuilder::debug_callback</qualifiedname>
+        <param>
+          <type>CURL *</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>curl_infotype</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>userp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1110" column="20" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1110" bodyend="1145"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a6fad12861f5252dbc4b78e694fd149f7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>restincurl::RequestBuilder::RequestBuilder</definition>
+        <argsstring>(Worker &amp;worker)</argsstring>
+        <name>RequestBuilder</name>
+        <qualifiedname>restincurl::RequestBuilder::RequestBuilder</qualifiedname>
+        <param>
+          <type><ref refid="classrestincurl_1_1Worker" kindref="compound">Worker</ref> &amp;</type>
+          <declname>worker</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1149" column="9" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1149" bodyend="1159"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1ac6e8b693773991b3309ffc25daae9df5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>restincurl::RequestBuilder::~RequestBuilder</definition>
+        <argsstring>()</argsstring>
+        <name>~RequestBuilder</name>
+        <qualifiedname>restincurl::RequestBuilder::~RequestBuilder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1161" column="9" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1161" bodyend="1162"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a1a3a494787fc916413785f029fd04b51" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool restincurl::RequestBuilder::CanSendFile</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>CanSendFile</name>
+        <qualifiedname>restincurl::RequestBuilder::CanSendFile</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1174" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1174" bodyend="1177"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classrestincurl_1_1RequestBuilder_1a795de3af684e5aaee71097c2d577c2be" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>RequestBuilder &amp;</type>
+        <definition>RequestBuilder &amp; restincurl::RequestBuilder::Prepare</definition>
+        <argsstring>(RequestType rt, const std::string &amp;url)</argsstring>
+        <name>Prepare</name>
+        <qualifiedname>restincurl::RequestBuilder::Prepare</qualifiedname>
+        <param>
+          <type>RequestType</type>
+          <declname>rt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1165" column="24" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1165" bodyend="1171"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Convenient interface to build requests.</para>
+<para>Even if this is a light-weight wrapper around libcurl, we have a simple and modern way to define our requests that contains convenience-methods for the most common use-cases. </para>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1103" column="5" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1103" bodyend="1643"/>
+    <listofallmembers>
+      <member refid="classrestincurl_1_1RequestBuilder_1a4b20cdf84a30a5db85bbdc5384e3b479" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>AcceptJson</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a073c7998d563f1678d7cc4858d391923" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>BasicAuthentication</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a6e4a577d7920ad29cd2a17bea7e44263" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>Build</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a1a3a494787fc916413785f029fd04b51" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>CanSendFile</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a8ae8142f7d122162daee287c24f70d6f" prot="private" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>completion_</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a88577d76128c40d4be731b5096f361f3" prot="private" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>connect_timeout_</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1ab7f56503f8566783c1c479a7ba5fff41" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>ConnectTimeout</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a933332a354cd0ec809d726c0ee3bddb3" prot="private" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>debug_callback</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a05edcb16e73301324a1f95ddc1d337e2" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>Delete</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a7abeb0355369d00916265560cbfd3750" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>Execute</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a29235e60b08f0c0d9bad30773ec3db91" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>ExecuteSynchronous</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a5cbac8987d264d9cf371f9c91d16df1e" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>Get</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1aed13c0af6cd9b41d5896ba20a1400bec" prot="private" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>have_data_in_</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1ae30bad978cc7b8d1216751e7d08f7b5b" prot="private" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>have_data_out_</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1aba7f714eff8332472a7fb3d9ae94e339" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>Head</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1add62816dc28da9af6eeb816df3b73921" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>Header</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1abaac9e745ef0ca5542f8c9964b96d43d" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>Header</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a1eb673cf6098b97cf84391c42773f8c9" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>IgnoreIncomingData</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1ad386a3921597e58728b8da90eceee1ec" prot="private" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>is_built_</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1af523030884ce8651b3349054442a3ac3" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>Option</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1ad70c8dc748d834f130992e0c9bb7aff2" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>Options</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a60b82c4187110ae1cf9094f67bc8612d" prot="private" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>options_</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a17f93cc71d8ca0e515bc67f974772b37" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>Patch</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a3f25898a452e134e76df018749050d21" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>Post</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a464f296cef584af31b46c27ffa0c60f9" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>PostMime</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a795de3af684e5aaee71097c2d577c2be" prot="protected" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>Prepare</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a4075e11fed2330743268447f55b054ae" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>ptr_t</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a5b8435cc56bdbf756b7926d08762e26a" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>Put</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1aad5ca9fdd9e86de0029383554e8f57eb" prot="private" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>request_</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1ac9755b2677201961fb13270dd4a806a8" prot="private" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>request_timeout_</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1ad0df786a7fcc549c1b959a2ecafca1d2" prot="private" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>request_type_</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a6fad12861f5252dbc4b78e694fd149f7" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>RequestBuilder</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a233a022daf841142b526f992bb3de163" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>RequestTimeout</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1ac8312374b1de8a121770d0c43217b521" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>SendData</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1adf2b1d5c2acde6bb5fca993c4d259bcc" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>SendData</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a53567764b4d0ab4c8caa3a81ef2e2d8e" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>SendFile</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1ae9e53f3aa05b4062240f690922d590e2" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>SendFileAsForm</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a9b517ff2ee9660899286ef0350de71ce" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>SendFileAsMimeData</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a6e7047a7bd7b18e3aadd870f8e3b3c57" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>SetReadHandler</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a83b9859898a2647a1499547dfb2b750e" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>SetWriteHandler</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a9864e65dab59dd5b778aad9cc2a328a5" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>StoreData</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a650986510d08db8858230016974296cf" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>StoreData</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a079a51bc5f0f9e90e6d3827320a867e5" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>Trace</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1ac311116bad59e734ca2dd4459cedd8e6" prot="private" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>url_</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1ac3831f90e66d0b23b0393a8d054195cc" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>WithCompletion</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a4cca54acb078ca506b5e13bf9bfd58b6" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>WithJson</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a154dcf3294adb5db7a979cc4b74edbe2" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>WithJson</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a854af0a73bae2fe51da12473d67ad84e" prot="private" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>worker_</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1a4f459222bd930ac6f467f440c7370b5e" prot="private" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>write_callback</name></member>
+      <member refid="classrestincurl_1_1RequestBuilder_1ac6e8b693773991b3309ffc25daae9df5" prot="public" virt="non-virtual"><scope>restincurl::RequestBuilder</scope><name>~RequestBuilder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

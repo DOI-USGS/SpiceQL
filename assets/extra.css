@@ -1,0 +1,160 @@
+/* :root {
+    --color-blue: #a0c4ff;
+} */
+
+/* Left unscoped on purpose, so the header bar is the same colour in both schemes:
+   it is the site's brand chrome, and it sits directly above the hero banner, whose
+   wireframe is this same red either way. Material supplies white header text for
+   any primary colour, so it reads in the light scheme too — though at 3.6:1 white
+   on this red clears AA for the site title's large type and not for the 0.7rem nav
+   tabs beside it, which is the cost of the brand colour going up there.
+
+   The red is the banner's own, via --sq-accent below; custom properties resolve at
+   use rather than in source order, so declaring it further down is fine. */
+:root  > * {
+    --md-primary-fg-color:        var(--sq-accent);
+    --md-primary-fg-color--light: #ECB7B7;
+    --md-primary-fg-color--dark:  #5667C7;
+  }
+
+  body.homepage .bs-sidebar{
+    display: none;
+    }
+
+/* Scoped to slate. Unscoped, this dark page background survived into the light
+   scheme and left near-black body text sitting on it. Material puts the scheme
+   attribute on <body> itself, hence the compound selector rather than a
+   descendant one. (A `--md-default-bg-color: white` that used to sit here is
+   gone: both schemes define that variable on this same element with an attribute
+   selector, which outranks a bare `body`, so it never applied.) */
+body[data-md-color-scheme="slate"] {
+    background: #282828;
+  }
+
+/* Material derives link colour from the primary colour, and the primary above is
+   a near-black, so in the light scheme links came out the same #282828 as the
+   prose around them — 1.4:1 against the body text, invisible as links. Slate
+   substitutes its own blue and never had the problem. Reusing the indigo already
+   declared above rather than the brand red, which would both compete with the
+   heading blocks and miss AA on white (3.9:1, against 4.9:1 for this). */
+body[data-md-color-scheme="default"] {
+    --md-typeset-a-color: var(--md-primary-fg-color--dark);
+  }
+
+/* ==========================================================================
+   Homepage hero
+   Sized to match the StarDS hero (its .ms-hero rules) so the two USGS
+   Astrogeology sites read as a set: the same 14px corner radius and the same
+   box. StarDS gets its height from rem padding, so it grows with Material's
+   root font-size; 26.3rem reproduces that exactly — 526px at the 125% root
+   and 578px at the 137.5% root Material switches to above 100em.
+   The banner itself is an iframe (assets/mars-banner.html), which isolates
+   its Three.js module scripts from MkDocs' own JS.
+   ========================================================================== */
+
+:root {
+  --sq-radius: 14px;
+  --sq-accent: #E84826;   /* the Mars wireframe's red, from the hero banner */
+}
+
+.sq-hero {
+  position: relative;
+  margin: -1.2rem 0 2.5rem;
+  height: 26.3rem;
+  border-radius: var(--sq-radius);
+  overflow: hidden;
+}
+
+.sq-hero iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Full-screen hero — the flag, OFF by default
+   Add `sq-hero--full` to the hero's wrapper div in docs/index.md to turn it on:
+     <div class="sq-hero sq-hero--full">
+   and delete it to go back. That is the whole switch. It is a class rather than
+   a custom property because two of the four things it changes — the radius and
+   the body's horizontal overflow — are not values that can be interpolated from
+   a 0/1 flag, and the overflow one is not even on this element.
+
+   On: the banner fills the viewport below the header, edge to edge, and the
+   prose starts one scroll down. Off: the 26.3rem band above, matching StarDS.
+   The banner itself needs no flag of its own — it measures its container and
+   re-frames, and the taller box simply lands further from its portrait end.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.sq-hero--full {
+  /* The chrome to clear is 2.4rem of header here, and 4.8rem once the nav tabs
+     row appears — see the query below. Clearing too little does not just leave
+     the banner low: the hero slides UNDER the tabs and loses the top 2.4rem of
+     its own composition, which is where the status dot and the head of the red
+     accent bar live. Both are drawn 14px from the iframe's top corner.
+     dvh, not vh, so a phone's collapsing address bar cannot put the fold in the
+     wrong place — with vh the hero is dragged taller than the visible viewport
+     and the first line of prose sits below the fold on load. */
+  height: calc(100dvh - 2.4rem);
+
+  /* Escape the content column. The hero's containing block is centred in the
+     viewport, so pulling each side in by (50% - 50vw) — a negative value — puts
+     the edges exactly on the screen edges, whatever the grid is doing.
+
+     The top pull-up cancels Material's spacing above the first content block so
+     the hero starts flush under the header. Measured, that spacing is 4.9rem of
+     margins and padding, plus the header's own 2.4rem once it joins the flow —
+     which it does at 76.25em, Material's own breakpoint, hence the query below.
+     Either way the pull-up is that total less the chrome we want to keep clear,
+     and the two cancel: 4.9 - 2.4 below the breakpoint, 7.3 - 4.8 above it, both
+     -2.5rem. That is not a coincidence worth relying on — the 2.4rem the header
+     adds to the flow above the breakpoint is the same 2.4rem the tabs row then
+     needs cleared — but it does mean one value covers both. It is all in rem and
+     so scales with both root sizes Material uses (verified at 125% and 137.5%),
+     but it is the theme's internal spacing, so re-measure after a theme upgrade:
+     too small and the hero hangs below the header with a band of page above it,
+     too large and it slides underneath. */
+  margin: -2.5rem calc(50% - 50vw) 2.5rem;
+
+  border-radius: 0;   /* nothing to round against at a screen edge */
+}
+
+/* Material's own breakpoint, where the header stops overlaying the content and
+   takes up flow space — and, because this site enables navigation.tabs, where
+   the 2.4rem tabs row appears as well. The tabs are in flow and paint over the
+   hero, so they are chrome the banner has to clear exactly like the header: at
+   4.8rem instead of 2.4rem the status dot and the top of the accent bar come
+   back out from under them. Drop navigation.tabs from mkdocs.yml and this query
+   is the one thing here that has to go. */
+@media screen and (min-width: 76.25em) {
+  .sq-hero--full { height: calc(100dvh - 4.8rem); }
+}
+
+/* 50vw counts the vertical scrollbar, so on platforms that reserve space for
+   one the full-bleed hero is a scrollbar's width wider than the viewport and
+   earns a horizontal scrollbar. Clipping on an ancestor is not an option — it
+   would clip the very overflow the margins are buying — so it goes on the body,
+   scoped with :has() to the one page that actually has a full-bleed hero. */
+body:has(.sq-hero--full) {
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   Section headings
+   StarDS' filled accent block, in SpiceQL's red: `display: table` is what makes
+   the box shrink-wrap the words instead of spanning the column, and the radius
+   is zeroed against Material's rounded surfaces so the edges stay hard.
+   H3 and below are left plain, as they are there, so the blocks read as section
+   markers rather than decoration on every line. The hero's own title lives
+   inside the banner iframe and is untouched by this.
+   ========================================================================== */
+
+.md-content .md-typeset h1,
+.md-content .md-typeset h2 {
+  display: table;
+  color: #fff;
+  background-color: var(--sq-accent);
+  padding: 0.2em 0.4em;
+  border-radius: 0;
+}

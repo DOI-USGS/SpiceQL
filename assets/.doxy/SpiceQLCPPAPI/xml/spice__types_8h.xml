@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="spice__types_8h" kind="file" language="C++">
+    <compoundname>spice_types.h</compoundname>
+    <includes local="no">iostream</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="inventory_8h" local="no">SpiceQL/include/SpiceQL/inventory.h</includedby>
+    <includedby refid="inventoryimpl_8h" local="no">SpiceQL/include/SpiceQL/inventoryimpl.h</includedby>
+    <includedby refid="query_8h" local="no">SpiceQL/include/SpiceQL/query.h</includedby>
+    <includedby refid="spiceql_8h" local="no">SpiceQL/include/SpiceQL/spiceql.h</includedby>
+    <includedby refid="utils_8h" local="no">SpiceQL/include/SpiceQL/utils.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>SpiceQL/include/SpiceQL/spice_types.h</label>
+        <link refid="spice__types_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>iostream</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="7">
+        <label>SpiceQL/include/SpiceQL/config.h</label>
+        <link refid="config_8h_source"/>
+      </node>
+      <node id="2">
+        <label>SpiceQL/include/SpiceQL/inventory.h</label>
+        <link refid="inventory_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>SpiceQL/include/SpiceQL/inventoryimpl.h</label>
+        <link refid="inventoryimpl_8h"/>
+      </node>
+      <node id="9">
+        <label>SpiceQL/include/SpiceQL/memo.h</label>
+        <link refid="memo_8h_source"/>
+      </node>
+      <node id="8">
+        <label>SpiceQL/include/SpiceQL/memoized_functions.h</label>
+        <link refid="memoized__functions_8h_source"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>SpiceQL/include/SpiceQL/query.h</label>
+        <link refid="query_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>SpiceQL/include/SpiceQL/spice_types.h</label>
+        <link refid="spice__types_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>SpiceQL/include/SpiceQL/spiceql.h</label>
+        <link refid="spiceql_8h"/>
+      </node>
+      <node id="6">
+        <label>SpiceQL/include/SpiceQL/utils.h</label>
+        <link refid="utils_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classSpiceQL_1_1Kernel" prot="public">SpiceQL::Kernel</innerclass>
+    <innerclass refid="classSpiceQL_1_1KernelSet" prot="public">SpiceQL::KernelSet</innerclass>
+    <innernamespace refid="namespaceSpiceQL">SpiceQL</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceSpiceQL" kindref="compound">SpiceQL</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>KERNEL_TYPES;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>KERNEL_QUALITIES;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>load(std::string<sp/>path,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>force_refurnsh=</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>unload(std::string<sp/>path);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespaceSpiceQL_1aafadc8e776b1e35eca491d4631987791" refkind="member"><highlight class="normal"><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="namespaceSpiceQL_1aafadc8e776b1e35eca491d4631987791" kindref="member">getLoadedKernels</ref>();</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="namespaceSpiceQL_1abcd89cefdcb25db7fe2c0dbd13e17958" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespaceSpiceQL_1abcd89cefdcb25db7fe2c0dbd13e17958" kindref="member">isLskLoaded</ref>();</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="classSpiceQL_1_1Kernel" refkind="compound"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classSpiceQL_1_1Kernel_1af1a0f3dde4e6312ccfd01cb4a9a4796a" kindref="member">Kernel</ref><sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80" kindref="member">Type</ref><sp/>{<sp/>NA=0,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>CK,<sp/>SPK,<sp/>TSPK,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LSK,<sp/>MK,<sp/>SCLK,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>IAK,<sp/>IK,<sp/>FK,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DSK,<sp/>PCK,<sp/>EK</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2e" kindref="member">Quality</ref><sp/><sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NOQUALITY=0,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Either<sp/>Quaility<sp/>doesn&apos;t<sp/>apply<sp/>(e.g.<sp/>text<sp/>kernels)<sp/>-or-</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>we<sp/>dont<sp/>care<sp/>about<sp/>quality<sp/>(e.g.<sp/>CK<sp/>of<sp/>any<sp/>quality)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NADIR<sp/>=<sp/>1,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Assumes<sp/>Nadir<sp/>pointing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PREDICTED<sp/>=<sp/>2,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Based<sp/>on<sp/>predicted<sp/>future<sp/>location<sp/>of<sp/>the<sp/>spacecraft/body</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RECONSTRUCTED<sp/>=<sp/>3,<sp/></highlight><highlight class="comment">//<sp/>Supplemented<sp/>by<sp/>real<sp/>spacecraft/body<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SMITHED<sp/>=<sp/>4,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Controlled<sp/>Kernels</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="classSpiceQL_1_1Kernel_1a8b14667e640d4c21f95ed22f975b8c79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classSpiceQL_1_1Kernel_1a8b14667e640d4c21f95ed22f975b8c79" kindref="member">translateType</ref>(<ref refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80" kindref="member">Type</ref><sp/><ref refid="classSpiceQL_1_1Kernel_1a59ed7196228b9a90973095a3c9a842cb" kindref="member">type</ref>);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="classSpiceQL_1_1Kernel_1a2f01b6088fda894f05b8062fc5c291c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80" kindref="member">Type</ref><sp/><ref refid="classSpiceQL_1_1Kernel_1a2f01b6088fda894f05b8062fc5c291c0" kindref="member">translateType</ref>(std::string<sp/><ref refid="classSpiceQL_1_1Kernel_1a59ed7196228b9a90973095a3c9a842cb" kindref="member">type</ref>);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="classSpiceQL_1_1Kernel_1ab1871b7504fec483b6012cce09a42afe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classSpiceQL_1_1Kernel_1ab1871b7504fec483b6012cce09a42afe" kindref="member">getExt</ref>(std::string<sp/><ref refid="classSpiceQL_1_1Kernel_1a59ed7196228b9a90973095a3c9a842cb" kindref="member">type</ref>);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classSpiceQL_1_1Kernel_1a5431dbad1a4447093e917b7ce3c2a10f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classSpiceQL_1_1Kernel_1a5431dbad1a4447093e917b7ce3c2a10f" kindref="member">isBinary</ref>(std::string<sp/><ref refid="classSpiceQL_1_1Kernel_1a59ed7196228b9a90973095a3c9a842cb" kindref="member">type</ref>);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="classSpiceQL_1_1Kernel_1a1f0c2e4f3070ebe0d6762d9ce80802df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classSpiceQL_1_1Kernel_1a1f0c2e4f3070ebe0d6762d9ce80802df" kindref="member">isText</ref>(std::string<sp/><ref refid="classSpiceQL_1_1Kernel_1a59ed7196228b9a90973095a3c9a842cb" kindref="member">type</ref>);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="classSpiceQL_1_1Kernel_1ace782dcf1f7949ab9e23db5503f6ee69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classSpiceQL_1_1Kernel_1ace782dcf1f7949ab9e23db5503f6ee69" kindref="member">isCk</ref>(std::string<sp/><ref refid="classSpiceQL_1_1Kernel_1a59ed7196228b9a90973095a3c9a842cb" kindref="member">type</ref>);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="classSpiceQL_1_1Kernel_1a7e1ea1a434514723078af5464542512c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classSpiceQL_1_1Kernel_1a7e1ea1a434514723078af5464542512c" kindref="member">isSpk</ref>(std::string<sp/><ref refid="classSpiceQL_1_1Kernel_1a59ed7196228b9a90973095a3c9a842cb" kindref="member">type</ref>);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="classSpiceQL_1_1Kernel_1acd051e014c9ca261f6953db09d137f89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classSpiceQL_1_1Kernel_1acd051e014c9ca261f6953db09d137f89" kindref="member">translateQuality</ref>(<ref refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2e" kindref="member">Quality</ref><sp/>qa);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="classSpiceQL_1_1Kernel_1a281c1a677105d6ca77d7baa9976cd223" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2e" kindref="member">Quality</ref><sp/><ref refid="classSpiceQL_1_1Kernel_1a281c1a677105d6ca77d7baa9976cd223" kindref="member">translateQuality</ref>(std::string<sp/>qa);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="classSpiceQL_1_1Kernel_1a83e7d238391a8a297a06f7c917e60f1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;Kernel::Quality&gt;<sp/><ref refid="classSpiceQL_1_1Kernel_1a83e7d238391a8a297a06f7c917e60f1b" kindref="member">translateQualities</ref>(std::vector&lt;std::string&gt;<sp/>qas);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="classSpiceQL_1_1Kernel_1af1a0f3dde4e6312ccfd01cb4a9a4796a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classSpiceQL_1_1Kernel_1af1a0f3dde4e6312ccfd01cb4a9a4796a" kindref="member">Kernel</ref>(std::string<sp/><ref refid="classSpiceQL_1_1Kernel_1a4abf1ab52e828411f45a48856e549617" kindref="member">path</ref>);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Kernel(Kernel<sp/>&amp;other);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="classSpiceQL_1_1Kernel_1a86250d06432fecfcece2fccc42aa049c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classSpiceQL_1_1Kernel_1a86250d06432fecfcece2fccc42aa049c" kindref="member">~Kernel</ref>();</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="classSpiceQL_1_1Kernel_1a4abf1ab52e828411f45a48856e549617" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classSpiceQL_1_1Kernel_1a4abf1ab52e828411f45a48856e549617" kindref="member">path</ref>;<sp/></highlight></codeline>
+<codeline lineno="197" refid="classSpiceQL_1_1Kernel_1a59ed7196228b9a90973095a3c9a842cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80" kindref="member">Type</ref><sp/><ref refid="classSpiceQL_1_1Kernel_1a59ed7196228b9a90973095a3c9a842cb" kindref="member">type</ref>;<sp/></highlight></codeline>
+<codeline lineno="199" refid="classSpiceQL_1_1Kernel_1a286d54a21991d3bde189cfd72635440d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2e" kindref="member">Quality</ref><sp/><ref refid="classSpiceQL_1_1Kernel_1a286d54a21991d3bde189cfd72635440d" kindref="member">quality</ref>;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212" refid="classSpiceQL_1_1KernelSet" refkind="compound"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classSpiceQL_1_1KernelSet_1a01af146cdbcdc70c3cb1a4231196ddf3" kindref="member">KernelSet</ref><sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220" refid="classSpiceQL_1_1KernelSet_1a01af146cdbcdc70c3cb1a4231196ddf3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classSpiceQL_1_1KernelSet_1a01af146cdbcdc70c3cb1a4231196ddf3" kindref="member">KernelSet</ref>(nlohmann::json<sp/>kernels);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classSpiceQL_1_1KernelSet_1a01af146cdbcdc70c3cb1a4231196ddf3" kindref="member">KernelSet</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classSpiceQL_1_1KernelSet_1a01af146cdbcdc70c3cb1a4231196ddf3" kindref="member">~KernelSet</ref>();</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>load(nlohmann::json<sp/>kernels);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>unload();</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="228" refid="classSpiceQL_1_1KernelSet_1a4d993043cd76734a109a45cfea3167ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Kernel*&gt;<sp/><ref refid="classSpiceQL_1_1KernelSet_1a4d993043cd76734a109a45cfea3167ed" kindref="member">m_loadedKernels</ref>;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="231" refid="classSpiceQL_1_1KernelSet_1a1054d3111296628856bdf338dca10779" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classSpiceQL_1_1KernelSet_1a1054d3111296628856bdf338dca10779" kindref="member">m_kernels</ref>;<sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="SpiceQL/include/SpiceQL/spice_types.h"/>
+  </compounddef>
+</doxygen>

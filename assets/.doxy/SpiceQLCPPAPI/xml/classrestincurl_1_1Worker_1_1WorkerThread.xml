@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classrestincurl_1_1Worker_1_1WorkerThread" kind="class" language="C++" prot="private">
+    <compoundname>restincurl::Worker::WorkerThread</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classrestincurl_1_1Worker_1_1WorkerThread_1a62be96b1ec2d2488415e5f99bc25dbff" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread restincurl::Worker::WorkerThread::thread_</definition>
+        <argsstring></argsstring>
+        <name>thread_</name>
+        <qualifiedname>restincurl::Worker::WorkerThread::thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="770" column="25" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="770" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrestincurl_1_1Worker_1_1WorkerThread_1a6c3bc76f48963ceaeefd5e9867be9e87" prot="private" static="no" mutable="yes">
+        <type>std::once_flag</type>
+        <definition>std::once_flag restincurl::Worker::WorkerThread::joined_</definition>
+        <argsstring></argsstring>
+        <name>joined_</name>
+        <qualifiedname>restincurl::Worker::WorkerThread::joined_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="771" column="36" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="771" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrestincurl_1_1Worker_1_1WorkerThread_1a95f0a5f34ceb22ecd17322eb67d3051f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>restincurl::Worker::WorkerThread::WorkerThread</definition>
+        <argsstring>(std::function&lt; void()&gt; &amp;&amp;fn)</argsstring>
+        <name>WorkerThread</name>
+        <qualifiedname>restincurl::Worker::WorkerThread::WorkerThread</qualifiedname>
+        <param>
+          <type>std::function&lt; void()&gt; &amp;&amp;</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="747" column="13" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="747" bodyend="748"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Worker_1_1WorkerThread_1a0dfda59888c3be1e2837f57074c712dd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>restincurl::Worker::WorkerThread::~WorkerThread</definition>
+        <argsstring>()</argsstring>
+        <name>~WorkerThread</name>
+        <qualifiedname>restincurl::Worker::WorkerThread::~WorkerThread</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="750" column="13" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="750" bodyend="755"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Worker_1_1WorkerThread_1a60951a8a5e59088313c104ae4f3df81c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void restincurl::Worker::WorkerThread::Join</definition>
+        <argsstring>() const</argsstring>
+        <name>Join</name>
+        <qualifiedname>restincurl::Worker::WorkerThread::Join</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="757" column="18" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="757" bodyend="761"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Worker_1_1WorkerThread_1a147be26e18482b4662731fe03baf61d3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool restincurl::Worker::WorkerThread::Joinable</definition>
+        <argsstring>() const</argsstring>
+        <name>Joinable</name>
+        <qualifiedname>restincurl::Worker::WorkerThread::Joinable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="763" column="18" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="763" bodyend="765"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Worker_1_1WorkerThread_1aba23fff575b8ce8cf38e420cb508d5af" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>restincurl::Worker::WorkerThread::operator std::thread &amp;</definition>
+        <argsstring>()</argsstring>
+        <name>operator std::thread &amp;</name>
+        <qualifiedname>restincurl::Worker::WorkerThread::thread &amp;</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="767" column="13" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="767" bodyend="767"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/restincurl.h" line="745" column="9" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="745" bodyend="772"/>
+    <listofallmembers>
+      <member refid="classrestincurl_1_1Worker_1_1WorkerThread_1a60951a8a5e59088313c104ae4f3df81c" prot="public" virt="non-virtual"><scope>restincurl::Worker::WorkerThread</scope><name>Join</name></member>
+      <member refid="classrestincurl_1_1Worker_1_1WorkerThread_1a147be26e18482b4662731fe03baf61d3" prot="public" virt="non-virtual"><scope>restincurl::Worker::WorkerThread</scope><name>Joinable</name></member>
+      <member refid="classrestincurl_1_1Worker_1_1WorkerThread_1a6c3bc76f48963ceaeefd5e9867be9e87" prot="private" virt="non-virtual"><scope>restincurl::Worker::WorkerThread</scope><name>joined_</name></member>
+      <member refid="classrestincurl_1_1Worker_1_1WorkerThread_1aba23fff575b8ce8cf38e420cb508d5af" prot="public" virt="non-virtual"><scope>restincurl::Worker::WorkerThread</scope><name>operator std::thread &amp;</name></member>
+      <member refid="classrestincurl_1_1Worker_1_1WorkerThread_1a62be96b1ec2d2488415e5f99bc25dbff" prot="private" virt="non-virtual"><scope>restincurl::Worker::WorkerThread</scope><name>thread_</name></member>
+      <member refid="classrestincurl_1_1Worker_1_1WorkerThread_1a95f0a5f34ceb22ecd17322eb67d3051f" prot="public" virt="non-virtual"><scope>restincurl::Worker::WorkerThread</scope><name>WorkerThread</name></member>
+      <member refid="classrestincurl_1_1Worker_1_1WorkerThread_1a0dfda59888c3be1e2837f57074c712dd" prot="public" virt="non-virtual"><scope>restincurl::Worker::WorkerThread</scope><name>~WorkerThread</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

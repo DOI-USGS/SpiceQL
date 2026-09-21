@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="namespacespdlog" kind="namespace" language="C++">
+    <compoundname>spdlog</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="spiceql__logging_8h_1aad741395adadf7e0fea688ed84de0e67" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void spdlog::dump_backtrace</definition>
+        <argsstring>()</argsstring>
+        <name>dump_backtrace</name>
+        <qualifiedname>spdlog::dump_backtrace</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spiceql_logging.h" line="93" column="15" bodyfile="SpiceQL/include/SpiceQL/spiceql_logging.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/spiceql_logging.h" line="92" column="1"/>
+  </compounddef>
+</doxygen>

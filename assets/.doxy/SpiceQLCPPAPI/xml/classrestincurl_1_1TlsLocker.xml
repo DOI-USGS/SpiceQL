@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classrestincurl_1_1TlsLocker" kind="class" language="C++" prot="public">
+    <compoundname>restincurl::TlsLocker</compoundname>
+    <includes refid="restincurl_8h" local="no">restincurl.h</includes>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classrestincurl_1_1TlsLocker_1a6a1ffcf6906da5e5523a151bd5349fc1" prot="private" static="yes" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex restincurl::TlsLocker::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>restincurl::TlsLocker::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="741" column="27" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="741" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classrestincurl_1_1TlsLocker_1aff79e6f4c1c94eadfb961636be563808" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void restincurl::TlsLocker::tlsLOckInit</definition>
+        <argsstring>()</argsstring>
+        <name>tlsLOckInit</name>
+        <qualifiedname>restincurl::TlsLocker::tlsLOckInit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable the built-in support. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="719" column="17" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="719" bodyend="721"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1TlsLocker_1a4b3f7600df1c0a3a28c0bf4b16e5130b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void restincurl::TlsLocker::tlsLockKill</definition>
+        <argsstring>()</argsstring>
+        <name>tlsLockKill</name>
+        <qualifiedname>restincurl::TlsLocker::tlsLockKill</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Free up resources used when finished using TLS. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="724" column="17" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="724" bodyend="726"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classrestincurl_1_1TlsLocker_1a6a4d0dbd1b21e0ef1c9647c5138e7197" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void restincurl::TlsLocker::lock</definition>
+        <argsstring>()</argsstring>
+        <name>lock</name>
+        <qualifiedname>restincurl::TlsLocker::lock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="733" column="21" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="733" bodyend="735"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1TlsLocker_1a8161712b83b3da4bb9604a4a91e4dff4" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void restincurl::TlsLocker::unlock</definition>
+        <argsstring>()</argsstring>
+        <name>unlock</name>
+        <qualifiedname>restincurl::TlsLocker::unlock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="737" column="21" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="737" bodyend="739"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread support for the TLS layer used by libcurl.</para>
+<para>Some TLS libraries require that you supply callback functions to deal with thread synchronization.</para>
+<para>See <ulink url="https://curl.haxx.se/libcurl/c/threadsafe.html">https://curl.haxx.se/libcurl/c/threadsafe.html</ulink></para>
+<para>You can deal with this yourself, or in the case that RESTinCurl support your TLS library, you can use this class.</para>
+<para>Currently supported libraries:</para>
+<para><itemizedlist>
+<listitem><para>Opeenssl (only required for OpenSSL &lt;= 1.0.2) define <computeroutput>RESTINCURL_WITH_OPENSSL_THREADS</computeroutput></para>
+</listitem></itemizedlist>
+</para>
+<para>The class is written so that you can use it in your code, and it will only do something when the appropriate define is set.</para>
+<para>This class is only available when <computeroutput><ref refid="restincurl_8h_1afd0e7fa196a2032a330b69cab346b463" kindref="member">RESTINCURL_ENABLE_ASYNC</ref></computeroutput> is nonzero. </para>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/restincurl.h" line="688" column="5" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="689" bodyend="742"/>
+    <listofallmembers>
+      <member refid="classrestincurl_1_1TlsLocker_1a6a4d0dbd1b21e0ef1c9647c5138e7197" prot="private" virt="non-virtual"><scope>restincurl::TlsLocker</scope><name>lock</name></member>
+      <member refid="classrestincurl_1_1TlsLocker_1a6a1ffcf6906da5e5523a151bd5349fc1" prot="private" virt="non-virtual"><scope>restincurl::TlsLocker</scope><name>mutex_</name></member>
+      <member refid="classrestincurl_1_1TlsLocker_1aff79e6f4c1c94eadfb961636be563808" prot="public" virt="non-virtual"><scope>restincurl::TlsLocker</scope><name>tlsLOckInit</name></member>
+      <member refid="classrestincurl_1_1TlsLocker_1a4b3f7600df1c0a3a28c0bf4b16e5130b" prot="public" virt="non-virtual"><scope>restincurl::TlsLocker</scope><name>tlsLockKill</name></member>
+      <member refid="classrestincurl_1_1TlsLocker_1a8161712b83b3da4bb9604a4a91e4dff4" prot="private" virt="non-virtual"><scope>restincurl::TlsLocker</scope><name>unlock</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

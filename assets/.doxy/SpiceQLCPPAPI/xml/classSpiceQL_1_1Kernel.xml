@@ -1,0 +1,612 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classSpiceQL_1_1Kernel" kind="class" language="C++" prot="public">
+    <compoundname>SpiceQL::Kernel</compoundname>
+    <includes refid="spice__types_8h" local="no">spice_types.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Type</name>
+        <qualifiedname>SpiceQL::Kernel::Type</qualifiedname>
+        <enumvalue id="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80ad4cd0dabcf4caa22ad92fab40844c786" prot="public">
+          <name>NA</name>
+          <initializer>=0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80a534ac75c2e8ac3e3fe7bc32bb8c6e34a" prot="public">
+          <name>CK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80aa77fe9806504467c944718a3ce1ed5cb" prot="public">
+          <name>SPK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80a93a4c15e61be7721fedeac1d9514ace5" prot="public">
+          <name>TSPK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80a1352b10452a6331f4858173133cad49d" prot="public">
+          <name>LSK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80afbd1e7ba9564863b88d5c43cb833afaf" prot="public">
+          <name>MK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80ae5ebe7b9d4b13b67cb85ac2febe4aca2" prot="public">
+          <name>SCLK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80af3bda9eed8e5d59e7fe8c1d8b71fe8e7" prot="public">
+          <name>IAK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80a7ab2200d24b19f1824cef3f53b5b69ca" prot="public">
+          <name>IK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80a8c8ba29dafd95af91e280d1e80b81773" prot="public">
+          <name>FK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80a528170157cebbb58bf8b833ba36c486c" prot="public">
+          <name>DSK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80abed028f19aa93adb7f45e064155e5278" prot="public">
+          <name>PCK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80a6aa451b53d492a8f5a2fa1fa2855be8b" prot="public">
+          <name>EK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Enumeration representing the different possible kernel types. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="59" column="7" bodyfile="SpiceQL/include/SpiceQL/spice_types.h" bodystart="59" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="enum" id="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Quality</name>
+        <qualifiedname>SpiceQL::Kernel::Quality</qualifiedname>
+        <enumvalue id="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2eae82b4f8a31140f606b743e69ec31e0df" prot="public">
+          <name>NOQUALITY</name>
+          <initializer>=0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2eaecaf9f483c05bfdd9fcfa988025d429a" prot="public">
+          <name>NADIR</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2ea7a9f39f686079bcf05cbbe5079dbc3a1" prot="public">
+          <name>PREDICTED</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2ead5a1c6c305f5146fd2eeaa289ff4ad11" prot="public">
+          <name>RECONSTRUCTED</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2ea16094fc345ae32c484c89a071f2d4538" prot="public">
+          <name>SMITHED</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Enumeration representing the different possible kernel qualities. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="69" column="7" bodyfile="SpiceQL/include/SpiceQL/spice_types.h" bodystart="69" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classSpiceQL_1_1Kernel_1a4abf1ab52e828411f45a48856e549617" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string SpiceQL::Kernel::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>SpiceQL::Kernel::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>path to the kernel </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="195" column="19" bodyfile="SpiceQL/include/SpiceQL/spice_types.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1Kernel_1a59ed7196228b9a90973095a3c9a842cb" prot="public" static="no" mutable="no">
+        <type><ref refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80" kindref="member">Type</ref></type>
+        <definition>Type SpiceQL::Kernel::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>SpiceQL::Kernel::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>type of kernel </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="197" column="12" bodyfile="SpiceQL/include/SpiceQL/spice_types.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1Kernel_1a286d54a21991d3bde189cfd72635440d" prot="public" static="no" mutable="no">
+        <type><ref refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2e" kindref="member">Quality</ref></type>
+        <definition>Quality SpiceQL::Kernel::quality</definition>
+        <argsstring></argsstring>
+        <name>quality</name>
+        <qualifiedname>SpiceQL::Kernel::quality</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>quality of the kernel </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="199" column="15" bodyfile="SpiceQL/include/SpiceQL/spice_types.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classSpiceQL_1_1Kernel_1a8b14667e640d4c21f95ed22f975b8c79" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string SpiceQL::Kernel::translateType</definition>
+        <argsstring>(Type type)</argsstring>
+        <name>translateType</name>
+        <qualifiedname>SpiceQL::Kernel::translateType</qualifiedname>
+        <param>
+          <type><ref refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80" kindref="member">Type</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Switch between <ref refid="classSpiceQL_1_1Kernel" kindref="compound">Kernel</ref> type enum to string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80" kindref="member">Kernel::Type</ref> to translate to a string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>String representation of the kernel type, eg. Kernel::Type::CK returns &quot;ck&quot; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="84" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Kernel_1a2f01b6088fda894f05b8062fc5c291c0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80" kindref="member">Type</ref></type>
+        <definition>static Type SpiceQL::Kernel::translateType</definition>
+        <argsstring>(std::string type)</argsstring>
+        <name>translateType</name>
+        <qualifiedname>SpiceQL::Kernel::translateType</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Switch between <ref refid="classSpiceQL_1_1Kernel" kindref="compound">Kernel</ref> type string to enum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String to translate to a <ref refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80" kindref="member">Kernel::Type</ref>, must be all lower case </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80" kindref="member">Kernel::Type</ref> representation of the kernel type, eg. &quot;ck&quot; returns Kernel::Type::CK </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="93" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Kernel_1ab1871b7504fec483b6012cce09a42afe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string SpiceQL::Kernel::getExt</definition>
+        <argsstring>(std::string type)</argsstring>
+        <name>getExt</name>
+        <qualifiedname>SpiceQL::Kernel::getExt</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="classSpiceQL_1_1Kernel" kindref="compound">Kernel</ref> extension. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classSpiceQL_1_1Kernel" kindref="compound">Kernel</ref> type string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classSpiceQL_1_1Kernel" kindref="compound">Kernel</ref> extension as string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="101" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Kernel_1a5431dbad1a4447093e917b7ce3c2a10f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool SpiceQL::Kernel::isBinary</definition>
+        <argsstring>(std::string type)</argsstring>
+        <name>isBinary</name>
+        <qualifiedname>SpiceQL::Kernel::isBinary</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Check if kernel type is binary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classSpiceQL_1_1Kernel" kindref="compound">Kernel</ref> type string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether kernel type is binary </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="109" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Kernel_1a1f0c2e4f3070ebe0d6762d9ce80802df" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool SpiceQL::Kernel::isText</definition>
+        <argsstring>(std::string type)</argsstring>
+        <name>isText</name>
+        <qualifiedname>SpiceQL::Kernel::isText</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Check if kernel type is text-based. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classSpiceQL_1_1Kernel" kindref="compound">Kernel</ref> type string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether kernel type is text-based </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="117" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Kernel_1ace782dcf1f7949ab9e23db5503f6ee69" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool SpiceQL::Kernel::isCk</definition>
+        <argsstring>(std::string type)</argsstring>
+        <name>isCk</name>
+        <qualifiedname>SpiceQL::Kernel::isCk</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Check if kernel type is CK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classSpiceQL_1_1Kernel" kindref="compound">Kernel</ref> type string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether kernel type is CK </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="125" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Kernel_1a7e1ea1a434514723078af5464542512c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool SpiceQL::Kernel::isSpk</definition>
+        <argsstring>(std::string type)</argsstring>
+        <name>isSpk</name>
+        <qualifiedname>SpiceQL::Kernel::isSpk</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Check if kernel type is SPK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classSpiceQL_1_1Kernel" kindref="compound">Kernel</ref> type string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether kernel type is SPK </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="133" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Kernel_1acd051e014c9ca261f6953db09d137f89" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string SpiceQL::Kernel::translateQuality</definition>
+        <argsstring>(Quality qa)</argsstring>
+        <name>translateQuality</name>
+        <qualifiedname>SpiceQL::Kernel::translateQuality</qualifiedname>
+        <param>
+          <type><ref refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2e" kindref="member">Quality</ref></type>
+          <declname>qa</declname>
+        </param>
+        <briefdescription>
+<para>Switch between <ref refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2e" kindref="member">Quality</ref> enum to string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>qa</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2e" kindref="member">Kernel::Quality</ref> to translate to a string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>String representation of the kernel type, eg. Kernel::Quality::Reconstructed returns &quot;reconstructed&quot; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="141" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Kernel_1a281c1a677105d6ca77d7baa9976cd223" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2e" kindref="member">Quality</ref></type>
+        <definition>static Quality SpiceQL::Kernel::translateQuality</definition>
+        <argsstring>(std::string qa)</argsstring>
+        <name>translateQuality</name>
+        <qualifiedname>SpiceQL::Kernel::translateQuality</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>qa</declname>
+        </param>
+        <briefdescription>
+<para>Switch between <ref refid="classSpiceQL_1_1Kernel" kindref="compound">Kernel</ref> quality string to enum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>qa</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String to translate to a <ref refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2e" kindref="member">Kernel::Quality</ref>, must be all lower case </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80" kindref="member">Kernel::Type</ref> representation of the kernel type, eg. &quot;reconstructed&quot; returns Kernel::Quality::Reconstructed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="150" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Kernel_1a83e7d238391a8a297a06f7c917e60f1b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2e" kindref="member">Kernel::Quality</ref> &gt;</type>
+        <definition>static std::vector&lt; Kernel::Quality &gt; SpiceQL::Kernel::translateQualities</definition>
+        <argsstring>(std::vector&lt; std::string &gt; qas)</argsstring>
+        <name>translateQualities</name>
+        <qualifiedname>SpiceQL::Kernel::translateQualities</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>qas</declname>
+        </param>
+        <briefdescription>
+<para>Switch between <ref refid="classSpiceQL_1_1Kernel" kindref="compound">Kernel</ref> quality string to enum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>qas</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of <ref refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2e" kindref="member">Kernel::Quality</ref> strings </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of <ref refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2e" kindref="member">Kernel::Quality</ref> values </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="158" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classSpiceQL_1_1Kernel_1af1a0f3dde4e6312ccfd01cb4a9a4796a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SpiceQL::Kernel::Kernel</definition>
+        <argsstring>(std::string path)</argsstring>
+        <name>Kernel</name>
+        <qualifiedname>SpiceQL::Kernel::Kernel</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Instantiate a kernel from path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load a kernel into memory by opening the kernel and furnishing. This also increases the reference count of the kernel. If the kernel has alrady been furnished, it is refurnshed. <linebreak/>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>path to a kernel. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="171" column="7"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Kernel_1a86250d06432fecfcece2fccc42aa049c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SpiceQL::Kernel::~Kernel</definition>
+        <argsstring>()</argsstring>
+        <name>~Kernel</name>
+        <qualifiedname>SpiceQL::Kernel::~Kernel</qualifiedname>
+        <briefdescription>
+<para>Construct a new <ref refid="classSpiceQL_1_1Kernel" kindref="compound">Kernel</ref> object from another. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ensures the reference counter is incremented when a copy of the kernel is created</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>some other <ref refid="classSpiceQL_1_1Kernel" kindref="compound">Kernel</ref> instance</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Delete the kernel object and decrease it&apos;s reference count</para>
+<para>Deletes the kernel object and decrements it&apos;s reference count. If the reference count hits 0, the kernel is unloaded. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/spice_types.h" line="192" column="7"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Base <ref refid="classSpiceQL_1_1Kernel" kindref="compound">Kernel</ref> class. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This is mostly designed to enable the automatic unloading of kernels. The kernel is furnsh-ed on instantiation and unloaded in the destructor. </para>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/spice_types.h" line="53" column="3" bodyfile="SpiceQL/include/SpiceQL/spice_types.h" bodystart="53" bodyend="200"/>
+    <listofallmembers>
+      <member refid="classSpiceQL_1_1Kernel_1ab1871b7504fec483b6012cce09a42afe" prot="public" virt="non-virtual"><scope>SpiceQL::Kernel</scope><name>getExt</name></member>
+      <member refid="classSpiceQL_1_1Kernel_1a5431dbad1a4447093e917b7ce3c2a10f" prot="public" virt="non-virtual"><scope>SpiceQL::Kernel</scope><name>isBinary</name></member>
+      <member refid="classSpiceQL_1_1Kernel_1ace782dcf1f7949ab9e23db5503f6ee69" prot="public" virt="non-virtual"><scope>SpiceQL::Kernel</scope><name>isCk</name></member>
+      <member refid="classSpiceQL_1_1Kernel_1a7e1ea1a434514723078af5464542512c" prot="public" virt="non-virtual"><scope>SpiceQL::Kernel</scope><name>isSpk</name></member>
+      <member refid="classSpiceQL_1_1Kernel_1a1f0c2e4f3070ebe0d6762d9ce80802df" prot="public" virt="non-virtual"><scope>SpiceQL::Kernel</scope><name>isText</name></member>
+      <member refid="classSpiceQL_1_1Kernel_1af1a0f3dde4e6312ccfd01cb4a9a4796a" prot="public" virt="non-virtual"><scope>SpiceQL::Kernel</scope><name>Kernel</name></member>
+      <member refid="classSpiceQL_1_1Kernel_1a4abf1ab52e828411f45a48856e549617" prot="public" virt="non-virtual"><scope>SpiceQL::Kernel</scope><name>path</name></member>
+      <member refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2e" prot="public" virt="non-virtual"><scope>SpiceQL::Kernel</scope><name>Quality</name></member>
+      <member refid="classSpiceQL_1_1Kernel_1a286d54a21991d3bde189cfd72635440d" prot="public" virt="non-virtual"><scope>SpiceQL::Kernel</scope><name>quality</name></member>
+      <member refid="classSpiceQL_1_1Kernel_1a83e7d238391a8a297a06f7c917e60f1b" prot="public" virt="non-virtual"><scope>SpiceQL::Kernel</scope><name>translateQualities</name></member>
+      <member refid="classSpiceQL_1_1Kernel_1acd051e014c9ca261f6953db09d137f89" prot="public" virt="non-virtual"><scope>SpiceQL::Kernel</scope><name>translateQuality</name></member>
+      <member refid="classSpiceQL_1_1Kernel_1a281c1a677105d6ca77d7baa9976cd223" prot="public" virt="non-virtual"><scope>SpiceQL::Kernel</scope><name>translateQuality</name></member>
+      <member refid="classSpiceQL_1_1Kernel_1a8b14667e640d4c21f95ed22f975b8c79" prot="public" virt="non-virtual"><scope>SpiceQL::Kernel</scope><name>translateType</name></member>
+      <member refid="classSpiceQL_1_1Kernel_1a2f01b6088fda894f05b8062fc5c291c0" prot="public" virt="non-virtual"><scope>SpiceQL::Kernel</scope><name>translateType</name></member>
+      <member refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80" prot="public" virt="non-virtual"><scope>SpiceQL::Kernel</scope><name>Type</name></member>
+      <member refid="classSpiceQL_1_1Kernel_1a59ed7196228b9a90973095a3c9a842cb" prot="public" virt="non-virtual"><scope>SpiceQL::Kernel</scope><name>type</name></member>
+      <member refid="classSpiceQL_1_1Kernel_1a86250d06432fecfcece2fccc42aa049c" prot="public" virt="non-virtual"><scope>SpiceQL::Kernel</scope><name>~Kernel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

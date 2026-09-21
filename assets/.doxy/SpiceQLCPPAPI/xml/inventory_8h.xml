@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="inventory_8h" kind="file" language="C++">
+    <compoundname>inventory.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">tuple</includes>
+    <includes local="no">limits</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes refid="spice__types_8h" local="no">SpiceQL/spice_types.h</includes>
+    <includedby refid="spiceql_8h" local="no">SpiceQL/include/SpiceQL/spiceql.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>SpiceQL/include/SpiceQL/inventory.h</label>
+        <link refid="inventory_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>SpiceQL/spice_types.h</label>
+        <link refid="spice__types_8h_source"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>iostream</label>
+      </node>
+      <node id="5">
+        <label>limits</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>tuple</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>SpiceQL/include/SpiceQL/inventory.h</label>
+        <link refid="inventory_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>SpiceQL/include/SpiceQL/spiceql.h</label>
+        <link refid="spiceql_8h"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespaceSpiceQL">SpiceQL</innernamespace>
+    <innernamespace refid="namespaceSpiceQL_1_1Inventory">SpiceQL::Inventory</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Public API for the kernel database </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once<sp/></highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;tuple&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;limits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;SpiceQL/spice_types.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceSpiceQL" kindref="compound">SpiceQL</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">Inventory<sp/>{<sp/></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>search_for_kernelset(std::string<sp/>spiceql_name,<sp/>std::vector&lt;std::string&gt;<sp/>types=KERNEL_TYPES,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>start_time=-std::numeric_limits&lt;double&gt;::max(),<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>stop_time=std::numeric_limits&lt;double&gt;::max(),<sp/></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>ckQualities={</highlight><highlight class="stringliteral">&quot;smithed&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;reconstructed&quot;</highlight><highlight class="normal">},<sp/>std::vector&lt;std::string&gt;<sp/>spkQualities={</highlight><highlight class="stringliteral">&quot;smithed&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;reconstructed&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>full_kernel_path=</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>limit_ck=-1,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>limit_spk=1);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>search_for_kernelsets(std::vector&lt;std::string&gt;<sp/>spiceql_names,<sp/>std::vector&lt;std::string&gt;<sp/>types=KERNEL_TYPES,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>start_time=-std::numeric_limits&lt;double&gt;::max(),<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>stop_time=std::numeric_limits&lt;double&gt;::max(),<sp/></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>ckQualities={</highlight><highlight class="stringliteral">&quot;smithed&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;reconstructed&quot;</highlight><highlight class="normal">},<sp/>std::vector&lt;std::string&gt;<sp/>spkQualities={</highlight><highlight class="stringliteral">&quot;smithed&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;reconstructed&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>full_kernel_path=</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>limit_ck=-1,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>limit_spk=1,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>overwrite=</highlight><highlight class="keyword">false</highlight><highlight class="normal">);<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>search_for_kernelset_from_regex(std::vector&lt;std::string&gt;<sp/>list,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>full_kernel_path=</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>getDbFilePath();</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setDbFilePath(std::string<sp/>db_file_path,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">=</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>create_database(std::vector&lt;std::string&gt;<sp/>mlist<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="inventory_8h_1a74f3dbfad34a987e7671af046d3ad32f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="inventory_8h_1a74f3dbfad34a987e7671af046d3ad32f" kindref="member">getFrameList</ref>();</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="inventory_8h_1acf1b5c25278e6952d990e83091bac060" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="inventory_8h_1acf1b5c25278e6952d990e83091bac060" kindref="member">getFrameNameFromCache</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>code);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="inventory_8h_1af8a4342e2f8e81665c9b844c68097462" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="inventory_8h_1af8a4342e2f8e81665c9b844c68097462" kindref="member">getFrameCodeFromCache</ref>(std::string<sp/>name);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="SpiceQL/include/SpiceQL/inventory.h"/>
+  </compounddef>
+</doxygen>

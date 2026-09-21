@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classSpiceQL_1_1SpkSegment" kind="class" language="C++" prot="public">
+    <compoundname>SpiceQL::SpkSegment</compoundname>
+    <includes refid="io_8h" local="no">io.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classSpiceQL_1_1SpkSegment_1afcd6836c5d4e08de590f33c236273a2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SpiceQL::SpkSegment::SpkSegment</definition>
+        <argsstring>(std::vector&lt; std::vector&lt; double &gt; &gt; statePositions, std::vector&lt; double &gt; stateTimes, int bodyCode, int centerOfMotion, std::string referenceFrame, std::string segmentId, int degree, std::vector&lt; std::vector&lt; double &gt; &gt; stateVelocities={}, std::string segmentComment=&quot;&quot;)</argsstring>
+        <name>SpkSegment</name>
+        <qualifiedname>SpiceQL::SpkSegment::SpkSegment</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::vector&lt; double &gt; &gt;</type>
+          <declname>statePositions</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt;</type>
+          <declname>stateTimes</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>bodyCode</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>centerOfMotion</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>referenceFrame</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>segmentId</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>degree</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::vector&lt; double &gt; &gt;</type>
+          <declname>stateVelocities</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>segmentComment</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructs a fully populated <ref refid="classSpiceQL_1_1SpkSegment" kindref="compound">SpkSegment</ref></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>statePositions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time ordered vector of state positions X,Y,Z </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stateTimes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time ordered vector of state ephemeris times (TDB) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bodyCode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Naif body code of an object whose state is described by the segments </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>centerOfMotion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Naif body code of an object which is the center of motion for bodyCode </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>referenceFrame</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Naif name of the reference system relative to which the state is </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>segmentId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SPK segment identifier (max size 40) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>degree</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Degree of the Hermite polynomials used to interpolate the states </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stateVelocities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time ordered vector of state velocities dX, dY, dZ </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>segmentComment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The comment string for the new segment </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/io.h" line="44" column="7"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>C++ object repersenting NAIF spice SPK Segment and it&apos;s metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>SPK kernels consist of multiple CK segments. These specifically define a type 13 SPK segment which consists of parallel arrary of ephemeris times in a 6 element state array&apos;s of x, y, z, vx, vy, vz </para>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/io.h" line="27" column="3" bodyfile="SpiceQL/include/SpiceQL/io.h" bodystart="27" bodyend="64"/>
+    <listofallmembers>
+      <member refid="classSpiceQL_1_1SpkSegment_1afcd6836c5d4e08de590f33c236273a2d" prot="public" virt="non-virtual"><scope>SpiceQL::SpkSegment</scope><name>SpkSegment</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

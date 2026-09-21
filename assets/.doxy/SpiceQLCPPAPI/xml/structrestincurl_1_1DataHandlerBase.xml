@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="structrestincurl_1_1DataHandlerBase" kind="struct" language="C++" prot="public">
+    <compoundname>restincurl::DataHandlerBase</compoundname>
+    <derivedcompoundref refid="structrestincurl_1_1InDataHandler" prot="public" virt="non-virtual">restincurl::InDataHandler&lt; T &gt;</derivedcompoundref>
+    <derivedcompoundref refid="structrestincurl_1_1OutDataHandler" prot="public" virt="non-virtual">restincurl::OutDataHandler&lt; T &gt;</derivedcompoundref>
+    <includes refid="restincurl_8h" local="no">restincurl.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structrestincurl_1_1DataHandlerBase_1a40f7124bacda89242178fd28ac8c7db0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual restincurl::DataHandlerBase::~DataHandlerBase</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DataHandlerBase</name>
+        <qualifiedname>restincurl::DataHandlerBase::~DataHandlerBase</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="393" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Abstract base class for Data Handlers</para>
+<para>Data handlers are used to handle libcurl&apos;s callback requirements for input and output data. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>restincurl::DataHandlerBase</label>
+        <link refid="structrestincurl_1_1DataHandlerBase"/>
+      </node>
+      <node id="2">
+        <label>restincurl::InDataHandler&lt; T &gt;</label>
+        <link refid="structrestincurl_1_1InDataHandler"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>restincurl::OutDataHandler&lt; T &gt;</label>
+        <link refid="structrestincurl_1_1OutDataHandler"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="SpiceQL/include/SpiceQL/restincurl.h" line="392" column="5" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="392" bodyend="394"/>
+    <listofallmembers>
+      <member refid="structrestincurl_1_1DataHandlerBase_1a40f7124bacda89242178fd28ac8c7db0" prot="public" virt="virtual"><scope>restincurl::DataHandlerBase</scope><name>~DataHandlerBase</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,539 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classSpiceQL_1_1Config" kind="class" language="C++" prot="public">
+    <compoundname>SpiceQL::Config</compoundname>
+    <includes refid="config_8h" local="no">config.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classSpiceQL_1_1Config_1af5076ec5f469bd98e63c4096d9300286" prot="private" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json SpiceQL::Config::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>SpiceQL::Config::config</qualifiedname>
+        <briefdescription>
+<para>internal json config </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/config.h" line="194" column="22" bodyfile="SpiceQL/include/SpiceQL/config.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1Config_1a6dc12c390578c84b0b11000946ff835f" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string SpiceQL::Config::confPointer</definition>
+        <argsstring></argsstring>
+        <name>confPointer</name>
+        <qualifiedname>SpiceQL::Config::confPointer</qualifiedname>
+        <briefdescription>
+<para>pointer to the sub conf that the user is interacting with </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/config.h" line="197" column="19" bodyfile="SpiceQL/include/SpiceQL/config.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classSpiceQL_1_1Config_1a333946e1a6843e02452bc563cf67fdac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SpiceQL::Config::Config</definition>
+        <argsstring>()</argsstring>
+        <name>Config</name>
+        <qualifiedname>SpiceQL::Config::Config</qualifiedname>
+        <briefdescription>
+<para>Construct a new <ref refid="classSpiceQL_1_1Config" kindref="compound">Config</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Loads all config files into a config object. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/config.h" line="38" column="7"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Config_1ae8765e0d9ca47d062a1b1fff9cc21079" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SpiceQL::Config::Config</definition>
+        <argsstring>(std::string json)</argsstring>
+        <name>Config</name>
+        <qualifiedname>SpiceQL::Config::Config</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>json</declname>
+        </param>
+        <briefdescription>
+<para>Construct a new <ref refid="classSpiceQL_1_1Config" kindref="compound">Config</ref> object from json file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>path to json config file </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/config.h" line="46" column="7"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Config_1a11530650edfa2626bda3532232db3549" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classSpiceQL_1_1Config_1a333946e1a6843e02452bc563cf67fdac" kindref="member">Config</ref></type>
+        <definition>Config SpiceQL::Config::operator[]</definition>
+        <argsstring>(std::string pointer)</argsstring>
+        <name>operator[]</name>
+        <qualifiedname>SpiceQL::Config::operator[]</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>pointer</declname>
+        </param>
+        <briefdescription>
+<para>get a value from the config object </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pointer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>json pointer to a key inside the config file </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classSpiceQL_1_1Config" kindref="compound">Config</ref> Returns a new config instance representing the sub object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/config.h" line="55" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Config_1a6556b9ce37a6b8b21781793408bfbc7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classSpiceQL_1_1Config_1a333946e1a6843e02452bc563cf67fdac" kindref="member">Config</ref></type>
+        <definition>Config SpiceQL::Config::operator[]</definition>
+        <argsstring>(std::vector&lt; std::string &gt; pointers)</argsstring>
+        <name>operator[]</name>
+        <qualifiedname>SpiceQL::Config::operator[]</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>pointers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/config.h" line="57" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Config_1a7b577385957b389bb99bbb334ec5f164" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int SpiceQL::Config::size</definition>
+        <argsstring>()</argsstring>
+        <name>size</name>
+        <qualifiedname>SpiceQL::Config::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>unsigned int </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/config.h" line="64" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Config_1a9232c2f79e7ed82acb4d592a5887185e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json SpiceQL::Config::get</definition>
+        <argsstring>(std::string pointer=&quot;&quot;)</argsstring>
+        <name>get</name>
+        <qualifiedname>SpiceQL::Config::get</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>pointer</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>get kernel lists from key </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a sub group of the JSON where regexes are expanded into file lists.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pointers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>key or JSON pointer to subgroup on </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>nlohmann::json merged JSON </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/config.h" line="76" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Config_1a5d47b429505cc8b2172dc1f80930b990" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json SpiceQL::Config::get</definition>
+        <argsstring>(std::vector&lt; std::string &gt; pointers)</argsstring>
+        <name>get</name>
+        <qualifiedname>SpiceQL::Config::get</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>pointers</declname>
+        </param>
+        <briefdescription>
+<para>get kernel lists from key vector </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a sub group of the JSON where regexes are expanded into file lists. For each key in the vector, the resulting JSON is merged into a single json object.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pointers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>list of keys or JSON pointer to subgroup on </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>nlohmann::json merged JSON </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/config.h" line="89" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Config_1a9ce19a7df47e8ed42d91b21fc122d2e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json SpiceQL::Config::getRecursive</definition>
+        <argsstring>(std::string pointer)</argsstring>
+        <name>getRecursive</name>
+        <qualifiedname>SpiceQL::Config::getRecursive</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>pointer</declname>
+        </param>
+        <briefdescription>
+<para>get kernel list from all instances of a key </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Searches recursively for all instances of the input key and returns a new merged JSON object with values of the JSON where regexes are expanded into file lists.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pointer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>key or JSON pointer to recursively subgroup on </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>nlohmann::json json subgroup with kernels </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/config.h" line="102" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Config_1aafcfbc7ea7a748838bd92bf143778b82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json SpiceQL::Config::getLatestRecursive</definition>
+        <argsstring>(std::string pointer=&quot;&quot;)</argsstring>
+        <name>getLatestRecursive</name>
+        <qualifiedname>SpiceQL::Config::getLatestRecursive</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>pointer</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>get kernel list from all instances of a key but only returns the latest version of each kernel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Searches recursively for all instances of the input key and returns a new merged JSON object with values of the JSON where regexes are expanded into file lists containing only the latest kernel versions. For example, insted of a list of all IK kernels you would get the IK with the latest v??? string or similar according to how a specific set of kernels are versioned.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pointer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>key or JSON pointer to recursively subgroup on </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>nlohmann::json json subgroup with kernels </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/config.h" line="118" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Config_1a60ade2f5b5698fac4b0f6709d123691f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json SpiceQL::Config::getLatest</definition>
+        <argsstring>(std::string pointer=&quot;&quot;)</argsstring>
+        <name>getLatest</name>
+        <qualifiedname>SpiceQL::Config::getLatest</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>pointer</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>get kernel lists from key but only returns the latest version of each kernel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a sub group of the JSON where regexes are expanded into file lists containing only the latest kernel versions. For example, insted of a list of all IK kernels you would get the IK with the latest v??? string or similar according to how a specific set of kernels are versioned.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pointers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>key or JSON pointer to subgroup on </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>nlohmann::json new JSON subgroup with latest kernels </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/config.h" line="133" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Config_1a93d4293df4715a97e835ecfdea6b2174" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json SpiceQL::Config::globalConf</definition>
+        <argsstring>()</argsstring>
+        <name>globalConf</name>
+        <qualifiedname>SpiceQL::Config::globalConf</qualifiedname>
+        <briefdescription>
+<para>Get the Global Json object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The global JSON object represents the current <ref refid="namespaceSpiceQL" kindref="compound">SpiceQL</ref> config for all frames. <linebreak/>
+</para>
+<para><simplesect kind="return"><para>nlohmann::json the config file </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/config.h" line="144" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Config_1adcfe111f3c512bfee5a38ea18128638f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; SpiceQL::Config::findKey</definition>
+        <argsstring>(std::string key, bool recursive)</argsstring>
+        <name>findKey</name>
+        <qualifiedname>SpiceQL::Config::findKey</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>recursive</declname>
+        </param>
+        <briefdescription>
+<para>Search for a key inside the config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a key or json style pointer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>recursive</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if true, searches recursively for all matches </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>std::vector&lt;nlohmann::json::json_pointer&gt; vector of pointers to where the key was found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/config.h" line="154" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Config_1ac6d781839e4ead8567bc4c48ce5d8baa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool SpiceQL::Config::contains</definition>
+        <argsstring>(std::string key)</argsstring>
+        <name>contains</name>
+        <qualifiedname>SpiceQL::Config::contains</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Check if the given key is in the config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Wrapper around nlohmann::json contains to see if the underlying config json contains the given key</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a key or json style pointer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>boolean true if key was found, otherwise false </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/config.h" line="166" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Config_1aadecf549a46ec7367d9789a92f7c17c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string SpiceQL::Config::getParentPointer</definition>
+        <argsstring>(std::string searchPointer, int pointerPosition=0)</argsstring>
+        <name>getParentPointer</name>
+        <qualifiedname>SpiceQL::Config::getParentPointer</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>searchPointer</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>pointerPosition</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Get the pointer at a position of a pointer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>searchPointer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer/path to be searched </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pointerPosition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Position of the pointer to extract </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>std::string pointer at the position in the searchPointer </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/config.h" line="175" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classSpiceQL_1_1Config_1af0b1f8ff8f3ef39bc3f3c3835e5cd074" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SpiceQL::Config::Config</definition>
+        <argsstring>(nlohmann::json json, std::string pointer)</argsstring>
+        <name>Config</name>
+        <qualifiedname>SpiceQL::Config::Config</qualifiedname>
+        <param>
+          <type>nlohmann::json</type>
+          <declname>json</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>pointer</declname>
+        </param>
+        <briefdescription>
+<para>Construct a new <ref refid="classSpiceQL_1_1Config" kindref="compound">Config</ref> object from a json object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>json object representing a target config </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/config.h" line="183" column="7"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1Config_1a42f336d7f26818349ea56c1c96dd7613" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json SpiceQL::Config::evaluateConfig</definition>
+        <argsstring>(std::string pointerToEval=&quot;&quot;)</argsstring>
+        <name>evaluateConfig</name>
+        <qualifiedname>SpiceQL::Config::evaluateConfig</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>pointerToEval</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Expands the regexes to paths of a config object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>nlohmann::json </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/config.h" line="191" column="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Object for interacting with <ref refid="namespaceSpiceQL" kindref="compound">SpiceQL</ref> target configs. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The config class can wrap multiple config files and give an interface for interacting with the configs and obtaining kernel lists. </para>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/config.h" line="30" column="3" bodyfile="SpiceQL/include/SpiceQL/config.h" bodystart="30" bodyend="198"/>
+    <listofallmembers>
+      <member refid="classSpiceQL_1_1Config_1a333946e1a6843e02452bc563cf67fdac" prot="public" virt="non-virtual"><scope>SpiceQL::Config</scope><name>Config</name></member>
+      <member refid="classSpiceQL_1_1Config_1ae8765e0d9ca47d062a1b1fff9cc21079" prot="public" virt="non-virtual"><scope>SpiceQL::Config</scope><name>Config</name></member>
+      <member refid="classSpiceQL_1_1Config_1af0b1f8ff8f3ef39bc3f3c3835e5cd074" prot="private" virt="non-virtual"><scope>SpiceQL::Config</scope><name>Config</name></member>
+      <member refid="classSpiceQL_1_1Config_1af5076ec5f469bd98e63c4096d9300286" prot="private" virt="non-virtual"><scope>SpiceQL::Config</scope><name>config</name></member>
+      <member refid="classSpiceQL_1_1Config_1a6dc12c390578c84b0b11000946ff835f" prot="private" virt="non-virtual"><scope>SpiceQL::Config</scope><name>confPointer</name></member>
+      <member refid="classSpiceQL_1_1Config_1ac6d781839e4ead8567bc4c48ce5d8baa" prot="public" virt="non-virtual"><scope>SpiceQL::Config</scope><name>contains</name></member>
+      <member refid="classSpiceQL_1_1Config_1a42f336d7f26818349ea56c1c96dd7613" prot="private" virt="non-virtual"><scope>SpiceQL::Config</scope><name>evaluateConfig</name></member>
+      <member refid="classSpiceQL_1_1Config_1adcfe111f3c512bfee5a38ea18128638f" prot="public" virt="non-virtual"><scope>SpiceQL::Config</scope><name>findKey</name></member>
+      <member refid="classSpiceQL_1_1Config_1a9232c2f79e7ed82acb4d592a5887185e" prot="public" virt="non-virtual"><scope>SpiceQL::Config</scope><name>get</name></member>
+      <member refid="classSpiceQL_1_1Config_1a5d47b429505cc8b2172dc1f80930b990" prot="public" virt="non-virtual"><scope>SpiceQL::Config</scope><name>get</name></member>
+      <member refid="classSpiceQL_1_1Config_1a60ade2f5b5698fac4b0f6709d123691f" prot="public" virt="non-virtual"><scope>SpiceQL::Config</scope><name>getLatest</name></member>
+      <member refid="classSpiceQL_1_1Config_1aafcfbc7ea7a748838bd92bf143778b82" prot="public" virt="non-virtual"><scope>SpiceQL::Config</scope><name>getLatestRecursive</name></member>
+      <member refid="classSpiceQL_1_1Config_1aadecf549a46ec7367d9789a92f7c17c2" prot="public" virt="non-virtual"><scope>SpiceQL::Config</scope><name>getParentPointer</name></member>
+      <member refid="classSpiceQL_1_1Config_1a9ce19a7df47e8ed42d91b21fc122d2e3" prot="public" virt="non-virtual"><scope>SpiceQL::Config</scope><name>getRecursive</name></member>
+      <member refid="classSpiceQL_1_1Config_1a93d4293df4715a97e835ecfdea6b2174" prot="public" virt="non-virtual"><scope>SpiceQL::Config</scope><name>globalConf</name></member>
+      <member refid="classSpiceQL_1_1Config_1a11530650edfa2626bda3532232db3549" prot="public" virt="non-virtual"><scope>SpiceQL::Config</scope><name>operator[]</name></member>
+      <member refid="classSpiceQL_1_1Config_1a6556b9ce37a6b8b21781793408bfbc7f" prot="public" virt="non-virtual"><scope>SpiceQL::Config</scope><name>operator[]</name></member>
+      <member refid="classSpiceQL_1_1Config_1a7b577385957b389bb99bbb334ec5f164" prot="public" virt="non-virtual"><scope>SpiceQL::Config</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

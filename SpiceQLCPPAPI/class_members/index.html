@@ -1,0 +1,1228 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://doi-usgs.github.io/SpiceQL/SpiceQLCPPAPI/class_members/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Class Members - SpiceQL Manual</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+  
+  
+  
+  
+  <style>:root{--md-annotation-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M22%2012a10%2010%200%200%201-10%2010A10%2010%200%200%201%202%2012%2010%2010%200%200%201%2012%202a10%2010%200%200%201%2010%2010m-12%206%206-6-6-6-1.4%201.4%204.6%204.6-4.6%204.6z%22/%3E%3C/svg%3E');}</style>
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#class-members" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="SpiceQL Manual" class="md-header__button md-logo" aria-label="SpiceQL Manual" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SpiceQL Manual
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Class Members
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../namespaces/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  [ C++ API ]
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="https://astrogeology.usgs.gov/apis/spiceql/latest/docs" class="md-tabs__link">
+        
+  
+  
+    
+  
+  [ RESTful API ]
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="https://astrogeology.usgs.gov/docs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  [ USGS Astrogeology Docs ]
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="SpiceQL Manual" class="md-nav__button md-logo" aria-label="SpiceQL Manual" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    SpiceQL Manual
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    [ C++ API ]
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    [ C++ API ]
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Namespaces
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Namespaces
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespaces/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Namespace List
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespace_member_functions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Functions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://astrogeology.usgs.gov/apis/spiceql/latest/docs" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    [ RESTful API ]
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://astrogeology.usgs.gov/docs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    [ USGS Astrogeology Docs ]
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        a
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        b
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        c
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        d
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        e
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        f
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#g" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        g
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        h
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        i
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#j" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        j
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#k" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        k
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#l" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        l
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#m" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        m
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#o" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        o
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#p" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        p
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#q" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        q
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#r" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        r
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#s" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        s
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#t" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        t
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#u" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        u
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#w" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        w
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ~
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="class-members">Class Members</h1>
+<h2 id="a">a</h2>
+<ul>
+<li><strong>AliasMap</strong> (<a href="../classSpiceQL_1_1AliasMap/"><strong>SpiceQL::AliasMap</strong></a>)</li>
+<li><strong>addAliasKey</strong> (<a href="../classSpiceQL_1_1AliasMap/"><strong>SpiceQL::AliasMap</strong></a>)</li>
+<li><strong>AddFileAsMimeData</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>)</li>
+<li><strong>AcceptJson</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>abort_</strong> (<a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+</ul>
+<h2 id="b">b</h2>
+<ul>
+<li><strong>Build</strong> (<a href="../classrestincurl_1_1Client/"><strong>restincurl::Client</strong></a>, <a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>BasicAuthentication</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>body</strong> (<a href="../structrestincurl_1_1Result/"><strong>restincurl::Result</strong></a>)</li>
+</ul>
+<h2 id="c">c</h2>
+<ul>
+<li><strong>CkSegment</strong> (<a href="../classSpiceQL_1_1CkSegment/"><strong>SpiceQL::CkSegment</strong></a>)</li>
+<li><strong>Config</strong> (<a href="../classSpiceQL_1_1Config/"><strong>SpiceQL::Config</strong></a>)</li>
+<li><strong>confPointer</strong> (<a href="../classSpiceQL_1_1Config/"><strong>SpiceQL::Config</strong></a>)</li>
+<li><strong>config</strong> (<a href="../classSpiceQL_1_1Config/"><strong>SpiceQL::Config</strong></a>)</li>
+<li><strong>contains</strong> (<a href="../classSpiceQL_1_1Config/"><strong>SpiceQL::Config</strong></a>)</li>
+<li><strong>collectFrameInfo</strong> (<a href="../classSpiceQL_1_1InventoryImpl/"><strong>SpiceQL::InventoryImpl</strong></a>)</li>
+<li><strong>Cache</strong> (<a href="../classSpiceQL_1_1Memo_1_1Cache/"><strong>SpiceQL::Memo::Cache</strong></a>)</li>
+<li><strong>Client</strong> (<a href="../classrestincurl_1_1Client/"><strong>restincurl::Client</strong></a>)</li>
+<li><strong>Close</strong> (<a href="../classrestincurl_1_1Client/"><strong>restincurl::Client</strong></a>, <a href="../classrestincurl_1_1EasyHandle/"><strong>restincurl::EasyHandle</strong></a>, <a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+<li><strong>CloseWhenFinished</strong> (<a href="../classrestincurl_1_1Client/"><strong>restincurl::Client</strong></a>, <a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+<li><strong>CallCompletion</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>)</li>
+<li><strong>Complete</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>)</li>
+<li><strong>completion_</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>, <a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>CanSendFile</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>ConnectTimeout</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>connect_timeout_</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>curl_code</strong> (<a href="../structrestincurl_1_1Result/"><strong>restincurl::Result</strong></a>)</li>
+<li><strong>Clean</strong> (<a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+<li><strong>Create</strong> (<a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+<li><strong>close_pending_</strong> (<a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+</ul>
+<h2 id="d">d</h2>
+<ul>
+<li><strong>data_</strong> (<a href="../structrestincurl_1_1InDataHandler/"><strong>restincurl::InDataHandler</strong></a>, <a href="../structrestincurl_1_1OutDataHandler/"><strong>restincurl::OutDataHandler</strong></a>)</li>
+<li><strong>default_data_buffer_</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>)</li>
+<li><strong>default_in_handler_</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>)</li>
+<li><strong>default_out_handler_</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>)</li>
+<li><strong>Delete</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>debug_callback</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>Dequeue</strong> (<a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+<li><strong>done_</strong> (<a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+</ul>
+<h2 id="e">e</h2>
+<ul>
+<li><strong>ensure_init</strong> (<a href="../classSpiceQL_1_1AliasMap/"><strong>SpiceQL::AliasMap</strong></a>)</li>
+<li><strong>evaluateConfig</strong> (<a href="../classSpiceQL_1_1Config/"><strong>SpiceQL::Config</strong></a>)</li>
+<li><strong>EasyHandle</strong> (<a href="../classrestincurl_1_1EasyHandle/"><strong>restincurl::EasyHandle</strong></a>)</li>
+<li><strong>Exception</strong> (<a href="../classrestincurl_1_1Exception/"><strong>restincurl::Exception</strong></a>)</li>
+<li><strong>eh_</strong> (<a href="../classrestincurl_1_1Options/"><strong>restincurl::Options</strong></a>, <a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>)</li>
+<li><strong>Execute</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>, <a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>ExecuteSynchronous</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>err_</strong> (<a href="../classrestincurl_1_1SystemException/"><strong>restincurl::SystemException</strong></a>)</li>
+<li><strong>Enqueue</strong> (<a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+<li><strong>EvaluateState</strong> (<a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+</ul>
+<h2 id="f">f</h2>
+<ul>
+<li><strong>findKey</strong> (<a href="../classSpiceQL_1_1Config/"><strong>SpiceQL::Config</strong></a>)</li>
+<li><strong>file_paths</strong> (<a href="../classSpiceQL_1_1TimeIndexedKernels/"><strong>SpiceQL::TimeIndexedKernels</strong></a>)</li>
+<li><strong>fp_</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>)</li>
+<li><strong>FdUsage</strong> (<a href="../classrestincurl_1_1Signaler/"><strong>restincurl::Signaler</strong></a>)</li>
+</ul>
+<h2 id="g">g</h2>
+<ul>
+<li><strong>getAliasMap</strong> (<a href="../classSpiceQL_1_1AliasMap/"><strong>SpiceQL::AliasMap</strong></a>)</li>
+<li><strong>getSpiceqlName</strong> (<a href="../classSpiceQL_1_1AliasMap/"><strong>SpiceQL::AliasMap</strong></a>)</li>
+<li><strong>get</strong> (<a href="../classSpiceQL_1_1Config/"><strong>SpiceQL::Config</strong></a>)</li>
+<li><strong>getLatest</strong> (<a href="../classSpiceQL_1_1Config/"><strong>SpiceQL::Config</strong></a>)</li>
+<li><strong>getLatestRecursive</strong> (<a href="../classSpiceQL_1_1Config/"><strong>SpiceQL::Config</strong></a>)</li>
+<li><strong>getParentPointer</strong> (<a href="../classSpiceQL_1_1Config/"><strong>SpiceQL::Config</strong></a>)</li>
+<li><strong>getRecursive</strong> (<a href="../classSpiceQL_1_1Config/"><strong>SpiceQL::Config</strong></a>)</li>
+<li><strong>globalConf</strong> (<a href="../classSpiceQL_1_1Config/"><strong>SpiceQL::Config</strong></a>)</li>
+<li><strong>getFrameCode</strong> (<a href="../classSpiceQL_1_1InventoryImpl/"><strong>SpiceQL::InventoryImpl</strong></a>)</li>
+<li><strong>getFrameList</strong> (<a href="../classSpiceQL_1_1InventoryImpl/"><strong>SpiceQL::InventoryImpl</strong></a>)</li>
+<li><strong>getFrameName</strong> (<a href="../classSpiceQL_1_1InventoryImpl/"><strong>SpiceQL::InventoryImpl</strong></a>)</li>
+<li><strong>getKey</strong> (<a href="../classSpiceQL_1_1InventoryImpl/"><strong>SpiceQL::InventoryImpl</strong></a>)</li>
+<li><strong>getExt</strong> (<a href="../classSpiceQL_1_1Kernel/"><strong>SpiceQL::Kernel</strong></a>)</li>
+<li><strong>GetNumActiveRequests</strong> (<a href="../classrestincurl_1_1Client/"><strong>restincurl::Client</strong></a>, <a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+<li><strong>GetEasyHandle</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>)</li>
+<li><strong>GetHeaders</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>)</li>
+<li><strong>GetRequestType</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>)</li>
+<li><strong>GetSourceFp</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>)</li>
+<li><strong>getDefaultInBuffer</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>)</li>
+<li><strong>Get</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>GetReadFd</strong> (<a href="../classrestincurl_1_1Signaler/"><strong>restincurl::Signaler</strong></a>)</li>
+<li><strong>getErrorCode</strong> (<a href="../classrestincurl_1_1SystemException/"><strong>restincurl::SystemException</strong></a>)</li>
+<li><strong>GetNextTimeout</strong> (<a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+</ul>
+<h2 id="h">h</h2>
+<ul>
+<li><strong>HaveWorker</strong> (<a href="../classrestincurl_1_1Client/"><strong>restincurl::Client</strong></a>)</li>
+<li><strong>handle_</strong> (<a href="../classrestincurl_1_1EasyHandle/"><strong>restincurl::EasyHandle</strong></a>, <a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+<li><strong>handle_t</strong> (<a href="../classrestincurl_1_1EasyHandle/"><strong>restincurl::EasyHandle</strong></a>)</li>
+<li><strong>headers_</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>)</li>
+<li><strong>headers_t</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>)</li>
+<li><strong>Head</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>Header</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>have_data_in_</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>have_data_out_</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>http_response_code</strong> (<a href="../structrestincurl_1_1Result/"><strong>restincurl::Result</strong></a>)</li>
+<li><strong>HaveThread</strong> (<a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+</ul>
+<h2 id="i">i</h2>
+<ul>
+<li><strong>instance</strong> (<a href="../classSpiceQL_1_1AliasMap/"><strong>SpiceQL::AliasMap</strong></a>)</li>
+<li><strong>InventoryImpl</strong> (<a href="../classSpiceQL_1_1InventoryImpl/"><strong>SpiceQL::InventoryImpl</strong></a>)</li>
+<li><strong>isBinary</strong> (<a href="../classSpiceQL_1_1Kernel/"><strong>SpiceQL::Kernel</strong></a>)</li>
+<li><strong>isCk</strong> (<a href="../classSpiceQL_1_1Kernel/"><strong>SpiceQL::Kernel</strong></a>)</li>
+<li><strong>isSpk</strong> (<a href="../classSpiceQL_1_1Kernel/"><strong>SpiceQL::Kernel</strong></a>)</li>
+<li><strong>isText</strong> (<a href="../classSpiceQL_1_1Kernel/"><strong>SpiceQL::Kernel</strong></a>)</li>
+<li><strong>InDataHandler</strong> (<a href="../structrestincurl_1_1InDataHandler/"><strong>restincurl::InDataHandler</strong></a>)</li>
+<li><strong>InitMime</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>)</li>
+<li><strong>IgnoreIncomingData</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>is_built_</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>isOk</strong> (<a href="../structrestincurl_1_1Result/"><strong>restincurl::Result</strong></a>)</li>
+<li><strong>Init</strong> (<a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+<li><strong>IsDone</strong> (<a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+</ul>
+<h2 id="j">j</h2>
+<ul>
+<li><strong>Join</strong> (<a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>, <a href="../classrestincurl_1_1Worker_1_1WorkerThread/"><strong>restincurl::Worker::WorkerThread</strong></a>)</li>
+<li><strong>Joinable</strong> (<a href="../classrestincurl_1_1Worker_1_1WorkerThread/"><strong>restincurl::Worker::WorkerThread</strong></a>)</li>
+<li><strong>joined_</strong> (<a href="../classrestincurl_1_1Worker_1_1WorkerThread/"><strong>restincurl::Worker::WorkerThread</strong></a>)</li>
+</ul>
+<h2 id="k">k</h2>
+<ul>
+<li><strong>Kernel</strong> (<a href="../classSpiceQL_1_1Kernel/"><strong>SpiceQL::Kernel</strong></a>)</li>
+<li><strong>KernelSet</strong> (<a href="../classSpiceQL_1_1KernelSet/"><strong>SpiceQL::KernelSet</strong></a>)</li>
+</ul>
+<h2 id="l">l</h2>
+<ul>
+<li><strong>load</strong> (<a href="../classSpiceQL_1_1AliasMap/"><strong>SpiceQL::AliasMap</strong></a>, <a href="../classSpiceQL_1_1KernelSet/"><strong>SpiceQL::KernelSet</strong></a>)</li>
+<li><strong>load_internal</strong> (<a href="../classSpiceQL_1_1AliasMap/"><strong>SpiceQL::AliasMap</strong></a>)</li>
+<li><strong>lock</strong> (<a href="../classrestincurl_1_1TlsLocker/"><strong>restincurl::TlsLocker</strong></a>)</li>
+</ul>
+<h2 id="m">m</h2>
+<ul>
+<li><strong>m_initialized</strong> (<a href="../classSpiceQL_1_1AliasMap/"><strong>SpiceQL::AliasMap</strong></a>)</li>
+<li><strong>m_lookupTable</strong> (<a href="../classSpiceQL_1_1AliasMap/"><strong>SpiceQL::AliasMap</strong></a>)</li>
+<li><strong>m_mutex</strong> (<a href="../classSpiceQL_1_1AliasMap/"><strong>SpiceQL::AliasMap</strong></a>)</li>
+<li><strong>m_frame_codes</strong> (<a href="../classSpiceQL_1_1InventoryImpl/"><strong>SpiceQL::InventoryImpl</strong></a>)</li>
+<li><strong>m_frame_list</strong> (<a href="../classSpiceQL_1_1InventoryImpl/"><strong>SpiceQL::InventoryImpl</strong></a>)</li>
+<li><strong>m_frame_names</strong> (<a href="../classSpiceQL_1_1InventoryImpl/"><strong>SpiceQL::InventoryImpl</strong></a>)</li>
+<li><strong>m_json_inventory</strong> (<a href="../classSpiceQL_1_1InventoryImpl/"><strong>SpiceQL::InventoryImpl</strong></a>)</li>
+<li><strong>m_nontimedep_kerns</strong> (<a href="../classSpiceQL_1_1InventoryImpl/"><strong>SpiceQL::InventoryImpl</strong></a>)</li>
+<li><strong>m_required_kernels</strong> (<a href="../classSpiceQL_1_1InventoryImpl/"><strong>SpiceQL::InventoryImpl</strong></a>)</li>
+<li><strong>m_timedep_kerns</strong> (<a href="../classSpiceQL_1_1InventoryImpl/"><strong>SpiceQL::InventoryImpl</strong></a>)</li>
+<li><strong>m_kernels</strong> (<a href="../classSpiceQL_1_1KernelSet/"><strong>SpiceQL::KernelSet</strong></a>)</li>
+<li><strong>m_loadedKernels</strong> (<a href="../classSpiceQL_1_1KernelSet/"><strong>SpiceQL::KernelSet</strong></a>)</li>
+<li><strong>m_dependants</strong> (<a href="../classSpiceQL_1_1Memo_1_1Cache/"><strong>SpiceQL::Memo::Cache</strong></a>)</li>
+<li><strong>m_data</strong> (<a href="../classSpiceQL_1_1Memo_1_1Memory/"><strong>SpiceQL::Memo::Memory</strong></a>)</li>
+<li><strong>m_fc</strong> (<a href="../structSpiceQL_1_1Memo_1_1memoize/"><strong>SpiceQL::Memo::memoize</strong></a>)</li>
+<li><strong>m_func</strong> (<a href="../structSpiceQL_1_1Memo_1_1memoize/"><strong>SpiceQL::Memo::memoize</strong></a>)</li>
+<li><strong>m_id</strong> (<a href="../structSpiceQL_1_1Memo_1_1memoize/"><strong>SpiceQL::Memo::memoize</strong></a>)</li>
+<li><strong>memoize</strong> (<a href="../structSpiceQL_1_1Memo_1_1memoize/"><strong>SpiceQL::Memo::memoize</strong></a>)</li>
+<li><strong>mime_</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>)</li>
+<li><strong>msg</strong> (<a href="../structrestincurl_1_1Result/"><strong>restincurl::Result</strong></a>)</li>
+<li><strong>mutex_</strong> (<a href="../classrestincurl_1_1TlsLocker/"><strong>restincurl::TlsLocker</strong></a>, <a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+</ul>
+<h2 id="o">o</h2>
+<ul>
+<li><strong>operator[]</strong> (<a href="../classSpiceQL_1_1Config/"><strong>SpiceQL::Config</strong></a>)</li>
+<li><strong>operator()</strong> (<a href="../classSpiceQL_1_1Memo_1_1Cache/"><strong>SpiceQL::Memo::Cache</strong></a>, <a href="../classSpiceQL_1_1Memo_1_1Memory/"><strong>SpiceQL::Memo::Memory</strong></a>, <a href="../structSpiceQL_1_1Memo_1_1memoize/"><strong>SpiceQL::Memo::memoize</strong></a>, <a href="../structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_01_4/"><strong>std::hash&lt; std::vector&lt; std::string &gt; &gt;</strong></a>, <a href="../structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_07const_01std_1_1string_01_6_00_01bool_08_4/"><strong>std::hash&lt; std::vector&lt; std::string &gt;(const std::string &amp;, bool)&gt;</strong></a>)</li>
+<li><strong>operator handle_t</strong> (<a href="../classrestincurl_1_1EasyHandle/"><strong>restincurl::EasyHandle</strong></a>)</li>
+<li><strong>Options</strong> (<a href="../classrestincurl_1_1Options/"><strong>restincurl::Options</strong></a>, <a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>OutDataHandler</strong> (<a href="../structrestincurl_1_1OutDataHandler/"><strong>restincurl::OutDataHandler</strong></a>)</li>
+<li><strong>OpenSourceFile</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>)</li>
+<li><strong>Option</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>options_</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>ongoing_</strong> (<a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+</ul>
+<h2 id="p">p</h2>
+<ul>
+<li><strong>path</strong> (<a href="../classSpiceQL_1_1Kernel/"><strong>SpiceQL::Kernel</strong></a>)</li>
+<li><strong>ptr_t</strong> (<a href="../classrestincurl_1_1EasyHandle/"><strong>restincurl::EasyHandle</strong></a>, <a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>, <a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>Prepare</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>, <a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>Patch</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>Post</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>PostMime</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>Put</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>pipefd_</strong> (<a href="../classrestincurl_1_1Signaler/"><strong>restincurl::Signaler</strong></a>)</li>
+<li><strong>pipefd_t</strong> (<a href="../classrestincurl_1_1Signaler/"><strong>restincurl::Signaler</strong></a>)</li>
+<li><strong>PrepareThread</strong> (<a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+<li><strong>pending_entries_in_queue_</strong> (<a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+</ul>
+<h2 id="q">q</h2>
+<ul>
+<li><strong>Quality</strong> (<a href="../classSpiceQL_1_1Kernel/"><strong>SpiceQL::Kernel</strong></a>)</li>
+<li><strong>quality</strong> (<a href="../classSpiceQL_1_1Kernel/"><strong>SpiceQL::Kernel</strong></a>)</li>
+<li><strong>queue_</strong> (<a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+</ul>
+<h2 id="r">r</h2>
+<ul>
+<li><strong>read_callback</strong> (<a href="../structrestincurl_1_1OutDataHandler/"><strong>restincurl::OutDataHandler</strong></a>)</li>
+<li><strong>Request</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>)</li>
+<li><strong>request_type_</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>, <a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>RequestBuilder</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>RequestTimeout</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>request_</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>request_timeout_</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>Result</strong> (<a href="../structrestincurl_1_1Result/"><strong>restincurl::Result</strong></a>)</li>
+<li><strong>Run</strong> (<a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+</ul>
+<h2 id="s">s</h2>
+<ul>
+<li><strong>setAliasMap</strong> (<a href="../classSpiceQL_1_1AliasMap/"><strong>SpiceQL::AliasMap</strong></a>)</li>
+<li><strong>size</strong> (<a href="../classSpiceQL_1_1Config/"><strong>SpiceQL::Config</strong></a>)</li>
+<li><strong>search_for_kernelset</strong> (<a href="../classSpiceQL_1_1InventoryImpl/"><strong>SpiceQL::InventoryImpl</strong></a>)</li>
+<li><strong>search_for_kernelsets</strong> (<a href="../classSpiceQL_1_1InventoryImpl/"><strong>SpiceQL::InventoryImpl</strong></a>)</li>
+<li><strong>SpkSegment</strong> (<a href="../classSpiceQL_1_1SpkSegment/"><strong>SpiceQL::SpkSegment</strong></a>)</li>
+<li><strong>start_times</strong> (<a href="../classSpiceQL_1_1TimeIndexedKernels/"><strong>SpiceQL::TimeIndexedKernels</strong></a>)</li>
+<li><strong>stop_times</strong> (<a href="../classSpiceQL_1_1TimeIndexedKernels/"><strong>SpiceQL::TimeIndexedKernels</strong></a>)</li>
+<li><strong>Set</strong> (<a href="../classrestincurl_1_1Options/"><strong>restincurl::Options</strong></a>)</li>
+<li><strong>sendt_bytes_</strong> (<a href="../structrestincurl_1_1OutDataHandler/"><strong>restincurl::OutDataHandler</strong></a>)</li>
+<li><strong>SetDefaultInHandler</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>)</li>
+<li><strong>SetDefaultOutHandler</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>)</li>
+<li><strong>SetRequestType</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>)</li>
+<li><strong>SendData</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>SendFile</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>SendFileAsForm</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>SendFileAsMimeData</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>SetReadHandler</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>SetWriteHandler</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>StoreData</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>Signal</strong> (<a href="../classrestincurl_1_1Signaler/"><strong>restincurl::Signaler</strong></a>, <a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+<li><strong>Signaler</strong> (<a href="../classrestincurl_1_1Signaler/"><strong>restincurl::Signaler</strong></a>)</li>
+<li><strong>SystemException</strong> (<a href="../classrestincurl_1_1SystemException/"><strong>restincurl::SystemException</strong></a>)</li>
+<li><strong>signal_</strong> (<a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+</ul>
+<h2 id="t">t</h2>
+<ul>
+<li><strong>Type</strong> (<a href="../classSpiceQL_1_1Kernel/"><strong>SpiceQL::Kernel</strong></a>)</li>
+<li><strong>translateQualities</strong> (<a href="../classSpiceQL_1_1Kernel/"><strong>SpiceQL::Kernel</strong></a>)</li>
+<li><strong>translateQuality</strong> (<a href="../classSpiceQL_1_1Kernel/"><strong>SpiceQL::Kernel</strong></a>)</li>
+<li><strong>translateType</strong> (<a href="../classSpiceQL_1_1Kernel/"><strong>SpiceQL::Kernel</strong></a>)</li>
+<li><strong>type</strong> (<a href="../classSpiceQL_1_1Kernel/"><strong>SpiceQL::Kernel</strong></a>)</li>
+<li><strong>Trace</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>tlsLOckInit</strong> (<a href="../classrestincurl_1_1TlsLocker/"><strong>restincurl::TlsLocker</strong></a>)</li>
+<li><strong>tlsLockKill</strong> (<a href="../classrestincurl_1_1TlsLocker/"><strong>restincurl::TlsLocker</strong></a>)</li>
+<li><strong>thread_</strong> (<a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>, <a href="../classrestincurl_1_1Worker_1_1WorkerThread/"><strong>restincurl::Worker::WorkerThread</strong></a>)</li>
+<li><strong>thread &amp;</strong> (<a href="../classrestincurl_1_1Worker_1_1WorkerThread/"><strong>restincurl::Worker::WorkerThread</strong></a>)</li>
+</ul>
+<h2 id="u">u</h2>
+<ul>
+<li><strong>unload</strong> (<a href="../classSpiceQL_1_1KernelSet/"><strong>SpiceQL::KernelSet</strong></a>)</li>
+<li><strong>use_disk_cache</strong> (<a href="../classSpiceQL_1_1Memo_1_1Cache/"><strong>SpiceQL::Memo::Cache</strong></a>)</li>
+<li><strong>url_</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>unlock</strong> (<a href="../classrestincurl_1_1TlsLocker/"><strong>restincurl::TlsLocker</strong></a>)</li>
+</ul>
+<h2 id="w">w</h2>
+<ul>
+<li><strong>write_database</strong> (<a href="../classSpiceQL_1_1InventoryImpl/"><strong>SpiceQL::InventoryImpl</strong></a>)</li>
+<li><strong>WaitForFinish</strong> (<a href="../classrestincurl_1_1Client/"><strong>restincurl::Client</strong></a>)</li>
+<li><strong>worker_</strong> (<a href="../classrestincurl_1_1Client/"><strong>restincurl::Client</strong></a>, <a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>write_callback</strong> (<a href="../structrestincurl_1_1InDataHandler/"><strong>restincurl::InDataHandler</strong></a>, <a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>WithCompletion</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>WithJson</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>WasSignalled</strong> (<a href="../classrestincurl_1_1Signaler/"><strong>restincurl::Signaler</strong></a>)</li>
+<li><strong>Worker</strong> (<a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+<li><strong>WorkerThread</strong> (<a href="../classrestincurl_1_1Worker_1_1WorkerThread/"><strong>restincurl::Worker::WorkerThread</strong></a>)</li>
+</ul>
+<h2 id="_1">~</h2>
+<ul>
+<li><strong>~Kernel</strong> (<a href="../classSpiceQL_1_1Kernel/"><strong>SpiceQL::Kernel</strong></a>)</li>
+<li><strong>~KernelSet</strong> (<a href="../classSpiceQL_1_1KernelSet/"><strong>SpiceQL::KernelSet</strong></a>)</li>
+<li><strong>~Client</strong> (<a href="../classrestincurl_1_1Client/"><strong>restincurl::Client</strong></a>)</li>
+<li><strong>~DataHandlerBase</strong> (<a href="../structrestincurl_1_1DataHandlerBase/"><strong>restincurl::DataHandlerBase</strong></a>)</li>
+<li><strong>~EasyHandle</strong> (<a href="../classrestincurl_1_1EasyHandle/"><strong>restincurl::EasyHandle</strong></a>)</li>
+<li><strong>~Request</strong> (<a href="../classrestincurl_1_1Request/"><strong>restincurl::Request</strong></a>)</li>
+<li><strong>~RequestBuilder</strong> (<a href="../classrestincurl_1_1RequestBuilder/"><strong>restincurl::RequestBuilder</strong></a>)</li>
+<li><strong>~Signaler</strong> (<a href="../classrestincurl_1_1Signaler/"><strong>restincurl::Signaler</strong></a>)</li>
+<li><strong>~Worker</strong> (<a href="../classrestincurl_1_1Worker/"><strong>restincurl::Worker</strong></a>)</li>
+<li><strong>~WorkerThread</strong> (<a href="../classrestincurl_1_1Worker_1_1WorkerThread/"><strong>restincurl::Worker::WorkerThread</strong></a>)</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.path", "navigation.indexes", "search.suggest", "search.suggest", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

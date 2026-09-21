@@ -1,0 +1,401 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classSpiceQL_1_1InventoryImpl" kind="class" language="C++" prot="public">
+    <compoundname>SpiceQL::InventoryImpl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classSpiceQL_1_1InventoryImpl_1aa5bb4a2aa3bd271f0ecbd5213285d694" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json SpiceQL::InventoryImpl::m_json_inventory</definition>
+        <argsstring></argsstring>
+        <name>m_json_inventory</name>
+        <qualifiedname>SpiceQL::InventoryImpl::m_json_inventory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="86" column="20" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1InventoryImpl_1a460bca1f53f978c35f2be42c0f6cb9f5" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;std::string&gt; &gt; SpiceQL::InventoryImpl::m_nontimedep_kerns</definition>
+        <argsstring></argsstring>
+        <name>m_nontimedep_kerns</name>
+        <qualifiedname>SpiceQL::InventoryImpl::m_nontimedep_kerns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="88" column="14" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1InventoryImpl_1a8581910adf1374c4bd9ea920c1959f3c" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="classSpiceQL_1_1TimeIndexedKernels" kindref="compound">TimeIndexedKernels</ref> * &gt;</type>
+        <definition>std::map&lt;std::string, TimeIndexedKernels*&gt; SpiceQL::InventoryImpl::m_timedep_kerns</definition>
+        <argsstring></argsstring>
+        <name>m_timedep_kerns</name>
+        <qualifiedname>SpiceQL::InventoryImpl::m_timedep_kerns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="89" column="14" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1InventoryImpl_1a4fab4e505882f481d34eba71dc308f89" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; SpiceQL::InventoryImpl::m_frame_list</definition>
+        <argsstring></argsstring>
+        <name>m_frame_list</name>
+        <qualifiedname>SpiceQL::InventoryImpl::m_frame_list</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="92" column="17" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1InventoryImpl_1a220cf22a3598e889c14d8d1b46029a16" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; SpiceQL::InventoryImpl::m_frame_codes</definition>
+        <argsstring></argsstring>
+        <name>m_frame_codes</name>
+        <qualifiedname>SpiceQL::InventoryImpl::m_frame_codes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="96" column="17" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1InventoryImpl_1ad8c0191e7d557da17c00f6caa6cdc8bc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; SpiceQL::InventoryImpl::m_frame_names</definition>
+        <argsstring></argsstring>
+        <name>m_frame_names</name>
+        <qualifiedname>SpiceQL::InventoryImpl::m_frame_names</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="97" column="17" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1InventoryImpl_1aa97c144798a37877991557608f6ee032" prot="public" static="no" mutable="no">
+        <type><ref refid="classSpiceQL_1_1KernelSet" kindref="compound">KernelSet</ref></type>
+        <definition>KernelSet SpiceQL::InventoryImpl::m_required_kernels</definition>
+        <argsstring></argsstring>
+        <name>m_required_kernels</name>
+        <qualifiedname>SpiceQL::InventoryImpl::m_required_kernels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="100" column="15" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classSpiceQL_1_1InventoryImpl_1a78bfef65e4bf5d7d6f3d1ea68edf254c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SpiceQL::InventoryImpl::InventoryImpl</definition>
+        <argsstring>(bool force_regen=false, std::vector&lt; std::string &gt; mlist={})</argsstring>
+        <name>InventoryImpl</name>
+        <qualifiedname>SpiceQL::InventoryImpl::InventoryImpl</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>force_regen</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>mlist</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="57" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1InventoryImpl_1adaa269226c17d74a90106e09180b3d60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class T</type>
+          </param>
+        </templateparamlist>
+        <type>T</type>
+        <definition>T SpiceQL::InventoryImpl::getKey</definition>
+        <argsstring>(std::string key)</argsstring>
+        <name>getKey</name>
+        <qualifiedname>SpiceQL::InventoryImpl::getKey</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="58" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1InventoryImpl_1a1b41f79d60f6a0b78dee93154a4b09cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SpiceQL::InventoryImpl::write_database</definition>
+        <argsstring>()</argsstring>
+        <name>write_database</name>
+        <qualifiedname>SpiceQL::InventoryImpl::write_database</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="59" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1InventoryImpl_1aa14c5cfa8b44e09c6afbe58482a3fe84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; SpiceQL::InventoryImpl::getFrameList</definition>
+        <argsstring>()</argsstring>
+        <name>getFrameList</name>
+        <qualifiedname>SpiceQL::InventoryImpl::getFrameList</qualifiedname>
+        <briefdescription>
+<para>Returns the cached list of frame/config names. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reads the precomputed list from the DB; falls back to computing it from the live <ref refid="classSpiceQL_1_1Config" kindref="compound">Config</ref> if the cache is unavailable. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="67" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1InventoryImpl_1a9c9ccd0b69cfbdef835fc0a908286dd9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string SpiceQL::InventoryImpl::getFrameName</definition>
+        <argsstring>(int code)</argsstring>
+        <name>getFrameName</name>
+        <qualifiedname>SpiceQL::InventoryImpl::getFrameName</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Resolve a frame/body code to its name using the cached map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>the name, or &quot;&quot; if the code is not in the cache. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="73" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1InventoryImpl_1a8462c13732439314457583c847313d10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int SpiceQL::InventoryImpl::getFrameCode</definition>
+        <argsstring>(std::string name)</argsstring>
+        <name>getFrameCode</name>
+        <qualifiedname>SpiceQL::InventoryImpl::getFrameCode</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Resolve a frame/body name to its code using the cached map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>the code, or 0 if the name is not in the cache. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="79" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1InventoryImpl_1ac24ecce09e10ec8cfd647750d2d98b4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json SpiceQL::InventoryImpl::search_for_kernelset</definition>
+        <argsstring>(std::string spiceql_name, std::vector&lt; Kernel::Type &gt; types, double start_time=-std::numeric_limits&lt; double &gt;::max(), double stop_time=std::numeric_limits&lt; double &gt;::max(), std::vector&lt; Kernel::Quality &gt; ckQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, std::vector&lt; Kernel::Quality &gt; spkQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, bool full_kernel_path=false, int limit_ck=-1, int limit_spk=1)</argsstring>
+        <name>search_for_kernelset</name>
+        <qualifiedname>SpiceQL::InventoryImpl::search_for_kernelset</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>spiceql_name</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80" kindref="member">Kernel::Type</ref> &gt;</type>
+          <declname>types</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>start_time</declname>
+          <defval>-std::numeric_limits&lt; double &gt;::max()</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>stop_time</declname>
+          <defval>std::numeric_limits&lt; double &gt;::max()</defval>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2e" kindref="member">Kernel::Quality</ref> &gt;</type>
+          <declname>ckQualities</declname>
+          <defval>{Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}</defval>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2e" kindref="member">Kernel::Quality</ref> &gt;</type>
+          <declname>spkQualities</declname>
+          <defval>{Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>full_kernel_path</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>limit_ck</declname>
+          <defval>-1</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>limit_spk</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="80" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1InventoryImpl_1a31ca958c1868cf9de65691516d49ec3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json SpiceQL::InventoryImpl::search_for_kernelsets</definition>
+        <argsstring>(std::vector&lt; std::string &gt; spiceql_names, std::vector&lt; Kernel::Type &gt; types, double start_time=-std::numeric_limits&lt; double &gt;::max(), double stop_time=std::numeric_limits&lt; double &gt;::max(), std::vector&lt; Kernel::Quality &gt; ckQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, std::vector&lt; Kernel::Quality &gt; spkQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, bool full_kernel_path=false, int limit_ck=-1, int limit_spk=1, bool overwrite=false)</argsstring>
+        <name>search_for_kernelsets</name>
+        <qualifiedname>SpiceQL::InventoryImpl::search_for_kernelsets</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>spiceql_names</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="classSpiceQL_1_1Kernel_1a6f9cd5a49c6f5ab8bd289a1a9ec16c80" kindref="member">Kernel::Type</ref> &gt;</type>
+          <declname>types</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>start_time</declname>
+          <defval>-std::numeric_limits&lt; double &gt;::max()</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>stop_time</declname>
+          <defval>std::numeric_limits&lt; double &gt;::max()</defval>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2e" kindref="member">Kernel::Quality</ref> &gt;</type>
+          <declname>ckQualities</declname>
+          <defval>{Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}</defval>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="classSpiceQL_1_1Kernel_1a07abc2e7e16d953b3789cc9e496dfc2e" kindref="member">Kernel::Quality</ref> &gt;</type>
+          <declname>spkQualities</declname>
+          <defval>{Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>full_kernel_path</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>limit_ck</declname>
+          <defval>-1</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>limit_spk</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>overwrite</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="83" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classSpiceQL_1_1InventoryImpl_1a7221cc6b2d2939b2d168b735210c6ff6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SpiceQL::InventoryImpl::collectFrameInfo</definition>
+        <argsstring>()</argsstring>
+        <name>collectFrameInfo</name>
+        <qualifiedname>SpiceQL::InventoryImpl::collectFrameInfo</qualifiedname>
+        <briefdescription>
+<para>Enumerate frame/body code&lt;-&gt;name pairs and the frame list into the member caches. Furnishes each mission&apos;s text kernels, reads the NAIF_BODY_CODE/NAIF_BODY_NAME pools, and records the config frame list. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="108" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>SpiceQL::InventoryImpl</label>
+        <link refid="classSpiceQL_1_1InventoryImpl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>m_required_kernels</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>SpiceQL::KernelSet</label>
+        <link refid="classSpiceQL_1_1KernelSet"/>
+      </node>
+    </collaborationgraph>
+    <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="55" column="3" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="55" bodyend="109"/>
+    <listofallmembers>
+      <member refid="classSpiceQL_1_1InventoryImpl_1a7221cc6b2d2939b2d168b735210c6ff6" prot="private" virt="non-virtual"><scope>SpiceQL::InventoryImpl</scope><name>collectFrameInfo</name></member>
+      <member refid="classSpiceQL_1_1InventoryImpl_1a8462c13732439314457583c847313d10" prot="public" virt="non-virtual"><scope>SpiceQL::InventoryImpl</scope><name>getFrameCode</name></member>
+      <member refid="classSpiceQL_1_1InventoryImpl_1aa14c5cfa8b44e09c6afbe58482a3fe84" prot="public" virt="non-virtual"><scope>SpiceQL::InventoryImpl</scope><name>getFrameList</name></member>
+      <member refid="classSpiceQL_1_1InventoryImpl_1a9c9ccd0b69cfbdef835fc0a908286dd9" prot="public" virt="non-virtual"><scope>SpiceQL::InventoryImpl</scope><name>getFrameName</name></member>
+      <member refid="classSpiceQL_1_1InventoryImpl_1adaa269226c17d74a90106e09180b3d60" prot="public" virt="non-virtual"><scope>SpiceQL::InventoryImpl</scope><name>getKey</name></member>
+      <member refid="classSpiceQL_1_1InventoryImpl_1a78bfef65e4bf5d7d6f3d1ea68edf254c" prot="public" virt="non-virtual"><scope>SpiceQL::InventoryImpl</scope><name>InventoryImpl</name></member>
+      <member refid="classSpiceQL_1_1InventoryImpl_1a220cf22a3598e889c14d8d1b46029a16" prot="public" virt="non-virtual"><scope>SpiceQL::InventoryImpl</scope><name>m_frame_codes</name></member>
+      <member refid="classSpiceQL_1_1InventoryImpl_1a4fab4e505882f481d34eba71dc308f89" prot="public" virt="non-virtual"><scope>SpiceQL::InventoryImpl</scope><name>m_frame_list</name></member>
+      <member refid="classSpiceQL_1_1InventoryImpl_1ad8c0191e7d557da17c00f6caa6cdc8bc" prot="public" virt="non-virtual"><scope>SpiceQL::InventoryImpl</scope><name>m_frame_names</name></member>
+      <member refid="classSpiceQL_1_1InventoryImpl_1aa5bb4a2aa3bd271f0ecbd5213285d694" prot="public" virt="non-virtual"><scope>SpiceQL::InventoryImpl</scope><name>m_json_inventory</name></member>
+      <member refid="classSpiceQL_1_1InventoryImpl_1a460bca1f53f978c35f2be42c0f6cb9f5" prot="public" virt="non-virtual"><scope>SpiceQL::InventoryImpl</scope><name>m_nontimedep_kerns</name></member>
+      <member refid="classSpiceQL_1_1InventoryImpl_1aa97c144798a37877991557608f6ee032" prot="public" virt="non-virtual"><scope>SpiceQL::InventoryImpl</scope><name>m_required_kernels</name></member>
+      <member refid="classSpiceQL_1_1InventoryImpl_1a8581910adf1374c4bd9ea920c1959f3c" prot="public" virt="non-virtual"><scope>SpiceQL::InventoryImpl</scope><name>m_timedep_kerns</name></member>
+      <member refid="classSpiceQL_1_1InventoryImpl_1ac24ecce09e10ec8cfd647750d2d98b4b" prot="public" virt="non-virtual"><scope>SpiceQL::InventoryImpl</scope><name>search_for_kernelset</name></member>
+      <member refid="classSpiceQL_1_1InventoryImpl_1a31ca958c1868cf9de65691516d49ec3c" prot="public" virt="non-virtual"><scope>SpiceQL::InventoryImpl</scope><name>search_for_kernelsets</name></member>
+      <member refid="classSpiceQL_1_1InventoryImpl_1a1b41f79d60f6a0b78dee93154a4b09cf" prot="public" virt="non-virtual"><scope>SpiceQL::InventoryImpl</scope><name>write_database</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

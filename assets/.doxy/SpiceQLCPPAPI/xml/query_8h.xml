@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="query_8h" kind="file" language="C++">
+    <compoundname>query.h</compoundname>
+    <includes local="no">vector</includes>
+    <includes local="no">set</includes>
+    <includes local="no">iostream</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes refid="spice__types_8h" local="no">SpiceQL/spice_types.h</includes>
+    <includedby refid="spiceql_8h" local="no">SpiceQL/include/SpiceQL/spiceql.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>SpiceQL/include/SpiceQL/query.h</label>
+        <link refid="query_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>SpiceQL/spice_types.h</label>
+        <link refid="spice__types_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>iostream</label>
+      </node>
+      <node id="5">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="3">
+        <label>set</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="2">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>SpiceQL/include/SpiceQL/query.h</label>
+        <link refid="query_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>SpiceQL/include/SpiceQL/spiceql.h</label>
+        <link refid="spiceql_8h"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespaceSpiceQL">SpiceQL</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Functions that interigate the user&apos;s kernel installation to return kernels lists or SPICE information are located here </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;SpiceQL/spice_types.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceSpiceQL" kindref="compound">SpiceQL</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespaceSpiceQL_1ad6e663750a3131d26a5d4ed4d132c6ee" refkind="member"><highlight class="normal"><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="namespaceSpiceQL_1ad6e663750a3131d26a5d4ed4d132c6ee" kindref="member">getLatestKernel</ref>(std::vector&lt;std::string&gt;<sp/>kernels);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="namespaceSpiceQL_1af7f890edca38f33c230e1cec65ee8446" refkind="member"><highlight class="normal"><sp/><sp/>nlohmann::json<sp/><ref refid="namespaceSpiceQL_1af7f890edca38f33c230e1cec65ee8446" kindref="member">getLatestKernels</ref>(nlohmann::json<sp/>kernels);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="namespaceSpiceQL_1afbd27af7a4f56c0d48f53338c53f37d6" refkind="member"><highlight class="normal"><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="namespaceSpiceQL_1afbd27af7a4f56c0d48f53338c53f37d6" kindref="member">getKernelVectorValue</ref>(std::string<sp/>key);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="namespaceSpiceQL_1a9622f5d50929ce7ebd6a7453bd145494" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="namespaceSpiceQL_1a9622f5d50929ce7ebd6a7453bd145494" kindref="member">getKernelStringValue</ref>(std::string<sp/>key);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="namespaceSpiceQL_1a0d000c8da37a38a4e640265450965af7" refkind="member"><highlight class="normal"><sp/><sp/>nlohmann::json<sp/><ref refid="namespaceSpiceQL_1a0d000c8da37a38a4e640265450965af7" kindref="member">listMissionKernels</ref>(std::string<sp/>root,<sp/><sp/>nlohmann::json<sp/>conf);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="namespaceSpiceQL_1a972d31edaa745c1b26755e2a193c1c28" refkind="member"><highlight class="normal"><sp/><sp/>nlohmann::json<sp/><ref refid="namespaceSpiceQL_1a972d31edaa745c1b26755e2a193c1c28" kindref="member">globKernels</ref>(std::string<sp/>root,<sp/>nlohmann::json<sp/>conf,<sp/>std::string<sp/>kernelType);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="109" refid="namespaceSpiceQL_1a757f368f94006799275856c221466ddd" refkind="member"><highlight class="normal"><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="namespaceSpiceQL_1a757f368f94006799275856c221466ddd" kindref="member">getKernelsAsVector</ref>(nlohmann::json<sp/>kernels);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="namespaceSpiceQL_1a2ba08982eed0aca546784b38e488eff6" refkind="member"><highlight class="normal"><sp/><sp/>std::set&lt;std::string&gt;<sp/><ref refid="namespaceSpiceQL_1a2ba08982eed0aca546784b38e488eff6" kindref="member">getKernelsAsSet</ref>(nlohmann::json<sp/>kernels);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+    </programlisting>
+    <location file="SpiceQL/include/SpiceQL/query.h"/>
+  </compounddef>
+</doxygen>

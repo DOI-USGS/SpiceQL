@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classrestincurl_1_1Client" kind="class" language="C++" prot="public">
+    <compoundname>restincurl::Client</compoundname>
+    <includes refid="restincurl_8h" local="no">restincurl.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classrestincurl_1_1Client_1a1487d111dc8878f080521ad60dcd1875" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classrestincurl_1_1Worker" kindref="compound">Worker</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Worker&gt; restincurl::Client::worker_</definition>
+        <argsstring></argsstring>
+        <name>worker_</name>
+        <qualifiedname>restincurl::Client::worker_</qualifiedname>
+        <initializer>= std::make_unique&lt;<ref refid="classrestincurl_1_1Worker" kindref="compound">Worker</ref>&gt;()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1779" column="25" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1779" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrestincurl_1_1Client_1aa319ce9d68abfa431c6c99d6f8780b5d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>restincurl::Client::Client</definition>
+        <argsstring>(const bool init=true)</argsstring>
+        <name>Client</name>
+        <qualifiedname>restincurl::Client::Client</qualifiedname>
+        <param>
+          <type>const bool</type>
+          <declname>init</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>init</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Set to true if you need to initialize libcurl.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Libcurl require us to call an initialization method once, before using the library. If you use libcurl exclusively from RESTinCurl, <computeroutput>init</computeroutput> needs to be <computeroutput>true</computeroutput> (default). If you use RESTinCurl in a project that already initialize libcurl, you should pass <computeroutput>false</computeroutput> to the constructor.</para>
+<para>RESTinCurl will only call libcurl&apos;s initialization once, no matter how many times you call the constructor. It&apos;s therefore safe to always use the default value when you want RESTinCurl to deal with libcurl&apos;s initialization. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1672" column="9" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1672" bodyend="1680"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Client_1a75820f3a175d242bc7d33083101b4d7e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type></type>
+        <definition>virtual restincurl::Client::~Client</definition>
+        <argsstring>()</argsstring>
+        <name>~Client</name>
+        <qualifiedname>restincurl::Client::~Client</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Destructor</para>
+<para>The destructor will try to clean up resources (when in asynchronous mode) ant may wait for a little while for IO operations to stop and the worker-thread to finish.</para>
+<para>This is to prevent your application for crashing if you exit the main thread while the worker-thread is still working and accessing memory own by the <ref refid="classrestincurl_1_1Client" kindref="compound">Client</ref> instance. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1691" column="17" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1691" bodyend="1701"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Client_1a1228a6b60698528f698b1a9b85b495ba" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classrestincurl_1_1RequestBuilder" kindref="compound">RequestBuilder</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; RequestBuilder &gt; restincurl::Client::Build</definition>
+        <argsstring>()</argsstring>
+        <name>Build</name>
+        <qualifiedname>restincurl::Client::Build</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Build a request</para>
+<para>Requests are &quot;built&quot; using a series of statements to fully express what you want to do and how you want RESTinCurl to do it.</para>
+<para>Example <programlisting><codeline><highlight class="normal">restincurl::Client<sp/>client;</highlight></codeline>
+<codeline><highlight class="normal">client.<ref refid="classrestincurl_1_1Client_1a1228a6b60698528f698b1a9b85b495ba" kindref="member">Build</ref>()-&gt;Get(</highlight><highlight class="stringliteral">&quot;https://api.example.com&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.AcceptJson()</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.Header(</highlight><highlight class="stringliteral">&quot;X-Client&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;restincurl&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WithCompletion([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Result&amp;<sp/>result)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Do<sp/>something</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>})</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.Execute();</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1720" column="25" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1720" bodyend="1726"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Client_1a8ee00d7efc785fffa2513628406f2b9c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void restincurl::Client::CloseWhenFinished</definition>
+        <argsstring>()</argsstring>
+        <name>CloseWhenFinished</name>
+        <qualifiedname>restincurl::Client::CloseWhenFinished</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Shut down the event-loop and clean up internal resources when all active and queued requests are done.</para>
+<para>This method is only available when <computeroutput><ref refid="restincurl_8h_1afd0e7fa196a2032a330b69cab346b463" kindref="member">RESTINCURL_ENABLE_ASYNC</ref></computeroutput> is nonzero. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1733" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1733" bodyend="1735"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Client_1af8a333a32f93c429e5f2a56fa060e314" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void restincurl::Client::Close</definition>
+        <argsstring>()</argsstring>
+        <name>Close</name>
+        <qualifiedname>restincurl::Client::Close</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Close the client.</para>
+<para>This method aborts any and all requests.</para>
+<para>The worked-thread will exit shortly after this method is called, if it was running.</para>
+<para>This method is only available when <computeroutput><ref refid="restincurl_8h_1afd0e7fa196a2032a330b69cab346b463" kindref="member">RESTINCURL_ENABLE_ASYNC</ref></computeroutput> is nonzero. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1746" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1746" bodyend="1748"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Client_1afdbfa209efc55eb5d4f9ad162baf0f92" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void restincurl::Client::WaitForFinish</definition>
+        <argsstring>()</argsstring>
+        <name>WaitForFinish</name>
+        <qualifiedname>restincurl::Client::WaitForFinish</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Wait for the worker-thread to finish.</para>
+<para>You should call <ref refid="classrestincurl_1_1Client_1af8a333a32f93c429e5f2a56fa060e314" kindref="member">Close()</ref> first.</para>
+<para>This method is only available when <computeroutput><ref refid="restincurl_8h_1afd0e7fa196a2032a330b69cab346b463" kindref="member">RESTINCURL_ENABLE_ASYNC</ref></computeroutput> is nonzero. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1756" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1756" bodyend="1758"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Client_1af2aea21e1d4da2ef7b59d77e14920986" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool restincurl::Client::HaveWorker</definition>
+        <argsstring>() const</argsstring>
+        <name>HaveWorker</name>
+        <qualifiedname>restincurl::Client::HaveWorker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if the client instance has a worker-thread.</para>
+<para>This method is only available when <computeroutput><ref refid="restincurl_8h_1afd0e7fa196a2032a330b69cab346b463" kindref="member">RESTINCURL_ENABLE_ASYNC</ref></computeroutput> is nonzero. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1764" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1764" bodyend="1766"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Client_1a9e0694d1dbefd9df3f992166daffed7d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t restincurl::Client::GetNumActiveRequests</definition>
+        <argsstring>()</argsstring>
+        <name>GetNumActiveRequests</name>
+        <qualifiedname>restincurl::Client::GetNumActiveRequests</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of active / ongoing requests.</para>
+<para>This method is only available when <computeroutput><ref refid="restincurl_8h_1afd0e7fa196a2032a330b69cab346b463" kindref="member">RESTINCURL_ENABLE_ASYNC</ref></computeroutput> is nonzero. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1772" column="16" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1772" bodyend="1774"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>The high level abstraction of the Curl library.</para>
+<para>An instance of a <ref refid="classrestincurl_1_1Client" kindref="compound">Client</ref> will, if asynchronous mode is enabled, create a worker-thread when the first request is made. This single worker-thread is then shared between all requests made for this client. When no requests are active, the thread will wait for a while (see RESTINCURL_IDLE_TIMEOUT_SEC), keeping libcurl&apos;s connection-cache warm, to serve new requests as efficiently as possible. When the idle time period expires, the thread will terminate and close the connection-cache associated with the client. If a new request is made later on, a new worker-thread will be created. </para>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1656" column="5" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1656" bodyend="1781"/>
+    <listofallmembers>
+      <member refid="classrestincurl_1_1Client_1a1228a6b60698528f698b1a9b85b495ba" prot="public" virt="non-virtual"><scope>restincurl::Client</scope><name>Build</name></member>
+      <member refid="classrestincurl_1_1Client_1aa319ce9d68abfa431c6c99d6f8780b5d" prot="public" virt="non-virtual"><scope>restincurl::Client</scope><name>Client</name></member>
+      <member refid="classrestincurl_1_1Client_1af8a333a32f93c429e5f2a56fa060e314" prot="public" virt="non-virtual"><scope>restincurl::Client</scope><name>Close</name></member>
+      <member refid="classrestincurl_1_1Client_1a8ee00d7efc785fffa2513628406f2b9c" prot="public" virt="non-virtual"><scope>restincurl::Client</scope><name>CloseWhenFinished</name></member>
+      <member refid="classrestincurl_1_1Client_1a9e0694d1dbefd9df3f992166daffed7d" prot="public" virt="non-virtual"><scope>restincurl::Client</scope><name>GetNumActiveRequests</name></member>
+      <member refid="classrestincurl_1_1Client_1af2aea21e1d4da2ef7b59d77e14920986" prot="public" virt="non-virtual"><scope>restincurl::Client</scope><name>HaveWorker</name></member>
+      <member refid="classrestincurl_1_1Client_1afdbfa209efc55eb5d4f9ad162baf0f92" prot="public" virt="non-virtual"><scope>restincurl::Client</scope><name>WaitForFinish</name></member>
+      <member refid="classrestincurl_1_1Client_1a1487d111dc8878f080521ad60dcd1875" prot="private" virt="non-virtual"><scope>restincurl::Client</scope><name>worker_</name></member>
+      <member refid="classrestincurl_1_1Client_1a75820f3a175d242bc7d33083101b4d7e" prot="public" virt="virtual"><scope>restincurl::Client</scope><name>~Client</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

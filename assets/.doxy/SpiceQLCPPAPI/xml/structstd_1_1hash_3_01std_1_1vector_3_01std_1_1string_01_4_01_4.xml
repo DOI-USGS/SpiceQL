@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>std::hash&lt; std::vector&lt; std::string &gt; &gt;</compoundname>
+    <templateparamlist>
+    </templateparamlist>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_01_4_1afd05e2761c39d74393c9b0360054c3c1" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t std::hash&lt; std::vector&lt; std::string &gt; &gt;::operator()</definition>
+        <argsstring>(vector&lt; string &gt; const &amp;vec) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>std::hash&lt; std::vector&lt; std::string &gt; &gt;::operator()</qualifiedname>
+        <param>
+          <type>vector&lt; string &gt; const &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/memo.h" line="274" column="17" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="274" bodyend="282"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/memo.h" line="272" column="1" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="273" bodyend="283"/>
+    <listofallmembers>
+      <member refid="structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_01_4_1afd05e2761c39d74393c9b0360054c3c1" prot="public" virt="non-virtual"><scope>std::hash&lt; std::vector&lt; std::string &gt; &gt;</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

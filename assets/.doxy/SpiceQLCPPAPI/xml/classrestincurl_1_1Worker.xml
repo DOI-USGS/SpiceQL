@@ -1,0 +1,459 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classrestincurl_1_1Worker" kind="class" language="C++" prot="public">
+    <compoundname>restincurl::Worker</compoundname>
+    <innerclass refid="classrestincurl_1_1Worker_1_1WorkerThread" prot="private">restincurl::Worker::WorkerThread</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classrestincurl_1_1Worker_1a6068042a70c7a1824aca1605170ae6ba" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool restincurl::Worker::close_pending_</definition>
+        <argsstring></argsstring>
+        <name>close_pending_</name>
+        <qualifiedname>restincurl::Worker::close_pending_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1083" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1083" bodyend="1083"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrestincurl_1_1Worker_1a1a0100c1276ca7db2cfb9455c8b59b2c" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool restincurl::Worker::abort_</definition>
+        <argsstring></argsstring>
+        <name>abort_</name>
+        <qualifiedname>restincurl::Worker::abort_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1084" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1084" bodyend="1084"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrestincurl_1_1Worker_1a3beebe8a79004cc7f488ce7c7a59d840" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool restincurl::Worker::done_</definition>
+        <argsstring></argsstring>
+        <name>done_</name>
+        <qualifiedname>restincurl::Worker::done_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1085" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1085" bodyend="1085"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrestincurl_1_1Worker_1acd826ba2006f472656e67a52869d5fa1" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool restincurl::Worker::pending_entries_in_queue_</definition>
+        <argsstring></argsstring>
+        <name>pending_entries_in_queue_</name>
+        <qualifiedname>restincurl::Worker::pending_entries_in_queue_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1086" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1086" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrestincurl_1_1Worker_1a7caa7d1753f0cb81db8259cd4986382f" prot="private" static="no" mutable="no">
+        <type>decltype(curl_multi_init())</type>
+        <definition>decltype(curl_multi_init()) restincurl::Worker::handle_</definition>
+        <argsstring></argsstring>
+        <name>handle_</name>
+        <qualifiedname>restincurl::Worker::handle_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1087" column="18" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1087" bodyend="1087"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrestincurl_1_1Worker_1a2a9ef53998ec4c19a2827483ff7638b3" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex restincurl::Worker::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>restincurl::Worker::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1088" column="28" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1088" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrestincurl_1_1Worker_1a7a6c69eb2b0018b5eda7f923bdb8318c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; WorkerThread &gt;</type>
+        <definition>std::shared_ptr&lt;WorkerThread&gt; restincurl::Worker::thread_</definition>
+        <argsstring></argsstring>
+        <name>thread_</name>
+        <qualifiedname>restincurl::Worker::thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1089" column="25" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1089" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrestincurl_1_1Worker_1a3f4b546172988bc3e45642f008db2935" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; Request::ptr_t &gt;</type>
+        <definition>std::deque&lt;Request::ptr_t&gt; restincurl::Worker::queue_</definition>
+        <argsstring></argsstring>
+        <name>queue_</name>
+        <qualifiedname>restincurl::Worker::queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1090" column="20" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1090" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrestincurl_1_1Worker_1aae455193e0862ab7c431be4acf7dd7f1" prot="private" static="no" mutable="no">
+        <type>std::map&lt; EasyHandle::handle_t, Request::ptr_t &gt;</type>
+        <definition>std::map&lt;EasyHandle::handle_t, Request::ptr_t&gt; restincurl::Worker::ongoing_</definition>
+        <argsstring></argsstring>
+        <name>ongoing_</name>
+        <qualifiedname>restincurl::Worker::ongoing_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1091" column="18" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1091" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrestincurl_1_1Worker_1a484397d4128a26e527ce548220b1c9a9" prot="private" static="no" mutable="no">
+        <type><ref refid="classrestincurl_1_1Signaler" kindref="compound">Signaler</ref></type>
+        <definition>Signaler restincurl::Worker::signal_</definition>
+        <argsstring></argsstring>
+        <name>signal_</name>
+        <qualifiedname>restincurl::Worker::signal_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="1092" column="18" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="1092" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrestincurl_1_1Worker_1a0b62775fa042ff7b17451d85492a84b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>restincurl::Worker::Worker</definition>
+        <argsstring>()=default</argsstring>
+        <name>Worker</name>
+        <qualifiedname>restincurl::Worker::Worker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="775" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Worker_1a1e4c95f539f0be88b0cb2ceae350c468" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>restincurl::Worker::~Worker</definition>
+        <argsstring>()</argsstring>
+        <name>~Worker</name>
+        <qualifiedname>restincurl::Worker::~Worker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="777" column="9" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="777" bodyend="782"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Worker_1ab155f22a6d2d1746de533624f43d82a4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void restincurl::Worker::PrepareThread</definition>
+        <argsstring>()</argsstring>
+        <name>PrepareThread</name>
+        <qualifiedname>restincurl::Worker::PrepareThread</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="784" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="784" bodyend="808"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Worker_1a60664383a238cf928a40b4b30794b6b1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void restincurl::Worker::Enqueue</definition>
+        <argsstring>(Request::ptr_t req)</argsstring>
+        <name>Enqueue</name>
+        <qualifiedname>restincurl::Worker::Enqueue</qualifiedname>
+        <param>
+          <type>Request::ptr_t</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="814" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="814" bodyend="820"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Worker_1a6bc1e1992aae91c9210623ba741d1e45" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void restincurl::Worker::Join</definition>
+        <argsstring>() const</argsstring>
+        <name>Join</name>
+        <qualifiedname>restincurl::Worker::Join</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="822" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="822" bodyend="835"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Worker_1a30d31e3addb2bc7ac760b006126e8ccb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void restincurl::Worker::CloseWhenFinished</definition>
+        <argsstring>()</argsstring>
+        <name>CloseWhenFinished</name>
+        <qualifiedname>restincurl::Worker::CloseWhenFinished</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="838" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="838" bodyend="844"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Worker_1a09dc306f084f2906a1223269a2480dfd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void restincurl::Worker::Close</definition>
+        <argsstring>()</argsstring>
+        <name>Close</name>
+        <qualifiedname>restincurl::Worker::Close</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="847" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="847" bodyend="853"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Worker_1aeac4b7b72a23ee5d5648bca4bac63ba7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool restincurl::Worker::IsDone</definition>
+        <argsstring>() const</argsstring>
+        <name>IsDone</name>
+        <qualifiedname>restincurl::Worker::IsDone</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="856" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="856" bodyend="859"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Worker_1aa6616a18e834e031e9aa085e59efb7dc" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool restincurl::Worker::HaveThread</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>HaveThread</name>
+        <qualifiedname>restincurl::Worker::HaveThread</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="861" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="861" bodyend="867"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Worker_1a1423c8b41c845918aeeb420423e0a749" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t restincurl::Worker::GetNumActiveRequests</definition>
+        <argsstring>() const</argsstring>
+        <name>GetNumActiveRequests</name>
+        <qualifiedname>restincurl::Worker::GetNumActiveRequests</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="869" column="16" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="869" bodyend="872"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classrestincurl_1_1Worker_1a1b579a62fc7c9ab5ce01d319239cf965" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::unique_ptr&lt; Worker &gt;</type>
+        <definition>static std::unique_ptr&lt; Worker &gt; restincurl::Worker::Create</definition>
+        <argsstring>()</argsstring>
+        <name>Create</name>
+        <qualifiedname>restincurl::Worker::Create</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="810" column="32" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="810" bodyend="812"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classrestincurl_1_1Worker_1a41ba796522d0b5e863fa95fe2092c9ee" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void restincurl::Worker::Signal</definition>
+        <argsstring>()</argsstring>
+        <name>Signal</name>
+        <qualifiedname>restincurl::Worker::Signal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="875" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="875" bodyend="877"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Worker_1ae1c57bc96f5e8478769e138f2ab84983" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void restincurl::Worker::Dequeue</definition>
+        <argsstring>()</argsstring>
+        <name>Dequeue</name>
+        <qualifiedname>restincurl::Worker::Dequeue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="879" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="879" bodyend="918"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Worker_1ac2ca1ec21e0483590662e4e41efcfc91" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void restincurl::Worker::Init</definition>
+        <argsstring>()</argsstring>
+        <name>Init</name>
+        <qualifiedname>restincurl::Worker::Init</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="920" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="920" bodyend="926"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Worker_1ad905c2a64a6cb91b84ca214c346b307b" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void restincurl::Worker::Clean</definition>
+        <argsstring>()</argsstring>
+        <name>Clean</name>
+        <qualifiedname>restincurl::Worker::Clean</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="928" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="928" bodyend="934"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Worker_1ab353d72225123d94804ca62ff776c1f2" prot="private" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool restincurl::Worker::EvaluateState</definition>
+        <argsstring>(const bool transfersRunning, const bool doDequeue) const noexcept</argsstring>
+        <name>EvaluateState</name>
+        <qualifiedname>restincurl::Worker::EvaluateState</qualifiedname>
+        <param>
+          <type>const bool</type>
+          <declname>transfersRunning</declname>
+        </param>
+        <param>
+          <type>const bool</type>
+          <declname>doDequeue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="936" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="936" bodyend="944"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Worker_1a28528015247c2fdf01663fd7d82e915c" prot="private" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto restincurl::Worker::GetNextTimeout</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>GetNextTimeout</name>
+        <qualifiedname>restincurl::Worker::GetNextTimeout</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="946" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="946" bodyend="949"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Worker_1a22028db1bfdc2562a2244d68a77cf324" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void restincurl::Worker::Run</definition>
+        <argsstring>()</argsstring>
+        <name>Run</name>
+        <qualifiedname>restincurl::Worker::Run</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="951" column="14" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="951" bodyend="1081"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/restincurl.h" line="744" column="5" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="744" bodyend="1093"/>
+    <listofallmembers>
+      <member refid="classrestincurl_1_1Worker_1a1a0100c1276ca7db2cfb9455c8b59b2c" prot="private" virt="non-virtual"><scope>restincurl::Worker</scope><name>abort_</name></member>
+      <member refid="classrestincurl_1_1Worker_1ad905c2a64a6cb91b84ca214c346b307b" prot="private" virt="non-virtual"><scope>restincurl::Worker</scope><name>Clean</name></member>
+      <member refid="classrestincurl_1_1Worker_1a09dc306f084f2906a1223269a2480dfd" prot="public" virt="non-virtual"><scope>restincurl::Worker</scope><name>Close</name></member>
+      <member refid="classrestincurl_1_1Worker_1a6068042a70c7a1824aca1605170ae6ba" prot="private" virt="non-virtual"><scope>restincurl::Worker</scope><name>close_pending_</name></member>
+      <member refid="classrestincurl_1_1Worker_1a30d31e3addb2bc7ac760b006126e8ccb" prot="public" virt="non-virtual"><scope>restincurl::Worker</scope><name>CloseWhenFinished</name></member>
+      <member refid="classrestincurl_1_1Worker_1a1b579a62fc7c9ab5ce01d319239cf965" prot="public" virt="non-virtual"><scope>restincurl::Worker</scope><name>Create</name></member>
+      <member refid="classrestincurl_1_1Worker_1ae1c57bc96f5e8478769e138f2ab84983" prot="private" virt="non-virtual"><scope>restincurl::Worker</scope><name>Dequeue</name></member>
+      <member refid="classrestincurl_1_1Worker_1a3beebe8a79004cc7f488ce7c7a59d840" prot="private" virt="non-virtual"><scope>restincurl::Worker</scope><name>done_</name></member>
+      <member refid="classrestincurl_1_1Worker_1a60664383a238cf928a40b4b30794b6b1" prot="public" virt="non-virtual"><scope>restincurl::Worker</scope><name>Enqueue</name></member>
+      <member refid="classrestincurl_1_1Worker_1ab353d72225123d94804ca62ff776c1f2" prot="private" virt="non-virtual"><scope>restincurl::Worker</scope><name>EvaluateState</name></member>
+      <member refid="classrestincurl_1_1Worker_1a28528015247c2fdf01663fd7d82e915c" prot="private" virt="non-virtual"><scope>restincurl::Worker</scope><name>GetNextTimeout</name></member>
+      <member refid="classrestincurl_1_1Worker_1a1423c8b41c845918aeeb420423e0a749" prot="public" virt="non-virtual"><scope>restincurl::Worker</scope><name>GetNumActiveRequests</name></member>
+      <member refid="classrestincurl_1_1Worker_1a7caa7d1753f0cb81db8259cd4986382f" prot="private" virt="non-virtual"><scope>restincurl::Worker</scope><name>handle_</name></member>
+      <member refid="classrestincurl_1_1Worker_1aa6616a18e834e031e9aa085e59efb7dc" prot="public" virt="non-virtual"><scope>restincurl::Worker</scope><name>HaveThread</name></member>
+      <member refid="classrestincurl_1_1Worker_1ac2ca1ec21e0483590662e4e41efcfc91" prot="private" virt="non-virtual"><scope>restincurl::Worker</scope><name>Init</name></member>
+      <member refid="classrestincurl_1_1Worker_1aeac4b7b72a23ee5d5648bca4bac63ba7" prot="public" virt="non-virtual"><scope>restincurl::Worker</scope><name>IsDone</name></member>
+      <member refid="classrestincurl_1_1Worker_1a6bc1e1992aae91c9210623ba741d1e45" prot="public" virt="non-virtual"><scope>restincurl::Worker</scope><name>Join</name></member>
+      <member refid="classrestincurl_1_1Worker_1a2a9ef53998ec4c19a2827483ff7638b3" prot="private" virt="non-virtual"><scope>restincurl::Worker</scope><name>mutex_</name></member>
+      <member refid="classrestincurl_1_1Worker_1aae455193e0862ab7c431be4acf7dd7f1" prot="private" virt="non-virtual"><scope>restincurl::Worker</scope><name>ongoing_</name></member>
+      <member refid="classrestincurl_1_1Worker_1acd826ba2006f472656e67a52869d5fa1" prot="private" virt="non-virtual"><scope>restincurl::Worker</scope><name>pending_entries_in_queue_</name></member>
+      <member refid="classrestincurl_1_1Worker_1ab155f22a6d2d1746de533624f43d82a4" prot="public" virt="non-virtual"><scope>restincurl::Worker</scope><name>PrepareThread</name></member>
+      <member refid="classrestincurl_1_1Worker_1a3f4b546172988bc3e45642f008db2935" prot="private" virt="non-virtual"><scope>restincurl::Worker</scope><name>queue_</name></member>
+      <member refid="classrestincurl_1_1Worker_1a22028db1bfdc2562a2244d68a77cf324" prot="private" virt="non-virtual"><scope>restincurl::Worker</scope><name>Run</name></member>
+      <member refid="classrestincurl_1_1Worker_1a41ba796522d0b5e863fa95fe2092c9ee" prot="private" virt="non-virtual"><scope>restincurl::Worker</scope><name>Signal</name></member>
+      <member refid="classrestincurl_1_1Worker_1a484397d4128a26e527ce548220b1c9a9" prot="private" virt="non-virtual"><scope>restincurl::Worker</scope><name>signal_</name></member>
+      <member refid="classrestincurl_1_1Worker_1a7a6c69eb2b0018b5eda7f923bdb8318c" prot="private" virt="non-virtual"><scope>restincurl::Worker</scope><name>thread_</name></member>
+      <member refid="classrestincurl_1_1Worker_1a0b62775fa042ff7b17451d85492a84b8" prot="public" virt="non-virtual"><scope>restincurl::Worker</scope><name>Worker</name></member>
+      <member refid="classrestincurl_1_1Worker_1a1e4c95f539f0be88b0cb2ceae350c468" prot="public" virt="non-virtual"><scope>restincurl::Worker</scope><name>~Worker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

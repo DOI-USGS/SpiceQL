@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classSpiceQL_1_1CkSegment" kind="class" language="C++" prot="public">
+    <compoundname>SpiceQL::CkSegment</compoundname>
+    <includes refid="io_8h" local="no">io.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classSpiceQL_1_1CkSegment_1af9e7b7458addd63dd2f74c1f6af4755c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SpiceQL::CkSegment::CkSegment</definition>
+        <argsstring>(std::vector&lt; std::vector&lt; double &gt; &gt; quats, std::vector&lt; double &gt; times, int bodyCode, std::string referenceFrame, std::string segmentId, std::vector&lt; std::vector&lt; double &gt; &gt; angularVelocities={}, std::string comment=&quot;&quot;)</argsstring>
+        <name>CkSegment</name>
+        <qualifiedname>SpiceQL::CkSegment::CkSegment</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::vector&lt; double &gt; &gt;</type>
+          <declname>quats</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt;</type>
+          <declname>times</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>bodyCode</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>referenceFrame</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>segmentId</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::vector&lt; double &gt; &gt;</type>
+          <declname>angularVelocities</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>comment</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructs a fully populated <ref refid="classSpiceQL_1_1SpkSegment" kindref="compound">SpkSegment</ref> <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>quats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time ordered vector of orientations as quaternions </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>times</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>times for the CK segment in ascending order </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bodyCode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Naif body code of an object whose state is described by the segments </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>referenceFrame</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Naif name of the reference system relative to which the state is </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>segmentId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SPK segment identifier (max size 40) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>angularVelocities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time ordered vector of state velocities dX, dY, dZ </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>comment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The comment string for the new segment </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/io.h" line="90" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>C++ object repersenting NAIF spice CK Segment and it&apos;s metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>CK kernels consist of multiple CK segments. These specifically define a type 3 CK segment which consists of two parallel arrays of ephemeris times and orientations as SPICE quaternions.</para>
+<para><simplesect kind="see"><para>: <ulink url="https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/q2m_c.html">https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/q2m_c.html</ulink> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/io.h" line="77" column="3" bodyfile="SpiceQL/include/SpiceQL/io.h" bodystart="77" bodyend="104"/>
+    <listofallmembers>
+      <member refid="classSpiceQL_1_1CkSegment_1af9e7b7458addd63dd2f74c1f6af4755c" prot="public" virt="non-virtual"><scope>SpiceQL::CkSegment</scope><name>CkSegment</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

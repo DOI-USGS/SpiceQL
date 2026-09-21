@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="dir_cc120b4ae31b5f0fa5dca546483b1a7b" kind="dir">
+    <compoundname>SpiceQL</compoundname>
+    <innerdir refid="dir_e40c79f4f542c4f82d8820babbacb572">SpiceQL/include</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="SpiceQL/"/>
+  </compounddef>
+</doxygen>

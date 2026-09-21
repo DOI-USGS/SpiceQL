@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="namespacerestincurl" kind="namespace" language="C++">
+    <compoundname>restincurl</compoundname>
+    <innerclass refid="structrestincurl_1_1Result" prot="public">restincurl::Result</innerclass>
+    <innerclass refid="classrestincurl_1_1Exception" prot="public">restincurl::Exception</innerclass>
+    <innerclass refid="classrestincurl_1_1SystemException" prot="public">restincurl::SystemException</innerclass>
+    <innerclass refid="classrestincurl_1_1CurlException" prot="public">restincurl::CurlException</innerclass>
+    <innerclass refid="classrestincurl_1_1EasyHandle" prot="public">restincurl::EasyHandle</innerclass>
+    <innerclass refid="classrestincurl_1_1Options" prot="public">restincurl::Options</innerclass>
+    <innerclass refid="structrestincurl_1_1DataHandlerBase" prot="public">restincurl::DataHandlerBase</innerclass>
+    <innerclass refid="structrestincurl_1_1InDataHandler" prot="public">restincurl::InDataHandler</innerclass>
+    <innerclass refid="structrestincurl_1_1OutDataHandler" prot="public">restincurl::OutDataHandler</innerclass>
+    <innerclass refid="classrestincurl_1_1Request" prot="public">restincurl::Request</innerclass>
+    <innerclass refid="classrestincurl_1_1Signaler" prot="public">restincurl::Signaler</innerclass>
+    <innerclass refid="classrestincurl_1_1TlsLocker" prot="public">restincurl::TlsLocker</innerclass>
+    <innerclass refid="classrestincurl_1_1Worker" prot="public">restincurl::Worker</innerclass>
+    <innerclass refid="classrestincurl_1_1RequestBuilder" prot="public">restincurl::RequestBuilder</innerclass>
+    <innerclass refid="classrestincurl_1_1Client" prot="public">restincurl::Client</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="restincurl_8h_1a83e558e1356e2e9c96a955fcac64b3e8" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RequestType</name>
+        <qualifiedname>restincurl::RequestType</qualifiedname>
+        <enumvalue id="restincurl_8h_1a83e558e1356e2e9c96a955fcac64b3e8a7528035a93ee69cedb1dbddb2f0bfcc8" prot="public">
+          <name>GET</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="restincurl_8h_1a83e558e1356e2e9c96a955fcac64b3e8a3e75383a5992a6d15fb81e872e46e256" prot="public">
+          <name>PUT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="restincurl_8h_1a83e558e1356e2e9c96a955fcac64b3e8aa02439ec229d8be0e74b0c1602392310" prot="public">
+          <name>POST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="restincurl_8h_1a83e558e1356e2e9c96a955fcac64b3e8ae15e216fc1c639f787b1231ecdfa1bf8" prot="public">
+          <name>HEAD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="restincurl_8h_1a83e558e1356e2e9c96a955fcac64b3e8a32f68a60cef40faedbc6af20298c1a1e" prot="public">
+          <name>DELETE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="restincurl_8h_1a83e558e1356e2e9c96a955fcac64b3e8a63bc9a3997d66d835d9f3ec29451407d" prot="public">
+          <name>PATCH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="restincurl_8h_1a83e558e1356e2e9c96a955fcac64b3e8a164dd62adb30ca051b5289672a572f9b" prot="public">
+          <name>OPTIONS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="restincurl_8h_1a83e558e1356e2e9c96a955fcac64b3e8abd0c3fc859e1b1b28e15d4c705b2e6c8" prot="public">
+          <name>POST_MIME</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="restincurl_8h_1a83e558e1356e2e9c96a955fcac64b3e8accc0377a8afbf50e7094f5c23a8af223" prot="public">
+          <name>INVALID</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="278" column="5" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="278" bodyend="278"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="restincurl_8h_1aa3f7a421cd6d92b4cc847e87a4b4b50f" prot="public" static="no">
+        <type>std::lock_guard&lt; std::mutex &gt;</type>
+        <definition>using restincurl::lock_t = std::lock_guard&lt;std::mutex&gt;</definition>
+        <argsstring></argsstring>
+        <name>lock_t</name>
+        <qualifiedname>restincurl::lock_t</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="237" column="5" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="restincurl_8h_1abefa90cbb340ddfe8752aaa0a5b5b8dc" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structrestincurl_1_1Result" kindref="compound">Result</ref> &amp;result)&gt;</type>
+        <definition>using restincurl::completion_fn_t = std::function&lt;void (const Result&amp; result)&gt;</definition>
+        <argsstring></argsstring>
+        <name>completion_fn_t</name>
+        <qualifiedname>restincurl::completion_fn_t</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Completion debug_callback</para>
+<para>This callback is called when a request completes, or fails.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The result of the request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="286" column="5" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/restincurl.h" line="197" column="1"/>
+  </compounddef>
+</doxygen>

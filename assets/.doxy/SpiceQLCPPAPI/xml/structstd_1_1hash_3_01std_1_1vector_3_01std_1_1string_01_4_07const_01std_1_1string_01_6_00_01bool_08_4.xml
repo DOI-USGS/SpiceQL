@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_07const_01std_1_1string_01_6_00_01bool_08_4" kind="struct" language="C++" prot="public">
+    <compoundname>std::hash&lt; std::vector&lt; std::string &gt;(const std::string &amp;, bool)&gt;</compoundname>
+    <templateparamlist>
+    </templateparamlist>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_07const_01std_1_1string_01_6_00_01bool_08_4_1adc616244c1b8a9602d837cbe360baaf8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t std::hash&lt; std::vector&lt; std::string &gt;(const std::string &amp;, bool)&gt;::operator()</definition>
+        <argsstring>(const auto &amp;x) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>std::hash&lt; std::vector&lt; std::string &gt;(const std::string &amp;, bool)&gt;::operator()</qualifiedname>
+        <param>
+          <type>const auto &amp;</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/memo.h" line="265" column="12" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="265" bodyend="267"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/memo.h" line="264" column="13" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="264" bodyend="268"/>
+    <listofallmembers>
+      <member refid="structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_07const_01std_1_1string_01_6_00_01bool_08_4_1adc616244c1b8a9602d837cbe360baaf8" prot="public" virt="non-virtual"><scope>std::hash&lt; std::vector&lt; std::string &gt;(const std::string &amp;, bool)&gt;</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classrestincurl_1_1Options" kind="class" language="C++" prot="public">
+    <compoundname>restincurl::Options</compoundname>
+    <includes refid="restincurl_8h" local="no">restincurl.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classrestincurl_1_1Options_1adbac1997d3832dc62f9c649525b3c4cf" prot="private" static="no" mutable="no">
+        <type><ref refid="classrestincurl_1_1EasyHandle" kindref="compound">EasyHandle</ref> &amp;</type>
+        <definition>EasyHandle&amp; restincurl::Options::eh_</definition>
+        <argsstring></argsstring>
+        <name>eh_</name>
+        <qualifiedname>restincurl::Options::eh_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="384" column="20" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="384" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrestincurl_1_1Options_1a290b86c8e82548c2c8dcad0e5efaa413" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>restincurl::Options::Options</definition>
+        <argsstring>(EasyHandle &amp;eh)</argsstring>
+        <name>Options</name>
+        <qualifiedname>restincurl::Options::Options</qualifiedname>
+        <param>
+          <type><ref refid="classrestincurl_1_1EasyHandle" kindref="compound">EasyHandle</ref> &amp;</type>
+          <declname>eh</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="357" column="9" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="357" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Options_1a0c349f867de530c83712440287fbc620" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>Options &amp;</type>
+        <definition>Options &amp; restincurl::Options::Set</definition>
+        <argsstring>(const CURLoption &amp;opt, const T &amp;value)</argsstring>
+        <name>Set</name>
+        <qualifiedname>restincurl::Options::Set</qualifiedname>
+        <param>
+          <type>const CURLoption &amp;</type>
+          <declname>opt</declname>
+        </param>
+        <param>
+          <type>const T &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set an option</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>opt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CURLoption enum to change </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value to set </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="365" column="17" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="365" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classrestincurl_1_1Options_1a061175be26c50d62f701e21ca49eb35f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Options &amp;</type>
+        <definition>Options &amp; restincurl::Options::Set</definition>
+        <argsstring>(const CURLoption &amp;opt, const std::string &amp;value)</argsstring>
+        <name>Set</name>
+        <qualifiedname>restincurl::Options::Set</qualifiedname>
+        <param>
+          <type>const CURLoption &amp;</type>
+          <declname>opt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set an option</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>opt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CURLoption enum to change </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String value to set </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/restincurl.h" line="379" column="17" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="379" bodyend="381"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Curl option wrapper class</para>
+<para>This is just a thin C++ wrapper over Curl&apos;s <computeroutput>curl_easy_setopt()</computeroutput> method. </para>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/restincurl.h" line="355" column="5" bodyfile="SpiceQL/include/SpiceQL/restincurl.h" bodystart="355" bodyend="385"/>
+    <listofallmembers>
+      <member refid="classrestincurl_1_1Options_1adbac1997d3832dc62f9c649525b3c4cf" prot="private" virt="non-virtual"><scope>restincurl::Options</scope><name>eh_</name></member>
+      <member refid="classrestincurl_1_1Options_1a290b86c8e82548c2c8dcad0e5efaa413" prot="public" virt="non-virtual"><scope>restincurl::Options</scope><name>Options</name></member>
+      <member refid="classrestincurl_1_1Options_1a0c349f867de530c83712440287fbc620" prot="public" virt="non-virtual"><scope>restincurl::Options</scope><name>Set</name></member>
+      <member refid="classrestincurl_1_1Options_1a061175be26c50d62f701e21ca49eb35f" prot="public" virt="non-virtual"><scope>restincurl::Options</scope><name>Set</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
