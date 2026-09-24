@@ -536,3 +536,77 @@ def test_searchForKernelsets_returns_expected_kernels():
         })
     assert response.status_code == 200
     assert response.json()["body"]["return"] == expected_return
+
+
+# ---------------------------------------------------------------------------
+# CORS
+#
+# These assert the one thing a browser checks and nothing else in the stack can
+# supply: the load balancer forwards responses untouched, so if the middleware in
+# main.py stops sending these headers, every fetch() from a page on another origin
+# fails while curl and pyspiceql keep working. That is the failure this guards.
+# ---------------------------------------------------------------------------
+
+BROWSER_ORIGIN = "https://doi-usgs.github.io"
+
+
+def test_cors_allows_a_cross_origin_get():
+    # A GET with no custom headers is a "simple request": no preflight, so the
+    # allow-origin header has to be on the response to the GET itself.
+    with patch("pyspiceql.utcToEt", return_value=(-43135.816087188054, LSK_KERNELS)):
+        response = client.get(
+            "/utcToEt",
+            params={"utc": "2000-01-01T00:00:00"},
+            headers={"Origin": BROWSER_ORIGIN},
+        )
+    assert response.status_code == 200
+    assert response.headers["access-control-allow-origin"] == "*"
+
+
+def test_cors_preflight_is_answered_for_a_json_post():
+    # The POST endpoints take a JSON body, which browsers preflight. The
+    # middleware answers OPTIONS itself, so this needs no pyspiceql patching.
+    response = client.options(
+        "/getTargetStates",
+        headers={
+            "Origin": BROWSER_ORIGIN,
+            "Access-Control-Request-Method": "POST",
+            "Access-Control-Request-Headers": "content-type",
+        },
+    )
+    assert response.status_code == 200
+    assert response.headers["access-control-allow-origin"] == "*"
+    assert "POST" in response.headers["access-control-allow-methods"]
+    assert "content-type" in response.headers["access-control-allow-headers"].lower()
+
+
+def test_cors_origins_are_configurable():
+    # SPICEQL_CORS_ORIGINS narrows the allow-list. Read at import time, so this
+    # builds a second app rather than reaching into the running one.
+    import importlib
+    import os as _os
+    from fastapi.testclient import TestClient as _TestClient
+
+    _os.environ["SPICEQL_CORS_ORIGINS"] = f"{BROWSER_ORIGIN}, https://astrogeology.usgs.gov"
+    try:
+        from . import main as main_module
+        reloaded = importlib.reload(main_module)
+        narrowed = _TestClient(reloaded.app)
+        with patch("pyspiceql.utcToEt", return_value=(-43135.816087188054, LSK_KERNELS)):
+            allowed = narrowed.get(
+                "/utcToEt",
+                params={"utc": "2000-01-01T00:00:00"},
+                headers={"Origin": BROWSER_ORIGIN},
+            )
+            refused = narrowed.get(
+                "/utcToEt",
+                params={"utc": "2000-01-01T00:00:00"},
+                headers={"Origin": "https://not-allowed.example"},
+            )
+        # An origin on the list is echoed back rather than wildcarded; one that is
+        # not gets no header at all, which is what makes the browser refuse it.
+        assert allowed.headers["access-control-allow-origin"] == BROWSER_ORIGIN
+        assert "access-control-allow-origin" not in refused.headers
+    finally:
+        del _os.environ["SPICEQL_CORS_ORIGINS"]
+        importlib.reload(main_module)

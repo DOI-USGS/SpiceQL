@@ -4,6 +4,7 @@ from .models import *
 
 from typing import Annotated
 from fastapi import FastAPI, Depends, Body
+from fastapi.middleware.cors import CORSMiddleware
 from importlib.metadata import version, PackageNotFoundError
 import os
 import pyspiceql
@@ -36,6 +37,25 @@ app = FastAPI(
         "url": "https://github.com/DOI-USGS/SpiceQL/blob/main/LICENSE.md",
     },
 )
+
+# ---------------------------------------------------------------------------
+# CORS
+_cors_origins = [
+    origin.strip()
+    for origin in os.environ.get("SPICEQL_CORS_ORIGINS", "*").split(",")
+    if origin.strip()
+]
+logger.info(f"CORS allowed origins: {_cors_origins}")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=_cors_origins,
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type"],
+    max_age=86400,
+)
+
 
 @app.get("/")
 async def message():
