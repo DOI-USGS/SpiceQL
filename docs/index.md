@@ -126,7 +126,9 @@ Some functions allow for running over the web, these contain the optional parame
 
 === "downloadIsisData.py"
     
-    `downloadIsisData.py` is a script that downloads from NAIF and USGS sources in parallel. It includes a SpiceQL database. 
+    `downloadIsisData.py` is a script that downloads kernels from NAIF and USGS sources. It includes a SpiceQL database.
+    
+    If you have ISIS, you may have already set up the data area.  If you don't have ISIS, you will need to download the `rclone` program, the `downloadIsisData` script, and ISIS's `rclone.conf`.  See [Downloading ISISDATA](https://astrogeology.usgs.gov/docs/how-to-guides/environment-setup-and-maintenance/isis-data-area/#downloading-isisdata) for more info on the download script, or install as below if you don't have ISIS:
 
     ```bash
     # Install rclone 
