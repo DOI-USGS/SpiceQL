@@ -9,6 +9,7 @@
 #include <SpiceQL/inventoryimpl.h>
 #include <SpiceQL/api.h>
 
+#include <algorithm>
 #include <fstream>
 #include <SpiceQL/spiceql_logging.h>
 #include <highfive/highfive.hpp>
@@ -28,6 +29,48 @@ TEST_F(LroKernelSet, TestInventorySmithed) {
   EXPECT_EQ(kernels["lroc_ck_quality"], "reconstructed");  
   EXPECT_EQ(kernels["lroc_spk_quality"], "smithed");  
 }
+
+TEST_F(LroMocQualityKernelSet, TestInventoryQualityUnion) { 
+  Inventory::create_database();
+  // This window is covered by moc's reconstructed CK (the spacecraft bus) AND by
+  // its smithed one (an LROC tie-point correction). Issue #154: the old search
+  // returned only the better tier, and a smithed CK on its own carries no bus
+  // attitude — so no frame chain could be built and the query failed with
+  // NOFRAMECONNECT even though a usable set existed.
+  nlohmann::json kernels = Inventory::search_for_kernelset("moc", {"ck"}, 110000000, 120000000, 
+                                                           {"smithed", "reconstructed"}, 
+                                                           {"smithed", "reconstructed"}, false);
+  SPDLOG_DEBUG("Union kernels: {}", kernels.dump());
+
+  vector<string> cks;
+  for (auto &e : kernels["ck"]) cks.push_back(fs::path(e.get<string>()).filename());
+
+  // Both tiers, not just the better one.
+  ASSERT_EQ(cks.size(), 2);
+  EXPECT_NE(find(cks.begin(), cks.end(), "moc42r_1111111_1111111_v01.bc"), cks.end());
+  EXPECT_NE(find(cks.begin(), cks.end(), "LROC_NPOLE_2017Merged_Lidar2Image_Left_2012_ck.bc"), cks.end());
+
+  // Load order matters: SPICE prefers the last kernel loaded, so the smithed
+  // correction has to come after the bus CK it corrects.
+  EXPECT_EQ(cks.back(), "LROC_NPOLE_2017Merged_Lidar2Image_Left_2012_ck.bc");
+
+  // The reported quality is the best tier that contributed.
+  EXPECT_EQ(kernels["moc_ck_quality"], "smithed");
+}
+
+
+TEST_F(LroMocQualityKernelSet, TestInventoryQualityUnionSingleTier) { 
+  Inventory::create_database();
+  // Nothing smithed covers this window, so the union is one tier and the answer
+  // is exactly what it was before the union existed.
+  nlohmann::json kernels = Inventory::search_for_kernelset("lroc", {"ck"}, 130000000, 140000000, 
+                                                           {"smithed", "reconstructed"}, 
+                                                           {"smithed", "reconstructed"}, false);
+  ASSERT_EQ(kernels["ck"].size(), 1);
+  EXPECT_EQ(fs::path(kernels["ck"][0]).filename(), "lrolc_1111111_1111111_v11.bc");
+  EXPECT_EQ(kernels["lroc_ck_quality"], "reconstructed");
+}
+
 
 TEST_F(LroKernelSet, TestInventoryRecon) { 
   Inventory::create_database();

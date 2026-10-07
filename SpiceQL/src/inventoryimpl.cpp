@@ -433,7 +433,6 @@ namespace SpiceQL {
       if (type == Kernel::Type::CK || type == Kernel::Type::SPK) { 
         SPDLOG_DEBUG("Trying to search time dependent kernels");
         TimeIndexedKernels *time_indices = nullptr;
-        bool found = false;        
 
         int limitQuality = limit_spk;
         vector<Kernel::Quality> qualities = spkQualities;
@@ -444,20 +443,21 @@ namespace SpiceQL {
           limitQuality = limit_ck;
         } 
 
-        // sort in descending order
-        std::sort(qualities.begin(), qualities.end(), std::greater<>());
+        std::sort(qualities.begin(), qualities.end());
 
-        // iterate down the qualities
-        for(auto quality = qualities.begin(); quality != qualities.end() && !found; ++quality) {
+        // The union across qualities, in load order, plus the best tier that
+        // actually contributed to it — which is what gets reported.
+        vector<string> union_kernels;
+        Kernel::Quality best_quality = Kernel::Quality::NOQUALITY;
+
+        // attempt all requested qualities  
+        for(auto quality = qualities.begin(); quality != qualities.end(); ++quality) {
           string key = spiceql_name+"/"+Kernel::translateType(type)+"/"+Kernel::translateQuality(*quality)+"/";
           SPDLOG_DEBUG("Key: {}", key);
 
           if (m_timedep_kerns.contains(key)) { 
             SPDLOG_DEBUG("Key {} found", key); 
-            
-            // we can get the key 
             time_indices = m_timedep_kerns[key]; 
-            found = true;
           }
           else {
             // try to load the binary files 
@@ -544,36 +544,34 @@ namespace SpiceQL {
           }
 
           if (final_time_kernels.size()) { 
-            found = true;
+            best_quality = *quality;   // ascending, so the last to contribute wins
+
+            vector<string> tier;
             if (limitQuality > -1 && limitQuality < final_time_kernels.size()) { 
-              vector<string> limitedKernels;
               int start_idx = final_time_kernels.size() - 1;
               int stop_idx = start_idx - limitQuality;
               for (auto i = start_idx; i > stop_idx; --i) {
-                if (full_kernel_path) {
-                  limitedKernels.push_back((data_dir / final_time_kernels[i]).string());
-                } else {
-                  limitedKernels.push_back(final_time_kernels[i]);
-                }
+                tier.push_back(final_time_kernels[i]);
               }
-              kernels[Kernel::translateType(type)] = limitedKernels;
-              kernels[qkey] = Kernel::translateQuality(*quality);   
             }
             else { 
-              vector<string> allKernels;
-              if (full_kernel_path) {
-                for(string &e : final_time_kernels) { 
-                  allKernels.push_back((data_dir / e).string());
-                }
-              } else {
-                allKernels = final_time_kernels;
-              }
-              kernels[Kernel::translateType(type)] = allKernels;
-              kernels[qkey] = Kernel::translateQuality(*quality);
+              tier = final_time_kernels;
+            }
+
+            for (string &e : tier) { 
+              union_kernels.push_back(full_kernel_path ? (data_dir / e).string() : e);
             }
           }
           SPDLOG_TRACE("NUMBER OF ITERATIONS: {}", iterations);
           SPDLOG_TRACE("NUMBER OF KERNELS FOUND: {}", final_time_kernels.size());  
+        }
+
+        if (union_kernels.size()) { 
+          kernels[Kernel::translateType(type)] = union_kernels;
+          kernels[qkey] = Kernel::translateQuality(best_quality);
+          SPDLOG_DEBUG("Unioned {} {} kernels across qualities, best quality {}",
+                       union_kernels.size(), Kernel::translateType(type),
+                       Kernel::translateQuality(best_quality));
         }
       }
       else { // text/non time based kernels

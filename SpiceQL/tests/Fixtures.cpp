@@ -347,6 +347,11 @@ void LroKernelSet::SetUp() {
   quats = {{0.3754439, 0.3754439, 0.3754439, -0.7596879}, {-0.5632779, -0.5632779, -0.5632779, 0.21944}};
   writeCk(ckPath2, quats, ckTicks2, bodyCode, referenceFrame, "CK ID 2", avs, "CK2");
 
+  // Subclasses add kernels HERE, not after SetUp returns. SpiceQL memoizes the
+  // directory listing, so anything written later is invisible to the database
+  // this fixture goes on to build — which cost an afternoon to work out.
+  writeExtraKernels();
+
   // Write SPK1 ------------------------------------------
   fs::create_directory(root / "spk");
   spkPath1 = root / "spk" / "LRO_TEST_GRGM660MAT270.bsp";
@@ -475,6 +480,24 @@ void LroKernelSet::SetUp() {
 }
 
 void LroKernelSet::TearDown() {
+}
+
+
+void LroMocQualityKernelSet::writeExtraKernels() {
+  int bodyCode = -85000;
+  std::string referenceFrame = "j2000";
+  std::vector<double> ckTicks1 = {5139381342423.142, 5794741342542.021};
+
+  ckPathMocRecon = root / "ck" / "moc42r_1111111_1111111_v01.bc";
+  std::vector<std::vector<double>> avs = {{7,7,7}, {8,8,8}};
+  std::vector<std::vector<double>> quats = {{0.1, 0.1, 0.1, 0.9848858},
+                                            {0.2, 0.2, 0.2, 0.9380832}};
+  writeCk(ckPathMocRecon, quats, ckTicks1, bodyCode, referenceFrame, "MOC RECON", avs, "MOCR");
+
+  ckPathMocSmithed = root / "ck" / "LROC_NPOLE_2017Merged_Lidar2Image_Left_2012_ck.bc";
+  avs = {{9,9,9}, {10,10,10}};
+  quats = {{0.3, 0.3, 0.3, 0.8660254}, {0.4, 0.4, 0.4, 0.7211103}};
+  writeCk(ckPathMocSmithed, quats, ckTicks1, bodyCode, referenceFrame, "MOC SMITHED", avs, "MOCS");
 }
 
 void TestConfig::SetUp() {

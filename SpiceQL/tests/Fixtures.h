@@ -78,8 +78,29 @@ class LroKernelSet : public TempTestingFiles  {
 
     nlohmann::json conf;
 
+    virtual void writeExtraKernels() {}
+
     void SetUp() override;
     void TearDown() override;
+};
+
+/**
+ * LroKernelSet plus a moc CK in BOTH quality tiers covering one window.
+ *
+ * Separate from LroKernelSet on purpose. Adding kernels to that fixture changes
+ * what every test built on it furnishes — measured, it broke six of them, from
+ * orientation values to loaded-kernel counts — so the quality-union case gets
+ * its own fixture and leaves the shared one alone.
+ */
+class LroMocQualityKernelSet : public LroKernelSet  {
+  protected:
+    // moc reconstructed is the spacecraft bus attitude; moc smithed is an LROC
+    // tie-point correction with no bus attitude in it. That asymmetry is the
+    // whole of issue #154.
+    string ckPathMocRecon;
+    string ckPathMocSmithed;
+
+    void writeExtraKernels() override;
 };
 
 class KernelsWithQualities : public ::testing::Test  {
