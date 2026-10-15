@@ -77,7 +77,6 @@
 * **m\_timedep\_kerns** ([**SpiceQL::InventoryImpl**](classSpiceQL_1_1InventoryImpl.md))
 * **m\_kernels** ([**SpiceQL::KernelSet**](classSpiceQL_1_1KernelSet.md))
 * **m\_loadedKernels** ([**SpiceQL::KernelSet**](classSpiceQL_1_1KernelSet.md))
-* **m\_dependants** ([**SpiceQL::Memo::Cache**](classSpiceQL_1_1Memo_1_1Cache.md))
 * **m\_data** ([**SpiceQL::Memo::Memory**](classSpiceQL_1_1Memo_1_1Memory.md))
 * **m\_fc** ([**SpiceQL::Memo::memoize**](structSpiceQL_1_1Memo_1_1memoize.md))
 * **m\_func** ([**SpiceQL::Memo::memoize**](structSpiceQL_1_1Memo_1_1memoize.md))

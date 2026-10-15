@@ -2,7 +2,7 @@
 
 # Struct SpiceQL::Memo::memoize
 
-**template &lt;typename [**Cache**](classSpiceQL_1_1Memo_1_1Cache.md), typename Function&gt;**
+**template &lt;typename Cache, typename Function&gt;**
 
 
 
@@ -37,7 +37,7 @@
 
 | Type | Name |
 | ---: | :--- |
-|  [**Cache**](classSpiceQL_1_1Memo_1_1Cache.md) | [**m\_fc**](#variable-m_fc)  <br> |
+|  Cache | [**m\_fc**](#variable-m_fc)  <br> |
 |  const Function | [**m\_func**](#variable-m_func)  <br> |
 |  std::string | [**m\_id**](#variable-m_id)  <br> |
 
@@ -60,7 +60,7 @@
 
 | Type | Name |
 | ---: | :--- |
-|   | [**memoize**](#function-memoize) ([**Cache**](classSpiceQL_1_1Memo_1_1Cache.md) & fc, std::string id, const Function & f) <br> |
+|   | [**memoize**](#function-memoize) (Cache & fc, std::string id, const Function & f) <br> |
 |  decltype(std::bind(m\_func, args...)()) | [**operator()**](#function-operator) (Params &&... args) <br> |
 
 

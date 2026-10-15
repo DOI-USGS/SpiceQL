@@ -23,7 +23,6 @@
 * **Config** ([**SpiceQL::Config**](classSpiceQL_1_1Config.md))
 * **contains** ([**SpiceQL::Config**](classSpiceQL_1_1Config.md))
 * **collectFrameInfo** ([**SpiceQL::InventoryImpl**](classSpiceQL_1_1InventoryImpl.md))
-* **Cache** ([**SpiceQL::Memo::Cache**](classSpiceQL_1_1Memo_1_1Cache.md))
 * **Client** ([**restincurl::Client**](classrestincurl_1_1Client.md))
 * **Close** ([**restincurl::Client**](classrestincurl_1_1Client.md), [**restincurl::EasyHandle**](classrestincurl_1_1EasyHandle.md), [**restincurl::Worker**](classrestincurl_1_1Worker.md))
 * **CloseWhenFinished** ([**restincurl::Client**](classrestincurl_1_1Client.md), [**restincurl::Worker**](classrestincurl_1_1Worker.md))
@@ -137,7 +136,7 @@
 ## o
 
 * **operator[]** ([**SpiceQL::Config**](classSpiceQL_1_1Config.md))
-* **operator()** ([**SpiceQL::Memo::Cache**](classSpiceQL_1_1Memo_1_1Cache.md), [**SpiceQL::Memo::Memory**](classSpiceQL_1_1Memo_1_1Memory.md), [**SpiceQL::Memo::memoize**](structSpiceQL_1_1Memo_1_1memoize.md), [**std::hash&lt; std::vector&lt; std::string &gt; &gt;**](structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_01_4.md), [**std::hash&lt; std::vector&lt; std::string &gt;(const std::string &, bool)&gt;**](structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_07const_01std_1_1string_01_6_00_01bool_08_4.md))
+* **operator()** ([**SpiceQL::Memo::Memory**](classSpiceQL_1_1Memo_1_1Memory.md), [**SpiceQL::Memo::memoize**](structSpiceQL_1_1Memo_1_1memoize.md), [**std::hash&lt; std::vector&lt; std::string &gt; &gt;**](structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_01_4.md), [**std::hash&lt; std::vector&lt; std::string &gt;(const std::string &, bool)&gt;**](structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_07const_01std_1_1string_01_6_00_01bool_08_4.md))
 * **operator handle\_t** ([**restincurl::EasyHandle**](classrestincurl_1_1EasyHandle.md))
 * **Options** ([**restincurl::Options**](classrestincurl_1_1Options.md), [**restincurl::RequestBuilder**](classrestincurl_1_1RequestBuilder.md))
 * **OutDataHandler** ([**restincurl::OutDataHandler**](structrestincurl_1_1OutDataHandler.md))
@@ -202,7 +201,6 @@
 ## u
 
 * **unload** ([**SpiceQL::KernelSet**](classSpiceQL_1_1KernelSet.md))
-* **use\_disk\_cache** ([**SpiceQL::Memo::Cache**](classSpiceQL_1_1Memo_1_1Cache.md))
 * **unlock** ([**restincurl::TlsLocker**](classrestincurl_1_1TlsLocker.md))
 
 

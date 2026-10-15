@@ -710,21 +710,12 @@
 <p><a href="../memo_8h_source/">Go to the source code of this file</a></p>
 <ul>
 <li><code>#include &lt;map&gt;</code></li>
-<li><code>#include &lt;fstream&gt;</code></li>
 <li><code>#include &lt;utility&gt;</code></li>
 <li><code>#include &lt;functional&gt;</code></li>
 <li><code>#include &lt;any&gt;</code></li>
 <li><code>#include &lt;string&gt;</code></li>
-<li><code>#include &lt;chrono&gt;</code></li>
-<li><code>#include &lt;iomanip&gt;</code></li>
 <li><code>#include &lt;ghc/fs_std.hpp&gt;</code></li>
 <li><code>#include &lt;SpiceQL/spiceql_logging.h&gt;</code></li>
-<li><code>#include &lt;cereal/archives/binary.hpp&gt;</code></li>
-<li><code>#include &lt;cereal/archives/portable_binary.hpp&gt;</code></li>
-<li><code>#include &lt;cereal/types/vector.hpp&gt;</code></li>
-<li><code>#include &lt;cereal/types/string.hpp&gt;</code></li>
-<li><code>#include &lt;cereal/types/utility.hpp&gt;</code></li>
-<li><code>#include &lt;cereal/archives/json.hpp&gt;</code></li>
 <li><code>#include &lt;SpiceQL/memoized_functions.h&gt;</code></li>
 </ul>
 <h2 id="namespaces">Namespaces</h2>
@@ -761,15 +752,11 @@
 <tbody>
 <tr>
 <td style="text-align: right;">class</td>
-<td style="text-align: left;"><a href="../classSpiceQL_1_1Memo_1_1Cache/"><strong>Cache</strong></a> <br></td>
-</tr>
-<tr>
-<td style="text-align: right;">class</td>
 <td style="text-align: left;"><a href="../classSpiceQL_1_1Memo_1_1Memory/"><strong>Memory</strong></a> <br></td>
 </tr>
 <tr>
 <td style="text-align: right;">struct</td>
-<td style="text-align: left;"><a href="../structSpiceQL_1_1Memo_1_1memoize/"><strong>memoize</strong></a> &lt;typename <a href="../classSpiceQL_1_1Memo_1_1Cache/"><strong>Cache</strong></a>, typename Function&gt;<br></td>
+<td style="text-align: left;"><a href="../structSpiceQL_1_1Memo_1_1memoize/"><strong>memoize</strong></a> &lt;typename Cache, typename Function&gt;<br></td>
 </tr>
 <tr>
 <td style="text-align: right;">struct</td>
@@ -804,7 +791,7 @@
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="p">...</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">)</span><span class="w"> </span><span class="err">`</span><span class="n">cache</span><span class="p">(</span><span class="err">#</span><span class="n">func</span><span class="p">,</span><span class="w"> </span><span class="n">func</span><span class="p">,</span><span class="w"> </span><span class="n">__VA_ARGS__</span><span class="p">)</span><span class="err">`</span>
 </code></pre></div>
-<p>Implements an almost transparent disk cache/memoization for C++ functions.</p>
+<p>Almost transparent in-memory memoization for C++ functions.</p>
 <p>Originally adapted from: <a href="https://github.com/temporaer/cached_function">https://github.com/temporaer/cached_function</a> </p>
 <hr>
 

@@ -10,7 +10,6 @@ This inheritance list is sorted roughly, but not completely, alphabetically:
 * **class** [**SpiceQL::InventoryImpl**](classSpiceQL_1_1InventoryImpl.md) 
 * **class** [**SpiceQL::Kernel**](classSpiceQL_1_1Kernel.md) _Base_ [_**Kernel**_](classSpiceQL_1_1Kernel.md) _class._
 * **class** [**SpiceQL::KernelSet**](classSpiceQL_1_1KernelSet.md) _Class for furnishing kernels in bulk._ 
-* **class** [**SpiceQL::Memo::Cache**](classSpiceQL_1_1Memo_1_1Cache.md) 
 * **class** [**SpiceQL::Memo::Memory**](classSpiceQL_1_1Memo_1_1Memory.md) 
 * **class** [**SpiceQL::SpkSegment**](classSpiceQL_1_1SpkSegment.md) _C++ object repersenting NAIF spice SPK Segment and it's metadata._ 
 * **class** [**SpiceQL::TimeIndexedKernels**](classSpiceQL_1_1TimeIndexedKernels.md) 

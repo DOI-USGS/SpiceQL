@@ -48,7 +48,6 @@
 * **getFrameCodeFromCache** ([**SpiceQL::Inventory**](namespaceSpiceQL_1_1Inventory.md))
 * **getFrameList** ([**SpiceQL::Inventory**](namespaceSpiceQL_1_1Inventory.md))
 * **getFrameNameFromCache** ([**SpiceQL::Inventory**](namespaceSpiceQL_1_1Inventory.md))
-* **getCacheDir** ([**SpiceQL::Memo**](namespaceSpiceQL_1_1Memo.md), [**SpiceQL**](namespaceSpiceQL.md))
 * **getPathsFromRegex** ([**SpiceQL::Memo**](namespaceSpiceQL_1_1Memo.md), [**SpiceQL**](namespaceSpiceQL.md))
 * **getTimeIntervals** ([**SpiceQL::Memo**](namespaceSpiceQL_1_1Memo.md), [**SpiceQL**](namespaceSpiceQL.md))
 * **globTimeIntervals** ([**SpiceQL::Memo**](namespaceSpiceQL_1_1Memo.md), [**SpiceQL**](namespaceSpiceQL.md))
@@ -57,6 +56,7 @@
 * **getAliasMapJsonFile** ([**SpiceQL**](namespaceSpiceQL.md))
 * **getAvailableConfigFiles** ([**SpiceQL**](namespaceSpiceQL.md))
 * **getAvailableConfigs** ([**SpiceQL**](namespaceSpiceQL.md))
+* **getCacheDir** ([**SpiceQL**](namespaceSpiceQL.md))
 * **getConfigDirectory** ([**SpiceQL**](namespaceSpiceQL.md))
 * **getDataDirectory** ([**SpiceQL**](namespaceSpiceQL.md))
 * **getDefaultLsk** ([**SpiceQL**](namespaceSpiceQL.md))
@@ -92,7 +92,6 @@
 
 ## h
 
-* **has\_cache\_expired** ([**SpiceQL::Memo**](namespaceSpiceQL_1_1Memo.md))
 * **hash\_combine** ([**SpiceQL::Memo**](namespaceSpiceQL_1_1Memo.md))
 
 
@@ -160,8 +159,6 @@
 
 ## t
 
-* **time\_from\_str** ([**SpiceQL::Memo**](namespaceSpiceQL_1_1Memo.md))
-* **to\_time\_t** ([**SpiceQL::Memo**](namespaceSpiceQL_1_1Memo.md))
 * **toLower** ([**SpiceQL**](namespaceSpiceQL.md))
 * **toUpper** ([**SpiceQL**](namespaceSpiceQL.md))
 * **translateCodeToName** ([**SpiceQL**](namespaceSpiceQL.md))

@@ -2,7 +2,6 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
   <compounddef id="namespaceSpiceQL_1_1Memo" kind="namespace" language="C++">
     <compoundname>SpiceQL::Memo</compoundname>
-    <innerclass refid="classSpiceQL_1_1Memo_1_1Cache" prot="public">SpiceQL::Memo::Cache</innerclass>
     <innerclass refid="classSpiceQL_1_1Memo_1_1Memory" prot="public">SpiceQL::Memo::Memory</innerclass>
     <innerclass refid="structSpiceQL_1_1Memo_1_1memoize" prot="public">SpiceQL::Memo::memoize</innerclass>
     <sectiondef kind="func">
@@ -31,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/memo.h" line="37" column="19" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="37" bodyend="44"/>
+        <location file="SpiceQL/include/SpiceQL/memo.h" line="27" column="19" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="27" bodyend="34"/>
       </memberdef>
       <memberdef kind="function" id="memo_8h_1a21657908eba7604106a80459145bf916" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>size_t</type>
@@ -49,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/memo.h" line="46" column="19" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="46" bodyend="48"/>
+        <location file="SpiceQL/include/SpiceQL/memo.h" line="36" column="19" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="36" bodyend="38"/>
       </memberdef>
       <memberdef kind="function" id="memo_8h_1ae739f9aeb36f39672e4f5c6a2c1ca48a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <templateparamlist>
@@ -85,84 +84,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/memo.h" line="51" column="19" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="51" bodyend="54"/>
-      </memberdef>
-      <memberdef kind="function" id="memo_8h_1ae1a9dbee2744940c32c45044828cffcb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <templateparamlist>
-          <param>
-            <type>typename TP</type>
-          </param>
-        </templateparamlist>
-        <type>std::time_t</type>
-        <definition>std::time_t SpiceQL::Memo::to_time_t</definition>
-        <argsstring>(TP tp)</argsstring>
-        <name>to_time_t</name>
-        <qualifiedname>SpiceQL::Memo::to_time_t</qualifiedname>
-        <param>
-          <type>TP</type>
-          <declname>tp</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/memo.h" line="57" column="24" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="57" bodyend="62"/>
-      </memberdef>
-      <memberdef kind="function" id="memo_8h_1a3382a06d971aa3b688cc6ed2409a5856" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type>std::time_t</type>
-        <definition>std::time_t SpiceQL::Memo::time_from_str</definition>
-        <argsstring>(std::string time)</argsstring>
-        <name>time_from_str</name>
-        <qualifiedname>SpiceQL::Memo::time_from_str</qualifiedname>
-        <param>
-          <type>std::string</type>
-          <declname>time</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/memo.h" line="65" column="24" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="65" bodyend="74"/>
-      </memberdef>
-      <memberdef kind="function" id="memo_8h_1a6fba3c0612165e55489418e3bf645bd8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type>bool</type>
-        <definition>bool SpiceQL::Memo::has_cache_expired</definition>
-        <argsstring>(time_t latest, std::vector&lt; std::string &gt; files)</argsstring>
-        <name>has_cache_expired</name>
-        <qualifiedname>SpiceQL::Memo::has_cache_expired</qualifiedname>
-        <param>
-          <type>time_t</type>
-          <declname>latest</declname>
-        </param>
-        <param>
-          <type>std::vector&lt; std::string &gt;</type>
-          <declname>files</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/memo.h" line="77" column="17" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="77" bodyend="95"/>
-      </memberdef>
-      <memberdef kind="function" id="memo_8h_1a33542cf6280b29d0983964d58cae3929" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type>std::string</type>
-        <definition>std::string SpiceQL::Memo::getCacheDir</definition>
-        <argsstring>()</argsstring>
-        <name>getCacheDir</name>
-        <qualifiedname>SpiceQL::Memo::getCacheDir</qualifiedname>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/memo.h" line="98" column="24" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="98" bodyend="127"/>
+        <location file="SpiceQL/include/SpiceQL/memo.h" line="41" column="19" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="41" bodyend="44"/>
       </memberdef>
       <memberdef kind="function" id="memo_8h_1ab43c19f54a43e747785199b8785ce7b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -173,13 +95,13 @@
             <type>typename Function</type>
           </param>
         </templateparamlist>
-        <type><ref refid="structSpiceQL_1_1Memo_1_1memoize" kindref="compound">memoize</ref>&lt; <ref refid="classSpiceQL_1_1Memo_1_1Cache" kindref="compound">Cache</ref>, Function &gt;</type>
+        <type><ref refid="structSpiceQL_1_1Memo_1_1memoize" kindref="compound">memoize</ref>&lt; Cache, Function &gt;</type>
         <definition>memoize&lt; Cache, Function &gt; SpiceQL::Memo::make_memoized</definition>
         <argsstring>(Cache &amp;fc, const std::string &amp;id, Function f)</argsstring>
         <name>make_memoized</name>
         <qualifiedname>SpiceQL::Memo::make_memoized</qualifiedname>
         <param>
-          <type><ref refid="classSpiceQL_1_1Memo_1_1Cache" kindref="compound">Cache</ref> &amp;</type>
+          <type>Cache &amp;</type>
           <declname>fc</declname>
         </param>
         <param>
@@ -196,7 +118,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/memo.h" line="254" column="5" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="254" bodyend="257"/>
+        <location file="SpiceQL/include/SpiceQL/memo.h" line="98" column="5" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="98" bodyend="101"/>
       </memberdef>
       <memberdef kind="function" id="memoized__functions_8h_1aa5ecdc36ec05130c577f31c6e74e8ec9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -324,6 +246,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="SpiceQL/include/SpiceQL/memo.h" line="34" column="1"/>
+    <location file="SpiceQL/include/SpiceQL/memo.h" line="24" column="1"/>
   </compounddef>
 </doxygen>

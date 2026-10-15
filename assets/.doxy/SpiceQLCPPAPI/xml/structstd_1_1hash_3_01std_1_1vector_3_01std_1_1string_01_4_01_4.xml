@@ -21,14 +21,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/memo.h" line="274" column="17" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="274" bodyend="282"/>
+        <location file="SpiceQL/include/SpiceQL/memo.h" line="118" column="17" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="118" bodyend="126"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="SpiceQL/include/SpiceQL/memo.h" line="272" column="1" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="273" bodyend="283"/>
+    <location file="SpiceQL/include/SpiceQL/memo.h" line="116" column="1" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="117" bodyend="127"/>
     <listofallmembers>
       <member refid="structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_01_4_1afd05e2761c39d74393c9b0360054c3c1" prot="public" virt="non-virtual"><scope>std::hash&lt; std::vector&lt; std::string &gt; &gt;</scope><name>operator()</name></member>
     </listofallmembers>

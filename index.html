@@ -903,7 +903,8 @@
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">downloadIsisData.py</label><label for="__tabbed_3_2">Direct from NAIF</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p><code>downloadIsisData.py</code> is a script that downloads from NAIF and USGS sources in parallel. It includes a SpiceQL database. </p>
+<p><code>downloadIsisData.py</code> is a script that downloads kernels from NAIF and USGS sources. It includes a SpiceQL database.</p>
+<p>If you have ISIS, you may have already set up the data area.  If you don't have ISIS, you will need to download the <code>rclone</code> program, the <code>downloadIsisData</code> script, and ISIS's <code>rclone.conf</code>.  See <a href="https://astrogeology.usgs.gov/docs/how-to-guides/environment-setup-and-maintenance/isis-data-area/#downloading-isisdata">Downloading ISISDATA</a> for more info on the download script, or install as below if you don't have ISIS:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Install rclone </span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>mamba<span class="w"> </span>install<span class="w"> </span>rclone
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>

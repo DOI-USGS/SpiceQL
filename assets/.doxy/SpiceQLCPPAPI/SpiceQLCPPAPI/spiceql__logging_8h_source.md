@@ -30,6 +30,8 @@
 #include <fmt/format.h>
 #include <fmt/ranges.h>
 
+#include <cctype>
+#include <cstddef>
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -43,13 +45,20 @@ namespace SpiceQL {
   // Map a SPICEQL_LOG_LEVEL string to a level. Unknown values fall back to the
   // default (warning).
   inline LogLevel parseLogLevel(const std::string &s) {
-    if (s == "trace")                  return LogLevel::Trace;
-    if (s == "debug")                  return LogLevel::Debug;
-    if (s == "info")                   return LogLevel::Info;
-    if (s == "warn" || s == "warning") return LogLevel::Warn;
-    if (s == "error" || s == "err")    return LogLevel::Error;
-    if (s == "critical")               return LogLevel::Critical;
-    if (s == "off")                    return LogLevel::Off;
+    std::string lowered(s.size(), '\0');
+    for (std::size_t i = 0; i < s.size(); i++) {
+      // Via unsigned char: passing a negative char to std::tolower is undefined,
+      // which a non-ASCII value in the environment would do.
+      lowered[i] = static_cast<char>(std::tolower(static_cast<unsigned char>(s[i])));
+    }
+
+    if (lowered == "trace")                            return LogLevel::Trace;
+    if (lowered == "debug")                            return LogLevel::Debug;
+    if (lowered == "info")                             return LogLevel::Info;
+    if (lowered == "warn" || lowered == "warning")     return LogLevel::Warn;
+    if (lowered == "error" || lowered == "err")        return LogLevel::Error;
+    if (lowered == "critical")                         return LogLevel::Critical;
+    if (lowered == "off")                              return LogLevel::Off;
     return LogLevel::Warn;
   }
 

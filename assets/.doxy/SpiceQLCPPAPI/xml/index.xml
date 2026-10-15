@@ -14,14 +14,6 @@
     <member refid="classSpiceQL_1_1AliasMap_1aacbc7c48c36b4744fc2e2500e0ee5586" kind="function"><name>ensure_init</name></member>
     <member refid="classSpiceQL_1_1AliasMap_1a367d14ab841ddd3122c095d4f2ee319a" kind="function"><name>load_internal</name></member>
   </compound>
-  <compound refid="classSpiceQL_1_1Memo_1_1Cache" kind="class"><name>SpiceQL::Memo::Cache</name>
-    <member refid="classSpiceQL_1_1Memo_1_1Cache_1a1a0570a5cafb83b1480e94fac47583fa" kind="variable"><name>m_dependants</name></member>
-    <member refid="classSpiceQL_1_1Memo_1_1Cache_1a2b5519554b2fd619eb275e60695d9797" kind="function"><name>Cache</name></member>
-    <member refid="classSpiceQL_1_1Memo_1_1Cache_1a9aa5a5026871aa150ae3acb64f1c7dc8" kind="function"><name>operator()</name></member>
-    <member refid="classSpiceQL_1_1Memo_1_1Cache_1a67fd9dc0fb6adf0f147b7f670e6a7a94" kind="function"><name>operator()</name></member>
-    <member refid="classSpiceQL_1_1Memo_1_1Cache_1a4a6e3f584ec37005a9ca0b601b044c88" kind="function"><name>operator()</name></member>
-    <member refid="classSpiceQL_1_1Memo_1_1Cache_1a8e347d024685645454625fea82776fdd" kind="function"><name>use_disk_cache</name></member>
-  </compound>
   <compound refid="classSpiceQL_1_1CkSegment" kind="class"><name>SpiceQL::CkSegment</name>
     <member refid="classSpiceQL_1_1CkSegment_1af9e7b7458addd63dd2f74c1f6af4755c" kind="function"><name>CkSegment</name></member>
   </compound>
@@ -492,10 +484,6 @@
     <member refid="memo_8h_1a20c1663bd3502faebacea47bb545ba3d" kind="function"><name>_hash_combine</name></member>
     <member refid="memo_8h_1a21657908eba7604106a80459145bf916" kind="function"><name>hash_combine</name></member>
     <member refid="memo_8h_1ae739f9aeb36f39672e4f5c6a2c1ca48a" kind="function"><name>hash_combine</name></member>
-    <member refid="memo_8h_1ae1a9dbee2744940c32c45044828cffcb" kind="function"><name>to_time_t</name></member>
-    <member refid="memo_8h_1a3382a06d971aa3b688cc6ed2409a5856" kind="function"><name>time_from_str</name></member>
-    <member refid="memo_8h_1a6fba3c0612165e55489418e3bf645bd8" kind="function"><name>has_cache_expired</name></member>
-    <member refid="memo_8h_1a33542cf6280b29d0983964d58cae3929" kind="function"><name>getCacheDir</name></member>
     <member refid="memo_8h_1ab43c19f54a43e747785199b8785ce7b4" kind="function"><name>make_memoized</name></member>
     <member refid="memoized__functions_8h_1aa5ecdc36ec05130c577f31c6e74e8ec9" kind="function"><name>ls</name></member>
     <member refid="memoized__functions_8h_1a5ce80ef09273cb04584e78ca2deb17be" kind="function"><name>getPathsFromRegex</name></member>

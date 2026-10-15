@@ -665,17 +665,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#function-getcachedir" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        function getCacheDir
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#function-getpathsfromregex" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -702,17 +691,6 @@
     <span class="md-ellipsis">
       
         function globTimeIntervals
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#function-has_cache_expired" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        function has_cache_expired
       
     </span>
   </a>
@@ -763,28 +741,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#function-time_from_str" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        function time_from_str
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#function-to_time_t" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        function to_time_t
-      
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -828,15 +784,11 @@
 <tbody>
 <tr>
 <td style="text-align: right;">class</td>
-<td style="text-align: left;"><a href="../classSpiceQL_1_1Memo_1_1Cache/"><strong>Cache</strong></a> <br></td>
-</tr>
-<tr>
-<td style="text-align: right;">class</td>
 <td style="text-align: left;"><a href="../classSpiceQL_1_1Memo_1_1Memory/"><strong>Memory</strong></a> <br></td>
 </tr>
 <tr>
 <td style="text-align: right;">struct</td>
-<td style="text-align: left;"><a href="../structSpiceQL_1_1Memo_1_1memoize/"><strong>memoize</strong></a> &lt;typename <a href="../classSpiceQL_1_1Memo_1_1Cache/"><strong>Cache</strong></a>, typename Function&gt;<br></td>
+<td style="text-align: left;"><a href="../structSpiceQL_1_1Memo_1_1memoize/"><strong>memoize</strong></a> &lt;typename Cache, typename Function&gt;<br></td>
 </tr>
 </tbody>
 </table>
@@ -854,10 +806,6 @@
 <td style="text-align: left;"><a href="#function-_hash_combine"><strong>_hash_combine</strong></a> (std::size_t &amp; seed, const T &amp; v) <br></td>
 </tr>
 <tr>
-<td style="text-align: right;">std::string</td>
-<td style="text-align: left;"><a href="#function-getcachedir"><strong>getCacheDir</strong></a> () <br></td>
-</tr>
-<tr>
 <td style="text-align: right;">std::vector&lt; std::vector&lt; std::string &gt; &gt;</td>
 <td style="text-align: left;"><a href="#function-getpathsfromregex"><strong>getPathsFromRegex</strong></a> (std::string root, std::vector&lt; std::string &gt; regexes) <br></td>
 </tr>
@@ -868,10 +816,6 @@
 <tr>
 <td style="text-align: right;">std::string</td>
 <td style="text-align: left;"><a href="#function-globtimeintervals"><strong>globTimeIntervals</strong></a> (std::string mission) <br><em>Get start and stop times for all kernels.</em></td>
-</tr>
-<tr>
-<td style="text-align: right;">bool</td>
-<td style="text-align: left;"><a href="#function-has_cache_expired"><strong>has_cache_expired</strong></a> (time_t latest, std::vector&lt; std::string &gt; files) <br></td>
 </tr>
 <tr>
 <td style="text-align: right;">size_t</td>
@@ -886,16 +830,8 @@
 <td style="text-align: left;"><a href="#function-ls"><strong>ls</strong></a> (std::string const &amp; root, bool recursive) <br><em>ls, like in unix, kinda. Also it's a function. This is memoized so it'll load from cache if run multiple times with the same parameters.</em></td>
 </tr>
 <tr>
-<td style="text-align: right;"><a href="../structSpiceQL_1_1Memo_1_1memoize/"><strong>memoize</strong></a>&lt; <a href="../classSpiceQL_1_1Memo_1_1Cache/"><strong>Cache</strong></a>, Function &gt;</td>
-<td style="text-align: left;"><a href="#function-make_memoized"><strong>make_memoized</strong></a> (<a href="../classSpiceQL_1_1Memo_1_1Cache/"><strong>Cache</strong></a> &amp; fc, const std::string &amp; id, Function f) <br></td>
-</tr>
-<tr>
-<td style="text-align: right;">std::time_t</td>
-<td style="text-align: left;"><a href="#function-time_from_str"><strong>time_from_str</strong></a> (std::string time) <br></td>
-</tr>
-<tr>
-<td style="text-align: right;">std::time_t</td>
-<td style="text-align: left;"><a href="#function-to_time_t"><strong>to_time_t</strong></a> (TP tp) <br></td>
+<td style="text-align: right;"><a href="../structSpiceQL_1_1Memo_1_1memoize/"><strong>memoize</strong></a>&lt; Cache, Function &gt;</td>
+<td style="text-align: left;"><a href="#function-make_memoized"><strong>make_memoized</strong></a> (Cache &amp; fc, const std::string &amp; id, Function f) <br></td>
 </tr>
 </tbody>
 </table>
@@ -909,24 +845,19 @@
 </code></pre></div>
 <hr>
 
-<h3 id="function-getcachedir">function getCacheDir</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">Memo</span><span class="o">::</span><span class="n">getCacheDir</span><span class="w"> </span><span class="p">()</span><span class="w"> </span>
-</code></pre></div>
-<hr>
-
 <h3 id="function-getpathsfromregex">function getPathsFromRegex</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">Memo</span><span class="o">::</span><span class="n">getPathsFromRegex</span><span class="w"> </span><span class="p">(</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">root</span><span class="p">,</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">regexes</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="p">)</span><span class="w"> </span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">Memo</span><span class="o">::</span><span class="n">getPathsFromRegex</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">root</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">regexes</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">)</span><span class="w"> </span>
 </code></pre></div>
 <hr>
 
 <h3 id="function-gettimeintervals">function getTimeIntervals</h3>
 <p><em>Get start and stop times a kernel.</em> 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="w"> </span><span class="kt">double</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">Memo</span><span class="o">::</span><span class="n">getTimeIntervals</span><span class="w"> </span><span class="p">(</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">kpath</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="p">)</span><span class="w"> </span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="w"> </span><span class="kt">double</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">Memo</span><span class="o">::</span><span class="n">getTimeIntervals</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">kpath</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="p">)</span><span class="w"> </span>
 </code></pre></div></p>
 <p>For each segment in the kernel, get all start and stop times as a vector of double pairs. This gets all start and stop times regardless of the frame associated with it.</p>
 <p>Input kernel is assumed to be a binary kernel with time dependant external orientation data.</p>
@@ -940,45 +871,37 @@
 
 <h3 id="function-globtimeintervals">function globTimeIntervals</h3>
 <p><em>Get start and stop times for all kernels.</em> 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">Memo</span><span class="o">::</span><span class="n">globTimeIntervals</span><span class="w"> </span><span class="p">(</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">mission</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="p">)</span><span class="w"> </span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">Memo</span><span class="o">::</span><span class="n">globTimeIntervals</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">mission</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="p">)</span><span class="w"> </span>
 </code></pre></div></p>
 <p><strong>Returns:</strong></p>
 <p>string json map of kernel names to list of time segments </p>
 <hr>
 
-<h3 id="function-has_cache_expired">function has_cache_expired</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kr">inline</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">Memo</span><span class="o">::</span><span class="n">has_cache_expired</span><span class="w"> </span><span class="p">(</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="kt">time_t</span><span class="w"> </span><span class="n">latest</span><span class="p">,</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">files</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="p">)</span><span class="w"> </span>
-</code></pre></div>
-<hr>
-
 <h3 id="function-hash_combine">function hash_combine</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kr">inline</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">Memo</span><span class="o">::</span><span class="n">hash_combine</span><span class="w"> </span><span class="p">(</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">seed</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="p">)</span><span class="w"> </span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kr">inline</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">Memo</span><span class="o">::</span><span class="n">hash_combine</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">seed</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="p">)</span><span class="w"> </span>
 </code></pre></div>
 <hr>
 
 <h3 id="function-hash_combine_1">function hash_combine</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="p">...</span><span class="w"> </span><span class="n">Params</span><span class="o">&gt;</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kr">inline</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">Memo</span><span class="o">::</span><span class="n">hash_combine</span><span class="w"> </span><span class="p">(</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">seed</span><span class="p">,</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">t</span><span class="p">,</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">Params</span><span class="w"> </span><span class="o">&amp;</span><span class="p">...</span><span class="w"> </span><span class="n">params</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="p">)</span><span class="w"> </span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="p">...</span><span class="w"> </span><span class="n">Params</span><span class="o">&gt;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kr">inline</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">Memo</span><span class="o">::</span><span class="n">hash_combine</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">seed</span><span class="p">,</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">t</span><span class="p">,</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">Params</span><span class="w"> </span><span class="o">&amp;</span><span class="p">...</span><span class="w"> </span><span class="n">params</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="p">)</span><span class="w"> </span>
 </code></pre></div>
 <hr>
 
 <h3 id="function-ls">function ls</h3>
 <p><em>ls, like in unix, kinda. Also it's a function. This is memoized so it'll load from cache if run multiple times with the same parameters.</em> 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">Memo</span><span class="o">::</span><span class="n">ls</span><span class="w"> </span><span class="p">(</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">root</span><span class="p">,</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">recursive</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="p">)</span><span class="w"> </span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">Memo</span><span class="o">::</span><span class="n">ls</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">root</span><span class="p">,</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">recursive</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">)</span><span class="w"> </span>
 </code></pre></div></p>
 <p>Iterates the input path and returning a list of files. Optionally, recursively.</p>
 <p><strong>Parameters:</strong></p>
@@ -991,27 +914,12 @@
 <hr>
 
 <h3 id="function-make_memoized">function make_memoized</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">Cache</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">Function</span><span class="o">&gt;</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">memoize</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Cache</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">Function</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">Memo</span><span class="o">::</span><span class="n">make_memoized</span><span class="w"> </span><span class="p">(</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="n">Cache</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">fc</span><span class="p">,</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">id</span><span class="p">,</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="n">Function</span><span class="w"> </span><span class="n">f</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="p">)</span><span class="w"> </span>
-</code></pre></div>
-<hr>
-
-<h3 id="function-time_from_str">function time_from_str</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kr">inline</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">time_t</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">Memo</span><span class="o">::</span><span class="n">time_from_str</span><span class="w"> </span><span class="p">(</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">time</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="p">)</span><span class="w"> </span>
-</code></pre></div>
-<hr>
-
-<h3 id="function-to_time_t">function to_time_t</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">TP</span><span class="o">&gt;</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kr">inline</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">time_t</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">Memo</span><span class="o">::</span><span class="n">to_time_t</span><span class="w"> </span><span class="p">(</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="n">TP</span><span class="w"> </span><span class="n">tp</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="p">)</span><span class="w"> </span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">Cache</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">Function</span><span class="o">&gt;</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">memoize</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Cache</span><span class="p">,</span><span class="w"> </span><span class="n">Function</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">Memo</span><span class="o">::</span><span class="n">make_memoized</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="n">Cache</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">fc</span><span class="p">,</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">id</span><span class="p">,</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="n">Function</span><span class="w"> </span><span class="n">f</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="p">)</span><span class="w"> </span>
 </code></pre></div>
 <hr>
 

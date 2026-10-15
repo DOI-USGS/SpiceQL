@@ -10,8 +10,6 @@
 
 ## c
 
-* [**Cache**](classSpiceQL_1_1Memo_1_1Cache.md)
-([**SpiceQL::Memo**](namespaceSpiceQL_1_1Memo.md))
 * [**CkSegment**](classSpiceQL_1_1CkSegment.md)
 ([**SpiceQL**](namespaceSpiceQL.md))
 * [**Client**](classrestincurl_1_1Client.md)

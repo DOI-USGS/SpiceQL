@@ -13,7 +13,6 @@ Here are the classes, structs, unions and interfaces with brief descriptions:
     * **class** [**Kernel**](classSpiceQL_1_1Kernel.md) _Base_ [_**Kernel**_](classSpiceQL_1_1Kernel.md) _class._    
     * **class** [**KernelSet**](classSpiceQL_1_1KernelSet.md) _Class for furnishing kernels in bulk._     
     * **namespace** [**Memo**](namespaceSpiceQL_1_1Memo.md)     
-        * **class** [**Cache**](classSpiceQL_1_1Memo_1_1Cache.md)     
         * **class** [**Memory**](classSpiceQL_1_1Memo_1_1Memory.md)     
         * **struct** [**memoize**](structSpiceQL_1_1Memo_1_1memoize.md)     
     * **class** [**SpkSegment**](classSpiceQL_1_1SpkSegment.md) _C++ object repersenting NAIF spice SPK Segment and it's metadata._     

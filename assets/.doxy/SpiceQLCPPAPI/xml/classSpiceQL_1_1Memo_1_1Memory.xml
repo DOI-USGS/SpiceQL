@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/memo.h" line="204" column="26" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="204" bodyend="-1"/>
+        <location file="SpiceQL/include/SpiceQL/memo.h" line="48" column="26" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="48" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/memo.h" line="207" column="18" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="207" bodyend="209"/>
+        <location file="SpiceQL/include/SpiceQL/memo.h" line="51" column="18" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="51" bodyend="53"/>
       </memberdef>
       <memberdef kind="function" id="classSpiceQL_1_1Memo_1_1Memory_1a82d929b2e3684a944e97ad769784d729" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <templateparamlist>
@@ -85,7 +85,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/memo.h" line="211" column="18" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="211" bodyend="215"/>
+        <location file="SpiceQL/include/SpiceQL/memo.h" line="55" column="18" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="55" bodyend="59"/>
       </memberdef>
       <memberdef kind="function" id="classSpiceQL_1_1Memo_1_1Memory_1af4e1c9f7da585b71ccf7bc3e54e8c111" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <templateparamlist>
@@ -125,7 +125,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/memo.h" line="217" column="18" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="217" bodyend="220"/>
+        <location file="SpiceQL/include/SpiceQL/memo.h" line="61" column="18" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="61" bodyend="64"/>
       </memberdef>
       <memberdef kind="function" id="classSpiceQL_1_1Memo_1_1Memory_1aef155ae1f75d30d7da6b53b9416361ec" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <templateparamlist>
@@ -161,14 +161,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/memo.h" line="222" column="18" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="222" bodyend="233"/>
+        <location file="SpiceQL/include/SpiceQL/memo.h" line="66" column="18" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="66" bodyend="77"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="SpiceQL/include/SpiceQL/memo.h" line="202" column="5" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="202" bodyend="234"/>
+    <location file="SpiceQL/include/SpiceQL/memo.h" line="46" column="5" bodyfile="SpiceQL/include/SpiceQL/memo.h" bodystart="46" bodyend="78"/>
     <listofallmembers>
       <member refid="classSpiceQL_1_1Memo_1_1Memory_1afe988d901e3ad544fdc298c32a8c7a86" prot="public" virt="non-virtual"><scope>SpiceQL::Memo::Memory</scope><name>m_data</name></member>
       <member refid="classSpiceQL_1_1Memo_1_1Memory_1a01ddfe8808605ad8dd1eb4930284ccb8" prot="public" virt="non-virtual"><scope>SpiceQL::Memo::Memory</scope><name>operator()</name></member>

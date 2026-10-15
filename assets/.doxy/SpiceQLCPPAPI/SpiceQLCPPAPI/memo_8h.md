@@ -11,21 +11,12 @@
 
 
 * `#include <map>`
-* `#include <fstream>`
 * `#include <utility>`
 * `#include <functional>`
 * `#include <any>`
 * `#include <string>`
-* `#include <chrono>`
-* `#include <iomanip>`
 * `#include <ghc/fs_std.hpp>`
 * `#include <SpiceQL/spiceql_logging.h>`
-* `#include <cereal/archives/binary.hpp>`
-* `#include <cereal/archives/portable_binary.hpp>`
-* `#include <cereal/types/vector.hpp>`
-* `#include <cereal/types/string.hpp>`
-* `#include <cereal/types/utility.hpp>`
-* `#include <cereal/archives/json.hpp>`
 * `#include <SpiceQL/memoized_functions.h>`
 
 
@@ -53,9 +44,8 @@
 
 | Type | Name |
 | ---: | :--- |
-| class | [**Cache**](classSpiceQL_1_1Memo_1_1Cache.md) <br> |
 | class | [**Memory**](classSpiceQL_1_1Memo_1_1Memory.md) <br> |
-| struct | [**memoize**](structSpiceQL_1_1Memo_1_1memoize.md) &lt;typename [**Cache**](classSpiceQL_1_1Memo_1_1Cache.md), typename Function&gt;<br> |
+| struct | [**memoize**](structSpiceQL_1_1Memo_1_1memoize.md) &lt;typename Cache, typename Function&gt;<br> |
 | struct | [**hash&lt; std::vector&lt; std::string &gt; &gt;**](structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_01_4.md) &lt;&gt;<br> |
 | struct | [**hash&lt; std::vector&lt; std::string &gt;(const std::string &, bool)&gt;**](structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_07const_01std_1_1string_01_6_00_01bool_08_4.md) &lt;&gt;<br> |
 
@@ -131,7 +121,7 @@
 
 
 
-Implements an almost transparent disk cache/memoization for C++ functions.
+Almost transparent in-memory memoization for C++ functions.
 
 
 Originally adapted from: [https://github.com/temporaer/cached\_function](https://github.com/temporaer/cached_function) 
