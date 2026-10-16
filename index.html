@@ -57,6 +57,8 @@
     
       <link rel="stylesheet" href="assets/extra.css">
     
+      <link rel="stylesheet" href="assets/spiceql-applet.css">
+    
     <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -82,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#getting-started" class="md-skip">
+        <a href="#try-it-over-the-rest-api" class="md-skip">
           Skip to content
         </a>
       
@@ -400,6 +402,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#try-it-over-the-rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Try it over the REST API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#getting-started" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -443,6 +456,17 @@
     <span class="md-ellipsis">
       
         Where to get NAIF kernels
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bots
       
     </span>
   </a>
@@ -719,6 +743,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#try-it-over-the-rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Try it over the REST API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#getting-started" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -762,6 +797,17 @@
     <span class="md-ellipsis">
       
         Where to get NAIF kernels
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bots
       
     </span>
   </a>
@@ -817,84 +863,234 @@
   <iframe src="assets/mars-banner.html"
           scrolling="no"
           loading="lazy"
-          title="Mars Orbit Visualization — SpiceQL">
+          title="Mars Orbit Visualization | SpiceQL">
   </iframe>
 </div>
 
-<p>This Library provides a C++ interface querying, reading and writing Naif SPICE kernels. Built on the <a href="https://naif.jpl.nasa.gov/naif/toolkit.html">Naif Toolkit</a>.</p>
+<p>This library provides a C++ interface querying, reading and writing NAIF SPICE kernels. Built on the <a href="https://naif.jpl.nasa.gov/naif/toolkit.html">NAIF Toolkit</a>.</p>
+<h2 id="try-it-over-the-rest-api">Try it over the REST API</h2>
+<p>The plot below is <strong>two years of Cassini's Saturn tour</strong>: 20 000 states that the
+<a href="https://astrogeology.usgs.gov/apis/spiceql/latest/docs">hosted service</a> builds
+out of 37 SPKs. The kernels stay on the server: gigabytes that would never be
+worth shipping to a page, and all that comes back is numbers.</p>
+<p>Nothing is fetched until you press <strong>Run</strong>: not the plotting library, not a
+state. Edit the code and run it again as often as you like; the pane above the
+code logs every request the snippet makes, with the points each one returned.</p>
+<p>See <a href="https://astrogeology.usgs.gov/docs/getting-started/using-spiceql/exploring-spiceqls-rest-python-and-cpp-apis/#__tabbed_3_1">API docs</a> for examples of SpiceQL functions. </p>
+<div class="sq-app sq-app--rest" data-sq-rest="data-sq-rest">
+<div class="sq-app__kernels">
+<p class="sq-app__head">
+    <span class="sq-app__title">Requests</span>
+    <span class="sq-app__hint">Every HTTP call the code makes, in order, with what came
+      back, including the points each one returned. Two epoch conversions, then one
+      ranged call that answers with all 20&nbsp;000 states.</span>
+  </p>
+<ol class="sq-app__stack" data-sq-log="data-sq-log"></ol>
+</div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">import</span><span class="w"> </span><span class="nx">Plotly</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'https://cdn.jsdelivr.net/npm/plotly.js-gl3d-dist-min/+esm'</span><span class="p">;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1">// Every endpoint answers {statusCode, body: {return, kernels}}, so one helper</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1">// covers the whole API. `plot` is the element below.</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="kd">const</span><span class="w"> </span><span class="nx">API</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'https://astrogeology.usgs.gov/apis/spiceql/latest'</span><span class="p">;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">spiceql</span><span class="p">(</span><span class="nx">endpoint</span><span class="p">,</span><span class="w"> </span><span class="nx">params</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">API</span><span class="si">}</span><span class="sb">/</span><span class="si">${</span><span class="nx">endpoint</span><span class="si">}</span><span class="sb">?</span><span class="si">${</span><span class="ow">new</span><span class="w"> </span><span class="nx">URLSearchParams</span><span class="p">(</span><span class="nx">params</span><span class="p">)</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">response</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">endpoint</span><span class="si">}</span><span class="sb">: HTTP </span><span class="si">${</span><span class="nx">response</span><span class="p">.</span><span class="nx">status</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">  </span><span class="c1">// SPICE failures come back INSIDE an HTTP 200 as {statusCode: 500, body:</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">  </span><span class="c1">// {error}}; so the envelope is what says whether this worked. Skip this and</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="c1">// a failed call returns a body with no `return`, and the first thing you do</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">  </span><span class="c1">// with it throws something unrelated several lines later.</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">statusCode</span><span class="p">,</span><span class="w"> </span><span class="nx">body</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">statusCode</span><span class="w"> </span><span class="o">!==</span><span class="w"> </span><span class="mf">200</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">endpoint</span><span class="si">}</span><span class="sb">: </span><span class="si">${</span><span class="nx">body</span><span class="o">?</span><span class="p">.</span><span class="nx">error</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="nx">statusCode</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">body</span><span class="p">;</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="p">}</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="c1">// Call utcToEt on datetimes in range. getTargetStatesRanged can fail if there is a hole </span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="c1">// anywhere in a step between start stop time window.  </span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="o">:</span><span class="w"> </span><span class="nx">etStart</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">spiceql</span><span class="p">(</span><span class="s1">'utcToEt'</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">utc</span><span class="o">:</span><span class="w"> </span><span class="s1">'2008-07-01T00:00:00'</span><span class="w"> </span><span class="p">});</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="o">:</span><span class="w"> </span><span class="nx">etStop</span><span class="w"> </span><span class="p">}</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">spiceql</span><span class="p">(</span><span class="s1">'utcToEt'</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">utc</span><span class="o">:</span><span class="w"> </span><span class="s1">'2010-09-14T00:00:00'</span><span class="w"> </span><span class="p">});</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="c1">// getTargetStatesRanged calls a vecotized routine. Far more effecient that calling for </span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="c1">// ETs indivdidualy as it minimizes calls.  </span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="o">:</span><span class="w"> </span><span class="nx">states</span><span class="p">,</span><span class="w"> </span><span class="nx">kernels</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">spiceql</span><span class="p">(</span><span class="s1">'getTargetStatesRanged'</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">  </span><span class="nx">startEt</span><span class="o">:</span><span class="w"> </span><span class="nx">etStart</span><span class="p">,</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">  </span><span class="nx">stopEt</span><span class="o">:</span><span class="w"> </span><span class="nx">etStop</span><span class="p">,</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">  </span><span class="nx">numRecords</span><span class="o">:</span><span class="w"> </span><span class="mf">20000</span><span class="p">,</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="w">  </span><span class="nx">target</span><span class="o">:</span><span class="w"> </span><span class="s1">'Cassini'</span><span class="p">,</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="w">  </span><span class="nx">observer</span><span class="o">:</span><span class="w"> </span><span class="s1">'SATURN BARYCENTER'</span><span class="p">,</span>
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="w">  </span><span class="nx">frame</span><span class="o">:</span><span class="w"> </span><span class="s1">'J2000'</span><span class="p">,</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="w">  </span><span class="nx">abcorr</span><span class="o">:</span><span class="w"> </span><span class="s1">'None'</span><span class="p">,</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="w">  </span><span class="nx">mission</span><span class="o">:</span><span class="w"> </span><span class="s1">'cassini'</span><span class="p">,</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="w">  </span><span class="nx">limitSpk</span><span class="o">:</span><span class="w"> </span><span class="o">-</span><span class="mf">1</span><span class="p">,</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="w">  </span><span class="nx">limitCk</span><span class="o">:</span><span class="w"> </span><span class="o">-</span><span class="mf">1</span><span class="p">,</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="w">  </span><span class="nx">searchKernels</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="p">});</span>
+<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">states</span><span class="p">.</span><span class="nx">length</span><span class="si">}</span><span class="sb"> states from </span><span class="si">${</span><span class="nx">kernels</span><span class="p">.</span><span class="nx">spk</span><span class="p">.</span><span class="nx">length</span><span class="si">}</span><span class="sb"> SPKs`</span><span class="p">);</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>
+<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a><span class="c1">// plot code </span>
+<a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a><span class="kd">const</span><span class="w"> </span><span class="nx">days</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">states</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">i</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span><span class="nx">etStart</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="nx">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="nx">etStop</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">etStart</span><span class="p">))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="nx">states</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1</span><span class="p">)));</span>
+<a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>
+<a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a><span class="nx">Plotly</span><span class="p">.</span><span class="nx">newPlot</span><span class="p">(</span><span class="nx">plot</span><span class="p">,</span><span class="w"> </span><span class="p">[{</span>
+<a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a><span class="w">  </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s1">'scatter3d'</span><span class="p">,</span><span class="w"> </span><span class="nx">mode</span><span class="o">:</span><span class="w"> </span><span class="s1">'lines'</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Cassini'</span><span class="p">,</span>
+<a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a><span class="w">  </span><span class="nx">x</span><span class="o">:</span><span class="w"> </span><span class="nx">states</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">s</span><span class="p">[</span><span class="mf">0</span><span class="p">]),</span><span class="w"> </span><span class="nx">y</span><span class="o">:</span><span class="w"> </span><span class="nx">states</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">s</span><span class="p">[</span><span class="mf">1</span><span class="p">]),</span><span class="w"> </span><span class="nx">z</span><span class="o">:</span><span class="w"> </span><span class="nx">states</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">s</span><span class="p">[</span><span class="mf">2</span><span class="p">]),</span>
+<a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a><span class="w">  </span><span class="nx">line</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="nx">days</span><span class="p">,</span><span class="w"> </span><span class="nx">colorscale</span><span class="o">:</span><span class="w"> </span><span class="s1">'YlOrRd'</span><span class="p">,</span><span class="w"> </span><span class="nx">reversescale</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a><span class="p">},</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a><span class="w">  </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s1">'scatter3d'</span><span class="p">,</span><span class="w"> </span><span class="nx">mode</span><span class="o">:</span><span class="w"> </span><span class="s1">'markers'</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Saturn barycentre'</span><span class="p">,</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a><span class="w">  </span><span class="nx">x</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0</span><span class="p">],</span><span class="w"> </span><span class="nx">y</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0</span><span class="p">],</span><span class="w"> </span><span class="nx">z</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0</span><span class="p">],</span><span class="w"> </span><span class="nx">marker</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">size</span><span class="o">:</span><span class="w"> </span><span class="mf">4</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s1">'#E8C36A'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a><span class="p">}],</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-52" name="__codelineno-0-52" href="#__codelineno-0-52"></a><span class="w">  </span><span class="nx">margin</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">l</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="nx">r</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="nx">t</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-0-53" name="__codelineno-0-53" href="#__codelineno-0-53"></a><span class="w">  </span><span class="nx">showlegend</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<a id="__codelineno-0-54" name="__codelineno-0-54" href="#__codelineno-0-54"></a><span class="w">  </span><span class="nx">paper_bgcolor</span><span class="o">:</span><span class="w"> </span><span class="s1">'rgba(0,0,0,0)'</span><span class="p">,</span>
+<a id="__codelineno-0-55" name="__codelineno-0-55" href="#__codelineno-0-55"></a><span class="w">  </span><span class="nx">scene</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-56" name="__codelineno-0-56" href="#__codelineno-0-56"></a><span class="w">    </span><span class="c1">// One kilometre is the same length on all three axes, so the orbit keeps</span>
+<a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a><span class="w">    </span><span class="c1">// its shape instead of being stretched to fill the box.</span>
+<a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a><span class="w">    </span><span class="nx">aspectmode</span><span class="o">:</span><span class="w"> </span><span class="s1">'data'</span><span class="p">,</span>
+<a id="__codelineno-0-59" name="__codelineno-0-59" href="#__codelineno-0-59"></a><span class="w">    </span><span class="nx">camera</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">eye</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">x</span><span class="o">:</span><span class="w"> </span><span class="mf">1.6</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="o">:</span><span class="w"> </span><span class="mf">1.6</span><span class="p">,</span><span class="w"> </span><span class="nx">z</span><span class="o">:</span><span class="w"> </span><span class="mf">1.1</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-0-60" name="__codelineno-0-60" href="#__codelineno-0-60"></a><span class="w">    </span><span class="nx">xaxis</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">'X (km)'</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nx">yaxis</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">'Y (km)'</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nx">zaxis</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">'Z (km)'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-0-61" name="__codelineno-0-61" href="#__codelineno-0-61"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-0-62" name="__codelineno-0-62" href="#__codelineno-0-62"></a><span class="p">});</span>
+</code></pre></div>
+<p class="sq-app__bar">
+  <button class="md-button md-button--primary" type="button" data-sq-run>Run</button>
+  <span class="sq-app__status" data-sq-status role="status">
+    Nothing to download but numbers; the kernels stay on the server. About
+    1.7&nbsp;MB for the plotting library, then 2.6&nbsp;MB for 20&nbsp;000 states.
+  </span>
+</p>
+<div class="sq-app__plot" data-sq-plot="data-sq-plot">
+<p class="sq-app__placeholder">
+    <span class="sq-app__placeholder-mark" aria-hidden="true"></span>
+    Press <b>Run</b> to plot 20&nbsp;000 Cassini states, fetched live from the
+    service. Nothing is downloaded until you do.
+  </p>
+</div>
+</div>
+<script type="module" src="assets/spiceql-rest.js"></script>
+
 <h2 id="getting-started">Getting Started</h2>
-<p>We reccomend installing using <a href="https://github.com/conda-forge/miniforge">miniforge</a> </p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mamba install -c conda-forge spiceql
+<p>You can install using <a href="https://www.anaconda.com/download/success?reg=skipped">Anaconda</a> or <a href="https://github.com/conda-forge/miniforge">miniforge</a>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>conda install -c conda-forge spiceql
 </code></pre></div>
-<p>To create the inital database, set your required environment variables. </p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Path to some directory with kernels. SpiceQL searches for them recusively</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SPICEROOT</span><span class="o">=</span><span class="s2">"path/to/spice/kernels/"</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># anywhere you have write permissions to</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SPICEQL_CACHE_DIR</span><span class="o">=</span><span class="s2">"path/to/cache/"</span>
+<p>To create the initial database, set your required environment variables. </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Path to some directory with kernels. SpiceQL searches for them recursively</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SPICEROOT</span><span class="o">=</span><span class="s2">"path/to/spice/kernels/"</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># anywhere you have write permissions to</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SPICEQL_CACHE_DIR</span><span class="o">=</span><span class="s2">"path/to/cache/"</span>
 </code></pre></div>
-<p>Run <code>create_database()</code>, this is more easily done through python. </p>
+<p>Run <code>create_database()</code>; this is more easily done through python. </p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>This might take serveral hours depending on the number of kernels in your folder</p>
+<p>This might take several hours depending on the number of kernels in your folder</p>
 </div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">SPICEQL_LOG_LEVEL</span><span class="o">=</span>INFO<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import pyspiceql; pyspiceql.create_database()"</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nv">SPICEQL_LOG_LEVEL</span><span class="o">=</span>INFO<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import pyspiceql; pyspiceql.create_database()"</span>
 </code></pre></div>
 <h3 id="basic-usage">Basic usage</h3>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Python</label><label for="__tabbed_1_2">C++</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Python</label><label for="__tabbed_1_2">C++</label><label for="__tabbed_1_3">JavaScript</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pyspiceql</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">psql</span> 
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># search for a kernel set</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">kernels</span> <span class="o">=</span> <span class="n">psql</span><span class="o">.</span><span class="n">searchForKernelsets</span><span class="p">([</span><span class="s2">"odyssey"</span><span class="p">,</span> <span class="s2">"mars"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"sclk"</span><span class="p">,</span> <span class="s2">"spk"</span><span class="p">,</span> <span class="s2">"tspk"</span><span class="p">,</span> <span class="s2">"ck"</span><span class="p">],</span> <span class="mf">715662878.32324</span><span class="p">,</span> <span class="mf">715663065.2303</span><span class="p">)</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">kernels</span><span class="p">)</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="c1"># Make a query and it will return the kernels used </span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">orientations</span><span class="p">,</span> <span class="n">kernels</span> <span class="o">=</span> <span class="n">psql</span><span class="o">.</span><span class="n">getTargetOrientations</span><span class="p">([</span><span class="mf">690201375.8323615</span><span class="p">],</span> <span class="o">-</span><span class="mi">74000</span><span class="p">,</span> <span class="o">-</span><span class="mi">74690</span><span class="p">,</span> <span class="s2">"ctx"</span><span class="p">,</span> <span class="n">searchKernels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="nb">print</span><span class="p">(</span><span class="n">kernels</span><span class="p">)</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="nb">print</span><span class="p">(</span><span class="n">orientations</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pyspiceql</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">psql</span> 
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># search for a kernel set</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">kernels</span> <span class="o">=</span> <span class="n">psql</span><span class="o">.</span><span class="n">searchForKernelsets</span><span class="p">([</span><span class="s2">"odyssey"</span><span class="p">,</span> <span class="s2">"mars"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"sclk"</span><span class="p">,</span> <span class="s2">"spk"</span><span class="p">,</span> <span class="s2">"tspk"</span><span class="p">,</span> <span class="s2">"ck"</span><span class="p">],</span> <span class="mf">715662878.32324</span><span class="p">,</span> <span class="mf">715663065.2303</span><span class="p">)</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">kernels</span><span class="p">)</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="c1"># Make a query and it will return the kernels used </span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="n">orientations</span><span class="p">,</span> <span class="n">kernels</span> <span class="o">=</span> <span class="n">psql</span><span class="o">.</span><span class="n">getTargetOrientations</span><span class="p">([</span><span class="mf">690201375.8323615</span><span class="p">],</span> <span class="o">-</span><span class="mi">74000</span><span class="p">,</span> <span class="o">-</span><span class="mi">74690</span><span class="p">,</span> <span class="s2">"ctx"</span><span class="p">,</span> <span class="n">searchKernels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="nb">print</span><span class="p">(</span><span class="n">kernels</span><span class="p">)</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="nb">print</span><span class="p">(</span><span class="n">orientations</span><span class="p">)</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;spiceql/spiceql.h&gt;</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;nlohmann/json.hpp&gt;</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1">// search for a kernel set</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">nlohmann</span><span class="o">::</span><span class="n">json</span><span class="w"> </span><span class="n">kernels1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">searchForKernelsets</span><span class="p">({</span><span class="s">"odyssey"</span><span class="p">,</span><span class="w"> </span><span class="s">"mars"</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="s">"sclk"</span><span class="p">,</span><span class="w"> </span><span class="s">"spk"</span><span class="p">,</span><span class="w"> </span><span class="s">"tspk"</span><span class="p">,</span><span class="w"> </span><span class="s">"ck"</span><span class="p">},</span><span class="w"> </span><span class="mf">715662878.32324</span><span class="p">,</span><span class="w"> </span><span class="mf">715663065.2303</span><span class="p">);</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">kernels1</span><span class="p">.</span><span class="n">dump</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="c1">// Make a query and it will return the kernels used </span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="k">auto</span><span class="w"> </span><span class="p">[</span><span class="n">orientations</span><span class="p">,</span><span class="w"> </span><span class="n">kernels2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">getTargetOrientations</span><span class="p">({</span><span class="mf">690201375.8323615</span><span class="p">},</span><span class="w"> </span><span class="mi">-74000</span><span class="p">,</span><span class="w"> </span><span class="mi">-74690</span><span class="p">,</span><span class="w"> </span><span class="s">"ctx"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s">"smithed"</span><span class="p">,</span><span class="w"> </span><span class="s">"reconstructed"</span><span class="p">},</span><span class="w"> </span><span class="nb">false</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">kernels2</span><span class="p">.</span><span class="n">dump</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="c1">// nx4 aray of quaternions </span>
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">orientations</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;spiceql/spiceql.h&gt;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;nlohmann/json.hpp&gt;</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1">// search for a kernel set</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">nlohmann</span><span class="o">::</span><span class="n">json</span><span class="w"> </span><span class="n">kernels1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">searchForKernelsets</span><span class="p">({</span><span class="s">"odyssey"</span><span class="p">,</span><span class="w"> </span><span class="s">"mars"</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="s">"sclk"</span><span class="p">,</span><span class="w"> </span><span class="s">"spk"</span><span class="p">,</span><span class="w"> </span><span class="s">"tspk"</span><span class="p">,</span><span class="w"> </span><span class="s">"ck"</span><span class="p">},</span><span class="w"> </span><span class="mf">715662878.32324</span><span class="p">,</span><span class="w"> </span><span class="mf">715663065.2303</span><span class="p">);</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">kernels1</span><span class="p">.</span><span class="n">dump</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1">// Make a query and it will return the kernels used </span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="k">auto</span><span class="w"> </span><span class="p">[</span><span class="n">orientations</span><span class="p">,</span><span class="w"> </span><span class="n">kernels2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">getTargetOrientations</span><span class="p">({</span><span class="mf">690201375.8323615</span><span class="p">},</span><span class="w"> </span><span class="mi">-74000</span><span class="p">,</span><span class="w"> </span><span class="mi">-74690</span><span class="p">,</span><span class="w"> </span><span class="s">"ctx"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s">"smithed"</span><span class="p">,</span><span class="w"> </span><span class="s">"reconstructed"</span><span class="p">},</span><span class="w"> </span><span class="nb">false</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">kernels2</span><span class="p">.</span><span class="n">dump</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1">// nx4 array of quaternions </span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">orientations</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </code></pre></div>
 </div>
+<div class="tabbed-block">
+<p>SpiceQL compiles to WebAssembly, so the same <code>api.h</code> calls run in the browser
+through Embind. Two differences shape the example. The browser build ships no
+HDF5 inventory, so <strong>there is no kernel search</strong>, <code>searchForKernelsets</code> and
+<code>searchKernels: true</code> both throw, and kernels are furnished explicitly. And
+the WASM signatures take no <code>mission</code> argument since there is no search.</p>
+<p>Fetching and furnishing those kernels is the harness's job, not the example's,
+so it happens in the pane above the code and <code>spiceql</code> arrives already loaded.
+Press <strong>Run</strong>; nothing downloads until you do, and the browser caches it, so
+a second run is instant.</p>
+<div class="sq-exec" data-sq-exec markdown="1">
+<p><div class="sq-exec__files">
+  <p class="sq-exec__head">
+    <span class="sq-exec__title">Downloads</span>
+    <span class="sq-exec__hint">The module and the kernels this example furnishes,
+      fetched on Run and then served from the browser cache. One 115&nbsp;KB frame
+      kernel is all it needs: the CTX-to-bus rotation is a fixed mounting offset
+      written down in the FK, so no CK has to be loaded to read it.</span>
+  </p>
+  <ol class="sq-exec__stack" data-sq-downloads></ol>
+</div></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">result</span><span class="o">:</span><span class="w"> </span><span class="nx">orientations</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">spiceql</span><span class="p">.</span><span class="nx">getTargetOrientations</span><span class="p">(</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="p">[</span><span class="mf">690201375.8323615</span><span class="p">],</span><span class="w"> </span><span class="o">-</span><span class="mf">74000</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">74690</span><span class="p">);</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">z</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="nx">angularVelocity</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">orientations</span><span class="p">[</span><span class="mf">0</span><span class="p">];</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'quaternion:'</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">z</span><span class="p">]);</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'angular velocity (rad/s):'</span><span class="p">,</span><span class="w"> </span><span class="nx">angularVelocity</span><span class="p">);</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="kd">const</span><span class="w"> </span><span class="nx">degrees</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">acos</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">w</span><span class="p">)))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">180</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="p">;</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`a fixed rotation of </span><span class="si">${</span><span class="nx">degrees</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">4</span><span class="p">)</span><span class="si">}</span><span class="sb"> degrees`</span><span class="p">);</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="c1">// The one api.h feature the browser build does not have.</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">  </span><span class="nx">spiceql</span><span class="p">.</span><span class="nx">getTargetOrientations</span><span class="p">([</span><span class="mf">690201375.8323615</span><span class="p">],</span><span class="w"> </span><span class="o">-</span><span class="mf">74000</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">74690</span><span class="p">,</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">                                </span><span class="p">{</span><span class="w"> </span><span class="nx">searchKernels</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">});</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'searchKernels: true -&gt;'</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="p">}</span>
+</code></pre></div>
+<p><p class="sq-exec__bar">
+  <button class="md-button md-button--primary" type="button" data-sq-run>Run</button>
+  <span class="sq-exec__status" data-sq-status role="status">
+    Nothing runs until you press Run. The first run fetches about
+    3&nbsp;MB: the WASM module, its config DB, and the one kernel above.
+  </span>
+</p></p>
+<p><pre class="sq-exec__out" data-sq-out></pre></p>
 </div>
 </div>
+</div>
+</div>
+<script type="module" src="assets/spiceql-runner.js"></script>
+
 <h3 id="online-interface">Online Interface</h3>
-<p>Some functions allow for running over the web, these contain the optional parameter <code>useWeb</code>. See the <a href="SpiceQLCPPAPI/namespace_spice_q_l.md">function list</a> for a list of functions with this parameter. </p>
+<p>Some functions allow for running over the web; these contain the optional parameter <code>useWeb</code>. See the <a href="SpiceQLCPPAPI/namespace_spice_q_l.md">function list</a> for a list of functions with this parameter. </p>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Python</label><label for="__tabbed_2_2">C++</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pyspiceql</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">psql</span> 
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># Make a query and it will return the kernels used </span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">orientations</span><span class="p">,</span> <span class="n">kernels</span> <span class="o">=</span> <span class="n">spql</span><span class="o">.</span><span class="n">getTargetOrientations</span><span class="p">([</span><span class="mf">690201375.8323615</span><span class="p">],</span> <span class="o">-</span><span class="mi">74000</span><span class="p">,</span> <span class="o">-</span><span class="mi">74690</span><span class="p">,</span> <span class="s2">"ctx"</span><span class="p">,</span> <span class="n">useWeb</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">kernels</span><span class="p">)</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="nb">print</span><span class="p">(</span><span class="n">orientations</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pyspiceql</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">psql</span> 
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="c1"># Make a query and it will return the kernels used </span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">orientations</span><span class="p">,</span> <span class="n">kernels</span> <span class="o">=</span> <span class="n">psql</span><span class="o">.</span><span class="n">getTargetOrientations</span><span class="p">([</span><span class="mf">690201375.8323615</span><span class="p">],</span> <span class="o">-</span><span class="mi">74000</span><span class="p">,</span> <span class="o">-</span><span class="mi">74690</span><span class="p">,</span> <span class="s2">"ctx"</span><span class="p">,</span> <span class="n">useWeb</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">kernels</span><span class="p">)</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="nb">print</span><span class="p">(</span><span class="n">orientations</span><span class="p">)</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;spiceql/spiceql.h&gt;</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;nlohmann/json.hpp&gt;</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1">// Make a query and it will return the kernels used </span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="k">auto</span><span class="w"> </span><span class="p">[</span><span class="n">orientations</span><span class="p">,</span><span class="w"> </span><span class="n">kernels</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">getTargetOrientations</span><span class="p">({</span><span class="mf">690201375.8323615</span><span class="p">},</span><span class="w"> </span><span class="mi">-74000</span><span class="p">,</span><span class="w"> </span><span class="mi">-74690</span><span class="p">,</span><span class="w"> </span><span class="s">"ctx"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s">"smithed"</span><span class="p">,</span><span class="w"> </span><span class="s">"reconstructed"</span><span class="p">},</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">kernels</span><span class="p">.</span><span class="n">dump</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1">// nx4 aray of quaternions </span>
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">orientations</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;spiceql/spiceql.h&gt;</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;nlohmann/json.hpp&gt;</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1">// Make a query and it will return the kernels used </span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="k">auto</span><span class="w"> </span><span class="p">[</span><span class="n">orientations</span><span class="p">,</span><span class="w"> </span><span class="n">kernels</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">getTargetOrientations</span><span class="p">({</span><span class="mf">690201375.8323615</span><span class="p">},</span><span class="w"> </span><span class="mi">-74000</span><span class="p">,</span><span class="w"> </span><span class="mi">-74690</span><span class="p">,</span><span class="w"> </span><span class="s">"ctx"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s">"smithed"</span><span class="p">,</span><span class="w"> </span><span class="s">"reconstructed"</span><span class="p">},</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">kernels</span><span class="p">.</span><span class="n">dump</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1">// nx4 array of quaternions </span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">orientations</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </code></pre></div>
 </div>
 </div>
@@ -905,26 +1101,30 @@
 <div class="tabbed-block">
 <p><code>downloadIsisData.py</code> is a script that downloads kernels from NAIF and USGS sources. It includes a SpiceQL database.</p>
 <p>If you have ISIS, you may have already set up the data area.  If you don't have ISIS, you will need to download the <code>rclone</code> program, the <code>downloadIsisData</code> script, and ISIS's <code>rclone.conf</code>.  See <a href="https://astrogeology.usgs.gov/docs/how-to-guides/environment-setup-and-maintenance/isis-data-area/#downloading-isisdata">Downloading ISISDATA</a> for more info on the download script, or install as below if you don't have ISIS:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Install rclone </span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>mamba<span class="w"> </span>install<span class="w"> </span>rclone
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Download the script and rclone config file</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>curl<span class="w"> </span>-LJO<span class="w"> </span>https://github.com/USGS-Astrogeology/ISIS3/raw/dev/isis/scripts/downloadIsisData
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>curl<span class="w"> </span>-LJO<span class="w"> </span>https://github.com/USGS-Astrogeology/ISIS3/raw/dev/isis/config/rclone.conf
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1"># Use python 3 when you run the script,</span>
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="c1"># and use --config to point to where you downloaded the config file </span>
-<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>python3<span class="w"> </span>downloadIsisData<span class="w"> </span>--config<span class="w"> </span>rclone.conf<span class="w"> </span>&lt;mission&gt;<span class="w"> </span><span class="nv">$SPICEROOT</span>
-<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="c1"># set your cache dir to the same as SPICEROOT</span>
-<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SPICEQL_CACHE_DIR</span><span class="o">=</span><span class="nv">$SPICEROOT</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Install rclone </span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>mamba<span class="w"> </span>install<span class="w"> </span>rclone
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Download the script and rclone config file</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>curl<span class="w"> </span>-LJO<span class="w"> </span>https://github.com/USGS-Astrogeology/ISIS3/raw/dev/isis/scripts/downloadIsisData
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>curl<span class="w"> </span>-LJO<span class="w"> </span>https://github.com/USGS-Astrogeology/ISIS3/raw/dev/isis/config/rclone.conf
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="c1"># Use python 3 when you run the script,</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="c1"># and use --config to point to where you downloaded the config file </span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>python3<span class="w"> </span>downloadIsisData<span class="w"> </span>--config<span class="w"> </span>rclone.conf<span class="w"> </span>&lt;mission&gt;<span class="w"> </span><span class="nv">$SPICEROOT</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="c1"># set your cache dir to the same as SPICEROOT</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SPICEQL_CACHE_DIR</span><span class="o">=</span><span class="nv">$SPICEROOT</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
 <p>Download data from <a href="https://naif.jpl.nasa.gov/naif/data_archived.html">NAIF</a> </p>
-<p>You can download using <code>wget</code> or similar application. </p>
+<p>You can download using <code>wget</code> or a similar application. </p>
 </div>
 </div>
 </div>
+<h2 id="bots">Bots</h2>
+<!-- HTML rather than markdown links: llmstxt writes these files after mkdocs
+     validates links, so markdown links to them warn (and fail --strict). -->
+<p>These docs ship with <a href="llms.txt">llms.txt</a> and <a href="llms-full.txt">llms-full.txt</a> for bots to read for learning the library. </p>
 
 
 

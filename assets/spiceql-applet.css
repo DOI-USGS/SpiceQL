@@ -1,0 +1,460 @@
+/* ==========================================================================
+   Runnable SpiceQL applet (see assets/spiceql-applet.js and the home page)
+
+   Three stacked panes in one bordered box: the kernel stack, the code fence
+   MkDocs highlighted, and the plot the code draws into. The code fence keeps
+   Material's own styling — only its margins are cancelled so the three panes
+   read as one control rather than three stacked blocks.
+   ========================================================================== */
+
+.sq-app {
+  margin: 1.2rem 0 2rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: var(--sq-radius);
+  overflow: hidden;
+}
+
+/* The fence Material renders between the two panes. It arrives as a .highlight
+   block with its own radius and vertical margin, both of which have to go for
+   the box to look continuous. */
+/* Capped and scrolled so the stack, the code and the plot can be on screen at
+   once — uncapped, the fence runs ~24rem and pushes the plot a screen down, which
+   stops the three panes reading as one applet. */
+.sq-app .highlight {
+  max-height: 22rem;
+  overflow: auto;
+  margin: 0;
+  border-radius: 0;
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
+/* The code is contenteditable, so it gets a focus ring of its own — the default
+   is a heavy outline around the whole pane. */
+.sq-app .highlight code:focus-visible {
+  outline: 2px solid var(--sq-accent);
+  outline-offset: 2px;
+}
+
+/* ── Pane 1: the kernel stack ─────────────────────────────────────────────── */
+
+.sq-app__kernels {
+  padding: 0.8rem 0.9rem 0.9rem;
+  background: var(--md-code-bg-color);
+}
+
+/* The hint takes the whole second line rather than being left to wrap: with all
+   three children on one flex line, the restore link was pushed onto a line of its
+   own and read as detached from the heading it belongs to. */
+.sq-app__head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin: 0 0 0.6rem;
+}
+
+.sq-app__hint { flex: 1 1 100%; order: 2; }
+
+.sq-app__title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sq-app__hint {
+  font-size: 0.64rem;
+  line-height: 1.5;
+  color: var(--md-default-fg-color--light);
+}
+
+.sq-app__restore {
+  margin-left: auto;
+  border: 0;
+  padding: 0.1rem 0.3rem;
+  background: none;
+  font-size: 0.62rem;
+  color: var(--md-default-fg-color--light);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* auto-fill, so the cards form as many columns as the width allows and then wrap
+   onto further rows — a long stack grows downward instead of squeezing. The
+   minimum is what fits a 30-character kernel name beside its badges.
+
+   Three classes deep on purpose. Material sets `display: flow-root` on content
+   lists as `.md-typeset ol:not([hidden])` — one class plus one attribute plus one
+   element — which outranks both `.sq-app__stack` and `.sq-app .sq-app__stack`, so
+   at either of those the cards each took a full row while the columns this rule
+   asks for were computed and ignored. */
+.md-typeset .sq-app .sq-app__stack {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ── The cards ────────────────────────────────────────────────────────────── */
+
+.sq-kcard {
+  /* Two rows: the name, then the identification. Still thin — the whole card is
+     about 2.4rem — because a stack of twenty of these has to stay scannable, and
+     five labelled facts do not fit one line at a readable size. */
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.3rem 0.35rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.2rem;
+  background: var(--md-default-bg-color);
+  font-size: 0.64rem;
+  line-height: 1.4;
+  cursor: grab;
+}
+
+.sq-kcard:focus-visible {
+  outline: 2px solid var(--sq-accent);
+  outline-offset: 1px;
+}
+
+/* The card being dragged, and the gap it would land in. */
+.sq-kcard.is-dragging { opacity: 0.4; }
+.sq-kcard.is-over { border-color: var(--sq-accent); box-shadow: inset 2px 0 0 var(--sq-accent); }
+
+/* The furnish position. Kept monospace so the column does not jitter between
+   single and double digits as cards are reordered. */
+.sq-kcard__n {
+  flex: none;
+  min-width: 1.25rem;
+  padding: 0.05rem 0;
+  border-radius: 0.15rem;
+  background: var(--sq-accent);
+  color: #fff;
+  font-family: var(--md-code-font-family, monospace);
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.sq-kcard__head {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.sq-kcard__name {
+  flex: 1 1 auto;
+  min-width: 0;          /* lets the ellipsis happen inside a flex item */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--md-code-font-family, monospace);
+}
+
+.sq-kcard__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  padding-left: 1.65rem;   /* clears the order chip, so the facts line up */
+}
+
+/* label + value. The label is the quiet half: it is there to disambiguate
+   'cassini' from 'iss', not to be read every time. */
+.sq-kfact {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.2rem;
+  font-size: 0.56rem;
+  line-height: 1.3;
+  color: var(--md-default-fg-color--light);
+  white-space: nowrap;
+}
+
+.sq-kfact i {
+  font-style: normal;
+  font-size: 0.48rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.sq-kfact.is-type {
+  padding: 0 0.25rem;
+  border-radius: 0.15rem;
+  background: color-mix(in srgb, var(--sq-accent) 15%, transparent);
+  color: var(--sq-accent);
+  font-weight: 700;
+}
+
+.sq-kcard__x {
+  flex: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 0;
+  border-radius: 0.15rem;
+  background: none;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.8rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.sq-kcard__x:hover,
+.sq-kcard__x:focus-visible {
+  background: var(--md-default-fg-color--lightest);
+  color: var(--sq-accent);
+}
+
+/* Empty stack, and the whole-applet state while a file is over it. */
+.sq-app__empty {
+  padding: 0.5rem 0.3rem;
+  font-size: 0.64rem;
+  color: var(--md-default-fg-color--light);
+}
+
+.sq-app.is-dropping .sq-app__kernels {
+  outline: 2px dashed var(--sq-accent);
+  outline-offset: -4px;
+}
+
+/* ── Pane 3: the run bar and the plot ─────────────────────────────────────── */
+
+.sq-app__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  padding: 0.7rem 0.9rem;
+}
+
+.sq-app .md-button {
+  margin: 0;
+  padding: 0.25em 1.1em;
+  font-size: 0.68rem;
+  cursor: pointer;
+}
+
+/* Material hovers .md-button--primary to --md-accent-fg-color, which this site
+   leaves at the theme's indigo — the one place the button stopped being SpiceQL red. */
+.sq-app .md-button--primary:hover,
+.sq-app .md-button--primary:focus-visible {
+  background-color: #C93A1D;
+  border-color: #C93A1D;
+}
+
+.sq-app .md-button[disabled] {
+  opacity: 0.55;
+  cursor: progress;
+}
+
+.sq-app__status {
+  font-size: 0.66rem;
+  line-height: 1.5;
+  color: var(--md-default-fg-color--light);
+}
+
+.sq-app.has-error .sq-app__status {
+  color: #C93A1D;
+  font-weight: 600;
+}
+
+/* Before a run there is nothing to plot, and 26rem of nothing is a hole in the
+   page — so the pane starts at the height of its placeholder and is given the
+   full height when a run begins. The height has to be in place BEFORE Plotly
+   draws, because Plotly measures its container and a short container gives a
+   short plot; the applet adds .has-plot as the run starts, not when it ends. */
+.sq-app__plot {
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.sq-app.has-plot .sq-app__plot {
+  height: 26rem;
+}
+
+.sq-app__placeholder {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 1.15rem 1rem;
+  font-size: 0.68rem;
+  line-height: 1.5;
+  color: var(--md-default-fg-color--light);
+}
+
+.sq-app__placeholder b {
+  color: var(--md-default-fg-color);
+  font-weight: 600;
+}
+
+/* A stand-in for the orbit rather than an icon: one ring, at the angle the plot
+   opens at, so the empty pane reads as the plot that is missing. */
+.sq-app__placeholder-mark {
+  flex: none;
+  width: 1.6rem;
+  height: 1.6rem;
+  border: 1px solid var(--sq-accent);
+  border-radius: 50%;
+  opacity: 0.55;
+  transform: rotate(-24deg) skewX(-18deg) scaleY(0.52);
+}
+
+@media screen and (max-width: 44.9em) {
+  .sq-app.has-plot .sq-app__plot { height: 20rem; }
+  .md-typeset .sq-app .sq-app__stack { grid-template-columns: 1fr; }
+}
+
+/* ── The REST applet ───────────────────────────────────────────────────────────
+   Same three panes and the same cards, with the top pane logging HTTP requests
+   rather than holding kernels. Only the affordances differ: nothing here is
+   draggable or removable, so the grab cursor would be a lie. */
+.sq-app--rest .sq-kcard {
+  cursor: default;
+}
+
+/* ── Runnable code tabs ────────────────────────────────────────────────────────
+   The JavaScript tabs in the usage sections: a download pane, a fence, a Run
+   button and a pane for whatever the snippet prints. The same cards as the
+   applet's, reused rather than restyled, so a kernel arriving here looks like a
+   kernel listed there — they differ only in carrying a progress bar. */
+.sq-exec {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.2rem;
+  overflow: hidden;
+}
+
+.sq-exec__files {
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.sq-exec__head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin: 0 0 0.4rem !important;
+}
+
+.sq-exec__title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sq-exec__hint {
+  font-size: 0.64rem;
+  line-height: 1.5;
+  color: var(--md-default-fg-color--light);
+}
+
+/* Three classes deep for the same reason the applet's stack is — Material's
+   `.md-typeset ol:not([hidden])` outranks anything shallower. Empty until a run
+   starts, so it collapses rather than reserving a row for nothing. */
+.md-typeset .sq-exec .sq-exec__stack {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sq-exec .sq-kcard {
+  cursor: default;
+}
+
+/* The progress bar: a third row on the card. The card is a column flex box, so
+   this stretches the full width on its own. 2px so it reads as a rule that
+   fills rather than as a widget. */
+.sq-kbar {
+  height: 2px;
+  margin-top: 0.3rem;
+  background: var(--md-default-fg-color--lightest);
+  overflow: hidden;
+}
+
+.sq-kbar__fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--sq-accent);
+  transition: width 0.12s linear;
+}
+
+/* A finished card has nothing left to report, so its bar goes quiet rather than
+   sitting there at full accent and competing with the one still moving. */
+.sq-kcard.is-done .sq-kbar__fill {
+  background: var(--md-default-fg-color--lighter);
+}
+
+.sq-kcard.is-failed .sq-kbar__fill {
+  width: 100% !important;
+  background: #C93A1D;
+}
+
+/* The fence is flush inside the box: its own border would double up on this
+   one, and MkDocs gives it a radius this box has already applied. */
+.sq-exec .highlight {
+  margin: 0;
+}
+
+.sq-exec .highlight pre {
+  margin: 0;
+  border-radius: 0;
+}
+
+.sq-exec__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  margin: 0 !important;
+  padding: 0.55rem 0.6rem;
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.sq-exec__status {
+  font-size: 0.66rem;
+  line-height: 1.5;
+  color: var(--md-default-fg-color--light);
+}
+
+.sq-exec.has-error .sq-exec__status {
+  color: #C93A1D;
+  font-weight: 600;
+}
+
+/* Collapsed until a run produces something, so an untouched tab is a fence and
+   a button rather than a fence, a button and an empty black band. */
+.sq-exec__out {
+  display: none;
+  margin: 0 !important;
+  padding: 0.5rem 0.6rem;
+  max-height: 16rem;
+  overflow: auto;
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+  background: var(--md-code-bg-color);
+  font-size: 0.66rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.sq-exec.has-run .sq-exec__out {
+  display: block;
+}
+
+.sq-exec__line {
+  display: block;
+  color: var(--md-code-fg-color);
+}
+
+.sq-exec__line.is-warn  { color: #B8860B; }
+.sq-exec__line.is-error { color: #C93A1D; }

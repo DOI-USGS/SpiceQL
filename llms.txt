@@ -1,0 +1,12 @@
+# SpiceQL Manual
+
+SpiceQL is a C++ library, with Python bindings, a WebAssembly build and a hosted REST API, for querying, reading and writing NAIF SPICE kernels.
+
+
+## Overview
+
+- [Home](https://doi-usgs.github.io/SpiceQL/index.md)
+
+## C++ API
+
+

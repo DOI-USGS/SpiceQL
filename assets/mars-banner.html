@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mars — SpiceQL</title>
+  <title>Mars | SpiceQL</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -282,6 +282,57 @@
        other lines instead of staying at the 0.30 the distant tags use. */
     .sc-label.centered .ut { color: rgba(255,255,255,0.45); }
 
+    /* ── Rotation ──
+       The canvas is the control, so the affordance is the cursor on it: grab at
+       rest, grabbing while held. touch-action pan-y is what lets a phone keep
+       its vertical scroll — the pointer handler claims only gestures that start
+       out horizontal, and this tells the browser the same thing so the first
+       few pixels are not swallowed before the handler has decided. */
+    #mars-canvas {
+      cursor: grab;
+      touch-action: pan-y;
+    }
+
+    #banner.is-rotating #mars-canvas { cursor: grabbing; }
+    #banner.is-over-body #mars-canvas { cursor: pointer; }
+
+    /* Focus has to be visible on a canvas that is now keyboard-operable, and the
+       default ring would be drawn hard against the hero. An inset glow reads as
+       the frame being live without putting a rectangle over the globe. */
+    #mars-canvas:focus-visible {
+      outline: none;
+      box-shadow: inset 0 0 0 1px rgba(232,72,38,0.55);
+    }
+
+    /* The hint, bottom-right, on the same fade as the zoom slider: nearly absent
+       at rest, legible once the hero is hovered. It names the gesture rather than
+       drawing an icon, because there is no conventional glyph for "drag to
+       rotate" that a reader would recognise faster than the words. */
+    #view-hint {
+      position: absolute;
+      right: 0.75rem; bottom: 10px;
+      z-index: 20;
+      font-family: 'Roboto Mono', 'Courier New', monospace;
+      font-size: 8px;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.30);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    #banner:hover #view-hint { opacity: 1; }
+
+    /* While a body is being followed the hint is the only thing saying so, and
+       saying it only on hover would leave a reader who clicked with no way to
+       find out how to stop. */
+    #banner.is-tracking #view-hint {
+      opacity: 1;
+      color: rgba(255,255,255,0.55);
+    }
+
     /* ── Zoom slider (right edge) ──
        The StarDS treatment: a bare vertical range, nearly invisible at rest so
        it never competes with the globe, opaque once the hero is hovered. */
@@ -464,6 +515,9 @@
          would otherwise run to the very edge of the frame. */
       #caption { left: 1rem; right: 1rem; font-size: 0.6rem; }
       #zoom-wrap { display: none; }
+      /* The hint goes with it: the gesture still works, but a phone has no hover
+         to reveal the text and no room to spare for it. */
+      #view-hint { display: none; }
     }
 
     /* ── Phone-shaped frames ──
@@ -697,6 +751,8 @@
       <span class="live-only">Rendered in real time from the SpiceQL REST API.</span>
     </div>
 
+    <p id="view-hint">Drag to rotate · click a body to follow it · double-click to reset</p>
+
     <div id="zoom-wrap">
       <!-- Decorative: the input already carries the accessible name, so this is
            hidden from assistive tech rather than read out a second time. -->
@@ -726,6 +782,7 @@
     // place the opening framing is set.
     const LNG_SEGMENTS = 24;    // meridians
     const LAT_SEGMENTS = 16;    // parallels
+    
     // Graticule line opacity. It doubles as the density knob's partner: the far
     // side of the sphere is drawn too — nothing occludes a wireframe — so every
     // crossing reads as roughly twice this, and lowering it is how you keep a
@@ -905,6 +962,27 @@
       SATURN:  { r: 60268.0, flat: 0.90204, tilt:  26.73, rings: [1.24, 1.95, 2.27] },
       URANUS:  { r: 25559.0, flat: 0.97707, tilt:  97.77, rings: [1.64, 2.00] },
       NEPTUNE: { r: 24764.0, flat: 0.98292, tilt:  28.32 },
+    };
+
+    // Mars' moons, as the triaxial radii the PCK states (km), keyed by the name
+    // the cache gives them. BODY401_RADII and BODY402_RADII from the same
+    // kernels the rest of this table comes from — checked against the service,
+    // which also returns [3396.19, 3396.19, 3376.2] for BODY499_RADII, i.e. the
+    // MARS_EQ_R and MARS_PO_R pair above. So the moons and the globe they are
+    // proportional to are quoting one source.
+    //
+    // Constants, not cached: the cache carries time-dependent data only, and a
+    // fixed shape stored in two places is a fixed shape that can disagree with
+    // itself.
+    //
+    // Drawn at TRUE scale, unlike the planets below — these orbit the hero globe
+    // in the same frame at the same 1-unit-per-Mars-radius, so there is nothing
+    // to compress and compressing them would be the one lie this scene does not
+    // need. The consequence is that they are small: Phobos' long axis is 1/253
+    // of Mars' radius, so it draws about two pixels across at the resting zoom.
+    const MOON_BODY = {
+      Phobos: { radii: [13.4, 11.2, 9.2] },
+      Deimos: { radii: [7.5, 6.1, 5.2] },
     };
 
     // Body radii get the same treatment as the orbits, and for the same reason:
@@ -1321,7 +1399,52 @@
 
     // Far plane must clear the outer star shell at full zoom-out
     const camera = new THREE.PerspectiveCamera(45, W / H, 0.1, 1200);
-    camera.position.set(0, 0.4, CAMERA_DIST);
+
+    // The camera's pose is kept as three numbers rather than read back off
+    // camera.position, because the view can now be orbited: once the camera
+    // leaves the +z axis, position.z stops being the distance and every piece of
+    // framing that used it — the fade ramps, the zoom slider, restingDist() —
+    // would quietly start reading a cosine of it instead.
+    //
+    // camDist is what the zoom slider owns. viewYaw and viewPitch are the user's
+    // rotation, zero at the framing the hero was solved for, so the resting view
+    // is bit-for-bit what it was before these existed.
+    let camDist  = CAMERA_DIST;
+    let viewYaw  = 0;
+    let viewPitch = 0;
+
+    // Beyond this the globe starts to roll past the poles and the labels' up
+    // vector goes with it. 70° is enough to look down on the orbit planes, which
+    // is the view worth having, without reaching the flip.
+    const PITCH_LIMIT = 70 * Math.PI / 180;
+
+    // Where the camera sits when nothing is rotated: this is the pose the whole
+    // hero framing was solved against, and it stays the zero point of the orbit.
+    const REST_EYE_Y = 0.4;
+
+    // ── Focus ──────────────────────────────────────────────────
+    // Clicking a body centres the view on it and the camera follows it from then
+    // on. `focusBody` is whatever was picked — a craft or a planet, both of which
+    // expose a world position — and focusBlend crosses from the hero framing to
+    // that body rather than cutting, because a craft moving at TIME_RATE 600
+    // arrives at the centre of frame fast enough to be disorienting.
+    //
+    // Distance is deliberately NOT part of focusing. The zoom slider owns camDist
+    // and nothing else writes it, so clicking a body cannot fight the slider or
+    // leave it reading a number that is no longer true.
+    let focusBody  = null;
+    let focusBlend = 0;
+    const focusPos = new THREE.Vector3();
+
+    // Seconds to cross. Short enough to feel like a response to the click, long
+    // enough to see where the view came from.
+    const FOCUS_EASE_SEC = 0.45;
+
+    // How near a click has to land, in CSS pixels. Generous because the targets
+    // are a 13-thousandth-of-a-radius dot and planets a couple of units wide at
+    // most — picking by raycast against that geometry would mean telling readers
+    // to aim, so this picks the nearest body within reach instead.
+    const PICK_RADIUS_PX = 26;
 
     // 0 on a landscape frame, 1 on a portrait one. The resting distance and both
     // lookAt offsets are keyed to it, so the phone framing blends in rather than
@@ -1378,7 +1501,7 @@
     };
 
     function updateCameraTarget() {
-      const z       = Math.abs(camera.position.z);
+      const z       = camDist;
       const fovHalf = THREE.MathUtils.degToRad(camera.fov / 2);
       const halfH   = Math.tan(fovHalf) * z;
       const halfW   = halfH * (W / H);
@@ -1397,12 +1520,77 @@
       // edge entirely and leaves only the cap. Blended rather than switched, for
       // the same reason portraitness() is — a frame can be dragged between the two.
       const lift = 0.22 * (1 - dome) + DOME_SINK * dome;
-      camera.lookAt(
-        -(halfW / 3) * (1 - release) * (1 - portrait),
-        halfH * lift * (1 - release) * portrait,
-        0);
+      const hx = -(halfW / 3) * (1 - release) * (1 - portrait);
+      const hy = halfH * lift * (1 - release) * portrait;
+
+      // Focusing MOVES the composition, it does not replace it. The camera looks
+      // at a point offset from the subject by exactly the (hx, hy) the hero
+      // framing solved for, so whatever is being followed lands where the globe
+      // lands — two thirds across and clear of the title — instead of dead
+      // centre, which on this banner is behind the text.
+      //
+      // That is the whole of it: the rig slides onto the body. hx already carries
+      // the release and portrait factors, so a focused body centres itself when
+      // you pull back and seats low on a phone, for the same reasons the globe
+      // does.
+      //
+      // The SUBJECT is what the camera orbits and what the composition is about:
+      // Mars at the origin in the hero view, the followed body once focused. It
+      // is applied where the two poses are crossed, below.
+      //
+      // One rotation, applied to the whole rig — the eye, the point it looks at,
+      // AND its up vector — all measured from the subject. Rotating the three
+      // together is a rigid orbit about the subject, which is what holds the
+      // subject still on screen while the camera goes round it.
+      //
+      // Rotating only the eye about the look-at point, which is what this did
+      // first, pivots about a point BESIDE the body: the body then swings across
+      // the frame as you drag, 204 px at a 63° yaw, and leaves the composition
+      // the offset exists to create.
+      //
+      // Pitch about the rest frame's X, then yaw about world Y — the ordinary
+      // spherical pair, which keeps a horizontal drag horizontal at any pitch.
+      // Rotating `up` with the rest is what makes it rigid rather than merely
+      // re-aimed: lookAt() derives the camera's roll from up, so leaving up at
+      // world +Y would re-derive a different roll at every pitch and slide the
+      // off-centre subject around.
+      const cp = Math.cos(viewPitch), sp = Math.sin(viewPitch);
+      const cyw = Math.cos(viewYaw),  syw = Math.sin(viewYaw);
+      const rot = (vx, vy, vz) => {
+        const y1 = vy * cp - vz * sp;
+        const z1 = vy * sp + vz * cp;
+        return [vx * cyw + z1 * syw, y1, -vx * syw + z1 * cyw];
+      };
+
+      // Both offsets are the hero framing's, measured from the subject: the eye
+      // sits (0, REST_EYE_Y, z) from it and the look-at point (hx, hy, 0). At
+      // zero rotation with nothing focused that is the opening pose exactly, and
+      // the eye-to-target distance is |(-hx, REST_EYE_Y - hy, z)| either way, so
+      // camDist still means what the zoom slider says it means.
+      const [ex, ey, ez] = rot(0, REST_EYE_Y, z);
+      const [lx, ly, lz] = rot(hx, hy, 0);
+      const [ux, uy, uz] = rot(0, 1, 0);
+
+      // The hero pose, which is also the pose f = 0 has to reproduce exactly:
+      // subject at the world origin, i.e. Mars.
+      let eyeX = ex,  eyeY = ey,  eyeZ = ez;
+      let aimX = lx,  aimY = ly,  aimZ = lz;
+
+      if (focusBlend > 0) {
+        // Rigid orbit about the body, with the body on the hero spot. Crossed as
+        // world points so the arrival is one lerp rather than two formulations.
+        const f = focusBlend;
+        const fex = focusPos.x + ex, fey = focusPos.y + ey, fez = focusPos.z + ez;
+        const fax = focusPos.x + lx, fay = focusPos.y + ly, faz = focusPos.z + lz;
+        eyeX += (fex - eyeX) * f; eyeY += (fey - eyeY) * f; eyeZ += (fez - eyeZ) * f;
+        aimX += (fax - aimX) * f; aimY += (fay - aimY) * f; aimZ += (faz - aimZ) * f;
+      }
+
+      camera.position.set(eyeX, eyeY, eyeZ);
+      camera.up.set(ux, uy, uz);
+      camera.lookAt(aimX, aimY, aimZ);
     }
-    camera.position.z = restingDist();
+    camDist = restingDist();
     updateCameraTarget();
 
     scene.add(new THREE.AmbientLight(0xffffff, 0.4));
@@ -1744,6 +1932,7 @@
           name: rec.name, cpos, n: rec.n, periodDays: rec.periodDays,
           label: makeLabel(rec.label, rec.color, 'pl-label'),
           body, trail, trailPts, isHero,
+          world: new THREE.Vector3(),
           spin: 0.06 + Math.random() * 0.05,   // decorative, see the loop
         });
       }
@@ -1858,10 +2047,35 @@
 
     function buildCraft(recs) {
       for (const rec of recs) {
-        const dot = new THREE.Mesh(
-          new THREE.SphereGeometry(0.013, 10, 8),
-          new THREE.MeshBasicMaterial({ color: rec.color }),
-        );
+        // Two kinds of marker, and the difference is whether the body has a real
+        // shape at this scale. A spacecraft does not — MRO is seven metres across
+        // and would be a ten-thousandth of a pixel — so it gets a fixed glyph,
+        // 0.013 radii, sized to be seen rather than to be right. A moon does, so
+        // it gets an ellipsoid at true scale from MOON_BODY.
+        //
+        // The ellipsoid is a unit sphere scaled on each axis, which is exactly
+        // what a triaxial body is, with the LONG axis on local +Z so that
+        // orienting it is one lookAt. Both moons are tidally locked, so that long
+        // axis genuinely points at Mars — which is why the orientation is worth
+        // doing at all rather than leaving them axis-aligned in J2000.
+        const moon = MOON_BODY[rec.name];
+        let dot;
+        if (moon) {
+          const [a, b, c] = moon.radii;
+          dot = new THREE.Mesh(
+            new THREE.SphereGeometry(1, 16, 12),
+            new THREE.MeshBasicMaterial({ color: rec.color }),
+          );
+          // b and c across, a along the view to Mars. SCALE converts km to the
+          // scene's one-unit-per-Mars-equatorial-radius.
+          dot.scale.set(b * SCALE, c * SCALE, a * SCALE);
+        } else {
+          dot = new THREE.Mesh(
+            new THREE.SphereGeometry(0.013, 10, 8),
+            new THREE.MeshBasicMaterial({ color: rec.color }),
+          );
+        }
+        dot.isMoon = !!moon;
         scene.add(dot);
 
         const trailGeo = new THREE.BufferGeometry();
@@ -2033,7 +2247,7 @@
           `Every body shown at one epoch, ${sync}.`);
       } else {
         setStatus('cache',
-          `SpiceQL API unreachable for ${craft.length - ok} of ${craft.length} orbits — ` +
+          `SpiceQL API unreachable for ${craft.length - ok} of ${craft.length} orbits; ` +
           `showing cached SPICE data bundled with the docs.`);
       }
     }
@@ -2094,6 +2308,12 @@
     const clock  = new THREE.Clock();
     const marsC  = new THREE.Vector3();   // compressed Mars, i.e. the Sun's offset
     const bodyW  = new THREE.Vector3();
+
+    // Last frame's layer fades, kept on module scope so the click picker can
+    // tell what was actually on screen. A body faded out is a body you cannot
+    // click, which is the behaviour you want — the craft are gone by the time
+    // the planets appear, and vice versa.
+    let craftFade = 0, solarFade = 0;
     let textTimer = 0, elapsed = 0;
 
     function animate() {
@@ -2110,9 +2330,9 @@
       // framing at the default zoom is untouched. The fade-in window tracks
       // LOG_K: the layout now runs out to 112 u, so arriving any earlier just
       // means a frame of empty space with every label pinned to an edge.
-      const z         = Math.abs(camera.position.z);
-      const solarFade = smoothstep(21, 42, z);
-      const craftFade = 1 - smoothstep(14, 24, z);
+      const z         = camDist;
+      solarFade = smoothstep(21, 42, z);
+      craftFade = 1 - smoothstep(14, 24, z);
       updateCameraTarget();
 
       // The one clock, advanced once per frame. Both layers read simMs below
@@ -2189,6 +2409,9 @@
 
         for (const p of planets) {
           bodyW.set(p.x, p.y, p.z).applyMatrix4(solarGroup.matrixWorld);
+          // Kept for the picker and for focus tracking, both of which run outside
+          // this loop and need the world position rather than the group-local one.
+          p.world.copy(bodyW);
 
           // Mars reads as one of the eight when you are pulled back, and this is
           // the one place it stops: once it fills the frame the other labels are
@@ -2245,6 +2468,12 @@
         const hy = c.pos[i0 + 1] + (c.pos[i1 + 1] - c.pos[i0 + 1]) * f;
         const hz = c.pos[i0 + 2] + (c.pos[i1 + 2] - c.pos[i0 + 2]) * f;
         c.dot.position.set(hx, hy, hz);
+        // Tidal locking, for the bodies that have one: both moons keep their long
+        // axis on Mars, so pointing local +Z at the origin is the whole of their
+        // attitude. No CK or PCK rotation is read for this — the lock is the
+        // physics, and at two pixels across the sub-degree libration it misses is
+        // not a thing anyone can see.
+        if (c.dot.isMoon) c.dot.lookAt(0, 0, 0);
         c.dot.visible   = craftFade > 0.02;
         c.trail.visible = craftFade > 0.02;
 
@@ -2283,6 +2512,12 @@
           measureLabel(c.label);
         }
       }
+
+      // Focus last, after both layers have moved: the craft loop and the planet
+      // loop are what put this frame's world positions where updateFocus can read
+      // them, so tracking a body has to happen after them or the camera would
+      // always be one frame behind whatever it is following.
+      updateFocus(dt);
 
       // Scene offscreen, then the chain: bright pass, the two blur axes, and a
       // final quad to the canvas. The blurs ping-pong between the two small
@@ -2335,7 +2570,7 @@
 
     const zoomInput = document.getElementById('zoom');
     zoomInput.max   = ZOOM_MAX;             // set before value, or it clamps
-    zoomInput.value = camera.position.z;     // restingDist() owns the framing
+    zoomInput.value = camDist;               // restingDist() owns the framing
 
     // Once the slider has been dragged, the resting distance stops being ours to
     // change, so a later resize leaves the chosen zoom alone.
@@ -2343,9 +2578,231 @@
 
     zoomInput.addEventListener('input', function () {
       zoomTouched = true;
-      camera.position.z = parseFloat(this.value);
+      camDist = parseFloat(this.value);
       updateCameraTarget();
     });
+
+    // ═══════════════════════════════════════════════════════════
+    // Rotate
+    // ═══════════════════════════════════════════════════════════
+
+    // A drag of the frame's full width is one full turn, so the globe tracks the
+    // pointer at about the rate you would expect of something you had hold of.
+    // Total pointer travel below which a press counts as a click rather than a
+    // drag. Measured in accumulated movement, not start-to-end distance, so a
+    // wander that returns to where it began is still a drag.
+    const CLICK_SLOP_PX = 6;
+
+    const hintEl = document.getElementById('view-hint');
+    const HINT_DEFAULT = hintEl.textContent;
+
+    const YAW_PER_PX   = (2 * Math.PI) / 900;
+    const PITCH_PER_PX = Math.PI / 900;
+    const KEY_STEP     = 4 * Math.PI / 180;   // arrow keys, in radians
+
+    function rotateView(dYaw, dPitch) {
+      viewYaw += dYaw;
+      viewPitch = Math.min(PITCH_LIMIT, Math.max(-PITCH_LIMIT, viewPitch + dPitch));
+      updateCameraTarget();
+    }
+
+    function resetView() {
+      viewYaw = 0;
+      viewPitch = 0;
+      releaseFocus();
+      updateCameraTarget();
+    }
+
+    // ── Picking ────────────────────────────────────────────────
+
+    /**
+     * Everything clickable right now, with where it is and how visible it is.
+     *
+     * Visibility is part of the answer, not a filter applied after: the craft
+     * have faded out by the zoom the planets fade in at, so "what can I click"
+     * genuinely depends on where the slider is. A body at fade 0 is not on screen
+     * and must not be pickable, or a click on empty sky would focus something
+     * invisible.
+     */
+    function pickable() {
+      const out = [];
+      if (craftFade > 0.02) {
+        for (const c of craft) {
+          if (c.dot.visible) out.push({ name: c.name, world: c.dot.position });
+        }
+      }
+      for (const p of planets) {
+        // Mars is the hero globe up close and one of the eight when pulled back;
+        // it is clickable either way, which is how you get back to it.
+        const fade = p.isHero ? Math.max(craftFade, solarFade) : solarFade;
+        if (fade > 0.02) out.push({ name: p.name, world: p.world });
+      }
+      return out;
+    }
+
+    /** The nearest pickable body to a point on the canvas, or null. */
+    function pickBody(clientX, clientY) {
+      const rect = canvas.getBoundingClientRect();
+      const px = clientX - rect.left;
+      const py = clientY - rect.top;
+      let best = null, bestDist = PICK_RADIUS_PX;
+      for (const cand of pickable()) {
+        projected.copy(cand.world).project(camera);
+        if (projected.z > 1) continue;          // behind the camera
+        const sx = (projected.x * 0.5 + 0.5) * W;
+        const sy = (-projected.y * 0.5 + 0.5) * H;
+        const d = Math.hypot(sx - px, sy - py);
+        if (d < bestDist) { bestDist = d; best = cand; }
+      }
+      return best;
+    }
+
+    function setFocus(body) {
+      focusBody = body;
+      // Start the blend from where the view is rather than from the body, so the
+      // crossing is a move from the current framing and not a jump to the body
+      // followed by a move.
+      if (body && focusBlend === 0) focusPos.copy(body.world);
+      bannerEl.classList.toggle('is-tracking', !!body);
+      hintEl.textContent = body
+        ? `Tracking ${body.name} · click elsewhere or press Esc to release`
+        : HINT_DEFAULT;
+    }
+
+    function releaseFocus() {
+      if (focusBody) setFocus(null);
+    }
+
+    /**
+     * Advances the focus crossing and keeps the camera on the body.
+     *
+     * Called once a frame, and only doing work while there is something to do —
+     * a banner nobody has clicked pays one comparison. While focused it is the
+     * tracking: the body has moved since the last frame, so the target has to be
+     * recomputed or the camera would hold the epoch it was clicked at.
+     */
+    function updateFocus(dt) {
+      const want = focusBody ? 1 : 0;
+      if (focusBlend === want && !focusBody) return;
+
+      const step = dt / FOCUS_EASE_SEC;
+      focusBlend = want > focusBlend
+        ? Math.min(want, focusBlend + step)
+        : Math.max(want, focusBlend - step);
+
+      // Exactly the body's position, not a lagged chase toward it. The blend
+      // above is what smooths the arrival; adding a second filter here only
+      // trails the target, and at TIME_RATE 600 that trail is large — MRO laps
+      // its orbit in eleven seconds, so a 0.45 s lag measured 0.2 Mars radii of
+      // error and left the body visibly off the centre it was centred on.
+      if (focusBody) focusPos.copy(focusBody.world);
+      updateCameraTarget();
+    }
+
+    let drag = null;
+
+    canvas.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return;
+      // Touch starts undecided: the banner can be the whole screen on a phone, so
+      // claiming the gesture immediately would take the page's vertical scroll
+      // with it. The axis is settled on the first few pixels of movement below —
+      // horizontal means rotate, vertical means let the page have it.
+      drag = { x: e.clientX, y: e.clientY, x0: e.clientX, y0: e.clientY,
+               id: e.pointerId, moved: 0,
+               axis: e.pointerType === 'touch' ? null : 'rotate' };
+      if (drag.axis === 'rotate') {
+        canvas.setPointerCapture(e.pointerId);
+        bannerEl.classList.add('is-rotating');
+      }
+    });
+
+    // Hover feedback, so the bodies read as clickable before anyone tries. Only
+    // for a pointer that hovers at all — a touch has no hover, and running the
+    // picker on every touchmove would be work for a cursor that cannot show.
+    canvas.addEventListener('pointermove', (e) => {
+      if (drag || e.pointerType === 'touch') return;
+      bannerEl.classList.toggle('is-over-body', !!pickBody(e.clientX, e.clientY));
+    });
+
+    canvas.addEventListener('pointerleave', () => {
+      bannerEl.classList.remove('is-over-body');
+    });
+
+    canvas.addEventListener('pointermove', (e) => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const dx = e.clientX - drag.x;
+      const dy = e.clientY - drag.y;
+
+      if (drag.axis === null) {
+        // 6 px of slop before committing, so a tap that wobbles does neither.
+        if (Math.hypot(dx, dy) < 6) return;
+        drag.axis = Math.abs(dx) > Math.abs(dy) ? 'rotate' : 'scroll';
+        if (drag.axis === 'rotate') {
+          canvas.setPointerCapture(e.pointerId);
+          bannerEl.classList.add('is-rotating');
+        } else {
+          drag = null;                        // the page keeps the gesture
+          return;
+        }
+      }
+
+      e.preventDefault();
+      rotateView(dx * YAW_PER_PX, dy * PITCH_PER_PX);
+      drag.moved += Math.hypot(dx, dy);
+      drag.x = e.clientX;
+      drag.y = e.clientY;
+    });
+
+    const endDrag = (e) => {
+      if (!drag || (e && e.pointerId !== drag.id)) return;
+      if (canvas.hasPointerCapture?.(drag.id)) canvas.releasePointerCapture(drag.id);
+      const clean = drag.moved < CLICK_SLOP_PX;
+      const { x0, y0 } = drag;
+      drag = null;
+      bannerEl.classList.remove('is-rotating');
+
+      // A drag that happened to end near a body is not a click on it. Only a
+      // pointer that barely moved counts, which is also what lets a reader spin
+      // the view past a craft without being yanked onto it.
+      if (!clean || !e) return;
+      const hit = pickBody(x0, y0);
+      if (hit) setFocus(hit);
+      else releaseFocus();            // clicking empty sky lets the body go
+    };
+    canvas.addEventListener('pointerup', endDrag);
+    canvas.addEventListener('pointercancel', endDrag);
+
+    // Double-click anywhere on the globe puts the framing back, which is the one
+    // thing a reader who has spun it into a corner actually wants. It releases
+    // the tracked body too — the framing is not back until that is let go.
+    canvas.addEventListener('dblclick', resetView);
+
+    // The same moves without a pointer. The canvas is focusable so the rotation
+    // is reachable by keyboard like the zoom slider beside it, and it declares
+    // itself as a control rather than a decorative canvas.
+    canvas.tabIndex = 0;
+    canvas.setAttribute('role', 'application');
+    canvas.setAttribute('aria-label',
+      'Mars and its orbiting spacecraft. Drag or use the arrow keys to rotate the'
+      + ' view, click a spacecraft or planet to centre the view on it and follow'
+      + ' it, Escape to release it, Home to reset.');
+
+    canvas.addEventListener('keydown', (e) => {
+      switch (e.key) {
+        case 'ArrowLeft':  rotateView(-KEY_STEP, 0); break;
+        case 'ArrowRight': rotateView(KEY_STEP, 0); break;
+        case 'ArrowUp':    rotateView(0, -KEY_STEP); break;
+        case 'ArrowDown':  rotateView(0, KEY_STEP); break;
+        case 'Home':       resetView(); break;
+        case 'Escape':     releaseFocus(); break;
+        default: return;
+      }
+      // Only once a key has been handled, so Tab and the rest still work.
+      e.preventDefault();
+    });
+
+    // For dialling the view in from the console, like CRT and BLOOM above.
+    Object.assign(window, { rotateView, resetView, setFocus, releaseFocus, pickable });
 
     // ═══════════════════════════════════════════════════════════
     // Resize
@@ -2364,8 +2821,8 @@
       // Rotating a phone changes the aspect, and with it how far back the globe
       // has to sit to fit the frame.
       if (!zoomTouched) {
-        camera.position.z = restingDist();
-        zoomInput.value   = camera.position.z;
+        camDist = restingDist();
+        zoomInput.value = camDist;
       }
       updateCameraTarget();
     });
@@ -2381,7 +2838,7 @@
       .then(() => {
         // Stay on the neutral pulse until the API verdict is in, so the dot
         // never flashes "failed" during a request that is about to succeed.
-        setStatus('probing', 'Cached SPICE data rendering — contacting the SpiceQL API…');
+        setStatus('probing', 'Cached SPICE data rendering; contacting the SpiceQL API…');
         return trySpiceQL();
       })
       .catch(err => {
