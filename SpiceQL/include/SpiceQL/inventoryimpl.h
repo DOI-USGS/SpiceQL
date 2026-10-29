@@ -93,10 +93,39 @@ namespace SpiceQL {
     int getFrameCode(std::string name);
     nlohmann::json search_for_kernelset(std::string spiceql_name, std::vector<Kernel::Type> types, double start_time=-std::numeric_limits<double>::max(), double stop_time=std::numeric_limits<double>::max(),
                                             std::vector<Kernel::Quality> ckQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, std::vector<Kernel::Quality> spkQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED},
-                                            bool full_kernel_path=false, int limit_ck=-1, int limit_spk=1);
+                                            bool full_kernel_path=false, int limit_ck=-1, int limit_spk=1, bool get_intervals=false);
     nlohmann::json search_for_kernelsets(std::vector<std::string> spiceql_names, std::vector<Kernel::Type> types, double start_time=-std::numeric_limits<double>::max(), double stop_time=std::numeric_limits<double>::max(),
                                             std::vector<Kernel::Quality> ckQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, std::vector<Kernel::Quality> spkQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED},
-                                            bool full_kernel_path=false, int limit_ck=-1, int limit_spk=1, bool overwrite=false);
+                                            bool full_kernel_path=false, int limit_ck=-1, int limit_spk=1, bool overwrite=false, bool get_intervals=false);
+
+    /**
+     * @brief Get the coverage intervals of kernels in one CK or SPK group.
+     *
+     * Used when the group is already known, e.g. by search_for_kernelset. To
+     * search every group, use get_kernel_intervals.
+     *
+     * A kernel can be named by its bare filename, its path relative to the data
+     * dir (or a full path ending in it), or its SpiceQL key
+     * (/<mission>/<type>/<quality>/<filename>). Kernels not in the group are
+     * skipped.
+     *
+     * @param key the group, as <mission>/<type>/<quality>/
+     * @param kernels the kernels to get intervals for
+     * @returns json object of SpiceQL key to an array of
+     *          {"start", "stop", "body_code"} intervals
+     */
+    nlohmann::json get_group_intervals(std::string key, std::vector<std::string> kernels);
+
+    /**
+     * @brief Get the coverage intervals of kernels from any CK or SPK group.
+     *
+     * Calls get_group_intervals on every time dependent group in the DB, 
+     * so a kernel in more than one group gets an entry for each.
+     *
+     * @param kernels the kernels to get intervals for
+     * @returns json object of SpiceQL key to an array of intervals
+     */
+    nlohmann::json get_kernel_intervals(std::vector<std::string> kernels);
     nlohmann::json m_json_inventory;
 
     std::map<std::string, std::vector<std::string>> m_nontimedep_kerns;

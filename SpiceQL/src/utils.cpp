@@ -268,6 +268,10 @@ namespace SpiceQL {
             if(!k_set.contains(e)) j1[k].push_back(e);
           }
         }
+        else if(j1.contains(k) && j1[k].is_object() && v.is_object()) {
+          // e.g. intervals keyed by kernel, merge rather than replace
+          merge_json(j1[k], v, overwrite);
+        }
         else { 
           j1[k] = v;
         }

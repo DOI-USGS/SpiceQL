@@ -1461,7 +1461,8 @@ namespace SpiceQL {
                                                           bool fullKernelPath, 
                                                           int limitCk, 
                                                           int limitSpk,
-                                                          bool overwrite) {
+                                                          bool overwrite,
+                                                          bool getIntervals) {
     SPDLOG_TRACE("Calling searchForKernelsets with {}, {}, {}, {}, {}, {}, {}", spiceqlNames, types, startTime, stopTime, ckQualities.size(), spkQualities.size(), useWeb);
     
       if (useWeb){
@@ -1475,13 +1476,30 @@ namespace SpiceQL {
             {"fullKernelPath", fullKernelPath},
             {"limitCk", limitCk},
             {"limitSpk", limitSpk},
-            {"overwrite", overwrite}
+            {"overwrite", overwrite},
+            {"getIntervals", getIntervals}
         });
         json out = spiceAPIQuery("searchForKernelsets", args);
         string kvect = out["body"]["return"];
         return make_pair(kvect, out["body"]["kernels"]);
       }
-      json kernels = Inventory::search_for_kernelsets(spiceqlNames, types, startTime, stopTime, ckQualities, spkQualities, fullKernelPath, limitCk, limitSpk, overwrite);
+      json kernels = Inventory::search_for_kernelsets(spiceqlNames, types, startTime, stopTime, ckQualities, spkQualities, fullKernelPath, limitCk, limitSpk, overwrite, getIntervals);
       return {"", kernels};
+  }
+
+
+  pair<json, json> getKernelIntervals(vector<string> kernels, bool useWeb) {
+    SPDLOG_TRACE("Calling getKernelIntervals with {}, {}", kernels, useWeb);
+
+      if (useWeb){
+        json args = json::object({
+            {"kernels", kernels}
+        });
+        json out = spiceAPIQuery("getKernelIntervals", args);
+        json result = out["body"]["return"];
+        return make_pair(result, out["body"]["kernels"]);
+      }
+      json intervals = Inventory::get_kernel_intervals(kernels);
+      return {intervals, json::object()};
   }
 }

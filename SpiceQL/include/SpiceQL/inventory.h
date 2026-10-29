@@ -18,11 +18,25 @@
 namespace SpiceQL {
     namespace Inventory { 
         nlohmann::json search_for_kernelset(std::string spiceql_name, std::vector<std::string> types=KERNEL_TYPES, double start_time=-std::numeric_limits<double>::max(), double stop_time=std::numeric_limits<double>::max(), 
-                                      std::vector<std::string> ckQualities={"smithed", "reconstructed"}, std::vector<std::string> spkQualities={"smithed", "reconstructed"}, bool full_kernel_path=false, int limit_ck=-1, int limit_spk=1);
+                                      std::vector<std::string> ckQualities={"smithed", "reconstructed"}, std::vector<std::string> spkQualities={"smithed", "reconstructed"}, bool full_kernel_path=false, int limit_ck=-1, int limit_spk=1,
+                                      bool get_intervals=false);
         nlohmann::json search_for_kernelsets(std::vector<std::string> spiceql_names, std::vector<std::string> types=KERNEL_TYPES, double start_time=-std::numeric_limits<double>::max(), double stop_time=std::numeric_limits<double>::max(), 
                                       std::vector<std::string> ckQualities={"smithed", "reconstructed"}, std::vector<std::string> spkQualities={"smithed", "reconstructed"}, bool full_kernel_path=false, int limit_ck=-1, int limit_spk=1,
-                                      bool overwrite=false);    
+                                      bool overwrite=false, bool get_intervals=false);    
         nlohmann::json search_for_kernelset_from_regex(std::vector<std::string> list, bool full_kernel_path=false);
+
+        /**
+         * @brief Get the coverage intervals of CKs and SPKs from the database.
+         *
+         * A kernel can be named by its bare filename, its path relative to the
+         * data dir (or a full path ending in it), or its SpiceQL key
+         * (/<mission>/<type>/<quality>/<filename>).
+         *
+         * @param kernels the kernels to get intervals for
+         * @return json object of SpiceQL key to an array of
+         *         {"start", "stop", "body_code"}
+         */
+        nlohmann::json get_kernel_intervals(std::vector<std::string> kernels);
 
         std::string getDbFilePath();
         void setDbFilePath(std::string db_file_path, bool override=false);

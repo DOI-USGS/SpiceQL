@@ -683,6 +683,8 @@ namespace SpiceQL {
      * @param limitCk limitCk int number of cks to limit to, default is -1 to retrieve all
      * @param limitSpk int number of spks to limit to, default is 1 to retrieve only one
      * @param overwrite subkernels will take precedent over parent mission kernels if true
+     * @param getIntervals if true, the coverage intervals of the found CKs and SPKs are added
+     *                     under the "intervals" key, in the same format as getKernelIntervals
      *
      * @returns An empty return and list of kernels
      **/
@@ -697,5 +699,29 @@ namespace SpiceQL {
         bool fullKernelPath=false,
         int limitCk=-1, 
         int limitSpk=1, 
-        bool overwrite=false);
+        bool overwrite=false,
+        bool getIntervals=false);
+
+    /**
+     * @brief Returns the coverage intervals of CKs and SPKs.
+     *
+     * Looks the kernels up in the SpiceQL database and returns their coverage
+     * intervals, one per NAIF ID covered. For CKs, gaps between interpolation
+     * intervals within a segment show up as separate intervals.
+     *
+     * A kernel can be named by its bare filename, its path relative to the data
+     * dir (or a full path ending in it), or its SpiceQL key
+     * (/<mission>/<type>/<quality>/<filename>). A kernel in more than one
+     * mission or quality gets an entry for each. Kernels that are not CKs or
+     * SPKs in the database are skipped.
+     *
+     * @param kernels vector of kernels to get intervals for
+     * @param useWeb whether to use web SpiceQL
+     *
+     * @returns json object of SpiceQL key (e.g. /lro/ck/reconstructed/kernel.bc) to an
+     *          array of start and stop times in ET and body code
+     **/
+    std::pair<nlohmann::json, nlohmann::json> getKernelIntervals(
+        std::vector<std::string> kernels,
+        bool useWeb=false);
 }

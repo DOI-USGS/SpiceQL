@@ -45,7 +45,7 @@ const API_FUNCTIONS = [
   'getFrameInfo', 'getTargetFrameInfo',
   'findMissionKeywords', 'findTargetKeywords',
   'frameTrace', 'extractExactCkTimes', 'getExactTargetOrientations',
-  'searchForKernelsets',
+  'searchForKernelsets', 'getKernelIntervals',
   // Manual kernel-pool management (see spiceql_bind.cpp).
   'load', 'unload', 'getLoadedKernels', 'isLskLoaded',
 ];

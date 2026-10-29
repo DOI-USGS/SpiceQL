@@ -36,6 +36,7 @@ release.
 
 ### Added
 - Added kernel intervals to spiceqldb.hdf [#165](https://github.com/DOI-USGS/SpiceQL/pull/165)
+- Added getKernelIntervals API call to retrieve intervals given a list of kernels and updated searchForKernelsets with `getIntervals` bool param to return intervals alongside kernels [#166](https://github.com/DOI-USGS/SpiceQL/pull/166) 
 
 ## 1.8.0 - 2026-10-01
 

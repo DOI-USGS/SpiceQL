@@ -14,8 +14,8 @@
  *   2. kernels already furnished into CSPICE by the caller.
  *
  * Accordingly:
- *   - The time-indexed DB searches (search_for_kernelset / search_for_kernelsets)
- *     throw a clear error telling the caller to pass an explicit kernelList with
+ *   - The time-indexed DB searches (search_for_kernelset / search_for_kernelsets
+ *     / get_kernel_intervals) throw a clear error telling the caller to pass an explicit kernelList with
  *     searchKernels=false.
  *   - search_for_kernelset_from_regex, which api.cpp calls whenever a non-empty
  *     kernelList is supplied, is reimplemented to treat each list entry as a path
@@ -46,7 +46,8 @@ namespace SpiceQL {
         json search_for_kernelset(string /*spiceql_name*/, vector<string> /*types*/,
                                    double /*start_time*/, double /*stop_time*/,
                                    vector<string> /*ckQualities*/, vector<string> /*spkQualities*/,
-                                   bool /*full_kernel_path*/, int /*limit_ck*/, int /*limit_spk*/) {
+                                   bool /*full_kernel_path*/, int /*limit_ck*/, int /*limit_spk*/,
+                                   bool /*get_intervals*/) {
             throw runtime_error(kSearchUnavailableMsg);
         }
 
@@ -54,7 +55,11 @@ namespace SpiceQL {
                                     double /*start_time*/, double /*stop_time*/,
                                     vector<string> /*ckQualities*/, vector<string> /*spkQualities*/,
                                     bool /*full_kernel_path*/, int /*limit_ck*/, int /*limit_spk*/,
-                                    bool /*overwrite*/) {
+                                    bool /*overwrite*/, bool /*get_intervals*/) {
+            throw runtime_error(kSearchUnavailableMsg);
+        }
+
+        json get_kernel_intervals(vector<string> /*kernels*/) {
             throw runtime_error(kSearchUnavailableMsg);
         }
 
