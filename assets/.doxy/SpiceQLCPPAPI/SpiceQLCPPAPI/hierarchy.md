@@ -13,6 +13,8 @@ This inheritance list is sorted roughly, but not completely, alphabetically:
 * **class** [**SpiceQL::Memo::Memory**](classSpiceQL_1_1Memo_1_1Memory.md) 
 * **class** [**SpiceQL::SpkSegment**](classSpiceQL_1_1SpkSegment.md) _C++ object repersenting NAIF spice SPK Segment and it's metadata._ 
 * **class** [**SpiceQL::TimeIndexedKernels**](classSpiceQL_1_1TimeIndexedKernels.md) 
+* **class** [**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md) _An open DAF, read with plain file I/O._ 
+* **class** [**SpiceQL::daf::File::Handle**](classSpiceQL_1_1daf_1_1File_1_1Handle.md) 
 * **class** [**restincurl::Client**](classrestincurl_1_1Client.md) 
 * **class** [**restincurl::EasyHandle**](classrestincurl_1_1EasyHandle.md) 
 * **class** [**restincurl::Options**](classrestincurl_1_1Options.md) 
@@ -22,7 +24,9 @@ This inheritance list is sorted roughly, but not completely, alphabetically:
 * **class** [**restincurl::TlsLocker**](classrestincurl_1_1TlsLocker.md) 
 * **class** [**restincurl::Worker**](classrestincurl_1_1Worker.md) 
 * **class** [**restincurl::Worker::WorkerThread**](classrestincurl_1_1Worker_1_1WorkerThread.md) 
+* **struct** [**SpiceQL::KernelCoverage**](structSpiceQL_1_1KernelCoverage.md) _Coverage of one CK or SPK, as interval rows._ 
 * **struct** [**SpiceQL::Memo::memoize**](structSpiceQL_1_1Memo_1_1memoize.md) 
+* **struct** [**SpiceQL::daf::Summary**](structSpiceQL_1_1daf_1_1Summary.md) 
 * **struct** [**restincurl::DataHandlerBase**](structrestincurl_1_1DataHandlerBase.md)     
     * **struct** [**restincurl::InDataHandler**](structrestincurl_1_1InDataHandler.md) 
     * **struct** [**restincurl::OutDataHandler**](structrestincurl_1_1OutDataHandler.md) 

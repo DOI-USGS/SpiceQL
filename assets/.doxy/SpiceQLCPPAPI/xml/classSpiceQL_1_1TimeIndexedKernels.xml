@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="49" column="24" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="49" bodyend="-1"/>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="55" column="24" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="55" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classSpiceQL_1_1TimeIndexedKernels_1a79235f4061658d3170fae34bde5f296a" prot="public" static="no" mutable="no">
         <type>frozenca::BTreeMap&lt; double, size_t &gt;</type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="50" column="24" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="50" bodyend="-1"/>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="56" column="24" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="56" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classSpiceQL_1_1TimeIndexedKernels_1a566b782428785681552cf0e351798c6e" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -43,16 +43,76 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="51" column="17" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="51" bodyend="-1"/>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="57" column="17" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1TimeIndexedKernels_1a719101674ce9604a1c7eaaa68305f0f9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; SpiceQL::TimeIndexedKernels::interval_starts</definition>
+        <argsstring></argsstring>
+        <name>interval_starts</name>
+        <qualifiedname>SpiceQL::TimeIndexedKernels::interval_starts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="62" column="17" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1TimeIndexedKernels_1a45f2bcfd51290184f2ba85b31e605005" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; SpiceQL::TimeIndexedKernels::interval_stops</definition>
+        <argsstring></argsstring>
+        <name>interval_stops</name>
+        <qualifiedname>SpiceQL::TimeIndexedKernels::interval_stops</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="63" column="17" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1TimeIndexedKernels_1af9ae2a67b5dbb3e5899c58d22996339d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt;size_t&gt; SpiceQL::TimeIndexedKernels::interval_kindex</definition>
+        <argsstring></argsstring>
+        <name>interval_kindex</name>
+        <qualifiedname>SpiceQL::TimeIndexedKernels::interval_kindex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="64" column="17" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1TimeIndexedKernels_1ac137b1d9a1004faec26f9e8f368aa4f2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; SpiceQL::TimeIndexedKernels::interval_body_codes</definition>
+        <argsstring></argsstring>
+        <name>interval_body_codes</name>
+        <qualifiedname>SpiceQL::TimeIndexedKernels::interval_body_codes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="65" column="17" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="65" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="47" column="3" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="47" bodyend="52"/>
+    <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="53" column="3" bodyfile="SpiceQL/include/SpiceQL/inventoryimpl.h" bodystart="53" bodyend="66"/>
     <listofallmembers>
       <member refid="classSpiceQL_1_1TimeIndexedKernels_1a566b782428785681552cf0e351798c6e" prot="public" virt="non-virtual"><scope>SpiceQL::TimeIndexedKernels</scope><name>file_paths</name></member>
+      <member refid="classSpiceQL_1_1TimeIndexedKernels_1ac137b1d9a1004faec26f9e8f368aa4f2" prot="public" virt="non-virtual"><scope>SpiceQL::TimeIndexedKernels</scope><name>interval_body_codes</name></member>
+      <member refid="classSpiceQL_1_1TimeIndexedKernels_1af9ae2a67b5dbb3e5899c58d22996339d" prot="public" virt="non-virtual"><scope>SpiceQL::TimeIndexedKernels</scope><name>interval_kindex</name></member>
+      <member refid="classSpiceQL_1_1TimeIndexedKernels_1a719101674ce9604a1c7eaaa68305f0f9" prot="public" virt="non-virtual"><scope>SpiceQL::TimeIndexedKernels</scope><name>interval_starts</name></member>
+      <member refid="classSpiceQL_1_1TimeIndexedKernels_1a45f2bcfd51290184f2ba85b31e605005" prot="public" virt="non-virtual"><scope>SpiceQL::TimeIndexedKernels</scope><name>interval_stops</name></member>
       <member refid="classSpiceQL_1_1TimeIndexedKernels_1a924bfb92490ba324395dafecace8b832" prot="public" virt="non-virtual"><scope>SpiceQL::TimeIndexedKernels</scope><name>start_times</name></member>
       <member refid="classSpiceQL_1_1TimeIndexedKernels_1a79235f4061658d3170fae34bde5f296a" prot="public" virt="non-virtual"><scope>SpiceQL::TimeIndexedKernels</scope><name>stop_times</name></member>
     </listofallmembers>

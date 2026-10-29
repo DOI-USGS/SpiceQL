@@ -39,6 +39,11 @@
 | namespace | [**SpiceQL**](namespaceSpiceQL.md) <br> |
 
 
+## Classes
+
+| Type | Name |
+| ---: | :--- |
+| struct | [**KernelCoverage**](structSpiceQL_1_1KernelCoverage.md) <br>_Coverage of one CK or SPK, as interval rows._  |
 
 
 

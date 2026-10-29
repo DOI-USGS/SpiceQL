@@ -11,12 +11,18 @@ Here are the classes, structs, unions and interfaces with brief descriptions:
     * **namespace** [**Inventory**](namespaceSpiceQL_1_1Inventory.md)     
     * **class** [**InventoryImpl**](classSpiceQL_1_1InventoryImpl.md)     
     * **class** [**Kernel**](classSpiceQL_1_1Kernel.md) _Base_ [_**Kernel**_](classSpiceQL_1_1Kernel.md) _class._    
+    * **struct** [**KernelCoverage**](structSpiceQL_1_1KernelCoverage.md) _Coverage of one CK or SPK, as interval rows._     
     * **class** [**KernelSet**](classSpiceQL_1_1KernelSet.md) _Class for furnishing kernels in bulk._     
     * **namespace** [**Memo**](namespaceSpiceQL_1_1Memo.md)     
         * **class** [**Memory**](classSpiceQL_1_1Memo_1_1Memory.md)     
         * **struct** [**memoize**](structSpiceQL_1_1Memo_1_1memoize.md)     
     * **class** [**SpkSegment**](classSpiceQL_1_1SpkSegment.md) _C++ object repersenting NAIF spice SPK Segment and it's metadata._     
     * **class** [**TimeIndexedKernels**](classSpiceQL_1_1TimeIndexedKernels.md)     
+    * **namespace** [**daf**](namespaceSpiceQL_1_1daf.md)     
+        * **class** [**File**](classSpiceQL_1_1daf_1_1File.md) _An open DAF, read with plain file I/O._     
+        * **struct** [**Summary**](structSpiceQL_1_1daf_1_1Summary.md)     
+        * **namespace** [**detail**](namespaceSpiceQL_1_1daf_1_1detail.md)     
+* **class** [**Handle**](classSpiceQL_1_1daf_1_1File_1_1Handle.md)     
 * **namespace** [**restincurl**](namespacerestincurl.md)     
     * **class** [**Client**](classrestincurl_1_1Client.md)     
     * **class** [**CurlException**](classrestincurl_1_1CurlException.md) 

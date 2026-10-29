@@ -36,6 +36,10 @@
 | Type | Name |
 | ---: | :--- |
 |  std::vector&lt; std::string &gt; | [**file\_paths**](#variable-file_paths)  <br> |
+|  std::vector&lt; int &gt; | [**interval\_body\_codes**](#variable-interval_body_codes)  <br> |
+|  std::vector&lt; size\_t &gt; | [**interval\_kindex**](#variable-interval_kindex)  <br> |
+|  std::vector&lt; double &gt; | [**interval\_starts**](#variable-interval_starts)  <br> |
+|  std::vector&lt; double &gt; | [**interval\_stops**](#variable-interval_stops)  <br> |
 |  frozenca::BTreeMap&lt; double, size\_t &gt; | [**start\_times**](#variable-start_times)  <br> |
 |  frozenca::BTreeMap&lt; double, size\_t &gt; | [**stop\_times**](#variable-stop_times)  <br> |
 
@@ -91,6 +95,58 @@
 
 ```C++
 std::vector<std::string> SpiceQL::TimeIndexedKernels::file_paths;
+```
+
+
+
+
+<hr>
+
+
+
+### variable interval\_body\_codes 
+
+```C++
+std::vector<int> SpiceQL::TimeIndexedKernels::interval_body_codes;
+```
+
+
+
+
+<hr>
+
+
+
+### variable interval\_kindex 
+
+```C++
+std::vector<size_t> SpiceQL::TimeIndexedKernels::interval_kindex;
+```
+
+
+
+
+<hr>
+
+
+
+### variable interval\_starts 
+
+```C++
+std::vector<double> SpiceQL::TimeIndexedKernels::interval_starts;
+```
+
+
+
+
+<hr>
+
+
+
+### variable interval\_stops 
+
+```C++
+std::vector<double> SpiceQL::TimeIndexedKernels::interval_stops;
 ```
 
 

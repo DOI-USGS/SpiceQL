@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="namespaceSpiceQL_1_1daf" kind="namespace" language="C++">
+    <compoundname>SpiceQL::daf</compoundname>
+    <innerclass refid="structSpiceQL_1_1daf_1_1Summary" prot="public">SpiceQL::daf::Summary</innerclass>
+    <innerclass refid="classSpiceQL_1_1daf_1_1File" prot="public">SpiceQL::daf::File</innerclass>
+    <innernamespace refid="namespaceSpiceQL_1_1daf_1_1detail">SpiceQL::daf::detail</innernamespace>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="daf__reader_8h_1a45eaf268309e251062bc99ff9f50613e" prot="public" static="no">
+        <type>std::vector&lt; std::pair&lt; double, double &gt; &gt;</type>
+        <definition>using SpiceQL::daf::Window = std::vector&lt;std::pair&lt;double, double&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>Window</name>
+        <qualifiedname>SpiceQL::daf::Window</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>A list of closed [start, stop] intervals. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="52" column="3" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="daf__reader_8h_1a2f81dc0023cd801d5f53284e6a1227f2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="daf__reader_8h_1a45eaf268309e251062bc99ff9f50613e" kindref="member">Window</ref></type>
+        <definition>Window SpiceQL::daf::merge</definition>
+        <argsstring>(Window w)</argsstring>
+        <name>merge</name>
+        <qualifiedname>SpiceQL::daf::merge</qualifiedname>
+        <param>
+          <type><ref refid="daf__reader_8h_1a45eaf268309e251062bc99ff9f50613e" kindref="member">Window</ref></type>
+          <declname>w</declname>
+        </param>
+        <briefdescription>
+<para>Sorts a window and merges intervals that overlap or touch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gives the same window as inserting each interval with wninsd_c, which is how spkcov_c and ckcov_c build theirs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="68" column="17" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="68" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="daf__reader_8h_1a1f66d676c334c6a18a726e9d55a40e92" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="daf__reader_8h_1a45eaf268309e251062bc99ff9f50613e" kindref="member">Window</ref></type>
+        <definition>Window SpiceQL::daf::ckSegmentCoverage</definition>
+        <argsstring>(const File &amp;f, const Summary &amp;s)</argsstring>
+        <name>ckSegmentCoverage</name>
+        <qualifiedname>SpiceQL::daf::ckSegmentCoverage</qualifiedname>
+        <param>
+          <type>const <ref refid="classSpiceQL_1_1daf_1_1File" kindref="compound">File</ref> &amp;</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structSpiceQL_1_1daf_1_1Summary" kindref="compound">Summary</ref> &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Coverage of one CK segment, in encoded SCLK ticks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The INTERVAL level coverage ckcov_c would add for this segment, before merging: type 1 gives each epoch as a zero-length interval, type 2 each record&apos;s interval, types 3 and 5 each interpolation interval, type 4 each Chebyshev record&apos;s span and type 6 each mini-segment&apos;s interval. Types 5 and 6 are clipped to the segment&apos;s bounds, the others are not.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>f</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The open CK </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A summary from f, with ND = 2 and NI = 6 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="478" column="17" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="478" bodyend="621"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="49" column="1"/>
+  </compounddef>
+</doxygen>

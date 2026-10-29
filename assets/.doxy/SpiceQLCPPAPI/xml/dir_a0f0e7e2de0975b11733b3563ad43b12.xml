@@ -5,6 +5,7 @@
     <innerfile refid="alias__map_8h">alias_map.h</innerfile>
     <innerfile refid="api_8h">api.h</innerfile>
     <innerfile refid="config_8h">config.h</innerfile>
+    <innerfile refid="daf__reader_8h">daf_reader.h</innerfile>
     <innerfile refid="inventory_8h">inventory.h</innerfile>
     <innerfile refid="inventoryimpl_8h">inventoryimpl.h</innerfile>
     <innerfile refid="io_8h">io.h</innerfile>

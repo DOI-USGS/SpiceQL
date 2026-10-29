@@ -34,8 +34,15 @@
 ([**restincurl**](namespacerestincurl.md))
 
 
+## f
+
+* [**File**](classSpiceQL_1_1daf_1_1File.md)
+([**SpiceQL::daf**](namespaceSpiceQL_1_1daf.md))
+
+
 ## h
 
+* [**Handle**](classSpiceQL_1_1daf_1_1File_1_1Handle.md)
 * [**hash&lt; std::vector&lt; std::string &gt; &gt;**](structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_01_4.md)
 ([**std**](namespacestd.md))
 * [**hash&lt; std::vector&lt; std::string &gt;(const std::string &, bool)&gt;**](structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_07const_01std_1_1string_01_6_00_01bool_08_4.md)
@@ -53,6 +60,8 @@
 ## k
 
 * [**Kernel**](classSpiceQL_1_1Kernel.md)
+([**SpiceQL**](namespaceSpiceQL.md))
+* [**KernelCoverage**](structSpiceQL_1_1KernelCoverage.md)
 ([**SpiceQL**](namespaceSpiceQL.md))
 * [**KernelSet**](classSpiceQL_1_1KernelSet.md)
 ([**SpiceQL**](namespaceSpiceQL.md))
@@ -90,6 +99,8 @@
 ([**restincurl**](namespacerestincurl.md))
 * [**SpkSegment**](classSpiceQL_1_1SpkSegment.md)
 ([**SpiceQL**](namespaceSpiceQL.md))
+* [**Summary**](structSpiceQL_1_1daf_1_1Summary.md)
+([**SpiceQL::daf**](namespaceSpiceQL_1_1daf.md))
 * [**SystemException**](classrestincurl_1_1SystemException.md)
 ([**restincurl**](namespacerestincurl.md))
 

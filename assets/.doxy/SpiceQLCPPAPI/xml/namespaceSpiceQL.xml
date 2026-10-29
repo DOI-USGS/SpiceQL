@@ -7,9 +7,11 @@
     <innerclass refid="classSpiceQL_1_1Config" prot="public">SpiceQL::Config</innerclass>
     <innerclass refid="classSpiceQL_1_1InventoryImpl" prot="public">SpiceQL::InventoryImpl</innerclass>
     <innerclass refid="classSpiceQL_1_1Kernel" prot="public">SpiceQL::Kernel</innerclass>
+    <innerclass refid="structSpiceQL_1_1KernelCoverage" prot="public">SpiceQL::KernelCoverage</innerclass>
     <innerclass refid="classSpiceQL_1_1KernelSet" prot="public">SpiceQL::KernelSet</innerclass>
     <innerclass refid="classSpiceQL_1_1SpkSegment" prot="public">SpiceQL::SpkSegment</innerclass>
     <innerclass refid="classSpiceQL_1_1TimeIndexedKernels" prot="public">SpiceQL::TimeIndexedKernels</innerclass>
+    <innernamespace refid="namespaceSpiceQL_1_1daf">SpiceQL::daf</innernamespace>
     <innernamespace refid="namespaceSpiceQL_1_1Inventory">SpiceQL::Inventory</innernamespace>
     <innernamespace refid="namespaceSpiceQL_1_1Memo">SpiceQL::Memo</innernamespace>
     <sectiondef kind="enum">
@@ -161,6 +163,76 @@
         </inbodydescription>
         <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="35" column="22" declfile="SpiceQL/include/SpiceQL/inventoryimpl.h" declline="35" declcolumn="22"/>
       </memberdef>
+      <memberdef kind="variable" id="namespaceSpiceQL_1a877b3a65152eb0f3cfbb0177a3fb581f" prot="public" static="no" extern="yes" mutable="no">
+        <type>std::string</type>
+        <definition>std::string SpiceQL::DB_INTERVAL_START_KEY</definition>
+        <argsstring></argsstring>
+        <name>DB_INTERVAL_START_KEY</name>
+        <qualifiedname>SpiceQL::DB_INTERVAL_START_KEY</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="37" column="22" declfile="SpiceQL/include/SpiceQL/inventoryimpl.h" declline="37" declcolumn="22"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceSpiceQL_1a081331abe0a8cb4ebc10dedfa47d0178" prot="public" static="no" extern="yes" mutable="no">
+        <type>std::string</type>
+        <definition>std::string SpiceQL::DB_INTERVAL_STOP_KEY</definition>
+        <argsstring></argsstring>
+        <name>DB_INTERVAL_STOP_KEY</name>
+        <qualifiedname>SpiceQL::DB_INTERVAL_STOP_KEY</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="38" column="22" declfile="SpiceQL/include/SpiceQL/inventoryimpl.h" declline="38" declcolumn="22"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceSpiceQL_1ab0bdc0445d8dfb98834e5953d1da6f07" prot="public" static="no" extern="yes" mutable="no">
+        <type>std::string</type>
+        <definition>std::string SpiceQL::DB_INTERVAL_START_INDICES_KEY</definition>
+        <argsstring></argsstring>
+        <name>DB_INTERVAL_START_INDICES_KEY</name>
+        <qualifiedname>SpiceQL::DB_INTERVAL_START_INDICES_KEY</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="39" column="22" declfile="SpiceQL/include/SpiceQL/inventoryimpl.h" declline="39" declcolumn="22"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceSpiceQL_1a2acb9835abb90bed794f53b1822caac1" prot="public" static="no" extern="yes" mutable="no">
+        <type>std::string</type>
+        <definition>std::string SpiceQL::DB_INTERVAL_STOP_INDICES_KEY</definition>
+        <argsstring></argsstring>
+        <name>DB_INTERVAL_STOP_INDICES_KEY</name>
+        <qualifiedname>SpiceQL::DB_INTERVAL_STOP_INDICES_KEY</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="40" column="22" declfile="SpiceQL/include/SpiceQL/inventoryimpl.h" declline="40" declcolumn="22"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceSpiceQL_1a52785ca86593e6b612474c4af43d4f9d" prot="public" static="no" extern="yes" mutable="no">
+        <type>std::string</type>
+        <definition>std::string SpiceQL::DB_INTERVAL_BODY_CODES_KEY</definition>
+        <argsstring></argsstring>
+        <name>DB_INTERVAL_BODY_CODES_KEY</name>
+        <qualifiedname>SpiceQL::DB_INTERVAL_BODY_CODES_KEY</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="41" column="22" declfile="SpiceQL/include/SpiceQL/inventoryimpl.h" declline="41" declcolumn="22"/>
+      </memberdef>
       <memberdef kind="variable" id="namespaceSpiceQL_1aa8c9648255e51a6da65775c2f16ea78c" prot="public" static="no" extern="yes" mutable="no">
         <type>std::string</type>
         <definition>std::string SpiceQL::DB_FRAME_CACHE_KEY</definition>
@@ -173,7 +245,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="38" column="22" declfile="SpiceQL/include/SpiceQL/inventoryimpl.h" declline="38" declcolumn="22"/>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="44" column="22" declfile="SpiceQL/include/SpiceQL/inventoryimpl.h" declline="44" declcolumn="22"/>
       </memberdef>
       <memberdef kind="variable" id="namespaceSpiceQL_1a6586927ae6934eea325f6691b5c1d58c" prot="public" static="no" extern="yes" mutable="no">
         <type>std::string</type>
@@ -187,7 +259,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="39" column="22" declfile="SpiceQL/include/SpiceQL/inventoryimpl.h" declline="39" declcolumn="22"/>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="45" column="22" declfile="SpiceQL/include/SpiceQL/inventoryimpl.h" declline="45" declcolumn="22"/>
       </memberdef>
       <memberdef kind="variable" id="namespaceSpiceQL_1ad997a7e2fd62ea9305824bd3a4ad998d" prot="public" static="no" extern="yes" mutable="no">
         <type>std::string</type>
@@ -201,7 +273,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="40" column="22" declfile="SpiceQL/include/SpiceQL/inventoryimpl.h" declline="40" declcolumn="22"/>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="46" column="22" declfile="SpiceQL/include/SpiceQL/inventoryimpl.h" declline="46" declcolumn="22"/>
       </memberdef>
       <memberdef kind="variable" id="namespaceSpiceQL_1aa14c733b7b20a520dfa46b8dc389590e" prot="public" static="no" extern="yes" mutable="no">
         <type>std::string</type>
@@ -215,7 +287,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="41" column="22" declfile="SpiceQL/include/SpiceQL/inventoryimpl.h" declline="41" declcolumn="22"/>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="47" column="22" declfile="SpiceQL/include/SpiceQL/inventoryimpl.h" declline="47" declcolumn="22"/>
       </memberdef>
       <memberdef kind="variable" id="namespaceSpiceQL_1adeae61d3af8aafdb8cab7822540f1f91" prot="public" static="no" extern="yes" mutable="no">
         <type>const std::vector&lt; std::string &gt;</type>
@@ -3310,7 +3382,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="43" column="15" declfile="SpiceQL/include/SpiceQL/inventoryimpl.h" declline="43" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="49" column="15" declfile="SpiceQL/include/SpiceQL/inventoryimpl.h" declline="49" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a049a3be95c770f076220af1c5dd82dac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3333,7 +3405,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="44" column="8" declfile="SpiceQL/include/SpiceQL/inventoryimpl.h" declline="44" declcolumn="8"/>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="50" column="8" declfile="SpiceQL/include/SpiceQL/inventoryimpl.h" declline="50" declcolumn="8"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a059350c6de364c6b9f17e52209b99aa3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -3347,7 +3419,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="45" column="15" declfile="SpiceQL/include/SpiceQL/inventoryimpl.h" declline="45" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/inventoryimpl.h" line="51" column="15" declfile="SpiceQL/include/SpiceQL/inventoryimpl.h" declline="51" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a88c4ee3ab0f88872044268f8bb0737f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::vector&lt; double &gt; &gt;</type>
@@ -4695,6 +4767,69 @@
         </inbodydescription>
         <location file="SpiceQL/include/SpiceQL/utils.h" line="145" column="13" declfile="SpiceQL/include/SpiceQL/utils.h" declline="145" declcolumn="13"/>
       </memberdef>
+      <memberdef kind="function" id="namespaceSpiceQL_1a01c190bb7e84bde1b1287f42e57b1906" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structSpiceQL_1_1KernelCoverage" kindref="compound">KernelCoverage</ref></type>
+        <definition>KernelCoverage SpiceQL::getKernelCoverage</definition>
+        <argsstring>(std::string kpath)</argsstring>
+        <name>getKernelCoverage</name>
+        <qualifiedname>SpiceQL::getKernelCoverage</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>kpath</declname>
+        </param>
+        <briefdescription>
+<para>Get the coverage intervals of a kernel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Intervals come from spkcov_c / ckcov_c, one coverage window per NAIF ID, the way ISIS&apos;s kerneldbgen gets them. CK coverage is taken at the INTERVAL level, so gaps inside a segment show up. Only negative IDs (spacecraft and instruments) are included, matching getKernelStartStopTimes. All times are ET.</para>
+<para>The file is opened once and its segments walked once; the bounds come from the same walk, so callers don&apos;t need getKernelStartStopTimes too.</para>
+<para>CK times are encoded SCLK, so the kernel&apos;s SCLK and an LSK must already be furnished.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>kpath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the kernel </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the kernel&apos;s intervals </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="185" column="18" declfile="SpiceQL/include/SpiceQL/utils.h" declline="185" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceSpiceQL_1aa6c62059778b765972d2c2bd095e7d6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SpiceQL::sortCoverageRows</definition>
+        <argsstring>(KernelCoverage &amp;coverage)</argsstring>
+        <name>sortCoverageRows</name>
+        <qualifiedname>SpiceQL::sortCoverageRows</qualifiedname>
+        <param>
+          <type><ref refid="structSpiceQL_1_1KernelCoverage" kindref="compound">KernelCoverage</ref> &amp;</type>
+          <declname>coverage</declname>
+        </param>
+        <briefdescription>
+<para>Sort a coverage&apos;s interval rows by start, then stop, then body code, keeping each row&apos;s columns together. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>coverage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The coverage to sort in place </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="194" column="8" declfile="SpiceQL/include/SpiceQL/utils.h" declline="194" declcolumn="8"/>
+      </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a030335f42b6f30d3d8c650bc14ac0fc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
         <definition>std::string SpiceQL::globKernelStartStopTimes</definition>
@@ -4711,7 +4846,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="147" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="147" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="196" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="196" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1abfda2826c58279e0c372b1b237510e77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -4733,7 +4868,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="154" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="154" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="203" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="203" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1af0c5bde4439eeb9bfdfd81b97f3ed798" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -4815,7 +4950,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="182" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="182" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="231" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="231" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a45135cff47533d249527686a38a0a2f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -4872,7 +5007,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="196" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="196" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="245" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="245" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1aef69da1d5136aee0efbbfd221636092d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>nlohmann::json</type>
@@ -4904,7 +5039,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="209" column="18" declfile="SpiceQL/include/SpiceQL/utils.h" declline="209" declcolumn="18"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="258" column="18" declfile="SpiceQL/include/SpiceQL/utils.h" declline="258" declcolumn="18"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a431579760e41219cc4843cd6f27c2815" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; nlohmann::json::json_pointer &gt;</type>
@@ -4961,7 +5096,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="223" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="223" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="272" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="272" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a791ef7d697039112747bd93f7df447be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -4992,7 +5127,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="233" column="16" declfile="SpiceQL/include/SpiceQL/utils.h" declline="233" declcolumn="16"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="282" column="16" declfile="SpiceQL/include/SpiceQL/utils.h" declline="282" declcolumn="16"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1afe3ed3291d04694807cc798927192ee7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -5017,7 +5152,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="247" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="247" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="296" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="296" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1aeede6843bb64cc2bde5fc1f3bc85adf5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -5049,7 +5184,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="262" column="8" declfile="SpiceQL/include/SpiceQL/utils.h" declline="262" declcolumn="8"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="311" column="8" declfile="SpiceQL/include/SpiceQL/utils.h" declline="311" declcolumn="8"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a1caf685b9e2449fb11f8ef94cf6a2703" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -5070,7 +5205,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="275" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="275" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="324" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="324" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a0d91efc1fe52ecee948f4e647587f53a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; nlohmann::json &gt;</type>
@@ -5089,7 +5224,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="287" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="287" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="336" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="336" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a00c5d7f1d32190f0fca485ad94a38b52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -5126,7 +5261,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="303" column="16" declfile="SpiceQL/include/SpiceQL/utils.h" declline="303" declcolumn="16"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="352" column="16" declfile="SpiceQL/include/SpiceQL/utils.h" declline="352" declcolumn="16"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a2a2f66a58c19a79f8abb15be0eb7e3b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>nlohmann::json</type>
@@ -5163,7 +5298,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="319" column="19" declfile="SpiceQL/include/SpiceQL/utils.h" declline="319" declcolumn="19"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="368" column="19" declfile="SpiceQL/include/SpiceQL/utils.h" declline="368" declcolumn="19"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a657d90b6062abf19e2adea9baa0a8795" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -5194,7 +5329,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="329" column="16" declfile="SpiceQL/include/SpiceQL/utils.h" declline="329" declcolumn="16"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="378" column="16" declfile="SpiceQL/include/SpiceQL/utils.h" declline="378" declcolumn="16"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a05053164b19d08d8ca3201339b24be45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -5212,7 +5347,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="337" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="337" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="386" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="386" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a57b5a1e68e6ae00e55321c6a7dd0f658" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -5256,7 +5391,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="352" column="8" declfile="SpiceQL/include/SpiceQL/utils.h" declline="352" declcolumn="8"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="401" column="8" declfile="SpiceQL/include/SpiceQL/utils.h" declline="401" declcolumn="8"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1afc4fb6482a1b7b7d6624e99ce7e902cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -5299,7 +5434,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="363" column="10" declfile="SpiceQL/include/SpiceQL/utils.h" declline="363" declcolumn="10"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="412" column="10" declfile="SpiceQL/include/SpiceQL/utils.h" declline="412" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a7ebb31bbe8c61d6626c5e6a7c2d359d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -5331,7 +5466,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="377" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="377" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="426" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="426" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1abd44b87ad2574a25534b7177f8deb8eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -5363,7 +5498,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="391" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="391" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="440" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="440" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1affbafb7e4244ea2482904e40056d1749" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; int &gt;</type>
@@ -5395,7 +5530,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="405" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="405" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="454" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="454" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a73fd89483952f40198cf356e847a7c70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::vector&lt; std::string &gt; &gt;</type>
@@ -5427,7 +5562,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="419" column="16" declfile="SpiceQL/include/SpiceQL/utils.h" declline="419" declcolumn="16"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="468" column="16" declfile="SpiceQL/include/SpiceQL/utils.h" declline="468" declcolumn="16"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1ae811df69e9e8ca4eac3ac320da9163d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::vector&lt; double &gt; &gt;</type>
@@ -5459,7 +5594,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="433" column="16" declfile="SpiceQL/include/SpiceQL/utils.h" declline="433" declcolumn="16"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="482" column="16" declfile="SpiceQL/include/SpiceQL/utils.h" declline="482" declcolumn="16"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a62ebc6c34da174a3309c08ad8c5f9cf3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::vector&lt; int &gt; &gt;</type>
@@ -5496,7 +5631,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="447" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="447" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="496" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="496" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a0709e6ee0256d7f0de8cbff4df26636a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::pair&lt; double, double &gt; &gt;</type>
@@ -5528,7 +5663,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="460" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="460" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="509" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="509" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a1c19d0b3bef476d54b476f4ca24666cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -5556,7 +5691,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="474" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="474" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="523" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="523" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1accb337bee3240fd0638129101caec9e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>nlohmann::json</type>
@@ -5613,7 +5748,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="486" column="18" declfile="SpiceQL/include/SpiceQL/utils.h" declline="486" declcolumn="18"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="535" column="18" declfile="SpiceQL/include/SpiceQL/utils.h" declline="535" declcolumn="18"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1ad749507d0f2b776b015d3fd3e34e8ba3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -5657,7 +5792,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="501" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="501" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="550" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="550" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a4e713c1623c47bd9b1584f9b495778b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -5687,7 +5822,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="509" column="8" declfile="SpiceQL/include/SpiceQL/utils.h" declline="509" declcolumn="8"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="558" column="8" declfile="SpiceQL/include/SpiceQL/utils.h" declline="558" declcolumn="8"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1add51987193477ff3a8947e6292023573" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>nlohmann::json</type>
@@ -5731,7 +5866,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="517" column="18" declfile="SpiceQL/include/SpiceQL/utils.h" declline="517" declcolumn="18"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="566" column="18" declfile="SpiceQL/include/SpiceQL/utils.h" declline="566" declcolumn="18"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1af361b8c07c559467f3fa4d080eaa8130" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>nlohmann::json</type>
@@ -5772,7 +5907,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="525" column="18" declfile="SpiceQL/include/SpiceQL/utils.h" declline="525" declcolumn="18"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="574" column="18" declfile="SpiceQL/include/SpiceQL/utils.h" declline="574" declcolumn="18"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a5578217cd60143edc876453d6b20f25c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -5790,7 +5925,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="532" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="532" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="581" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="581" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a6d98e444ca0be017bca8008b2da374ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -5834,7 +5969,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="548" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="548" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="597" column="15" declfile="SpiceQL/include/SpiceQL/utils.h" declline="597" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1aeea115736d0b9e54c022304107f46b1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>nlohmann::json</type>
@@ -5865,7 +6000,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/utils.h" line="558" column="18" declfile="SpiceQL/include/SpiceQL/utils.h" declline="558" declcolumn="18"/>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="607" column="18" declfile="SpiceQL/include/SpiceQL/utils.h" declline="607" declcolumn="18"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

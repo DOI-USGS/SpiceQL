@@ -27,6 +27,7 @@
 * **config** ([**SpiceQL::Config**](classSpiceQL_1_1Config.md))
 * **contains** ([**SpiceQL::Config**](classSpiceQL_1_1Config.md))
 * **collectFrameInfo** ([**SpiceQL::InventoryImpl**](classSpiceQL_1_1InventoryImpl.md))
+* **CACHE\_RECORDS** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
 * **Client** ([**restincurl::Client**](classrestincurl_1_1Client.md))
 * **Close** ([**restincurl::Client**](classrestincurl_1_1Client.md), [**restincurl::EasyHandle**](classrestincurl_1_1EasyHandle.md), [**restincurl::Worker**](classrestincurl_1_1Worker.md))
 * **CloseWhenFinished** ([**restincurl::Client**](classrestincurl_1_1Client.md), [**restincurl::Worker**](classrestincurl_1_1Worker.md))
@@ -44,6 +45,10 @@
 
 ## d
 
+* **DIRECT\_READ\_BYTES** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
+* **decodeDouble** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
+* **decodeInt** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
+* **dc** ([**SpiceQL::daf::Summary**](structSpiceQL_1_1daf_1_1Summary.md))
 * **data\_** ([**restincurl::InDataHandler**](structrestincurl_1_1InDataHandler.md), [**restincurl::OutDataHandler**](structrestincurl_1_1OutDataHandler.md))
 * **default\_data\_buffer\_** ([**restincurl::Request**](classrestincurl_1_1Request.md))
 * **default\_in\_handler\_** ([**restincurl::Request**](classrestincurl_1_1Request.md))
@@ -72,6 +77,7 @@
 
 * **findKey** ([**SpiceQL::Config**](classSpiceQL_1_1Config.md))
 * **file\_paths** ([**SpiceQL::TimeIndexedKernels**](classSpiceQL_1_1TimeIndexedKernels.md))
+* **File** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
 * **fp\_** ([**restincurl::Request**](classrestincurl_1_1Request.md))
 * **FdUsage** ([**restincurl::Signaler**](classrestincurl_1_1Signaler.md))
 
@@ -105,6 +111,8 @@
 
 ## h
 
+* **hostIsBigEndian** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
+* **Handle** ([**SpiceQL::daf::File::Handle**](classSpiceQL_1_1daf_1_1File_1_1Handle.md))
 * **HaveWorker** ([**restincurl::Client**](classrestincurl_1_1Client.md))
 * **handle\_** ([**restincurl::EasyHandle**](classrestincurl_1_1EasyHandle.md), [**restincurl::Worker**](classrestincurl_1_1Worker.md))
 * **handle\_t** ([**restincurl::EasyHandle**](classrestincurl_1_1EasyHandle.md))
@@ -126,6 +134,11 @@
 * **isCk** ([**SpiceQL::Kernel**](classSpiceQL_1_1Kernel.md))
 * **isSpk** ([**SpiceQL::Kernel**](classSpiceQL_1_1Kernel.md))
 * **isText** ([**SpiceQL::Kernel**](classSpiceQL_1_1Kernel.md))
+* **interval\_body\_codes** ([**SpiceQL::KernelCoverage**](structSpiceQL_1_1KernelCoverage.md), [**SpiceQL::TimeIndexedKernels**](classSpiceQL_1_1TimeIndexedKernels.md))
+* **interval\_starts** ([**SpiceQL::KernelCoverage**](structSpiceQL_1_1KernelCoverage.md), [**SpiceQL::TimeIndexedKernels**](classSpiceQL_1_1TimeIndexedKernels.md))
+* **interval\_stops** ([**SpiceQL::KernelCoverage**](structSpiceQL_1_1KernelCoverage.md), [**SpiceQL::TimeIndexedKernels**](classSpiceQL_1_1TimeIndexedKernels.md))
+* **interval\_kindex** ([**SpiceQL::TimeIndexedKernels**](classSpiceQL_1_1TimeIndexedKernels.md))
+* **ic** ([**SpiceQL::daf::Summary**](structSpiceQL_1_1daf_1_1Summary.md))
 * **InDataHandler** ([**restincurl::InDataHandler**](structrestincurl_1_1InDataHandler.md))
 * **InitMime** ([**restincurl::Request**](classrestincurl_1_1Request.md))
 * **IgnoreIncomingData** ([**restincurl::RequestBuilder**](classrestincurl_1_1RequestBuilder.md))
@@ -146,6 +159,7 @@
 
 * **Kernel** ([**SpiceQL::Kernel**](classSpiceQL_1_1Kernel.md))
 * **KernelSet** ([**SpiceQL::KernelSet**](classSpiceQL_1_1KernelSet.md))
+* **kind** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
 
 
 ## l
@@ -174,15 +188,37 @@
 * **m\_func** ([**SpiceQL::Memo::memoize**](structSpiceQL_1_1Memo_1_1memoize.md))
 * **m\_id** ([**SpiceQL::Memo::memoize**](structSpiceQL_1_1Memo_1_1memoize.md))
 * **memoize** ([**SpiceQL::Memo::memoize**](structSpiceQL_1_1Memo_1_1memoize.md))
+* **MAX\_READ\_AHEAD** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
+* **m\_cache** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
+* **m\_cachedRecord** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
+* **m\_handle** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
+* **m\_idword** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
+* **m\_nd** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
+* **m\_nextRecord** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
+* **m\_ni** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
+* **m\_path** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md), [**SpiceQL::daf::File::Handle**](classSpiceQL_1_1daf_1_1File_1_1Handle.md))
+* **m\_readAhead** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
+* **m\_size** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
+* **m\_summaries** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
+* **m\_swap** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
+* **m\_fd** ([**SpiceQL::daf::File::Handle**](classSpiceQL_1_1daf_1_1File_1_1Handle.md))
 * **mime\_** ([**restincurl::Request**](classrestincurl_1_1Request.md))
 * **msg** ([**restincurl::Result**](structrestincurl_1_1Result.md))
 * **mutex\_** ([**restincurl::TlsLocker**](classrestincurl_1_1TlsLocker.md), [**restincurl::Worker**](classrestincurl_1_1Worker.md))
+
+
+## n
+
+* **nd** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
+* **ni** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
 
 
 ## o
 
 * **operator[]** ([**SpiceQL::Config**](classSpiceQL_1_1Config.md))
 * **operator()** ([**SpiceQL::Memo::Memory**](classSpiceQL_1_1Memo_1_1Memory.md), [**SpiceQL::Memo::memoize**](structSpiceQL_1_1Memo_1_1memoize.md), [**std::hash&lt; std::vector&lt; std::string &gt; &gt;**](structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_01_4.md), [**std::hash&lt; std::vector&lt; std::string &gt;(const std::string &, bool)&gt;**](structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_07const_01std_1_1string_01_6_00_01bool_08_4.md))
+* **open** ([**SpiceQL::daf::File::Handle**](classSpiceQL_1_1daf_1_1File_1_1Handle.md))
+* **operator=** ([**SpiceQL::daf::File::Handle**](classSpiceQL_1_1daf_1_1File_1_1Handle.md))
 * **operator handle\_t** ([**restincurl::EasyHandle**](classrestincurl_1_1EasyHandle.md))
 * **Options** ([**restincurl::Options**](classrestincurl_1_1Options.md), [**restincurl::RequestBuilder**](classrestincurl_1_1RequestBuilder.md))
 * **OutDataHandler** ([**restincurl::OutDataHandler**](structrestincurl_1_1OutDataHandler.md))
@@ -194,7 +230,7 @@
 
 ## p
 
-* **path** ([**SpiceQL::Kernel**](classSpiceQL_1_1Kernel.md))
+* **path** ([**SpiceQL::Kernel**](classSpiceQL_1_1Kernel.md), [**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
 * **ptr\_t** ([**restincurl::EasyHandle**](classrestincurl_1_1EasyHandle.md), [**restincurl::Request**](classrestincurl_1_1Request.md), [**restincurl::RequestBuilder**](classrestincurl_1_1RequestBuilder.md))
 * **Prepare** ([**restincurl::Request**](classrestincurl_1_1Request.md), [**restincurl::RequestBuilder**](classrestincurl_1_1RequestBuilder.md))
 * **Patch** ([**restincurl::RequestBuilder**](classrestincurl_1_1RequestBuilder.md))
@@ -216,6 +252,11 @@
 
 ## r
 
+* **RECORD\_BYTES** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
+* **read** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md), [**SpiceQL::daf::File::Handle**](classSpiceQL_1_1daf_1_1File_1_1Handle.md))
+* **readBytes** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
+* **readSummaries** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
+* **record** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
 * **read\_callback** ([**restincurl::OutDataHandler**](structrestincurl_1_1OutDataHandler.md))
 * **Request** ([**restincurl::Request**](classrestincurl_1_1Request.md))
 * **request\_type\_** ([**restincurl::Request**](classrestincurl_1_1Request.md), [**restincurl::RequestBuilder**](classrestincurl_1_1RequestBuilder.md))
@@ -233,9 +274,14 @@
 * **size** ([**SpiceQL::Config**](classSpiceQL_1_1Config.md))
 * **search\_for\_kernelset** ([**SpiceQL::InventoryImpl**](classSpiceQL_1_1InventoryImpl.md))
 * **search\_for\_kernelsets** ([**SpiceQL::InventoryImpl**](classSpiceQL_1_1InventoryImpl.md))
+* **start\_time** ([**SpiceQL::KernelCoverage**](structSpiceQL_1_1KernelCoverage.md))
+* **stop\_time** ([**SpiceQL::KernelCoverage**](structSpiceQL_1_1KernelCoverage.md))
 * **SpkSegment** ([**SpiceQL::SpkSegment**](classSpiceQL_1_1SpkSegment.md))
 * **start\_times** ([**SpiceQL::TimeIndexedKernels**](classSpiceQL_1_1TimeIndexedKernels.md))
 * **stop\_times** ([**SpiceQL::TimeIndexedKernels**](classSpiceQL_1_1TimeIndexedKernels.md))
+* **summaries** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
+* **summarySize** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
+* **swapBytes** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
 * **Set** ([**restincurl::Options**](classrestincurl_1_1Options.md))
 * **sendt\_bytes\_** ([**restincurl::OutDataHandler**](structrestincurl_1_1OutDataHandler.md))
 * **SetDefaultInHandler** ([**restincurl::Request**](classrestincurl_1_1Request.md))
@@ -261,6 +307,7 @@
 * **translateQuality** ([**SpiceQL::Kernel**](classSpiceQL_1_1Kernel.md))
 * **translateType** ([**SpiceQL::Kernel**](classSpiceQL_1_1Kernel.md))
 * **type** ([**SpiceQL::Kernel**](classSpiceQL_1_1Kernel.md))
+* **trim** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
 * **Trace** ([**restincurl::RequestBuilder**](classrestincurl_1_1RequestBuilder.md))
 * **tlsLOckInit** ([**restincurl::TlsLocker**](classrestincurl_1_1TlsLocker.md))
 * **tlsLockKill** ([**restincurl::TlsLocker**](classrestincurl_1_1TlsLocker.md))
@@ -292,6 +339,7 @@
 
 * **~Kernel** ([**SpiceQL::Kernel**](classSpiceQL_1_1Kernel.md))
 * **~KernelSet** ([**SpiceQL::KernelSet**](classSpiceQL_1_1KernelSet.md))
+* **~Handle** ([**SpiceQL::daf::File::Handle**](classSpiceQL_1_1daf_1_1File_1_1Handle.md))
 * **~Client** ([**restincurl::Client**](classrestincurl_1_1Client.md))
 * **~DataHandlerBase** ([**restincurl::DataHandlerBase**](structrestincurl_1_1DataHandlerBase.md))
 * **~EasyHandle** ([**restincurl::EasyHandle**](classrestincurl_1_1EasyHandle.md))

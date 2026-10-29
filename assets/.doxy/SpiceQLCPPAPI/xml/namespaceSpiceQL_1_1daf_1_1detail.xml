@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="namespaceSpiceQL_1_1daf_1_1detail" kind="namespace" language="C++">
+    <compoundname>SpiceQL::daf::detail</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="daf__reader_8h_1a8e1cbe23f1c1258fb1c3efa966383cbc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int SpiceQL::daf::detail::nint</definition>
+        <argsstring>(double d)</argsstring>
+        <name>nint</name>
+        <qualifiedname>SpiceQL::daf::detail::nint</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>d</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="392" column="16" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="392" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="daf__reader_8h_1ab201ab2f929554a9bf076271bbdb6b53" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::runtime_error</type>
+        <definition>std::runtime_error SpiceQL::daf::detail::badSegment</definition>
+        <argsstring>(const File &amp;f, int type, const std::string &amp;why)</argsstring>
+        <name>badSegment</name>
+        <qualifiedname>SpiceQL::daf::detail::badSegment</qualifiedname>
+        <param>
+          <type>const <ref refid="classSpiceQL_1_1daf_1_1File" kindref="compound">File</ref> &amp;</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>why</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="394" column="31" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="394" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="daf__reader_8h_1a339de2b38e09fc02b286c8a37fa7130c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class Tick</type>
+          </param>
+          <param>
+            <type>class Add</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void SpiceQL::daf::detail::walkInterpolationIntervals</definition>
+        <argsstring>(Tick &amp;&amp;tick, size_t ntick, const std::vector&lt; double &gt; &amp;starts, Add add)</argsstring>
+        <name>walkInterpolationIntervals</name>
+        <qualifiedname>SpiceQL::daf::detail::walkInterpolationIntervals</qualifiedname>
+        <param>
+          <type>Tick &amp;&amp;</type>
+          <declname>tick</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>ntick</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>starts</declname>
+        </param>
+        <param>
+          <type>Add</type>
+          <declname>add</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Shared walk of types 3 and 5: each interpolation interval runs from its start to the last record epoch before the next interval starts, and the last one runs to the last epoch. Gives the same intervals as the loop in zzckcv03 / zzckcv05. Calls add(begin, finish) per interval; finish is NAN when CSPICE would have used a value it never set.</para>
+<para>zzckcv03 steps through the epochs one at a time. Epochs in a CK are required to increase, so this searches them instead, reading each from the file as it&apos;s needed. A segment with one interval, the common case, costs two reads however many records it has. The search gallops forward from the last interval&apos;s epochs before it bisects, so a segment with many intervals reads near where it already is rather than all over the epoch list.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tick</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>tick(i) is epoch i, for i in [0, ntick) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="417" column="10" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="417" bodyend="461"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="390" column="3"/>
+  </compounddef>
+</doxygen>

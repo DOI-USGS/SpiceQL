@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="structSpiceQL_1_1KernelCoverage" kind="struct" language="C++" prot="public">
+    <compoundname>SpiceQL::KernelCoverage</compoundname>
+    <includes refid="utils_8h" local="no">utils.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structSpiceQL_1_1KernelCoverage_1a18c9f8ec2b2eb112f665bcdbb55c908c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double SpiceQL::KernelCoverage::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>SpiceQL::KernelCoverage::start_time</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="158" column="12" bodyfile="SpiceQL/include/SpiceQL/utils.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSpiceQL_1_1KernelCoverage_1a1d285f66f9c8d7950273ec1bb0e27ca0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double SpiceQL::KernelCoverage::stop_time</definition>
+        <argsstring></argsstring>
+        <name>stop_time</name>
+        <qualifiedname>SpiceQL::KernelCoverage::stop_time</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="159" column="12" bodyfile="SpiceQL/include/SpiceQL/utils.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSpiceQL_1_1KernelCoverage_1a489fabf96891db2b4e6e8ad817a9eacb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; SpiceQL::KernelCoverage::interval_starts</definition>
+        <argsstring></argsstring>
+        <name>interval_starts</name>
+        <qualifiedname>SpiceQL::KernelCoverage::interval_starts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="161" column="17" bodyfile="SpiceQL/include/SpiceQL/utils.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSpiceQL_1_1KernelCoverage_1acc539e5c7fb08e5f357ce47de8a5f5d7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; SpiceQL::KernelCoverage::interval_stops</definition>
+        <argsstring></argsstring>
+        <name>interval_stops</name>
+        <qualifiedname>SpiceQL::KernelCoverage::interval_stops</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="162" column="17" bodyfile="SpiceQL/include/SpiceQL/utils.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSpiceQL_1_1KernelCoverage_1a0c60131e2fba7714497c341da5d9ae0b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; SpiceQL::KernelCoverage::interval_body_codes</definition>
+        <argsstring></argsstring>
+        <name>interval_body_codes</name>
+        <qualifiedname>SpiceQL::KernelCoverage::interval_body_codes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/utils.h" line="163" column="17" bodyfile="SpiceQL/include/SpiceQL/utils.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Coverage of one CK or SPK, as interval rows. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The vectors are row-aligned: row i of interval_starts, interval_stops and interval_body_codes describes one interval. Rows are sorted by start time. start_time and stop_time are the kernel&apos;s bounds, the same values getKernelStartStopTimes returns. </para>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/utils.h" line="157" column="3" bodyfile="SpiceQL/include/SpiceQL/utils.h" bodystart="157" bodyend="164"/>
+    <listofallmembers>
+      <member refid="structSpiceQL_1_1KernelCoverage_1a0c60131e2fba7714497c341da5d9ae0b" prot="public" virt="non-virtual"><scope>SpiceQL::KernelCoverage</scope><name>interval_body_codes</name></member>
+      <member refid="structSpiceQL_1_1KernelCoverage_1a489fabf96891db2b4e6e8ad817a9eacb" prot="public" virt="non-virtual"><scope>SpiceQL::KernelCoverage</scope><name>interval_starts</name></member>
+      <member refid="structSpiceQL_1_1KernelCoverage_1acc539e5c7fb08e5f357ce47de8a5f5d7" prot="public" virt="non-virtual"><scope>SpiceQL::KernelCoverage</scope><name>interval_stops</name></member>
+      <member refid="structSpiceQL_1_1KernelCoverage_1a18c9f8ec2b2eb112f665bcdbb55c908c" prot="public" virt="non-virtual"><scope>SpiceQL::KernelCoverage</scope><name>start_time</name></member>
+      <member refid="structSpiceQL_1_1KernelCoverage_1a1d285f66f9c8d7950273ec1bb0e27ca0" prot="public" virt="non-virtual"><scope>SpiceQL::KernelCoverage</scope><name>stop_time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

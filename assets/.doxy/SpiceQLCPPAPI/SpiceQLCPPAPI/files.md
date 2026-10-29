@@ -10,6 +10,7 @@ Here is a list of all files with brief descriptions:
             * **file** [**alias\_map.h**](alias__map_8h.md)     
             * **file** [**api.h**](api_8h.md)     
             * **file** [**config.h**](config_8h.md)     
+            * **file** [**daf\_reader.h**](daf__reader_8h.md) _Reads coverage straight out of binary SPK and CK files._     
             * **file** [**inventory.h**](inventory_8h.md)     
             * **file** [**inventoryimpl.h**](inventoryimpl_8h.md)     
             * **file** [**io.h**](io_8h.md)     

@@ -65,6 +65,51 @@
   <compound refid="classrestincurl_1_1Exception" kind="class"><name>restincurl::Exception</name>
     <member refid="classrestincurl_1_1Exception_1a4b4981187d83b56fc7872cbfd5265804" kind="function"><name>Exception</name></member>
   </compound>
+  <compound refid="classSpiceQL_1_1daf_1_1File" kind="class"><name>SpiceQL::daf::File</name>
+    <member refid="classSpiceQL_1_1daf_1_1File_1afcb95760fbd00334fc10ad8843536a8a" kind="variable"><name>RECORD_BYTES</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1a3c5058c2bc6baf939ab3c0734ca15a09" kind="variable"><name>CACHE_RECORDS</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1a94eb3a4aae84d7feb9834094a8addf2a" kind="variable"><name>MAX_READ_AHEAD</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1ab8336dbc75439fd7f7767623b4c6aa1e" kind="variable"><name>DIRECT_READ_BYTES</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1a024a15f2460cec7d0a514fc656976567" kind="variable"><name>m_path</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1ad223b2df6611cb74356bc2b8dcb53caf" kind="variable"><name>m_handle</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1a61b6fc74de8be23ba159d32d0890a3db" kind="variable"><name>m_size</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1a7fac33cbbbb3c77ab253b3056e6d1211" kind="variable"><name>m_idword</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1abbf1487fe6074c0e1cd1ac810ee8f79e" kind="variable"><name>m_swap</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1ad1267396f58c236f4d4d73e163d182ad" kind="variable"><name>m_nd</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1af057063262f1528f6d71c5cec585d267" kind="variable"><name>m_ni</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1a873444878dc21020b0d06e1843828b35" kind="variable"><name>m_summaries</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1ad44b9726e0153cd1875eb5f96b6255fa" kind="variable"><name>m_cache</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1a9e42b8f928d0c396d59b5278a0d9cea1" kind="variable"><name>m_cachedRecord</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1a6bcb7732025d1f5cdb207ed2818267d4" kind="variable"><name>m_nextRecord</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1a9ed7775d99642bc92157a3513e8108d6" kind="variable"><name>m_readAhead</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1ae12e10e4a644aed1e281fa8750f82122" kind="function"><name>File</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1a521306e6c8809aa8c568d3a8af6363c8" kind="function"><name>kind</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1a8393e50b64a48b81c5c0ed57fa699f6a" kind="function"><name>nd</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1a37557825c8417ef160bcadff0c556b79" kind="function"><name>ni</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1a21531a8b8b085850f7a020bef0aa171e" kind="function"><name>path</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1acb8fb6ed013a61845ca12a516461a953" kind="function"><name>summaries</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1a75acfbf4d2bf1ee7bb03c285f150eebc" kind="function"><name>read</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1a84605720f1ecc4d9ca37688e4aade491" kind="function"><name>read</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1ac3b6b42a202c4988b2b515c46733da80" kind="function"><name>summarySize</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1aaf1321c0ac1f8fba8b4d1044e9c995cf" kind="function"><name>decodeInt</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1a37287400ff50f639b0a7fcf6ec967c96" kind="function"><name>decodeDouble</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1a0aee22b8e214750701fb9dc040f36716" kind="function"><name>record</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1a8331abeaef17fb2976626ffc7851b2f0" kind="function"><name>readBytes</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1a89a0bf5eb885860c5ce2060bf1bab5df" kind="function"><name>readSummaries</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1afc706ecdfe3547f0c19ff3c3a36659f1" kind="function"><name>hostIsBigEndian</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1a5e87f18632bb0ab76f68840363c3c773" kind="function"><name>swapBytes</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1a5059b580551bf9c95efeec3abc7714ed" kind="function"><name>trim</name></member>
+  </compound>
+  <compound refid="classSpiceQL_1_1daf_1_1File_1_1Handle" kind="class"><name>SpiceQL::daf::File::Handle</name>
+    <member refid="classSpiceQL_1_1daf_1_1File_1_1Handle_1a5f258bcd71597ffa5a791710985b4e4c" kind="variable"><name>m_path</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1_1Handle_1a102ce2f547565b1db229d1f6453cb3fc" kind="variable"><name>m_fd</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1_1Handle_1aa78ce66b050ac5939f86104665d4884c" kind="function"><name>Handle</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1_1Handle_1a98760de56c5b6bee76cf3ead990494ee" kind="function"><name>Handle</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1_1Handle_1ae5686e845e1dd29b3e1ac2d25f86d745" kind="function"><name>operator=</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1_1Handle_1ac58e3d4cee274f39ace7f1417b7b7247" kind="function"><name>~Handle</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1_1Handle_1ab3e0e0b94254df0760c7fad7e59e55fd" kind="function"><name>open</name></member>
+    <member refid="classSpiceQL_1_1daf_1_1File_1_1Handle_1a861df495fabc9ce68c1a23309cfda939" kind="function"><name>read</name></member>
+  </compound>
   <compound refid="structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_01_4" kind="struct"><name>std::hash&lt; std::vector&lt; std::string &gt; &gt;</name>
     <member refid="structstd_1_1hash_3_01std_1_1vector_3_01std_1_1string_01_4_01_4_1afd05e2761c39d74393c9b0360054c3c1" kind="function"><name>operator()</name></member>
   </compound>
@@ -130,6 +175,13 @@
     <member refid="classSpiceQL_1_1Kernel_1a83e7d238391a8a297a06f7c917e60f1b" kind="function"><name>translateQualities</name></member>
     <member refid="classSpiceQL_1_1Kernel_1af1a0f3dde4e6312ccfd01cb4a9a4796a" kind="function"><name>Kernel</name></member>
     <member refid="classSpiceQL_1_1Kernel_1a86250d06432fecfcece2fccc42aa049c" kind="function"><name>~Kernel</name></member>
+  </compound>
+  <compound refid="structSpiceQL_1_1KernelCoverage" kind="struct"><name>SpiceQL::KernelCoverage</name>
+    <member refid="structSpiceQL_1_1KernelCoverage_1a18c9f8ec2b2eb112f665bcdbb55c908c" kind="variable"><name>start_time</name></member>
+    <member refid="structSpiceQL_1_1KernelCoverage_1a1d285f66f9c8d7950273ec1bb0e27ca0" kind="variable"><name>stop_time</name></member>
+    <member refid="structSpiceQL_1_1KernelCoverage_1a489fabf96891db2b4e6e8ad817a9eacb" kind="variable"><name>interval_starts</name></member>
+    <member refid="structSpiceQL_1_1KernelCoverage_1acc539e5c7fb08e5f357ce47de8a5f5d7" kind="variable"><name>interval_stops</name></member>
+    <member refid="structSpiceQL_1_1KernelCoverage_1a0c60131e2fba7714497c341da5d9ae0b" kind="variable"><name>interval_body_codes</name></member>
   </compound>
   <compound refid="classSpiceQL_1_1KernelSet" kind="class"><name>SpiceQL::KernelSet</name>
     <member refid="classSpiceQL_1_1KernelSet_1a4d993043cd76734a109a45cfea3167ed" kind="variable"><name>m_loadedKernels</name></member>
@@ -275,6 +327,10 @@
   <compound refid="classSpiceQL_1_1SpkSegment" kind="class"><name>SpiceQL::SpkSegment</name>
     <member refid="classSpiceQL_1_1SpkSegment_1afcd6836c5d4e08de590f33c236273a2d" kind="function"><name>SpkSegment</name></member>
   </compound>
+  <compound refid="structSpiceQL_1_1daf_1_1Summary" kind="struct"><name>SpiceQL::daf::Summary</name>
+    <member refid="structSpiceQL_1_1daf_1_1Summary_1aca7960dbbb3471f31f420ad99f9dab5f" kind="variable"><name>dc</name></member>
+    <member refid="structSpiceQL_1_1daf_1_1Summary_1a71dce52d64ac8aba0d213517f0decbee" kind="variable"><name>ic</name></member>
+  </compound>
   <compound refid="classrestincurl_1_1SystemException" kind="class"><name>restincurl::SystemException</name>
     <member refid="classrestincurl_1_1SystemException_1aca0e9eabab55846d781b98f5b5b71b71" kind="variable"><name>err_</name></member>
     <member refid="classrestincurl_1_1SystemException_1a71b367995ae834d26a479ed468a89227" kind="function"><name>SystemException</name></member>
@@ -284,6 +340,10 @@
     <member refid="classSpiceQL_1_1TimeIndexedKernels_1a924bfb92490ba324395dafecace8b832" kind="variable"><name>start_times</name></member>
     <member refid="classSpiceQL_1_1TimeIndexedKernels_1a79235f4061658d3170fae34bde5f296a" kind="variable"><name>stop_times</name></member>
     <member refid="classSpiceQL_1_1TimeIndexedKernels_1a566b782428785681552cf0e351798c6e" kind="variable"><name>file_paths</name></member>
+    <member refid="classSpiceQL_1_1TimeIndexedKernels_1a719101674ce9604a1c7eaaa68305f0f9" kind="variable"><name>interval_starts</name></member>
+    <member refid="classSpiceQL_1_1TimeIndexedKernels_1a45f2bcfd51290184f2ba85b31e605005" kind="variable"><name>interval_stops</name></member>
+    <member refid="classSpiceQL_1_1TimeIndexedKernels_1af9ae2a67b5dbb3e5899c58d22996339d" kind="variable"><name>interval_kindex</name></member>
+    <member refid="classSpiceQL_1_1TimeIndexedKernels_1ac137b1d9a1004faec26f9e8f368aa4f2" kind="variable"><name>interval_body_codes</name></member>
   </compound>
   <compound refid="classrestincurl_1_1TlsLocker" kind="class"><name>restincurl::TlsLocker</name>
     <member refid="classrestincurl_1_1TlsLocker_1a6a1ffcf6906da5e5523a151bd5349fc1" kind="variable"><name>mutex_</name></member>
@@ -363,6 +423,11 @@
     <member refid="namespaceSpiceQL_1a365947f0a2fab003e0b82b01fafce93f" kind="variable"><name>DB_TIME_FILES_KEY</name></member>
     <member refid="namespaceSpiceQL_1a9ecdcc51bb31590c8493dc4ebfb366f6" kind="variable"><name>DB_SS_TIME_INDICES_KEY</name></member>
     <member refid="namespaceSpiceQL_1a6b5e1ab25fccd38716796a383a1f8ea3" kind="variable"><name>DB_SPICE_ROOT_KEY</name></member>
+    <member refid="namespaceSpiceQL_1a877b3a65152eb0f3cfbb0177a3fb581f" kind="variable"><name>DB_INTERVAL_START_KEY</name></member>
+    <member refid="namespaceSpiceQL_1a081331abe0a8cb4ebc10dedfa47d0178" kind="variable"><name>DB_INTERVAL_STOP_KEY</name></member>
+    <member refid="namespaceSpiceQL_1ab0bdc0445d8dfb98834e5953d1da6f07" kind="variable"><name>DB_INTERVAL_START_INDICES_KEY</name></member>
+    <member refid="namespaceSpiceQL_1a2acb9835abb90bed794f53b1822caac1" kind="variable"><name>DB_INTERVAL_STOP_INDICES_KEY</name></member>
+    <member refid="namespaceSpiceQL_1a52785ca86593e6b612474c4af43d4f9d" kind="variable"><name>DB_INTERVAL_BODY_CODES_KEY</name></member>
     <member refid="namespaceSpiceQL_1aa8c9648255e51a6da65775c2f16ea78c" kind="variable"><name>DB_FRAME_CACHE_KEY</name></member>
     <member refid="namespaceSpiceQL_1a6586927ae6934eea325f6691b5c1d58c" kind="variable"><name>DB_FRAME_LIST_KEY</name></member>
     <member refid="namespaceSpiceQL_1ad997a7e2fd62ea9305824bd3a4ad998d" kind="variable"><name>DB_FRAME_CODES_KEY</name></member>
@@ -435,6 +500,8 @@
     <member refid="namespaceSpiceQL_1aa3c4425e671dc71e45ccd79d9c5ddab6" kind="function"><name>glob</name></member>
     <member refid="namespaceSpiceQL_1affe26681b1a4ad0b3b1ebf80b274b676" kind="function"><name>getTimeIntervals</name></member>
     <member refid="namespaceSpiceQL_1a63eb7288ba06ed4c2c4ab1b0bd7200db" kind="function"><name>getKernelStartStopTimes</name></member>
+    <member refid="namespaceSpiceQL_1a01c190bb7e84bde1b1287f42e57b1906" kind="function"><name>getKernelCoverage</name></member>
+    <member refid="namespaceSpiceQL_1aa6c62059778b765972d2c2bd095e7d6f" kind="function"><name>sortCoverageRows</name></member>
     <member refid="namespaceSpiceQL_1a030335f42b6f30d3d8c650bc14ac0fc2" kind="function"><name>globKernelStartStopTimes</name></member>
     <member refid="namespaceSpiceQL_1abfda2826c58279e0c372b1b237510e77" kind="function"><name>globTimeIntervals</name></member>
     <member refid="namespaceSpiceQL_1af0c5bde4439eeb9bfdfd81b97f3ed798" kind="function"><name>getTargetState</name></member>
@@ -469,6 +536,16 @@
     <member refid="namespaceSpiceQL_1a6d98e444ca0be017bca8008b2da374ed" kind="function"><name>inferMission</name></member>
     <member refid="namespaceSpiceQL_1aeea115736d0b9e54c022304107f46b1c" kind="function"><name>formatKernels</name></member>
   </compound>
+  <compound refid="namespaceSpiceQL_1_1daf" kind="namespace"><name>SpiceQL::daf</name>
+    <member refid="daf__reader_8h_1a45eaf268309e251062bc99ff9f50613e" kind="typedef"><name>Window</name></member>
+    <member refid="daf__reader_8h_1a2f81dc0023cd801d5f53284e6a1227f2" kind="function"><name>merge</name></member>
+    <member refid="daf__reader_8h_1a1f66d676c334c6a18a726e9d55a40e92" kind="function"><name>ckSegmentCoverage</name></member>
+  </compound>
+  <compound refid="namespaceSpiceQL_1_1daf_1_1detail" kind="namespace"><name>SpiceQL::daf::detail</name>
+    <member refid="daf__reader_8h_1a8e1cbe23f1c1258fb1c3efa966383cbc" kind="function"><name>nint</name></member>
+    <member refid="daf__reader_8h_1ab201ab2f929554a9bf076271bbdb6b53" kind="function"><name>badSegment</name></member>
+    <member refid="daf__reader_8h_1a339de2b38e09fc02b286c8a37fa7130c" kind="function"><name>walkInterpolationIntervals</name></member>
+  </compound>
   <compound refid="namespaceSpiceQL_1_1Inventory" kind="namespace"><name>SpiceQL::Inventory</name>
     <member refid="inventory_8h_1ac6270a0bb41f6cc4aa3ee02400598580" kind="function"><name>search_for_kernelset</name></member>
     <member refid="inventory_8h_1a22fe21916e2f0cdc0da5b13ab89dafae" kind="function"><name>search_for_kernelsets</name></member>
@@ -497,6 +574,8 @@
   <compound refid="api_8h" kind="file"><name>api.h</name>
   </compound>
   <compound refid="config_8h" kind="file"><name>config.h</name>
+  </compound>
+  <compound refid="daf__reader_8h" kind="file"><name>daf_reader.h</name>
   </compound>
   <compound refid="inventory_8h" kind="file"><name>inventory.h</name>
   </compound>

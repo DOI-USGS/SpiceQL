@@ -29,6 +29,7 @@
 | ---: | :--- |
 | namespace | [**Inventory**](namespaceSpiceQL_1_1Inventory.md) <br> |
 | namespace | [**Memo**](namespaceSpiceQL_1_1Memo.md) <br> |
+| namespace | [**daf**](namespaceSpiceQL_1_1daf.md) <br> |
 
 
 ## Classes
@@ -40,6 +41,7 @@
 | class | [**Config**](classSpiceQL_1_1Config.md) <br>_Object for interacting with_ [_**SpiceQL**_](namespaceSpiceQL.md) _target configs._ |
 | class | [**InventoryImpl**](classSpiceQL_1_1InventoryImpl.md) <br> |
 | class | [**Kernel**](classSpiceQL_1_1Kernel.md) <br>_Base_ [_**Kernel**_](classSpiceQL_1_1Kernel.md) _class._ |
+| struct | [**KernelCoverage**](structSpiceQL_1_1KernelCoverage.md) <br>_Coverage of one CK or SPK, as interval rows._  |
 | class | [**KernelSet**](classSpiceQL_1_1KernelSet.md) <br>_Class for furnishing kernels in bulk._  |
 | class | [**SpkSegment**](classSpiceQL_1_1SpkSegment.md) <br>_C++ object repersenting NAIF spice SPK Segment and it's metadata._  |
 | class | [**TimeIndexedKernels**](classSpiceQL_1_1TimeIndexedKernels.md) <br> |
@@ -63,6 +65,11 @@
 |  std::string | [**DB\_FRAME\_LIST\_KEY**](#variable-db_frame_list_key)  <br> |
 |  std::string | [**DB\_FRAME\_NAMES\_KEY**](#variable-db_frame_names_key)  <br> |
 |  std::string | [**DB\_HDF\_FILE**](#variable-db_hdf_file)  <br> |
+|  std::string | [**DB\_INTERVAL\_BODY\_CODES\_KEY**](#variable-db_interval_body_codes_key)  <br> |
+|  std::string | [**DB\_INTERVAL\_START\_INDICES\_KEY**](#variable-db_interval_start_indices_key)  <br> |
+|  std::string | [**DB\_INTERVAL\_START\_KEY**](#variable-db_interval_start_key)  <br> |
+|  std::string | [**DB\_INTERVAL\_STOP\_INDICES\_KEY**](#variable-db_interval_stop_indices_key)  <br> |
+|  std::string | [**DB\_INTERVAL\_STOP\_KEY**](#variable-db_interval_stop_key)  <br> |
 |  std::string | [**DB\_SPICE\_ROOT\_KEY**](#variable-db_spice_root_key)  <br> |
 |  std::string | [**DB\_SS\_TIME\_INDICES\_KEY**](#variable-db_ss_time_indices_key)  <br> |
 |  std::string | [**DB\_START\_TIME\_KEY**](#variable-db_start_time_key)  <br> |
@@ -119,6 +126,7 @@
 |  std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt; | [**getExactTargetOrientations**](#function-getexacttargetorientations) (double startEt, double stopEt, int toFrame, int refFrame, int exactCkFrame, std::string mission="", std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, std::vector&lt; std::string &gt; kernelList={}) <br>_Returns exact target orientations for given time intervals and parameters._  |
 |  std::pair&lt; std::vector&lt; int &gt;, nlohmann::json &gt; | [**getFrameInfo**](#function-getframeinfo) (int frame, std::string mission="", bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, std::vector&lt; std::string &gt; kernelList={}) <br>_Get the center, class id, and class of a given frame._  |
 |  std::string | [**getHdfFile**](#function-gethdffile) () <br> |
+|  [**KernelCoverage**](structSpiceQL_1_1KernelCoverage.md) | [**getKernelCoverage**](#function-getkernelcoverage) (std::string kpath) <br>_Get the coverage intervals of a kernel._  |
 |  std::pair&lt; double, double &gt; | [**getKernelStartStopTimes**](#function-getkernelstartstoptimes) (std::string kpath) <br> |
 |  std::string | [**getKernelStringValue**](#function-getkernelstringvalue) (std::string key) <br>_return's kernel value from key_  |
 |  std::string | [**getKernelType**](#function-getkerneltype) (std::string kernelPath) <br>_get the_ [_**Kernel**_](classSpiceQL_1_1Kernel.md) _type (CK, SPK, etc.)_ |
@@ -173,6 +181,7 @@
 |  void | [**setAliasMap**](#function-setaliasmap) (const nlohmann::json & newAliasMap) <br>_Setter for the aliasMap._  |
 |  void | [**setCacheDir**](#function-setcachedir) (std::string cache\_dir, bool override=false) <br> |
 |  void | [**setConfigDirectory**](#function-setconfigdirectory) (std::string configDir) <br>_Override the directory pointing to the db files._  |
+|  void | [**sortCoverageRows**](#function-sortcoveragerows) ([**KernelCoverage**](structSpiceQL_1_1KernelCoverage.md) & coverage) <br>_Sort a coverage's interval rows by start, then stop, then body code, keeping each row's columns together._  |
 |  nlohmann::json | [**spiceAPIQuery**](#function-spiceapiquery) (std::string functionName, nlohmann::json args, std::string method="GET") <br>_Query implementation for_ [_**SpiceQL**_](namespaceSpiceQL.md) _'s REST API._ |
 |  std::vector&lt; std::string &gt; | [**split**](#function-split) (const std::string & s, char delim) <br>_turn a string into a vector with a deliminator_  |
 |  std::pair&lt; double, nlohmann::json &gt; | [**strSclkToEt**](#function-strsclktoet) (int frameCode, std::string sclk, std::string mission="", bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, std::vector&lt; std::string &gt; kernelList={}) <br>_Converts a given string spacecraft clock time to an ephemeris time._  |
@@ -308,6 +317,71 @@ std::string SpiceQL::DB_FRAME_NAMES_KEY;
 
 ```C++
 std::string SpiceQL::DB_HDF_FILE;
+```
+
+
+
+
+<hr>
+
+
+
+### variable DB\_INTERVAL\_BODY\_CODES\_KEY 
+
+```C++
+std::string SpiceQL::DB_INTERVAL_BODY_CODES_KEY;
+```
+
+
+
+
+<hr>
+
+
+
+### variable DB\_INTERVAL\_START\_INDICES\_KEY 
+
+```C++
+std::string SpiceQL::DB_INTERVAL_START_INDICES_KEY;
+```
+
+
+
+
+<hr>
+
+
+
+### variable DB\_INTERVAL\_START\_KEY 
+
+```C++
+std::string SpiceQL::DB_INTERVAL_START_KEY;
+```
+
+
+
+
+<hr>
+
+
+
+### variable DB\_INTERVAL\_STOP\_INDICES\_KEY 
+
+```C++
+std::string SpiceQL::DB_INTERVAL_STOP_INDICES_KEY;
+```
+
+
+
+
+<hr>
+
+
+
+### variable DB\_INTERVAL\_STOP\_KEY 
+
+```C++
+std::string SpiceQL::DB_INTERVAL_STOP_KEY;
 ```
 
 
@@ -1457,6 +1531,49 @@ std::string SpiceQL::getHdfFile ()
 
 
 
+
+<hr>
+
+
+
+### function getKernelCoverage 
+
+_Get the coverage intervals of a kernel._ 
+```C++
+KernelCoverage SpiceQL::getKernelCoverage (
+    std::string kpath
+) 
+```
+
+
+
+Intervals come from spkcov\_c / ckcov\_c, one coverage window per NAIF ID, the way ISIS's kerneldbgen gets them. CK coverage is taken at the INTERVAL level, so gaps inside a segment show up. Only negative IDs (spacecraft and instruments) are included, matching getKernelStartStopTimes. All times are ET.
+
+
+The file is opened once and its segments walked once; the bounds come from the same walk, so callers don't need getKernelStartStopTimes too.
+
+
+CK times are encoded SCLK, so the kernel's SCLK and an LSK must already be furnished.
+
+
+
+
+**Parameters:**
+
+
+* `kpath` Path to the kernel 
+
+
+
+**Returns:**
+
+the kernel's intervals 
+
+
+
+
+
+        
 
 <hr>
 
@@ -3392,6 +3509,33 @@ Sets an explicit config directory that takes precedence over the $SPICEQL\_CONFI
 
 
 **See also:** [**getConfigDirectory**](namespaceSpiceQL.md#function-getconfigdirectory) 
+
+
+
+        
+
+<hr>
+
+
+
+### function sortCoverageRows 
+
+_Sort a coverage's interval rows by start, then stop, then body code, keeping each row's columns together._ 
+```C++
+void SpiceQL::sortCoverageRows (
+    KernelCoverage & coverage
+) 
+```
+
+
+
+
+
+**Parameters:**
+
+
+* `coverage` The coverage to sort in place 
+
 
 
 

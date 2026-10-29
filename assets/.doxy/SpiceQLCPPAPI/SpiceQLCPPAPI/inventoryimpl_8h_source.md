@@ -37,6 +37,12 @@ namespace SpiceQL {
   extern std::string DB_TIME_FILES_KEY;
   extern std::string DB_SS_TIME_INDICES_KEY;
   extern std::string DB_SPICE_ROOT_KEY;
+  // Per-kernel coverage rows, stored alongside the time index.
+  extern std::string DB_INTERVAL_START_KEY;
+  extern std::string DB_INTERVAL_STOP_KEY;
+  extern std::string DB_INTERVAL_START_INDICES_KEY;
+  extern std::string DB_INTERVAL_STOP_INDICES_KEY;
+  extern std::string DB_INTERVAL_BODY_CODES_KEY;
   // Precomputed frame caches (built during create_database) so runtime
   // resolution never needs to furnish slow FKs. Stored under one group.
   extern std::string DB_FRAME_CACHE_KEY;
@@ -53,6 +59,14 @@ namespace SpiceQL {
     frozenca::BTreeMap<double, size_t> start_times; 
     frozenca::BTreeMap<double, size_t> stop_times; 
     std::vector<std::string> file_paths; 
+
+    // Coverage rows, grouped by kernel in file_paths order and sorted by start
+    // within a kernel. Row i of the interval_* vectors is one interval of
+    // kernel interval_kindex[i].
+    std::vector<double> interval_starts;
+    std::vector<double> interval_stops;
+    std::vector<size_t> interval_kindex;
+    std::vector<int> interval_body_codes;
   };
 
 

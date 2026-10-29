@@ -1,0 +1,594 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classSpiceQL_1_1daf_1_1File" kind="class" language="C++" prot="public">
+    <compoundname>SpiceQL::daf::File</compoundname>
+    <includes refid="daf__reader_8h" local="no">daf_reader.h</includes>
+    <innerclass refid="classSpiceQL_1_1daf_1_1File_1_1Handle" prot="private">SpiceQL::daf::File::Handle</innerclass>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classSpiceQL_1_1daf_1_1File_1afcb95760fbd00334fc10ad8843536a8a" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t SpiceQL::daf::File::RECORD_BYTES</definition>
+        <argsstring></argsstring>
+        <name>RECORD_BYTES</name>
+        <qualifiedname>SpiceQL::daf::File::RECORD_BYTES</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="176" column="33" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1daf_1_1File_1a3c5058c2bc6baf939ab3c0734ca15a09" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t SpiceQL::daf::File::CACHE_RECORDS</definition>
+        <argsstring></argsstring>
+        <name>CACHE_RECORDS</name>
+        <qualifiedname>SpiceQL::daf::File::CACHE_RECORDS</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="307" column="31" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1daf_1_1File_1a94eb3a4aae84d7feb9834094a8addf2a" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t SpiceQL::daf::File::MAX_READ_AHEAD</definition>
+        <argsstring></argsstring>
+        <name>MAX_READ_AHEAD</name>
+        <qualifiedname>SpiceQL::daf::File::MAX_READ_AHEAD</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="308" column="31" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1daf_1_1File_1ab8336dbc75439fd7f7767623b4c6aa1e" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t SpiceQL::daf::File::DIRECT_READ_BYTES</definition>
+        <argsstring></argsstring>
+        <name>DIRECT_READ_BYTES</name>
+        <qualifiedname>SpiceQL::daf::File::DIRECT_READ_BYTES</qualifiedname>
+        <initializer>= 4 * RECORD_BYTES</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="309" column="31" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classSpiceQL_1_1daf_1_1File_1a024a15f2460cec7d0a514fc656976567" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string SpiceQL::daf::File::m_path</definition>
+        <argsstring></argsstring>
+        <name>m_path</name>
+        <qualifiedname>SpiceQL::daf::File::m_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="250" column="19" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1daf_1_1File_1ad223b2df6611cb74356bc2b8dcb53caf" prot="private" static="no" mutable="yes">
+        <type>Handle</type>
+        <definition>Handle SpiceQL::daf::File::m_handle</definition>
+        <argsstring></argsstring>
+        <name>m_handle</name>
+        <qualifiedname>SpiceQL::daf::File::m_handle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="251" column="22" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1daf_1_1File_1a61b6fc74de8be23ba159d32d0890a3db" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t SpiceQL::daf::File::m_size</definition>
+        <argsstring></argsstring>
+        <name>m_size</name>
+        <qualifiedname>SpiceQL::daf::File::m_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="252" column="16" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1daf_1_1File_1a7fac33cbbbb3c77ab253b3056e6d1211" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string SpiceQL::daf::File::m_idword</definition>
+        <argsstring></argsstring>
+        <name>m_idword</name>
+        <qualifiedname>SpiceQL::daf::File::m_idword</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="253" column="19" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1daf_1_1File_1abbf1487fe6074c0e1cd1ac810ee8f79e" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool SpiceQL::daf::File::m_swap</definition>
+        <argsstring></argsstring>
+        <name>m_swap</name>
+        <qualifiedname>SpiceQL::daf::File::m_swap</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="254" column="12" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1daf_1_1File_1ad1267396f58c236f4d4d73e163d182ad" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int SpiceQL::daf::File::m_nd</definition>
+        <argsstring></argsstring>
+        <name>m_nd</name>
+        <qualifiedname>SpiceQL::daf::File::m_nd</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="255" column="11" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1daf_1_1File_1af057063262f1528f6d71c5cec585d267" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int SpiceQL::daf::File::m_ni</definition>
+        <argsstring></argsstring>
+        <name>m_ni</name>
+        <qualifiedname>SpiceQL::daf::File::m_ni</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="256" column="11" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1daf_1_1File_1a873444878dc21020b0d06e1843828b35" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structSpiceQL_1_1daf_1_1Summary" kindref="compound">Summary</ref> &gt;</type>
+        <definition>std::vector&lt;Summary&gt; SpiceQL::daf::File::m_summaries</definition>
+        <argsstring></argsstring>
+        <name>m_summaries</name>
+        <qualifiedname>SpiceQL::daf::File::m_summaries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="257" column="19" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1daf_1_1File_1ad44b9726e0153cd1875eb5f96b6255fa" prot="private" static="no" mutable="yes">
+        <type>std::vector&lt; char &gt;</type>
+        <definition>std::vector&lt;char&gt; SpiceQL::daf::File::m_cache</definition>
+        <argsstring></argsstring>
+        <name>m_cache</name>
+        <qualifiedname>SpiceQL::daf::File::m_cache</qualifiedname>
+        <initializer>= std::vector&lt;char&gt;(CACHE_RECORDS * RECORD_BYTES)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="310" column="27" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1daf_1_1File_1a9e42b8f928d0c396d59b5278a0d9cea1" prot="private" static="no" mutable="yes">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt;int64_t&gt; SpiceQL::daf::File::m_cachedRecord</definition>
+        <argsstring></argsstring>
+        <name>m_cachedRecord</name>
+        <qualifiedname>SpiceQL::daf::File::m_cachedRecord</qualifiedname>
+        <initializer>= std::vector&lt;int64_t&gt;(CACHE_RECORDS, -1)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="311" column="27" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1daf_1_1File_1a6bcb7732025d1f5cdb207ed2818267d4" prot="private" static="no" mutable="yes">
+        <type>uint64_t</type>
+        <definition>uint64_t SpiceQL::daf::File::m_nextRecord</definition>
+        <argsstring></argsstring>
+        <name>m_nextRecord</name>
+        <qualifiedname>SpiceQL::daf::File::m_nextRecord</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="312" column="24" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classSpiceQL_1_1daf_1_1File_1a9ed7775d99642bc92157a3513e8108d6" prot="private" static="no" mutable="yes">
+        <type>size_t</type>
+        <definition>size_t SpiceQL::daf::File::m_readAhead</definition>
+        <argsstring></argsstring>
+        <name>m_readAhead</name>
+        <qualifiedname>SpiceQL::daf::File::m_readAhead</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="313" column="22" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classSpiceQL_1_1daf_1_1File_1ae12e10e4a644aed1e281fa8750f82122" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>SpiceQL::daf::File::File</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>File</name>
+        <qualifiedname>SpiceQL::daf::File::File</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="91" column="16" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="91" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1daf_1_1File_1a521306e6c8809aa8c568d3a8af6363c8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string SpiceQL::daf::File::kind</definition>
+        <argsstring>() const</argsstring>
+        <name>kind</name>
+        <qualifiedname>SpiceQL::daf::File::kind</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The kernel type from the ID word (&quot;CK&quot;, &quot;SPK&quot;, &quot;PCK&quot;, ...), or &quot;&quot; for old &quot;NAIF/DAF&quot; files. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="136" column="19" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="136" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1daf_1_1File_1a8393e50b64a48b81c5c0ed57fa699f6a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int SpiceQL::daf::File::nd</definition>
+        <argsstring>() const</argsstring>
+        <name>nd</name>
+        <qualifiedname>SpiceQL::daf::File::nd</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="140" column="11" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="140" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1daf_1_1File_1a37557825c8417ef160bcadff0c556b79" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int SpiceQL::daf::File::ni</definition>
+        <argsstring>() const</argsstring>
+        <name>ni</name>
+        <qualifiedname>SpiceQL::daf::File::ni</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="141" column="11" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="141" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1daf_1_1File_1a21531a8b8b085850f7a020bef0aa171e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; SpiceQL::daf::File::path</definition>
+        <argsstring>() const</argsstring>
+        <name>path</name>
+        <qualifiedname>SpiceQL::daf::File::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="142" column="25" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="142" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1daf_1_1File_1acb8fb6ed013a61845ca12a516461a953" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structSpiceQL_1_1daf_1_1Summary" kindref="compound">Summary</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; Summary &gt; &amp; SpiceQL::daf::File::summaries</definition>
+        <argsstring>() const</argsstring>
+        <name>summaries</name>
+        <qualifiedname>SpiceQL::daf::File::summaries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Every array summary in the file, in file order. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="145" column="25" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1daf_1_1File_1a75acfbf4d2bf1ee7bb03c285f150eebc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; SpiceQL::daf::File::read</definition>
+        <argsstring>(int64_t begin, int64_t end) const</argsstring>
+        <name>read</name>
+        <qualifiedname>SpiceQL::daf::File::read</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>begin</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+<para>Reads double words [begin, end] (1-based, inclusive), like dafgda_c. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="150" column="19" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="150" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1daf_1_1File_1a84605720f1ecc4d9ca37688e4aade491" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double SpiceQL::daf::File::read</definition>
+        <argsstring>(int64_t addr) const</argsstring>
+        <name>read</name>
+        <qualifiedname>SpiceQL::daf::File::read</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>addr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Reads one double word. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="165" column="14" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="165" bodyend="173"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classSpiceQL_1_1daf_1_1File_1ac3b6b42a202c4988b2b515c46733da80" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int SpiceQL::daf::File::summarySize</definition>
+        <argsstring>() const</argsstring>
+        <name>summarySize</name>
+        <qualifiedname>SpiceQL::daf::File::summarySize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="259" column="11" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="259" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1daf_1_1File_1aaf1321c0ac1f8fba8b4d1044e9c995cf" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t SpiceQL::daf::File::decodeInt</definition>
+        <argsstring>(const char *p) const</argsstring>
+        <name>decodeInt</name>
+        <qualifiedname>SpiceQL::daf::File::decodeInt</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="277" column="15" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="277" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1daf_1_1File_1a37287400ff50f639b0a7fcf6ec967c96" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double SpiceQL::daf::File::decodeDouble</definition>
+        <argsstring>(const char *p) const</argsstring>
+        <name>decodeDouble</name>
+        <qualifiedname>SpiceQL::daf::File::decodeDouble</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="286" column="14" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="286" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1daf_1_1File_1a0aee22b8e214750701fb9dc040f36716" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * SpiceQL::daf::File::record</definition>
+        <argsstring>(uint64_t r) const</argsstring>
+        <name>record</name>
+        <qualifiedname>SpiceQL::daf::File::record</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="316" column="18" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="316" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1daf_1_1File_1a8331abeaef17fb2976626ffc7851b2f0" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SpiceQL::daf::File::readBytes</definition>
+        <argsstring>(uint64_t offset, char *dst, size_t n) const</argsstring>
+        <name>readBytes</name>
+        <qualifiedname>SpiceQL::daf::File::readBytes</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>dst</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="335" column="12" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="335" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1daf_1_1File_1a89a0bf5eb885860c5ce2060bf1bab5df" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SpiceQL::daf::File::readSummaries</definition>
+        <argsstring>(int32_t record)</argsstring>
+        <name>readSummaries</name>
+        <qualifiedname>SpiceQL::daf::File::readSummaries</qualifiedname>
+        <param>
+          <type>int32_t</type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="354" column="12" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="354" bodyend="386"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classSpiceQL_1_1daf_1_1File_1afc706ecdfe3547f0c19ff3c3a36659f1" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool SpiceQL::daf::File::hostIsBigEndian</definition>
+        <argsstring>()</argsstring>
+        <name>hostIsBigEndian</name>
+        <qualifiedname>SpiceQL::daf::File::hostIsBigEndian</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="261" column="19" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="261" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1daf_1_1File_1a5e87f18632bb0ab76f68840363c3c773" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void SpiceQL::daf::File::swapBytes</definition>
+        <argsstring>(char *p, size_t n)</argsstring>
+        <name>swapBytes</name>
+        <qualifiedname>SpiceQL::daf::File::swapBytes</qualifiedname>
+        <param>
+          <type>char *</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="268" column="19" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="268" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classSpiceQL_1_1daf_1_1File_1a5059b580551bf9c95efeec3abc7714ed" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string SpiceQL::daf::File::trim</definition>
+        <argsstring>(std::string s)</argsstring>
+        <name>trim</name>
+        <qualifiedname>SpiceQL::daf::File::trim</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="272" column="26" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="272" bodyend="275"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>An open DAF, read with plain file I/O. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Opening reads the file record and every summary. Array data is read on request, in bulk. </para>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/daf_reader.h" line="89" column="3" bodyfile="SpiceQL/include/SpiceQL/daf_reader.h" bodystart="89" bodyend="387"/>
+    <listofallmembers>
+      <member refid="classSpiceQL_1_1daf_1_1File_1a3c5058c2bc6baf939ab3c0734ca15a09" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>CACHE_RECORDS</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1a37287400ff50f639b0a7fcf6ec967c96" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>decodeDouble</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1aaf1321c0ac1f8fba8b4d1044e9c995cf" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>decodeInt</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1ab8336dbc75439fd7f7767623b4c6aa1e" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>DIRECT_READ_BYTES</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1ae12e10e4a644aed1e281fa8750f82122" prot="public" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>File</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1afc706ecdfe3547f0c19ff3c3a36659f1" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>hostIsBigEndian</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1a521306e6c8809aa8c568d3a8af6363c8" prot="public" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>kind</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1ad44b9726e0153cd1875eb5f96b6255fa" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>m_cache</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1a9e42b8f928d0c396d59b5278a0d9cea1" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>m_cachedRecord</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1ad223b2df6611cb74356bc2b8dcb53caf" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>m_handle</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1a7fac33cbbbb3c77ab253b3056e6d1211" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>m_idword</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1ad1267396f58c236f4d4d73e163d182ad" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>m_nd</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1a6bcb7732025d1f5cdb207ed2818267d4" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>m_nextRecord</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1af057063262f1528f6d71c5cec585d267" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>m_ni</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1a024a15f2460cec7d0a514fc656976567" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>m_path</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1a9ed7775d99642bc92157a3513e8108d6" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>m_readAhead</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1a61b6fc74de8be23ba159d32d0890a3db" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>m_size</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1a873444878dc21020b0d06e1843828b35" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>m_summaries</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1abbf1487fe6074c0e1cd1ac810ee8f79e" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>m_swap</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1a94eb3a4aae84d7feb9834094a8addf2a" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>MAX_READ_AHEAD</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1a8393e50b64a48b81c5c0ed57fa699f6a" prot="public" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>nd</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1a37557825c8417ef160bcadff0c556b79" prot="public" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>ni</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1a21531a8b8b085850f7a020bef0aa171e" prot="public" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>path</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1a75acfbf4d2bf1ee7bb03c285f150eebc" prot="public" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>read</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1a84605720f1ecc4d9ca37688e4aade491" prot="public" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>read</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1a8331abeaef17fb2976626ffc7851b2f0" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>readBytes</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1a89a0bf5eb885860c5ce2060bf1bab5df" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>readSummaries</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1a0aee22b8e214750701fb9dc040f36716" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>record</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1afcb95760fbd00334fc10ad8843536a8a" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>RECORD_BYTES</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1acb8fb6ed013a61845ca12a516461a953" prot="public" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>summaries</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1ac3b6b42a202c4988b2b515c46733da80" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>summarySize</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1a5e87f18632bb0ab76f68840363c3c773" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>swapBytes</name></member>
+      <member refid="classSpiceQL_1_1daf_1_1File_1a5059b580551bf9c95efeec3abc7714ed" prot="private" virt="non-virtual"><scope>SpiceQL::daf::File</scope><name>trim</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

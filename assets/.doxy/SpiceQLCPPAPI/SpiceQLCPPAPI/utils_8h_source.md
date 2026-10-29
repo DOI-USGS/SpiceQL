@@ -60,6 +60,22 @@ namespace SpiceQL {
 
   std::pair<double, double> getKernelStartStopTimes(std::string kpath);
 
+
+  struct KernelCoverage {
+    double start_time = 0;
+    double stop_time = 0;
+
+    std::vector<double> interval_starts;
+    std::vector<double> interval_stops;
+    std::vector<int> interval_body_codes;
+  };
+
+
+  KernelCoverage getKernelCoverage(std::string kpath);
+
+
+  void sortCoverageRows(KernelCoverage &coverage);
+
   std::string globKernelStartStopTimes(std::string mission);
 
   std::string globTimeIntervals(std::string mission);
