@@ -14,11 +14,11 @@ namespace SpiceQL {
      * match the defaults of the individual parameters they replace.
      *
      * Converts to and from nlohmann::json (json j = options;
-     * j.get<SpiceQLOptions>()). Keys missing from the json keep their
+     * j.get<QueryOpts>()). Keys missing from the json keep their
      * defaults and unrecognized keys are ignored, so a new field only needs to
      * be added here and to the NLOHMANN_DEFINE_TYPE call below.
      */
-    struct SpiceQLOptions {
+    struct QueryOpts {
         //! whether to use web SpiceQL
         bool useWeb = false;
         //! whether to search the kernels for the user
@@ -34,8 +34,8 @@ namespace SpiceQL {
     };
 
 #ifndef SWIG
-    // defines to_json/from_json for SpiceQLOptions since SWIG cannot parse the macro
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(SpiceQLOptions, useWeb, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
+    // defines to_json/from_json for QueryOpts since SWIG cannot parse the macro
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(QueryOpts, useWeb, searchKernels, fullKernelPath, limitCk, limitSpk, kernelList)
 #endif
 
     /**
@@ -732,14 +732,14 @@ namespace SpiceQL {
         bool overwrite=false);
 
 #ifndef SWIG
-    // Overloads taking a SpiceQLOptions instead of the individual option params.
+    // Overloads taking a QueryOpts instead of the individual option params.
     // They are templates so a call that passes no options still resolves to the
     // non-template function above, otherwise the shared defaults are ambiguous.
 
     /**
-     * @brief Overload of getTargetStates() that takes the common optional parameters as a SpiceQLOptions.
+     * @brief Overload of getTargetStates() that takes the common optional parameters as a QueryOpts.
      *
-     * @param options SpiceQLOptions common optional parameters
+     * @param options QueryOpts common optional parameters
      **/
     template <typename = void>
     std::pair<std::vector<std::vector<double>>, nlohmann::json> getTargetStates(
@@ -751,14 +751,14 @@ namespace SpiceQL {
             std::string mission="",
             std::vector<std::string> ckQualities={"smithed", "reconstructed"},
             std::vector<std::string> spkQualities={"smithed", "reconstructed"},
-            SpiceQLOptions options={}) {
+            QueryOpts options={}) {
         return getTargetStates(ets, target, observer, frame, abcorr, mission, ckQualities, spkQualities, options.useWeb, options.searchKernels, options.fullKernelPath, options.limitCk, options.limitSpk, options.kernelList);
     }
 
     /**
-     * @brief Overload of getTargetStatesRanged() that takes the common optional parameters as a SpiceQLOptions.
+     * @brief Overload of getTargetStatesRanged() that takes the common optional parameters as a QueryOpts.
      *
-     * @param options SpiceQLOptions common optional parameters
+     * @param options QueryOpts common optional parameters
      **/
     template <typename = void>
     std::pair<std::vector<std::vector<double>>, nlohmann::json> getTargetStatesRanged(
@@ -772,14 +772,14 @@ namespace SpiceQL {
             std::string mission="",
             std::vector<std::string> ckQualities={"smithed", "reconstructed"},
             std::vector<std::string> spkQualities={"smithed", "reconstructed"},
-            SpiceQLOptions options={}) {
+            QueryOpts options={}) {
         return getTargetStatesRanged(startEt, stopEt, numRecords, target, observer, frame, abcorr, mission, ckQualities, spkQualities, options.useWeb, options.searchKernels, options.fullKernelPath, options.limitCk, options.limitSpk, options.kernelList);
     }
 
     /**
-     * @brief Overload of getTargetOrientations() that takes the common optional parameters as a SpiceQLOptions.
+     * @brief Overload of getTargetOrientations() that takes the common optional parameters as a QueryOpts.
      *
-     * @param options SpiceQLOptions common optional parameters
+     * @param options QueryOpts common optional parameters
      **/
     template <typename = void>
     std::pair<std::vector<std::vector<double>>, nlohmann::json> getTargetOrientations(
@@ -788,14 +788,14 @@ namespace SpiceQL {
             int refFrame,
             std::string mission="",
             std::vector<std::string> ckQualities={"smithed", "reconstructed"},
-            SpiceQLOptions options={}) {
+            QueryOpts options={}) {
         return getTargetOrientations(ets, toFrame, refFrame, mission, ckQualities, options.useWeb, options.searchKernels, options.fullKernelPath, options.limitCk, options.limitSpk, options.kernelList);
     }
 
     /**
-     * @brief Overload of getTargetOrientationsRanged() that takes the common optional parameters as a SpiceQLOptions.
+     * @brief Overload of getTargetOrientationsRanged() that takes the common optional parameters as a QueryOpts.
      *
-     * @param options SpiceQLOptions common optional parameters
+     * @param options QueryOpts common optional parameters
      **/
     template <typename = void>
     std::pair<std::vector<std::vector<double>>, nlohmann::json> getTargetOrientationsRanged(
@@ -806,174 +806,174 @@ namespace SpiceQL {
             int refFrame,
             std::string mission="",
             std::vector<std::string> ckQualities={"smithed", "reconstructed"},
-            SpiceQLOptions options={}) {
+            QueryOpts options={}) {
         return getTargetOrientationsRanged(startEt, stopEt, numRecords, toFrame, refFrame, mission, ckQualities, options.useWeb, options.searchKernels, options.fullKernelPath, options.limitCk, options.limitSpk, options.kernelList);
     }
 
     /**
-     * @brief Overload of strSclkToEt() that takes the common optional parameters as a SpiceQLOptions.
+     * @brief Overload of strSclkToEt() that takes the common optional parameters as a QueryOpts.
      *
-     * @param options SpiceQLOptions common optional parameters
+     * @param options QueryOpts common optional parameters
      **/
     template <typename = void>
     std::pair<double, nlohmann::json> strSclkToEt(
             int frameCode,
             std::string sclk,
             std::string mission="",
-            SpiceQLOptions options={}) {
+            QueryOpts options={}) {
         return strSclkToEt(frameCode, sclk, mission, options.useWeb, options.searchKernels, options.fullKernelPath, options.limitCk, options.limitSpk, options.kernelList);
     }
 
     /**
-     * @brief Overload of doubleSclkToEt() that takes the common optional parameters as a SpiceQLOptions.
+     * @brief Overload of doubleSclkToEt() that takes the common optional parameters as a QueryOpts.
      *
-     * @param options SpiceQLOptions common optional parameters
+     * @param options QueryOpts common optional parameters
      **/
     template <typename = void>
     std::pair<double, nlohmann::json> doubleSclkToEt(
             int frameCode,
             double sclk,
             std::string mission="",
-            SpiceQLOptions options={}) {
+            QueryOpts options={}) {
         return doubleSclkToEt(frameCode, sclk, mission, options.useWeb, options.searchKernels, options.fullKernelPath, options.limitCk, options.limitSpk, options.kernelList);
     }
 
     /**
-     * @brief Overload of doubleEtToSclk() that takes the common optional parameters as a SpiceQLOptions.
+     * @brief Overload of doubleEtToSclk() that takes the common optional parameters as a QueryOpts.
      *
-     * @param options SpiceQLOptions common optional parameters
+     * @param options QueryOpts common optional parameters
      **/
     template <typename = void>
     std::pair<std::string, nlohmann::json> doubleEtToSclk(
             int frameCode,
             double et,
             std::string mission="",
-            SpiceQLOptions options={}) {
+            QueryOpts options={}) {
         return doubleEtToSclk(frameCode, et, mission, options.useWeb, options.searchKernels, options.fullKernelPath, options.limitCk, options.limitSpk, options.kernelList);
     }
 
     /**
-     * @brief Overload of utcToEt() that takes the common optional parameters as a SpiceQLOptions.
+     * @brief Overload of utcToEt() that takes the common optional parameters as a QueryOpts.
      *
-     * @param options SpiceQLOptions common optional parameters
+     * @param options QueryOpts common optional parameters
      **/
     template <typename = void>
     std::pair<double, nlohmann::json> utcToEt(
             std::string utc,
-            SpiceQLOptions options={}) {
+            QueryOpts options={}) {
         return utcToEt(utc, options.useWeb, options.searchKernels, options.fullKernelPath, options.limitCk, options.limitSpk, options.kernelList);
     }
 
     /**
-     * @brief Overload of etToUtc() that takes the common optional parameters as a SpiceQLOptions.
+     * @brief Overload of etToUtc() that takes the common optional parameters as a QueryOpts.
      *
-     * @param options SpiceQLOptions common optional parameters
+     * @param options QueryOpts common optional parameters
      **/
     template <typename = void>
     std::pair<std::string, nlohmann::json> etToUtc(
             double et,
             std::string format="",
             double precision=0,
-            SpiceQLOptions options={}) {
+            QueryOpts options={}) {
         return etToUtc(et, format, precision, options.useWeb, options.searchKernels, options.fullKernelPath, options.limitCk, options.limitSpk, options.kernelList);
     }
 
     /**
-     * @brief Overload of doubleEtsToSclkTicks() that takes the common optional parameters as a SpiceQLOptions.
+     * @brief Overload of doubleEtsToSclkTicks() that takes the common optional parameters as a QueryOpts.
      *
-     * @param options SpiceQLOptions common optional parameters
+     * @param options QueryOpts common optional parameters
      **/
     template <typename = void>
     std::pair<std::vector<double>, nlohmann::json> doubleEtsToSclkTicks(
             int frameCode,
             std::vector<double> ets,
             std::string mission="",
-            SpiceQLOptions options={}) {
+            QueryOpts options={}) {
         return doubleEtsToSclkTicks(frameCode, ets, mission, options.useWeb, options.searchKernels, options.fullKernelPath, options.limitCk, options.limitSpk, options.kernelList);
     }
 
     /**
-     * @brief Overload of translateNameToCode() that takes the common optional parameters as a SpiceQLOptions.
+     * @brief Overload of translateNameToCode() that takes the common optional parameters as a QueryOpts.
      *
-     * @param options SpiceQLOptions common optional parameters
+     * @param options QueryOpts common optional parameters
      **/
     template <typename = void>
     std::pair<int, nlohmann::json> translateNameToCode(
             std::string frame,
             std::string mission="",
-            SpiceQLOptions options={}) {
+            QueryOpts options={}) {
         return translateNameToCode(frame, mission, options.useWeb, options.searchKernels, options.fullKernelPath, options.limitCk, options.limitSpk, options.kernelList);
     }
 
     /**
-     * @brief Overload of translateCodeToName() that takes the common optional parameters as a SpiceQLOptions.
+     * @brief Overload of translateCodeToName() that takes the common optional parameters as a QueryOpts.
      *
-     * @param options SpiceQLOptions common optional parameters
+     * @param options QueryOpts common optional parameters
      **/
     template <typename = void>
     std::pair<std::string, nlohmann::json> translateCodeToName(
             int frame,
             std::string mission="",
-            SpiceQLOptions options={}) {
+            QueryOpts options={}) {
         return translateCodeToName(frame, mission, options.useWeb, options.searchKernels, options.fullKernelPath, options.limitCk, options.limitSpk, options.kernelList);
     }
 
     /**
-     * @brief Overload of getFrameInfo() that takes the common optional parameters as a SpiceQLOptions.
+     * @brief Overload of getFrameInfo() that takes the common optional parameters as a QueryOpts.
      *
-     * @param options SpiceQLOptions common optional parameters
+     * @param options QueryOpts common optional parameters
      **/
     template <typename = void>
     std::pair<std::vector<int>, nlohmann::json> getFrameInfo(
             int frame,
             std::string mission="",
-            SpiceQLOptions options={}) {
+            QueryOpts options={}) {
         return getFrameInfo(frame, mission, options.useWeb, options.searchKernels, options.fullKernelPath, options.limitCk, options.limitSpk, options.kernelList);
     }
 
     /**
-     * @brief Overload of getTargetFrameInfo() that takes the common optional parameters as a SpiceQLOptions.
+     * @brief Overload of getTargetFrameInfo() that takes the common optional parameters as a QueryOpts.
      *
-     * @param options SpiceQLOptions common optional parameters
+     * @param options QueryOpts common optional parameters
      **/
     template <typename = void>
     std::pair<nlohmann::json, nlohmann::json> getTargetFrameInfo(
             int targetId,
             std::string mission="",
-            SpiceQLOptions options={}) {
+            QueryOpts options={}) {
         return getTargetFrameInfo(targetId, mission, options.useWeb, options.searchKernels, options.fullKernelPath, options.limitCk, options.limitSpk, options.kernelList);
     }
 
     /**
-     * @brief Overload of findMissionKeywords() that takes the common optional parameters as a SpiceQLOptions.
+     * @brief Overload of findMissionKeywords() that takes the common optional parameters as a QueryOpts.
      *
-     * @param options SpiceQLOptions common optional parameters
+     * @param options QueryOpts common optional parameters
      **/
     template <typename = void>
     std::pair<nlohmann::json, nlohmann::json> findMissionKeywords(
             std::string key,
             std::string mission,
-            SpiceQLOptions options={}) {
+            QueryOpts options={}) {
         return findMissionKeywords(key, mission, options.useWeb, options.searchKernels, options.fullKernelPath, options.limitCk, options.limitSpk, options.kernelList);
     }
 
     /**
-     * @brief Overload of findTargetKeywords() that takes the common optional parameters as a SpiceQLOptions.
+     * @brief Overload of findTargetKeywords() that takes the common optional parameters as a QueryOpts.
      *
-     * @param options SpiceQLOptions common optional parameters
+     * @param options QueryOpts common optional parameters
      **/
     template <typename = void>
     std::pair<nlohmann::json, nlohmann::json> findTargetKeywords(
             std::string key,
             std::string mission,
-            SpiceQLOptions options={}) {
+            QueryOpts options={}) {
         return findTargetKeywords(key, mission, options.useWeb, options.searchKernels, options.fullKernelPath, options.limitCk, options.limitSpk, options.kernelList);
     }
 
     /**
-     * @brief Overload of frameTrace() that takes the common optional parameters as a SpiceQLOptions.
+     * @brief Overload of frameTrace() that takes the common optional parameters as a QueryOpts.
      *
-     * @param options SpiceQLOptions common optional parameters
+     * @param options QueryOpts common optional parameters
      **/
     template <typename = void>
     std::pair<std::vector<std::vector<int>>, nlohmann::json> frameTrace(
@@ -982,16 +982,16 @@ namespace SpiceQL {
             std::string mission="",
             std::vector<std::string> ckQualities={"smithed", "reconstructed"},
             std::vector<std::string> spkQualities={"smithed", "reconstructed"},
-            SpiceQLOptions options={}) {
+            QueryOpts options={}) {
         return frameTrace(et, initialFrame, mission, ckQualities, spkQualities, options.useWeb, options.searchKernels, options.fullKernelPath, options.limitCk, options.limitSpk, options.kernelList);
     }
 
     /**
-     * @brief Overload of extractExactCkTimes() that takes the common optional parameters as a SpiceQLOptions.
+     * @brief Overload of extractExactCkTimes() that takes the common optional parameters as a QueryOpts.
      *
      * Unlike extractExactCkTimes() without options, limitCk defaults to -1 here.
      *
-     * @param options SpiceQLOptions common optional parameters
+     * @param options QueryOpts common optional parameters
      **/
     template <typename = void>
     std::pair<std::vector<double>, nlohmann::json> extractExactCkTimes(
@@ -1000,14 +1000,14 @@ namespace SpiceQL {
             int targetFrame,
             std::string mission="",
             std::vector<std::string> ckQualities={"smithed", "reconstructed"},
-            SpiceQLOptions options={}) {
+            QueryOpts options={}) {
         return extractExactCkTimes(observStart, observEnd, targetFrame, mission, ckQualities, options.useWeb, options.searchKernels, options.fullKernelPath, options.limitCk, options.limitSpk, options.kernelList);
     }
 
     /**
-     * @brief Overload of getExactTargetOrientations() that takes the common optional parameters as a SpiceQLOptions.
+     * @brief Overload of getExactTargetOrientations() that takes the common optional parameters as a QueryOpts.
      *
-     * @param options SpiceQLOptions common optional parameters
+     * @param options QueryOpts common optional parameters
      **/
     template <typename = void>
     std::pair<std::vector<std::vector<double>>, nlohmann::json> getExactTargetOrientations(
@@ -1018,16 +1018,16 @@ namespace SpiceQL {
             int exactCkFrame,
             std::string mission="",
             std::vector<std::string> ckQualities={"smithed", "reconstructed"},
-            SpiceQLOptions options={}) {
+            QueryOpts options={}) {
         return getExactTargetOrientations(startEt, stopEt, toFrame, refFrame, exactCkFrame, mission, ckQualities, options.useWeb, options.searchKernels, options.fullKernelPath, options.limitCk, options.limitSpk, options.kernelList);
     }
 
     /**
-     * @brief Overload of searchForKernelsets() that takes the common optional parameters as a SpiceQLOptions.
+     * @brief Overload of searchForKernelsets() that takes the common optional parameters as a QueryOpts.
      *
      * Only useWeb, fullKernelPath, limitCk, limitSpk are used from options.
      *
-     * @param options SpiceQLOptions common optional parameters
+     * @param options QueryOpts common optional parameters
      **/
     template <typename = void>
     std::pair<std::string, nlohmann::json> searchForKernelsets(
@@ -1037,7 +1037,7 @@ namespace SpiceQL {
             double stopTime=std::numeric_limits<double>::max(),
             std::vector<std::string> ckQualities={"smithed", "reconstructed"},
             std::vector<std::string> spkQualities={"smithed", "reconstructed"},
-            SpiceQLOptions options={},
+            QueryOpts options={},
             bool overwrite=false) {
         return searchForKernelsets(spiceqlNames, types, startTime, stopTime, ckQualities, spkQualities, options.useWeb, options.fullKernelPath, options.limitCk, options.limitSpk, overwrite);
     }

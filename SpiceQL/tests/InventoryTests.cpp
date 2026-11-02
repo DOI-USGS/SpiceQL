@@ -194,7 +194,7 @@ TEST_F(LroKernelSet, TestInventorySearchSetsOverwrite) {
 
 
 TEST_F(LroKernelSet, TestInventorySearchSetsOptions) {
-  SpiceQLOptions options;
+  QueryOpts options;
   options.fullKernelPath = true;
   pair<string, nlohmann::json> result = searchForKernelsets({"moon", "base"}, {"pck", "fk"}, 110000000, 140000001, {"reconstructed"}, {"reconstructed"}, options);
   nlohmann::json kernels = result.second;
@@ -209,8 +209,8 @@ TEST_F(LroKernelSet, TestInventorySearchSetsOptions) {
 }
 
 
-TEST(SpiceQLOptionsTests, TestJsonConversion) {
-  SpiceQLOptions options;
+TEST(QueryOptsTests, TestJsonConversion) {
+  QueryOpts options;
   options.useWeb = true;
   options.searchKernels = false;
   options.fullKernelPath = true;
@@ -222,11 +222,11 @@ TEST(SpiceQLOptionsTests, TestJsonConversion) {
   EXPECT_EQ(j, nlohmann::json({{"useWeb", true}, {"searchKernels", false}, {"fullKernelPath", true},
                                {"limitCk", 2}, {"limitSpk", 3}, {"kernelList", {"a.bc", "b.bsp"}}}));
 
-  SpiceQLOptions roundTrip = j.get<SpiceQLOptions>();
+  QueryOpts roundTrip = j.get<QueryOpts>();
   EXPECT_EQ(nlohmann::json(roundTrip), j);
 
   // missing keys keep their defaults, unrecognized keys are ignored
-  SpiceQLOptions partial = nlohmann::json({{"limitCk", 5}, {"notAnOption", 1}}).get<SpiceQLOptions>();
+  QueryOpts partial = nlohmann::json({{"limitCk", 5}, {"notAnOption", 1}}).get<QueryOpts>();
   EXPECT_EQ(partial.limitCk, 5);
   EXPECT_FALSE(partial.useWeb);
   EXPECT_TRUE(partial.searchKernels);
@@ -235,9 +235,9 @@ TEST(SpiceQLOptionsTests, TestJsonConversion) {
   EXPECT_TRUE(partial.kernelList.empty());
 }
 
-// never called, instantiates every SpiceQLOptions overload so they're compile checked
+// never called, instantiates every QueryOpts overload so they're compile checked
 [[maybe_unused]] static void instantiateOptionsOverloads() {
-  SpiceQLOptions o;
+  QueryOpts o;
   getTargetStates({}, "", "", "", "", "", {}, {}, o);
   getTargetStatesRanged(0, 0, 0, "", "", "", "", "", {}, {}, o);
   getTargetOrientations({}, 0, 0, "", {}, o);
