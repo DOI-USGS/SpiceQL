@@ -1127,11 +1127,13 @@ namespace SpiceQL {
     }
 
     unordered_multimap<string, size_t> by_filename;
+    by_filename.reserve(time_indices->file_paths.size());
     for (size_t i = 0; i < time_indices->file_paths.size(); i++) {
       by_filename.emplace(fs::path(time_indices->file_paths[i]).filename().string(), i);
     }
 
     vector<size_t> matches;
+    matches.reserve(kernels.size());
     for (const string &kernel : kernels) {
       auto [first, last] = by_filename.equal_range(fs::path(kernel).filename().string());
       for (auto it = first; it != last; ++it) {
@@ -1170,8 +1172,9 @@ namespace SpiceQL {
     auto kindex_begin = time_indices->interval_kindex.begin();
     auto kindex_end = kindex_begin + nrows;
     for (size_t index : matches) {
-      json rows = json::array();
       auto [first, last] = equal_range(kindex_begin, kindex_end, index);
+      json rows = json::array();
+      rows.get_ref<json::array_t&>().reserve(last - first);
       for (auto it = first; it != last; ++it) {
         size_t row = it - kindex_begin;
         rows.push_back(json{{"start", time_indices->interval_starts[row]},
