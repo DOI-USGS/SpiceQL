@@ -450,6 +450,10 @@ TEST_F(LroKernelSet, TestGetKernelIntervals) {
   ASSERT_EQ(found["ck"].size(), 1);
   auto [by_path, __] = getKernelIntervals({found["ck"][0].get<std::string>()});
   EXPECT_EQ(by_path[soc_key], intervals[soc_key]);
+
+  // Kernels in the DB that aren't CKs or SPKs are skipped
+  auto [not_timedep, ___] = getKernelIntervals({"lro_frames_1111111_v01.tf", "lro_instrumentAddendum_v11.ti"});
+  EXPECT_TRUE(not_timedep.empty()) << not_timedep.dump();
 }
 
 
