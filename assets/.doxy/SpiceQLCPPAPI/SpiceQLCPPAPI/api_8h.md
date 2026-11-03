@@ -33,6 +33,11 @@
 | namespace | [**SpiceQL**](namespaceSpiceQL.md) <br> |
 
 
+## Classes
+
+| Type | Name |
+| ---: | :--- |
+| struct | [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) <br>_Optional parameters shared across_ [_**SpiceQL**_](namespaceSpiceQL.md) _API calls._ |
 
 
 

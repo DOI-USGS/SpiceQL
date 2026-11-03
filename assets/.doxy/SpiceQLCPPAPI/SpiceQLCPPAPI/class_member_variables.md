@@ -43,6 +43,7 @@
 
 ## f
 
+* **fullKernelPath** ([**SpiceQL::QueryOpts**](structSpiceQL_1_1QueryOpts.md))
 * **file\_paths** ([**SpiceQL::TimeIndexedKernels**](classSpiceQL_1_1TimeIndexedKernels.md))
 * **fp\_** ([**restincurl::Request**](classrestincurl_1_1Request.md))
 
@@ -69,6 +70,17 @@
 ## j
 
 * **joined\_** ([**restincurl::Worker::WorkerThread**](classrestincurl_1_1Worker_1_1WorkerThread.md))
+
+
+## k
+
+* **kernelList** ([**SpiceQL::QueryOpts**](structSpiceQL_1_1QueryOpts.md))
+
+
+## l
+
+* **limitCk** ([**SpiceQL::QueryOpts**](structSpiceQL_1_1QueryOpts.md))
+* **limitSpk** ([**SpiceQL::QueryOpts**](structSpiceQL_1_1QueryOpts.md))
 
 
 ## m
@@ -139,6 +151,7 @@
 
 * **start\_time** ([**SpiceQL::KernelCoverage**](structSpiceQL_1_1KernelCoverage.md))
 * **stop\_time** ([**SpiceQL::KernelCoverage**](structSpiceQL_1_1KernelCoverage.md))
+* **searchKernels** ([**SpiceQL::QueryOpts**](structSpiceQL_1_1QueryOpts.md))
 * **start\_times** ([**SpiceQL::TimeIndexedKernels**](classSpiceQL_1_1TimeIndexedKernels.md))
 * **stop\_times** ([**SpiceQL::TimeIndexedKernels**](classSpiceQL_1_1TimeIndexedKernels.md))
 * **sendt\_bytes\_** ([**restincurl::OutDataHandler**](structrestincurl_1_1OutDataHandler.md))
@@ -153,6 +166,7 @@
 
 ## u
 
+* **useWeb** ([**SpiceQL::QueryOpts**](structSpiceQL_1_1QueryOpts.md))
 * **url\_** ([**restincurl::RequestBuilder**](classrestincurl_1_1RequestBuilder.md))
 
 

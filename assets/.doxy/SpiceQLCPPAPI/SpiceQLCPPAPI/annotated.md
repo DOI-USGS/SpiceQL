@@ -16,6 +16,7 @@ Here are the classes, structs, unions and interfaces with brief descriptions:
     * **namespace** [**Memo**](namespaceSpiceQL_1_1Memo.md)     
         * **class** [**Memory**](classSpiceQL_1_1Memo_1_1Memory.md)     
         * **struct** [**memoize**](structSpiceQL_1_1Memo_1_1memoize.md)     
+    * **struct** [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) _Optional parameters shared across_ [_**SpiceQL**_](namespaceSpiceQL.md) _API calls._    
     * **class** [**SpkSegment**](classSpiceQL_1_1SpkSegment.md) _C++ object repersenting NAIF spice SPK Segment and it's metadata._     
     * **class** [**TimeIndexedKernels**](classSpiceQL_1_1TimeIndexedKernels.md)     
     * **namespace** [**daf**](namespaceSpiceQL_1_1daf.md)     

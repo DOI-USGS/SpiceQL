@@ -26,6 +26,7 @@ This inheritance list is sorted roughly, but not completely, alphabetically:
 * **class** [**restincurl::Worker::WorkerThread**](classrestincurl_1_1Worker_1_1WorkerThread.md) 
 * **struct** [**SpiceQL::KernelCoverage**](structSpiceQL_1_1KernelCoverage.md) _Coverage of one CK or SPK, as interval rows._ 
 * **struct** [**SpiceQL::Memo::memoize**](structSpiceQL_1_1Memo_1_1memoize.md) 
+* **struct** [**SpiceQL::QueryOpts**](structSpiceQL_1_1QueryOpts.md) _Optional parameters shared across_ [_**SpiceQL**_](namespaceSpiceQL.md) _API calls._
 * **struct** [**SpiceQL::daf::Summary**](structSpiceQL_1_1daf_1_1Summary.md) 
 * **struct** [**restincurl::DataHandlerBase**](structrestincurl_1_1DataHandlerBase.md)     
     * **struct** [**restincurl::InDataHandler**](structrestincurl_1_1InDataHandler.md) 

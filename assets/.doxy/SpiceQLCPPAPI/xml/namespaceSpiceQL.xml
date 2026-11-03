@@ -9,6 +9,7 @@
     <innerclass refid="classSpiceQL_1_1Kernel" prot="public">SpiceQL::Kernel</innerclass>
     <innerclass refid="structSpiceQL_1_1KernelCoverage" prot="public">SpiceQL::KernelCoverage</innerclass>
     <innerclass refid="classSpiceQL_1_1KernelSet" prot="public">SpiceQL::KernelSet</innerclass>
+    <innerclass refid="structSpiceQL_1_1QueryOpts" prot="public">SpiceQL::QueryOpts</innerclass>
     <innerclass refid="classSpiceQL_1_1SpkSegment" prot="public">SpiceQL::SpkSegment</innerclass>
     <innerclass refid="classSpiceQL_1_1TimeIndexedKernels" prot="public">SpiceQL::TimeIndexedKernels</innerclass>
     <innernamespace refid="namespaceSpiceQL_1_1daf">SpiceQL::daf</innernamespace>
@@ -387,7 +388,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="20" column="17" declfile="SpiceQL/include/SpiceQL/api.h" declline="20" declcolumn="17"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="52" column="17" declfile="SpiceQL/include/SpiceQL/api.h" declline="52" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a066e881180eccba8b666407c53c86453" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -428,7 +429,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="28" column="10" declfile="SpiceQL/include/SpiceQL/api.h" declline="28" declcolumn="10"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="60" column="10" declfile="SpiceQL/include/SpiceQL/api.h" declline="60" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a3346b7d3f0fdbc3d8d11a46cf3318bdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>nlohmann::json</type>
@@ -446,7 +447,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="35" column="20" declfile="SpiceQL/include/SpiceQL/api.h" declline="35" declcolumn="20"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="67" column="20" declfile="SpiceQL/include/SpiceQL/api.h" declline="67" declcolumn="20"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a0fe7c5f09ccae7721529af65bf8c2c7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -475,7 +476,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="42" column="10" declfile="SpiceQL/include/SpiceQL/api.h" declline="42" declcolumn="10"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="74" column="10" declfile="SpiceQL/include/SpiceQL/api.h" declline="74" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a842f732d1f35fa731b767fc0216b9252" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -506,7 +507,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="50" column="17" declfile="SpiceQL/include/SpiceQL/api.h" declline="50" declcolumn="17"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="82" column="17" declfile="SpiceQL/include/SpiceQL/api.h" declline="82" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a2eceaaa7abd05e38cb7fe9673631cb10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>nlohmann::json</type>
@@ -562,7 +563,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="60" column="20" declfile="SpiceQL/include/SpiceQL/api.h" declline="60" declcolumn="20"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="92" column="20" declfile="SpiceQL/include/SpiceQL/api.h" declline="92" declcolumn="20"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1aa651b006f466bfd2e8ac64299acff9da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt;</type>
@@ -755,7 +756,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="98" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="98" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="130" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="130" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1afe53c41f71779ce184894d60c20faeb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt;</type>
@@ -972,7 +973,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="152" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="152" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="184" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="184" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a2416320aba044845d05be10e8e2d0afa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt;</type>
@@ -1126,7 +1127,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="192" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="192" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="224" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="224" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a706e0352bb4de2e2197d792639a35cdb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt;</type>
@@ -1304,7 +1305,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="229" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="229" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="261" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="261" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a9309d1dafcbe76b40d0c6a69b507fd72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; double, nlohmann::json &gt;</type>
@@ -1432,7 +1433,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="261" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="261" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="293" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="293" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1aa516bdf2f0ae6e187c8fa1c667386229" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; double, nlohmann::json &gt;</type>
@@ -1559,7 +1560,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="289" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="289" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="321" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="321" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a381d98a1ed1d9572c17702adc34677ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; std::string, nlohmann::json &gt;</type>
@@ -1686,7 +1687,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="318" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="318" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="350" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="350" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a9a5adcac4ab3aa3ee142941f276847ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; double, nlohmann::json &gt;</type>
@@ -1780,7 +1781,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="343" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="343" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="375" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="375" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a28d8e627ead0d1517c823312f200507d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; std::string, nlohmann::json &gt;</type>
@@ -1900,7 +1901,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="368" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="368" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="400" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="400" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a9778693b69a2a01a12e565d26ee54adb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; std::vector&lt; double &gt;, nlohmann::json &gt;</type>
@@ -2035,7 +2036,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="400" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="400" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="432" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="432" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a3e41fd6549a5feb56a22b518b725d6c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; int, nlohmann::json &gt;</type>
@@ -2150,7 +2151,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="426" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="426" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="458" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="458" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1ad9e41f5838b81eb2abbcf58383e17975" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; std::string, nlohmann::json &gt;</type>
@@ -2265,7 +2266,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="451" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="451" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="483" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="483" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a6ce8b0a9900d49c2e3d3252a15c2c963" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; std::vector&lt; int &gt;, nlohmann::json &gt;</type>
@@ -2380,7 +2381,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="476" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="476" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="508" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="508" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a330c2c11c6a1f6cd30dd3e0dfa9bff69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; nlohmann::json, nlohmann::json &gt;</type>
@@ -2495,7 +2496,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="501" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="501" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="533" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="533" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1af82de645f1db6f1d7ea6c59b751712e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; nlohmann::json, nlohmann::json &gt;</type>
@@ -2609,7 +2610,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="528" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="528" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="560" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="560" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a04bef83aacaca767cf2bd5c54569d9eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; nlohmann::json, nlohmann::json &gt;</type>
@@ -2723,7 +2724,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="556" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="556" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="588" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="588" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a46206d5ba8d51fe94962609648ad0071" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; std::vector&lt; std::vector&lt; int &gt; &gt;, nlohmann::json &gt;</type>
@@ -2876,7 +2877,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="587" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="587" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="619" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="619" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a473560f5e4520e4b8b33bc7868d4aa48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; std::vector&lt; double &gt;, nlohmann::json &gt;</type>
@@ -3012,7 +3013,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="620" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="620" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="652" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="652" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1a642bed2b185c1ab4918b7b2b590c8b92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt;</type>
@@ -3188,7 +3189,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="655" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="655" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="687" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="687" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1ad60e81fa1c117c04d6ca0f0be4ac9fae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; std::string, nlohmann::json &gt;</type>
@@ -3350,7 +3351,1090 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SpiceQL/include/SpiceQL/api.h" line="689" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="689" declcolumn="15"/>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="721" column="15" declfile="SpiceQL/include/SpiceQL/api.h" declline="721" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceSpiceQL_1a3015b5bb3c10dc25e1fe2818f3f232bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename</type>
+            <defval>void</defval>
+          </param>
+        </templateparamlist>
+        <type>std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt;</type>
+        <definition>std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt; SpiceQL::getTargetStates</definition>
+        <argsstring>(std::vector&lt; double &gt; ets, std::string target, std::string observer, std::string frame, std::string abcorr, std::string mission=&quot;&quot;, std::vector&lt; std::string &gt; ckQualities={&quot;smithed&quot;, &quot;reconstructed&quot;}, std::vector&lt; std::string &gt; spkQualities={&quot;smithed&quot;, &quot;reconstructed&quot;}, QueryOpts options={})</argsstring>
+        <name>getTargetStates</name>
+        <qualifiedname>SpiceQL::getTargetStates</qualifiedname>
+        <param>
+          <type>std::vector&lt; double &gt;</type>
+          <declname>ets</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>observer</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>frame</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>abcorr</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>mission</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>ckQualities</declname>
+          <defval>{&quot;smithed&quot;, &quot;reconstructed&quot;}</defval>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>spkQualities</declname>
+          <defval>{&quot;smithed&quot;, &quot;reconstructed&quot;}</defval>
+        </param>
+        <param>
+          <type><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref></type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Overload of <ref refid="namespaceSpiceQL_1aa651b006f466bfd2e8ac64299acff9da" kindref="member">getTargetStates()</ref> that takes the common optional parameters as a <ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref> common optional parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="745" column="15" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="745" bodyend="756"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceSpiceQL_1a378b2148cd600f7aa90649202221dae2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename</type>
+            <defval>void</defval>
+          </param>
+        </templateparamlist>
+        <type>std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt;</type>
+        <definition>std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt; SpiceQL::getTargetStatesRanged</definition>
+        <argsstring>(double startEt, double stopEt, int numRecords, std::string target, std::string observer, std::string frame, std::string abcorr, std::string mission=&quot;&quot;, std::vector&lt; std::string &gt; ckQualities={&quot;smithed&quot;, &quot;reconstructed&quot;}, std::vector&lt; std::string &gt; spkQualities={&quot;smithed&quot;, &quot;reconstructed&quot;}, QueryOpts options={})</argsstring>
+        <name>getTargetStatesRanged</name>
+        <qualifiedname>SpiceQL::getTargetStatesRanged</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>startEt</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>stopEt</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>numRecords</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>observer</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>frame</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>abcorr</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>mission</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>ckQualities</declname>
+          <defval>{&quot;smithed&quot;, &quot;reconstructed&quot;}</defval>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>spkQualities</declname>
+          <defval>{&quot;smithed&quot;, &quot;reconstructed&quot;}</defval>
+        </param>
+        <param>
+          <type><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref></type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Overload of <ref refid="namespaceSpiceQL_1afe53c41f71779ce184894d60c20faeb2" kindref="member">getTargetStatesRanged()</ref> that takes the common optional parameters as a <ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref> common optional parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="764" column="15" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="764" bodyend="777"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceSpiceQL_1a01d27e66953ac68e208e30d7351b6ffe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename</type>
+            <defval>void</defval>
+          </param>
+        </templateparamlist>
+        <type>std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt;</type>
+        <definition>std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt; SpiceQL::getTargetOrientations</definition>
+        <argsstring>(std::vector&lt; double &gt; ets, int toFrame, int refFrame, std::string mission=&quot;&quot;, std::vector&lt; std::string &gt; ckQualities={&quot;smithed&quot;, &quot;reconstructed&quot;}, QueryOpts options={})</argsstring>
+        <name>getTargetOrientations</name>
+        <qualifiedname>SpiceQL::getTargetOrientations</qualifiedname>
+        <param>
+          <type>std::vector&lt; double &gt;</type>
+          <declname>ets</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>toFrame</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>refFrame</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>mission</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>ckQualities</declname>
+          <defval>{&quot;smithed&quot;, &quot;reconstructed&quot;}</defval>
+        </param>
+        <param>
+          <type><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref></type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Overload of <ref refid="namespaceSpiceQL_1a2416320aba044845d05be10e8e2d0afa" kindref="member">getTargetOrientations()</ref> that takes the common optional parameters as a <ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref> common optional parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="785" column="15" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="785" bodyend="793"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceSpiceQL_1a425f9831588669d93a3f48d746cae66b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename</type>
+            <defval>void</defval>
+          </param>
+        </templateparamlist>
+        <type>std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt;</type>
+        <definition>std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt; SpiceQL::getTargetOrientationsRanged</definition>
+        <argsstring>(double startEt, double stopEt, int numRecords, int toFrame, int refFrame, std::string mission=&quot;&quot;, std::vector&lt; std::string &gt; ckQualities={&quot;smithed&quot;, &quot;reconstructed&quot;}, QueryOpts options={})</argsstring>
+        <name>getTargetOrientationsRanged</name>
+        <qualifiedname>SpiceQL::getTargetOrientationsRanged</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>startEt</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>stopEt</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>numRecords</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>toFrame</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>refFrame</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>mission</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>ckQualities</declname>
+          <defval>{&quot;smithed&quot;, &quot;reconstructed&quot;}</defval>
+        </param>
+        <param>
+          <type><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref></type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Overload of <ref refid="namespaceSpiceQL_1a706e0352bb4de2e2197d792639a35cdb" kindref="member">getTargetOrientationsRanged()</ref> that takes the common optional parameters as a <ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref> common optional parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="801" column="15" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="801" bodyend="811"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceSpiceQL_1aff53cb7437fb35ad5428f293381cd1ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename</type>
+            <defval>void</defval>
+          </param>
+        </templateparamlist>
+        <type>std::pair&lt; double, nlohmann::json &gt;</type>
+        <definition>std::pair&lt; double, nlohmann::json &gt; SpiceQL::strSclkToEt</definition>
+        <argsstring>(int frameCode, std::string sclk, std::string mission=&quot;&quot;, QueryOpts options={})</argsstring>
+        <name>strSclkToEt</name>
+        <qualifiedname>SpiceQL::strSclkToEt</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>frameCode</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>sclk</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>mission</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref></type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Overload of <ref refid="namespaceSpiceQL_1a9309d1dafcbe76b40d0c6a69b507fd72" kindref="member">strSclkToEt()</ref> that takes the common optional parameters as a <ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref> common optional parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="819" column="15" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="819" bodyend="825"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceSpiceQL_1a24768dce851021324ca8b33707a48757" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename</type>
+            <defval>void</defval>
+          </param>
+        </templateparamlist>
+        <type>std::pair&lt; double, nlohmann::json &gt;</type>
+        <definition>std::pair&lt; double, nlohmann::json &gt; SpiceQL::doubleSclkToEt</definition>
+        <argsstring>(int frameCode, double sclk, std::string mission=&quot;&quot;, QueryOpts options={})</argsstring>
+        <name>doubleSclkToEt</name>
+        <qualifiedname>SpiceQL::doubleSclkToEt</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>frameCode</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>sclk</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>mission</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref></type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Overload of <ref refid="namespaceSpiceQL_1aa516bdf2f0ae6e187c8fa1c667386229" kindref="member">doubleSclkToEt()</ref> that takes the common optional parameters as a <ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref> common optional parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="833" column="15" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="833" bodyend="839"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceSpiceQL_1aaf60653e138e6a5a25c0d7b3a69f21f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename</type>
+            <defval>void</defval>
+          </param>
+        </templateparamlist>
+        <type>std::pair&lt; std::string, nlohmann::json &gt;</type>
+        <definition>std::pair&lt; std::string, nlohmann::json &gt; SpiceQL::doubleEtToSclk</definition>
+        <argsstring>(int frameCode, double et, std::string mission=&quot;&quot;, QueryOpts options={})</argsstring>
+        <name>doubleEtToSclk</name>
+        <qualifiedname>SpiceQL::doubleEtToSclk</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>frameCode</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>et</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>mission</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref></type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Overload of <ref refid="namespaceSpiceQL_1a381d98a1ed1d9572c17702adc34677ae" kindref="member">doubleEtToSclk()</ref> that takes the common optional parameters as a <ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref> common optional parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="847" column="15" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="847" bodyend="853"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceSpiceQL_1a0d2b8d6932e5496157152bc7e4d763d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename</type>
+            <defval>void</defval>
+          </param>
+        </templateparamlist>
+        <type>std::pair&lt; double, nlohmann::json &gt;</type>
+        <definition>std::pair&lt; double, nlohmann::json &gt; SpiceQL::utcToEt</definition>
+        <argsstring>(std::string utc, QueryOpts options={})</argsstring>
+        <name>utcToEt</name>
+        <qualifiedname>SpiceQL::utcToEt</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>utc</declname>
+        </param>
+        <param>
+          <type><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref></type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Overload of <ref refid="namespaceSpiceQL_1a9a5adcac4ab3aa3ee142941f276847ee" kindref="member">utcToEt()</ref> that takes the common optional parameters as a <ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref> common optional parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="861" column="15" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="861" bodyend="865"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceSpiceQL_1a453f20807f8e44f085fd01b343d0bbfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename</type>
+            <defval>void</defval>
+          </param>
+        </templateparamlist>
+        <type>std::pair&lt; std::string, nlohmann::json &gt;</type>
+        <definition>std::pair&lt; std::string, nlohmann::json &gt; SpiceQL::etToUtc</definition>
+        <argsstring>(double et, std::string format=&quot;&quot;, double precision=0, QueryOpts options={})</argsstring>
+        <name>etToUtc</name>
+        <qualifiedname>SpiceQL::etToUtc</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>et</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>format</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>precision</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref></type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Overload of <ref refid="namespaceSpiceQL_1a28d8e627ead0d1517c823312f200507d" kindref="member">etToUtc()</ref> that takes the common optional parameters as a <ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref> common optional parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="873" column="15" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="873" bodyend="879"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceSpiceQL_1a226ffeaf92d7972acd0ce0ed713b0ded" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename</type>
+            <defval>void</defval>
+          </param>
+        </templateparamlist>
+        <type>std::pair&lt; std::vector&lt; double &gt;, nlohmann::json &gt;</type>
+        <definition>std::pair&lt; std::vector&lt; double &gt;, nlohmann::json &gt; SpiceQL::doubleEtsToSclkTicks</definition>
+        <argsstring>(int frameCode, std::vector&lt; double &gt; ets, std::string mission=&quot;&quot;, QueryOpts options={})</argsstring>
+        <name>doubleEtsToSclkTicks</name>
+        <qualifiedname>SpiceQL::doubleEtsToSclkTicks</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>frameCode</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt;</type>
+          <declname>ets</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>mission</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref></type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Overload of <ref refid="namespaceSpiceQL_1a9778693b69a2a01a12e565d26ee54adb" kindref="member">doubleEtsToSclkTicks()</ref> that takes the common optional parameters as a <ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref> common optional parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="887" column="15" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="887" bodyend="893"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceSpiceQL_1a4c8d02d1b5507d6f7a2f1d58d2494e46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename</type>
+            <defval>void</defval>
+          </param>
+        </templateparamlist>
+        <type>std::pair&lt; int, nlohmann::json &gt;</type>
+        <definition>std::pair&lt; int, nlohmann::json &gt; SpiceQL::translateNameToCode</definition>
+        <argsstring>(std::string frame, std::string mission=&quot;&quot;, QueryOpts options={})</argsstring>
+        <name>translateNameToCode</name>
+        <qualifiedname>SpiceQL::translateNameToCode</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>frame</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>mission</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref></type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Overload of <ref refid="namespaceSpiceQL_1a3e41fd6549a5feb56a22b518b725d6c3" kindref="member">translateNameToCode()</ref> that takes the common optional parameters as a <ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref> common optional parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="901" column="15" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="901" bodyend="906"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceSpiceQL_1a39dbf4e4ef7a232ade8b725ac6b61374" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename</type>
+            <defval>void</defval>
+          </param>
+        </templateparamlist>
+        <type>std::pair&lt; std::string, nlohmann::json &gt;</type>
+        <definition>std::pair&lt; std::string, nlohmann::json &gt; SpiceQL::translateCodeToName</definition>
+        <argsstring>(int frame, std::string mission=&quot;&quot;, QueryOpts options={})</argsstring>
+        <name>translateCodeToName</name>
+        <qualifiedname>SpiceQL::translateCodeToName</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>frame</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>mission</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref></type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Overload of <ref refid="namespaceSpiceQL_1ad9e41f5838b81eb2abbcf58383e17975" kindref="member">translateCodeToName()</ref> that takes the common optional parameters as a <ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref> common optional parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="914" column="15" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="914" bodyend="919"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceSpiceQL_1a011a070c5ba45941b8509bdf6f8458f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename</type>
+            <defval>void</defval>
+          </param>
+        </templateparamlist>
+        <type>std::pair&lt; std::vector&lt; int &gt;, nlohmann::json &gt;</type>
+        <definition>std::pair&lt; std::vector&lt; int &gt;, nlohmann::json &gt; SpiceQL::getFrameInfo</definition>
+        <argsstring>(int frame, std::string mission=&quot;&quot;, QueryOpts options={})</argsstring>
+        <name>getFrameInfo</name>
+        <qualifiedname>SpiceQL::getFrameInfo</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>frame</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>mission</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref></type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Overload of <ref refid="namespaceSpiceQL_1a6ce8b0a9900d49c2e3d3252a15c2c963" kindref="member">getFrameInfo()</ref> that takes the common optional parameters as a <ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref> common optional parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="927" column="15" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="927" bodyend="932"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceSpiceQL_1ae4767bfee6ea987a6ac7833e04a67108" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename</type>
+            <defval>void</defval>
+          </param>
+        </templateparamlist>
+        <type>std::pair&lt; nlohmann::json, nlohmann::json &gt;</type>
+        <definition>std::pair&lt; nlohmann::json, nlohmann::json &gt; SpiceQL::getTargetFrameInfo</definition>
+        <argsstring>(int targetId, std::string mission=&quot;&quot;, QueryOpts options={})</argsstring>
+        <name>getTargetFrameInfo</name>
+        <qualifiedname>SpiceQL::getTargetFrameInfo</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>targetId</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>mission</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref></type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Overload of <ref refid="namespaceSpiceQL_1a330c2c11c6a1f6cd30dd3e0dfa9bff69" kindref="member">getTargetFrameInfo()</ref> that takes the common optional parameters as a <ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref> common optional parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="940" column="15" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="940" bodyend="945"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceSpiceQL_1a15500d2e682824fa719b5c3663dc5168" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename</type>
+            <defval>void</defval>
+          </param>
+        </templateparamlist>
+        <type>std::pair&lt; nlohmann::json, nlohmann::json &gt;</type>
+        <definition>std::pair&lt; nlohmann::json, nlohmann::json &gt; SpiceQL::findMissionKeywords</definition>
+        <argsstring>(std::string key, std::string mission, QueryOpts options={})</argsstring>
+        <name>findMissionKeywords</name>
+        <qualifiedname>SpiceQL::findMissionKeywords</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>mission</declname>
+        </param>
+        <param>
+          <type><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref></type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Overload of <ref refid="namespaceSpiceQL_1af82de645f1db6f1d7ea6c59b751712e4" kindref="member">findMissionKeywords()</ref> that takes the common optional parameters as a <ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref> common optional parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="953" column="15" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="953" bodyend="958"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceSpiceQL_1a2188e8a9ece040b81e8252e1abf63e72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename</type>
+            <defval>void</defval>
+          </param>
+        </templateparamlist>
+        <type>std::pair&lt; nlohmann::json, nlohmann::json &gt;</type>
+        <definition>std::pair&lt; nlohmann::json, nlohmann::json &gt; SpiceQL::findTargetKeywords</definition>
+        <argsstring>(std::string key, std::string mission, QueryOpts options={})</argsstring>
+        <name>findTargetKeywords</name>
+        <qualifiedname>SpiceQL::findTargetKeywords</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>mission</declname>
+        </param>
+        <param>
+          <type><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref></type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Overload of <ref refid="namespaceSpiceQL_1a04bef83aacaca767cf2bd5c54569d9eb" kindref="member">findTargetKeywords()</ref> that takes the common optional parameters as a <ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref> common optional parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="966" column="15" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="966" bodyend="971"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceSpiceQL_1ae98d3d52be9f578b6cb78701f2b35bf4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename</type>
+            <defval>void</defval>
+          </param>
+        </templateparamlist>
+        <type>std::pair&lt; std::vector&lt; std::vector&lt; int &gt; &gt;, nlohmann::json &gt;</type>
+        <definition>std::pair&lt; std::vector&lt; std::vector&lt; int &gt; &gt;, nlohmann::json &gt; SpiceQL::frameTrace</definition>
+        <argsstring>(double et, int initialFrame, std::string mission=&quot;&quot;, std::vector&lt; std::string &gt; ckQualities={&quot;smithed&quot;, &quot;reconstructed&quot;}, std::vector&lt; std::string &gt; spkQualities={&quot;smithed&quot;, &quot;reconstructed&quot;}, QueryOpts options={})</argsstring>
+        <name>frameTrace</name>
+        <qualifiedname>SpiceQL::frameTrace</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>et</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>initialFrame</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>mission</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>ckQualities</declname>
+          <defval>{&quot;smithed&quot;, &quot;reconstructed&quot;}</defval>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>spkQualities</declname>
+          <defval>{&quot;smithed&quot;, &quot;reconstructed&quot;}</defval>
+        </param>
+        <param>
+          <type><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref></type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Overload of <ref refid="namespaceSpiceQL_1a46206d5ba8d51fe94962609648ad0071" kindref="member">frameTrace()</ref> that takes the common optional parameters as a <ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref> common optional parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="979" column="15" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="979" bodyend="987"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceSpiceQL_1ad0adf8625d49eeac3cf3493a278e2107" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename</type>
+            <defval>void</defval>
+          </param>
+        </templateparamlist>
+        <type>std::pair&lt; std::vector&lt; double &gt;, nlohmann::json &gt;</type>
+        <definition>std::pair&lt; std::vector&lt; double &gt;, nlohmann::json &gt; SpiceQL::extractExactCkTimes</definition>
+        <argsstring>(double observStart, double observEnd, int targetFrame, std::string mission=&quot;&quot;, std::vector&lt; std::string &gt; ckQualities={&quot;smithed&quot;, &quot;reconstructed&quot;}, QueryOpts options={})</argsstring>
+        <name>extractExactCkTimes</name>
+        <qualifiedname>SpiceQL::extractExactCkTimes</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>observStart</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>observEnd</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>targetFrame</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>mission</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>ckQualities</declname>
+          <defval>{&quot;smithed&quot;, &quot;reconstructed&quot;}</defval>
+        </param>
+        <param>
+          <type><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref></type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Overload of <ref refid="namespaceSpiceQL_1a473560f5e4520e4b8b33bc7868d4aa48" kindref="member">extractExactCkTimes()</ref> that takes the common optional parameters as a <ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unlike <ref refid="namespaceSpiceQL_1a473560f5e4520e4b8b33bc7868d4aa48" kindref="member">extractExactCkTimes()</ref> without options, limitCk defaults to -1 here.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref> common optional parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="997" column="15" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="997" bodyend="1005"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceSpiceQL_1a5daaf2b64d85f9617f7e6485bc90989e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename</type>
+            <defval>void</defval>
+          </param>
+        </templateparamlist>
+        <type>std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt;</type>
+        <definition>std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt; SpiceQL::getExactTargetOrientations</definition>
+        <argsstring>(double startEt, double stopEt, int toFrame, int refFrame, int exactCkFrame, std::string mission=&quot;&quot;, std::vector&lt; std::string &gt; ckQualities={&quot;smithed&quot;, &quot;reconstructed&quot;}, QueryOpts options={})</argsstring>
+        <name>getExactTargetOrientations</name>
+        <qualifiedname>SpiceQL::getExactTargetOrientations</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>startEt</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>stopEt</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>toFrame</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>refFrame</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>exactCkFrame</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>mission</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>ckQualities</declname>
+          <defval>{&quot;smithed&quot;, &quot;reconstructed&quot;}</defval>
+        </param>
+        <param>
+          <type><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref></type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Overload of <ref refid="namespaceSpiceQL_1a642bed2b185c1ab4918b7b2b590c8b92" kindref="member">getExactTargetOrientations()</ref> that takes the common optional parameters as a <ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref> common optional parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="1013" column="15" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="1013" bodyend="1023"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceSpiceQL_1a6d7479d4b3144a182b6d6c7e9e22d2bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename</type>
+            <defval>void</defval>
+          </param>
+        </templateparamlist>
+        <type>std::pair&lt; std::string, nlohmann::json &gt;</type>
+        <definition>std::pair&lt; std::string, nlohmann::json &gt; SpiceQL::searchForKernelsets</definition>
+        <argsstring>(std::vector&lt; std::string &gt; spiceqlNames, std::vector&lt; std::string &gt; types={&quot;ck&quot;, &quot;spk&quot;, &quot;tspk&quot;, &quot;lsk&quot;, &quot;mk&quot;, &quot;sclk&quot;, &quot;iak&quot;, &quot;ik&quot;, &quot;fk&quot;, &quot;dsk&quot;, &quot;pck&quot;, &quot;ek&quot;}, double startTime=-std::numeric_limits&lt; double &gt;::max(), double stopTime=std::numeric_limits&lt; double &gt;::max(), std::vector&lt; std::string &gt; ckQualities={&quot;smithed&quot;, &quot;reconstructed&quot;}, std::vector&lt; std::string &gt; spkQualities={&quot;smithed&quot;, &quot;reconstructed&quot;}, QueryOpts options={}, bool overwrite=false)</argsstring>
+        <name>searchForKernelsets</name>
+        <qualifiedname>SpiceQL::searchForKernelsets</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>spiceqlNames</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>types</declname>
+          <defval>{&quot;ck&quot;, &quot;spk&quot;, &quot;tspk&quot;, &quot;lsk&quot;, &quot;mk&quot;, &quot;sclk&quot;, &quot;iak&quot;, &quot;ik&quot;, &quot;fk&quot;, &quot;dsk&quot;, &quot;pck&quot;, &quot;ek&quot;}</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>startTime</declname>
+          <defval>-std::numeric_limits&lt; double &gt;::max()</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>stopTime</declname>
+          <defval>std::numeric_limits&lt; double &gt;::max()</defval>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>ckQualities</declname>
+          <defval>{&quot;smithed&quot;, &quot;reconstructed&quot;}</defval>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>spkQualities</declname>
+          <defval>{&quot;smithed&quot;, &quot;reconstructed&quot;}</defval>
+        </param>
+        <param>
+          <type><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref></type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>overwrite</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Overload of <ref refid="namespaceSpiceQL_1ad60e81fa1c117c04d6ca0f0be4ac9fae" kindref="member">searchForKernelsets()</ref> that takes the common optional parameters as a <ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Only useWeb, fullKernelPath, limitCk, limitSpk are used from options.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structSpiceQL_1_1QueryOpts" kindref="compound">QueryOpts</ref> common optional parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="1033" column="15" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="1033" bodyend="1043"/>
       </memberdef>
       <memberdef kind="function" id="namespaceSpiceQL_1acc164cee9dfc3835d1bbbbbcd82e98e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>

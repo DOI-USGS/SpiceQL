@@ -83,6 +83,12 @@
 ([**restincurl**](namespacerestincurl.md))
 
 
+## q
+
+* [**QueryOpts**](structSpiceQL_1_1QueryOpts.md)
+([**SpiceQL**](namespaceSpiceQL.md))
+
+
 ## r
 
 * [**Request**](classrestincurl_1_1Request.md)

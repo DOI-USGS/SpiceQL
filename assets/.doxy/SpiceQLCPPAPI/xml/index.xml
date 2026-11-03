@@ -220,6 +220,14 @@
     <member refid="structrestincurl_1_1OutDataHandler_1a2958882919785fda92395179d03e81fa" kind="function"><name>OutDataHandler</name></member>
     <member refid="structrestincurl_1_1OutDataHandler_1ab013ab25f3b32c7c99849187e8ed7e84" kind="function"><name>read_callback</name></member>
   </compound>
+  <compound refid="structSpiceQL_1_1QueryOpts" kind="struct"><name>SpiceQL::QueryOpts</name>
+    <member refid="structSpiceQL_1_1QueryOpts_1a05837f00156e1c61320ca29fdc25a793" kind="variable"><name>useWeb</name></member>
+    <member refid="structSpiceQL_1_1QueryOpts_1aff848fe73c64ee53ca1052249ce3c845" kind="variable"><name>searchKernels</name></member>
+    <member refid="structSpiceQL_1_1QueryOpts_1a0bb3fd2527d46842f53ac483479d186e" kind="variable"><name>fullKernelPath</name></member>
+    <member refid="structSpiceQL_1_1QueryOpts_1aec31a9be7758c4b0909333b0fced671c" kind="variable"><name>limitCk</name></member>
+    <member refid="structSpiceQL_1_1QueryOpts_1ab61ac15215194b082e11270de9743e49" kind="variable"><name>limitSpk</name></member>
+    <member refid="structSpiceQL_1_1QueryOpts_1a541370e14709f0cd63f793d32c7db9e6" kind="variable"><name>kernelList</name></member>
+  </compound>
   <compound refid="classrestincurl_1_1Request" kind="class"><name>restincurl::Request</name>
     <member refid="classrestincurl_1_1Request_1acd567450c2454ca44af9f568bc7ca011" kind="typedef"><name>ptr_t</name></member>
     <member refid="classrestincurl_1_1Request_1aad4a8fbd194bdf4da51cd55f90726cbc" kind="typedef"><name>headers_t</name></member>
@@ -461,6 +469,26 @@
     <member refid="namespaceSpiceQL_1a473560f5e4520e4b8b33bc7868d4aa48" kind="function"><name>extractExactCkTimes</name></member>
     <member refid="namespaceSpiceQL_1a642bed2b185c1ab4918b7b2b590c8b92" kind="function"><name>getExactTargetOrientations</name></member>
     <member refid="namespaceSpiceQL_1ad60e81fa1c117c04d6ca0f0be4ac9fae" kind="function"><name>searchForKernelsets</name></member>
+    <member refid="namespaceSpiceQL_1a3015b5bb3c10dc25e1fe2818f3f232bd" kind="function"><name>getTargetStates</name></member>
+    <member refid="namespaceSpiceQL_1a378b2148cd600f7aa90649202221dae2" kind="function"><name>getTargetStatesRanged</name></member>
+    <member refid="namespaceSpiceQL_1a01d27e66953ac68e208e30d7351b6ffe" kind="function"><name>getTargetOrientations</name></member>
+    <member refid="namespaceSpiceQL_1a425f9831588669d93a3f48d746cae66b" kind="function"><name>getTargetOrientationsRanged</name></member>
+    <member refid="namespaceSpiceQL_1aff53cb7437fb35ad5428f293381cd1ab" kind="function"><name>strSclkToEt</name></member>
+    <member refid="namespaceSpiceQL_1a24768dce851021324ca8b33707a48757" kind="function"><name>doubleSclkToEt</name></member>
+    <member refid="namespaceSpiceQL_1aaf60653e138e6a5a25c0d7b3a69f21f0" kind="function"><name>doubleEtToSclk</name></member>
+    <member refid="namespaceSpiceQL_1a0d2b8d6932e5496157152bc7e4d763d1" kind="function"><name>utcToEt</name></member>
+    <member refid="namespaceSpiceQL_1a453f20807f8e44f085fd01b343d0bbfb" kind="function"><name>etToUtc</name></member>
+    <member refid="namespaceSpiceQL_1a226ffeaf92d7972acd0ce0ed713b0ded" kind="function"><name>doubleEtsToSclkTicks</name></member>
+    <member refid="namespaceSpiceQL_1a4c8d02d1b5507d6f7a2f1d58d2494e46" kind="function"><name>translateNameToCode</name></member>
+    <member refid="namespaceSpiceQL_1a39dbf4e4ef7a232ade8b725ac6b61374" kind="function"><name>translateCodeToName</name></member>
+    <member refid="namespaceSpiceQL_1a011a070c5ba45941b8509bdf6f8458f7" kind="function"><name>getFrameInfo</name></member>
+    <member refid="namespaceSpiceQL_1ae4767bfee6ea987a6ac7833e04a67108" kind="function"><name>getTargetFrameInfo</name></member>
+    <member refid="namespaceSpiceQL_1a15500d2e682824fa719b5c3663dc5168" kind="function"><name>findMissionKeywords</name></member>
+    <member refid="namespaceSpiceQL_1a2188e8a9ece040b81e8252e1abf63e72" kind="function"><name>findTargetKeywords</name></member>
+    <member refid="namespaceSpiceQL_1ae98d3d52be9f578b6cb78701f2b35bf4" kind="function"><name>frameTrace</name></member>
+    <member refid="namespaceSpiceQL_1ad0adf8625d49eeac3cf3493a278e2107" kind="function"><name>extractExactCkTimes</name></member>
+    <member refid="namespaceSpiceQL_1a5daaf2b64d85f9617f7e6485bc90989e" kind="function"><name>getExactTargetOrientations</name></member>
+    <member refid="namespaceSpiceQL_1a6d7479d4b3144a182b6d6c7e9e22d2bd" kind="function"><name>searchForKernelsets</name></member>
     <member refid="namespaceSpiceQL_1acc164cee9dfc3835d1bbbbbcd82e98e6" kind="function"><name>frameList</name></member>
     <member refid="namespaceSpiceQL_1a7a28db0f738f7177b30da226bd8bfadf" kind="function"><name>getCacheDir</name></member>
     <member refid="namespaceSpiceQL_1a049a3be95c770f076220af1c5dd82dac" kind="function"><name>setCacheDir</name></member>

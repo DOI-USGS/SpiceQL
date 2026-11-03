@@ -76,6 +76,7 @@
 ## f
 
 * **findKey** ([**SpiceQL::Config**](classSpiceQL_1_1Config.md))
+* **fullKernelPath** ([**SpiceQL::QueryOpts**](structSpiceQL_1_1QueryOpts.md))
 * **file\_paths** ([**SpiceQL::TimeIndexedKernels**](classSpiceQL_1_1TimeIndexedKernels.md))
 * **File** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
 * **fp\_** ([**restincurl::Request**](classrestincurl_1_1Request.md))
@@ -159,6 +160,7 @@
 
 * **Kernel** ([**SpiceQL::Kernel**](classSpiceQL_1_1Kernel.md))
 * **KernelSet** ([**SpiceQL::KernelSet**](classSpiceQL_1_1KernelSet.md))
+* **kernelList** ([**SpiceQL::QueryOpts**](structSpiceQL_1_1QueryOpts.md))
 * **kind** ([**SpiceQL::daf::File**](classSpiceQL_1_1daf_1_1File.md))
 
 
@@ -166,6 +168,8 @@
 
 * **load** ([**SpiceQL::AliasMap**](classSpiceQL_1_1AliasMap.md), [**SpiceQL::KernelSet**](classSpiceQL_1_1KernelSet.md))
 * **load\_internal** ([**SpiceQL::AliasMap**](classSpiceQL_1_1AliasMap.md))
+* **limitCk** ([**SpiceQL::QueryOpts**](structSpiceQL_1_1QueryOpts.md))
+* **limitSpk** ([**SpiceQL::QueryOpts**](structSpiceQL_1_1QueryOpts.md))
 * **lock** ([**restincurl::TlsLocker**](classrestincurl_1_1TlsLocker.md))
 
 
@@ -276,6 +280,7 @@
 * **search\_for\_kernelsets** ([**SpiceQL::InventoryImpl**](classSpiceQL_1_1InventoryImpl.md))
 * **start\_time** ([**SpiceQL::KernelCoverage**](structSpiceQL_1_1KernelCoverage.md))
 * **stop\_time** ([**SpiceQL::KernelCoverage**](structSpiceQL_1_1KernelCoverage.md))
+* **searchKernels** ([**SpiceQL::QueryOpts**](structSpiceQL_1_1QueryOpts.md))
 * **SpkSegment** ([**SpiceQL::SpkSegment**](classSpiceQL_1_1SpkSegment.md))
 * **start\_times** ([**SpiceQL::TimeIndexedKernels**](classSpiceQL_1_1TimeIndexedKernels.md))
 * **stop\_times** ([**SpiceQL::TimeIndexedKernels**](classSpiceQL_1_1TimeIndexedKernels.md))
@@ -318,6 +323,7 @@
 ## u
 
 * **unload** ([**SpiceQL::KernelSet**](classSpiceQL_1_1KernelSet.md))
+* **useWeb** ([**SpiceQL::QueryOpts**](structSpiceQL_1_1QueryOpts.md))
 * **url\_** ([**restincurl::RequestBuilder**](classrestincurl_1_1RequestBuilder.md))
 * **unlock** ([**restincurl::TlsLocker**](classrestincurl_1_1TlsLocker.md))
 

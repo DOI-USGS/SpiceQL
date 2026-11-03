@@ -43,6 +43,7 @@
 | class | [**Kernel**](classSpiceQL_1_1Kernel.md) <br>_Base_ [_**Kernel**_](classSpiceQL_1_1Kernel.md) _class._ |
 | struct | [**KernelCoverage**](structSpiceQL_1_1KernelCoverage.md) <br>_Coverage of one CK or SPK, as interval rows._  |
 | class | [**KernelSet**](classSpiceQL_1_1KernelSet.md) <br>_Class for furnishing kernels in bulk._  |
+| struct | [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) <br>_Optional parameters shared across_ [_**SpiceQL**_](namespaceSpiceQL.md) _API calls._ |
 | class | [**SpkSegment**](classSpiceQL_1_1SpkSegment.md) <br>_C++ object repersenting NAIF spice SPK Segment and it's metadata._  |
 | class | [**TimeIndexedKernels**](classSpiceQL_1_1TimeIndexedKernels.md) <br> |
 
@@ -102,18 +103,26 @@
 |  std::vector&lt; std::vector&lt; double &gt; &gt; | [**concatStates**](#function-concatstates) (std::vector&lt; std::vector&lt; double &gt; &gt; statePositions, std::vector&lt; std::vector&lt; double &gt; &gt; stateVelocities) <br> |
 |  LogLevel | [**currentLogLevel**](#function-currentloglevel) () <br> |
 |  std::pair&lt; std::string, nlohmann::json &gt; | [**doubleEtToSclk**](#function-doubleettosclk) (int frameCode, double et, std::string mission="", bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, std::vector&lt; std::string &gt; kernelList={}) <br>_Converts a given double spacecraft clock time to an ephemeris time._  |
+|  std::pair&lt; std::string, nlohmann::json &gt; | [**doubleEtToSclk**](#function-doubleettosclk) (int frameCode, double et, std::string mission="", [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) options={}) <br>_Overload of_ [_**doubleEtToSclk()**_](namespaceSpiceQL.md#function-doubleettosclk) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._ |
 |  std::pair&lt; std::vector&lt; double &gt;, nlohmann::json &gt; | [**doubleEtsToSclkTicks**](#function-doubleetstosclkticks) (int frameCode, std::vector&lt; double &gt; ets, std::string mission="", bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, std::vector&lt; std::string &gt; kernelList={}) <br>_Converts ephemeris times to encoded SCLK "ticks" (doubles)._  |
+|  std::pair&lt; std::vector&lt; double &gt;, nlohmann::json &gt; | [**doubleEtsToSclkTicks**](#function-doubleetstosclkticks) (int frameCode, std::vector&lt; double &gt; ets, std::string mission="", [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) options={}) <br>_Overload of_ [_**doubleEtsToSclkTicks()**_](namespaceSpiceQL.md#function-doubleetstosclkticks) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._ |
 |  std::pair&lt; double, nlohmann::json &gt; | [**doubleSclkToEt**](#function-doublesclktoet) (int frameCode, double sclk, std::string mission="", bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, std::vector&lt; std::string &gt; kernelList={}) <br>_Converts a given double spacecraft clock time to an ephemeris time._  |
+|  std::pair&lt; double, nlohmann::json &gt; | [**doubleSclkToEt**](#function-doublesclktoet) (int frameCode, double sclk, std::string mission="", [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) options={}) <br>_Overload of_ [_**doubleSclkToEt()**_](namespaceSpiceQL.md#function-doublesclktoet) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._ |
 |  size\_t | [**eraseAtPointer**](#function-eraseatpointer) (nlohmann::json & j, nlohmann::json::json\_pointer ptr) <br>_erase a part of a json object based on a json pointer_  |
 |  std::pair&lt; std::string, nlohmann::json &gt; | [**etToUtc**](#function-ettoutc) (double et, std::string format="", double precision=0, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, std::vector&lt; std::string &gt; kernelList={}) <br>_convert et string to a UTC string_  |
+|  std::pair&lt; std::string, nlohmann::json &gt; | [**etToUtc**](#function-ettoutc) (double et, std::string format="", double precision=0, [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) options={}) <br>_Overload of_ [_**etToUtc()**_](namespaceSpiceQL.md#function-ettoutc) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._ |
 |  std::pair&lt; std::vector&lt; double &gt;, nlohmann::json &gt; | [**extractExactCkTimes**](#function-extractexactcktimes) (double observStart, double observEnd, int targetFrame, std::string mission="", std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, int limitCk=1, int limitSpk=1, std::vector&lt; std::string &gt; kernelList={}) <br>_Extracts all segment times between observStart and observeEnd._  |
+|  std::pair&lt; std::vector&lt; double &gt;, nlohmann::json &gt; | [**extractExactCkTimes**](#function-extractexactcktimes) (double observStart, double observEnd, int targetFrame, std::string mission="", std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) options={}) <br>_Overload of_ [_**extractExactCkTimes()**_](namespaceSpiceQL.md#function-extractexactcktimes) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._ |
 |  std::vector&lt; nlohmann::json::json\_pointer &gt; | [**findKeyInJson**](#function-findkeyinjson) (nlohmann::json in, std::string key, bool recursive=true) <br>_recursively search keys in json._  |
 |  nlohmann::json | [**findKeywords**](#function-findkeywords) (std::string keytpl) <br>_finds key:values in kernel pool_  |
 |  std::pair&lt; nlohmann::json, nlohmann::json &gt; | [**findMissionKeywords**](#function-findmissionkeywords) (std::string key, std::string mission, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, std::vector&lt; std::string &gt; kernelList={}) <br>_returns kernel text keyword values for a specific mission as json_  |
+|  std::pair&lt; nlohmann::json, nlohmann::json &gt; | [**findMissionKeywords**](#function-findmissionkeywords) (std::string key, std::string mission, [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) options={}) <br>_Overload of_ [_**findMissionKeywords()**_](namespaceSpiceQL.md#function-findmissionkeywords) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._ |
 |  std::pair&lt; nlohmann::json, nlohmann::json &gt; | [**findTargetKeywords**](#function-findtargetkeywords) (std::string key, std::string mission, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, std::vector&lt; std::string &gt; kernelList={}) <br>_returns Target values in the form of a vector_  |
+|  std::pair&lt; nlohmann::json, nlohmann::json &gt; | [**findTargetKeywords**](#function-findtargetkeywords) (std::string key, std::string mission, [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) options={}) <br>_Overload of_ [_**findTargetKeywords()**_](namespaceSpiceQL.md#function-findtargetkeywords) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._ |
 |  nlohmann::json | [**formatKernels**](#function-formatkernels) (std::vector&lt; std::string &gt; kernelPaths) <br>_Format a list of kernel paths into a kernels JSON object organized by type._  |
 |  std::vector&lt; std::string &gt; | [**frameList**](#function-framelist) () <br>_Get a list of all frames in the supported by the library._  |
 |  std::pair&lt; std::vector&lt; std::vector&lt; int &gt; &gt;, nlohmann::json &gt; | [**frameTrace**](#function-frametrace) (double et, int initialFrame, std::string mission="", std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, std::vector&lt; std::string &gt; spkQualities={"smithed", "reconstructed"}, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, std::vector&lt; std::string &gt; kernelList={}) <br>_Given an ephemeris time and a starting frame, find the path from that starting frame to J2000 (1)._  |
+|  std::pair&lt; std::vector&lt; std::vector&lt; int &gt; &gt;, nlohmann::json &gt; | [**frameTrace**](#function-frametrace) (double et, int initialFrame, std::string mission="", std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, std::vector&lt; std::string &gt; spkQualities={"smithed", "reconstructed"}, [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) options={}) <br>_Overload of_ [_**frameTrace()**_](namespaceSpiceQL.md#function-frametrace) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._ |
 |  std::string | [**gen\_random**](#function-gen_random) (const int len) <br>_generate a random string_  |
 |  nlohmann::json | [**getAliasMap**](#function-getaliasmap) () <br>_Accessor for the aliasMap._  |
 |  std::string | [**getAliasMapJsonFile**](#function-getaliasmapjsonfile) () <br>_Gets default path for JSON file of aliases._  |
@@ -124,7 +133,9 @@
 |  std::string | [**getDataDirectory**](#function-getdatadirectory) () <br>_Returns std::vector&lt;string&gt; interpretation of a json array._  |
 |  std::string | [**getDefaultLsk**](#function-getdefaultlsk) () <br>_Load the local LSK file that comes installed with_ [_**SpiceQL**_](namespaceSpiceQL.md) _._ |
 |  std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt; | [**getExactTargetOrientations**](#function-getexacttargetorientations) (double startEt, double stopEt, int toFrame, int refFrame, int exactCkFrame, std::string mission="", std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, std::vector&lt; std::string &gt; kernelList={}) <br>_Returns exact target orientations for given time intervals and parameters._  |
+|  std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt; | [**getExactTargetOrientations**](#function-getexacttargetorientations) (double startEt, double stopEt, int toFrame, int refFrame, int exactCkFrame, std::string mission="", std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) options={}) <br>_Overload of_ [_**getExactTargetOrientations()**_](namespaceSpiceQL.md#function-getexacttargetorientations) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._ |
 |  std::pair&lt; std::vector&lt; int &gt;, nlohmann::json &gt; | [**getFrameInfo**](#function-getframeinfo) (int frame, std::string mission="", bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, std::vector&lt; std::string &gt; kernelList={}) <br>_Get the center, class id, and class of a given frame._  |
+|  std::pair&lt; std::vector&lt; int &gt;, nlohmann::json &gt; | [**getFrameInfo**](#function-getframeinfo) (int frame, std::string mission="", [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) options={}) <br>_Overload of_ [_**getFrameInfo()**_](namespaceSpiceQL.md#function-getframeinfo) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._ |
 |  std::string | [**getHdfFile**](#function-gethdffile) () <br> |
 |  [**KernelCoverage**](structSpiceQL_1_1KernelCoverage.md) | [**getKernelCoverage**](#function-getkernelcoverage) (std::string kpath) <br>_Get the coverage intervals of a kernel._  |
 |  std::pair&lt; double, double &gt; | [**getKernelStartStopTimes**](#function-getkernelstartstoptimes) (std::string kpath) <br> |
@@ -144,12 +155,17 @@
 |  std::string | [**getRootDependency**](#function-getrootdependency) (nlohmann::json config, std::string pointer) <br>_Returns the root most dependency for a json pointer._  |
 |  std::string | [**getSpiceqlName**](#function-getspiceqlname) (const std::string & name) <br>_Translates a given name using the aliasMap and checks if the name is in the frameList._  |
 |  std::pair&lt; nlohmann::json, nlohmann::json &gt; | [**getTargetFrameInfo**](#function-gettargetframeinfo) (int targetId, std::string mission="", bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, std::vector&lt; std::string &gt; kernelList={}) <br>_returns frame name and frame code associated to the target ID._  |
+|  std::pair&lt; nlohmann::json, nlohmann::json &gt; | [**getTargetFrameInfo**](#function-gettargetframeinfo) (int targetId, std::string mission="", [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) options={}) <br>_Overload of_ [_**getTargetFrameInfo()**_](namespaceSpiceQL.md#function-gettargetframeinfo) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._ |
 |  std::vector&lt; double &gt; | [**getTargetOrientation**](#function-gettargetorientation) (double et, int toFrame, int refFrame=1) <br>_Gives quaternion and angular velocity for a given frame at a given ephemeris time._  |
 |  std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt; | [**getTargetOrientations**](#function-gettargetorientations) (std::vector&lt; double &gt; ets, int toFrame, int refFrame, std::string mission="", std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, std::vector&lt; std::string &gt; kernelList={}) <br>_Gives quaternion and angular velocity for a given frame at a set of ephemeris times._  |
+|  std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt; | [**getTargetOrientations**](#function-gettargetorientations) (std::vector&lt; double &gt; ets, int toFrame, int refFrame, std::string mission="", std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) options={}) <br>_Overload of_ [_**getTargetOrientations()**_](namespaceSpiceQL.md#function-gettargetorientations) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._ |
 |  std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt; | [**getTargetOrientationsRanged**](#function-gettargetorientationsranged) (double startEt, double stopEt, int numRecords, int toFrame, int refFrame, std::string mission="", std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, std::vector&lt; std::string &gt; kernelList={}) <br>_Gives quaternion and angular velocity for a given frame at a set of ephemeris times._  |
+|  std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt; | [**getTargetOrientationsRanged**](#function-gettargetorientationsranged) (double startEt, double stopEt, int numRecords, int toFrame, int refFrame, std::string mission="", std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) options={}) <br>_Overload of_ [_**getTargetOrientationsRanged()**_](namespaceSpiceQL.md#function-gettargetorientationsranged) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._ |
 |  std::vector&lt; double &gt; | [**getTargetState**](#function-gettargetstate) (double et, std::string target, std::string observer, std::string frame="J2000", std::string abcorr="NONE") <br>_Gives the position and velocity for a given frame at some ephemeris time._  |
 |  std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt; | [**getTargetStates**](#function-gettargetstates) (std::vector&lt; double &gt; ets, std::string target, std::string observer, std::string frame, std::string abcorr, std::string mission="", std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, std::vector&lt; std::string &gt; spkQualities={"smithed", "reconstructed"}, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, std::vector&lt; std::string &gt; kernelList={}) <br>_Gives the positions and velocities for a given frame given a set of ephemeris times._  |
+|  std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt; | [**getTargetStates**](#function-gettargetstates) (std::vector&lt; double &gt; ets, std::string target, std::string observer, std::string frame, std::string abcorr, std::string mission="", std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, std::vector&lt; std::string &gt; spkQualities={"smithed", "reconstructed"}, [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) options={}) <br>_Overload of_ [_**getTargetStates()**_](namespaceSpiceQL.md#function-gettargetstates) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._ |
 |  std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt; | [**getTargetStatesRanged**](#function-gettargetstatesranged) (double startEt, double stopEt, int numRecords, std::string target, std::string observer, std::string frame, std::string abcorr, std::string mission="", std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, std::vector&lt; std::string &gt; spkQualities={"smithed", "reconstructed"}, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, std::vector&lt; std::string &gt; kernelList={}) <br>_Gives the positions and velocities for a given start and stop ephemeris times and number of records._  |
+|  std::pair&lt; std::vector&lt; std::vector&lt; double &gt; &gt;, nlohmann::json &gt; | [**getTargetStatesRanged**](#function-gettargetstatesranged) (double startEt, double stopEt, int numRecords, std::string target, std::string observer, std::string frame, std::string abcorr, std::string mission="", std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, std::vector&lt; std::string &gt; spkQualities={"smithed", "reconstructed"}, [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) options={}) <br>_Overload of_ [_**getTargetStatesRanged()**_](namespaceSpiceQL.md#function-gettargetstatesranged) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._ |
 |  std::vector&lt; std::pair&lt; double, double &gt; &gt; | [**getTimeIntervals**](#function-gettimeintervals) (std::string kpath) <br>_Get start and stop times a kernel._  |
 |  std::vector&lt; std::string &gt; | [**glob**](#function-glob) (std::string const & root, std::string const & reg=".\*", bool recursive=false) <br>_glob, like python's glob.glob, except C++_  |
 |  std::string | [**globKernelStartStopTimes**](#function-globkernelstartstoptimes) (std::string mission) <br> |
@@ -178,6 +194,7 @@
 |  std::string | [**replaceAll**](#function-replaceall) (std::string str, const std::string & from, const std::string & to) <br>_find and replace one substring with another_  |
 |  void | [**resolveConfigDependencies**](#function-resolveconfigdependencies) (nlohmann::json & config, const nlohmann::json & dependencies) <br>_resolve the dependencies in a config in place_  |
 |  std::pair&lt; std::string, nlohmann::json &gt; | [**searchForKernelsets**](#function-searchforkernelsets) (std::vector&lt; std::string &gt; spiceqlNames, std::vector&lt; std::string &gt; types={"ck", "spk", "tspk", "lsk", "mk", "sclk", "iak", "ik", "fk", "dsk", "pck", "ek"}, double startTime=-std::numeric\_limits&lt; double &gt;::max(), double stopTime=std::numeric\_limits&lt; double &gt;::max(), std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, std::vector&lt; std::string &gt; spkQualities={"smithed", "reconstructed"}, bool useWeb=false, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, bool overwrite=false) <br>_Searches for kernels given mission(s) and parameters._  |
+|  std::pair&lt; std::string, nlohmann::json &gt; | [**searchForKernelsets**](#function-searchforkernelsets) (std::vector&lt; std::string &gt; spiceqlNames, std::vector&lt; std::string &gt; types={"ck", "spk", "tspk", "lsk", "mk", "sclk", "iak", "ik", "fk", "dsk", "pck", "ek"}, double startTime=-std::numeric\_limits&lt; double &gt;::max(), double stopTime=std::numeric\_limits&lt; double &gt;::max(), std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, std::vector&lt; std::string &gt; spkQualities={"smithed", "reconstructed"}, [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) options={}, bool overwrite=false) <br>_Overload of_ [_**searchForKernelsets()**_](namespaceSpiceQL.md#function-searchforkernelsets) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._ |
 |  void | [**setAliasMap**](#function-setaliasmap) (const nlohmann::json & newAliasMap) <br>_Setter for the aliasMap._  |
 |  void | [**setCacheDir**](#function-setcachedir) (std::string cache\_dir, bool override=false) <br> |
 |  void | [**setConfigDirectory**](#function-setconfigdirectory) (std::string configDir) <br>_Override the directory pointing to the db files._  |
@@ -185,13 +202,17 @@
 |  nlohmann::json | [**spiceAPIQuery**](#function-spiceapiquery) (std::string functionName, nlohmann::json args, std::string method="GET") <br>_Query implementation for_ [_**SpiceQL**_](namespaceSpiceQL.md) _'s REST API._ |
 |  std::vector&lt; std::string &gt; | [**split**](#function-split) (const std::string & s, char delim) <br>_turn a string into a vector with a deliminator_  |
 |  std::pair&lt; double, nlohmann::json &gt; | [**strSclkToEt**](#function-strsclktoet) (int frameCode, std::string sclk, std::string mission="", bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, std::vector&lt; std::string &gt; kernelList={}) <br>_Converts a given string spacecraft clock time to an ephemeris time._  |
+|  std::pair&lt; double, nlohmann::json &gt; | [**strSclkToEt**](#function-strsclktoet) (int frameCode, std::string sclk, std::string mission="", [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) options={}) <br>_Overload of_ [_**strSclkToEt()**_](namespaceSpiceQL.md#function-strsclktoet) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._ |
 |  std::string | [**toLower**](#function-tolower) (std::string s) <br>_force a string to lower case_  |
 |  std::string | [**toUpper**](#function-toupper) (std::string s) <br>_force a string to upper case_  |
 |  std::pair&lt; std::string, nlohmann::json &gt; | [**translateCodeToName**](#function-translatecodetoname) (int frame, std::string mission="", bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, std::vector&lt; std::string &gt; kernelList={}) <br>_Switch between NAIF frame integer code to string frame name._  |
+|  std::pair&lt; std::string, nlohmann::json &gt; | [**translateCodeToName**](#function-translatecodetoname) (int frame, std::string mission="", [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) options={}) <br>_Overload of_ [_**translateCodeToName()**_](namespaceSpiceQL.md#function-translatecodetoname) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._ |
 |  std::pair&lt; int, nlohmann::json &gt; | [**translateNameToCode**](#function-translatenametocode) (std::string frame, std::string mission="", bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, std::vector&lt; std::string &gt; kernelList={}) <br>_Switch between NAIF frame string name to integer frame code._  |
+|  std::pair&lt; int, nlohmann::json &gt; | [**translateNameToCode**](#function-translatenametocode) (std::string frame, std::string mission="", [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) options={}) <br>_Overload of_ [_**translateNameToCode()**_](namespaceSpiceQL.md#function-translatenametocode) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._ |
 |  void | [**unload**](#function-unload) (std::string path) <br> |
 |  std::string | [**url\_encode**](#function-url_encode) (const std::string & value) <br>_URL encodes a given string._  |
 |  std::pair&lt; double, nlohmann::json &gt; | [**utcToEt**](#function-utctoet) (std::string utc, bool useWeb=false, bool searchKernels=true, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, std::vector&lt; std::string &gt; kernelList={}) <br>_convert a UTC string to an ephemeris time_  |
+|  std::pair&lt; double, nlohmann::json &gt; | [**utcToEt**](#function-utctoet) (std::string utc, [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) options={}) <br>_Overload of_ [_**utcToEt()**_](namespaceSpiceQL.md#function-utctoet) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._ |
 |  void | [**writeCk**](#function-writeck) (std::string fileName, std::vector&lt; std::vector&lt; double &gt; &gt; quats, std::vector&lt; double &gt; times, int bodyCode, std::string referenceFrame, std::string segmentId, std::vector&lt; std::vector&lt; double &gt; &gt; angularVelocity={}, std::string comment="") <br>_Write CK segments to a file._  |
 |  void | [**writeCk**](#function-writeck) (std::string fileName, std::vector&lt; [**CkSegment**](classSpiceQL_1_1CkSegment.md) &gt; segments) <br>_Write CK segments to a file._  |
 |  void | [**writeComment**](#function-writecomment) (std::string fileName, std::string comment) <br> |
@@ -635,6 +656,37 @@ double
 
 
 
+### function doubleEtToSclk 
+
+_Overload of_ [_**doubleEtToSclk()**_](namespaceSpiceQL.md#function-doubleettosclk) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._
+```C++
+template<typename>
+std::pair< std::string, nlohmann::json > SpiceQL::doubleEtToSclk (
+    int frameCode,
+    double et,
+    std::string mission="",
+    QueryOpts options={}
+) 
+```
+
+
+
+
+
+**Parameters:**
+
+
+* `options` [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) common optional parameters 
+
+
+
+
+        
+
+<hr>
+
+
+
 ### function doubleEtsToSclkTicks 
 
 _Converts ephemeris times to encoded SCLK "ticks" (doubles)._ 
@@ -688,6 +740,37 @@ vector&lt;double&gt; of encoded SCLK ticks matching the input ets
 
 
 
+### function doubleEtsToSclkTicks 
+
+_Overload of_ [_**doubleEtsToSclkTicks()**_](namespaceSpiceQL.md#function-doubleetstosclkticks) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._
+```C++
+template<typename>
+std::pair< std::vector< double >, nlohmann::json > SpiceQL::doubleEtsToSclkTicks (
+    int frameCode,
+    std::vector< double > ets,
+    std::string mission="",
+    QueryOpts options={}
+) 
+```
+
+
+
+
+
+**Parameters:**
+
+
+* `options` [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) common optional parameters 
+
+
+
+
+        
+
+<hr>
+
+
+
 ### function doubleSclkToEt 
 
 _Converts a given double spacecraft clock time to an ephemeris time._ 
@@ -730,6 +813,37 @@ Given a known frame code doubleSclkToEt converts a given spacecraft clock time a
 
 double 
 
+
+
+
+
+        
+
+<hr>
+
+
+
+### function doubleSclkToEt 
+
+_Overload of_ [_**doubleSclkToEt()**_](namespaceSpiceQL.md#function-doublesclktoet) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._
+```C++
+template<typename>
+std::pair< double, nlohmann::json > SpiceQL::doubleSclkToEt (
+    int frameCode,
+    double sclk,
+    std::string mission="",
+    QueryOpts options={}
+) 
+```
+
+
+
+
+
+**Parameters:**
+
+
+* `options` [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) common optional parameters 
 
 
 
@@ -827,6 +941,37 @@ double precision ephemeris time
 
 
 
+### function etToUtc 
+
+_Overload of_ [_**etToUtc()**_](namespaceSpiceQL.md#function-ettoutc) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._
+```C++
+template<typename>
+std::pair< std::string, nlohmann::json > SpiceQL::etToUtc (
+    double et,
+    std::string format="",
+    double precision=0,
+    QueryOpts options={}
+) 
+```
+
+
+
+
+
+**Parameters:**
+
+
+* `options` [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) common optional parameters 
+
+
+
+
+        
+
+<hr>
+
+
+
 ### function extractExactCkTimes 
 
 _Extracts all segment times between observStart and observeEnd._ 
@@ -871,6 +1016,42 @@ Given an observation start and observation end, extract all times assocaited wit
 
 A list of times 
 
+
+
+
+
+        
+
+<hr>
+
+
+
+### function extractExactCkTimes 
+
+_Overload of_ [_**extractExactCkTimes()**_](namespaceSpiceQL.md#function-extractexactcktimes) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._
+```C++
+template<typename>
+std::pair< std::vector< double >, nlohmann::json > SpiceQL::extractExactCkTimes (
+    double observStart,
+    double observEnd,
+    int targetFrame,
+    std::string mission="",
+    std::vector< std::string > ckQualities={"smithed", "reconstructed"},
+    QueryOpts options={}
+) 
+```
+
+
+
+Unlike [**extractExactCkTimes()**](namespaceSpiceQL.md#function-extractexactcktimes) without options, limitCk defaults to -1 here.
+
+
+
+
+**Parameters:**
+
+
+* `options` [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) common optional parameters 
 
 
 
@@ -1009,6 +1190,36 @@ json object of key value pairs
 
 
 
+### function findMissionKeywords 
+
+_Overload of_ [_**findMissionKeywords()**_](namespaceSpiceQL.md#function-findmissionkeywords) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._
+```C++
+template<typename>
+std::pair< nlohmann::json, nlohmann::json > SpiceQL::findMissionKeywords (
+    std::string key,
+    std::string mission,
+    QueryOpts options={}
+) 
+```
+
+
+
+
+
+**Parameters:**
+
+
+* `options` [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) common optional parameters 
+
+
+
+
+        
+
+<hr>
+
+
+
 ### function findTargetKeywords 
 
 _returns Target values in the form of a vector_ 
@@ -1049,6 +1260,36 @@ Takes in a target and key and returns the value associated in the form of vector
 
 json object of key value pairs 
 
+
+
+
+
+        
+
+<hr>
+
+
+
+### function findTargetKeywords 
+
+_Overload of_ [_**findTargetKeywords()**_](namespaceSpiceQL.md#function-findtargetkeywords) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._
+```C++
+template<typename>
+std::pair< nlohmann::json, nlohmann::json > SpiceQL::findTargetKeywords (
+    std::string key,
+    std::string mission,
+    QueryOpts options={}
+) 
+```
+
+
+
+
+
+**Parameters:**
+
+
+* `options` [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) common optional parameters 
 
 
 
@@ -1164,6 +1405,39 @@ This function uses NAIF routines and builds a path from the initalframe to J2000
 
 A two element vector of vectors ints, where the first element is the sequence of time dependent frames and the second is the sequence of constant frames 
 
+
+
+
+
+        
+
+<hr>
+
+
+
+### function frameTrace 
+
+_Overload of_ [_**frameTrace()**_](namespaceSpiceQL.md#function-frametrace) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._
+```C++
+template<typename>
+std::pair< std::vector< std::vector< int > >, nlohmann::json > SpiceQL::frameTrace (
+    double et,
+    int initialFrame,
+    std::string mission="",
+    std::vector< std::string > ckQualities={"smithed", "reconstructed"},
+    std::vector< std::string > spkQualities={"smithed", "reconstructed"},
+    QueryOpts options={}
+) 
+```
+
+
+
+
+
+**Parameters:**
+
+
+* `options` [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) common optional parameters 
 
 
 
@@ -1473,6 +1747,41 @@ Vector of SPICE-style quaternions (w,x,y,z) and optional angular velocity (4 ele
 
 
 
+### function getExactTargetOrientations 
+
+_Overload of_ [_**getExactTargetOrientations()**_](namespaceSpiceQL.md#function-getexacttargetorientations) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._
+```C++
+template<typename>
+std::pair< std::vector< std::vector< double > >, nlohmann::json > SpiceQL::getExactTargetOrientations (
+    double startEt,
+    double stopEt,
+    int toFrame,
+    int refFrame,
+    int exactCkFrame,
+    std::string mission="",
+    std::vector< std::string > ckQualities={"smithed", "reconstructed"},
+    QueryOpts options={}
+) 
+```
+
+
+
+
+
+**Parameters:**
+
+
+* `options` [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) common optional parameters 
+
+
+
+
+        
+
+<hr>
+
+
+
 ### function getFrameInfo 
 
 _Get the center, class id, and class of a given frame._ 
@@ -1513,6 +1822,36 @@ See [NAIF's Docs on frame codes](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs
 
 3 element vector of the given frames center, class id, and class 
 
+
+
+
+
+        
+
+<hr>
+
+
+
+### function getFrameInfo 
+
+_Overload of_ [_**getFrameInfo()**_](namespaceSpiceQL.md#function-getframeinfo) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._
+```C++
+template<typename>
+std::pair< std::vector< int >, nlohmann::json > SpiceQL::getFrameInfo (
+    int frame,
+    std::string mission="",
+    QueryOpts options={}
+) 
+```
+
+
+
+
+
+**Parameters:**
+
+
+* `options` [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) common optional parameters 
 
 
 
@@ -2184,6 +2523,36 @@ json of frame name and frame code
 
 
 
+### function getTargetFrameInfo 
+
+_Overload of_ [_**getTargetFrameInfo()**_](namespaceSpiceQL.md#function-gettargetframeinfo) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._
+```C++
+template<typename>
+std::pair< nlohmann::json, nlohmann::json > SpiceQL::getTargetFrameInfo (
+    int targetId,
+    std::string mission="",
+    QueryOpts options={}
+) 
+```
+
+
+
+
+
+**Parameters:**
+
+
+* `options` [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) common optional parameters 
+
+
+
+
+        
+
+<hr>
+
+
+
 ### function getTargetOrientation 
 
 _Gives quaternion and angular velocity for a given frame at a given ephemeris time._ 
@@ -2284,6 +2653,39 @@ Vector of SPICE-style quaternions (w,x,y,z) and optional angular velocity (4 ele
 
 
 
+### function getTargetOrientations 
+
+_Overload of_ [_**getTargetOrientations()**_](namespaceSpiceQL.md#function-gettargetorientations) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._
+```C++
+template<typename>
+std::pair< std::vector< std::vector< double > >, nlohmann::json > SpiceQL::getTargetOrientations (
+    std::vector< double > ets,
+    int toFrame,
+    int refFrame,
+    std::string mission="",
+    std::vector< std::string > ckQualities={"smithed", "reconstructed"},
+    QueryOpts options={}
+) 
+```
+
+
+
+
+
+**Parameters:**
+
+
+* `options` [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) common optional parameters 
+
+
+
+
+        
+
+<hr>
+
+
+
 ### function getTargetOrientationsRanged 
 
 _Gives quaternion and angular velocity for a given frame at a set of ephemeris times._ 
@@ -2337,6 +2739,41 @@ Gets orientations for an input frame in some reference frame. The orientations r
 
 Vector of SPICE-style quaternions (w,x,y,z) and optional angular velocity (4 element without angular velocity, 7 element with) 
 
+
+
+
+
+        
+
+<hr>
+
+
+
+### function getTargetOrientationsRanged 
+
+_Overload of_ [_**getTargetOrientationsRanged()**_](namespaceSpiceQL.md#function-gettargetorientationsranged) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._
+```C++
+template<typename>
+std::pair< std::vector< std::vector< double > >, nlohmann::json > SpiceQL::getTargetOrientationsRanged (
+    double startEt,
+    double stopEt,
+    int numRecords,
+    int toFrame,
+    int refFrame,
+    std::string mission="",
+    std::vector< std::string > ckQualities={"smithed", "reconstructed"},
+    QueryOpts options={}
+) 
+```
+
+
+
+
+
+**Parameters:**
+
+
+* `options` [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) common optional parameters 
 
 
 
@@ -2460,6 +2897,42 @@ A vector of vectors with a Nx7 state vector of positions and velocities in x,y,z
 
 
 
+### function getTargetStates 
+
+_Overload of_ [_**getTargetStates()**_](namespaceSpiceQL.md#function-gettargetstates) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._
+```C++
+template<typename>
+std::pair< std::vector< std::vector< double > >, nlohmann::json > SpiceQL::getTargetStates (
+    std::vector< double > ets,
+    std::string target,
+    std::string observer,
+    std::string frame,
+    std::string abcorr,
+    std::string mission="",
+    std::vector< std::string > ckQualities={"smithed", "reconstructed"},
+    std::vector< std::string > spkQualities={"smithed", "reconstructed"},
+    QueryOpts options={}
+) 
+```
+
+
+
+
+
+**Parameters:**
+
+
+* `options` [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) common optional parameters 
+
+
+
+
+        
+
+<hr>
+
+
+
 ### function getTargetStatesRanged 
 
 _Gives the positions and velocities for a given start and stop ephemeris times and number of records._ 
@@ -2522,6 +2995,44 @@ Mostly a C++ wrap for NAIF's spkezr\_c
 
 A vector of vectors with a Nx7 state vector of positions and velocities in x,y,z,vx,vy,vz format followed by the light time adjustment. 
 
+
+
+
+
+        
+
+<hr>
+
+
+
+### function getTargetStatesRanged 
+
+_Overload of_ [_**getTargetStatesRanged()**_](namespaceSpiceQL.md#function-gettargetstatesranged) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._
+```C++
+template<typename>
+std::pair< std::vector< std::vector< double > >, nlohmann::json > SpiceQL::getTargetStatesRanged (
+    double startEt,
+    double stopEt,
+    int numRecords,
+    std::string target,
+    std::string observer,
+    std::string frame,
+    std::string abcorr,
+    std::string mission="",
+    std::vector< std::string > ckQualities={"smithed", "reconstructed"},
+    std::vector< std::string > spkQualities={"smithed", "reconstructed"},
+    QueryOpts options={}
+) 
+```
+
+
+
+
+
+**Parameters:**
+
+
+* `options` [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) common optional parameters 
 
 
 
@@ -3442,6 +3953,44 @@ An empty return and list of kernels
 
 
 
+### function searchForKernelsets 
+
+_Overload of_ [_**searchForKernelsets()**_](namespaceSpiceQL.md#function-searchforkernelsets) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._
+```C++
+template<typename>
+std::pair< std::string, nlohmann::json > SpiceQL::searchForKernelsets (
+    std::vector< std::string > spiceqlNames,
+    std::vector< std::string > types={"ck", "spk", "tspk", "lsk", "mk", "sclk", "iak", "ik", "fk", "dsk", "pck", "ek"},
+    double startTime=-std::numeric_limits< double >::max(),
+    double stopTime=std::numeric_limits< double >::max(),
+    std::vector< std::string > ckQualities={"smithed", "reconstructed"},
+    std::vector< std::string > spkQualities={"smithed", "reconstructed"},
+    QueryOpts options={},
+    bool overwrite=false
+) 
+```
+
+
+
+Only useWeb, fullKernelPath, limitCk, limitSpk are used from options.
+
+
+
+
+**Parameters:**
+
+
+* `options` [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) common optional parameters 
+
+
+
+
+        
+
+<hr>
+
+
+
 ### function setAliasMap 
 
 _Setter for the aliasMap._ 
@@ -3672,6 +4221,37 @@ double
 
 
 
+### function strSclkToEt 
+
+_Overload of_ [_**strSclkToEt()**_](namespaceSpiceQL.md#function-strsclktoet) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._
+```C++
+template<typename>
+std::pair< double, nlohmann::json > SpiceQL::strSclkToEt (
+    int frameCode,
+    std::string sclk,
+    std::string mission="",
+    QueryOpts options={}
+) 
+```
+
+
+
+
+
+**Parameters:**
+
+
+* `options` [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) common optional parameters 
+
+
+
+
+        
+
+<hr>
+
+
+
 ### function toLower 
 
 _force a string to lower case_ 
@@ -3790,6 +4370,36 @@ string Naif frame name
 
 
 
+### function translateCodeToName 
+
+_Overload of_ [_**translateCodeToName()**_](namespaceSpiceQL.md#function-translatecodetoname) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._
+```C++
+template<typename>
+std::pair< std::string, nlohmann::json > SpiceQL::translateCodeToName (
+    int frame,
+    std::string mission="",
+    QueryOpts options={}
+) 
+```
+
+
+
+
+
+**Parameters:**
+
+
+* `options` [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) common optional parameters 
+
+
+
+
+        
+
+<hr>
+
+
+
 ### function translateNameToCode 
 
 _Switch between NAIF frame string name to integer frame code._ 
@@ -3830,6 +4440,36 @@ See [NAIF's Docs on frame codes](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs
 
 integer Naif frame code 
 
+
+
+
+
+        
+
+<hr>
+
+
+
+### function translateNameToCode 
+
+_Overload of_ [_**translateNameToCode()**_](namespaceSpiceQL.md#function-translatenametocode) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._
+```C++
+template<typename>
+std::pair< int, nlohmann::json > SpiceQL::translateNameToCode (
+    std::string frame,
+    std::string mission="",
+    QueryOpts options={}
+) 
+```
+
+
+
+
+
+**Parameters:**
+
+
+* `options` [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) common optional parameters 
 
 
 
@@ -3926,6 +4566,35 @@ Basically a wrapper around NAIF's cspice str2et function except it also temporar
 
 double precision ephemeris time 
 
+
+
+
+
+        
+
+<hr>
+
+
+
+### function utcToEt 
+
+_Overload of_ [_**utcToEt()**_](namespaceSpiceQL.md#function-utctoet) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._
+```C++
+template<typename>
+std::pair< double, nlohmann::json > SpiceQL::utcToEt (
+    std::string utc,
+    QueryOpts options={}
+) 
+```
+
+
+
+
+
+**Parameters:**
+
+
+* `options` [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) common optional parameters 
 
 
 

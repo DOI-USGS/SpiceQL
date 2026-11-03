@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="structSpiceQL_1_1QueryOpts" kind="struct" language="C++" prot="public">
+    <compoundname>SpiceQL::QueryOpts</compoundname>
+    <includes refid="api_8h" local="no">api.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structSpiceQL_1_1QueryOpts_1a05837f00156e1c61320ca29fdc25a793" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool SpiceQL::QueryOpts::useWeb</definition>
+        <argsstring></argsstring>
+        <name>useWeb</name>
+        <qualifiedname>SpiceQL::QueryOpts::useWeb</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>whether to use web <ref refid="namespaceSpiceQL" kindref="compound">SpiceQL</ref> </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="23" column="14" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSpiceQL_1_1QueryOpts_1aff848fe73c64ee53ca1052249ce3c845" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool SpiceQL::QueryOpts::searchKernels</definition>
+        <argsstring></argsstring>
+        <name>searchKernels</name>
+        <qualifiedname>SpiceQL::QueryOpts::searchKernels</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>whether to search the kernels for the user </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="25" column="14" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSpiceQL_1_1QueryOpts_1a0bb3fd2527d46842f53ac483479d186e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool SpiceQL::QueryOpts::fullKernelPath</definition>
+        <argsstring></argsstring>
+        <name>fullKernelPath</name>
+        <qualifiedname>SpiceQL::QueryOpts::fullKernelPath</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>if true returns full kernel paths, default returns relative paths </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="27" column="14" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSpiceQL_1_1QueryOpts_1aec31a9be7758c4b0909333b0fced671c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int SpiceQL::QueryOpts::limitCk</definition>
+        <argsstring></argsstring>
+        <name>limitCk</name>
+        <qualifiedname>SpiceQL::QueryOpts::limitCk</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+<para>number of cks to limit to, default is -1 to retrieve all </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="29" column="13" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSpiceQL_1_1QueryOpts_1ab61ac15215194b082e11270de9743e49" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int SpiceQL::QueryOpts::limitSpk</definition>
+        <argsstring></argsstring>
+        <name>limitSpk</name>
+        <qualifiedname>SpiceQL::QueryOpts::limitSpk</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>number of spks to limit to, default is 1 to retrieve only one </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="31" column="13" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSpiceQL_1_1QueryOpts_1a541370e14709f0cd63f793d32c7db9e6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; SpiceQL::QueryOpts::kernelList</definition>
+        <argsstring></argsstring>
+        <name>kernelList</name>
+        <qualifiedname>SpiceQL::QueryOpts::kernelList</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>additional kernels to load </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SpiceQL/include/SpiceQL/api.h" line="33" column="21" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="33" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Optional parameters shared across <ref refid="namespaceSpiceQL" kindref="compound">SpiceQL</ref> API calls. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Groups the options that most api functions accept so new options can be added in one place instead of to every function signature. Defaults match the defaults of the individual parameters they replace.</para>
+<para>Converts to and from nlohmann::json (json j = options; j.get&lt;QueryOpts&gt;()). Keys missing from the json keep their defaults and unrecognized keys are ignored, so a new field only needs to be added here and to the NLOHMANN_DEFINE_TYPE call below. </para>
+    </detaileddescription>
+    <location file="SpiceQL/include/SpiceQL/api.h" line="21" column="5" bodyfile="SpiceQL/include/SpiceQL/api.h" bodystart="21" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structSpiceQL_1_1QueryOpts_1a0bb3fd2527d46842f53ac483479d186e" prot="public" virt="non-virtual"><scope>SpiceQL::QueryOpts</scope><name>fullKernelPath</name></member>
+      <member refid="structSpiceQL_1_1QueryOpts_1a541370e14709f0cd63f793d32c7db9e6" prot="public" virt="non-virtual"><scope>SpiceQL::QueryOpts</scope><name>kernelList</name></member>
+      <member refid="structSpiceQL_1_1QueryOpts_1aec31a9be7758c4b0909333b0fced671c" prot="public" virt="non-virtual"><scope>SpiceQL::QueryOpts</scope><name>limitCk</name></member>
+      <member refid="structSpiceQL_1_1QueryOpts_1ab61ac15215194b082e11270de9743e49" prot="public" virt="non-virtual"><scope>SpiceQL::QueryOpts</scope><name>limitSpk</name></member>
+      <member refid="structSpiceQL_1_1QueryOpts_1aff848fe73c64ee53ca1052249ce3c845" prot="public" virt="non-virtual"><scope>SpiceQL::QueryOpts</scope><name>searchKernels</name></member>
+      <member refid="structSpiceQL_1_1QueryOpts_1a05837f00156e1c61320ca29fdc25a793" prot="public" virt="non-virtual"><scope>SpiceQL::QueryOpts</scope><name>useWeb</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
