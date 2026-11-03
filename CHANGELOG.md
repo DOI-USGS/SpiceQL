@@ -36,6 +36,7 @@ release.
 
 ### Added
 - Added kernel intervals to spiceqldb.hdf [#165](https://github.com/DOI-USGS/SpiceQL/pull/165)
+- Added overloaded API functions to use the struct `QueryOpts` for common parameters [#168](https://github.com/DOI-USGS/SpiceQL/pull/168)
 
 ## 1.8.0 - 2026-10-01
 
