@@ -481,3 +481,57 @@ TEST_F(LroKernelSet, TestSearchForKernelsetsGetIntervals) {
   // Still loadable as a kernel set
   KernelSet kset(with_intervals);
 }
+
+
+TEST_F(LroMocGapKernelSet, TestInventoryIntervalGap) {
+  Inventory::create_database();
+  auto filenames = [](nlohmann::json &kernels) {
+    vector<string> names;
+    for (auto &e : kernels) names.push_back(fs::path(e.get<string>()).filename());
+    return names;
+  };
+  auto has = [](const vector<string> &names, const string &name) {
+    return find(names.begin(), names.end(), name) != names.end();
+  };
+
+  // In the gap the smithed CK's start and stop times match but it has no
+  // data, so only the reconstructed CK is left and the quality reflects that
+  nlohmann::json gap = Inventory::search_for_kernelset("moc", {"ck", "spk"}, 114000000, 115000000,
+                                                       {"smithed", "reconstructed"}, {"smithed", "reconstructed"},
+                                                       false, -1, -1);
+  SPDLOG_DEBUG("Gap kernels: {}", gap.dump());
+  vector<string> cks = filenames(gap["ck"]);
+  EXPECT_EQ(cks, vector<string>{"moc42r_2222222_2222222_v01.bc"}) << gap.dump();
+  EXPECT_EQ(gap["moc_ck_quality"], "reconstructed");
+  vector<string> spks = filenames(gap["spk"]);
+  EXPECT_FALSE(has(spks, "LRONAC_SPole_LE_2013_spk.bsp")) << gap.dump();
+  EXPECT_TRUE(has(spks, "fdf29_2222222_2222222_n01.bsp")) << gap.dump();
+
+  // The SPK limit is taken from the kernels with data in the window
+  nlohmann::json limited = Inventory::search_for_kernelset("moc", {"spk"}, 114000000, 115000000,
+                                                           {"smithed", "reconstructed"}, {"smithed", "reconstructed"},
+                                                           false, -1, 1);
+  EXPECT_FALSE(has(filenames(limited["spk"]), "LRONAC_SPole_LE_2013_spk.bsp")) << limited.dump();
+
+  // Inside one of the intervals the smithed kernels are kept
+  nlohmann::json inside = Inventory::search_for_kernelset("moc", {"ck", "spk"}, 111000000, 111500000,
+                                                          {"smithed", "reconstructed"}, {"smithed", "reconstructed"},
+                                                          false, -1, -1);
+  EXPECT_TRUE(has(filenames(inside["ck"]), "LRONAC_SPole_LE_2013_ck.bc")) << inside.dump();
+  EXPECT_TRUE(has(filenames(inside["spk"]), "LRONAC_SPole_LE_2013_spk.bsp")) << inside.dump();
+
+  // A window spanning the gap overlaps both intervals, so they're kept too
+  nlohmann::json span = Inventory::search_for_kernelset("moc", {"ck", "spk"}, 111000000, 119000000,
+                                                        {"smithed", "reconstructed"}, {"smithed", "reconstructed"},
+                                                        false, -1, -1);
+  EXPECT_TRUE(has(filenames(span["ck"]), "LRONAC_SPole_LE_2013_ck.bc")) << span.dump();
+  EXPECT_TRUE(has(filenames(span["spk"]), "LRONAC_SPole_LE_2013_spk.bsp")) << span.dump();
+
+  // Intervals returned with the search are for the kernels left after the gap check
+  nlohmann::json with_intervals = Inventory::search_for_kernelset("moc", {"ck"}, 114000000, 115000000,
+                                                                  {"smithed", "reconstructed"}, {"smithed", "reconstructed"},
+                                                                  false, -1, -1, true);
+  ASSERT_TRUE(with_intervals.contains("intervals"));
+  EXPECT_EQ(with_intervals["intervals"].size(), 1) << with_intervals.dump();
+  EXPECT_TRUE(with_intervals["intervals"].contains("/moc/ck/reconstructed/moc42r_2222222_2222222_v01.bc"));
+}

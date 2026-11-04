@@ -126,6 +126,16 @@ namespace SpiceQL {
      * @returns json object of SpiceQL key to an array of intervals
      */
     nlohmann::json get_kernel_intervals(std::vector<std::string> kernels);
+
+    /**
+     * @brief Makes sure a group's interval rows are usable, reading them from
+     *        the DB if from_db is set.
+     *
+     * @param group_key the group's full DB key, spice/<mission>/<type>/<quality>/
+     * @returns false if the group has no interval rows (e.g. a DB built before
+     *          intervals were stored) or the datasets don't line up
+     */
+    bool load_group_intervals(const std::string &group_key, TimeIndexedKernels &time_indices, bool from_db);
     nlohmann::json m_json_inventory;
 
     std::map<std::string, std::vector<std::string>> m_nontimedep_kerns;

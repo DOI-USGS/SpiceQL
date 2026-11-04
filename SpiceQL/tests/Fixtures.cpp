@@ -13,6 +13,7 @@
 
 #include <SpiceQL/utils.h>
 #include <SpiceQL/io.h>
+#include <SpiceUsr.h>
 #include <SpiceQL/query.h>
 #include <SpiceQL/inventory.h>
 
@@ -509,6 +510,54 @@ void LroMocQualityKernelSet::writeExtraKernels() {
   avs = {{9,9,9}, {10,10,10}};
   quats = {{0.3, 0.3, 0.3, 0.8660254}, {0.4, 0.4, 0.4, 0.7211103}};
   writeCk(ckPathMocSmithed, quats, ckTicks1, bodyCode, referenceFrame, "MOC SMITHED", avs, "MOCS");
+}
+
+void LroMocGapKernelSet::writeExtraKernels() {
+  int bodyCode = -85000;
+  std::string referenceFrame = "j2000";
+  // sce2c_c(-85, et) of 110000000 and 120000000. LRO's clock runs at 65536
+  // ticks a second, close enough for times this far from the gap edges.
+  std::vector<double> ckTicks = {5139381342423.142, 5794741342542.021};
+  auto ticks = [&](double et) { return ckTicks[0] + (et - 110000000) * 65536; };
+
+  ckPathMocRecon = root / "ck" / "moc42r_2222222_2222222_v01.bc";
+  writeCk(ckPathMocRecon, {{0.1, 0.1, 0.1, 0.9848858}, {0.2, 0.2, 0.2, 0.9380832}}, ckTicks,
+          bodyCode, referenceFrame, "MOC RECON", {{7,7,7}, {8,8,8}}, "MOCR");
+
+  // Two interpolation intervals, so the gap is inside one segment
+  ckPathMocSmithed = root / "ck" / "LRONAC_SPole_LE_2013_ck.bc";
+  std::vector<double> gapTicks = {ticks(110000000), ticks(112000000), ticks(118000000), ticks(120000000)};
+  std::vector<double> quats = {0.3, 0.3, 0.3, 0.8660254,
+                               0.4, 0.4, 0.4, 0.7211103,
+                               0.3, 0.3, 0.3, 0.8660254,
+                               0.4, 0.4, 0.4, 0.7211103};
+  std::vector<double> avs = {9,9,9, 10,10,10, 9,9,9, 10,10,10};
+  std::vector<double> starts = {gapTicks[0], gapTicks[2]};
+  SpiceInt handle;
+  ckopn_c(ckPathMocSmithed.c_str(), "CK", 0, &handle);
+  ckw03_c(handle, gapTicks.front(), gapTicks.back(), bodyCode, referenceFrame.c_str(), SPICETRUE,
+          "MOC SMITHED", gapTicks.size(), gapTicks.data(), (SpiceDouble (*)[4])quats.data(),
+          (SpiceDouble (*)[3])avs.data(), starts.size(), starts.data());
+  ckcls_c(handle);
+  checkNaifErrors();
+
+  // SPKs go with the moc fdf29 and SPole names
+  fs::create_directories(root / "spk");
+  spkPathMocRecon = root / "spk" / "fdf29_2222222_2222222_n01.bsp";
+  writeSpk(spkPathMocRecon, {{1, 1, 1}, {2, 2, 2}}, {110000000, 120000000}, bodyCode / 1000, 301,
+           referenceFrame, "MOC SPK RECON", 1, {{1, 1, 1}, {2, 2, 2}}, "MOC SPK RECON");
+
+  // Two segments, so the gap is between them
+  spkPathMocSmithed = root / "spk" / "LRONAC_SPole_LE_2013_spk.bsp";
+  std::vector<double> states = {3,3,3, 1,1,1,  4,4,4, 1,1,1};
+  spkopn_c(spkPathMocSmithed.c_str(), "SPK", 0, &handle);
+  for (auto [begin, end] : {std::pair{110000000.0, 112000000.0}, std::pair{118000000.0, 120000000.0}}) {
+    double epochs[2] = {begin, end};
+    spkw13_c(handle, bodyCode / 1000, 301, referenceFrame.c_str(), begin, end, "MOC SPK SMITHED", 1, 2,
+             (SpiceDouble (*)[6])states.data(), epochs);
+  }
+  spkcls_c(handle);
+  checkNaifErrors();
 }
 
 void TestConfig::SetUp() {

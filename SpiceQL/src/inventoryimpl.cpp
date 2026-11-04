@@ -826,6 +826,71 @@ namespace SpiceQL {
   }
 
 
+  /**
+   * @brief Makes sure a group's interval rows are usable, reading them from
+   *        the DB if from_db is set.
+   *
+   * @param group_key the group's full DB key, /spice/<mission>/<type>/<quality>/
+   * @returns false if the group has no interval rows (e.g. a DB built before
+   *          intervals were stored) or the datasets don't line up
+   */
+  bool InventoryImpl::load_group_intervals(const string &group_key, TimeIndexedKernels &time_indices, bool from_db) {
+    if (from_db) {
+      try {
+        time_indices.interval_starts = getKey<vector<double>>(group_key + DB_INTERVAL_START_KEY);
+        time_indices.interval_stops = getKey<vector<double>>(group_key + DB_INTERVAL_STOP_KEY);
+        time_indices.interval_kindex = getKey<vector<size_t>>(group_key + DB_INTERVAL_START_INDICES_KEY);
+        time_indices.interval_body_codes = getKey<vector<int>>(group_key + DB_INTERVAL_BODY_CODES_KEY);
+      }
+      catch (runtime_error &e) {
+        SPDLOG_DEBUG("No intervals for {}. {}", group_key, e.what());
+        return false;
+      }
+    }
+
+    size_t nrows = time_indices.interval_kindex.size();
+    if (time_indices.interval_starts.size() != nrows || time_indices.interval_stops.size() != nrows ||
+        time_indices.interval_body_codes.size() != nrows) {
+      SPDLOG_WARN("Interval datasets for {} have mismatched sizes, ignoring them", group_key);
+      return false;
+    }
+    return nrows > 0;
+  }
+
+
+  /**
+   * @brief Drops kernels that have no coverage interval overlapping
+   *        [start_time, stop_time].
+   *
+   * A kernel's start and stop times bound all of its intervals, so a window can
+   * land in a gap between them and still pass the start/stop search. Kernels
+   * with no interval rows (their intervals couldn't be read when the DB was
+   * built) are kept, since only their start and stop times are known.
+   *
+   * @param indices kernel indices into time_indices.file_paths, filtered in place
+   */
+  static void filterByIntervals(vector<int> &indices, const TimeIndexedKernels &time_indices,
+                                double start_time, double stop_time) {
+    // Rows are grouped by kernel in file_paths order
+    auto kindex_begin = time_indices.interval_kindex.begin();
+    auto kindex_end = time_indices.interval_kindex.end();
+    erase_if(indices, [&](int index) {
+      auto [first, last] = equal_range(kindex_begin, kindex_end, static_cast<size_t>(index));
+      if (first == last) {
+        return false;
+      }
+      for (auto it = first; it != last; ++it) {
+        size_t row = it - kindex_begin;
+        if (time_indices.interval_starts[row] <= stop_time && time_indices.interval_stops[row] >= start_time) {
+          return false;
+        }
+      }
+      SPDLOG_DEBUG("Dropping {}, no intervals in [{}, {}]", time_indices.file_paths.at(index), start_time, stop_time);
+      return true;
+    });
+  }
+
+
   json InventoryImpl::search_for_kernelsets(vector<string> spiceql_names, vector<Kernel::Type> types, double start_time, double stop_time,
                                   vector<Kernel::Quality> ckQualities, vector<Kernel::Quality> spkQualities, bool full_kernel_path, 
                                   int limit_ck, int limit_spk, bool overwrite, bool get_intervals) { 
@@ -979,6 +1044,13 @@ namespace SpiceQL {
             }
           }
           
+          // Narrow the start/stop matches down to kernels with an interval in
+          // the window before the quality and limit steps
+          if (!final_time_kernel_indices.empty() &&
+              load_group_intervals(DB_SPICE_ROOT_KEY + "/" + key, *time_indices, !m_timedep_kerns.contains(key))) {
+            filterByIntervals(final_time_kernel_indices, *time_indices, start_time, stop_time);
+          }
+
           // Sort the indices as the kernel dbs enforce load priority
           sort(final_time_kernel_indices.begin(), final_time_kernel_indices.end());
           for (auto index : final_time_kernel_indices) {
@@ -1149,24 +1221,7 @@ namespace SpiceQL {
     }
 
     // Only read the interval datasets once a kernel is known to be in the group
-    if (from_db) {
-      try {
-        loaded.interval_starts = getKey<vector<double>>(group_key + DB_INTERVAL_START_KEY);
-        loaded.interval_stops = getKey<vector<double>>(group_key + DB_INTERVAL_STOP_KEY);
-        loaded.interval_kindex = getKey<vector<size_t>>(group_key + DB_INTERVAL_START_INDICES_KEY);
-        loaded.interval_body_codes = getKey<vector<int>>(group_key + DB_INTERVAL_BODY_CODES_KEY);
-      }
-      catch (runtime_error &e) {
-        SPDLOG_DEBUG("No intervals for {}. {}", group_key, e.what());
-      }
-    }
-
-    size_t nrows = time_indices->interval_kindex.size();
-    if (time_indices->interval_starts.size() != nrows || time_indices->interval_stops.size() != nrows ||
-        time_indices->interval_body_codes.size() != nrows) {
-      SPDLOG_WARN("Interval datasets for {} have mismatched sizes, ignoring them", group_key);
-      nrows = 0;
-    }
+    size_t nrows = load_group_intervals(group_key, *time_indices, from_db) ? time_indices->interval_kindex.size() : 0;
 
     // Rows are grouped by kernel in file_paths order
     auto kindex_begin = time_indices->interval_kindex.begin();
