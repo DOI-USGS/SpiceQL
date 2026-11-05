@@ -34,10 +34,16 @@ release.
 -->
 ### Unreleased
 
+## 1.9.0 - 2026-11-05
+
 ### Added
 - Added kernel intervals to spiceqldb.hdf [#165](https://github.com/DOI-USGS/SpiceQL/pull/165)
 - Added overloaded API functions to use the struct `QueryOpts` for common parameters [#168](https://github.com/DOI-USGS/SpiceQL/pull/168)
 - Added getKernelIntervals API call to retrieve intervals given a list of kernels and updated searchForKernelsets with `getIntervals` bool param to return intervals alongside kernels [#166](https://github.com/DOI-USGS/SpiceQL/pull/166) 
+
+### Fixed
+- Fixed kernel quality bug [#162](https://github.com/DOI-USGS/SpiceQL/pull/162)
+- fixed bug where getTargetOrientations will not use moon_me kernels [#167](https://github.com/DOI-USGS/SpiceQL/pull/167)
 
 ## 1.8.0 - 2026-10-01
 
@@ -49,10 +55,8 @@ release.
 - Updated API docs title section to include version and more information [#50](https://github.com/DOI-USGS/SpiceQL/pull/150)
 
 ### Fixed
-- Fixed kernel quality bug [#162](https://github.com/DOI-USGS/SpiceQL/pull/162)
 - Fixed Python3 build failure in the SWIG bindings by replacing the Python2 C-API calls `PyInt_FromLong` and `PyString_FromString` with their Python3 equivalents `PyLong_FromLong` and `PyUnicode_FromString`. SWIG 4.5.0 dropped Python2 support and removed compatibility macros, breaking the build. [#151](https://github.com/DOI-USGS/SpiceQL/pull/151)
 - Fixed manual docs issues [#50](https://github.com/DOI-USGS/SpiceQL/pull/150)
-- fixed bug where getTargetOrientations will not use moon_me kernels [#167](https://github.com/DOI-USGS/SpiceQL/pull/167)
 
 ## 1.7.0 - 2026-07-28
 
