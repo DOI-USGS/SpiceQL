@@ -826,14 +826,79 @@ namespace SpiceQL {
   }
 
 
+  /**
+   * @brief Makes sure a group's interval rows are usable, reading them from
+   *        the DB if from_db is set.
+   *
+   * @param group_key the group's full DB key, /spice/<mission>/<type>/<quality>/
+   * @returns false if the group has no interval rows (e.g. a DB built before
+   *          intervals were stored) or the datasets don't line up
+   */
+  bool InventoryImpl::load_group_intervals(const string &group_key, TimeIndexedKernels &time_indices, bool from_db) {
+    if (from_db) {
+      try {
+        time_indices.interval_starts = getKey<vector<double>>(group_key + DB_INTERVAL_START_KEY);
+        time_indices.interval_stops = getKey<vector<double>>(group_key + DB_INTERVAL_STOP_KEY);
+        time_indices.interval_kindex = getKey<vector<size_t>>(group_key + DB_INTERVAL_START_INDICES_KEY);
+        time_indices.interval_body_codes = getKey<vector<int>>(group_key + DB_INTERVAL_BODY_CODES_KEY);
+      }
+      catch (runtime_error &e) {
+        SPDLOG_DEBUG("No intervals for {}. {}", group_key, e.what());
+        return false;
+      }
+    }
+
+    size_t nrows = time_indices.interval_kindex.size();
+    if (time_indices.interval_starts.size() != nrows || time_indices.interval_stops.size() != nrows ||
+        time_indices.interval_body_codes.size() != nrows) {
+      SPDLOG_WARN("Interval datasets for {} have mismatched sizes, ignoring them", group_key);
+      return false;
+    }
+    return nrows > 0;
+  }
+
+
+  /**
+   * @brief Drops kernels that have no coverage interval overlapping
+   *        [start_time, stop_time].
+   *
+   * A kernel's start and stop times bound all of its intervals, so a window can
+   * land in a gap between them and still pass the start/stop search. Kernels
+   * with no interval rows (their intervals couldn't be read when the DB was
+   * built) are kept, since only their start and stop times are known.
+   *
+   * @param indices kernel indices into time_indices.file_paths, filtered in place
+   */
+  static void filterByIntervals(vector<int> &indices, const TimeIndexedKernels &time_indices,
+                                double start_time, double stop_time) {
+    // Rows are grouped by kernel in file_paths order
+    auto kindex_begin = time_indices.interval_kindex.begin();
+    auto kindex_end = time_indices.interval_kindex.end();
+    erase_if(indices, [&](int index) {
+      auto [first, last] = equal_range(kindex_begin, kindex_end, static_cast<size_t>(index));
+      if (first == last) {
+        return false;
+      }
+      for (auto it = first; it != last; ++it) {
+        size_t row = it - kindex_begin;
+        if (time_indices.interval_starts[row] <= stop_time && time_indices.interval_stops[row] >= start_time) {
+          return false;
+        }
+      }
+      SPDLOG_DEBUG("Dropping {}, no intervals in [{}, {}]", time_indices.file_paths.at(index), start_time, stop_time);
+      return true;
+    });
+  }
+
+
   json InventoryImpl::search_for_kernelsets(vector<string> spiceql_names, vector<Kernel::Type> types, double start_time, double stop_time,
                                   vector<Kernel::Quality> ckQualities, vector<Kernel::Quality> spkQualities, bool full_kernel_path, 
-                                  int limit_ck, int limit_spk, bool overwrite) { 
+                                  int limit_ck, int limit_spk, bool overwrite, bool get_intervals) { 
       json kernels;
       // simply iterate over the names
       for(auto &name : spiceql_names) { 
         json subKernels = search_for_kernelset(name, types, start_time, stop_time,
-                                  ckQualities, spkQualities, full_kernel_path, limit_ck, limit_spk); 
+                                  ckQualities, spkQualities, full_kernel_path, limit_ck, limit_spk, get_intervals); 
                                   
         SPDLOG_TRACE("subkernels for {}: {}", name, subKernels.dump(4));
         SPDLOG_TRACE("Overwrite? {}", overwrite);
@@ -845,9 +910,10 @@ namespace SpiceQL {
 
   json InventoryImpl::search_for_kernelset(string spiceql_name, vector<Kernel::Type> types, double start_time, double stop_time,
                                   vector<Kernel::Quality> ckQualities, vector<Kernel::Quality> spkQualities, bool full_kernel_path,
-                                  int limit_ck, int limit_spk) { 
+                                  int limit_ck, int limit_spk, bool get_intervals) { 
     // get time dep kernels first 
     json kernels;
+    json intervals = json::object();
     spiceql_name = toLower(spiceql_name);
 
     fs::path data_dir = getDataDirectory();
@@ -978,6 +1044,13 @@ namespace SpiceQL {
             }
           }
           
+          // Narrow the start/stop matches down to kernels with an interval in
+          // the window before the quality and limit steps
+          if (!final_time_kernel_indices.empty() &&
+              load_group_intervals(DB_SPICE_ROOT_KEY + "/" + key, *time_indices, !m_timedep_kerns.contains(key))) {
+            filterByIntervals(final_time_kernel_indices, *time_indices, start_time, stop_time);
+          }
+
           // Sort the indices as the kernel dbs enforce load priority
           sort(final_time_kernel_indices.begin(), final_time_kernel_indices.end());
           for (auto index : final_time_kernel_indices) {
@@ -1009,6 +1082,13 @@ namespace SpiceQL {
             }
             else { 
               tier = final_time_kernels;
+            }
+
+            if (get_intervals) {
+              json group_intervals = get_group_intervals(key, tier);
+              for (auto &[k, v] : group_intervals.items()) {
+                intervals[k] = v;
+              }
             }
 
             for (string &e : tier) { 
@@ -1063,9 +1143,166 @@ namespace SpiceQL {
         }
       }
     }
+
+    if (get_intervals) {
+      kernels["intervals"] = intervals;
+    }
     return kernels;
   }
-  
+
+
+  // Checks if the kernel is stored in the group
+  static bool kernelMatches(const string &kernel, const string &path, const string &key) {
+    fs::path named(kernel);
+    if (!named.has_parent_path()) {
+      return true;
+    }
+
+    // A relative or full path to the kernel
+    string named_str = named.generic_string();
+    string stored_str = fs::path(path).generic_string();
+    if (named_str == stored_str || named_str.ends_with("/" + stored_str) || stored_str.ends_with("/" + named_str)) {
+      return true;
+    }
+
+    // A SpiceQL key, /<mission>/<type>/<quality>/<filename>
+    string parent = named.parent_path().generic_string();
+    if (parent.starts_with("/")) {
+      parent.erase(0, 1);
+    }
+    return parent + "/" == key;
+  }
+
+
+  json InventoryImpl::get_group_intervals(string key, vector<string> kernels) {
+    json intervals = json::object();
+    if (kernels.empty()) {
+      return intervals;
+    }
+
+    // Use the in-memory index while the DB is being built, otherwise load it
+    TimeIndexedKernels loaded;
+    TimeIndexedKernels *time_indices = &loaded;
+    string group_key = DB_SPICE_ROOT_KEY + "/" + key;
+    bool from_db = !m_timedep_kerns.contains(key);
+    if (from_db) {
+      try {
+        loaded.file_paths = getKey<vector<string>>(group_key + DB_TIME_FILES_KEY);
+      }
+      catch (runtime_error &e) {
+        SPDLOG_TRACE("Couldn't find {}. {}", group_key, e.what());
+        return intervals;
+      }
+    }
+    else {
+      time_indices = m_timedep_kerns[key];
+    }
+
+    unordered_multimap<string, size_t> by_filename;
+    by_filename.reserve(time_indices->file_paths.size());
+    for (size_t i = 0; i < time_indices->file_paths.size(); i++) {
+      by_filename.emplace(fs::path(time_indices->file_paths[i]).filename().string(), i);
+    }
+
+    vector<size_t> matches;
+    matches.reserve(kernels.size());
+    for (const string &kernel : kernels) {
+      auto [first, last] = by_filename.equal_range(fs::path(kernel).filename().string());
+      for (auto it = first; it != last; ++it) {
+        // e.g. If a kernel filename without any path is passed in and exists in both
+        // tgo/ck/predicted/ and cassis/ck/predicted, two interval entries will be recorded
+        if (kernelMatches(kernel, time_indices->file_paths[it->second], key)) {
+          matches.push_back(it->second);
+        }
+      }
+    }
+    if (matches.empty()) {
+      return intervals;
+    }
+
+    // Only read the interval datasets once a kernel is known to be in the group
+    size_t nrows = load_group_intervals(group_key, *time_indices, from_db) ? time_indices->interval_kindex.size() : 0;
+
+    // Rows are grouped by kernel in file_paths order
+    auto kindex_begin = time_indices->interval_kindex.begin();
+    auto kindex_end = kindex_begin + nrows;
+    for (size_t index : matches) {
+      auto [first, last] = equal_range(kindex_begin, kindex_end, index);
+      json rows = json::array();
+      rows.get_ref<json::array_t&>().reserve(last - first);
+      for (auto it = first; it != last; ++it) {
+        size_t row = it - kindex_begin;
+        rows.push_back(json{{"start", time_indices->interval_starts[row]},
+                            {"stop", time_indices->interval_stops[row]},
+                            {"body_code", time_indices->interval_body_codes[row]}});
+      }
+      intervals["/" + key + fs::path(time_indices->file_paths[index]).filename().string()] = rows;
+    }
+    return intervals;
+  }
+
+
+  json InventoryImpl::get_kernel_intervals(vector<string> kernels) {
+    json intervals = json::object();
+    if (kernels.empty()) {
+      return intervals;
+    }
+
+    string hdf_file = (fs::path(getCacheDir()) / DB_HDF_FILE).string();
+    if (!fs::exists(hdf_file)) {
+      throw runtime_error("DB for kernels (" + hdf_file + ") does not exist");
+    }
+
+    // Time dependent groups are <mission>/<ck|spk>/<quality>/
+    vector<string> keys;
+    {
+      HighFive::File file(hdf_file, HighFive::File::ReadOnly);
+      if (!file.exist(DB_SPICE_ROOT_KEY)) {
+        return intervals;
+      }
+      HighFive::Group root = file.getGroup(DB_SPICE_ROOT_KEY);
+      for (const string &mission : root.listObjectNames()) {
+        if (root.getObjectType(mission) != HighFive::ObjectType::Group) {
+          continue;
+        }
+        HighFive::Group mission_group = root.getGroup(mission);
+        for (string type : {"ck", "spk"}) {
+          if (!mission_group.exist(type) || mission_group.getObjectType(type) != HighFive::ObjectType::Group) {
+            continue;
+          }
+          HighFive::Group type_group = mission_group.getGroup(type);
+          for (const string &quality : type_group.listObjectNames()) {
+            if (type_group.getObjectType(quality) == HighFive::ObjectType::Group) {
+              keys.push_back(mission + "/" + type + "/" + quality + "/");
+            }
+          }
+        }
+      }
+    }
+
+    for (const string &key : keys) {
+      json group_intervals = get_group_intervals(key, kernels);
+      for (auto &[k, v] : group_intervals.items()) {
+        intervals[k] = v;
+      }
+    }
+
+    for (const string &kernel : kernels) {
+      string suffix = "/" + fs::path(kernel).filename().string();
+      bool found = false;
+      for (auto &[k, v] : intervals.items()) {
+        if (k.ends_with(suffix)) {
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        SPDLOG_WARN("Could not find {} in any CK or SPK group", kernel);
+      }
+    }
+    return intervals;
+  }
+
 
   void InventoryImpl::write_database() { 
     fs::path db_root = getCacheDir(); 

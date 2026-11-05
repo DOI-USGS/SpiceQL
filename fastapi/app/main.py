@@ -663,7 +663,8 @@ async def searchForKernelsets(
     ckQualities: Annotated[CkQualitiesParam, Depends()],
     spkQualities: Annotated[SpkQualitiesParam, Depends()],
     commonParams: Annotated[CommonParams, Depends()],
-    overwrite: Annotated[OverwriteParam, Depends()]):
+    overwrite: Annotated[OverwriteParam, Depends()],
+    getIntervals: Annotated[GetIntervalsParam, Depends()]):
     try:
         logger.debug("Calling searchForKernelsets ....")
         result, kernels = pyspiceql.searchForKernelsets(
@@ -677,7 +678,22 @@ async def searchForKernelsets(
             commonParams.fullKernelPath,
             commonParams.limitCk,
             commonParams.limitSpk,
-            overwrite.value)
+            overwrite.value,
+            getIntervals.value)
+        body = ResultModel(result=result, kernels=kernels)
+        return ResponseModel(statusCode=200, body=body)
+    except Exception as e:
+        body = ErrorModel(error=str(e))
+        return ResponseModel(statusCode=500, body=body)
+
+
+@app.get("/getKernelIntervals")
+async def getKernelIntervals(
+    kernels: Annotated[KernelsParam, Depends()]):
+    try:
+        result, kernels = pyspiceql.getKernelIntervals(
+            kernels.value,
+            False)
         body = ResultModel(result=result, kernels=kernels)
         return ResponseModel(statusCode=200, body=body)
     except Exception as e:

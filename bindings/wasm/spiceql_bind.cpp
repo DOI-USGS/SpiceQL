@@ -459,7 +459,15 @@ val searchForKernelsets_w(const val &spiceqlNames, const val &opts) {
       optStrVec(opts, "spkQualities", kDefaultQualities),
       optBool(opts, "useWeb", false), optBool(opts, "fullKernelPath", false),
       optInt(opts, "limitCk", -1), optInt(opts, "limitSpk", 1),
-      optBool(opts, "overwrite", false));
+      optBool(opts, "overwrite", false), optBool(opts, "getIntervals", false));
+  return wrapPair(r);
+  });
+}
+
+val getKernelIntervals_w(const val &kernels, const val &opts) {
+  return guard([&]() -> val {
+  auto r = SpiceQL::getKernelIntervals(
+      valToStrVec(kernels), optBool(opts, "useWeb", false));
   return wrapPair(r);
   });
 }
@@ -591,6 +599,7 @@ EMSCRIPTEN_BINDINGS(spiceql) {
   emscripten::function("extractExactCkTimes", &extractExactCkTimes_w);
   emscripten::function("getExactTargetOrientations", &getExactTargetOrientations_w);
   emscripten::function("searchForKernelsets", &searchForKernelsets_w);
+  emscripten::function("getKernelIntervals", &getKernelIntervals_w);
 
   // Manual kernel-pool management.
   emscripten::function("load", &load_w);

@@ -59,7 +59,7 @@ def validate_params(init_func):
             
             # Check if variable names are possible list type
             if var_name in ['ckQualities', 'spkQualities', 'kernelList', 'spiceqlNames', 'types'] or \
-               any(sub in self.__class__.__name__.lower() for sub in ['ckqualities', 'spkqualities', 'spiceqlnames', 'types']):
+               any(sub in self.__class__.__name__.lower() for sub in ['ckqualities', 'spkqualities', 'spiceqlnames', 'types', 'kernelsparam']):
                 setattr(self, var_name, to_list(var_value))
             
             # Check if variable name is 'ets'
@@ -672,6 +672,42 @@ class ObservStartParam():
                 }
             )]):
         self.value = observStart
+
+
+class GetIntervalsParam():
+    @validate_params
+    def __init__(
+            self,
+            getIntervals: Annotated[bool, Query(
+                description="Whether to add the coverage intervals of found CKs and SPKs under the \"intervals\" key.",
+                openapi_examples={
+                    "default": {
+                        "summary": "Default",
+                        "value": False
+                    }
+                }
+            )] = False):
+        self.value = getIntervals
+
+
+class KernelsParam():
+    @validate_params
+    def __init__(
+            self,
+            kernels: Annotated[list[str], Query(
+                description="List of CKs and SPKs, as filenames, paths, or SpiceQL keys.",
+                openapi_examples={
+                    "empty": {
+                        "summary": "No kernels",
+                        "value": []
+                    },
+                    "tgo": {
+                        "summary": "TGO Example",
+                        "value": ["/tgo/ck/reconstructed/em16_tgo_sc_ssm_20250101_20250817_s20250731_v01.bc", "em16_tgo_fap_039_01_20160314_20170522_v01.bsp"]
+                    }
+                }
+            )] = []):
+        self.value = kernels
 
 
 class OverwriteParam():

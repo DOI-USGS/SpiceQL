@@ -410,3 +410,128 @@ TEST_F(LroKernelSet, TestInventoryIntervals) {
   // Segments aren't stored
   EXPECT_FALSE(file.exist(group + "segments_start"));
 }
+
+
+TEST_F(LroKernelSet, TestGetKernelIntervals) {
+  std::string soc_key = "/lroc/ck/reconstructed/soc31_1111111_1111111_v21.bc";
+  std::string lrolc_key = "/lroc/ck/reconstructed/lrolc_1111111_1111111_v11.bc";
+
+  // By filename, by SpiceQL key, and a kernel that isn't in the DB
+  auto [intervals, kernels] = getKernelIntervals({"soc31_1111111_1111111_v21.bc",
+                                                     lrolc_key,
+                                                     "not_a_kernel.bc"});
+  SPDLOG_DEBUG("Intervals: {}", intervals.dump());
+  EXPECT_TRUE(kernels.empty());
+
+  ASSERT_TRUE(intervals.contains(soc_key)) << intervals.dump();
+  ASSERT_TRUE(intervals.contains(lrolc_key)) << intervals.dump();
+  // A filename matches every group the kernel is in, a SpiceQL key only its own
+  EXPECT_TRUE(intervals.contains("/minirf/ck/reconstructed/soc31_1111111_1111111_v21.bc")) << intervals.dump();
+  EXPECT_FALSE(intervals.contains("/minirf/ck/reconstructed/lrolc_1111111_1111111_v11.bc")) << intervals.dump();
+  for (auto &[k, v] : intervals.items()) {
+    EXPECT_EQ(k.find("not_a_kernel"), std::string::npos) << k;
+  }
+
+  ASSERT_EQ(intervals[soc_key].size(), 1);
+  EXPECT_NEAR(intervals[soc_key][0]["start"].get<double>(), 110000000, 1e-3);
+  EXPECT_NEAR(intervals[soc_key][0]["stop"].get<double>(), 120000000, 1e-3);
+  EXPECT_EQ(intervals[soc_key][0]["body_code"], -85000);
+
+  ASSERT_EQ(intervals[lrolc_key].size(), 1);
+  EXPECT_NEAR(intervals[lrolc_key][0]["start"].get<double>(), 130000000, 1e-3);
+  EXPECT_NEAR(intervals[lrolc_key][0]["stop"].get<double>(), 140000000, 1e-3);
+
+  // A SpiceQL key only matches its own group
+  auto [wrong_group, _] = getKernelIntervals({"/lroc/ck/smithed/soc31_1111111_1111111_v21.bc"});
+  EXPECT_TRUE(wrong_group.empty()) << wrong_group.dump();
+
+  // A path to the kernel, as searchForKernelsets returns it
+  nlohmann::json found = Inventory::search_for_kernelset("lroc", {"ck"}, 110000000, 120000000, {"reconstructed"}, {"reconstructed"}, true);
+  ASSERT_EQ(found["ck"].size(), 1);
+  auto [by_path, __] = getKernelIntervals({found["ck"][0].get<std::string>()});
+  EXPECT_EQ(by_path[soc_key], intervals[soc_key]);
+
+  // Kernels in the DB that aren't CKs or SPKs are skipped
+  auto [not_timedep, ___] = getKernelIntervals({"lro_frames_1111111_v01.tf", "lro_instrumentAddendum_v11.ti"});
+  EXPECT_TRUE(not_timedep.empty()) << not_timedep.dump();
+}
+
+
+TEST_F(LroKernelSet, TestSearchForKernelsetsGetIntervals) {
+  // Off by default
+  auto [ret, kernels] = searchForKernelsets({"lroc"}, {"ck"}, 110000000, 140000000, {"reconstructed"}, {"reconstructed"});
+  EXPECT_FALSE(kernels.contains("intervals"));
+
+  auto [ret2, with_intervals] = searchForKernelsets({"lroc", "base"}, {"ck", "fk"}, 110000000, 140000000, {"reconstructed"}, {"reconstructed"},
+                                                    false, false, -1, 1, false, true);
+  SPDLOG_DEBUG("Kernels: {}", with_intervals.dump());
+  ASSERT_TRUE(with_intervals.contains("intervals"));
+  ASSERT_EQ(with_intervals["ck"].size(), 2);
+
+  // Same output as getKernelIntervals, one entry per CK found. By path the
+  // fixture CKs are also in minirf, so look them up by their lroc SpiceQL keys.
+  vector<string> cks;
+  for (auto &ck : with_intervals["ck"]) {
+    cks.push_back("/lroc/ck/reconstructed/" + fs::path(ck.get<string>()).filename().string());
+  }
+  auto [expected, _] = getKernelIntervals(cks);
+  EXPECT_EQ(with_intervals["intervals"], expected);
+  EXPECT_EQ(with_intervals["intervals"].size(), 2);
+
+  // Still loadable as a kernel set
+  KernelSet kset(with_intervals);
+}
+
+
+TEST_F(LroMocGapKernelSet, TestInventoryIntervalGap) {
+  Inventory::create_database();
+  auto filenames = [](nlohmann::json &kernels) {
+    vector<string> names;
+    for (auto &e : kernels) names.push_back(fs::path(e.get<string>()).filename());
+    return names;
+  };
+  auto has = [](const vector<string> &names, const string &name) {
+    return find(names.begin(), names.end(), name) != names.end();
+  };
+
+  // In the gap the smithed CK's start and stop times match but it has no
+  // data, so only the reconstructed CK is left and the quality reflects that
+  nlohmann::json gap = Inventory::search_for_kernelset("moc", {"ck", "spk"}, 114000000, 115000000,
+                                                       {"smithed", "reconstructed"}, {"smithed", "reconstructed"},
+                                                       false, -1, -1);
+  SPDLOG_DEBUG("Gap kernels: {}", gap.dump());
+  vector<string> cks = filenames(gap["ck"]);
+  EXPECT_EQ(cks, vector<string>{"moc42r_2222222_2222222_v01.bc"}) << gap.dump();
+  EXPECT_EQ(gap["moc_ck_quality"], "reconstructed");
+  vector<string> spks = filenames(gap["spk"]);
+  EXPECT_FALSE(has(spks, "LRONAC_SPole_LE_2013_spk.bsp")) << gap.dump();
+  EXPECT_TRUE(has(spks, "fdf29_2222222_2222222_n01.bsp")) << gap.dump();
+
+  // The SPK limit is taken from the kernels with data in the window
+  nlohmann::json limited = Inventory::search_for_kernelset("moc", {"spk"}, 114000000, 115000000,
+                                                           {"smithed", "reconstructed"}, {"smithed", "reconstructed"},
+                                                           false, -1, 1);
+  EXPECT_FALSE(has(filenames(limited["spk"]), "LRONAC_SPole_LE_2013_spk.bsp")) << limited.dump();
+
+  // Inside one of the intervals the smithed kernels are kept
+  nlohmann::json inside = Inventory::search_for_kernelset("moc", {"ck", "spk"}, 111000000, 111500000,
+                                                          {"smithed", "reconstructed"}, {"smithed", "reconstructed"},
+                                                          false, -1, -1);
+  EXPECT_TRUE(has(filenames(inside["ck"]), "LRONAC_SPole_LE_2013_ck.bc")) << inside.dump();
+  EXPECT_TRUE(has(filenames(inside["spk"]), "LRONAC_SPole_LE_2013_spk.bsp")) << inside.dump();
+
+  // A window spanning the gap overlaps both intervals, so they're kept too
+  nlohmann::json span = Inventory::search_for_kernelset("moc", {"ck", "spk"}, 111000000, 119000000,
+                                                        {"smithed", "reconstructed"}, {"smithed", "reconstructed"},
+                                                        false, -1, -1);
+  EXPECT_TRUE(has(filenames(span["ck"]), "LRONAC_SPole_LE_2013_ck.bc")) << span.dump();
+  EXPECT_TRUE(has(filenames(span["spk"]), "LRONAC_SPole_LE_2013_spk.bsp")) << span.dump();
+
+  // Intervals returned with the search are for the kernels left after the gap check
+  nlohmann::json with_intervals = Inventory::search_for_kernelset("moc", {"ck"}, 114000000, 115000000,
+                                                                  {"smithed", "reconstructed"}, {"smithed", "reconstructed"},
+                                                                  false, -1, -1, true);
+  ASSERT_TRUE(with_intervals.contains("intervals"));
+  EXPECT_EQ(with_intervals["intervals"].size(), 1) << with_intervals.dump();
+  EXPECT_TRUE(with_intervals["intervals"].contains("/moc/ck/reconstructed/moc42r_2222222_2222222_v01.bc"));
+}

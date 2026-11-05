@@ -103,6 +103,24 @@ class LroMocQualityKernelSet : public LroKernelSet  {
     void writeExtraKernels() override;
 };
 
+/**
+ * LroKernelSet plus moc kernels where the smithed tier has a gap.
+ *
+ * The reconstructed CK and SPK cover all of [110000000, 120000000]. The smithed
+ * CK and SPK cover [110000000, 112000000] and [118000000, 120000000], so their
+ * start and stop times match any window in the gap even though they have no
+ * data there, the same way LROC's pole kernels match equatorial images.
+ */
+class LroMocGapKernelSet : public LroKernelSet  {
+  protected:
+    string ckPathMocRecon;
+    string ckPathMocSmithed;
+    string spkPathMocRecon;
+    string spkPathMocSmithed;
+
+    void writeExtraKernels() override;
+};
+
 class KernelsWithQualities : public ::testing::Test  {
   protected:
     // Suite-scoped so the (expensive) database is generated once for all tests

@@ -539,6 +539,25 @@ def test_searchForKernelsets_returns_expected_kernels():
 
 
 # ---------------------------------------------------------------------------
+# getKernelIntervals
+# ---------------------------------------------------------------------------
+
+def test_getKernelIntervals_returns_expected_intervals():
+    expected_return = {
+        "/odyssey/ck/reconstructed/odyssey_sc_ext67.bc": [
+            {"start": 715662000.0, "stop": 715664000.0, "body_code": -53000},
+        ],
+    }
+    with patch("pyspiceql.getKernelIntervals", return_value=(expected_return, {})) as mock:
+        response = client.get("/getKernelIntervals", params={
+            "kernels": '["odyssey_sc_ext67.bc"]',
+        })
+    assert response.status_code == 200
+    assert response.json()["body"]["return"] == expected_return
+    assert mock.call_args.args[0] == ["odyssey_sc_ext67.bc"]
+
+
+# ---------------------------------------------------------------------------
 # CORS
 #
 # These assert the one thing a browser checks and nothing else in the stack can
