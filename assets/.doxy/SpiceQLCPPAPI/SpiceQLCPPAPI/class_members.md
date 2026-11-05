@@ -97,6 +97,8 @@
 * **getFrameList** ([**SpiceQL::InventoryImpl**](classSpiceQL_1_1InventoryImpl.md))
 * **getFrameName** ([**SpiceQL::InventoryImpl**](classSpiceQL_1_1InventoryImpl.md))
 * **getKey** ([**SpiceQL::InventoryImpl**](classSpiceQL_1_1InventoryImpl.md))
+* **get\_group\_intervals** ([**SpiceQL::InventoryImpl**](classSpiceQL_1_1InventoryImpl.md))
+* **get\_kernel\_intervals** ([**SpiceQL::InventoryImpl**](classSpiceQL_1_1InventoryImpl.md))
 * **getExt** ([**SpiceQL::Kernel**](classSpiceQL_1_1Kernel.md))
 * **GetNumActiveRequests** ([**restincurl::Client**](classrestincurl_1_1Client.md), [**restincurl::Worker**](classrestincurl_1_1Worker.md))
 * **GetEasyHandle** ([**restincurl::Request**](classrestincurl_1_1Request.md))
@@ -168,6 +170,7 @@
 
 * **load** ([**SpiceQL::AliasMap**](classSpiceQL_1_1AliasMap.md), [**SpiceQL::KernelSet**](classSpiceQL_1_1KernelSet.md))
 * **load\_internal** ([**SpiceQL::AliasMap**](classSpiceQL_1_1AliasMap.md))
+* **load\_group\_intervals** ([**SpiceQL::InventoryImpl**](classSpiceQL_1_1InventoryImpl.md))
 * **limitCk** ([**SpiceQL::QueryOpts**](structSpiceQL_1_1QueryOpts.md))
 * **limitSpk** ([**SpiceQL::QueryOpts**](structSpiceQL_1_1QueryOpts.md))
 * **lock** ([**restincurl::TlsLocker**](classrestincurl_1_1TlsLocker.md))

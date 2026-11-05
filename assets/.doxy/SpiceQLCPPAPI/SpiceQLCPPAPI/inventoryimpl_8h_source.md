@@ -83,10 +83,16 @@ namespace SpiceQL {
     int getFrameCode(std::string name);
     nlohmann::json search_for_kernelset(std::string spiceql_name, std::vector<Kernel::Type> types, double start_time=-std::numeric_limits<double>::max(), double stop_time=std::numeric_limits<double>::max(),
                                             std::vector<Kernel::Quality> ckQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, std::vector<Kernel::Quality> spkQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED},
-                                            bool full_kernel_path=false, int limit_ck=-1, int limit_spk=1);
+                                            bool full_kernel_path=false, int limit_ck=-1, int limit_spk=1, bool get_intervals=false);
     nlohmann::json search_for_kernelsets(std::vector<std::string> spiceql_names, std::vector<Kernel::Type> types, double start_time=-std::numeric_limits<double>::max(), double stop_time=std::numeric_limits<double>::max(),
                                             std::vector<Kernel::Quality> ckQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, std::vector<Kernel::Quality> spkQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED},
-                                            bool full_kernel_path=false, int limit_ck=-1, int limit_spk=1, bool overwrite=false);
+                                            bool full_kernel_path=false, int limit_ck=-1, int limit_spk=1, bool overwrite=false, bool get_intervals=false);
+
+    nlohmann::json get_group_intervals(std::string key, std::vector<std::string> kernels);
+
+    nlohmann::json get_kernel_intervals(std::vector<std::string> kernels);
+
+    bool load_group_intervals(const std::string &group_key, TimeIndexedKernels &time_indices, bool from_db);
     nlohmann::json m_json_inventory;
 
     std::map<std::string, std::vector<std::string>> m_nontimedep_kerns;

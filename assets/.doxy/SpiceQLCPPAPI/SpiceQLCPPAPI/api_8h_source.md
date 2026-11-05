@@ -285,7 +285,12 @@ namespace SpiceQL {
         bool fullKernelPath=false,
         int limitCk=-1, 
         int limitSpk=1, 
-        bool overwrite=false);
+        bool overwrite=false,
+        bool getIntervals=false);
+
+    std::pair<nlohmann::json, nlohmann::json> getKernelIntervals(
+        std::vector<std::string> kernels,
+        bool useWeb=false);
 
 #ifndef SWIG
     // Overloads taking a QueryOpts instead of the individual option params.

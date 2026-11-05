@@ -135,8 +135,11 @@
     <member refid="classSpiceQL_1_1InventoryImpl_1aa14c5cfa8b44e09c6afbe58482a3fe84" kind="function"><name>getFrameList</name></member>
     <member refid="classSpiceQL_1_1InventoryImpl_1a9c9ccd0b69cfbdef835fc0a908286dd9" kind="function"><name>getFrameName</name></member>
     <member refid="classSpiceQL_1_1InventoryImpl_1a8462c13732439314457583c847313d10" kind="function"><name>getFrameCode</name></member>
-    <member refid="classSpiceQL_1_1InventoryImpl_1ac24ecce09e10ec8cfd647750d2d98b4b" kind="function"><name>search_for_kernelset</name></member>
-    <member refid="classSpiceQL_1_1InventoryImpl_1a31ca958c1868cf9de65691516d49ec3c" kind="function"><name>search_for_kernelsets</name></member>
+    <member refid="classSpiceQL_1_1InventoryImpl_1a45c0782e939e92420a829c067316f6df" kind="function"><name>search_for_kernelset</name></member>
+    <member refid="classSpiceQL_1_1InventoryImpl_1ad2794472ed3dcdb11b48b156884caaeb" kind="function"><name>search_for_kernelsets</name></member>
+    <member refid="classSpiceQL_1_1InventoryImpl_1a10bcf75c1fa16a4cdd404fbc6ddb0e07" kind="function"><name>get_group_intervals</name></member>
+    <member refid="classSpiceQL_1_1InventoryImpl_1abd1de83426780735d971ca6aabe7f23f" kind="function"><name>get_kernel_intervals</name></member>
+    <member refid="classSpiceQL_1_1InventoryImpl_1a0789c0f1a12f23a653f8d3b1c86a18c6" kind="function"><name>load_group_intervals</name></member>
     <member refid="classSpiceQL_1_1InventoryImpl_1a7221cc6b2d2939b2d168b735210c6ff6" kind="function"><name>collectFrameInfo</name></member>
   </compound>
   <compound refid="classSpiceQL_1_1Kernel" kind="class"><name>SpiceQL::Kernel</name>
@@ -468,7 +471,8 @@
     <member refid="namespaceSpiceQL_1a46206d5ba8d51fe94962609648ad0071" kind="function"><name>frameTrace</name></member>
     <member refid="namespaceSpiceQL_1a473560f5e4520e4b8b33bc7868d4aa48" kind="function"><name>extractExactCkTimes</name></member>
     <member refid="namespaceSpiceQL_1a642bed2b185c1ab4918b7b2b590c8b92" kind="function"><name>getExactTargetOrientations</name></member>
-    <member refid="namespaceSpiceQL_1ad60e81fa1c117c04d6ca0f0be4ac9fae" kind="function"><name>searchForKernelsets</name></member>
+    <member refid="namespaceSpiceQL_1a731b8ee6a9ba7513349f2ebdf8f3a0bf" kind="function"><name>searchForKernelsets</name></member>
+    <member refid="namespaceSpiceQL_1a6c6a7e282c26bf5b8b8c94288e1c48c2" kind="function"><name>getKernelIntervals</name></member>
     <member refid="namespaceSpiceQL_1a3015b5bb3c10dc25e1fe2818f3f232bd" kind="function"><name>getTargetStates</name></member>
     <member refid="namespaceSpiceQL_1a378b2148cd600f7aa90649202221dae2" kind="function"><name>getTargetStatesRanged</name></member>
     <member refid="namespaceSpiceQL_1a01d27e66953ac68e208e30d7351b6ffe" kind="function"><name>getTargetOrientations</name></member>
@@ -575,9 +579,10 @@
     <member refid="daf__reader_8h_1a339de2b38e09fc02b286c8a37fa7130c" kind="function"><name>walkInterpolationIntervals</name></member>
   </compound>
   <compound refid="namespaceSpiceQL_1_1Inventory" kind="namespace"><name>SpiceQL::Inventory</name>
-    <member refid="inventory_8h_1ac6270a0bb41f6cc4aa3ee02400598580" kind="function"><name>search_for_kernelset</name></member>
-    <member refid="inventory_8h_1a22fe21916e2f0cdc0da5b13ab89dafae" kind="function"><name>search_for_kernelsets</name></member>
+    <member refid="inventory_8h_1aa03a0823baa55a76f98e81d8312ffb6b" kind="function"><name>search_for_kernelset</name></member>
+    <member refid="inventory_8h_1a19d5e8ac72ff2389f2940701b15f05a2" kind="function"><name>search_for_kernelsets</name></member>
     <member refid="inventory_8h_1ae3b6d543679cf850c74404b3b818fd94" kind="function"><name>search_for_kernelset_from_regex</name></member>
+    <member refid="inventory_8h_1ace257df362c3ae36cc27108176257b80" kind="function"><name>get_kernel_intervals</name></member>
     <member refid="inventory_8h_1af8b012cf96f359e1e4fbe57893fdac69" kind="function"><name>getDbFilePath</name></member>
     <member refid="inventory_8h_1a7dc2e06061f3cabc3ed32702dcb84e6f" kind="function"><name>setDbFilePath</name></member>
     <member refid="inventory_8h_1a6b4bcce50e0c08e6580d9570edcfb30e" kind="function"><name>create_database</name></member>

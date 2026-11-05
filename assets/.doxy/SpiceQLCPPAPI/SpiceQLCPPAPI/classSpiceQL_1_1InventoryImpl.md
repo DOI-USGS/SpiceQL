@@ -67,8 +67,11 @@
 |  std::vector&lt; std::string &gt; | [**getFrameList**](#function-getframelist) () <br>_Returns the cached list of frame/config names._  |
 |  std::string | [**getFrameName**](#function-getframename) (int code) <br>_Resolve a frame/body code to its name using the cached map._  |
 |  T | [**getKey**](#function-getkey) (std::string key) <br> |
-|  nlohmann::json | [**search\_for\_kernelset**](#function-search_for_kernelset) (std::string spiceql\_name, std::vector&lt; [**Kernel::Type**](classSpiceQL_1_1Kernel.md#enum-type) &gt; types, double start\_time=-std::numeric\_limits&lt; double &gt;::max(), double stop\_time=std::numeric\_limits&lt; double &gt;::max(), std::vector&lt; [**Kernel::Quality**](classSpiceQL_1_1Kernel.md#enum-quality) &gt; ckQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, std::vector&lt; [**Kernel::Quality**](classSpiceQL_1_1Kernel.md#enum-quality) &gt; spkQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, bool full\_kernel\_path=false, int limit\_ck=-1, int limit\_spk=1) <br> |
-|  nlohmann::json | [**search\_for\_kernelsets**](#function-search_for_kernelsets) (std::vector&lt; std::string &gt; spiceql\_names, std::vector&lt; [**Kernel::Type**](classSpiceQL_1_1Kernel.md#enum-type) &gt; types, double start\_time=-std::numeric\_limits&lt; double &gt;::max(), double stop\_time=std::numeric\_limits&lt; double &gt;::max(), std::vector&lt; [**Kernel::Quality**](classSpiceQL_1_1Kernel.md#enum-quality) &gt; ckQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, std::vector&lt; [**Kernel::Quality**](classSpiceQL_1_1Kernel.md#enum-quality) &gt; spkQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, bool full\_kernel\_path=false, int limit\_ck=-1, int limit\_spk=1, bool overwrite=false) <br> |
+|  nlohmann::json | [**get\_group\_intervals**](#function-get_group_intervals) (std::string key, std::vector&lt; std::string &gt; kernels) <br>_Get the coverage intervals of kernels in one CK or SPK group._  |
+|  nlohmann::json | [**get\_kernel\_intervals**](#function-get_kernel_intervals) (std::vector&lt; std::string &gt; kernels) <br>_Get the coverage intervals of kernels from any CK or SPK group._  |
+|  bool | [**load\_group\_intervals**](#function-load_group_intervals) (const std::string & group\_key, [**TimeIndexedKernels**](classSpiceQL_1_1TimeIndexedKernels.md) & time\_indices, bool from\_db) <br>_Makes sure a group's interval rows are usable, reading them from the DB if from\_db is set._  |
+|  nlohmann::json | [**search\_for\_kernelset**](#function-search_for_kernelset) (std::string spiceql\_name, std::vector&lt; [**Kernel::Type**](classSpiceQL_1_1Kernel.md#enum-type) &gt; types, double start\_time=-std::numeric\_limits&lt; double &gt;::max(), double stop\_time=std::numeric\_limits&lt; double &gt;::max(), std::vector&lt; [**Kernel::Quality**](classSpiceQL_1_1Kernel.md#enum-quality) &gt; ckQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, std::vector&lt; [**Kernel::Quality**](classSpiceQL_1_1Kernel.md#enum-quality) &gt; spkQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, bool full\_kernel\_path=false, int limit\_ck=-1, int limit\_spk=1, bool get\_intervals=false) <br> |
+|  nlohmann::json | [**search\_for\_kernelsets**](#function-search_for_kernelsets) (std::vector&lt; std::string &gt; spiceql\_names, std::vector&lt; [**Kernel::Type**](classSpiceQL_1_1Kernel.md#enum-type) &gt; types, double start\_time=-std::numeric\_limits&lt; double &gt;::max(), double stop\_time=std::numeric\_limits&lt; double &gt;::max(), std::vector&lt; [**Kernel::Quality**](classSpiceQL_1_1Kernel.md#enum-quality) &gt; ckQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, std::vector&lt; [**Kernel::Quality**](classSpiceQL_1_1Kernel.md#enum-quality) &gt; spkQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, bool full\_kernel\_path=false, int limit\_ck=-1, int limit\_spk=1, bool overwrite=false, bool get\_intervals=false) <br> |
 |  void | [**write\_database**](#function-write_database) () <br> |
 
 
@@ -300,6 +303,121 @@ T SpiceQL::InventoryImpl::getKey (
 
 
 
+### function get\_group\_intervals 
+
+_Get the coverage intervals of kernels in one CK or SPK group._ 
+```C++
+nlohmann::json SpiceQL::InventoryImpl::get_group_intervals (
+    std::string key,
+    std::vector< std::string > kernels
+) 
+```
+
+
+
+Used when the group is already known, e.g. by search\_for\_kernelset. To search every group, use get\_kernel\_intervals.
+
+
+A kernel can be named by its bare filename, its path relative to the data dir (or a full path ending in it), or its [**SpiceQL**](namespaceSpiceQL.md) key (/&lt;mission&gt;/&lt;type&gt;/&lt;quality&gt;/&lt;filename&gt;). Kernels not in the group are skipped.
+
+
+
+
+**Parameters:**
+
+
+* `key` the group, as &lt;mission&gt;/&lt;type&gt;/&lt;quality&gt;/ 
+* `kernels` the kernels to get intervals for 
+
+
+
+**Returns:**
+
+json object of [**SpiceQL**](namespaceSpiceQL.md) key to an array of {"start", "stop", "body\_code"} intervals 
+
+
+
+
+
+        
+
+<hr>
+
+
+
+### function get\_kernel\_intervals 
+
+_Get the coverage intervals of kernels from any CK or SPK group._ 
+```C++
+nlohmann::json SpiceQL::InventoryImpl::get_kernel_intervals (
+    std::vector< std::string > kernels
+) 
+```
+
+
+
+Calls get\_group\_intervals on every time dependent group in the DB, so a kernel in more than one group gets an entry for each.
+
+
+
+
+**Parameters:**
+
+
+* `kernels` the kernels to get intervals for 
+
+
+
+**Returns:**
+
+json object of [**SpiceQL**](namespaceSpiceQL.md) key to an array of intervals 
+
+
+
+
+
+        
+
+<hr>
+
+
+
+### function load\_group\_intervals 
+
+_Makes sure a group's interval rows are usable, reading them from the DB if from\_db is set._ 
+```C++
+bool SpiceQL::InventoryImpl::load_group_intervals (
+    const std::string & group_key,
+    TimeIndexedKernels & time_indices,
+    bool from_db
+) 
+```
+
+
+
+
+
+**Parameters:**
+
+
+* `group_key` the group's full DB key, spice/&lt;mission&gt;/&lt;type&gt;/&lt;quality&gt;/ 
+
+
+
+**Returns:**
+
+false if the group has no interval rows (e.g. a DB built before intervals were stored) or the datasets don't line up 
+
+
+
+
+
+        
+
+<hr>
+
+
+
 ### function search\_for\_kernelset 
 
 ```C++
@@ -312,7 +430,8 @@ nlohmann::json SpiceQL::InventoryImpl::search_for_kernelset (
     std::vector< Kernel::Quality > spkQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED},
     bool full_kernel_path=false,
     int limit_ck=-1,
-    int limit_spk=1
+    int limit_spk=1,
+    bool get_intervals=false
 ) 
 ```
 
@@ -336,7 +455,8 @@ nlohmann::json SpiceQL::InventoryImpl::search_for_kernelsets (
     bool full_kernel_path=false,
     int limit_ck=-1,
     int limit_spk=1,
-    bool overwrite=false
+    bool overwrite=false,
+    bool get_intervals=false
 ) 
 ```
 

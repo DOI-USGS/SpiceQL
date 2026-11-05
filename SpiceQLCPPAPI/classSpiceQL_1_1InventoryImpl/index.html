@@ -805,6 +805,39 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#function-get_group_intervals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function get_group_intervals
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-get_kernel_intervals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function get_kernel_intervals
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-load_group_intervals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function load_group_intervals
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#function-search_for_kernelset" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -939,11 +972,23 @@
 </tr>
 <tr>
 <td style="text-align: right;">nlohmann::json</td>
-<td style="text-align: left;"><a href="#function-search_for_kernelset"><strong>search_for_kernelset</strong></a> (std::string spiceql_name, std::vector&lt; <a href="../classSpiceQL_1_1Kernel/#enum-type"><strong>Kernel::Type</strong></a> &gt; types, double start_time=-std::numeric_limits&lt; double &gt;::max(), double stop_time=std::numeric_limits&lt; double &gt;::max(), std::vector&lt; <a href="../classSpiceQL_1_1Kernel/#enum-quality"><strong>Kernel::Quality</strong></a> &gt; ckQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, std::vector&lt; <a href="../classSpiceQL_1_1Kernel/#enum-quality"><strong>Kernel::Quality</strong></a> &gt; spkQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, bool full_kernel_path=false, int limit_ck=-1, int limit_spk=1) <br></td>
+<td style="text-align: left;"><a href="#function-get_group_intervals"><strong>get_group_intervals</strong></a> (std::string key, std::vector&lt; std::string &gt; kernels) <br><em>Get the coverage intervals of kernels in one CK or SPK group.</em></td>
 </tr>
 <tr>
 <td style="text-align: right;">nlohmann::json</td>
-<td style="text-align: left;"><a href="#function-search_for_kernelsets"><strong>search_for_kernelsets</strong></a> (std::vector&lt; std::string &gt; spiceql_names, std::vector&lt; <a href="../classSpiceQL_1_1Kernel/#enum-type"><strong>Kernel::Type</strong></a> &gt; types, double start_time=-std::numeric_limits&lt; double &gt;::max(), double stop_time=std::numeric_limits&lt; double &gt;::max(), std::vector&lt; <a href="../classSpiceQL_1_1Kernel/#enum-quality"><strong>Kernel::Quality</strong></a> &gt; ckQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, std::vector&lt; <a href="../classSpiceQL_1_1Kernel/#enum-quality"><strong>Kernel::Quality</strong></a> &gt; spkQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, bool full_kernel_path=false, int limit_ck=-1, int limit_spk=1, bool overwrite=false) <br></td>
+<td style="text-align: left;"><a href="#function-get_kernel_intervals"><strong>get_kernel_intervals</strong></a> (std::vector&lt; std::string &gt; kernels) <br><em>Get the coverage intervals of kernels from any CK or SPK group.</em></td>
+</tr>
+<tr>
+<td style="text-align: right;">bool</td>
+<td style="text-align: left;"><a href="#function-load_group_intervals"><strong>load_group_intervals</strong></a> (const std::string &amp; group_key, <a href="../classSpiceQL_1_1TimeIndexedKernels/"><strong>TimeIndexedKernels</strong></a> &amp; time_indices, bool from_db) <br><em>Makes sure a group's interval rows are usable, reading them from the DB if from_db is set.</em></td>
+</tr>
+<tr>
+<td style="text-align: right;">nlohmann::json</td>
+<td style="text-align: left;"><a href="#function-search_for_kernelset"><strong>search_for_kernelset</strong></a> (std::string spiceql_name, std::vector&lt; <a href="../classSpiceQL_1_1Kernel/#enum-type"><strong>Kernel::Type</strong></a> &gt; types, double start_time=-std::numeric_limits&lt; double &gt;::max(), double stop_time=std::numeric_limits&lt; double &gt;::max(), std::vector&lt; <a href="../classSpiceQL_1_1Kernel/#enum-quality"><strong>Kernel::Quality</strong></a> &gt; ckQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, std::vector&lt; <a href="../classSpiceQL_1_1Kernel/#enum-quality"><strong>Kernel::Quality</strong></a> &gt; spkQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, bool full_kernel_path=false, int limit_ck=-1, int limit_spk=1, bool get_intervals=false) <br></td>
+</tr>
+<tr>
+<td style="text-align: right;">nlohmann::json</td>
+<td style="text-align: left;"><a href="#function-search_for_kernelsets"><strong>search_for_kernelsets</strong></a> (std::vector&lt; std::string &gt; spiceql_names, std::vector&lt; <a href="../classSpiceQL_1_1Kernel/#enum-type"><strong>Kernel::Type</strong></a> &gt; types, double start_time=-std::numeric_limits&lt; double &gt;::max(), double stop_time=std::numeric_limits&lt; double &gt;::max(), std::vector&lt; <a href="../classSpiceQL_1_1Kernel/#enum-quality"><strong>Kernel::Quality</strong></a> &gt; ckQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, std::vector&lt; <a href="../classSpiceQL_1_1Kernel/#enum-quality"><strong>Kernel::Quality</strong></a> &gt; spkQualities={Kernel::Quality::SMITHED, Kernel::Quality::RECONSTRUCTED}, bool full_kernel_path=false, int limit_ck=-1, int limit_spk=1, bool overwrite=false, bool get_intervals=false) <br></td>
 </tr>
 <tr>
 <td style="text-align: right;">void</td>
@@ -1030,39 +1075,90 @@
 </code></pre></div>
 <hr>
 
+<h3 id="function-get_group_intervals">function get_group_intervals</h3>
+<p><em>Get the coverage intervals of kernels in one CK or SPK group.</em> 
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">nlohmann</span><span class="o">::</span><span class="n">json</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">InventoryImpl</span><span class="o">::</span><span class="n">get_group_intervals</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">key</span><span class="p">,</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">kernels</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div></p>
+<p>Used when the group is already known, e.g. by search_for_kernelset. To search every group, use get_kernel_intervals.</p>
+<p>A kernel can be named by its bare filename, its path relative to the data dir (or a full path ending in it), or its <a href="../namespaceSpiceQL/"><strong>SpiceQL</strong></a> key (/&lt;mission&gt;/&lt;type&gt;/&lt;quality&gt;/&lt;filename&gt;). Kernels not in the group are skipped.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>key</code> the group, as &lt;mission&gt;/&lt;type&gt;/&lt;quality&gt;/ </li>
+<li><code>kernels</code> the kernels to get intervals for </li>
+</ul>
+<p><strong>Returns:</strong></p>
+<p>json object of <a href="../namespaceSpiceQL/"><strong>SpiceQL</strong></a> key to an array of {"start", "stop", "body_code"} intervals </p>
+<hr>
+
+<h3 id="function-get_kernel_intervals">function get_kernel_intervals</h3>
+<p><em>Get the coverage intervals of kernels from any CK or SPK group.</em> 
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">nlohmann</span><span class="o">::</span><span class="n">json</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">InventoryImpl</span><span class="o">::</span><span class="n">get_kernel_intervals</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">kernels</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div></p>
+<p>Calls get_group_intervals on every time dependent group in the DB, so a kernel in more than one group gets an entry for each.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>kernels</code> the kernels to get intervals for </li>
+</ul>
+<p><strong>Returns:</strong></p>
+<p>json object of <a href="../namespaceSpiceQL/"><strong>SpiceQL</strong></a> key to an array of intervals </p>
+<hr>
+
+<h3 id="function-load_group_intervals">function load_group_intervals</h3>
+<p><em>Makes sure a group's interval rows are usable, reading them from the DB if from_db is set.</em> 
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kt">bool</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">InventoryImpl</span><span class="o">::</span><span class="n">load_group_intervals</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">group_key</span><span class="p">,</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="n">TimeIndexedKernels</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">time_indices</span><span class="p">,</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">from_db</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="p">)</span><span class="w"> </span>
+</code></pre></div></p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>group_key</code> the group's full DB key, spice/&lt;mission&gt;/&lt;type&gt;/&lt;quality&gt;/ </li>
+</ul>
+<p><strong>Returns:</strong></p>
+<p>false if the group has no interval rows (e.g. a DB built before intervals were stored) or the datasets don't line up </p>
+<hr>
+
 <h3 id="function-search_for_kernelset">function search_for_kernelset</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">nlohmann</span><span class="o">::</span><span class="n">json</span><span class="w"> </span><span class="nf">SpiceQL::InventoryImpl::search_for_kernelset</span><span class="w"> </span><span class="p">(</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">spiceql_name</span><span class="p">,</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Kernel</span><span class="o">::</span><span class="n">Type</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">types</span><span class="p">,</span>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">start_time</span><span class="o">=-</span><span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="o">&gt;::</span><span class="n">max</span><span class="p">(),</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">stop_time</span><span class="o">=</span><span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="o">&gt;::</span><span class="n">max</span><span class="p">(),</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">ckQualities</span><span class="o">=</span><span class="p">{</span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="o">::</span><span class="n">SMITHED</span><span class="p">,</span><span class="w"> </span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="o">::</span><span class="n">RECONSTRUCTED</span><span class="p">},</span>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">spkQualities</span><span class="o">=</span><span class="p">{</span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="o">::</span><span class="n">SMITHED</span><span class="p">,</span><span class="w"> </span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="o">::</span><span class="n">RECONSTRUCTED</span><span class="p">},</span>
-<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">full_kernel_path</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span>
-<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">limit_ck</span><span class="o">=</span><span class="mi">-1</span><span class="p">,</span>
-<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">limit_spk</span><span class="o">=</span><span class="mi">1</span>
-<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="p">)</span><span class="w"> </span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">nlohmann</span><span class="o">::</span><span class="n">json</span><span class="w"> </span><span class="nf">SpiceQL::InventoryImpl::search_for_kernelset</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">spiceql_name</span><span class="p">,</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Kernel</span><span class="o">::</span><span class="n">Type</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">types</span><span class="p">,</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">start_time</span><span class="o">=-</span><span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="o">&gt;::</span><span class="n">max</span><span class="p">(),</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">stop_time</span><span class="o">=</span><span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="o">&gt;::</span><span class="n">max</span><span class="p">(),</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">ckQualities</span><span class="o">=</span><span class="p">{</span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="o">::</span><span class="n">SMITHED</span><span class="p">,</span><span class="w"> </span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="o">::</span><span class="n">RECONSTRUCTED</span><span class="p">},</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">spkQualities</span><span class="o">=</span><span class="p">{</span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="o">::</span><span class="n">SMITHED</span><span class="p">,</span><span class="w"> </span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="o">::</span><span class="n">RECONSTRUCTED</span><span class="p">},</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">full_kernel_path</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">limit_ck</span><span class="o">=</span><span class="mi">-1</span><span class="p">,</span>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">limit_spk</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">get_intervals</span><span class="o">=</span><span class="nb">false</span>
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="p">)</span><span class="w"> </span>
 </code></pre></div>
 <hr>
 
 <h3 id="function-search_for_kernelsets">function search_for_kernelsets</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">nlohmann</span><span class="o">::</span><span class="n">json</span><span class="w"> </span><span class="nf">SpiceQL::InventoryImpl::search_for_kernelsets</span><span class="w"> </span><span class="p">(</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">spiceql_names</span><span class="p">,</span>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Kernel</span><span class="o">::</span><span class="n">Type</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">types</span><span class="p">,</span>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">start_time</span><span class="o">=-</span><span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="o">&gt;::</span><span class="n">max</span><span class="p">(),</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">stop_time</span><span class="o">=</span><span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="o">&gt;::</span><span class="n">max</span><span class="p">(),</span>
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">ckQualities</span><span class="o">=</span><span class="p">{</span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="o">::</span><span class="n">SMITHED</span><span class="p">,</span><span class="w"> </span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="o">::</span><span class="n">RECONSTRUCTED</span><span class="p">},</span>
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">spkQualities</span><span class="o">=</span><span class="p">{</span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="o">::</span><span class="n">SMITHED</span><span class="p">,</span><span class="w"> </span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="o">::</span><span class="n">RECONSTRUCTED</span><span class="p">},</span>
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">full_kernel_path</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span>
-<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">limit_ck</span><span class="o">=</span><span class="mi">-1</span><span class="p">,</span>
-<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">limit_spk</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">overwrite</span><span class="o">=</span><span class="nb">false</span>
-<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="p">)</span><span class="w"> </span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">nlohmann</span><span class="o">::</span><span class="n">json</span><span class="w"> </span><span class="nf">SpiceQL::InventoryImpl::search_for_kernelsets</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">spiceql_names</span><span class="p">,</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Kernel</span><span class="o">::</span><span class="n">Type</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">types</span><span class="p">,</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">start_time</span><span class="o">=-</span><span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="o">&gt;::</span><span class="n">max</span><span class="p">(),</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">stop_time</span><span class="o">=</span><span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="o">&gt;::</span><span class="n">max</span><span class="p">(),</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">ckQualities</span><span class="o">=</span><span class="p">{</span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="o">::</span><span class="n">SMITHED</span><span class="p">,</span><span class="w"> </span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="o">::</span><span class="n">RECONSTRUCTED</span><span class="p">},</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">spkQualities</span><span class="o">=</span><span class="p">{</span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="o">::</span><span class="n">SMITHED</span><span class="p">,</span><span class="w"> </span><span class="n">Kernel</span><span class="o">::</span><span class="n">Quality</span><span class="o">::</span><span class="n">RECONSTRUCTED</span><span class="p">},</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">full_kernel_path</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">limit_ck</span><span class="o">=</span><span class="mi">-1</span><span class="p">,</span>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">limit_spk</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">overwrite</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">get_intervals</span><span class="o">=</span><span class="nb">false</span>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="p">)</span><span class="w"> </span>
 </code></pre></div>
 <hr>
 
 <h3 id="function-write_database">function write_database</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">InventoryImpl</span><span class="o">::</span><span class="n">write_database</span><span class="w"> </span><span class="p">()</span><span class="w"> </span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">SpiceQL</span><span class="o">::</span><span class="n">InventoryImpl</span><span class="o">::</span><span class="n">write_database</span><span class="w"> </span><span class="p">()</span><span class="w"> </span>
 </code></pre></div>
 <hr>
 

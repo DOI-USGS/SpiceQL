@@ -56,9 +56,10 @@
 |  int | [**getFrameCodeFromCache**](#function-getframecodefromcache) (std::string name) <br>_Resolve a frame/body name to its code using the cached map._  |
 |  std::vector&lt; std::string &gt; | [**getFrameList**](#function-getframelist) () <br>_Get the cached list of frame/config names from the database._  |
 |  std::string | [**getFrameNameFromCache**](#function-getframenamefromcache) (int code) <br>_Resolve a frame/body code to its name using the cached map._  |
-|  nlohmann::json | [**search\_for\_kernelset**](#function-search_for_kernelset) (std::string spiceql\_name, std::vector&lt; std::string &gt; types=KERNEL\_TYPES, double start\_time=-std::numeric\_limits&lt; double &gt;::max(), double stop\_time=std::numeric\_limits&lt; double &gt;::max(), std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, std::vector&lt; std::string &gt; spkQualities={"smithed", "reconstructed"}, bool full\_kernel\_path=false, int limit\_ck=-1, int limit\_spk=1) <br> |
+|  nlohmann::json | [**get\_kernel\_intervals**](#function-get_kernel_intervals) (std::vector&lt; std::string &gt; kernels) <br>_Get the coverage intervals of CKs and SPKs from the database._  |
+|  nlohmann::json | [**search\_for\_kernelset**](#function-search_for_kernelset) (std::string spiceql\_name, std::vector&lt; std::string &gt; types=KERNEL\_TYPES, double start\_time=-std::numeric\_limits&lt; double &gt;::max(), double stop\_time=std::numeric\_limits&lt; double &gt;::max(), std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, std::vector&lt; std::string &gt; spkQualities={"smithed", "reconstructed"}, bool full\_kernel\_path=false, int limit\_ck=-1, int limit\_spk=1, bool get\_intervals=false) <br> |
 |  nlohmann::json | [**search\_for\_kernelset\_from\_regex**](#function-search_for_kernelset_from_regex) (std::vector&lt; std::string &gt; list, bool full\_kernel\_path=false) <br> |
-|  nlohmann::json | [**search\_for\_kernelsets**](#function-search_for_kernelsets) (std::vector&lt; std::string &gt; spiceql\_names, std::vector&lt; std::string &gt; types=KERNEL\_TYPES, double start\_time=-std::numeric\_limits&lt; double &gt;::max(), double stop\_time=std::numeric\_limits&lt; double &gt;::max(), std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, std::vector&lt; std::string &gt; spkQualities={"smithed", "reconstructed"}, bool full\_kernel\_path=false, int limit\_ck=-1, int limit\_spk=1, bool overwrite=false) <br> |
+|  nlohmann::json | [**search\_for\_kernelsets**](#function-search_for_kernelsets) (std::vector&lt; std::string &gt; spiceql\_names, std::vector&lt; std::string &gt; types=KERNEL\_TYPES, double start\_time=-std::numeric\_limits&lt; double &gt;::max(), double stop\_time=std::numeric\_limits&lt; double &gt;::max(), std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, std::vector&lt; std::string &gt; spkQualities={"smithed", "reconstructed"}, bool full\_kernel\_path=false, int limit\_ck=-1, int limit\_spk=1, bool overwrite=false, bool get\_intervals=false) <br> |
 |  void | [**setDbFilePath**](#function-setdbfilepath) (std::string db\_file\_path, bool override=false) <br> |
 
 
@@ -217,6 +218,43 @@ the name, or "" if not in the cache
 
 
 
+### function get\_kernel\_intervals 
+
+_Get the coverage intervals of CKs and SPKs from the database._ 
+```C++
+nlohmann::json SpiceQL::Inventory::get_kernel_intervals (
+    std::vector< std::string > kernels
+) 
+```
+
+
+
+A kernel can be named by its bare filename, its path relative to the data dir (or a full path ending in it), or its [**SpiceQL**](namespaceSpiceQL.md) key (/&lt;mission&gt;/&lt;type&gt;/&lt;quality&gt;/&lt;filename&gt;).
+
+
+
+
+**Parameters:**
+
+
+* `kernels` the kernels to get intervals for 
+
+
+
+**Returns:**
+
+json object of [**SpiceQL**](namespaceSpiceQL.md) key to an array of {"start", "stop", "body\_code"} 
+
+
+
+
+
+        
+
+<hr>
+
+
+
 ### function search\_for\_kernelset 
 
 ```C++
@@ -229,7 +267,8 @@ nlohmann::json SpiceQL::Inventory::search_for_kernelset (
     std::vector< std::string > spkQualities={"smithed", "reconstructed"},
     bool full_kernel_path=false,
     int limit_ck=-1,
-    int limit_spk=1
+    int limit_spk=1,
+    bool get_intervals=false
 ) 
 ```
 
@@ -269,7 +308,8 @@ nlohmann::json SpiceQL::Inventory::search_for_kernelsets (
     bool full_kernel_path=false,
     int limit_ck=-1,
     int limit_spk=1,
-    bool overwrite=false
+    bool overwrite=false,
+    bool get_intervals=false
 ) 
 ```
 

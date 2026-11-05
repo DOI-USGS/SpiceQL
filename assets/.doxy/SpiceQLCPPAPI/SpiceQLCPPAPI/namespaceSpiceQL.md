@@ -138,6 +138,7 @@
 |  std::pair&lt; std::vector&lt; int &gt;, nlohmann::json &gt; | [**getFrameInfo**](#function-getframeinfo) (int frame, std::string mission="", [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) options={}) <br>_Overload of_ [_**getFrameInfo()**_](namespaceSpiceQL.md#function-getframeinfo) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._ |
 |  std::string | [**getHdfFile**](#function-gethdffile) () <br> |
 |  [**KernelCoverage**](structSpiceQL_1_1KernelCoverage.md) | [**getKernelCoverage**](#function-getkernelcoverage) (std::string kpath) <br>_Get the coverage intervals of a kernel._  |
+|  std::pair&lt; nlohmann::json, nlohmann::json &gt; | [**getKernelIntervals**](#function-getkernelintervals) (std::vector&lt; std::string &gt; kernels, bool useWeb=false) <br>_Returns the coverage intervals of CKs and SPKs._  |
 |  std::pair&lt; double, double &gt; | [**getKernelStartStopTimes**](#function-getkernelstartstoptimes) (std::string kpath) <br> |
 |  std::string | [**getKernelStringValue**](#function-getkernelstringvalue) (std::string key) <br>_return's kernel value from key_  |
 |  std::string | [**getKernelType**](#function-getkerneltype) (std::string kernelPath) <br>_get the_ [_**Kernel**_](classSpiceQL_1_1Kernel.md) _type (CK, SPK, etc.)_ |
@@ -193,7 +194,7 @@
 |  LogLevel | [**parseLogLevel**](#function-parseloglevel) (const std::string & s) <br> |
 |  std::string | [**replaceAll**](#function-replaceall) (std::string str, const std::string & from, const std::string & to) <br>_find and replace one substring with another_  |
 |  void | [**resolveConfigDependencies**](#function-resolveconfigdependencies) (nlohmann::json & config, const nlohmann::json & dependencies) <br>_resolve the dependencies in a config in place_  |
-|  std::pair&lt; std::string, nlohmann::json &gt; | [**searchForKernelsets**](#function-searchforkernelsets) (std::vector&lt; std::string &gt; spiceqlNames, std::vector&lt; std::string &gt; types={"ck", "spk", "tspk", "lsk", "mk", "sclk", "iak", "ik", "fk", "dsk", "pck", "ek"}, double startTime=-std::numeric\_limits&lt; double &gt;::max(), double stopTime=std::numeric\_limits&lt; double &gt;::max(), std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, std::vector&lt; std::string &gt; spkQualities={"smithed", "reconstructed"}, bool useWeb=false, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, bool overwrite=false) <br>_Searches for kernels given mission(s) and parameters._  |
+|  std::pair&lt; std::string, nlohmann::json &gt; | [**searchForKernelsets**](#function-searchforkernelsets) (std::vector&lt; std::string &gt; spiceqlNames, std::vector&lt; std::string &gt; types={"ck", "spk", "tspk", "lsk", "mk", "sclk", "iak", "ik", "fk", "dsk", "pck", "ek"}, double startTime=-std::numeric\_limits&lt; double &gt;::max(), double stopTime=std::numeric\_limits&lt; double &gt;::max(), std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, std::vector&lt; std::string &gt; spkQualities={"smithed", "reconstructed"}, bool useWeb=false, bool fullKernelPath=false, int limitCk=-1, int limitSpk=1, bool overwrite=false, bool getIntervals=false) <br>_Searches for kernels given mission(s) and parameters._  |
 |  std::pair&lt; std::string, nlohmann::json &gt; | [**searchForKernelsets**](#function-searchforkernelsets) (std::vector&lt; std::string &gt; spiceqlNames, std::vector&lt; std::string &gt; types={"ck", "spk", "tspk", "lsk", "mk", "sclk", "iak", "ik", "fk", "dsk", "pck", "ek"}, double startTime=-std::numeric\_limits&lt; double &gt;::max(), double stopTime=std::numeric\_limits&lt; double &gt;::max(), std::vector&lt; std::string &gt; ckQualities={"smithed", "reconstructed"}, std::vector&lt; std::string &gt; spkQualities={"smithed", "reconstructed"}, [**QueryOpts**](structSpiceQL_1_1QueryOpts.md) options={}, bool overwrite=false) <br>_Overload of_ [_**searchForKernelsets()**_](namespaceSpiceQL.md#function-searchforkernelsets) _that takes the common optional parameters as a_[_**QueryOpts**_](structSpiceQL_1_1QueryOpts.md) _._ |
 |  void | [**setAliasMap**](#function-setaliasmap) (const nlohmann::json & newAliasMap) <br>_Setter for the aliasMap._  |
 |  void | [**setCacheDir**](#function-setcachedir) (std::string cache\_dir, bool override=false) <br> |
@@ -1907,6 +1908,48 @@ CK times are encoded SCLK, so the kernel's SCLK and an LSK must already be furni
 **Returns:**
 
 the kernel's intervals 
+
+
+
+
+
+        
+
+<hr>
+
+
+
+### function getKernelIntervals 
+
+_Returns the coverage intervals of CKs and SPKs._ 
+```C++
+std::pair< nlohmann::json, nlohmann::json > SpiceQL::getKernelIntervals (
+    std::vector< std::string > kernels,
+    bool useWeb=false
+) 
+```
+
+
+
+Looks the kernels up in the [**SpiceQL**](namespaceSpiceQL.md) database and returns their coverage intervals, one per NAIF ID covered. For CKs, gaps between interpolation intervals within a segment show up as separate intervals.
+
+
+A kernel can be named by its bare filename, its path relative to the data dir (or a full path ending in it), or its [**SpiceQL**](namespaceSpiceQL.md) key (/&lt;mission&gt;/&lt;type&gt;/&lt;quality&gt;/&lt;filename&gt;). A kernel in more than one mission or quality gets an entry for each. Kernels that are not CKs or SPKs in the database are skipped.
+
+
+
+
+**Parameters:**
+
+
+* `kernels` vector of kernels to get intervals for 
+* `useWeb` whether to use web [**SpiceQL**](namespaceSpiceQL.md)
+
+
+
+**Returns:**
+
+json object of [**SpiceQL**](namespaceSpiceQL.md) key (e.g. /lro/ck/reconstructed/kernel.bc) to an array of start and stop times in ET and body code 
 
 
 
@@ -3911,7 +3954,8 @@ std::pair< std::string, nlohmann::json > SpiceQL::searchForKernelsets (
     bool fullKernelPath=false,
     int limitCk=-1,
     int limitSpk=1,
-    bool overwrite=false
+    bool overwrite=false,
+    bool getIntervals=false
 ) 
 ```
 
@@ -3935,7 +3979,8 @@ Searches for kernels given mission(s) and parameters.
 * `fullKernelPath` bool if true returns full kernel paths, default returns relative paths 
 * `limitCk` limitCk int number of cks to limit to, default is -1 to retrieve all 
 * `limitSpk` int number of spks to limit to, default is 1 to retrieve only one 
-* `overwrite` subkernels will take precedent over parent mission kernels if true
+* `overwrite` subkernels will take precedent over parent mission kernels if true 
+* `getIntervals` if true, the coverage intervals of the found CKs and SPKs are added under the "intervals" key, in the same format as getKernelIntervals
 
 
 
