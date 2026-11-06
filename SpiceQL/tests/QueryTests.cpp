@@ -494,45 +494,44 @@ TEST_F(IsisDataDirectory, FunctionalTestOdysseyConf) {
 
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
-
-
-  
-
   nlohmann::json res = listMissionKernels(tempDir, conf);
 
   set<string> kernels = getKernelsAsSet(res);
   set<string> mission = missionMap.at("odyssey");
 
-  vector<string> expected = {"m01_sc_ab0110.bc", 
-                             "m01_sc_map3_rec_nadir.bc", 
-                             "m01_sc_map10_rec_nadir.bc", 
-                             "m01_sc_map1_v2.bc",
-                             "m01_sc_map10.bc",
-                             "m01_sc_ext7_rec_nadir.bc",
-                             "m01_sc_ext36_rec_nadir.bc",
-                             "m01_sc_ext22_rec_roto_v2.bc",
-                             "m01_sc_ext7.bc",
-                             "m01_sc_ext42.bc"};
-  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("ck").at("reconstructed")), expected); 
+  fs::path ckDir = tempDir / "odyssey" / "kernels" / "ck";
+  fs::path spkDir = tempDir / "odyssey" / "kernels" / "spk";
 
-  expected = {"themis_nightir_merged_2018Mar02_ck.bc", 
-              "themis_dayir_merged_2018Jul13_ck.bc"};
-  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("ck").at("smithed")), expected); 
-  
-  expected = {"m01_map.bsp"};
-  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("spk").at("predicted")), expected);  
-  
-  expected = {"m01_ab_v2.bsp", 
-              "m01_map1_v2.bsp",
-              "m01_map2.bsp",
-              "m01_ext8.bsp",
-              "m01_ext23.bsp",
-              "m01_map_rec.bsp"};
-  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("spk").at("reconstructed")), expected); 
+  vector<string> expected = {ckDir / "m01_sc_ab0110.bc",
+                             ckDir / "m01_sc_map3_rec_nadir.bc",
+                             ckDir / "m01_sc_map10_rec_nadir.bc",
+                             ckDir / "m01_sc_map1_v2.bc",
+                             ckDir / "m01_sc_map10.bc",
+                             ckDir / "m01_sc_ext7_rec_nadir.bc",
+                             ckDir / "m01_sc_ext36_rec_nadir.bc",
+                             ckDir / "m01_sc_ext22_rec_roto_v2.bc",
+                             ckDir / "m01_sc_ext7.bc",
+                             ckDir / "m01_sc_ext42.bc"};
+  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("ck").at("reconstructed")), expected);
 
-  expected = {"themis_nightir_merged_2018Mar02_spk.bsp", 
-              "themis_dayir_merged_2018Jul13_spk.bsp"};
-  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("spk").at("smithed")), expected);  
+  expected = {ckDir / "themis_nightir_merged_2018Mar02_ck.bc",
+              ckDir / "themis_dayir_merged_2018Jul13_ck.bc"};
+  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("ck").at("smithed")), expected);
+
+  expected = {spkDir / "m01_map.bsp"};
+  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("spk").at("predicted")), expected);
+
+  expected = {spkDir / "m01_ab_v2.bsp",
+              spkDir / "m01_map1_v2.bsp",
+              spkDir / "m01_map2.bsp",
+              spkDir / "m01_ext8.bsp",
+              spkDir / "m01_ext23.bsp",
+              spkDir / "m01_map_rec.bsp"};
+  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("spk").at("reconstructed")), expected);
+
+  expected = {spkDir / "themis_nightir_merged_2018Mar02_spk.bsp",
+              spkDir / "themis_dayir_merged_2018Jul13_spk.bsp"};
+  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("spk").at("smithed")), expected);
 }
 
 TEST_F(IsisDataDirectory, FunctionalTestKploConf) {
