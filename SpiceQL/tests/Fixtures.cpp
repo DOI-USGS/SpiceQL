@@ -241,7 +241,7 @@ void IsisDataDirectory::compareKernelSets(string name, set<string> expectedDiff)
 
 
 void IsisDataDirectory::compareKernelVector(vector<string> kVector, vector<string> expectedSubSet) {
-  for (auto &e : kVector) { 
+  for (auto &e : expectedSubSet) { 
     auto it = find(kVector.begin(), kVector.end(), e);
     if (it == kVector.end()) {
       FAIL() << e << " was not found in the kernel results";
