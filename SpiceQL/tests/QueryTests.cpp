@@ -604,9 +604,6 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsKaguya) {
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
 
-
-  
-
   nlohmann::json res = listMissionKernels(tempDir, conf);
 
   set<string> kernels = getKernelsAsSet(res);
@@ -617,9 +614,11 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsKaguya) {
   vector<string> expected = {kDir / "ck" / "SEL_M_ALL_D_V02.BC"};
   compareKernelVector(getKernelsAsVector(res.at("kaguya").at("ck").at("reconstructed")), expected);
 
+  expected = {kDir / "spk" / "SEL_M_071020_090610_SGMH_02.BSP"};
+  compareKernelVector(getKernelsAsVector(res.at("kaguya").at("spk").at("reconstructed")), expected);
+
   expected = {kDir / "spk" / "SEL_M_071020_081226_SGMI_05.BSP",
-              kDir / "spk" / "SELMAINGRGM900CL660DIRALT2008103020090610.bsp",
-              kDir / "spk" / "SEL_M_071020_090610_SGMH_02.BSP"};
+              kDir / "spk" / "SELMAINGRGM900CL660DIRALT2008103020090610.bsp"};
   compareKernelVector(getKernelsAsVector(res.at("kaguya").at("spk").at("smithed")), expected);
 }
 
@@ -728,11 +727,11 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsLo) {
   compareKernelVector(getKernelsAsVector(res.at("lo").at("iak")), expected);
 
   expected = {kDir / "sclk" / "lo_fict.tsc",
-              kDir / "sclk" / "lo_fict1.tsc",
-              kDir / "sclk" / "lo_fict2.tsc",
-              kDir / "sclk" / "lo_fict3.tsc",
-              kDir / "sclk" / "lo_fict4.tsc",
-              kDir / "sclk" / "lo_fict5.tsc"};
+              kDir / "sclk" / "lo1_fict.tsc",
+              kDir / "sclk" / "lo2_fict.tsc",
+              kDir / "sclk" / "lo3_fict.tsc",
+              kDir / "sclk" / "lo4_fict.tsc",
+              kDir / "sclk" / "lo5_fict.tsc"};
   compareKernelVector(getKernelsAsVector(res.at("lo").at("sclk")), expected);
 
 }
@@ -770,11 +769,6 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsSmart1) {
   compareKernelVector(getKernelsAsVector(res.at("smart1").at("spk").at("predicted")), expected);
 
   expected = {kDir / "spk" / "ORMS__041111020517_00206.BSP"};
-  compareKernelVector(getKernelsAsVector(res.at("smart1").at("spk").at("reconstructed")), expected);
-
-  // TODO: ORHM_______________00038.BSP only exists under mex/kernels/spk in
-  // isisKernelList.txt, not smart1 -- this check will fail until fixed.
-  expected = {kDir / "spk" / "ORHM_______________00038.BSP"};
   compareKernelVector(getKernelsAsVector(res.at("smart1").at("spk").at("reconstructed")), expected);
 
   expected = {kDir / "fk" / "SMART1_V1.TF"};
@@ -948,8 +942,6 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsVoyager2) {
 
   expected = {kDir / "sclk" / "vg200010.tsc",
               kDir / "sclk" / "vg200011.tsc",
-              // TODO: vg200008.tsc is not present under voyager2/kernels/sclk in
-              // isisKernelList.txt -- this will fail until fixed.
               kDir / "sclk" / "vg200008.tsc"};
   compareKernelVector(getKernelsAsVector(res.at("voyager2").at("sclk")), expected);
 
@@ -1111,10 +1103,6 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMer2) {
   set<string> mission = missionMap.at("mer2");
   
   fs::path kDir = tempDir / "mer2" / "kernels";
-
-
-  // TODO - This check was empty?
-  // compareKernelVector(getKernelsAsVector(res.at("mer2").at("ck").at("reconstructed")), expected);
 
   vector<string> expected = {kDir / "spk" / "spk_b_s_071029-160101_110624.bsp",
                              kDir / "spk" / "mer2_surf_roverrl_ro_v01.bsp",
