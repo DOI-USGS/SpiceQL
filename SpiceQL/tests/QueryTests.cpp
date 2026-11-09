@@ -494,45 +494,44 @@ TEST_F(IsisDataDirectory, FunctionalTestOdysseyConf) {
 
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
-
-
-  
-
   nlohmann::json res = listMissionKernels(tempDir, conf);
 
   set<string> kernels = getKernelsAsSet(res);
   set<string> mission = missionMap.at("odyssey");
 
-  vector<string> expected = {"m01_sc_ab0110.bc", 
-                             "m01_sc_map3_rec_nadir.bc", 
-                             "m01_sc_map10_rec_nadir.bc", 
-                             "m01_sc_map1_v2.bc",
-                             "m01_sc_map10.bc",
-                             "m01_sc_ext7_rec_nadir.bc",
-                             "m01_sc_ext36_rec_nadir.bc",
-                             "m01_sc_ext22_rec_roto_v2.bc",
-                             "m01_sc_ext7.bc",
-                             "m01_sc_ext42.bc"};
-  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("ck").at("reconstructed")), expected); 
+  fs::path ckDir = tempDir / "odyssey" / "kernels" / "ck";
+  fs::path spkDir = tempDir / "odyssey" / "kernels" / "spk";
 
-  expected = {"themis_nightir_merged_2018Mar02_ck.bc", 
-              "themis_dayir_merged_2018Jul13_ck.bc"};
-  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("ck").at("smithed")), expected); 
-  
-  expected = {"m01_map.bsp"};
-  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("spk").at("predicted")), expected);  
-  
-  expected = {"m01_ab_v2.bsp", 
-              "m01_map1_v2.bsp",
-              "m01_map2.bsp",
-              "m01_ext8.bsp",
-              "m01_ext23.bsp",
-              "m01_map_rec.bsp"};
-  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("spk").at("reconstructed")), expected); 
+  vector<string> expected = {ckDir / "m01_sc_ab0110.bc",
+                             ckDir / "m01_sc_map3_rec_nadir.bc",
+                             ckDir / "m01_sc_map10_rec_nadir.bc",
+                             ckDir / "m01_sc_map1_v2.bc",
+                             ckDir / "m01_sc_map10.bc",
+                             ckDir / "m01_sc_ext7_rec_nadir.bc",
+                             ckDir / "m01_sc_ext36_rec_nadir.bc",
+                             ckDir / "m01_sc_ext22_rec_roto_v2.bc",
+                             ckDir / "m01_sc_ext7.bc",
+                             ckDir / "m01_sc_ext42.bc"};
+  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("ck").at("reconstructed")), expected);
 
-  expected = {"themis_nightir_merged_2018Mar02_spk.bsp", 
-              "themis_dayir_merged_2018Jul13_spk.bsp"};
-  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("spk").at("smithed")), expected);  
+  expected = {ckDir / "themis_nightir_merged_2018Mar02_ck.bc",
+              ckDir / "themis_dayir_merged_2018Jul13_ck.bc"};
+  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("ck").at("smithed")), expected);
+
+  expected = {spkDir / "m01_map.bsp"};
+  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("spk").at("predicted")), expected);
+
+  expected = {spkDir / "m01_ab_v2.bsp",
+              spkDir / "m01_map1_v2.bsp",
+              spkDir / "m01_map2.bsp",
+              spkDir / "m01_ext8.bsp",
+              spkDir / "m01_ext23.bsp",
+              spkDir / "m01_map_rec.bsp"};
+  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("spk").at("reconstructed")), expected);
+
+  expected = {spkDir / "themis_nightir_merged_2018Mar02_spk.bsp",
+              spkDir / "themis_dayir_merged_2018Jul13_spk.bsp"};
+  compareKernelVector(getKernelsAsVector(res.at("odyssey").at("spk").at("smithed")), expected);
 }
 
 TEST_F(IsisDataDirectory, FunctionalTestKploConf) {
@@ -547,51 +546,53 @@ TEST_F(IsisDataDirectory, FunctionalTestKploConf) {
   set<string> kernels = getKernelsAsSet(res);
   set<string> mission = missionMap.at("kplo");
 
-  vector<string> expected = {"kplo_sc_20220805_20220806_v00.bc",
-                             "kplo_sc_20220805_20220809_v01.bc",
-                             "kplo_sc_20220805_20220811_v03.bc",
-                             "kplo_sc_20220805_20220901_v05.bc",
-                             "kplo_sc_20220806_20220807_v00.bc",
-                             "kplo_sc_20220807_20220808_v02.bc",
-                             "kplo_sc_20220808_20220809_v00.bc",
-                             "kplo_sc_20220809_20220810_v00.bc",
-                             "kplo_sc_20220809_20220816_v01.bc"};
+  fs::path kDir = tempDir / "kplo" / "kernels";
+
+  vector<string> expected = {kDir / "ck" / "kplo_sc_20220805_20220806_v00.bc",
+                             kDir / "ck" / "kplo_sc_20220805_20220809_v01.bc",
+                             kDir / "ck" / "kplo_sc_20220805_20220811_v03.bc",
+                             kDir / "ck" / "kplo_sc_20220805_20220901_v05.bc",
+                             kDir / "ck" / "kplo_sc_20220806_20220807_v00.bc",
+                             kDir / "ck" / "kplo_sc_20220807_20220808_v02.bc",
+                             kDir / "ck" / "kplo_sc_20220808_20220809_v00.bc",
+                             kDir / "ck" / "kplo_sc_20220809_20220810_v00.bc",
+                             kDir / "ck" / "kplo_sc_20220809_20220816_v01.bc"};
   compareKernelVector(getKernelsAsVector(res.at("kplo").at("ck").at("reconstructed")), expected);
-  
-  expected = {"kplo_d_20220805_20220806_v00.bsp",
-              "kplo_d_20220805_20220808_v00.bsp",
-              "kplo_d_20220805_20220901_v01.bsp",
-              "kplo_d_20220807_20220808_v00.bsp",
-              "kplo_d_20220808_20220809_v00.bsp",
-              "kplo_d_20220809_20220810_v00.bsp",
-              "kplo_d_20220809_20220813_v00.bsp",
-              "kplo_d_20220810_20220811_v00.bsp",
-              "kplo_d_20220812_20220815_v00.bsp",
-              "kplo_d_20220813_20220816_v00.bsp",
-              "kplo_d_20220814_20220817_v00.bsp"};
+
+  expected = {kDir / "spk" / "kplo_d_20220805_20220806_v00.bsp",
+              kDir / "spk" / "kplo_d_20220805_20220808_v00.bsp",
+              kDir / "spk" / "kplo_d_20220805_20220901_v01.bsp",
+              kDir / "spk" / "kplo_d_20220807_20220808_v00.bsp",
+              kDir / "spk" / "kplo_d_20220808_20220809_v00.bsp",
+              kDir / "spk" / "kplo_d_20220809_20220810_v00.bsp",
+              kDir / "spk" / "kplo_d_20220809_20220813_v00.bsp",
+              kDir / "spk" / "kplo_d_20220810_20220811_v00.bsp",
+              kDir / "spk" / "kplo_d_20220812_20220815_v00.bsp",
+              kDir / "spk" / "kplo_d_20220813_20220816_v00.bsp",
+              kDir / "spk" / "kplo_d_20220814_20220817_v00.bsp"};
   compareKernelVector(getKernelsAsVector(res.at("kplo").at("spk").at("reconstructed")), expected);
 
-  expected = {"kplo_v00.tf",
-              "kplo_v01.tf"};
+  expected = {kDir / "fk" / "kplo_v00.tf",
+              kDir / "fk" / "kplo_v01.tf"};
   compareKernelVector(getKernelsAsVector(res.at("kplo").at("fk")), expected);
 
-  expected = {"kplo_sclkscet_v000.tsc",
-              "kplo_sclkscet_v004.tsc",
-              "kplo_sclkscet_v005.tsc",
-              "kplo_sclkscet_v006.tsc",
-              "kplo_sclkscet_v007.tsc",
-              "kplo_sclkscet_v008.tsc",
-              "kplo_sclkscet_v010.tsc",
-              "kplo_sclkscet_v011.tsc",
-              "kplo_sclkscet_v012.tsc",
-              "kplo_sclkscet_v013.tsc"};
+  expected = {kDir / "sclk" / "kplo_sclkscet_v000.tsc",
+              kDir / "sclk" / "kplo_sclkscet_v004.tsc",
+              kDir / "sclk" / "kplo_sclkscet_v005.tsc",
+              kDir / "sclk" / "kplo_sclkscet_v006.tsc",
+              kDir / "sclk" / "kplo_sclkscet_v007.tsc",
+              kDir / "sclk" / "kplo_sclkscet_v008.tsc",
+              kDir / "sclk" / "kplo_sclkscet_v010.tsc",
+              kDir / "sclk" / "kplo_sclkscet_v011.tsc",
+              kDir / "sclk" / "kplo_sclkscet_v012.tsc",
+              kDir / "sclk" / "kplo_sclkscet_v013.tsc"};
   compareKernelVector(getKernelsAsVector(res.at("kplo").at("sclk")), expected);
 
-  expected = {"kplo_shadowcam_v00.ti"};
+  expected = {kDir / "ik" / "kplo_shadowcam_v00.ti"};
   compareKernelVector(getKernelsAsVector(res.at("shadowcam").at("ik")), expected);
 
-  expected = {"kplo_instrumentAddendum_v01.ti",
-              "kplo_instrumentAddendum_v02.ti"};
+  expected = {kDir / "iak" / "kplo_instrumentAddendum_v01.ti",
+              kDir / "iak" / "kplo_instrumentAddendum_v02.ti"};
   compareKernelVector(getKernelsAsVector(res.at("shadowcam").at("iak")), expected);
 }
 
@@ -603,21 +604,22 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsKaguya) {
   ifstream i(dbPath);
   nlohmann::json conf = nlohmann::json::parse(i);
 
-
-  
-
   nlohmann::json res = listMissionKernels(tempDir, conf);
 
   set<string> kernels = getKernelsAsSet(res);
   set<string> mission = missionMap.at("kaguya");
   
-  vector<string> expected = {"SEL_M_ALL_D_V02.BC"};
-  compareKernelVector(getKernelsAsVector(res.at("kaguya").at("ck").at("reconstructed")), expected); 
+  fs::path kDir = tempDir / "kaguya" / "kernels";
 
-  expected = {"SEL_M_071020_081226_SGMI_05.BSP",
-              "SELMAINGRGM900CL660DIRALT2008103020090610.bsp",
-              "SEL_M_071020_090610_SGMH_02.BSP"};
-  compareKernelVector(getKernelsAsVector(res.at("kaguya").at("spk").at("smithed")), expected); 
+  vector<string> expected = {kDir / "ck" / "SEL_M_ALL_D_V02.BC"};
+  compareKernelVector(getKernelsAsVector(res.at("kaguya").at("ck").at("reconstructed")), expected);
+
+  expected = {kDir / "spk" / "SEL_M_071020_090610_SGMH_02.BSP"};
+  compareKernelVector(getKernelsAsVector(res.at("kaguya").at("spk").at("reconstructed")), expected);
+
+  expected = {kDir / "spk" / "SEL_M_071020_081226_SGMI_05.BSP",
+              kDir / "spk" / "SELMAINGRGM900CL660DIRALT2008103020090610.bsp"};
+  compareKernelVector(getKernelsAsVector(res.at("kaguya").at("spk").at("smithed")), expected);
 }
 
 
@@ -634,21 +636,23 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsTgo) {
 
   set<string> mission = missionMap.at("tgo");
   
-  vector<string> expected = {"em16_tgo_sc_fmp_026_01_20200321_20200418_f20180215_v01.bc"};
-  compareKernelVector(getKernelsAsVector(res.at("tgo").at("ck").at("predicted")), expected); 
+  fs::path kDir = tempDir / "tgo" / "kernels";
 
-  expected = {"em16_tgo_sc_ssm_20190210_20190303_s20190208_v01.bc"};
-  compareKernelVector(getKernelsAsVector(res.at("tgo").at("ck").at("reconstructed")), expected); 
+  vector<string> expected = {kDir / "ck" / "em16_tgo_sc_fmp_026_01_20200321_20200418_f20180215_v01.bc"};
+  compareKernelVector(getKernelsAsVector(res.at("tgo").at("ck").at("predicted")), expected);
 
-  expected = {"em16_tgo_fap_167_01_20160314_20180203_v01.bsp"};
-  compareKernelVector(getKernelsAsVector(res.at("tgo").at("spk").at("predicted")), expected); 
+  expected = {kDir / "ck" / "em16_tgo_sc_ssm_20190210_20190303_s20190208_v01.bc"};
+  compareKernelVector(getKernelsAsVector(res.at("tgo").at("ck").at("reconstructed")), expected);
 
-  expected = {"em16_tgo_cassis_ipp_tel_20160407_20170309_s20170116_v01.bc"};
-  compareKernelVector(getKernelsAsVector(res.at("cassis").at("ck").at("predicted")), expected); 
+  expected = {kDir / "spk" / "em16_tgo_fap_167_01_20160314_20180203_v01.bsp"};
+  compareKernelVector(getKernelsAsVector(res.at("tgo").at("spk").at("predicted")), expected);
 
-  expected = {"cassis_ck_p_160312_181231_180609.bc",
-              "em16_tgo_cassis_tel_20160407_20201231_s20200803_v04.bc"};
-  compareKernelVector(getKernelsAsVector(res.at("cassis").at("ck").at("reconstructed")), expected); 
+  expected = {kDir / "ck" / "em16_tgo_cassis_ipp_tel_20160407_20170309_s20170116_v01.bc"};
+  compareKernelVector(getKernelsAsVector(res.at("cassis").at("ck").at("predicted")), expected);
+
+  expected = {kDir / "ck" / "cassis_ck_p_160312_181231_180609.bc",
+              kDir / "ck" / "em16_tgo_cassis_tel_20160407_20201231_s20200803_v04.bc"};
+  compareKernelVector(getKernelsAsVector(res.at("cassis").at("ck").at("reconstructed")), expected);
 }
 
 
@@ -667,21 +671,23 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMex) {
 
   set<string> kernels = getKernelsAsSet(res);set<string> mission = missionMap.at("mex");
   
-  vector<string> expected = {"ATNM_P060401000000_00780.BC"};
-  compareKernelVector(getKernelsAsVector(res.at("mex").at("ck").at("predicted")), expected); 
+  fs::path kDir = tempDir / "mex" / "kernels";
 
-  expected = {"ATNM_MEASURED_030602_040101_V03.BC",
-              "ATNM_RECONSTITUTED_00004.BC"};
+  vector<string> expected = {kDir / "ck" / "ATNM_P060401000000_00780.BC"};
+  compareKernelVector(getKernelsAsVector(res.at("mex").at("ck").at("predicted")), expected);
+
+  expected = {kDir / "ck" / "ATNM_MEASURED_030602_040101_V03.BC",
+              kDir / "ck" / "ATNM_RECONSTITUTED_00004.BC"};
   compareKernelVector(getKernelsAsVector(res.at("mex").at("ck").at("reconstructed")), expected);
 
-  expected = {"ATNM_P060401000000_00780.BC"};
-  compareKernelVector(getKernelsAsVector(res.at("mex").at("ck").at("predicted")), expected); 
+  expected = {kDir / "ck" / "ATNM_P060401000000_00780.BC"};
+  compareKernelVector(getKernelsAsVector(res.at("mex").at("ck").at("predicted")), expected);
 
-  expected = {"ORMF_______________00720.BSP"};
+  expected = {kDir / "spk" / "ORMF_______________00720.BSP"};
   compareKernelVector(getKernelsAsVector(res.at("mex").at("spk").at("predicted")), expected);
 
-  expected = {"ORHM_______________00038.BSP"};
-  compareKernelVector(getKernelsAsVector(res.at("mex").at("spk").at("reconstructed")), expected);  
+  expected = {kDir / "spk" / "ORHM_______________00038.BSP"};
+  compareKernelVector(getKernelsAsVector(res.at("mex").at("spk").at("reconstructed")), expected);
 
 }
 
@@ -700,19 +706,32 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsLo) {
 
   set<string> kernels = getKernelsAsSet(res);set<string> mission = missionMap.at("lo");
   
-  vector<string> expected = {"lo3_photo_support_ME.bsp", "lo4_photo_support_ME.bsp", "lo5_photo_support_ME.bsp"};
+  fs::path kDir = tempDir / "lo" / "kernels";
+
+  vector<string> expected = {kDir / "spk" / "lo3_photo_support_ME.bsp",
+                             kDir / "spk" / "lo4_photo_support_ME.bsp",
+                             kDir / "spk" / "lo5_photo_support_ME.bsp"};
   compareKernelVector(getKernelsAsVector(res.at("lo").at("spk").at("reconstructed")), expected);
 
-  expected = {"lo3_photo_support_ME.bc", "lo4_photo_support_ME.bc", "lo5_photo_support_ME.bc"};
-  compareKernelVector(getKernelsAsVector(res.at("lo").at("ck").at("reconstructed")), expected); 
+  expected = {kDir / "ck" / "lo3_photo_support_ME.bc",
+              kDir / "ck" / "lo4_photo_support_ME.bc",
+              kDir / "ck" / "lo5_photo_support_ME.bc"};
+  compareKernelVector(getKernelsAsVector(res.at("lo").at("ck").at("reconstructed")), expected);
 
-  expected = {"lo01.ti", "lo02.ti"};
+  expected = {kDir / "ik" / "lo01.ti",
+              kDir / "ik" / "lo02.ti"};
   compareKernelVector(getKernelsAsVector(res.at("lo").at("ik")), expected);
 
-  expected = {"lunarOrbiterAddendum001.ti", "lunarOrbiterAddendum002.ti"};
+  expected = {kDir / "iak" / "lunarOrbiterAddendum001.ti",
+              kDir / "iak" / "lunarOrbiterAddendum002.ti"};
   compareKernelVector(getKernelsAsVector(res.at("lo").at("iak")), expected);
 
-  expected = {"lo_fict.tsc", "lo_fict1.tsc","lo_fict2.tsc","lo_fict3.tsc","lo_fict4.tsc","lo_fict5.tsc"};
+  expected = {kDir / "sclk" / "lo_fict.tsc",
+              kDir / "sclk" / "lo1_fict.tsc",
+              kDir / "sclk" / "lo2_fict.tsc",
+              kDir / "sclk" / "lo3_fict.tsc",
+              kDir / "sclk" / "lo4_fict.tsc",
+              kDir / "sclk" / "lo5_fict.tsc"};
   compareKernelVector(getKernelsAsVector(res.at("lo").at("sclk")), expected);
 
 }
@@ -733,28 +752,26 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsSmart1) {
 
   set<string> kernels = getKernelsAsSet(res);set<string> mission = missionMap.at("smart1");
   
-  vector<string> expected = {"ATNS_P050930150947_00220.BC", "ATNS_P030929010023_00188.BC", "ATNS_P060301004212_00233.BC"};
-  compareKernelVector(getKernelsAsVector(res.at("smart1").at("ck").at("reconstructed")), expected); 
+  fs::path kDir = tempDir / "smart1" / "kernels";
 
-  expected = {"SMART1_070227_STEP.TSC"};
+  vector<string> expected = {kDir / "ck" / "ATNS_P050930150947_00220.BC",
+                             kDir / "ck" / "ATNS_P030929010023_00188.BC",
+                             kDir / "ck" / "ATNS_P060301004212_00233.BC"};
+  compareKernelVector(getKernelsAsVector(res.at("smart1").at("ck").at("reconstructed")), expected);
+
+  expected = {kDir / "sclk" / "SMART1_070227_STEP.TSC"};
   compareKernelVector(getKernelsAsVector(res.at("smart1").at("sclk")), expected);
 
-  expected = {""};
-  compareKernelVector(getKernelsAsVector(res.at("smart1").at("sclk")), expected);
+  expected = {kDir / "ik" / "SMART1_AMIE_V01.TI"};
+  compareKernelVector(getKernelsAsVector(res.at("smart1").at("ik")), expected);
 
-  expected = {"SMART1_AMIE_V01.TI"};
-  compareKernelVector(getKernelsAsVector(res.at("smart1").at("ik")), expected); 
-
-  expected = {"ORMS_______________00233.BSP"};
+  expected = {kDir / "spk" / "ORMS_______________00233.BSP"};
   compareKernelVector(getKernelsAsVector(res.at("smart1").at("spk").at("predicted")), expected);
 
-  expected = {"ORMS__041111020517_00206.BSP"};
+  expected = {kDir / "spk" / "ORMS__041111020517_00206.BSP"};
   compareKernelVector(getKernelsAsVector(res.at("smart1").at("spk").at("reconstructed")), expected);
 
-  expected = {"ORHM_______________00038.BSP"};
-  compareKernelVector(getKernelsAsVector(res.at("smart1").at("spk").at("reconstructed")), expected);  
-
-  expected = {"SMART1_V1.TF"};
+  expected = {kDir / "fk" / "SMART1_V1.TF"};
   compareKernelVector(getKernelsAsVector(res.at("smart1").at("fk")), expected);
 }
 
@@ -774,68 +791,70 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsHayabusa2) {
 
   set<string> mission = missionMap.at("hayabusa2");
   
-  vector<string> expected = { "hyb2_hk_2015_v01.bc",
-                              "hyb2_hk_2016_v02.bc",
-                              "hyb2_hkattrpt_2017_v02.bc",
-                              "hyb2_aocsc_2015_v01.bc",
-                              "hyb2_aocsc_2017_v02.bc",
-                              "hyb2_hkattrpt_2016_v02.bc",
-                              "hyb2_hk_2014_v01.bc",
-                              "hyb2_hk_2017_v02.bc",
-                              "hyb2_hk_2015_v02.bc",
-                              "hyb2_hkattrpt_2015_v02.bc",
-                              "hyb2_aocsc_2016_v02.bc",
-                              "hyb2_aocsc_2018_v02.bc",
-                              "hyb2_hkattrpt_2018_v02.bc",
-                              "hyb2_aocsc_2015_v02.bc",
-                              "hyb2_hk_2014_v02.bc",
-                              "hyb2_aocsc_2014_v02.bc",
-                              "hyb2_aocsc_2014_v01.bc"
+  fs::path kDir = tempDir / "hayabusa2" / "kernels";
+
+  vector<string> expected = { kDir / "ck" / "hyb2_hk_2015_v01.bc",
+                              kDir / "ck" / "hyb2_hk_2016_v02.bc",
+                              kDir / "ck" / "hyb2_hkattrpt_2017_v02.bc",
+                              kDir / "ck" / "hyb2_aocsc_2015_v01.bc",
+                              kDir / "ck" / "hyb2_aocsc_2017_v02.bc",
+                              kDir / "ck" / "hyb2_hkattrpt_2016_v02.bc",
+                              kDir / "ck" / "hyb2_hk_2014_v01.bc",
+                              kDir / "ck" / "hyb2_hk_2017_v02.bc",
+                              kDir / "ck" / "hyb2_hk_2015_v02.bc",
+                              kDir / "ck" / "hyb2_hkattrpt_2015_v02.bc",
+                              kDir / "ck" / "hyb2_aocsc_2016_v02.bc",
+                              kDir / "ck" / "hyb2_aocsc_2018_v02.bc",
+                              kDir / "ck" / "hyb2_hkattrpt_2018_v02.bc",
+                              kDir / "ck" / "hyb2_aocsc_2015_v02.bc",
+                              kDir / "ck" / "hyb2_hk_2014_v02.bc",
+                              kDir / "ck" / "hyb2_aocsc_2014_v02.bc",
+                              kDir / "ck" / "hyb2_aocsc_2014_v01.bc"
                             };
-  compareKernelVector(getKernelsAsVector(res.at("hayabusa2").at("ck").at("reconstructed")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("hayabusa2").at("ck").at("reconstructed")), expected);
 
-  expected = {"hyb2_v06.tf",
-              "hyb2_v14.tf",
-              "hyb2_v10.tf",
-              "hyb2_ryugu_v01.tf",
-              "hyb2_v09.tf",
-              "hyb2_hp_v01.tf"
+  expected = {kDir / "fk" / "hyb2_v06.tf",
+              kDir / "fk" / "hyb2_v14.tf",
+              kDir / "fk" / "hyb2_v10.tf",
+              kDir / "fk" / "hyb2_ryugu_v01.tf",
+              kDir / "fk" / "hyb2_v09.tf",
+              kDir / "fk" / "hyb2_hp_v01.tf"
              };
-  compareKernelVector(getKernelsAsVector(res.at("hayabusa2").at("fk")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("hayabusa2").at("fk")), expected);
 
-  expected = {"2162173_ryugu_20180601-20191230_0060_20181221.bsp",
-              "sat375.bsp",
-              "jup329.bsp",
-              "de430.bsp",
-              "2162173_Ryugu.bsp"
+  expected = {kDir / "tspk" / "2162173_ryugu_20180601-20191230_0060_20181221.bsp",
+              kDir / "tspk" / "sat375.bsp",
+              kDir / "tspk" / "jup329.bsp",
+              kDir / "tspk" / "de430.bsp",
+              kDir / "tspk" / "2162173_Ryugu.bsp"
              };
 
-  compareKernelVector(getKernelsAsVector(res.at("hayabusa2").at("tspk")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("hayabusa2").at("tspk")), expected);
 
-  expected = {"hyb2_20141203-20161231_v01.tsc",
-              "hyb2_20141203-20171231_v01.tsc",
-              "hyb2_20141203-20191231_v01.tsc"
+  expected = {kDir / "sclk" / "hyb2_20141203-20161231_v01.tsc",
+              kDir / "sclk" / "hyb2_20141203-20171231_v01.tsc",
+              kDir / "sclk" / "hyb2_20141203-20191231_v01.tsc"
              };
-  compareKernelVector(getKernelsAsVector(res.at("hayabusa2").at("sclk")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("hayabusa2").at("sclk")), expected);
 
 //@TODO lidar derived?
-  expected = { "lidar_derived_trj_20191114_20180630053224_20190213030000_v02.bsp",
-               "hyb2_20151123-20151213_0001m_final_ver1.oem.bsp",
-               "hyb2_20141203-20161119_0001h_final_ver1.oem.bsp",
-               "hyb2_20141203-20151231_0001h_final_ver1.oem.bsp",
-               "hyb2_20141203-20141214_0001m_final_ver1.oem.bsp",
-               "hyb2_hpk_20180627_20190213_v01.bsp",
-               "hyb2_approach_od_v20180811114238.bsp"
+  expected = { kDir / "spk" / "lidar_derived_trj_20191114_20180630053224_20190213030000_v02.bsp",
+               kDir / "spk" / "hyb2_20151123-20151213_0001m_final_ver1.oem.bsp",
+               kDir / "spk" / "hyb2_20141203-20161119_0001h_final_ver1.oem.bsp",
+               kDir / "spk" / "hyb2_20141203-20151231_0001h_final_ver1.oem.bsp",
+               kDir / "spk" / "hyb2_20141203-20141214_0001m_final_ver1.oem.bsp",
+               kDir / "spk" / "hyb2_hpk_20180627_20190213_v01.bsp",
+               kDir / "spk" / "hyb2_approach_od_v20180811114238.bsp"
              };
-  compareKernelVector(getKernelsAsVector(res.at("onc").at("spk").at("reconstructed")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("onc").at("spk").at("reconstructed")), expected);
 
-  expected = {"hyb2_onc_v00.ti",
-              "hyb2_onc_v05.ti"
+  expected = {kDir / "ik" / "hyb2_onc_v00.ti",
+              kDir / "ik" / "hyb2_onc_v05.ti"
              };
-  compareKernelVector(getKernelsAsVector(res.at("onc").at("ik")), expected); 
+  compareKernelVector(getKernelsAsVector(res.at("onc").at("ik")), expected);
 
-  expected = {"hyb2oncAddendum0001.ti"};
-  compareKernelVector(getKernelsAsVector(res.at("onc").at("iak")), expected); 
+  expected = {kDir / "iak" / "hyb2oncAddendum0001.ti"};
+  compareKernelVector(getKernelsAsVector(res.at("onc").at("iak")), expected);
 
 }
 
@@ -857,22 +876,31 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsVoyager1) {
 
   set<string> mission = missionMap.at("voyager1");
   
-  vector<string> expected = {"vg1_jup_qmw_wa_fc-31100_t2.bc", "vg1_jup_qmw_na_fc-31100_t2.bc", "vg1_sat_qmw_wa_fc-31100_t2.bc", "vg1_sat_qmw_na_fc-31100_t2.bc"};
-  compareKernelVector(getKernelsAsVector(res.at("voyager1").at("ck").at("reconstructed")), expected); 
+  fs::path kDir = tempDir / "voyager1" / "kernels";
 
-  expected = {"vg1_eur_usgs2020.bc"};
-  compareKernelVector(getKernelsAsVector(res.at("voyager1").at("ck").at("smithed")), expected); 
+  vector<string> expected = {kDir / "ck" / "vg1_jup_qmw_wa_fc-31100_t2.bc",
+                             kDir / "ck" / "vg1_jup_qmw_na_fc-31100_t2.bc",
+                             kDir / "ck" / "vg1_sat_qmw_wa_fc-31100_t2.bc",
+                             kDir / "ck" / "vg1_sat_qmw_na_fc-31100_t2.bc"};
+  compareKernelVector(getKernelsAsVector(res.at("voyager1").at("ck").at("reconstructed")), expected);
 
-  expected = {"vg100010.tsc", "vg100008.tsc"};
+  expected = {kDir / "ck" / "vg1_eur_usgs2020.bc"};
+  compareKernelVector(getKernelsAsVector(res.at("voyager1").at("ck").at("smithed")), expected);
+
+  expected = {kDir / "sclk" / "vg100010.tsc",
+              kDir / "sclk" / "vg100008.tsc"};
   compareKernelVector(getKernelsAsVector(res.at("voyager1").at("sclk")), expected);
 
-  expected = {"vg1_issna_v02.ti", "vg1_isswa_v01.ti"};
-  compareKernelVector(getKernelsAsVector(res.at("voyager1").at("ik")), expected); 
+  expected = {kDir / "ik" / "vg1_issna_v02.ti",
+              kDir / "ik" / "vg1_isswa_v01.ti"};
+  compareKernelVector(getKernelsAsVector(res.at("voyager1").at("ik")), expected);
 
-  expected = {"vg1_sat.bsp", "vgr1_jup230.bsp", "vg1_sat.bsp"};
-  compareKernelVector(getKernelsAsVector(res.at("voyager1").at("spk").at("reconstructed")), expected);  
+  expected = {kDir / "spk" / "vg1_sat.bsp",
+              kDir / "spk" / "vgr1_jup230.bsp",
+              kDir / "spk" / "vg1_sat.bsp"};
+  compareKernelVector(getKernelsAsVector(res.at("voyager1").at("spk").at("reconstructed")), expected);
 
-  expected = {"vg1_v02.tf"};
+  expected = {kDir / "fk" / "vg1_v02.tf"};
   compareKernelVector(getKernelsAsVector(res.at("voyager1").at("fk")), expected);
 }
 
@@ -893,33 +921,44 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsVoyager2) {
   set<string> kernels = getKernelsAsSet(res);
   set<string> mission = missionMap.at("voyager2");
   
-  vector<string> expected = { "vg2_jup_qmw_wa_fc-32100_t2.bc",
-                              "vg2_nep_version1_type1_iss_sedr.bc",
-                              "vg2_ura_version1_type2_iss_sedr.bc",
-                              "vg2_sat_qmw_na_fc-32100_t2.bc",
-                              "vg2_jup_version1_type1_iss_sedr.bc",
-                              "vg2_ura_version1_type1_iss_sedr.bc",
-                              "vg2_jup_version1_type2_iss_sedr.bc",
-                              "vg2_sat_version1_type1_iss_sedr.bc",
-                              "vg2_jup_qmw_na_fc-32100_t2.bc",
-                              "vg2_sat_version1_type2_iss_sedr.bc",
-                              "vg2_sat_qmw_wa_fc-32100_t2.bc",
-                              "vg2_nep_version1_type2_iss_sedr.bc"};
-  compareKernelVector(getKernelsAsVector(res.at("voyager2").at("ck").at("reconstructed")), expected); 
+  fs::path kDir = tempDir / "voyager2" / "kernels";
 
-  expected = {"vg2_eur_usgs2020.bc"};
-  compareKernelVector(getKernelsAsVector(res.at("voyager2").at("ck").at("smithed")), expected); 
+  vector<string> expected = { kDir / "ck" / "vg2_jup_qmw_wa_fc-32100_t2.bc",
+                              kDir / "ck" / "vg2_nep_version1_type1_iss_sedr.bc",
+                              kDir / "ck" / "vg2_ura_version1_type2_iss_sedr.bc",
+                              kDir / "ck" / "vg2_sat_qmw_na_fc-32100_t2.bc",
+                              kDir / "ck" / "vg2_jup_version1_type1_iss_sedr.bc",
+                              kDir / "ck" / "vg2_ura_version1_type1_iss_sedr.bc",
+                              kDir / "ck" / "vg2_jup_version1_type2_iss_sedr.bc",
+                              kDir / "ck" / "vg2_sat_version1_type1_iss_sedr.bc",
+                              kDir / "ck" / "vg2_jup_qmw_na_fc-32100_t2.bc",
+                              kDir / "ck" / "vg2_sat_version1_type2_iss_sedr.bc",
+                              kDir / "ck" / "vg2_sat_qmw_wa_fc-32100_t2.bc",
+                              kDir / "ck" / "vg2_nep_version1_type2_iss_sedr.bc"};
+  compareKernelVector(getKernelsAsVector(res.at("voyager2").at("ck").at("reconstructed")), expected);
 
-  expected = {"vg200010.tsc", "vg200011.tsc" "vg200008.tsc"};
+  expected = {kDir / "ck" / "vg2_eur_usgs2020.bc"};
+  compareKernelVector(getKernelsAsVector(res.at("voyager2").at("ck").at("smithed")), expected);
+
+  expected = {kDir / "sclk" / "vg200010.tsc",
+              kDir / "sclk" / "vg200011.tsc",
+              kDir / "sclk" / "vg200008.tsc"};
   compareKernelVector(getKernelsAsVector(res.at("voyager2").at("sclk")), expected);
 
-  expected = {"vg1_issna_v02.ti", "vg1_isswa_v01.ti"};
-  compareKernelVector(getKernelsAsVector(res.at("voyager2").at("ik")), expected); 
+  expected = {kDir / "ik" / "vg2_issna_v02.ti",
+              kDir / "ik" / "vg2_isswa_v01.ti"};
+  compareKernelVector(getKernelsAsVector(res.at("voyager2").at("ik")), expected);
 
-  expected = {"vg2_sat.bsp", "vgr2_jup230.bsp", "vg2_sat.bsp", "vg2_nep.bsp", "vg2_ura.bsp" "vgr2_nep081.bsp", "vgr2_sat336.bsp"};
-  compareKernelVector(getKernelsAsVector(res.at("voyager2").at("spk").at("reconstructed")), expected);  
+  expected = {kDir / "spk" / "vg2_sat.bsp",
+              kDir / "spk" / "vgr2_jup230.bsp",
+              kDir / "spk" / "vg2_sat.bsp",
+              kDir / "spk" / "vg2_nep.bsp",
+              kDir / "spk" / "vg2_ura.bsp",
+              kDir / "spk" / "vgr2_nep081.bsp",
+              kDir / "spk" / "vgr2_sat336.bsp"};
+  compareKernelVector(getKernelsAsVector(res.at("voyager2").at("spk").at("reconstructed")), expected);
 
-  expected = {"vg2_v02.tf"};
+  expected = {kDir / "fk" / "vg2_v02.tf"};
   compareKernelVector(getKernelsAsVector(res.at("voyager2").at("fk")), expected);
 
 }
@@ -937,59 +976,61 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMsl) {
   set<string> kernels = getKernelsAsSet(res);
   set<string> mission = missionMap.at("msl");
   
-  vector<string> expected = {"msl_ra_toolsref_v1.bc",
-                             "msl_cruise_recon_rawrt_v2.bc",
-                             "msl_cruise_recon_raweng_v1.bc",
-                             "msl_edl_v01.bc",
-                             "msl_surf_hga_tlm.bc",
-                             "msl_surf_ra_tlmenc.bc",
-                             "msl_surf_ra_tlmres.bc",
-                             "msl_surf_rsm_tlmenc.bc",
-                             "msl_surf_rsm_tlmres.bc",
-                             "msl_surf_rover_tlm.bc"};
+  fs::path kDir = tempDir / "msl" / "kernels";
 
-  compareKernelVector(getKernelsAsVector(res.at("msl").at("ck").at("reconstructed")), expected); 
+  vector<string> expected = {kDir / "ck" / "msl_ra_toolsref_v1.bc",
+                             kDir / "ck" / "msl_cruise_recon_rawrt_v2.bc",
+                             kDir / "ck" / "msl_cruise_recon_raweng_v1.bc",
+                             kDir / "ck" / "msl_edl_v01.bc",
+                             kDir / "ck" / "msl_surf_hga_tlm.bc",
+                             kDir / "ck" / "msl_surf_ra_tlmenc.bc",
+                             kDir / "ck" / "msl_surf_ra_tlmres.bc",
+                             kDir / "ck" / "msl_surf_rsm_tlmenc.bc",
+                             kDir / "ck" / "msl_surf_rsm_tlmres.bc",
+                             kDir / "ck" / "msl_surf_rover_tlm.bc"};
+
+  compareKernelVector(getKernelsAsVector(res.at("msl").at("ck").at("reconstructed")), expected);
 
 
-  expected = {"msl.tf"};
+  expected = {kDir / "fk" / "msl.tf"};
   compareKernelVector(getKernelsAsVector(res.at("msl").at("fk")), expected);
 
-  expected = {"msl_aux_v00.ti",
-              "msl_chrmi_20120731_c03.ti",
-              "msl_hbla_20120731_c03.ti",
-              "msl_hblb_20120731_c03.ti",
-              "msl_hbra_20120731_c03.ti",
-              "msl_hbrb_20120731_c03.ti",
-              "msl_hfla_20120731_c03.ti",
-              "msl_hflb_20120731_c03.ti",
-              "msl_hfra_20120731_c03.ti",
-              "msl_hfrb_20120731_c03.ti",
-              "msl_mahli_20120731_c02.ti",
-              "msl_mardi_20120731_c02.ti",
-              "msl_ml_20120731_c03.ti",
-              "msl_mr_20120731_c03.ti",
-              "msl_nla_20120731_c04.ti",
-              "msl_nlb_20120731_c04.ti",
-              "msl_nlb_20130530_c05.ti",
-              "msl_nra_20120731_c04.ti",
-              "msl_nrb_20120731_c04.ti",
-              "msl_nrb_20130530_c05.ti",
-              "msl_struct_v01.ti"};
+  expected = {kDir / "ik" / "msl_aux_v00.ti",
+              kDir / "ik" / "msl_chrmi_20120731_c03.ti",
+              kDir / "ik" / "msl_hbla_20120731_c03.ti",
+              kDir / "ik" / "msl_hblb_20120731_c03.ti",
+              kDir / "ik" / "msl_hbra_20120731_c03.ti",
+              kDir / "ik" / "msl_hbrb_20120731_c03.ti",
+              kDir / "ik" / "msl_hfla_20120731_c03.ti",
+              kDir / "ik" / "msl_hflb_20120731_c03.ti",
+              kDir / "ik" / "msl_hfra_20120731_c03.ti",
+              kDir / "ik" / "msl_hfrb_20120731_c03.ti",
+              kDir / "ik" / "msl_mahli_20120731_c02.ti",
+              kDir / "ik" / "msl_mardi_20120731_c02.ti",
+              kDir / "ik" / "msl_ml_20120731_c03.ti",
+              kDir / "ik" / "msl_mr_20120731_c03.ti",
+              kDir / "ik" / "msl_nla_20120731_c04.ti",
+              kDir / "ik" / "msl_nlb_20120731_c04.ti",
+              kDir / "ik" / "msl_nlb_20130530_c05.ti",
+              kDir / "ik" / "msl_nra_20120731_c04.ti",
+              kDir / "ik" / "msl_nrb_20120731_c04.ti",
+              kDir / "ik" / "msl_nrb_20130530_c05.ti",
+              kDir / "ik" / "msl_struct_v01.ti"};
 
   compareKernelVector(getKernelsAsVector(res.at("msl").at("ik")), expected);
-  
-  expected = {"msl.tsl"};
+
+  expected = {kDir / "lsk" / "msl.tls"};
   compareKernelVector(getKernelsAsVector(res.at("msl").at("lsk")), expected);
 
-  expected = {"msl.tsc",
-              "msl_lmst_ops120808_v1.tsc"};
+  expected = {kDir / "sclk" / "msl.tsc",
+              kDir / "sclk" / "msl_lmst_ops120808_v1.tsc"};
   compareKernelVector(getKernelsAsVector(res.at("msl").at("sclk")), expected);
 
-  expected = {"msl_struct_v02.bsp",
-              "msl_cruise_v1.bsp",
-              "msl_edl_v01.bsp",
-              "msl_ls_ops120808_iau2000_v1.bsp",
-              "msl_surf_rover_loc.bsp"};
+  expected = {kDir / "spk" / "msl_struct_v02.bsp",
+              kDir / "spk" / "msl_cruise_v1.bsp",
+              kDir / "spk" / "msl_edl_v01.bsp",
+              kDir / "spk" / "msl_ls_ops120808_iau2000_v1.bsp",
+              kDir / "spk" / "msl_surf_rover_loc.bsp"};
   compareKernelVector(getKernelsAsVector(res.at("msl").at("spk")), expected);
 }
 
@@ -1011,25 +1052,35 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMer1) {
   set<string> kernels = getKernelsAsSet(res);
   set<string> mission = missionMap.at("mer1");
 
-  vector<string> expected = {"mer1_surf_hga_ext10_v1.bc", "mer1_cruise.bc", "mer1_hga_stowed.bc", "mer1_surf_rover_prim_v1.bc"};
-  compareKernelVector(getKernelsAsVector(res.at("mer1").at("ck").at("reconstructed")), expected); 
+  fs::path kDir = tempDir / "mer1" / "kernels";
 
-  expected = {"mar033_2000-2025.bsp", "mer1_cruise.bsp",
-              "de410_de910.bsp","mer1_surf_iddg_ext11_v1.bsp",
-              "mer1_struct_ver11.bsp", "mer1_edl_rcb_v1.bsp",
-              "mer1_surf_iddg.bsp","mer1_surf_roverrl_0001_3240_v1.bsp"};
-  compareKernelVector(getKernelsAsVector(res.at("mer1").at("spk").at("reconstructed")), expected);  
+  vector<string> expected = {kDir / "ck" / "mer1_surf_hga_ext10_v1.bc",
+                             kDir / "ck" / "mer1_cruise.bc",
+                             kDir / "ck" / "mer1_hga_stowed.bc",
+                             kDir / "ck" / "mer1_surf_rover_prim_v1.bc"};
+  compareKernelVector(getKernelsAsVector(res.at("mer1").at("ck").at("reconstructed")), expected);
 
-  expected = {"mer1_tp_tm20b3_iau2000_v1.tf", "mer1.tf"};
+  expected = {kDir / "spk" / "mar033_2000-2025.bsp",
+              kDir / "spk" / "mer1_cruise.bsp",
+              kDir / "spk" / "de410_de910.bsp",
+              kDir / "spk" / "mer1_surf_iddg_ext11_v1.bsp",
+              kDir / "spk" / "mer1_struct_ver11.bsp",
+              kDir / "spk" / "mer1_edl_rcb_v1.bsp",
+              kDir / "spk" / "mer1_surf_iddg.bsp",
+              kDir / "spk" / "mer1_surf_roverrl_0001_3240_v1.bsp"};
+  compareKernelVector(getKernelsAsVector(res.at("mer1").at("spk").at("reconstructed")), expected);
+
+  expected = {kDir / "fk" / "mer1_tp_tm20b3_iau2000_v1.tf",
+              kDir / "fk" / "mer1.tf"};
   compareKernelVector(getKernelsAsVector(res.at("mer1").at("fk")), expected);
-  
-  expected = {"mer1_nl_20040125_c196.ti"};
-  compareKernelVector(getKernelsAsVector(res.at("mer1").at("ik")), expected); 
 
-  expected = {"MER_253_SCLKSCET.00001.tsc"};
+  expected = {kDir / "ik" / "mer1_nl_20040125_c196.ti"};
+  compareKernelVector(getKernelsAsVector(res.at("mer1").at("ik")), expected);
+
+  expected = {kDir / "sclk" / "MER_253_SCLKSCET.00001.tsc"};
   compareKernelVector(getKernelsAsVector(res.at("mer1").at("sclk")), expected);
 
-  expected = {"mars_iau2000_v0.tpc"};
+  expected = {kDir / "pck" / "mars_iau2000_v0.tpc"};
   compareKernelVector(getKernelsAsVector(res.at("mer1").at("pck")), expected);
 
 }
@@ -1051,26 +1102,31 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsMer2) {
   set<string> kernels = getKernelsAsSet(res);
   set<string> mission = missionMap.at("mer2");
   
-  vector<string> expected = {};
-  compareKernelVector(getKernelsAsVector(res.at("mer2").at("ck").at("reconstructed")), expected); 
+  fs::path kDir = tempDir / "mer2" / "kernels";
 
-  expected = {"spk_b_s_071029-160101_110624.bsp","mer2_surf_roverrl_ro_v01.bsp",
-              "mer2_ls_040108_iau2000_v1.bsp", "de410_de910.bsp",
-              "mer2_still_at_ls_v1.bsp", "mer2_struct_ver11.bsp",
-              "mar033_2000-2025.bsp", "mer2_edl_rcb_v1.bsp",
-              "mer2_surf_rover_all_v01.bsp"};
-  compareKernelVector(getKernelsAsVector(res.at("mer2").at("spk").at("reconstructed")), expected);  
+  vector<string> expected = {kDir / "spk" / "spk_b_s_071029-160101_110624.bsp",
+                             kDir / "spk" / "mer2_surf_roverrl_ro_v01.bsp",
+                             kDir / "spk" / "mer2_ls_040108_iau2000_v1.bsp",
+                             kDir / "spk" / "de410_de910.bsp",
+                             kDir / "spk" / "mer2_still_at_ls_v1.bsp",
+                             kDir / "spk" / "mer2_struct_ver11.bsp",
+                             kDir / "spk" / "mar033_2000-2025.bsp",
+                             kDir / "spk" / "mer2_edl_rcb_v1.bsp",
+                             kDir / "spk" / "mer2_surf_rover_all_v01.bsp"};
+  compareKernelVector(getKernelsAsVector(res.at("mer2").at("spk").at("reconstructed")), expected);
 
-  expected = {"mer2.tf","mer2_tp_ep78a3p_iau2000_v1.tf"};
+  expected = {kDir / "fk" / "mer2.tf",
+              kDir / "fk" / "mer2_tp_ep78a3p_iau2000_v1.tf"};
   compareKernelVector(getKernelsAsVector(res.at("mer2").at("fk")), expected);
-  
-  expected = {"mer2_rl_20031204_c60.ti"};
-  compareKernelVector(getKernelsAsVector(res.at("mer2").at("ik")), expected); 
 
-  expected = {"MER_254_SCLKSCET.00032.tsc", "mer2.tsc"};
+  expected = {kDir / "ik" / "mer2_rl_20031204_c60.ti"};
+  compareKernelVector(getKernelsAsVector(res.at("mer2").at("ik")), expected);
+
+  expected = {kDir / "sclk" / "MER_254_SCLKSCET.00032.tsc",
+              kDir / "sclk" / "mer2.tsc"};
   compareKernelVector(getKernelsAsVector(res.at("mer2").at("sclk")), expected);
 
-  expected = {"mars_iau2000_v0.tpc"};
+  expected = {kDir / "pck" / "mars_iau2000_v0.tpc"};
   compareKernelVector(getKernelsAsVector(res.at("mer2").at("pck")), expected);
 }
 
@@ -1088,31 +1144,36 @@ TEST_F(IsisDataDirectory, FunctionalTestListMissionKernelsClipper) {
   set<string> kernels = getKernelsAsSet(res);
   set<string> mission = missionMap.at("clipper");
   
-  vector<string> expected = {"clipper_sc_rq_260510_260516_26130_v01.bc",
-                             "clipper_sc_rq_241215_241221_24day350_24day356_v01.bc"};
-  compareKernelVector(getKernelsAsVector(res.at("clipper").at("ck").at("reconstructed")), expected); 
+  fs::path kDir = tempDir / "clipper" / "kernels";
 
-  expected = {"clipper_sc_pb_250918_251030_v01.bc",
-              "clipper_sc_pb_250807_250918_v03.bc",
-              "clipper_sc_pb_250807_250918_v02.bc"};
-  compareKernelVector(getKernelsAsVector(res.at("clipper").at("ck").at("predicted")), expected); 
+  vector<string> expected = {kDir / "ck" / "clipper_sc_rq_260510_260516_26130_v01.bc",
+                             kDir / "ck" / "clipper_sc_rq_241215_241221_24day350_24day356_v01.bc"};
+  compareKernelVector(getKernelsAsVector(res.at("clipper").at("ck").at("reconstructed")), expected);
 
-  expected = {"trj_250515-250626-dco2507090443-cruise006-reconstruct-OD067-v1.bsp"};
-  compareKernelVector(getKernelsAsVector(res.at("clipper").at("spk").at("reconstructed")), expected); 
+  expected = {kDir / "ck" / "clipper_sc_pb_250918_251030_v01.bc",
+              kDir / "ck" / "clipper_sc_pb_250807_250918_v03.bc",
+              kDir / "ck" / "clipper_sc_pb_250807_250918_v02.bc"};
+  compareKernelVector(getKernelsAsVector(res.at("clipper").at("ck").at("predicted")), expected);
 
-  expected = {"trj_250601-251129-dco2507310113-cruise009-predict-OD070-v1.bsp"};
-  compareKernelVector(getKernelsAsVector(res.at("clipper").at("spk").at("predicted")), expected);  
+  expected = {kDir / "spk" / "trj_250515-250626-dco2507090443-cruise006-reconstruct-OD067-v1.bsp"};
+  compareKernelVector(getKernelsAsVector(res.at("clipper").at("spk").at("reconstructed")), expected);
 
-  expected = {"clipper_v16.tf", "clipper_v17.tf"};
+  expected = {kDir / "spk" / "trj_250601-251129-dco2507310113-cruise009-predict-OD070-v1.bsp"};
+  compareKernelVector(getKernelsAsVector(res.at("clipper").at("spk").at("predicted")), expected);
+
+  expected = {kDir / "fk" / "clipper_v16.tf",
+              kDir / "fk" / "clipper_v17.tf"};
   compareKernelVector(getKernelsAsVector(res.at("clipper").at("fk")), expected);
-  
-  expected = {"clipper_eis_v06.ti", "clipper_eis_v07.ti"};
-  compareKernelVector(getKernelsAsVector(res.at("clipper").at("ik")), expected); 
 
-  expected = {"clipperAddendum001.ti"};
-  compareKernelVector(getKernelsAsVector(res.at("clipper").at("iak")), expected); 
+  expected = {kDir / "ik" / "clipper_eis_v06.ti",
+              kDir / "ik" / "clipper_eis_v07.ti"};
+  compareKernelVector(getKernelsAsVector(res.at("clipper").at("ik")), expected);
 
-  expected = {"europaclipper_00290.tsc", "europaclipper_00291.tsc"};
+  expected = {kDir / "iak" / "clipperAddendum001.ti"};
+  compareKernelVector(getKernelsAsVector(res.at("clipper").at("iak")), expected);
+
+  expected = {kDir / "sclk" / "europaclipper_00290.tsc",
+              kDir / "sclk" / "europaclipper_00291.tsc"};
   compareKernelVector(getKernelsAsVector(res.at("clipper").at("sclk")), expected);
 }
 
