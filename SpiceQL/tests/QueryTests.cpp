@@ -412,6 +412,41 @@ TEST_F(IsisDataDirectory, FunctionalTestMroConf) {
   }
 }
 
+TEST_F(IsisDataDirectory, FunctionalTestOsirisRexConf) {
+
+  set<string> unsupportedOrexKernels = {
+    tempDir / "osirisrex" / "kernels" / "iak" / "orex_ocams_addendum_v07_draft.ti",
+    tempDir / "osirisrex" / "kernels" / "ik" / "orx_lidar_v00.ti",
+    tempDir / "osirisrex" / "kernels" / "ik" / "orx_ola_v00.ti",
+    tempDir / "osirisrex" / "kernels" / "ik" / "orx_ola_v01.ti",
+    tempDir / "osirisrex" / "kernels" / "ik" / "orx_otes_v00.ti",
+    tempDir / "osirisrex" / "kernels" / "ik" / "orx_ovirs_v00.ti",
+    tempDir / "osirisrex" / "kernels" / "ik" / "orx_rexis_v00.ti",
+    tempDir / "osirisrex" / "kernels" / "ik" / "orx_rexis_v01.ti"
+  };
+
+  compareKernelSets("osirisrex", unsupportedOrexKernels);
+
+  nlohmann::json conf = getMissionConfig("osirisrex");
+  nlohmann::json res = listMissionKernels(tempDir, conf);
+  SPDLOG_DEBUG("Kernel Results: {}", res.dump(4));
+
+  vector<string> kernelToCheck =  SpiceQL::getKernelsAsVector(res.at("osirisrex").at("spk").at("reconstructed").at("kernels"));
+  vector<string> expected = {
+    tempDir / "osirisrex" / "kernels" / "spk" / "orx_200305_200421_200410_od239_v1.bsp",
+    tempDir / "osirisrex" / "kernels" / "spk" / "orx_230809_231001_230930_od383a_v1.bsp"
+  };
+
+  SPDLOG_DEBUG("Checking OREX SPKs");
+  for (auto &e : expected) {
+    auto it = find(kernelToCheck.begin(), kernelToCheck.end(), e);
+    if (it == kernelToCheck.end()) {
+      throw runtime_error(e+" was not found in the kernel results");
+    }
+  }
+
+}
+
 
 TEST_F(IsisDataDirectory, FunctionalTestViking1Conf) {
   compareKernelSets("viking1");
